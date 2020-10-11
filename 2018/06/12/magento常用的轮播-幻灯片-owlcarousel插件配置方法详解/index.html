@@ -1,37 +1,539 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="How To Use1. Load jQuery and include Owl Carousel plugin files To use Owl Carousel, you’ll need to make sure both the Owl and jQuery 1.7 or higher scripts are included. &lt;!-- Important Owl styleshee">
+<meta property="og:type" content="article">
+<meta property="og:title" content="magento常用的轮播(幻灯片)owlcarousel插件(slider)配置方法详解">
+<meta property="og:url" content="http://example.com/2018/06/12/magento%E5%B8%B8%E7%94%A8%E7%9A%84%E8%BD%AE%E6%92%AD-%E5%B9%BB%E7%81%AF%E7%89%87-owlcarousel%E6%8F%92%E4%BB%B6%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="How To Use1. Load jQuery and include Owl Carousel plugin files To use Owl Carousel, you’ll need to make sure both the Owl and jQuery 1.7 or higher scripts are included. &lt;!-- Important Owl styleshee">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-06-12T02:30:50.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:00.799Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="magento,owlcarousel,轮播,slider,幻灯片,js">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2018/06/12/magento%E5%B8%B8%E7%94%A8%E7%9A%84%E8%BD%AE%E6%92%AD-%E5%B9%BB%E7%81%AF%E7%89%87-owlcarousel%E6%8F%92%E4%BB%B6%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95%E8%AF%A6%E8%A7%A3/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>magento常用的轮播(幻灯片)owlcarousel插件(slider)配置方法详解 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/06/12/magento%E5%B8%B8%E7%94%A8%E7%9A%84%E8%BD%AE%E6%92%AD-%E5%B9%BB%E7%81%AF%E7%89%87-owlcarousel%E6%8F%92%E4%BB%B6%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95%E8%AF%A6%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          magento常用的轮播(幻灯片)owlcarousel插件(slider)配置方法详解
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-06-12 10:30:50" itemprop="dateCreated datePublished" datetime="2018-06-12T10:30:50+08:00">2018-06-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:00" itemprop="dateModified" datetime="2020-10-11T11:58:00+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="How-To-Use"><a href="#How-To-Use" class="headerlink" title="How To Use"></a>How To Use</h2><p><strong>1. Load jQuery and include Owl Carousel plugin files</strong></p>
+<p>To use Owl Carousel, you’ll need to make sure both the Owl and jQuery 1.7 or higher scripts are included.</p>
+<pre><code>&lt;!-- Important Owl stylesheet --&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;owl-carousel/owl.carousel.css&quot;&gt;
+
+&lt;!-- Default Theme --&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;owl-carousel/owl.theme.css&quot;&gt;
+
+&lt;!--  jQuery 1.7+  --&gt;
+&lt;script src=&quot;jquery-1.9.1.min.js&quot;&gt;&lt;/script&gt;
+
+&lt;!-- Include js plugin --&gt;
+&lt;script src=&quot;assets/owl-carousel/owl.carousel.js&quot;&gt;&lt;/script&gt;</code></pre>
+<p><strong>2. Set up your HTML</strong></p>
+<p>You don’t need any special markup. All you need is to wrap your divs(owl works with any type element) inside the container element <code>&lt;div class=&quot;owl-carousel&quot;&gt;</code>. Class “owl-carousel” is mandatory to apply proper styles that come from owl.carousel.css file.</p>
+<pre><code>&lt;div id=&quot;owl-example&quot; class=&quot;owl-carousel&quot;&gt;
+  &lt;div&gt; Your Content &lt;/div&gt;
+  &lt;div&gt; Your Content &lt;/div&gt;
+  &lt;div&gt; Your Content &lt;/div&gt;
+  &lt;div&gt; Your Content &lt;/div&gt;
+  &lt;div&gt; Your Content &lt;/div&gt;
+  &lt;div&gt; Your Content &lt;/div&gt;
+  &lt;div&gt; Your Content &lt;/div&gt;
+  ...
+&lt;/div&gt;</code></pre>
+<p>或者是以图片的方式进行轮播：</p>
+<pre><code>&lt;div id=&quot;owl-demo&quot; class=&quot;owl-carousel&quot;&gt; 
+    &lt;a class=&quot;item&quot;&gt;&lt;img src=&quot;img/owl1.jpg&quot; alt=&quot;&quot;&gt;&lt;/a&gt; 
+    &lt;a class=&quot;item&quot;&gt;&lt;img src=&quot;img/owl2.jpg&quot; alt=&quot;&quot;&gt;&lt;/a&gt; 
+    &lt;a class=&quot;item&quot;&gt;&lt;img src=&quot;img/owl3.jpg&quot; alt=&quot;&quot;&gt;&lt;/a&gt; 
+    ...... 
+&lt;/div&gt;</code></pre>
+<p><strong>3. Call the plugin</strong></p>
+<p>Now call the Owl initializer function and your carousel is ready.</p>
+<pre><code>$(document).ready(function() &#123;
+  $(&quot;#owl-example&quot;).owlCarousel();
+&#125;);</code></pre>
+<p><strong>2. Defaults</strong></p>
+<p>Carousel default settings</p>
+<pre><code>$(&quot;#owl-example&quot;).owlCarousel(&#123;
+
+    // Most important owl features
+    items : 5,
+    itemsCustom : false,
+    itemsDesktop : [1199,4],
+    itemsDesktopSmall : [980,3],
+    itemsTablet: [768,2],
+    itemsTabletSmall: false,
+    itemsMobile : [479,1],
+    singleItem : false,
+    itemsScaleUp : false,
+
+    //Basic Speeds
+    slideSpeed : 200,
+    paginationSpeed : 800,
+    rewindSpeed : 1000,
+
+    //Autoplay
+    autoPlay : false,
+    stopOnHover : false,
+
+    // Navigation
+    navigation : false,
+    navigationText : [&quot;prev&quot;,&quot;next&quot;],
+    rewindNav : true,
+    scrollPerPage : false,
+
+    //Pagination
+    pagination : true,
+    paginationNumbers: false,
+
+    // Responsive 
+    responsive: true,
+    responsiveRefreshRate : 200,
+    responsiveBaseWidth: window,
+
+    // CSS Styles
+    baseClass : &quot;owl-carousel&quot;,
+    theme : &quot;owl-theme&quot;,
+
+    //Lazy load
+    lazyLoad : false,
+    lazyFollow : true,
+    lazyEffect : &quot;fade&quot;,
+
+    //Auto height
+    autoHeight : false,
+
+    //JSON 
+    jsonPath : false, 
+    jsonSuccess : false,
+
+    //Mouse Events
+    dragBeforeAnimFinish : true,
+    mouseDrag : true,
+    touchDrag : true,
+
+    //Transitions
+    transitionStyle : false,
+
+    // Other
+    addClassActive : false,
+
+    //Callbacks
+    beforeUpdate : false,
+    afterUpdate : false,
+    beforeInit: false, 
+    afterInit: false, 
+    beforeMove: false, 
+    afterMove: false,
+    afterAction: false,
+    startDragging : false
+    afterLazyLoad : false
+
+&#125;)</code></pre>
+<p><strong>4. Custom Events</strong></p>
+<p>Owl Carousel handles a few basic events. Mainly use them for custom navigation. <a target="_blank" rel="noopener" href="http://demo.lanrenzhijia.com/2013/pic1201/demos/custom.html">See Demo</a></p>
+<pre><code>&quot;owl.prev&quot; //Go to previous
+&quot;owl.next&quot; //Go to next
+&quot;owl.play&quot; //Autoplay, also this event accept autoPlay speed as second parameter
+&quot;owl.stop&quot; //Stop
+&quot;owl.goTo&quot; //goTo provided item
+&quot;owl.jumpTo&quot; //jumpTo provided item. Without slide animation.</code></pre>
+<p><strong>5. Owl Data methods</strong></p>
+<p>To use Owl Carousel $.data use delegate function.</p>
+<pre><code>//Initialize Plugin
+$(&quot;.owl-carousel&quot;).owlCarousel()
+
+//get carousel instance data and store it in variable owl
+var owl = $(&quot;.owl-carousel&quot;).data(&#39;owlCarousel&#39;);
+
+//Public methods
+owl.next()   // Go to next slide
+owl.prev()   // Go to previous slide
+owl.goTo(x)  // Go to x slide
+owl.jumpTo(x)  // Go to x slide without slide animation
+
+//Auto Play
+owl.play() // Autoplay
+owl.stop() // Autoplay Stop
+
+//Manipulation methods. See demo.
+owl.addItem(htmlString [,targetPosition])
+owl.removeItem(targetPosition)
+owl.destroy()
+owl.reinit(newOptions)</code></pre>
+<p>更多可以查看官网：<a target="_blank" rel="noopener" href="http://owlcarousel2.github.io/OwlCarousel2/demos/responsive.html">http://owlcarousel2.github.io/OwlCarousel2/demos/responsive.html</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/magento-owlcarousel-%E8%BD%AE%E6%92%AD-slider-%E5%B9%BB%E7%81%AF%E7%89%87-js/" rel="tag"># magento,owlcarousel,轮播,slider,幻灯片,js</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/06/07/magento%E7%9A%84addthis%E7%A4%BE%E4%BA%A4%E5%AA%92%E4%BD%93%E6%8F%92%E4%BB%B6%E4%BE%A7%E4%BD%BF%E7%94%A8%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95/" rel="prev" title="magento的addthis社交媒体插件侧使用配置方法">
+      <i class="fa fa-chevron-left"></i> magento的addthis社交媒体插件侧使用配置方法
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/06/12/magento%E8%8E%B7%E5%8F%96%E4%BA%A7%E5%93%81%E5%88%86%E7%B1%BB%E5%8F%8A%E5%85%B6%E5%AD%90%E5%88%86%E7%B1%BB%EF%BC%8C%E8%8F%9C%E5%8D%95%E6%A0%8F%E5%88%86%E7%B1%BB%E6%98%BE%E7%A4%BA%E4%BD%8D%E7%BD%AE%E7%AD%89%E5%A4%9A%E7%A7%8D%E6%83%85%E5%86%B5%E4%B8%BE%E4%BE%8B/" rel="next" title="magento获取产品分类及其子分类，菜单栏分类显示位置等多种情况举例">
+      magento获取产品分类及其子分类，菜单栏分类显示位置等多种情况举例 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#How-To-Use"><span class="nav-number">1.</span> <span class="nav-text">How To Use</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

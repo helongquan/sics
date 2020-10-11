@@ -1,37 +1,609 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="针对linux服务器运行一段时间后连接不上的问题。 故障：统运行一段时间，就会出现莫名其妙的网络连接不上，需到机房去service network restart一下，或者直接reboot才可以。 解决这个问题有2种方法，第一种相对简单，就是在Linux内核中禁用 ACPI 电源管理系统。但该方法不推荐，因为会导致服务器失去智能电源调节，增加功耗。 方法二：就是升级一下网卡的驱动以及固件驱动，记得">
+<meta property="og:type" content="article">
+<meta property="og:title" content="阿里云服务器老是爆数据库连接不上解决方法">
+<meta property="og:url" content="http://example.com/2017/02/10/%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%80%81%E6%98%AF%E7%88%86%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E4%B8%8D%E4%B8%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="针对linux服务器运行一段时间后连接不上的问题。 故障：统运行一段时间，就会出现莫名其妙的网络连接不上，需到机房去service network restart一下，或者直接reboot才可以。 解决这个问题有2种方法，第一种相对简单，就是在Linux内核中禁用 ACPI 电源管理系统。但该方法不推荐，因为会导致服务器失去智能电源调节，增加功耗。 方法二：就是升级一下网卡的驱动以及固件驱动，记得">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-02-10T15:19:02.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:53:06.483Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="阿里云服务器,数据库连接不上">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2017/02/10/%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%80%81%E6%98%AF%E7%88%86%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E4%B8%8D%E4%B8%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>阿里云服务器老是爆数据库连接不上解决方法 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/02/10/%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%80%81%E6%98%AF%E7%88%86%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E4%B8%8D%E4%B8%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          阿里云服务器老是爆数据库连接不上解决方法
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-02-10 23:19:02" itemprop="dateCreated datePublished" datetime="2017-02-10T23:19:02+08:00">2017-02-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:06" itemprop="dateModified" datetime="2020-10-11T11:53:06+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>针对linux服务器运行一段时间后连接不上的问题。</p>
+<p>故障：统运行一段时间，就会出现莫名其妙的网络连接不上，需到机房去service network restart一下，或者直接reboot才可以。</p>
+<p>解决这个问题有2种方法，第一种相对简单，就是在Linux内核中禁用 ACPI 电源管理系统。<br>但该方法不推荐，因为会导致服务器失去智能电源调节，增加功耗。</p>
+<p>方法二：就是升级一下网卡的驱动以及固件驱动，记得更新驱动后需重启服务器或者网卡才会生效。</p>
+<p>以上这些情况针对的是自有服务器的情况，另外的情况是云服务器这种情况改怎么办呢？</p>
+<p>直接打电话问服务器服务商，另外需要补充的后面完善，如果有更多经验的可以帮助一起完善起来，方便更多人。</p>
+<p><strong>这里我找到了网上一个有类似问题解决方案，如下：</strong></p>
+<p>以前一直用虚机，这次改用了阿里云服务器，因为这个站点纯粹就是个人喜好建立的，所以主机配置比较低，单核1G，1M独立外网带宽，环境是centos6.5 64位，nginx mysql 位安装管理面板，自己对这方面也完全是白丁，整个服务器环境的搭设全部按照阿里云官方的教程进行，整体弄完后，把自己的WORDPRESS搬上去，也还算顺利。不过运行了半个多余突然出现问题。打开网页的时候显示“建立数据库连接时出错”，通过后台链接MYSQL发现报错无法连接，自己也不太懂，就直接重启了服务器，一切正常。不过出现这种问题心理多少有些担忧，就在后台通过看了下进程，一看发现一个php-fpm的进程有很多子进程，且占用内存非常大，很短时间1G内存空闲就只剩下不到300M，而CPU使用率却很低。</p>
+<p>找了个在线压力测试，并发30,进行3分钟压力访问，发现内存很快就所剩无几了，直到低于90M以后突然恢复到270M空闲时，发现MYSQL的进程被KILL了。压力测试结束后，内存并没有被释放。这就是问题所在了。</p>
+<p>通过百度查询得知，PHP-CGI会释放内存，但并不会把内存归还系统，所以当过多的PHP-FPM子进程存在时，内存就会一点点被吃干，最终导致溢出。解决方法网上貌似很多，但看起来有点天书，选了一种比较好理解易操作的方法，就是修改<code>php-fpm.conf</code>文件，控制这个进程的数量。</p>
+<p>找这个文件我就费了很大劲，网上的文章都不说这个文件在哪，对于小白来说，就有点吃力，最后找到，这个文件在php安装文件夹心下的etc文件夹里，如果是阿里云的话，应该就是 <code>/alidata/server/php/etc</code>里。</p>
+<p>打开编辑这个文件，可以通过FTP或者LINUX命令行进行修改。主要涉及几个参数。</p>
+<p>pm 这个是设置运行方式的，分别是static（静态）或者dynamic（动态）</p>
+<p>默认应该是在214行左右，显示为 pm = dynamic，意思就是动态方式，如果内存小，比如512M，1G，2G之类，建议使用动态。</p>
+<pre><code>pm.max_children：静态方式下开启的php-fpm进程数量，这个是有在pm模式为static的情况下生效。
+
+pm.start_servers：动态方式下的起始php-fpm进程数量，这个是pm位dynamic模式下需要设置的参数，意思就是启动运行时建立的起始php-fpm进程数量</code></pre>
+<p>大概在230行左右，我设置后的，</p>
+<pre><code>pm.start_servers = 3
+
+pm.min_spare_servers：动态方式下的最小php-fpm进程数
+
+大概位置在235行，我设置后的，pm.min_spare_servers = 3
+
+pm.max_spare_servers：动态方式下的最大php-fpm进程数量</code></pre>
+<p>大概位置在240行，我设置后的，pm.max_spare_servers = 10</p>
+<p>还有一个就是pm.max_requests，这个在百度查询都的结果就是接受多少次请求后自动重启进程的，默认是500，不知道这个数值具体是指什么的，因为重启就意味着把php占用的空闲内存释放给系统，不过一旦这个值设置的过低，可能会导致所有的php-fpm进程在几乎同时重启，而重启过程中CPU占用率会飙升，且PHP会拒绝访问请求，所以这个值不能过低，按照我这个小白理解就是宁可适当的减少运行的子进程数，也不能过分的降低这个值。不知道对不对</p>
+<p>大概位置在251行，我设置后的，pm.max_requests = 200</p>
+<p>这就是我设置后的几个参数，保存后重启服务，再次观察，内存占用率基本稳定在400M，缓慢增长，经过了一晚的再次进行30并发的压力测试，虽然内存和CPU同样会在此时爆发增长，但是这个并发数还是挺住了，且在压力测试结束后，内存大部分被释放给系统了。</p>
+<p>最后又在wordpress安装了wp-super-cache缓存插件，很大程度降低了访问页面时对服务器的压力。</p>
+<p>根据百度查到的，配置php-fpm并非由固定的模式，他基本是要找到一个平衡，对于我这样的小白来说，只能一点点的试，先改成这样运行一段时间观察下，后续再做调整，毕竟自己是小白，很多东西都得摸索，短时间内也无法确定效果，慢慢试吧。</p>
+<p>linux命令行  </p>
+<pre><code>top命令可以查看动态的系统资源占用情况。 
+
+ps aux可以查看当时占用系统资源的情况，非动态。</code></pre>
+<p>这里补充一点，开始的时候由于客户那边下班了，没法进入阿里云账号里面查看Linux版本位数，后来查看了下，其实通过在shell里面运行命令也可以查看系统位数的，在根目录下运行命令：</p>
+<pre><code>file /sbin/init</code></pre>
+<p>出现</p>
+<pre><code>ELF 32-bit LSB shared object, Intel 80386, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.24</code></pre>
+<p>说明是32位的。</p>
+<p>还有其他的命令为我们省去每次都要登录阿里云账号才能看的繁琐事情，比如查看阿里云服务器里面磁盘情况，运行命令：</p>
+<pre><code>df</code></pre>
+<p>即可出现：</p>
+<pre><code>Filesystem     1K-blocks    Used Available Use% Mounted on
+/dev/xvda1      51604092 4014912  44967852   9% /
+udev              505140       4    505136   1% /dev
+tmpfs             102488     248    102240   1% /run
+none                5120       0      5120   0% /run/lock
+none              512440       0    512440   0% /run/shm</code></pre>
+<p>这样是很省事的。</p>
+<p>这里补充一下，经过以上方法的验证，我的Ubantu服务器出现了502错误，具体原因还有待解决，方案后面补上。</p>
+<p><strong>针对阿里云服务在调试的时候数据库连接不上的问题纪实如下：</strong></p>
+<p>在调试程序的时候，发现数据库访问相关的环节出现错误：</p>
+<p>12:16:40,941  WARN ThreadPoolAsynchronousRunner:608 - com.mchange.v2.async.ThreadPoolAsynchronousRunner$DeadlockDetector@1278b126 – APPARENT DEADLOCK!!! Creating emergency threads for unassigned pending tasks!<br>12:16:40,947  WARN ThreadPoolAsynchronousRunner:624 - com.mchange.v2.async.ThreadPoolAsynchronousRunner$DeadlockDetector@1278b126 – APPARENT DEADLOCK!!! Complete Status:<br>检查配置项，一切正常。</p>
+<p>分析：</p>
+<p>1.进入命令行，telnet serverip 3306，是有响应的。</p>
+<p>2.用MySQL客户端直接连接测试：mysql -hdbhost -uusername -p，报错：</p>
+<p>ERROR 2013 (HY000): Lost connection to MySQL server at ‘reading initial communication packet’, system error: 0<br>3.这种情况还真没遇到过。搜索一下，很多答案，无非是在my.cnf中去掉bind-address或者添加skip-name-resolve 以加速客户端连接速度。</p>
+<p>看了一下配置文件，第一个根本就没有，第二个加了也没用。</p>
+<p>其实仔细分析一下，刚才还好好的，突然不行了。最大的可能不在于服务器本身，而是网络或者服务器之外的环境。</p>
+<p>4.关闭防火墙：虽然可以telnet通，还是关闭一下试试吧。服务器和客户端的防火墙都关了，还是一样。</p>
+<p>5.尝试换一个端口号呢？于是，在my.cnf中，[mysqld]端增加一句：port=3307</p>
+<p>sudo service mysqld restart，再试，居然OK了。</p>
+<p><strong>结论：</strong></p>
+<p>因为这台服务器只有本人在使用，所以，很大可能性，是阿里云服务器环境上有什么外围的设置导致了这个问题。</p>
+<p>以上分析过程，希望可以给出现类似问题的同仁带来启发，迅速解决问题。</p>
+<p>以下这是网友碰到的问题：</p>
+<pre><code>http://iottech.com.cn/
+首先密码什么的肯定不会错,因为大部分时候是正常的.
+但是每隔2-3天,就会出现数据库连接错误.
+登上去检查,发现mysql服务停止了,开启服务后恢复正常.
+
+目前不知道是什么原因会时不时导致mysql服务挂掉.
+貌似有几位同学跟我有一样的问题:
+http://bbs.aliyun.com/simple/?t6251.html
+http://bbs.aliyun.com/simple/?t123803.html
+
+那个什么
+define(&#39;WP_ALLOW_REPAIR&#39;, true);
+也加了,无济于事.</code></pre>
+<p>貌似跟我的差不多啊，果断把下面的全看了。</p>
+<p>我们看下回复：</p>
+<pre><code>humiaozuzu   2013-08-06 12:27:20 +08:00
+主机的配置多少 
+贴一下mysql的error log
+
+master   2013-08-06 12:33:10 +08:00
+WP信息展示的话，建议装下WP Super Cache，这样推广访问的人多的话，也能应付。 
+至于MySQL挂掉的问题，还是贴一下日志吧。
+
+iZr   2013-08-06 12:44:15 +08:00
+Page Caching using disk: enhanced 
+Database Caching using disk 
+Object Caching 899/1101 objects using disk 
+楼主你要逆天么?全用 disk 做缓存,阿里云的 disk 那是慢得一塌糊涂啊...... 
+
+建议用 W3 Total Cache 的memcached
+
+cxh116   2013-08-06 12:46:15 +08:00
+如果是512m内存的linux机器,看看你们的/var/log/kern.log 日志,查找是不是因为内存不够而导致mysql进程被kill. 
+如果是,加机器内存,或加swap file 
+
+日志示例 
+Aug 5 16:55:38 judgementmace kernel: [104957.959991] Out of memory: Kill process 14134 (bundle) score 302 or sacrifice child 
+Aug 5 16:55:38 judgementmace kernel: [104957.960071] Killed process 14134 (bundle) total-vm:223712kB, anon-rss:151136kB, file-rss:312kB
+
+iZr   2013-08-06 12:47:07 +08:00
+另外:图片,js,css,html 使用七牛做 cdn 加速(国内的 cdn最好不要用,比如哪个是什么云,你懂的). 
+wordpress 插件在 我爱水煮鱼:http://blog.wpjam.com/project/wpjam-qiniutek/
+
+guoqiao   2013-08-06 14:31:45 +08:00
+@humiaozuzu 
+内存大小：512MB 
+系统名称：Ubuntu 12.04 64位 
+
+/var/log/mysql.err以及mysql.log 内容都为空 
+
+不过在kern.log里倒是发现了一点问题: 
+
+cat /var/log/kern.log | grep mysql: 
+
+Aug 5 11:59:46 AY1210311012137b74305 kernel: [6624574.875628] Out of memory: Kill process 9321 (mysqld) score 107 or sacrifice child 
+Aug 5 11:59:46 AY1210311012137b74305 kernel: [6624574.877330] Killed process 9321 (mysqld) total-vm:887172kB, anon-rss:53508kB, file-rss:0kB 
+Aug 5 11:59:46 AY1210311012137b74305 kernel: [6624575.008973] init: mysql main process (9321) killed by KILL signal 
+Aug 5 11:59:46 AY1210311012137b74305 kernel: [6624575.009003] init: mysql main process ended, respawning 
+Aug 5 11:59:46 AY1210311012137b74305 kernel: [6624575.731638] type=1400 audit(1375675186.838:67): apparmor=&quot;STATUS&quot; operation=&quot;profile_replace&quot; name=&quot;/usr/sbin/mysqld&quot; pid=10834 comm=&quot;apparmor_parser&quot; 
+Aug 5 11:59:47 AY1210311012137b74305 kernel: [6624576.468831] init: mysql main process (10838) terminated with status 1 
+Aug 5 11:59:47 AY1210311012137b74305 kernel: [6624576.468857] init: mysql main process ended, respawning 
+Aug 5 11:59:48 AY1210311012137b74305 kernel: [6624577.229334] init: mysql post-start process (10839) terminated with status 1 
+Aug 5 11:59:48 AY1210311012137b74305 kernel: [6624577.282343] type=1400 audit(1375675188.390:68): apparmor=&quot;STATUS&quot; operation=&quot;profile_replace&quot; name=&quot;/usr/sbin/mysqld&quot; pid=10862 comm=&quot;apparmor_parser&quot; 
+Aug 5 11:59:48 AY1210311012137b74305 kernel: [6624577.358414] init: mysql main process (10866) terminated with status 1 
+Aug 5 11:59:48 AY1210311012137b74305 kernel: [6624577.358453] init: mysql respawning too fast, stopped
+Aug 6 11:23:15 AY1210311012137b74305 kernel: [6708784.129980] type=1400 audit(1375759395.241:69): apparmor=&quot;STATUS&quot; operation=&quot;profile_replace&quot; name=&quot;/usr/sbin/mysqld&quot; pid=19445 comm=&quot;apparmor_parser&quot; 
+
+
+&quot;Out of memory: Kill process 9321 (mysqld) score 107 or sacrifice child&quot; 
+貌似真的是因为内存不足? 必须升级内存?
+
+phuslu   2013-08-06 14:36:34 +08:00
+http://rds.aliyun.com
+
+Starry   2013-08-06 14:36:50 +08:00
+wodpress加个缓存插件！
+
+guoqiao   2013-08-06 14:38:43 +08:00
+@iZr 我是用了W3 Total Cache 这个插件, 不过缓存方式只有disk basic 和 disc enhenced可选,其它选项包括你说的memcached都是灰色禁用的. 这个是要付费还是要设置什么的?           
+
+cxh116   2013-08-06 14:48:05 +08:00
+@guoqiao 参考这个,添加swap file,搞个1G 
+
+https://wiki.archlinux.org/index.php/Swap
+
+skyworker   2013-08-06 14:52:57 +08:00 via Android
+@iZr 迷茫了，七牛不是国内的cdn吗？
+
+skyworker   2013-08-06 14:55:06 +08:00 via Android
+最简单的方案就是关闭mysql的innodb引擎，太费内存了，并且对wp这样的应用没什么实际帮助
+
+shiny   2013-08-06 14:57:45 +08:00
+wordpress 记得默认已经用 innodb 了吧…… 用监控宝监控内存波动，如果内存满了,swap也用了很多就必须加内存，要么用静态化插件。
+
+guoqiao   2013-08-06 15:00:41 +08:00
+@iZr 已安装并启用,多谢
+
+guoqiao   2013-08-06 15:22:52 +08:00
+@cxh116 多谢,加了个512M的swapfile. 
+主机内存才512M, swapfile大于这个数貌似也意义不大吧?
+
+master   2013-08-07 02:32:52 +08:00
+@Mihuwa 
+没用过 W3 Total Cache 呢，是说用 W3 Total Cache 插件的时候，客户还会因为数据库问题还是只能看到错误页而访问不了？ 
+
+看网站页面其实并不多，数据库里面的内容也不可能多的感觉，所以感觉数据库应该不会很占用资源 
+而且展示性内容的网站用 MyISAM 也足矣，关掉InnoDB 用 MyISAM 也够了。 
+我 512M 内存跑一千多篇日志的WP，还跑着Discuz 也都没发现说系统资源不够的问题，虽然磁盘I/O是对于数据库是有些堪忧。 
+如果mysql没问题，但是系统资源不够用的话，是不是应该检查一下系统环境部署的问题，关注一下系统进程和内容使用情况吧，是不是装了很多没用的东西占用的资源，要是内存紧张还用memcache，我不知道是不是给内存资源火上浇油
+
+cst4you   2013-08-07 08:29:50 +08:00 via Android
+我这边有之前1.3g内存的vps跑到百万pv的例子。 
+主要还是根据我爱水煮鱼那个方法，用memcache做obj cache，用batcache插件缓存未游客访问的页面。 
+晚上一般同时在线2500的时候负载不过2的。 
+W3 total cache这个插件钩子太多了，用不好适得其反。   
+
+xinghegu   2014-05-15 18:30:01 +08:00
+我的也是这样，楼主怎么解决的，帮我
+
+
+guoqiao   2014-05-20 19:13:17 +08:00
+@xinghegu 已经太久,不记得了.貌似是之前缓存插件设置不正确.
+
+
+leisudeng   2014-10-30 23:54:07 +08:00
+可以考虑用这个lowendscript的lnmp的一键包了，自用数台vps都装的它，运行稳定，内存占用相当低 
+http://leisudeng.com/debian-tutorials/debian-tutorials-171-1.html
+
+
+leisudeng   2014-10-30 23:56:23 +08:00
+128m内存的OVZ vps运行wordpress都非常流畅</code></pre>
+<p>跟着脚步走，我们查看了下系统的配置，看看到底是不是内存消耗完了的问题，具体命令如下：</p>
+<pre><code>cat /proc/cpuinfo 查看cpu
+
+free -m 查看内存
+
+fdisk -l 查看硬盘分区
+
+df -h 查看挂载目录
+
+ifconfig 查看网卡信息
+
+ethtool eth0 查看详西的网卡工作模式
+
+lspic 列出所有芯片信息</code></pre>
+<p>一看果然是内存消耗完了的问题：</p>
+<pre><code>root@iZ94q0nbcj0Z:/# free -m
+             total       used       free     shared    buffers     cached
+Mem:          1000        922         77          0         16        102
+-/+ buffers/cache:        803        197
+Swap:            0          0          0</code></pre>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8-%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E4%B8%8D%E4%B8%8A/" rel="tag"># 阿里云服务器,数据库连接不上</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/01/12/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E9%83%A8%E7%BD%B2wordpress%E5%A4%9A%E7%AB%99%E7%82%B9%E5%92%8C%E5%9F%9F%E5%90%8D%E6%98%A0%E5%B0%84%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98%E4%B8%8E%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" rel="prev" title="云服务器上部署wordpress多站点和域名映射的一些问题与解决方案">
+      <i class="fa fa-chevron-left"></i> 云服务器上部署wordpress多站点和域名映射的一些问题与解决方案
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/02/10/IIS%E3%80%81Apache%E3%80%81Nginx%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8BWordPress%E9%85%8D%E7%BD%AE%E4%BC%AA%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95/" rel="next" title="IIS、Apache、Nginx服务器下WordPress配置伪静态方法">
+      IIS、Apache、Nginx服务器下WordPress配置伪静态方法 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

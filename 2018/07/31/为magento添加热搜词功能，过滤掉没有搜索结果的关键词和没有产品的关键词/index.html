@@ -1,37 +1,480 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="现在国内大大小小的商城基本都有热门搜索词这个功能高挂在页面的头部，比如京东、淘宝等等国内大型的电商网站和平台都有这个功能。  这里我们假设京东和淘宝放的都是真实的数据（其实这些词是后台人为指定的可能性更大），所谓真实数据，就我的理解，显示在这里的词是真正的客户搜索过最多的词，当然前提是这些词点击后都有搜索结果。现在来看看Magento自带的热门搜索关键词，新安装完的Magento工程底部就有一个链">
+<meta property="og:type" content="article">
+<meta property="og:title" content="为magento添加热搜词功能，过滤掉没有搜索结果的关键词和没有产品的关键词">
+<meta property="og:url" content="http://example.com/2018/07/31/%E4%B8%BAmagento%E6%B7%BB%E5%8A%A0%E7%83%AD%E6%90%9C%E8%AF%8D%E5%8A%9F%E8%83%BD%EF%BC%8C%E8%BF%87%E6%BB%A4%E6%8E%89%E6%B2%A1%E6%9C%89%E6%90%9C%E7%B4%A2%E7%BB%93%E6%9E%9C%E7%9A%84%E5%85%B3%E9%94%AE%E8%AF%8D%E5%92%8C%E6%B2%A1%E6%9C%89%E4%BA%A7%E5%93%81%E7%9A%84%E5%85%B3%E9%94%AE%E8%AF%8D/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="现在国内大大小小的商城基本都有热门搜索词这个功能高挂在页面的头部，比如京东、淘宝等等国内大型的电商网站和平台都有这个功能。  这里我们假设京东和淘宝放的都是真实的数据（其实这些词是后台人为指定的可能性更大），所谓真实数据，就我的理解，显示在这里的词是真正的客户搜索过最多的词，当然前提是这些词点击后都有搜索结果。现在来看看Magento自带的热门搜索关键词，新安装完的Magento工程底部就有一个链">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/k120Vqu.jpg">
+<meta property="og:image" content="https://i.imgur.com/WWWyU6x.jpg">
+<meta property="og:image" content="https://i.imgur.com/uPC4Cub.jpg">
+<meta property="og:image" content="https://i.imgur.com/ucHwYqw.png">
+<meta property="og:image" content="https://i.imgur.com/zYCi48N.png">
+<meta property="article:published_time" content="2018-07-31T02:14:16.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:03.784Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="magento,热搜词,搜索,topsearch,关键词,过滤,没有搜索结果">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/k120Vqu.jpg">
+
+<link rel="canonical" href="http://example.com/2018/07/31/%E4%B8%BAmagento%E6%B7%BB%E5%8A%A0%E7%83%AD%E6%90%9C%E8%AF%8D%E5%8A%9F%E8%83%BD%EF%BC%8C%E8%BF%87%E6%BB%A4%E6%8E%89%E6%B2%A1%E6%9C%89%E6%90%9C%E7%B4%A2%E7%BB%93%E6%9E%9C%E7%9A%84%E5%85%B3%E9%94%AE%E8%AF%8D%E5%92%8C%E6%B2%A1%E6%9C%89%E4%BA%A7%E5%93%81%E7%9A%84%E5%85%B3%E9%94%AE%E8%AF%8D/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>为magento添加热搜词功能，过滤掉没有搜索结果的关键词和没有产品的关键词 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/07/31/%E4%B8%BAmagento%E6%B7%BB%E5%8A%A0%E7%83%AD%E6%90%9C%E8%AF%8D%E5%8A%9F%E8%83%BD%EF%BC%8C%E8%BF%87%E6%BB%A4%E6%8E%89%E6%B2%A1%E6%9C%89%E6%90%9C%E7%B4%A2%E7%BB%93%E6%9E%9C%E7%9A%84%E5%85%B3%E9%94%AE%E8%AF%8D%E5%92%8C%E6%B2%A1%E6%9C%89%E4%BA%A7%E5%93%81%E7%9A%84%E5%85%B3%E9%94%AE%E8%AF%8D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          为magento添加热搜词功能，过滤掉没有搜索结果的关键词和没有产品的关键词
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-07-31 10:14:16" itemprop="dateCreated datePublished" datetime="2018-07-31T10:14:16+08:00">2018-07-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:03" itemprop="dateModified" datetime="2020-10-11T11:58:03+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>现在国内大大小小的商城基本都有热门搜索词这个功能高挂在页面的头部，比如京东、淘宝等等国内大型的电商网站和平台都有这个功能。</p>
+<p><img src="https://i.imgur.com/k120Vqu.jpg"></p>
+<p>这里我们假设京东和淘宝放的都是真实的数据（其实这些词是后台人为指定的可能性更大），所谓真实数据，就我的理解，显示在这里的词是真正的客户搜索过最多的词，当然前提是这些词点击后都有搜索结果。现在来看看Magento自带的热门搜索关键词，新安装完的Magento工程底部就有一个链接叫搜索关键字，路径是/catalogsearch/term/popular/，人为制造一些搜索后，打开这个页面看一下，你会发现所有词是按照首字母的顺序排的，然后搜索次数越多的词，字体越大，也许这是老外的习惯用法，但并不符合国人的使用习惯。举个例子，你搜索一个“1”，只要有结果，1就会排在所有中文搜索词之前。</p>
+<p><img src="https://i.imgur.com/WWWyU6x.jpg"></p>
+<p>打开文件/app/code/core/Mage/CatalogSearch/Block/Term.php，找到<code>_loadTerms</code>方法，在这个方法最后返回值前有一句<code>natcasesort($termKeys)</code>（在1.3中是<code>ksort($this-&gt;_terms)</code>），就是这个函数把搜索词重新排序了下，试着注释掉这句，再看结果，前台搜索词终于按搜索次数排了，而且从后台可以看出这些词已经经过过滤，没有搜索结果的词不在其中。</p>
+<pre><code>protected function _loadTerms()  
+  &#123;  
+      if (empty($this-&gt;_terms)) &#123;  
+          $this-&gt;_terms = array();  
+          $terms = Mage::getResourceModel(&#39;catalogsearch/query_collection&#39;)  
+              -&gt;setPopularQueryFilter(Mage::app()-&gt;getStore()-&gt;getId())  
+              -&gt;setOrder(&#39;popularity&#39;, &#39;DESC&#39;)  
+              -&gt;setPageSize(100)  
+              -&gt;load()  
+              -&gt;getItems();  
+          if( count($terms) == 0 ) &#123;  
+              return $this;  
+          &#125;  
+
+          $this-&gt;_maxPopularity = reset($terms)-&gt;getPopularity();  
+          $this-&gt;_minPopularity = end($terms)-&gt;getPopularity();  
+          $range = $this-&gt;_maxPopularity - $this-&gt;_minPopularity;  
+          $range = ( $range == 0 ) ? 1 : $range;  
+          foreach ($terms as $term) &#123;  
+              if( !$term-&gt;getPopularity() ) &#123;  
+                  continue;  
+              &#125;  
+              $term-&gt;setRatio(($term-&gt;getPopularity()-$this-&gt;_minPopularity)/$range);  
+              $temp[$term-&gt;getName()] = $term;  
+              $termKeys[] = $term-&gt;getName();  
+          &#125;  
+        //  natcasesort($termKeys);  
+          foreach ($termKeys as $termKey) &#123;  
+              $this-&gt;_terms[$termKey] = $temp[$termKey];  
+          &#125;  
+      &#125;  
+      return $this;  
+  &#125;</code></pre>
+<p><img src="https://i.imgur.com/uPC4Cub.jpg"></p>
+<p>这里笔者再以porto为例进行讲解。</p>
+<p>比如笔者想要在magento的头部搜索框下方添加一个热门词搜索的功能，那么我们可以这样做。</p>
+<p>编辑app/design/frontend/default/Your_Theme/layout/page.xml，添加到header中</p>
+<pre><code>&lt;block type=&quot;page/html_header&quot; name=&quot;header&quot; as=&quot;header&quot;&gt;
+    &lt;block type=&quot;page/template_links&quot; name=&quot;top.links&quot; as=&quot;topLinks&quot;/&gt;
+    &lt;block type=&quot;page/switch&quot; name=&quot;store_language&quot; as=&quot;store_language&quot; template=&quot;page/switch/languages.phtml&quot;/&gt;
+    &lt;block type=&quot;core/text_list&quot; name=&quot;top.menu&quot; as=&quot;topMenu&quot; translate=&quot;label&quot;&gt;
+        &lt;label&gt;Navigation Bar&lt;/label&gt;
+        &lt;block type=&quot;catalogsearch/term&quot; name=&quot;catalogsearch.term&quot; template=&quot;catalogsearch/topmenusearch.phtml&quot;/&gt;
+        &lt;block type=&quot;page/html_topmenu&quot; name=&quot;catalog.topnav&quot; template=&quot;page/html/topmenu.phtml&quot;/&gt;
+    &lt;/block&gt;
+    &lt;block type=&quot;page/html_welcome&quot; name=&quot;welcome&quot; as=&quot;welcome&quot;/&gt;
+&lt;/block&gt;</code></pre>
+<p><img src="https://i.imgur.com/ucHwYqw.png"></p>
+<p>由于引用的文件不存在，我们需要新建这个文件</p>
+<p>app/design/frontend/default/Your_Theme/template/catalogsearch/topmenusearch.phtml，代码如下：</p>
+<pre><code>&lt;div class=&quot;block block-commercial-quotes&quot;&gt;
+    &lt;div class=&quot;block-title&quot;&gt;
+        &lt;strong&gt;&lt;span&gt;&lt;?php echo $this-&gt;__(&#39;热门搜索词&#39;) ?&gt;&lt;/span&gt;&lt;/strong&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;block-content&quot;&gt;
+        &lt;?php if( sizeof($this-&gt;getTerms()) &gt; 0 ): ?&gt;
+            &lt;ul class=&quot;tags-list&quot;&gt;
+                    &lt;?php foreach ($this-&gt;getTerms()as $_term): ?&gt;
+                    &lt;?php if ($_term-&gt;getRatio()&gt;=0.2): ?&gt;
+                            &lt;li&gt;&lt;a href=&quot;&lt;?php echo $this-&gt;getSearchUrl($_term) ?&gt;&quot; style=&quot;font-size:&lt;?php echo $_term-&gt;getRatio()*70+75 ?&gt;%&quot;&gt;&lt;?php echo $this-&gt;htmlEscape($_term-&gt;getName()) ?&gt;&lt;/a&gt;&lt;/li&gt;
+                    &lt;?php endif; ?&gt;
+                    &lt;?php endforeach; ?&gt;
+            &lt;/ul&gt;
+        &lt;?php 
+            $home_url = Mage::helper(&#39;core/url&#39;)-&gt;getHomeUrl();
+         ?&gt;
+        &lt;div class=&quot;actions&quot;&gt;
+            &lt;a href=&quot;&lt;?php echo $home_url ?&gt;catalogsearch/term/popular/&quot;&gt;&lt;?php echo $this-&gt;__(&#39;View All Popular Searches&#39;) ?&gt;&lt;/a&gt;
+        &lt;/div&gt;
+        &lt;?php else: ?&gt;
+            &lt;p class=&quot;note-msg&quot;&gt;&lt;?php echo $this-&gt;__(&#39;There are no search terms available.&#39;); ?&gt;&lt;/p&gt;
+        &lt;?php endif; ?&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<p>然后就可以看到这样的效果了：</p>
+<p><img src="https://i.imgur.com/zYCi48N.png"></p>
+<p>至于排列得是否美观，那就是样式问题了，大家根据自己的css进行一个美化。</p>
+<p>之前有提到，京东或淘宝的热门搜索词有很大可能并不是客户真正搜索最多的词，而是自己指定一些词放在前台，以更好的推广商家自己主推的产品。那Magento能不能做到呢，答案是可以，而且可以做的更好。可以参考笔者前面写的采用静态cms嵌入到模板文件里面去的方法，然后把关键词以及相关的搜索链接放在静态模块中即可。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/magento-%E7%83%AD%E6%90%9C%E8%AF%8D-%E6%90%9C%E7%B4%A2-topsearch-%E5%85%B3%E9%94%AE%E8%AF%8D-%E8%BF%87%E6%BB%A4-%E6%B2%A1%E6%9C%89%E6%90%9C%E7%B4%A2%E7%BB%93%E6%9E%9C/" rel="tag"># magento,热搜词,搜索,topsearch,关键词,过滤,没有搜索结果</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/07/30/magento%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91%E4%B8%AD%E8%8E%B7%E5%8F%96%E5%90%84%E7%A7%8Durl%E5%9C%B0%E5%9D%80%E5%8F%8A%E7%BB%9D%E5%AF%B9%E8%B7%AF%E5%BE%84%EF%BC%8C%E7%9B%B8%E5%AF%B9%E8%B7%AF%E5%BE%84%EF%BC%8C%E8%8E%B7%E5%8F%96%E9%A6%96%E9%A1%B5%E5%9C%B0%E5%9D%80%EF%BC%8C%E5%92%8C%E5%AD%90%E7%9B%AE%E5%BD%95%E5%9C%B0%E5%9D%80%E7%9A%84%E6%96%B9%E6%B3%95%E6%B1%87%E6%80%BB/" rel="prev" title="magento程序开发中获取各种url地址及绝对路径，相对路径，获取首页地址，和子目录地址的方法汇总">
+      <i class="fa fa-chevron-left"></i> magento程序开发中获取各种url地址及绝对路径，相对路径，获取首页地址，和子目录地址的方法汇总
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/07/31/magento%E9%80%9A%E8%BF%87%E8%AF%BB%E5%8F%96%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E6%96%B9%E5%BC%8F%E5%AE%9E%E7%8E%B0%E9%98%B2%E4%BC%AA%E7%A0%81%E6%9F%A5%E8%AF%A2%E5%8A%9F%E8%83%BD/" rel="next" title="magento通过读取数据库的方式实现防伪码查询功能">
+      magento通过读取数据库的方式实现防伪码查询功能 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

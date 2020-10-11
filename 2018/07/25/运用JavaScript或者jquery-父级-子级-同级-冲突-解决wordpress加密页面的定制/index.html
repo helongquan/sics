@@ -1,37 +1,431 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="如上图所示，我们在使用wordpress的时候，可能会用到wordpress为页面加密的功能，可是加密后的页面界面很简单，而且里面的文字都是没法修改的，除非进入的wordpress的源码里面进行修改，如果你是在是一筹莫展的时候，笔者告诉你去哪里修改，路径：wordpress&#x2F;wp-includes&#x2F;post-template.php，大概是1602那个位置。修改一下就行了。 笔者经过尝试，确实起">
+<meta property="og:type" content="article">
+<meta property="og:title" content="运用JavaScript或者jquery(父级,子级,同级,冲突)解决wordpress加密页面的定制">
+<meta property="og:url" content="http://example.com/2018/07/25/%E8%BF%90%E7%94%A8JavaScript%E6%88%96%E8%80%85jquery-%E7%88%B6%E7%BA%A7-%E5%AD%90%E7%BA%A7-%E5%90%8C%E7%BA%A7-%E5%86%B2%E7%AA%81-%E8%A7%A3%E5%86%B3wordpress%E5%8A%A0%E5%AF%86%E9%A1%B5%E9%9D%A2%E7%9A%84%E5%AE%9A%E5%88%B6/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="如上图所示，我们在使用wordpress的时候，可能会用到wordpress为页面加密的功能，可是加密后的页面界面很简单，而且里面的文字都是没法修改的，除非进入的wordpress的源码里面进行修改，如果你是在是一筹莫展的时候，笔者告诉你去哪里修改，路径：wordpress&#x2F;wp-includes&#x2F;post-template.php，大概是1602那个位置。修改一下就行了。 笔者经过尝试，确实起">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/YCLqYI0.png">
+<meta property="og:image" content="https://i.imgur.com/yiaDI86.png">
+<meta property="og:image" content="https://i.imgur.com/dAXub9B.png">
+<meta property="og:image" content="https://i.imgur.com/MV5CTWB.png">
+<meta property="og:image" content="https://i.imgur.com/VBIGzlx.png">
+<meta property="article:published_time" content="2018-07-25T10:01:23.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:06.675Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="jquery,javascript,wordpress,加密,密码,定制">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/YCLqYI0.png">
+
+<link rel="canonical" href="http://example.com/2018/07/25/%E8%BF%90%E7%94%A8JavaScript%E6%88%96%E8%80%85jquery-%E7%88%B6%E7%BA%A7-%E5%AD%90%E7%BA%A7-%E5%90%8C%E7%BA%A7-%E5%86%B2%E7%AA%81-%E8%A7%A3%E5%86%B3wordpress%E5%8A%A0%E5%AF%86%E9%A1%B5%E9%9D%A2%E7%9A%84%E5%AE%9A%E5%88%B6/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>运用JavaScript或者jquery(父级,子级,同级,冲突)解决wordpress加密页面的定制 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/07/25/%E8%BF%90%E7%94%A8JavaScript%E6%88%96%E8%80%85jquery-%E7%88%B6%E7%BA%A7-%E5%AD%90%E7%BA%A7-%E5%90%8C%E7%BA%A7-%E5%86%B2%E7%AA%81-%E8%A7%A3%E5%86%B3wordpress%E5%8A%A0%E5%AF%86%E9%A1%B5%E9%9D%A2%E7%9A%84%E5%AE%9A%E5%88%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          运用JavaScript或者jquery(父级,子级,同级,冲突)解决wordpress加密页面的定制
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-07-25 18:01:23" itemprop="dateCreated datePublished" datetime="2018-07-25T18:01:23+08:00">2018-07-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:06" itemprop="dateModified" datetime="2020-10-11T11:58:06+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="https://i.imgur.com/YCLqYI0.png"></p>
+<p>如上图所示，我们在使用wordpress的时候，可能会用到wordpress为页面加密的功能，可是加密后的页面界面很简单，而且里面的文字都是没法修改的，除非进入的wordpress的源码里面进行修改，如果你是在是一筹莫展的时候，笔者告诉你去哪里修改，路径：wordpress/wp-includes/post-template.php，大概是1602那个位置。修改一下就行了。</p>
+<p>笔者经过尝试，确实起到了作用，可是我在修改了这个文件后，对wordpress进行了更新，当我再次访问加密页面后，样式还是回到了解放前。所以这个方式是不科学的。也是危险的做法，因为wordpress是经常更新的。</p>
+<p>好的，为了不让这个被覆盖，又要定制这个加密的页面，我们只能通过把代码加入functions.php文件里面，如果感兴趣可以参考下<a target="_blank" rel="noopener" href="http://www.habotalk.com/wangzhanjianshe/wordpress/2312.html">这篇文章</a>，可是这个貌似不起作用，这个方法网上一抓一大把，都是千篇一律的错误。经过实践这个方法是错误的，大家别折腾了。</p>
+<p>最后，我们来说下今天的重点：运用JavaScript或者jquery解决wordpress加密页面的定制。</p>
+<p>首先我们得先引入jquery，如果你的wordpress主题里面已经有了那就不用再次引入了，笔者这里假设没有引入这个JavaScript库文件。</p>
+<p>在主题的header.php里面加入代码：</p>
+<pre><code>&lt;script src=&quot;&lt;?php bloginfo(&#39;template_url&#39;); ?&gt;/js/jquery-3.2.1.min.js&quot;&gt;&lt;/script&gt;</code></pre>
+<p>为了减少对第三方网站的请求，笔者只能把这个放在自己的主题里面了，然后我们接着来观察一下这个加密页面的结构。</p>
+<p><img src="https://i.imgur.com/yiaDI86.png"></p>
+<p>我想把这个截图里面的产品缩略图隐藏，由于只针对加密页面进行隐藏，所以不能通过css的方式进行一个隐藏，所以我们找到了加密页面独一无二的class，我们看到红色框中有个<code>post-password-form</code>，我们需要隐藏的是class为<code>page-thumb</code>的内容，所以我们需要使用jquery的很多知识点。思路如下：</p>
+<p>获取<code>post-password-form</code>的父级，然后再获取这个父级的同级，然后再在同级元素查找class为<code>page-thumb</code>的部分，最后通过jquery的css方法隐藏这个块级元素即可。</p>
+<p>为了不让自己引入的这个jquery与wordpress主题里面的jquery发生冲突，那么先解决一下冲突。</p>
+<pre><code>var jQuery_3_2_1 = $.noConflict(true);  //因为上面引入的是3.2.1版本的</code></pre>
+<p>由于我们想通过用户先与我们取得联系才能获取密码，有了密码才能访问，由于默认的wordpress的加密页面是没有这个的，所以我们需要jquery动态插入代码。</p>
+<pre><code>var jQuery_3_2_1div = &#39;&lt;span&gt;&lt;a href=&quot;./contact-us/&quot;&gt;联系我们获取授权&lt;/a&gt;&lt;/span&gt;&#39;;</code></pre>
+<p>我们想要把这个文字嵌入到那段文字后面，如下图：</p>
+<p><img src="https://i.imgur.com/dAXub9B.png"></p>
+<p>我们通过开发者工具找到</p>
+<p><img src="https://i.imgur.com/MV5CTWB.png"></p>
+<pre><code>jQuery_3_2_1(&quot;.post-password-form p:first-child&quot;).append(jQuery_3_2_1div);</code></pre>
+<p>最后jquery代码如下：</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+    var jQuery_3_2_1 = $.noConflict(true);
+    jQuery_3_2_1(document).ready(function()&#123;
+        var jQuery_3_2_1div = &#39;&lt;span&gt;&lt;a href=&quot;./contact-us/&quot;&gt;联系我们获取授权&lt;/a&gt;&lt;/span&gt;&#39;;
+        jQuery_3_2_1(&quot;.post-password-form&quot;).parent().siblings().find(&#39;.page-thumb&#39;).css(&#123;&quot;display&quot;:&quot;none&quot;&#125;);
+        jQuery_3_2_1(&quot;.post-password-form p:first-child&quot;).append(jQuery_3_2_1div);
+
+    &#125;)
+&lt;/script&gt;</code></pre>
+<p>好的，确保都添加无误后我们刷新一下这个页面：</p>
+<p><img src="https://i.imgur.com/VBIGzlx.png"></p>
+<p>搞定！</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/jquery-javascript-wordpress-%E5%8A%A0%E5%AF%86-%E5%AF%86%E7%A0%81-%E5%AE%9A%E5%88%B6/" rel="tag"># jquery,javascript,wordpress,加密,密码,定制</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/07/24/%E9%87%87%E7%94%A8background-position%E7%9A%84%E6%96%B9%E5%BC%8F%E7%BB%93%E5%90%88jquery%E5%AE%9E%E7%8E%B0%E9%BC%A0%E6%A0%87%E6%BB%9A%E5%8A%A8%E7%9A%84%E6%96%B9%E5%BC%8F%E9%A9%B1%E5%8A%A8%E5%8A%A8%E7%94%BB%E7%9A%84%E6%95%88%E6%9E%9C%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E6%A1%88/" rel="prev" title="采用background-position的方式结合jquery实现鼠标滚动的方式驱动动画的效果的两种方案">
+      <i class="fa fa-chevron-left"></i> 采用background-position的方式结合jquery实现鼠标滚动的方式驱动动画的效果的两种方案
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/07/26/%E4%B8%BAwordpress%E6%B7%BB%E5%8A%A0ajax%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD%EF%BC%8C%E6%94%AF%E6%8C%81%E5%AF%B9%E6%96%87%E7%AB%A0%EF%BC%8C%E9%A1%B5%E9%9D%A2%EF%BC%8C%E4%BA%A7%E5%93%81%EF%BC%8C%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AD%97%E6%AE%B5%E8%BF%9B%E8%A1%8C%E8%BF%87%E6%BB%A4%E6%90%9C%E7%B4%A2/" rel="next" title="为wordpress添加ajax搜索功能，支持对文章，页面，产品，自定义字段进行过滤搜索">
+      为wordpress添加ajax搜索功能，支持对文章，页面，产品，自定义字段进行过滤搜索 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

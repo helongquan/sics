@@ -1,37 +1,601 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="根据客户的需求，要设计一些特效，大概就是鼠标悬浮在某个区块，然后显示一些内容，产生一些蒙版，要么蒙版在最上层，要么文字或者内容在蒙版上面，图片在最下层这样的效果，事实上这这种效果在互联网上非常普遍。 还有就是鼠标悬浮，产生一些动画之类的，比如有些东西从左边出现，有些东西从上面掉下来，有些东西的出现在另外一些东西的出现之后出现，等等这样的一些动画，这些都是css3的事情。 在这一些列的特效中，不可避">
+<meta property="og:type" content="article">
+<meta property="og:title" content="css3鼠标悬浮特效设计和before,after之间的渊源">
+<meta property="og:url" content="http://example.com/2017/12/20/css3%E9%BC%A0%E6%A0%87%E6%82%AC%E6%B5%AE%E7%89%B9%E6%95%88%E8%AE%BE%E8%AE%A1%E5%92%8Cbefore-after%E4%B9%8B%E9%97%B4%E7%9A%84%E6%B8%8A%E6%BA%90/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="根据客户的需求，要设计一些特效，大概就是鼠标悬浮在某个区块，然后显示一些内容，产生一些蒙版，要么蒙版在最上层，要么文字或者内容在蒙版上面，图片在最下层这样的效果，事实上这这种效果在互联网上非常普遍。 还有就是鼠标悬浮，产生一些动画之类的，比如有些东西从左边出现，有些东西从上面掉下来，有些东西的出现在另外一些东西的出现之后出现，等等这样的一些动画，这些都是css3的事情。 在这一些列的特效中，不可避">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-12-20T10:47:00.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:53:35.141Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="css3,before,after,position,flex,伪类">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2017/12/20/css3%E9%BC%A0%E6%A0%87%E6%82%AC%E6%B5%AE%E7%89%B9%E6%95%88%E8%AE%BE%E8%AE%A1%E5%92%8Cbefore-after%E4%B9%8B%E9%97%B4%E7%9A%84%E6%B8%8A%E6%BA%90/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>css3鼠标悬浮特效设计和before,after之间的渊源 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/12/20/css3%E9%BC%A0%E6%A0%87%E6%82%AC%E6%B5%AE%E7%89%B9%E6%95%88%E8%AE%BE%E8%AE%A1%E5%92%8Cbefore-after%E4%B9%8B%E9%97%B4%E7%9A%84%E6%B8%8A%E6%BA%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          css3鼠标悬浮特效设计和before,after之间的渊源
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-12-20 18:47:00" itemprop="dateCreated datePublished" datetime="2017-12-20T18:47:00+08:00">2017-12-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:35" itemprop="dateModified" datetime="2020-10-11T11:53:35+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>根据客户的需求，要设计一些特效，大概就是鼠标悬浮在某个区块，然后显示一些内容，产生一些蒙版，要么蒙版在最上层，要么文字或者内容在蒙版上面，图片在最下层这样的效果，事实上这这种效果在互联网上非常普遍。</p>
+<p>还有就是鼠标悬浮，产生一些动画之类的，比如有些东西从左边出现，有些东西从上面掉下来，有些东西的出现在另外一些东西的出现之后出现，等等这样的一些动画，这些都是css3的事情。</p>
+<p>在这一些列的特效中，不可避免的说到before和after这两个伪类，这是这些伪类支撑起特效发挥到淋漓尽致。</p>
+<p>第二，我们不要忘了，要满足这些迷人的特效，还要用到定位，也就是position，这里还要说到一个非常重要的地方是代码结构，具体结构要看自己实现的效果的复杂程度，一般的特效我直接采用div里面嵌套div，然后在div里面嵌套img和p。这里给大家粘贴一下：</p>
+<p>html代码：</p>
+<pre><code>&lt;div class=&quot;nocti_effect_outer&quot;&gt;
+ &lt;div class=&quot;mengg&quot;&gt;
+ &lt;img src=&quot;http://nocti.spartanya.com/wp-content/uploads/2017/07/78.jpg&quot; alt=&quot;&quot;&gt;
+ &lt;/div&gt;
+ &lt;div class=&quot;nocti_effect_inner&quot;&gt;
+ &lt;p class=&quot;noctifirst&quot;&gt;this is first paragram&lt;/p&gt;
+ &lt;p class=&quot;noctisecond&quot;&gt;&lt;img src=&quot;http://www.easyicon.net/api/resizeApi.php?id=566631&amp;size=128&quot;&gt;&lt;/p&gt;
+ &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<p>css代码如下：</p>
+<pre><code>.nocti_effect_outer&#123;
+ position: relative;
+ display: block;
+ overflow: hidden;
+&#125;
+.nocti_effect_outer:before&#123;
+ content: &#39;&#39;;
+ position: absolute;
+ background: rgba(244, 67, 54, 0.5);
+ height: 100%;
+ width: 100%;
+ visibility: hidden;
+ transition: transform 1s;
+ transform: translateX(0px) scaleX(1) scaleY(1);
+ transform: translate(-100%,0);
+&#125;
+
+.nocti_effect_outer:after&#123;
+ content: &#39;&#39;;
+ position: absolute;
+ background: blue;
+ height: 100%;
+ width: 100%;
+ display: block;
+ visibility: hidden;
+ z-index: 99;
+&#125;
+.nocti_effect_outer:hover:before&#123;
+ transform: translateX(0px) scaleX(1) scaleY(1);
+ visibility: visible;
+ animation-duration:2s;
+ transform: translate(0%,0);
+&#125;
+
+.nocti_effect_inner:hover .noctifirst&#123;
+visibility: visible;
+transform:translateX(30px);
+transform: translate(10%,0);
+&#125;
+.nocti_effect_inner:hover .noctisecond&#123;
+visibility: visible;
+transform:translateY(50px);
+transform: translate(0%,30%);
+&#125;
+
+.noctifirst,.noctisecond&#123;
+ visibility: hidden;
+ display: block;
+ transition: transform 1s;
+&#125;</code></pre>
+<p>这里我就不用一一的解答，这里我说一个重要的思路就是：一个类似图层的理念。就是鼠标悬浮的时候，哪个现出来，哪个后出来，出来的位置是从哪里作为起始点，动画持续的时间多长，时延多少，最开始的时候，默认位置在哪里，状态是隐藏还是显示。</p>
+<p>然后，为了达到自适应效果，我们不得不进行一个定位，就是在这个图片的区块中，鼠标悬浮后产生的元素（图片，icon，文字），这些元素相对于这个区块的图片的位置，定位不准确，将会导致这些元素溢出，显得不好看。</p>
+<p>为了有一个良好的鼠标悬浮效果，我们需要对这个区块设定一个overflow:hidden，鼠标悬浮后产生的蒙版就不会覆盖超过图片所在的区域之外，这个相信很容易理解。</p>
+<p>还有一个地方需要注意的是，before和after的背景为了全部覆盖到这个区块的图片，那么我们需要把他们设定的高度和宽度都为100%，display:block，这样就是一个块级元素。</p>
+<p>before和after是有区别的，一个在前，一个在后，他们的优先级类似于z-index。</p>
+<p>我有说清楚吗？对于这个一系列的特效，只有具备这个思路，把一系列的组合特效分拆开来，一个一个的写好样式，写好伪类，设定好动画的持续时间和位置，以及样式，剩下的就是鼠标悬浮上去的奇迹了。</p>
+<p>所以，对于一个特效，我们建议不要在存在固定形式的代码结构上进行设计，而是重新造轮子，把代码结构设定好，这样实现起来就会轻松多了。</p>
+<p>授人以鱼不如授人以渔，这篇文章没有华丽的demo，旨在让我们明白这一系列特效的背后都是这样一个思想。我的这个文章都是基于css进行的，不运用任何javascript脚本。</p>
+<p>说到这里我们也可以巧妙的利用这两个伪类，设计一些不规则的背景，常规来说，我们的区块是矩形的，但是我们有三角形和多边形的时候，我们该怎么办，这个时候我们应该想到的是before和after，而不是想着采用图片布局。</p>
+<p>我们采用伪类，然后进行一个巧妙的定位，就可以做到不规则背景的设计需求。</p>
+<p><strong>这里分享一个例子：</strong></p>
+<p>html代码结构如下：</p>
+<pre><code>&lt;div class=&quot;noctiht&quot;&gt;Click here to add your own textClick here to add your own textClick here to add your own text&lt;/div&gt;
+
+&lt;div class=&quot;noctiht-right&quot;&gt;Click here to add your own textClick here to add your own textClick here to add your own text&lt;/div&gt;
+
+&lt;div class=&quot;noctiht-left&quot;&gt;Click here to add your own textClick here to add your own textClick here to add your own text&lt;/div&gt;
+
+&lt;div class=&quot;noctiht-move&quot;&gt;Click here to add your own textClick here to add your own textClick here to add your own text&lt;/div&gt;</code></pre>
+<p>css代码如下：</p>
+<pre><code>.noctiht&#123;
+    background: #eeeeee;
+    padding:20px;
+    position: relative;
+    display: block;
+    margin: 60px 0px;
+&#125;
+.noctiht:before&#123;
+    content: &#39;&#39;;
+    background: transparent;
+    width: 0px;
+    height: 0px;
+    display: block;
+    border-left: 30px solid transparent;
+    border-top: 30px solid transparent;
+    border-right: 30px solid transparent;
+    border-bottom: 30px solid #EEEEEE;
+    position: absolute;
+    top: 0px;
+    left: 45%;
+    z-index: -1;
+    visibility: hidden;
+&#125;
+.noctiht:hover:before&#123;
+visibility: visible;
+transform:translateY(-60px);
+transition: transform 1s;
+&#125;
+
+.noctiht-right&#123;
+    background: #eeeeee;
+    padding:20px;
+    position: relative;
+    display: block;
+    margin: 60px 0px;
+&#125;
+.noctiht-right:before&#123;
+    content: &#39;&#39;;
+    background: transparent;
+    width: 0px;
+    height: 0px;
+    display: block;
+    border-left: 30px solid #EEEEEE;
+    border-top: 30px solid transparent;
+    border-right: 30px solid transparent;
+    border-bottom: 30px solid transparent;
+    position: absolute;
+    right: 0px;
+    top: 45%;
+    z-index: -1;
+    visibility: hidden;
+&#125;
+.noctiht-right:hover:before&#123;
+visibility: visible;
+transform:translateX(60px);
+transition: transform 1s;
+&#125;
+
+
+.noctiht-left&#123;
+    background: #eeeeee;
+    padding:20px;
+    position: relative;
+    display: block;
+    margin: 60px 0px;
+&#125;
+.noctiht-left:before&#123;
+    content: &#39;&#39;;
+    background: transparent;
+    width: 0px;
+    height: 0px;
+    display: block;
+    border-right: 30px solid #EEEEEE;
+    border-top: 30px solid transparent;
+    border-left: 30px solid transparent;
+    border-bottom: 30px solid transparent;
+    position: absolute;
+    left: 0px;
+    top: 45%;
+    z-index: -1;
+    visibility: hidden;
+&#125;
+.noctiht-left:hover:before&#123;
+visibility: visible;
+transform:translateX(-60px);
+transition: transform 1s;
+&#125;
+
+
+.noctiht-move&#123;
+    background: #eeeeee;
+    padding:20px;
+    position: relative;
+    display: block;
+    margin: 60px 0px;
+&#125;
+.noctiht-move:before&#123;
+    position: absolute;
+    z-index: -1;
+    content: &#39;&#39;;
+    top: 50%;
+    left: -10px;
+    border-style: solid;
+    border-width: 10px 10px 10px 10px;
+    border-color: rgba(62, 140, 243, 0) #eeeeee rgba(255, 235, 59, 0) rgba(241, 122, 122, 0);
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+    -webkit-transition-property: transform;
+    transition-property: transform;
+&#125;
+.noctiht-move:hover&#123;
+    transform:translateX(10px);
+    transition: transform 1s;
+&#125;
+.noctiht-move:hover:before&#123;
+    transform:translateX(-10px);
+    transition: transform 0s;
+&#125;</code></pre>
+<p>这个示例说明的是我们可以采用一个伪类跟鼠标悬浮相结合，会产生一些意想不到的效果。</p>
+<p>我们可以发挥一下想象力，如何飞来飞去，如何长角，就看我们的想象力了，只要代码结构设计得合理，让它长几个角都有可能。</p>
+<p>最后，我需要说明一点，就是利用css3里面的旋转，我们也可以得到一个非常好的设计效果，比如我们采用多级div嵌套，然后把最外层的div进行一个旋转，然后把里面的内容进行一个反向旋转，那么我们会看到一个旋转的矩形，里面装着一些文字，文字是正常的，没有旋转，为啥？就是因为一个正向旋转和反向旋转相结合产生的结果。</p>
+<p>我们还可以在这个基础上进行丰富效果，比如鼠标悬浮的时候，旋转的区块进行一个旋转，回到正常状态，这是非常棒的事情。或者是旋转的时候来个过渡效果，让他慢慢旋转，这样看起来会好很多，这就是我们要充分的认识css3新的特性。拥抱新技术。</p>
+<p><strong>额外小提示</strong>：布局的时候，我们可以考虑使用flex这个新特性，刚才实验过，自适应的时候，我们把显示方式display:flex改成grid试试。说真的，flex给我对处理布局来说帮了大忙。</p>
+<p>要想体验一下flex,去参考<a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html">这篇文章</a>，或者查看<a target="_blank" rel="noopener" href="http://www.runoob.com/css3/css3-flexbox.html">菜鸟教程</a>。</p>
+<p>这是一篇说上三天三夜都写不完的文章，到此为止吧。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/css3-before-after-position-flex-%E4%BC%AA%E7%B1%BB/" rel="tag"># css3,before,after,position,flex,伪类</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/12/12/%E4%B8%BAwordpress%E6%B7%BB%E5%8A%A0%E7%94%A8%E6%88%B7%E8%87%AA%E5%AE%9A%E4%B9%89%E5%A4%B4%E5%83%8F%E5%8A%9F%E8%83%BD/" rel="prev" title="为wordpress添加用户自定义头像功能">
+      <i class="fa fa-chevron-left"></i> 为wordpress添加用户自定义头像功能
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/12/21/wordpress%E6%96%B0%E5%BB%BA%E6%95%B0%E6%8D%AE%E8%A1%A8%E4%BB%A5%E5%8F%8A%E6%9F%A5%E8%AF%A2%E5%92%8C%E6%8F%92%E5%85%A5%E6%95%B0%E6%8D%AE/" rel="next" title="wordpress新建数据表以及查询和插入数据">
+      wordpress新建数据表以及查询和插入数据 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

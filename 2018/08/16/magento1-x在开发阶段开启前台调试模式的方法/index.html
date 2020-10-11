@@ -1,37 +1,447 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="为了方便开启magento的调试模式，这里收集了些网友的一些建议和方法： 1.做Magento开发的人都会有这样的经验: 有时候了出错了,magento给出的是一个空白页(blank page),或者是停留在某个页面,无动于衷。经验丰富的PHP程序员自然是知道如何去让Magento在出现这种情况时给我们足够多的信息以帮助调试. 事实上,打开网站根目录的index.php你就会发现下面两行代码: #">
+<meta property="og:type" content="article">
+<meta property="og:title" content="magento1.x在开发阶段开启前台调试模式的方法">
+<meta property="og:url" content="http://example.com/2018/08/16/magento1-x%E5%9C%A8%E5%BC%80%E5%8F%91%E9%98%B6%E6%AE%B5%E5%BC%80%E5%90%AF%E5%89%8D%E5%8F%B0%E8%B0%83%E8%AF%95%E6%A8%A1%E5%BC%8F%E7%9A%84%E6%96%B9%E6%B3%95/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="为了方便开启magento的调试模式，这里收集了些网友的一些建议和方法： 1.做Magento开发的人都会有这样的经验: 有时候了出错了,magento给出的是一个空白页(blank page),或者是停留在某个页面,无动于衷。经验丰富的PHP程序员自然是知道如何去让Magento在出现这种情况时给我们足够多的信息以帮助调试. 事实上,打开网站根目录的index.php你就会发现下面两行代码: #">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/vCrIURx.png">
+<meta property="article:published_time" content="2018-08-16T01:27:44.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:57:58.747Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="magento1.x,调试模式,调试">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/vCrIURx.png">
+
+<link rel="canonical" href="http://example.com/2018/08/16/magento1-x%E5%9C%A8%E5%BC%80%E5%8F%91%E9%98%B6%E6%AE%B5%E5%BC%80%E5%90%AF%E5%89%8D%E5%8F%B0%E8%B0%83%E8%AF%95%E6%A8%A1%E5%BC%8F%E7%9A%84%E6%96%B9%E6%B3%95/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>magento1.x在开发阶段开启前台调试模式的方法 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/08/16/magento1-x%E5%9C%A8%E5%BC%80%E5%8F%91%E9%98%B6%E6%AE%B5%E5%BC%80%E5%90%AF%E5%89%8D%E5%8F%B0%E8%B0%83%E8%AF%95%E6%A8%A1%E5%BC%8F%E7%9A%84%E6%96%B9%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          magento1.x在开发阶段开启前台调试模式的方法
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-08-16 09:27:44" itemprop="dateCreated datePublished" datetime="2018-08-16T09:27:44+08:00">2018-08-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:58" itemprop="dateModified" datetime="2020-10-11T11:57:58+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>为了方便开启magento的调试模式，这里收集了些网友的一些建议和方法：</p>
+<p>1.做Magento开发的人都会有这样的经验: 有时候了出错了,magento给出的是一个空白页(blank page),或者是停留在某个页面,无动于衷。经验丰富的PHP程序员自然是知道如何去让Magento在出现这种情况时给我们足够多的信息以帮助调试. 事实上,打开网站根目录的index.php你就会发现下面两行代码:</p>
+<pre><code>#Mage::setIsDeveloperMode(true);
+#ini_set(‘display_errors’, 1);</code></pre>
+<p>把这两行的注释去掉，保存即可。</p>
+<p>或者你可能看到的是这样的：</p>
+<pre><code>if (isset($_SERVER[&#39;MAGE_IS_DEVELOPER_MODE&#39;])) &#123;
+    Mage::setIsDeveloperMode(true);
+&#125;
+
+#ini_set(&#39;display_errors&#39;, 1);</code></pre>
+<p>这个时候可以改成如下：</p>
+<pre><code>// if (isset($_SERVER[&#39;MAGE_IS_DEVELOPER_MODE&#39;])) &#123;
+// &#125;
+
+Mage::setIsDeveloperMode(true);
+ini_set(&#39;display_errors&#39;, 1);</code></pre>
+<p>保存后，刷新下前台，报错信息就会出现在前台页面了。</p>
+<p>你只要去掉前面的注释就可以打开开发者模式，在出错的时候会输出信息可以帮助我们调试。</p>
+<p>另外，可能对调试有用的信息是在var/report目录下的文件。</p>
+<p>你还可以打开log日志。</p>
+<p>通过后台 –&gt; system –&gt; configuration</p>
+<p>在Current Configuration Scope中选择website后</p>
+<p>选择Developer —&gt; Log Settings</p>
+<p>然后你就可以查看log来调试网站程序了。</p>
+<p>这个方法笔者试过了，虽然报错信息出现在前台页面了，可是后台也报错了，因此这个方法不可取。</p>
+<hr>
+<p>2.每次通过后台操作来打开调试模式，操作难免有些复杂。如果是在window下跑magento，那打开后台然后加载的速度就更慢，而假如只是打开做个调试和查看，每次这样来回的操作，重复的工作也太多了，这里介绍了另外一种快速打开调试模式的一种方法：</p>
+<p>找到如下这段代码，路径app/code/core/Mage/Core/Block/Template.php</p>
+<pre><code>public function getShowTemplateHints()
+    &#123;
+        if (is_null(self::$_showTemplateHints)) &#123;
+            self::$_showTemplateHints = Mage::getStoreConfig(self::XML_PATH_DEBUG_TEMPLATE_HINTS)
+                &amp;&amp; Mage::helper(&#39;core&#39;)-&gt;isDevAllowed();
+            self::$_showTemplateHintsBlocks = Mage::getStoreConfig(self::XML_PATH_DEBUG_TEMPLATE_HINTS_BLOCKS)
+                &amp;&amp; Mage::helper(&#39;core&#39;)-&gt;isDevAllowed();
+        &#125;
+        return self::$_showTemplateHints;
+&#125;</code></pre>
+<p>将它修改成：</p>
+<pre><code>public function getShowTemplateHints()
+    &#123;
+        return true;
+//         if (is_null(self::$_showTemplateHints)) &#123;
+//             self::$_showTemplateHints = Mage::getStoreConfig(self::XML_PATH_DEBUG_TEMPLATE_HINTS)
+//                 &amp;&amp; Mage::helper(&#39;core&#39;)-&gt;isDevAllowed();
+//             self::$_showTemplateHintsBlocks = Mage::getStoreConfig(self::XML_PATH_DEBUG_TEMPLATE_HINTS_BLOCKS)
+//                 &amp;&amp; Mage::helper(&#39;core&#39;)-&gt;isDevAllowed();
+//         &#125;
+//         return self::$_showTemplateHints;
+    &#125;</code></pre>
+<p>刷新下前台和后台，我们都会看到类似的东西：</p>
+<p><img src="https://i.imgur.com/vCrIURx.png"></p>
+<p>这个经过笔者的实践，发现是可行的。但是不是笔者想要的那种，如果报错就出现报错信息，不报错就不出现这些着色的东西。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/magento1-x-%E8%B0%83%E8%AF%95%E6%A8%A1%E5%BC%8F-%E8%B0%83%E8%AF%95/" rel="tag"># magento1.x,调试模式,调试</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/08/15/%E5%AF%B9%E4%B8%80%E4%BB%B6%E4%BA%8B%E6%83%85%E7%9A%84%E6%B7%B1%E5%85%A5%E7%9A%84%E8%AE%A4%E8%AF%86%E6%96%B9%E6%B3%95%E5%92%8C%E8%AF%84%E4%BC%B0%E4%B8%80%E6%9C%AC%E4%B9%A6%E7%9A%84%E4%BB%B7%E5%80%BC/" rel="prev" title="对一件事情的深入的认识方法和评估一本书的价值">
+      <i class="fa fa-chevron-left"></i> 对一件事情的深入的认识方法和评估一本书的价值
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/08/16/Magento%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3-%E4%BA%94-Magento%E6%A8%A1%E5%9E%8B%E4%B8%8EORM%E5%9F%BA%E7%A1%80/" rel="next" title="Magento开发文档(五):Magento模型与ORM基础">
+      Magento开发文档(五):Magento模型与ORM基础 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

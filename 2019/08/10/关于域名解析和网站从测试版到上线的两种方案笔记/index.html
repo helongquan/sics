@@ -1,37 +1,435 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="关于域名的一些基本知识 baidu.com 4399.com等，这些都是域名，但是如果前面加上www. 那么它们就不是域名了，而是网站名了。 解析http:&#x2F;&#x2F;www.163.com&#x2F;index.html 1.http:&#x2F;&#x2F; 这个是协议，也是HTTP超文本传输协议，也就是网页在网上传输的协议. 2.www 这个是服务器名，代表超文本服务器 3.163.com这是一个域名，用来定位网站的独一无二的名">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于域名解析和网站从测试版到上线的两种方案笔记">
+<meta property="og:url" content="http://example.com/2019/08/10/%E5%85%B3%E4%BA%8E%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90%E5%92%8C%E7%BD%91%E7%AB%99%E4%BB%8E%E6%B5%8B%E8%AF%95%E7%89%88%E5%88%B0%E4%B8%8A%E7%BA%BF%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E6%A1%88%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="关于域名的一些基本知识 baidu.com 4399.com等，这些都是域名，但是如果前面加上www. 那么它们就不是域名了，而是网站名了。 解析http:&#x2F;&#x2F;www.163.com&#x2F;index.html 1.http:&#x2F;&#x2F; 这个是协议，也是HTTP超文本传输协议，也就是网页在网上传输的协议. 2.www 这个是服务器名，代表超文本服务器 3.163.com这是一个域名，用来定位网站的独一无二的名">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2019-08-10T08:02:01.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:04.185Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="域名解析,网站上线的两种方法,域名,DNS解析,IP解析">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2019/08/10/%E5%85%B3%E4%BA%8E%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90%E5%92%8C%E7%BD%91%E7%AB%99%E4%BB%8E%E6%B5%8B%E8%AF%95%E7%89%88%E5%88%B0%E4%B8%8A%E7%BA%BF%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E6%A1%88%E7%AC%94%E8%AE%B0/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>关于域名解析和网站从测试版到上线的两种方案笔记 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/08/10/%E5%85%B3%E4%BA%8E%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90%E5%92%8C%E7%BD%91%E7%AB%99%E4%BB%8E%E6%B5%8B%E8%AF%95%E7%89%88%E5%88%B0%E4%B8%8A%E7%BA%BF%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E6%A1%88%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          关于域名解析和网站从测试版到上线的两种方案笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-08-10 16:02:01" itemprop="dateCreated datePublished" datetime="2019-08-10T16:02:01+08:00">2019-08-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:04" itemprop="dateModified" datetime="2020-10-11T11:58:04+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%9F%9F%E5%90%8D/" itemprop="url" rel="index"><span itemprop="name">域名</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>关于域名的一些基本知识</strong></p>
+<p>baidu.com 4399.com等，这些都是域名，但是如果前面加上www. 那么它们就不是域名了，而是网站名了。</p>
+<p>解析<a target="_blank" rel="noopener" href="http://www.163.com/index.html">http://www.163.com/index.html</a></p>
+<p>1.<code>http://</code> 这个是协议，也是HTTP超文本传输协议，也就是网页在网上传输的协议.</p>
+<p>2.<code>www</code> 这个是服务器名，代表超文本服务器</p>
+<p>3.<code>163.com</code>这是一个域名，用来定位网站的独一无二的名字</p>
+<p>4.<code>www.163.com</code>这是一个网站名，有服务器名+域名组成</p>
+<p>5.<code>/</code>这个是根目录，也就是说，通过网站名找到服务器，然后在服务器存放网页的根目录</p>
+<p>6.<code>index.html</code>这个是根目录下的默认网页</p>
+<p>7.<code>http://www.163.com/index.html</code> 这个是URL，统一资源定位符，全球性地址，用于定位网上的资源.</p>
+<hr>
+<h4 id="网站上线的两种方法："><a href="#网站上线的两种方法：" class="headerlink" title="网站上线的两种方法："></a>网站上线的两种方法：</h4><p>为了方便讲解，我们约定一下，客户域名这里以test.com为例，我方为客户设计网站的时候用的测试域名为：test.badu.com，我方上线网站的服务器称为bluehost.</p>
+<p><strong>方法一：通过IP解析上线网站</strong></p>
+<p>首先，让客户进入到自己的域名test.com的域名管理后台，做个解析，把IP指向bluehost的IP。</p>
+<p>如果，bluehost的web服务器的根目录下只有一个网站，那么访问test.com的时候，就可以访问bluehost根目录的内容了；如果bluehost里面有多个网站，那么需要做虚拟主机配置，让其支持多个网站，专业的说法就是多站点配置。</p>
+<p>然后，就是把test.badu.com的源码迁移到bluehost的web根目录下。</p>
+<p>接着，把数据库文件从测试网站迁移到上线的bluehost主机中的数据库中，而且要把数据库中的测试网站（test.badu.com）域名批量替换成上线的域名（比如客户网站域名为：test.com），然后导入这个sql文件到上线的bluehost的数据库中。</p>
+<p>对应好了之后，访问网站前台就可以看到test.com跟test.badu.com的一模一样了。</p>
+<p><strong>优点</strong>：简单，方便，直观。</p>
+<p><strong>缺点</strong>：网站迁移的时候，需要经常修改解析记录。不安全，如果有多个网站的时候，需要额外做虚拟化。</p>
+<hr>
+<p><strong>方法二：通过DNS解析上线网站</strong></p>
+<blockquote>
+<p>网站从测试版（设计阶段）到上线（生成环境阶段）的整个过程。</p>
+</blockquote>
+<p><strong>首先</strong>，客户在自己的网站域名管理后台把域名的DNS更改到我们的bluehost服务器的DNS。</p>
+<p><strong>接着</strong>，我们把测试版的网站的源码移动到上线的bluehost的主机上以存放网站的源码。</p>
+<p><strong>然后</strong>，把数据库文件从测试网站迁移到上线的bluehost主机中的数据库中，而且要把数据库中的测试网站（test.badu.com）域名批量替换成上线的域名（比如客户网站域名为：test.com），然后导入这个sql文件到上线的bluehost的数据库中。</p>
+<p><strong>最后</strong>，我方登录上线网站所在的bluehost账号，进去后，添加test.com到bluehost里面即可。</p>
+<p>到前台访问：test.com就可以看到的所有东西跟测试版网站（test.badu.com）的一样，上线完成！</p>
+<p><strong>优点</strong>：如果管理着多个网站，有多个bluehost服务器，当哪天其中某个网站出现故障的时候，就可以通过chrome浏览器插件（Open SEO Stats）快速定位到是哪台主机，进而快速的解决问题。</p>
+<p>如果网站从一个bluehost迁移到另外一个bluehost的时候，不需要再次通知客户修改IP解析到新的IP，减少麻烦。</p>
+<p><strong>缺点</strong>：这种情况是适合主机服务商支持添加域名到服务器中，主机商提供DNS值的情况。</p>
+<p>本文会持续更新，敬请关注。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90-%E7%BD%91%E7%AB%99%E4%B8%8A%E7%BA%BF%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E6%B3%95-%E5%9F%9F%E5%90%8D-DNS%E8%A7%A3%E6%9E%90-IP%E8%A7%A3%E6%9E%90/" rel="tag"># 域名解析,网站上线的两种方法,域名,DNS解析,IP解析</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/08/09/%E4%BB%A5shopify%E7%9A%84section%E6%96%B9%E6%A1%88%E5%AE%9E%E7%8E%B0%E6%A8%A1%E6%9D%BF%E6%96%87%E4%BB%B6%E9%A1%B5%E9%9D%A2%E5%B8%83%E5%B1%80%E7%9A%84%E8%87%AA%E7%94%B1%E5%88%87%E6%8D%A2/" rel="prev" title="以shopify的section方案实现模板文件页面布局的自由切换">
+      <i class="fa fa-chevron-left"></i> 以shopify的section方案实现模板文件页面布局的自由切换
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/08/14/%E5%9C%A8%E6%9C%AC%E5%9C%B0xampp%E9%9B%86%E6%88%90%E7%8E%AF%E5%A2%83%E4%B8%8B%E5%BC%80%E5%8F%91%E9%83%A8%E7%BD%B2tp5-1%E9%A1%B9%E7%9B%AE/" rel="next" title="在本地xampp集成环境下开发部署tp5.1项目">
+      在本地xampp集成环境下开发部署tp5.1项目 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BD%91%E7%AB%99%E4%B8%8A%E7%BA%BF%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E6%B3%95%EF%BC%9A"><span class="nav-number">1.</span> <span class="nav-text">网站上线的两种方法：</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,23 +1,2128 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-{% block title %}{{ config.title }}{% if theme.index_with_subtitle and config.subtitle %} - {{config.subtitle }}{% endif %}{% endblock %}
+<link rel="stylesheet" href="/css/main.css">
 
-{% block page_class %}
-  {% if is_home() %}page-home{% endif -%}
-{% endblock %}
 
-{% block content %}
-  <section id="posts" class="posts-expand">
-    {% for post in page.posts %}
-      {{ post_template.render(post, true) }}
-    {% endfor %}
-  </section>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-  {% include '_partials/pagination.swig' %}
-{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
 
-{% block sidebar %}
-  {{ sidebar_template.render(false) }}
-{% endblock %}
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/page/6/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/page/6/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
+            
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/01/08/wordpress%E7%9A%84enfold%E4%B8%BB%E9%A2%98%E6%89%8B%E6%9C%BA%E7%89%88%E8%8F%9C%E5%8D%95%E4%BC%98%E5%8C%96%E6%96%B9%E6%A1%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/01/08/wordpress%E7%9A%84enfold%E4%B8%BB%E9%A2%98%E6%89%8B%E6%9C%BA%E7%89%88%E8%8F%9C%E5%8D%95%E4%BC%98%E5%8C%96%E6%96%B9%E6%A1%88/" class="post-title-link" itemprop="url">wordpress的enfold主题手机版菜单优化方案</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-01-08 18:18:00" itemprop="dateCreated datePublished" datetime="2019-01-08T18:18:00+08:00">2019-01-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:03" itemprop="dateModified" datetime="2020-10-11T11:58:03+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/wordpress/" itemprop="url" rel="index"><span itemprop="name">wordpress</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>经常用wordpress的enfold主题，因此会有各种各样的需求，用过这个主题的人都会知道这个主题的菜单手机版有些奇怪的地方，比如在PC版设置了megamenu的时候，每个菜单项有链接的情况下会有个重复的出现，而此时如果想要有子集的菜单项添加了链接又不想要重复，那么如何解决这个问题？</p>
+<p><img src="https://i.imgur.com/gxPC198.jpg"></p>
+<p>如果想要不重复又不能添加链接，这样就很尴尬了。我们现在来说说如何解决这个问题吧！</p>
+<p>方案：插件(WP Mobile Menu)。</p>
+<p>插件名：<a target="_blank" rel="noopener" href="https://wordpress.org/plugins/mobile-menu/">WP Mobile Menu</a>，也可以在这个链接链接：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1UomTrmDxqJeDiVJ3efE8-g">https://pan.baidu.com/s/1UomTrmDxqJeDiVJ3efE8-g</a> 提取码：lell </p>
+<p>安装完毕后就是简单的设置一下即可，记得在手机版上看，PC版体现不出来的。至于选择在哪边显示出来自己设置即可。</p>
+<p><img src="https://i.imgur.com/5z2h07H.jpg"></p>
+<p>最后的效果：</p>
+<p><img src="https://i.imgur.com/Yy8SHr1.jpg"></p>
+<p>这个时候product那里是有链接的，点击文字的时候就进入product页面，点击右边的箭头就展开到子集。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/12/26/web%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E5%89%8D%E5%90%8E%E7%AB%AF%E7%9A%84%E8%AE%BE%E8%AE%A1%E5%BF%83%E5%BE%97%E4%BB%A5%E6%88%90%E7%86%9F%E7%9A%84%E4%BB%A3%E7%A0%81%E7%BB%93%E6%9E%84%E5%92%8C%E6%9E%B6%E6%9E%84%E6%80%9D%E6%83%B3%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/12/26/web%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E5%89%8D%E5%90%8E%E7%AB%AF%E7%9A%84%E8%AE%BE%E8%AE%A1%E5%BF%83%E5%BE%97%E4%BB%A5%E6%88%90%E7%86%9F%E7%9A%84%E4%BB%A3%E7%A0%81%E7%BB%93%E6%9E%84%E5%92%8C%E6%9E%B6%E6%9E%84%E6%80%9D%E6%83%B3%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">web程序设计前后端的设计心得以成熟的代码结构和架构思想笔记</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-12-26 10:35:27" itemprop="dateCreated datePublished" datetime="2018-12-26T10:35:27+08:00">2018-12-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:02" itemprop="dateModified" datetime="2020-10-11T11:58:02+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%BF%83%E5%BE%97/" itemprop="url" rel="index"><span itemprop="name">心得</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>今天总结下做开发来的这段时间的一些心得，做过网站，做过信息系统开发，做过前端开发，一个人把前后端都做了一遍，这些经历让我突然觉得很有必要写一些东西，时刻提醒自己不要放同样的错误，因为这一路过来几乎集齐了很多同行必犯的错误。</p>
+<p>最开始我们都是一样的，先做一个小项目，然后在这个项目的基础上逐步迭代，直到变成一个中型项目，这个过程会面临重构，版面大变化的情况。如何在这些变化中，在不同需求中灵活而快速的进行响应是很重要的，因此，一个良好的结构，良好的架构是很重要的。</p>
+<p>笔者的目标：</p>
+<ol>
+<li>方便添加内容，方便删除内容，装上即可用，并且不发生代码冲突。</li>
+<li>后端的各种功能要合理分配文件，不要把所有的代码都放在一个文件里面。</li>
+<li>自定义内容，就是项目中的内容不要在核心库中，如果要定制这个网站或者某个项目，也不要直接修改核心文件。</li>
+<li>前端HTML代码的ID和class要合理分配，并且合理命名。</li>
+<li>项目架构思想，关于系统安全的层层防护。</li>
+</ol>
+<h3 id="方便添加内容，方便删除内容，装上即可用，并且不发生代码冲突"><a href="#方便添加内容，方便删除内容，装上即可用，并且不发生代码冲突" class="headerlink" title="方便添加内容，方便删除内容，装上即可用，并且不发生代码冲突"></a>方便添加内容，方便删除内容，装上即可用，并且不发生代码冲突</h3><p>说说笔者的项目吧，就是做一个服务用户的H5应用，功能很单一，目标很明确，没有别的花哨的功能，追求单一。这个应该是比较小的了，因此最开始就是采用框架，快速的搭了一个出来，采用bootstrap这个前端框架，没有采用后端任何东西，请求全部采用ajax.所以form就没有怎么用。</p>
+<p>可能最开始就是一个类似表单的东西，然后进行查询，可是如果后面要添加东西，又要维持原来的风格，那么肯定是复制原来的代码，然后修改一些必要的信息，比如name等等，这些需要提交的东西。然后发起ajax请求，做个前端开发的读者可能很清楚，</p>
+<pre><code>&lt;script&gt;
+
+    var searchKey = new Object();
+    searchKey.wenlike = $(&quot;input[name=&#39;scoreWenlike&#39;]:checked&quot;).val();
+    searchKey.score = $(&quot;#score&quot;).val();
+    searchKey.nf = nf;
+    ...
+ &lt;/script&gt;</code></pre>
+<p>类似这样的，这个可能会存在一个安全隐患，万一哪天在后面追加了一个表单作为高级查询什么的，那么如果input这个里面name又是一样的情况，那么就会出现问题，因为这个访问没有缩小，意思就是在当前页面只要有name为scoreWenlike的input的输入框在选中的情况下都会被获取值，因此这样写是不合理的。正确的做法应该是前面添加一个ID，这样访问就缩小了。</p>
+<p>所以，笔者这里仅仅是举个例子，我们在设计一个轻量级应用的时候，最开始就要想好这个项目将来要是添加功能的时候能否方便添加内容，能否方便删除内容。</p>
+<p>所谓的装上就可以用，就是为了保持原有的风格，比如原本有一个表单的，左边是内容，右边是内容，那么我想再追加一个也要这样的风格，当然是复制原有的，又不要复制这个代码的ID（因为追加的这个算是一个新的功能块了），因此我们需要这块能够被复制的代码的原有样式全部是由class控制的，而不是通过id控制的。举例：</p>
+<p>原有的代码：（产品tab功能单元）</p>
+<pre><code>&lt;ul id=&quot;ChanpinTab&quot; class=&quot;nav&quot;&gt;
+    &lt;li class=&quot;active&quot;&gt;&lt;a href=&quot;#chanpinTab_generate&quot; data-toggle=&quot;tab&quot;&gt;产品常规查询&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;#chanpinTab_pro&quot; data-toggle=&quot;tab&quot;&gt;产品高级查询&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+<p>新追加一个服务类的代码：（复制产品查询的代码作为服务tab功能单元）</p>
+<pre><code>&lt;ul id=&quot;ServiceTab&quot; class=&quot;nav&quot;&gt;
+    &lt;li class=&quot;active&quot;&gt;&lt;a href=&quot;#serviceTab_generate&quot; data-toggle=&quot;tab&quot;&gt;产品常规查询&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;#serviceTab_pro&quot; data-toggle=&quot;tab&quot;&gt;产品高级查询&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+<p>ID改成新的，好的，这两个样式希望是一致的，那么为了确保一致，又不希望增加css代码量，那么最好的方法就是通过<code>nav</code>这个class来确定好整块的样式问题，切不可这样写css：</p>
+<pre><code>#ChanpinTab li&#123;
+  ...
+&#125;</code></pre>
+<p><strong>正确的做法：</strong></p>
+<pre><code>.nav li&#123;
+  ...
+&#125;</code></pre>
+<p>根据这种做法就可以做到前端那边想要追加一个功能单元，复制原有的然后内容稍作修改即可达到目的，js很多的话，可以根据功能单元的ID进行查找，快速定位这个功能对应的js位置。</p>
+<hr>
+<h3 id="后端的各种功能要合理分配文件，不要把所有的代码都放在一个文件里面"><a href="#后端的各种功能要合理分配文件，不要把所有的代码都放在一个文件里面" class="headerlink" title="后端的各种功能要合理分配文件，不要把所有的代码都放在一个文件里面"></a>后端的各种功能要合理分配文件，不要把所有的代码都放在一个文件里面</h3><p>这个问题跟前端的那个差不多，其实思想是一样的，一个控制器只完成一个功能需求，一个功能需求可能会包含多个小功能片段，每个小功能片段用一个实现，相互隔离，然后把这些小功能片段放在该控制器中，笔者以TP5作为例子，在我们的项目中可能会有<strong>微信支付模块</strong>，<strong>专业查询模块</strong>，<strong>院校查询模块</strong>，<strong>认证模块</strong>，<strong>用户信息模块</strong>等等。</p>
+<p>那么我们可以分别新建这些模块，每个模块对应一个控制器，每个控制器里面包含了一系列的方法，每个方法只为完成一个小功能单元。</p>
+<p><strong>危险的做法</strong>：把所有的这些模块都写在一个控制器里面，导致文件变得很臃肿，不方便分离。</p>
+<hr>
+<h3 id="自定义内容，就是项目中的内容不要在核心库中，如果要定制这个网站或者某个项目，也不要直接修改核心文件"><a href="#自定义内容，就是项目中的内容不要在核心库中，如果要定制这个网站或者某个项目，也不要直接修改核心文件" class="headerlink" title="自定义内容，就是项目中的内容不要在核心库中，如果要定制这个网站或者某个项目，也不要直接修改核心文件"></a>自定义内容，就是项目中的内容不要在核心库中，如果要定制这个网站或者某个项目，也不要直接修改核心文件</h3><p>这个问题很典型，也很重要，用过开源的开发者相信都会碰到，当客户需求千奇百怪的时候我们可能需要做很大个性化的事情，比如笔者最常用的wordpress，客户不太喜欢自己的网站后台登录地址是wordpress自带的logo，也不喜欢这个后台登录界面，需要大改。</p>
+<p>这个时候我们不要急着进去wordpress的源码里面修改，我们要做的是通过重写来覆盖这个原有的东西，说到重写那么就是在自定义区这块进行，而不是简单粗暴的改wordpress的核心代码。因为如果我们修改源码来达到目的，特别是wordpress这种开源的系统，会经常更新，版本经常升级，那么一旦升级了，我们对核心代码修改会被覆盖，打回原形，会不会很悲剧。</p>
+<p>再举一个例子，笔者比较喜欢TP5这个开源框架，然后写了一些东西，新建的控制器都会在application这个目录中。如果我们不按照章法来走，非得去修改TP5的核心代码<code>/thinkphp</code>这个目录中的东西来达到定制的目的。</p>
+<p><strong>后果会以这样的方式出现</strong>：最近爆出TP5有漏洞，需要把版本更新到最新版才可以避免被攻击，这个时候为了项目的安全，我们不得不升级版本，结果我们修改了核心代码，那么这些代码将会随着版本升级有被覆盖的风险，即使我们有别的方法可以防止覆盖，那么也有可能导致修改的这些代码跟新版本不兼容的风险出现。</p>
+<p>最好的方法还是一样的，定制的东西一定不要写在开源框架的源码里面去，这样的好处是显而易见的，就是我们可以放心的升级框架，放心的升级系统。</p>
+<hr>
+<h3 id="前端HTML代码的ID和class要合理分配，并且合理命名"><a href="#前端HTML代码的ID和class要合理分配，并且合理命名" class="headerlink" title="前端HTML代码的ID和class要合理分配，并且合理命名"></a>前端HTML代码的ID和class要合理分配，并且合理命名</h3><p>我们说下这个问题，这个问题是笔者用得最多的，而且做得最不好的地方，习惯不太好，经常乱命名，没有章法，也没有自己的一套理论。</p>
+<p>通常在一个HTML页面中，笔者认为应该有这样一个结构：</p>
+<ul>
+<li><p>有一个总的内容区（通常是body），设置一个ID</p>
+</li>
+<li><p>有一个公共头部区（通常是header），设置一个ID</p>
+</li>
+<li><p>有一个公共底部区（通常是footer），设置一个ID</p>
+</li>
+<li><p>中间区域设置一个主内容区（通常是main），设置一个ID</p>
+</li>
+</ul>
+<p>值得深入说明的地方是最后这个，在主内容区可能会根据各自的业务不同会很复杂，那么里面的这些应该如何规范呢？</p>
+<p>我们回忆一下前面第一点说的那里，我们应该要把这个区域切分很多块，每个块只负责一个功能单元，每个单元设置一个ID，所有的样式应该通过class来完成而不是ID。</p>
+<p>那么可能有的人就要问了，ID用来干嘛呢？</p>
+<p>ID用在js那边，由于这个是前端框架，我们会大量应用ajax发起一些请求，会获取dom的值，那么在获取dom值的问题上我们就需要通过ID来缩小范围，直接锁定dom的值是在哪个范围内的哪个值。</p>
+<p>这里就需要一个数据的提交了，如果这些值获取不是唯一的很显然到后端的时候是不能查询出数据的。</p>
+<p>另外一个问题就是，命名的问题，其实这个命名是困惑我们很久的问题，如何命名才算是最好的，没有标准答案。这里笔者不妨给出这样的一个建议，我们从ID来进行驼峰式命名，如果有嵌套式的情况是很合适的，比如：</p>
+<pre><code>&lt;div id=&quot;main&quot; class=&quot;container&quot;&gt;
+    &lt;div id=&quot;main_product&quot; class=&quot;cate&quot;&gt;
+        &lt;ul&gt;
+            &lt;li&gt;apple&lt;/li&gt;
+            &lt;li&gt;pear&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;main_service&quot; class=&quot;cate&quot;&gt;
+        &lt;ul&gt;
+            &lt;li&gt;food&lt;/li&gt;
+            &lt;li&gt;living&lt;/li&gt;
+        &lt;/ul&gt;
+        &lt;div id=&quot;main_service_food&quot;&gt;
+            &lt;p&gt;service some food&lt;/p&gt;
+        &lt;/div&gt;
+        &lt;div id=&quot;main_service_living&quot;&gt;
+            &lt;p&gt;service some living&lt;/p&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<p>这个里面笔者就用了一个，相信大家能够理解我要表达的意思了。因为ID是独一无二的，方便定位dom的位置。</p>
+<hr>
+<h3 id="项目架构思想，关于系统安全的层层防护"><a href="#项目架构思想，关于系统安全的层层防护" class="headerlink" title="项目架构思想，关于系统安全的层层防护"></a>项目架构思想，关于系统安全的层层防护</h3><p>这个来自一个大牛的指点，希望整理下，不要浪费了这份心血。</p>
+<p>关于项目的安全，是一个系统工程，需要系统性的去思考，笔者前面写的这些都是最里面的一层了，可是承载一个项目的还有其他的组成部分。</p>
+<ol>
+<li>服务器</li>
+<li>网络</li>
+<li>防火墙</li>
+<li>主动暴露</li>
+<li>路由</li>
+</ol>
+<p>这么这些都是如何组建的呢？如何配置会更安全和更合理，我们接着往下看：</p>
+<p>先来说下服务器，服务器里面有操作系统，有操作系统就有root账号，这个账号很特殊，因为它有最高权限。笔者这里说的是一种云平台，这种模式相比于经典模式会更灵活，需要自己创建和配置自己的虚拟机，自己搭建一切。</p>
+<p>那么在云平台里面搭建的一些虚拟机就组成了一个局域网，他们之间可以相互访问，可以相互通信，为了安全可以这样设置，</p>
+<p>禁止在局域网内尝试广播,因为这样设置可以防止某一台虚拟机被攻破了之后，直接就知道局域网内的其他主机。</p>
+<p>root权限的设置，为了防止别人穷举法试密码，可以在服务器设置不允许使用密码登录，这样即使别人知道了root的账号密码也没有用，却而代之的是采用密钥对的方式进行登录。</p>
+<p>通过几个常规的命令可以了解一些状态：</p>
+<pre><code>netstat     //查看网络状态
+nslookup     //通过域名查看IP
+ping          //查看网络连接是否畅通
+ipconfig      //查看当前主机的IP信息</code></pre>
+<p>防火墙，我们来说说这个，防火墙是一道云平台跟外网之间的厚厚的防护措施，防火墙之是用来防止进网规则的，允许哪些进来，而出去都要经过路由出去，真实的IP地址在云平台的路由那里，里面的所有虚拟机采用的都是内部IP。</p>
+<p>我们从外到内描述一下：</p>
+<p>最外层是服务器的防火墙，防火墙那里设置了暴露哪些端口供外部与内部通信，就是允许哪些端口能够访问进来；而路由这里定义了内部虚拟机与外部的通信，确保内部虚拟机能够上网。</p>
+<p>内部的各个虚拟机和路由属于同一个局域网环境下，可以相互访问，路由跟其他虚拟机有区别的地方在于，它还有个真实的IP地址，它是所有内部虚拟机访问外部的代理人。</p>
+<p>另外还有一个端口转发的规则，在开启的这些端口中，每台虚拟机有对应的端口，这样就可以被远程访问，这个端口转发要跟nginx的那个转发区分开来，所在的阶段不一样。</p>
+<p>本文后续会更新，敬请关注。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/12/26/javascript%E5%AE%9E%E7%8E%B0%E9%BC%A0%E6%A0%87%E6%BB%9A%E5%8A%A8%E5%88%B0%E6%9F%90%E4%B8%AA%E4%BD%8D%E7%BD%AE%E6%98%BE%E7%A4%BA%E6%8C%87%E5%AE%9A%E7%9A%84%E5%86%85%E5%AE%B9%EF%BC%8C%E5%86%85%E5%AE%B9%E6%BB%9A%E5%8A%A8%E9%80%9F%E5%BA%A6%E4%BC%9A%E9%9A%8F%E7%9D%80%E6%BB%9A%E5%8A%A8%E8%BF%9B%E8%A1%8C%E7%9B%B8%E5%BA%94%E7%9A%84%E5%8F%98%E5%8C%96%EF%BC%8C%E8%AF%A5%E5%86%85%E5%AE%B9%E5%8F%AF%E4%BB%A5%E5%85%81%E8%AE%B8%E5%9C%A8%E8%AE%BE%E5%AE%9A%E7%9A%84%E5%B1%8F%E5%B9%95%E8%8C%83%E5%9B%B4%E5%86%85%E8%BF%9B%E8%A1%8C%E7%9A%84%E6%BB%9A%E5%8A%A8%E4%BA%8B%E4%BB%B6%E7%9A%84%E5%93%8D%E5%BA%94/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/12/26/javascript%E5%AE%9E%E7%8E%B0%E9%BC%A0%E6%A0%87%E6%BB%9A%E5%8A%A8%E5%88%B0%E6%9F%90%E4%B8%AA%E4%BD%8D%E7%BD%AE%E6%98%BE%E7%A4%BA%E6%8C%87%E5%AE%9A%E7%9A%84%E5%86%85%E5%AE%B9%EF%BC%8C%E5%86%85%E5%AE%B9%E6%BB%9A%E5%8A%A8%E9%80%9F%E5%BA%A6%E4%BC%9A%E9%9A%8F%E7%9D%80%E6%BB%9A%E5%8A%A8%E8%BF%9B%E8%A1%8C%E7%9B%B8%E5%BA%94%E7%9A%84%E5%8F%98%E5%8C%96%EF%BC%8C%E8%AF%A5%E5%86%85%E5%AE%B9%E5%8F%AF%E4%BB%A5%E5%85%81%E8%AE%B8%E5%9C%A8%E8%AE%BE%E5%AE%9A%E7%9A%84%E5%B1%8F%E5%B9%95%E8%8C%83%E5%9B%B4%E5%86%85%E8%BF%9B%E8%A1%8C%E7%9A%84%E6%BB%9A%E5%8A%A8%E4%BA%8B%E4%BB%B6%E7%9A%84%E5%93%8D%E5%BA%94/" class="post-title-link" itemprop="url">javascript实现鼠标滚动到某个位置显示指定的内容(手持笔)，内容滚动速度会随着滚动进行相应的变化，该内容可以允许在设定的屏幕范围内进行的滚动事件的响应</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-12-26 09:08:51" itemprop="dateCreated datePublished" datetime="2018-12-26T09:08:51+08:00">2018-12-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:57" itemprop="dateModified" datetime="2020-10-11T11:57:57+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript/" itemprop="url" rel="index"><span itemprop="name">javascript</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>鼠标滚动到某个位置显示指定的内容，内容滚动速度会随着滚动进行相应的变化，该内容可以允许在设定的屏幕范围内进行的滚动事件的响应，这个是什么样的一个情况，我来几张图吧，</p>
+<p><img src="https://i.imgur.com/0edJlJR.jpg"></p>
+<p><img src="https://i.imgur.com/ldm2rYS.jpg"></p>
+<p>这个就是当鼠标滚动到有这个手持笔的图片所在的区域，那么就显示这个图和线条，当逐渐往下滑的时候，这个速度会缓慢加快，当滑动到有一张图片的时候，手持笔这个对象将停留下来不再继续往下划线。</p>
+<p>这个我们怎么实现？</p>
+<p>笔者这个方案是基于wordpress的enfold主题的，现在来讲解下如何实现。</p>
+<p>先创建一个页面，采用高级编辑器，选择grid row，并且对这个区块设置一个ID，名字随便取，笔者这里命名为：<code>donghua_pen</code></p>
+<p><img src="https://i.imgur.com/rmsAPnB.jpg"></p>
+<p>然后左边放置一些内容，右边放置手持笔，以及线条的代码，那么左边就不说了，上个截图吧，</p>
+<p><img src="https://i.imgur.com/eKaFwkt.jpg"></p>
+<p>为了观察得更清楚，建议左边内容可以多放些，右边的代码如下：</p>
+<pre><code>&lt;div class=&quot;drawing&quot;&gt;
+  &lt;div class=&quot;flmprt&quot;&gt;
+    &lt;div class=&quot;flment&quot;&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;drwlix&quot;&gt;
+        &lt;div class=&quot;anchor&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;style&gt;
+.flmprt .flment &#123;
+    position: absolute;
+    bottom: 37px;
+    left: 2px;
+    width: 5px;
+    height: 2100px;
+    margin-left: -2px;
+    background-color: #323232;
+    border-bottom-left-radius: 3px;
+    z-index: -1;
+&#125;
+.flmprt .drwlix &#123;
+    height: 610px;
+    width: 959px;
+    /*width: 100%;*/
+    background-image: url(&#39;/wp-content/uploads/2018/12/hand_uv.png&#39;);
+    background-repeat: no-repeat;
+    background-size: 100%;
+&#125;
+#donghua_pen&#123;
+    max-width: 1310px;
+    margin: auto;
+&#125;
+.mobilefixed&#123;
+    transition: 1s ease;
+    position: fixed !important;
+    top: 100px;
+    max-width:959px;
+&#125;
+.mobilefixed .drwlix&#123;
+    transition: 1s ease;
+&#125;
+.mobilefixed .flment&#123;
+    transition: 1s ease;
+    transition-delay: 0.5s;
+&#125;
+#main&gt;div&#123;
+    z-index: 2;
+&#125;
+#main #full_slider_1,#main .stretch_full&#123;
+    z-index: 9;
+&#125;
+
+@media(max-width: 767px)&#123;
+    .flmprt&#123;
+        display: none;
+    &#125;
+&#125;
+
+&lt;/style&gt;</code></pre>
+<p>这个里面包含了笔者调试后写的HTML代码和css代码，大家可以阅读下，仅仅作为参考，并不是最优方案，后面还可以进行优化的。接着我们在这个grid_row区块后面再新建一个区块，并且ID设置为man，里面添加一张图片。</p>
+<p><img src="https://i.imgur.com/CpwVEpF.png"></p>
+<p>手持笔的图片：</p>
+<p><img src="https://i.imgur.com/wt2VDDK.png"></p>
+<p>确保这些之后，我们再来看js代码，笔者把这个添加到header.php里面，在</head>之前添加如下代码：</p>
+<pre><code>&lt;script src=&quot;https://cdn.bootcss.com/jquery/2.2.4/jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+    var jQuery = $.noConflict(true);
+    jQuery(document).ready(function()&#123;
+        if(jQuery(&quot;#top&quot;).find(&quot;.anchor&quot;).length &gt;= 1)&#123;
+            var navH = jQuery(&quot;.anchor&quot;).offset().top;
+            console.log(&quot;navH位置:&quot;+navH);
+            var manH = jQuery(&quot;#main&quot;).offset().top;
+            console.log(&quot;manH位置:&quot;+manH);
+
+            if(jQuery(&quot;#main&quot;).width() &gt;= 768)&#123;
+                jQuery(window).scroll(function()&#123;
+                    var scroH = jQuery(this).scrollTop();
+                    var chajv2 = manH - scroH;
+                    console.log(&quot;当前位置：&quot;+scroH);
+
+                    if(scroH&lt;navH)&#123;
+                        jQuery(&quot;.flmprt&quot;).addClass(&quot;mobilefixed&quot;);
+                        jQuery(&quot;.flmprt .flment&quot;).css(&#123;&quot;opacity&quot;:(scroH/navH)&#125;);
+                        jQuery(&quot;.mobilefixed&quot;).css(&#123;&quot;top&quot;:100&#125;);
+                    &#125;else if((scroH &gt;= navH) &amp;&amp; (scroH &lt; manH))&#123;
+                        var aa = scroH - navH;
+                        jQuery(&quot;.mobilefixed&quot;).css(&#123;&quot;top&quot;:(aa/24)&#125;);
+                        jQuery(&quot;.flmprt .flment&quot;).css(&#123;&quot;opacity&quot;:(scroH/manH)&#125;);
+                    &#125;else if(scroH &gt;= manH)&#123;
+                        jQuery(&quot;.mobilefixed&quot;).css(&#123;&quot;top&quot;:chajv2&#125;);
+                        jQuery(&quot;.flmprt .flment&quot;).css(&#123;&quot;opacity&quot;:(manH/scroH)&#125;);
+                    &#125;
+
+                &#125;)
+            &#125;
+        &#125;
+    &#125;)
+&lt;/script&gt;</code></pre>
+<p>完毕！</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/12/24/wordpress%E4%BE%A7%E8%BE%B9%E6%A0%8F%E8%8F%9C%E5%8D%95%E9%BB%98%E8%AE%A4%E6%8A%98%E5%8F%A0%E6%8F%92%E4%BB%B6%E7%9A%84%E5%BA%94%E7%94%A8%E5%8F%8A%E7%BE%8E%E5%8C%96%E6%96%B9%E6%A1%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/12/24/wordpress%E4%BE%A7%E8%BE%B9%E6%A0%8F%E8%8F%9C%E5%8D%95%E9%BB%98%E8%AE%A4%E6%8A%98%E5%8F%A0%E6%8F%92%E4%BB%B6%E7%9A%84%E5%BA%94%E7%94%A8%E5%8F%8A%E7%BE%8E%E5%8C%96%E6%96%B9%E6%A1%88/" class="post-title-link" itemprop="url">wordpress侧边栏菜单默认折叠插件的应用及wordpress的enfold主题的手机版美化方案</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-12-24 17:38:03" itemprop="dateCreated datePublished" datetime="2018-12-24T17:38:03+08:00">2018-12-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:03" itemprop="dateModified" datetime="2020-10-11T11:58:03+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/wordpress/" itemprop="url" rel="index"><span itemprop="name">wordpress</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>很多时候我们在使用wordpress的时候，希望在页面添加一个小工具列，通过小工具调用创建的菜单，然后就可以实现类似左边是侧边栏，右边是内容的一个方案，不使用wordpress自带的侧边栏方案，这样更加灵活。这个时候有些人可能喜欢当有二级目录或者更多及子目录的时候，折叠起来，只显示一级目录。那么这个时候怎么办？</p>
+<p>最好的方案就是采用插件：<a target="_blank" rel="noopener" href="https://wordpress.org/plugins/netgo-expandablecollapsible-menu/">NetGo Expandable/Collapsible Menu</a>，也可以在这找到对应的下载链接：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/12R1ZxyzECWAvaRYqWUa1kA">https://pan.baidu.com/s/12R1ZxyzECWAvaRYqWUa1kA</a> 提取码：i9v1 </p>
+<p>安装完成之后，就去到小工具那里，新建一个小工具，</p>
+<p><img src="https://i.imgur.com/tYAlVVO.jpg"></p>
+<p>拖动Netgo Expandable/Collapsible Menu到自己创建的小工具：Industry Menu中，这里，就不必多说了，这里要引用菜单，所以我们要去菜单那里创建一个菜单，然后就从小工具这里选择创建的菜单即可。</p>
+<p>然后就是新建一个页面，分成1/5+4/5，这个比例根据自己的喜好来。这里笔者采用的是wordpress的enfold主题。</p>
+<p><img src="https://i.imgur.com/ifG7YnM.jpg"></p>
+<p>好的，去前台看的时候，确实有了默认折叠的，可是样式很丑，不好看，由于笔者经常用到所以打算美化一下，减少重复劳动。</p>
+<p>美化后的效果如下：</p>
+<p><img src="https://i.imgur.com/W9l3M7P.jpg"></p>
+<p>对应的css代码如下：</p>
+<pre><code>div.netgo_navigation ul, #main .widget-area div.netgo_navigation ul &#123;
+    margin-top: 10px !important;
+&#125;
+div.netgo_navigation ul li a&#123;
+    text-decoration:none !important;
+&#125;
+div.netgo_navigation li.menu-item-has-children &#123;
+   background: unset !important;
+   padding-right:10px !important;
+&#125;
+div.netgo_navigation li &#123;
+    padding: 10px 0px 10px 8px !important;
+    border-bottom: 1px solid #ddd;
+&#125;
+div.netgo_navigation ul ul li &#123;
+    margin-right: -10px !important;
+&#125;
+div.netgo_navigation ul ul li.menu-item-has-children li &#123;
+    margin-right: 0px !important;
+&#125;
+div.netgo_navigation li.menu-item-has-children:after &#123;
+   content: &quot;\276f&quot;;position:absolute;right:0px;z-index:99;
+   transform: rotate(90deg);
+&#125;
+div.netgo_navigation li.jihuo:after&#123;
+  content:&quot;\25C8&quot;;
+  position:absolute;
+  right:0px;
+  z-index:99
+&#125;
+div.netgo_navigation .sub-menu li&#123;
+  padding-right:0px !important;
+&#125;
+.widget_netgo_navigation&#123;
+   padding-top:0px;
+&#125;
+.widget_netgo_navigation .widgettitle&#123;
+   display:none;
+&#125;</code></pre>
+<p>直接粘贴使用即可。</p>
+<hr>
+<p>顺便粘贴下wordpress的enfold主题手机版美化后的css代码：</p>
+<pre><code>@media screen and (max-width: 767px)&#123;
+    #footer .widget &#123;
+        margin: 0px 0 0px 0 !important;
+    &#125;
+    #footer .widget .widgettitle &#123;
+        border-bottom: 1px solid !important;
+        padding-bottom: 8px;
+    &#125;
+    #footer p&#123;
+       font-size:12px !important;
+    &#125;
+    #footer &#123;
+        padding: 30px 0 0px 0 !important;
+    &#125;
+    #footer .widget .widgettitle&#123;
+        margin-top:0px !important;
+    &#125;
+    .responsive #top #wrap_all .container &#123;
+        width: 100% !important;
+        max-width: 94% !important;
+    &#125;
+    .responsive #top #wrap_all .av-flex-cells .no_margin &#123;
+        padding-left: 2% !important;
+        padding-right: 2% !important;
+    &#125;
+    .responsive #top #wrap_all .container .content&#123;    
+         padding-top: 15px;
+         padding-bottom: 15px;
+    &#125;
+&#125;</code></pre>
+<p>最后手机版底部的样式如下：</p>
+<p><img src="https://i.imgur.com/nODNJYs.jpg"></p>
+<hr>
+<p>wordpress的enfold主题采用image的caption那里鼠标悬浮特效的代码：</p>
+<p>新建一个区块，在这个区块添加一个ID并且命名为：industry_grid_row，后台设置截图：</p>
+<p><img src="https://i.imgur.com/ZFmAxz6.jpg"></p>
+<p>添加了图片之后，点击这个进入里面，看下设置：</p>
+<p><img src="https://i.imgur.com/SIrVqJx.jpg"></p>
+<p><img src="https://i.imgur.com/2Jf4DXA.jpg"></p>
+<p>这些地方设置好了之后，我们看下上面截图中的caption里面的代码：</p>
+<pre><code>&lt;div class=&quot;Industry_picture_text_box&quot;&gt;
+    &lt;h2&gt;Medical Devices&lt;/h2&gt;
+    &lt;p&gt;A venenatis nullam adipiscing venenatis vestibulum amet ridiculus.&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+<p>这个就是里面的自定义代码了。</p>
+<p>为了让默认隐藏的东西当鼠标悬停的时候显示出来，而且缓慢的过渡那种显示方式，需要我们用点技巧，如果默认的隐藏（dispaly:none），鼠标悬浮显示（display:block）这种方式没有过渡效果，即使添加了也没有用。</p>
+<p>最后笔者的代码如下：</p>
+<pre><code>#industry_grid_row .avia-image-overlay-wrap&#123;
+    position: relative;
+    overflow: hidden;
+&#125;
+#industry_grid_row .av-image-caption-overlay-center&#123;
+    padding:0px !important;
+&#125;
+.Industry_picture_text_box&#123;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 15px 15px 15px 15px;
+    color: #fff;
+    position: absolute;
+    margin-bottom: 0px;
+    bottom: 0px;
+    width: 100%;
+&#125;
+.Industry_picture_text_box h2&#123;
+    color:#fff;
+    font-size: 24px;
+&#125;
+.Industry_picture_text_box p&#123;
+    transform: translateY(100%);
+    transition: 0.8s ease;
+    font-size: 14px;
+    position: absolute;
+    line-height: 1.5em;
+&#125;
+#industry_grid_row .avia-image-container-inner:hover .Industry_picture_text_box p&#123;
+    transform: translateY(0%);
+    position: relative;
+&#125;
+#industry_grid_row .avia-image-container-inner img.avia_image&#123;
+    transition: 0.8s ease;
+&#125;
+#industry_grid_row .avia-image-container-inner:hover img.avia_image&#123;
+    transform: scale(1.1);
+&#125;</code></pre>
+<p>当然这个都是基于这个主题的，如果不是采用这个主题那么将不会生效。为了给读者更多的启发，笔者把代码结构粘贴一下：</p>
+<pre><code>&lt;div class=&quot;avia-image-container-inner&quot;&gt;
+    &lt;div class=&quot;avia-image-overlay-wrap&quot;&gt;
+        &lt;div class=&quot;av-image-caption-overlay&quot;&gt;
+            &lt;div class=&quot;av-caption-image-overlay-bg&quot; style=&quot;opacity:0.1; &quot;&gt;&lt;/div&gt;
+            &lt;div class=&quot;av-image-caption-overlay-position&quot;&gt;
+                &lt;div class=&quot;av-image-caption-overlay-center&quot;&gt;
+                    &lt;div class=&quot;Industry_picture_text_box&quot;&gt;
+                        &lt;h2&gt;Medical Devices&lt;/h2&gt;
+                        &lt;p&gt;A venenatis nullam adipiscing venenatis vestibulum amet ridiculus.&lt;/p&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;img class=&quot;avia_image&quot; src=&quot;/wp-content/uploads/2018/12/senri-inner-page-design-industry-picture3-1.png&quot; itemprop=&quot;thumbnailUrl&quot;&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<p>如果大家在自己写纯HTML代码的时候，想要有这种效果不妨参考下，当然还有更多更好的方法可以实现这个效果。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/12/22/magento1-x%E4%BA%A7%E5%93%81%E5%88%86%E7%B1%BB%E9%A1%B5%E4%B8%AD%E7%9A%84%E4%BA%A7%E5%93%81%E5%88%97%E8%A1%A8%E6%98%BE%E7%A4%BA%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B1%9E%E6%80%A7%E5%90%8D%EF%BC%8C%E6%AF%94%E5%A6%82model-brand-sku-partNo%E7%AD%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/12/22/magento1-x%E4%BA%A7%E5%93%81%E5%88%86%E7%B1%BB%E9%A1%B5%E4%B8%AD%E7%9A%84%E4%BA%A7%E5%93%81%E5%88%97%E8%A1%A8%E6%98%BE%E7%A4%BA%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B1%9E%E6%80%A7%E5%90%8D%EF%BC%8C%E6%AF%94%E5%A6%82model-brand-sku-partNo%E7%AD%89/" class="post-title-link" itemprop="url">magento1.x产品分类页中的产品列表显示自定义属性名，比如model,brand,sku,partNo等</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-12-22 11:01:44" itemprop="dateCreated datePublished" datetime="2018-12-22T11:01:44+08:00">2018-12-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:58" itemprop="dateModified" datetime="2020-10-11T11:57:58+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/magento1/" itemprop="url" rel="index"><span itemprop="name">magento1</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>如何在magento1.x版的产品分类页（这里说明一下，笔者采用的是porto主题）中显示更多的产品自定义属性，比如model,brand,sku,partNo这些不是magento自带的特有属性值，这个源自客户的一个需求，想要显示更多的自定义属性，以便让客户一目了然，不用进入详情页去购买了。</p>
+<p>先来一张图吧，最开始是这样的：</p>
+<p><img src="https://i.imgur.com/FLrFb8n.jpg"></p>
+<p>客户要求是这样的：</p>
+<p><img src="https://i.imgur.com/CuxsBOH.jpg"></p>
+<p>当然，这里仅仅是演示，可能客户需求还会更多，需要显示更多的内容，那么这个是怎么做的？</p>
+<p>通过开发者工具，我们找到产品分类页的模板文件，这里就以笔者的主题为例吧，这里有好几个地方，有些是过滤类的分类模板文件，有些是自带的分类页模板，比如笔者从首页的后台编辑那里看到，获取产品列表的对应代码如下：</p>
+<pre><code>&#123;&#123;block type="filterproducts/latest_home_list" name="featured_list" category_id="10" product_count="10" column_count="5" template="filterproducts/flex_grid.phtml"&#125;&#125;</code></pre>
+<p>那么这个的模板文件就是，</p>
+<pre><code>/app/design/frontend/smartwave/porto/template/filterproducts/flex_grid.phtml</code></pre>
+<p>然后，我们逐个了解下的其他产品分类获取的对应模板文件，比如有些是，</p>
+<pre><code>&#123;&#123;block type="filterproducts/latest_home_list" name="featured_list" category_id="10" product_count="10" column_count="5" template="filterproducts/grid.phtml"&#125;&#125;</code></pre>
+<p>那么这个对应的模板文件就是，</p>
+<pre><code>/app/design/frontend/smartwave/porto/template/filterproducts/grid.phtml</code></pre>
+<p>而有些是，</p>
+<pre><code>&#123;&#123;block type="filterproducts/latest_home_list" name="featured_list" category_id="10" product_count="10" column_count="5" template="filterproducts/listing.phtml"&#125;&#125;</code></pre>
+<p>那么，对应的模板文件就是，</p>
+<pre><code>/app/design/frontend/smartwave/porto/template/filterproducts/listing.phtml</code></pre>
+<p>当然，仅仅通过这个估计还有些地方会漏掉，那么我们可以来到源码的目录，</p>
+<pre><code>/app/design/frontend/smartwave/porto/template/catalog/product/</code></pre>
+<p>这个里面，这里是存放的是关于目录下的产品有关的模板文件，如果想要修改分类之类的模板文件那么可以在目录，</p>
+<pre><code>/app/design/frontend/smartwave/porto/template/catalog/category/</code></pre>
+<p>这个下面进行修改，当然这不是绝对的，不同主题，位置会有所不同，希望这样解释能够对大家定制这个模板文件有所启发。</p>
+<p>好的，当我们找到对应的模板文件后，剩下的就两件事，</p>
+<p><strong>第一：</strong></p>
+<p>在后台创建我们需要的这些自定义属性，并且让这些属性显示在前台，属性设置那里有选择的，设置完毕后，我们就可以在后台产品编辑那里看到我们添加的自定义属性，然后就是添加对应的值。</p>
+<p><strong>第二：</strong></p>
+<p>调用后台添加的自定义属性显示到前台，在产品分类页的产品列表那里显示出来，方法如下：</p>
+<pre><code>&lt;p&gt;Brand：
+    &lt;?php
+        $attributes = $_product-&gt;getAttributes();  
+        echo $attributes[&#39;brand&#39;]-&gt;getFrontend()-&gt;getValue($_product);  
+    ?&gt;
+&lt;/p&gt;</code></pre>
+<p>解释一下：这里的brand是我们在创建这个自定义属性那里的code值，</p>
+<p><img src="https://i.imgur.com/N7TpZe3.jpg"></p>
+<p>如果想要了解详细点可以阅读笔者的另外一篇文章：<a href="/2018/05/12/magento%E4%BA%A7%E5%93%81%E5%88%97%E8%A1%A8%E4%B8%AD%E6%98%BE%E7%A4%BA%E5%85%8D%E8%BF%90%E8%B4%B9%E5%92%8C%E5%90%8E%E5%8F%B0%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B1%9E%E6%80%A7%E6%98%BE%E7%A4%BA%E5%88%B0%E5%89%8D%E5%8F%B0%E4%BA%A7%E5%93%81%E4%BB%B7%E6%A0%BC%E5%8C%BA%E5%9F%9F/">magento产品列表中显示免运费和后台自定义属性显示到前台产品价格区域</a></p>
+<p>为了更好点笔者稍微完善了一下，最后如下：</p>
+<pre><code>&lt;p class=&quot;nocti_custom_attributes&quot;&gt;
+    &lt;span class=&quot;nocti_model&quot;&gt;
+        &lt;?php
+        $attributes = $_product-&gt;getAttributes();
+        if ($attributes[&#39;model&#39;]-&gt;getFrontend()-&gt;getValue($_product)) &#123;
+            $attributes = $_product-&gt;getAttributes();  
+            echo &quot;&lt;i&gt;Model:&lt;/i&gt;&quot;.$attributes[&#39;model&#39;]-&gt;getFrontend()-&gt;getValue($_product);  
+        &#125;
+        ?&gt;
+    &lt;/span&gt;
+    &lt;span class=&quot;nocti_brand&quot;&gt;
+        &lt;?php
+        if ($attributes[&#39;brand&#39;]-&gt;getFrontend()-&gt;getValue($_product)) &#123;
+            $attributes = $_product-&gt;getAttributes();   
+            echo &quot;&lt;i&gt;Brand:&lt;/i&gt;&quot;.$attributes[&#39;brand&#39;]-&gt;getFrontend()-&gt;getValue($_product);  
+        &#125;
+        ?&gt;
+    &lt;/span&gt;
+    &lt;span class=&quot;nocti_sku&quot;&gt;
+        &lt;?php
+        if ($attributes[&#39;sku&#39;]-&gt;getFrontend()-&gt;getValue($_product)) &#123;  
+            echo &quot;&lt;i&gt;SKU:&lt;/i&gt;&quot;.$attributes[&#39;sku&#39;]-&gt;getFrontend()-&gt;getValue($_product);  
+        &#125;
+        ?&gt;
+    &lt;/span&gt;
+&lt;/p&gt;</code></pre>
+<p>这里笔者调用了两个自定义属性，另外一个：sku是magento系统自带的，这里由于这两个自定义属性没有设置必填，所以有可能是没有填写东西的，比如brand，有些产品是没有brand的，那么这个时候我们做个判断，如果有这个值就显示，没有就不显示，这个会更符合常理。</p>
+<p>然后，把这个代码让在我们想要的位置即可。笔者通过开发者工具定位到产品的名字：<code>product-name</code>，</p>
+<pre><code>&lt;h2 class=&quot;product-name&quot;&gt;&lt;a href=&quot;&lt;?php echo $_product-&gt;getProductUrl() ?&gt;&quot; title=&quot;&lt;?php echo $this-&gt;stripTags($_product-&gt;getName(), null, true) ?&gt;&quot;&gt;&lt;?php echo $_helper-&gt;productAttribute($_product, $_product-&gt;getName(), &#39;name&#39;) ?&gt;&lt;/a&gt;&lt;/h2&gt;</code></pre>
+<p>然后就可以在这个后面添加代码，添加之后的结果：</p>
+<pre><code>&lt;h2 class=&quot;product-name&quot;&gt;&lt;a href=&quot;&lt;?php echo $_product-&gt;getProductUrl() ?&gt;&quot; title=&quot;&lt;?php echo $this-&gt;stripTags($_product-&gt;getName(), null, true) ?&gt;&quot;&gt;&lt;?php echo $_helper-&gt;productAttribute($_product, $_product-&gt;getName(), &#39;name&#39;) ?&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p class=&quot;nocti_custom_attributes&quot;&gt;
+    &lt;span class=&quot;nocti_model&quot;&gt;
+        &lt;?php
+        $attributes = $_product-&gt;getAttributes();
+        if ($attributes[&#39;model&#39;]-&gt;getFrontend()-&gt;getValue($_product)) &#123;
+            $attributes = $_product-&gt;getAttributes();  
+            echo &quot;&lt;i&gt;Model:&lt;/i&gt;&quot;.$attributes[&#39;model&#39;]-&gt;getFrontend()-&gt;getValue($_product);  
+        &#125;
+        ?&gt;
+    &lt;/span&gt;
+    &lt;span class=&quot;nocti_brand&quot;&gt;
+        &lt;?php
+        if ($attributes[&#39;brand&#39;]-&gt;getFrontend()-&gt;getValue($_product)) &#123;
+            $attributes = $_product-&gt;getAttributes();   
+            echo &quot;&lt;i&gt;Brand:&lt;/i&gt;&quot;.$attributes[&#39;brand&#39;]-&gt;getFrontend()-&gt;getValue($_product);  
+        &#125;
+        ?&gt;
+    &lt;/span&gt;
+    &lt;span class=&quot;nocti_sku&quot;&gt;
+        &lt;?php
+        if ($attributes[&#39;sku&#39;]-&gt;getFrontend()-&gt;getValue($_product)) &#123;  
+            echo &quot;&lt;i&gt;SKU:&lt;/i&gt;&quot;.$attributes[&#39;sku&#39;]-&gt;getFrontend()-&gt;getValue($_product);  
+        &#125;
+        ?&gt;
+    &lt;/span&gt;
+&lt;/p&gt;</code></pre>
+<p>搞定！</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/12/21/jquery%E6%96%B9%E5%BC%8F%E5%AE%9E%E7%8E%B0%E9%BC%A0%E6%A0%87%E6%BB%9A%E5%8A%A8%E6%9F%90%E4%B8%AA%E7%AA%97%E5%8F%A3%E4%BD%8D%E7%BD%AEdom%E8%8A%82%E7%82%B9%E5%9B%BA%E5%AE%9A%E4%B8%8D%E5%8A%A8%EF%BC%8C%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3js%E4%BB%A3%E7%A0%81%E6%94%BE%E5%9C%A8%E5%85%AC%E5%85%B1%E5%A4%B4%E9%83%A8%E6%88%96%E8%80%85%E5%B0%BE%E9%83%A8%E7%9A%84%E6%97%B6%E5%80%99%E5%BC%95%E8%B5%B7%E7%9A%84%E6%8A%A5%E9%94%99-Cannot-read-property-xxx-of-undefined/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/12/21/jquery%E6%96%B9%E5%BC%8F%E5%AE%9E%E7%8E%B0%E9%BC%A0%E6%A0%87%E6%BB%9A%E5%8A%A8%E6%9F%90%E4%B8%AA%E7%AA%97%E5%8F%A3%E4%BD%8D%E7%BD%AEdom%E8%8A%82%E7%82%B9%E5%9B%BA%E5%AE%9A%E4%B8%8D%E5%8A%A8%EF%BC%8C%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3js%E4%BB%A3%E7%A0%81%E6%94%BE%E5%9C%A8%E5%85%AC%E5%85%B1%E5%A4%B4%E9%83%A8%E6%88%96%E8%80%85%E5%B0%BE%E9%83%A8%E7%9A%84%E6%97%B6%E5%80%99%E5%BC%95%E8%B5%B7%E7%9A%84%E6%8A%A5%E9%94%99-Cannot-read-property-xxx-of-undefined/" class="post-title-link" itemprop="url">jquery方式实现鼠标滚动某个窗口位置dom节点固定不动，以及解决js代码放在公共头部或者尾部的时候引起的报错:Cannot read property 'xxx' of undefined</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-12-21 16:38:35" itemprop="dateCreated datePublished" datetime="2018-12-21T16:38:35+08:00">2018-12-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:58" itemprop="dateModified" datetime="2020-10-11T11:57:58+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript/" itemprop="url" rel="index"><span itemprop="name">javascript</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>根据这个长长的标题就可以看出笔者是一个非常啰嗦的人，这里就为了记录两个问题的解决方案。</p>
+<ol>
+<li>网站的侧边栏或者网站的某个位置，由于内容区东西比较多，随着不断往下滚动，侧边栏就滚出窗口区，体验非常不好，所以想要在滚动到快要移出窗口的时候，固定在顶部或者某个位置，以便随时点击。</li>
+<li>笔者在使用wordpress建网站的时候，经常会在header.php或者footer.php里面添加一些自定义的js代码，比如笔者想要在woocommerce产品详情页处理点击图片弹出视频，而同时又在portfolio页面希望滚动的时候，侧边栏固定不动，以便查看。</li>
+</ol>
+<p>从这两个问题中可以看出，都是需要写一写js在公共文件里面，而公共文件中的代码会在每一个页面被执行，那么问题就来了，如果在portfolio页面，那么jquery获取woocommerce产品详情页的dom的时候，就会报错，</p>
+<pre><code>Cannot read property &#39;xxx&#39; of undefined    //xxx是woocommerce产品详情页的的通过jquery获取的dom节点。</code></pre>
+<p>这个报错是很正常的，很显然在portfolio页面是没有woocomemrce的产品详情页的节点的。同样的，当我们在woocommerce产品详情页的时候，我们通过开发者工具会发现还是报错，同样的错误只是，</p>
+<pre><code>Cannot read property &#39;xxx&#39; of undefined   //这里的xxx是portfolio详情页的通过jquery获取的某个dom的节点</code></pre>
+<p>那么出现这样的问题，我们该如何解决呢？方法很简单，我们先判断一下，当前页是否有某个dom节点，比如某个ID，某个class。如果有才执行相关的js代码。这里会用到jquery的一个find方法。</p>
+<p>好的，我们回到以上这两个问题的<strong>第一个</strong>：</p>
+<p>笔者已经在博客中写了相关的一篇文章，里面有案例，当然笔者还是愿意再次进行讲解下，这里以wordpress的主题enfold为例.</p>
+<p>笔者打算采用小工具的方法创建一个侧边栏，这里没有要求必须也要这样用，你们可以自己同html弄一个侧边栏的dom出来也行。</p>
+<p><img src="https://i.imgur.com/Tio75LG.jpg"></p>
+<p>右边就是调用一个portfolio的分类，这里大家也可以忽略，这里只是顺带说一下，目的就是想让右边区域有点东西填充，前台是这样的，</p>
+<p><img src="https://i.imgur.com/KXM8e4F.jpg"></p>
+<p>看到这个，想必大家知道我的目的了，就是让左边的那个侧边栏随着鼠标往下滚动的时候，固定在视口的顶部，笔者这里是调用小工具，而小工具是调用自定义菜单，好的都创建好了后，根据开发者工具，</p>
+<p><img src="https://i.imgur.com/GiY8g9m.jpg"></p>
+<p>我们选择了合适的dom，这里有个id为<code>menu-products</code>，那么这个就是我们要确定的dom了。确定好了后，我们就在footer.php最底部，也就是<code>&lt;/body&gt;</code>的前面添加js代码：</p>
+<pre><code>&lt;script src=&quot;http://code.jquery.com/jquery-2.1.4.min.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+    var jQuery = $.noConflict(true);
+    jQuery(document).ready(function()&#123;
+      if(jQuery(&quot;#top&quot;).find(&quot;#menu-products&quot;).length &gt;= 1)&#123;
+        var navH = jQuery(&quot;#menu-products&quot;).offset().top;
+        if(jQuery(&quot;#main&quot;).width() &gt;= 768)&#123;
+            jQuery(window).scroll(function()&#123;
+                var scroH = jQuery(this).scrollTop();
+                if(scroH&gt;=(navH - 50))&#123;
+                  jQuery(&quot;#menu-products&quot;).addClass(&quot;mobilefixed&quot;);
+              &#125;else if(scroH&lt;navH)&#123;
+                jQuery(&quot;#menu-products&quot;).removeClass(&quot;mobilefixed&quot;);
+              &#125;
+            &#125;)
+        &#125;
+      &#125;
+
+    &#125;)
+&lt;/script&gt;</code></pre>
+<p>这里说明如下：</p>
+<p>先查找一下是否含有id为<code>menu-products</code>的dom，</p>
+<pre><code>jQuery(&quot;#top&quot;).find(&quot;#menu-products&quot;)</code></pre>
+<p>其中top是enfold最上一级的dom，我们可以新建一个页面测试一下,</p>
+<pre><code>console.log(jQuery(&quot;#top&quot;).find(&quot;#menu-products&quot;).length)</code></pre>
+<p>如果存在那么这个dom节点的长度肯定是大于或者等于1的。顺便说一下这里这里用了一个媒体查询，这个只有在宽度大于768px的时候执行，</p>
+<pre><code>jQuery(&quot;#main&quot;).width() &gt;= 768</code></pre>
+<p>滚动鼠标固定dom节点核心代码，</p>
+<pre><code>jQuery(window).scroll(function()&#123;
+  var scroH = jQuery(this).scrollTop();
+  if(scroH&gt;=(navH - 50))&#123;
+      jQuery(&quot;#menu-products&quot;).addClass(&quot;mobilefixed&quot;);
+  &#125;else if(scroH&lt;navH)&#123;
+    jQuery(&quot;#menu-products&quot;).removeClass(&quot;mobilefixed&quot;);
+  &#125;
+&#125;)</code></pre>
+<p>这里为什么要减去50px呢，由于笔者测试的网站头部导航栏是固定的，就是滚动后，顶部菜单栏是固定在上方的，不滚出视口。而顶部固定的菜单栏的高度是50px，如果头部菜单在鼠标滚动的时候不固定的话，就不需要减去50px了。</p>
+<p>根据核心代码，就可以看出笔者的思路就是动态添加class，然后通过css来控制这个id在鼠标滚动过程中的样式。其中，mobilefixed代码：</p>
+<pre><code>.mobilefixed&#123;
+    top: 120px !important;
+    max-width:248px;
+    position: fixed !important;
+&#125;</code></pre>
+<p>为了更好的自适应，笔者写了一些媒体查询：</p>
+<pre><code>@media (min-width:1024px) and (max-width:1240px)&#123;
+.mobilefixed &#123;
+    max-width: 210px !important;
+&#125;
+&#125;
+
+@media (min-width:768px) and (max-width:1023px)&#123;
+.mobilefixed &#123;
+    max-width: 145px !important;
+&#125;
+&#125;
+
+@media screen and (max-width: 767px)&#123;
+.mobilefixed &#123;
+    max-width: 100% !important;
+&#125;
+&#125;</code></pre>
+<p>这个就算完成了，这类问题相信大家在阅读完笔者的这个方法之后也会迎刃而解。</p>
+<p><strong>第二个问题</strong></p>
+<p>这个问题前面也已经说了一遍了，方法其实在第一个问题里面解决了，笔者粘贴一下解决之前的代码：</p>
+<pre><code>&lt;script src=&quot;http://code.jquery.com/jquery-2.1.4.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://cdn.bootcss.com/layer/2.3/layer.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+  var jQuery = $.noConflict(true);
+  jQuery(document).ready(function()&#123;
+    var navH = jQuery(&quot;#menu-products&quot;).offset().top;
+    if(jQuery(&quot;#main&quot;).width() &gt;= 768)&#123;
+        jQuery(window).scroll(function()&#123;
+            var scroH = jQuery(this).scrollTop();
+             if(scroH&gt;=(navH - 50))&#123;
+              jQuery(&quot;#menu-products&quot;).addClass(&quot;mobilefixed&quot;);
+          &#125;else if(scroH&lt;navH)&#123;
+            jQuery(&quot;#menu-products&quot;).removeClass(&quot;mobilefixed&quot;);
+          &#125;
+        &#125;)
+    &#125;
+
+    var mediaPoster = document.getElementById(&quot;myVideo&quot;).poster;
+    var videoSrc = document.getElementById(&quot;myVideo&quot;).src;
+    jQuery(&quot;myVideo&quot;).css(&#123;&quot;display&quot;:&quot;none&quot;&#125;);
+    if(videoSrc)&#123;
+      jQuery(&quot;.flex-control-thumbs&quot;).append(&quot;&lt;li class=&#39;videlayer&#39;&gt;&lt;img src=&quot;+mediaPoster+&quot;&gt;&lt;/li&gt;&quot;);
+      jQuery(&quot;.videlayer&quot;).on(&quot;click&quot;,&quot;img&quot;,function()&#123;
+          ;!function()&#123;
+          layer.open(&#123;
+            type: 1,
+            title: &#39;myvideo&#39;,
+            area: [&#39;600px&#39;,&#39;400px&#39;],
+            shade: 0.8,
+            closeBtn: 1,
+            shadeClose: true,
+            content: &#39;&lt;video src=&#39;+videoSrc+&#39; controls=&quot;controls&quot; loop=&quot;loop&quot; autoplay=&quot;autoplay&quot;&gt;&lt;/video&gt;&#39;
+          &#125;);
+          &#125;();
+       &#125;);
+    &#125;
+
+  &#125;)
+&lt;/script&gt;</code></pre>
+<p><strong>修改之后的代码如下：</strong></p>
+<pre><code>&lt;script src=&quot;http://code.jquery.com/jquery-2.1.4.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://cdn.bootcss.com/layer/2.3/layer.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+    var jQuery = $.noConflict(true);
+    jQuery(document).ready(function()&#123;
+      if(jQuery(&quot;#top&quot;).find(&quot;#menu-products&quot;).length &gt;= 1)&#123;
+        var navH = jQuery(&quot;#menu-products&quot;).offset().top;
+        if(jQuery(&quot;#main&quot;).width() &gt;= 768)&#123;
+            jQuery(window).scroll(function()&#123;
+                var scroH = jQuery(this).scrollTop();
+                if(scroH&gt;=(navH - 50))&#123;
+                  jQuery(&quot;#menu-products&quot;).addClass(&quot;mobilefixed&quot;);
+              &#125;else if(scroH&lt;navH)&#123;
+                jQuery(&quot;#menu-products&quot;).removeClass(&quot;mobilefixed&quot;);
+              &#125;
+            &#125;)
+        &#125;
+      &#125;
+
+      if (jQuery(&quot;#top&quot;).find(&quot;#myVideo&quot;).length &gt;= 1) &#123;
+
+        var mediaPoster = document.getElementById(&quot;myVideo&quot;).poster;
+        var videoSrc = document.getElementById(&quot;myVideo&quot;).src;
+        jQuery(&quot;myVideo&quot;).css(&#123;&quot;display&quot;:&quot;none&quot;&#125;);
+        if(videoSrc)&#123;
+          jQuery(&quot;.flex-control-thumbs&quot;).append(&quot;&lt;li class=&#39;videlayer&#39;&gt;&lt;img src=&quot;+mediaPoster+&quot;&gt;&lt;/li&gt;&quot;);
+          jQuery(&quot;.videlayer&quot;).on(&quot;click&quot;,&quot;img&quot;,function()&#123;
+              ;!function()&#123;
+              layer.open(&#123;
+                type: 1,
+                title: &#39;myvideo&#39;,
+                area: [&#39;600px&#39;,&#39;400px&#39;],
+                shade: 0.8,
+                closeBtn: 1,
+                shadeClose: true,
+                content: &#39;&lt;video src=&#39;+videoSrc+&#39; controls=&quot;controls&quot; loop=&quot;loop&quot; autoplay=&quot;autoplay&quot;&gt;&lt;/video&gt;&#39;
+              &#125;);
+              &#125;();
+           &#125;);
+        &#125;
+
+      &#125;
+
+    &#125;)
+&lt;/script&gt;</code></pre>
+<p><strong>说明</strong>：第二个问题就是笔者想要在woocommerce产品详情页点击图片显示视频的弹窗方案，这里需要引入layer.js，然后就是自己设置dom节点或者通过开发者工具获取dom节点，这里笔者设置的节点id为：myVideo。</p>
+<p>如果读者有兴趣了解第二个问题的更为详细的信息，可以阅读笔者另外的一篇文章：<a target="_blank" rel="noopener" href="http://helongquan.com/2018/12/11/wordpress%E7%9A%84enfold%E4%B8%BB%E9%A2%98%E4%B8%AD%E7%9A%84woocommerce%E4%BA%A7%E5%93%81%E5%8D%95%E9%A1%B5%E4%BA%A7%E5%93%81%E7%9B%B8%E5%86%8C%E4%BD%8D%E7%BD%AE%E5%B5%8C%E5%85%A5%E8%A7%86%E9%A2%91%E6%96%B9%E6%A1%88/#more">wordpress的enfold主题中的woocommerce产品单页产品相册位置嵌入视频方案</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/12/19/%E9%80%9A%E8%BF%87%E9%87%8D%E5%86%99url%E7%9A%84%E6%96%B9%E5%BC%8F%E5%AE%9E%E7%8E%B0%E5%9C%A8magento%E8%8F%9C%E5%8D%95%E4%BD%8D%E7%BD%AE%E6%B7%BB%E5%8A%A0%E8%87%AA%E5%AE%9A%E4%B9%89%E9%93%BE%E6%8E%A5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/12/19/%E9%80%9A%E8%BF%87%E9%87%8D%E5%86%99url%E7%9A%84%E6%96%B9%E5%BC%8F%E5%AE%9E%E7%8E%B0%E5%9C%A8magento%E8%8F%9C%E5%8D%95%E4%BD%8D%E7%BD%AE%E6%B7%BB%E5%8A%A0%E8%87%AA%E5%AE%9A%E4%B9%89%E9%93%BE%E6%8E%A5/" class="post-title-link" itemprop="url">通过重写url的方式实现在magento菜单位置(导航栏)添加自定义链接</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-12-19 19:08:57" itemprop="dateCreated datePublished" datetime="2018-12-19T19:08:57+08:00">2018-12-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:06" itemprop="dateModified" datetime="2020-10-11T11:58:06+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/magento1/" itemprop="url" rel="index"><span itemprop="name">magento1</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>为了将页面链接添加到导航栏，您应该执行以下步骤:</p>
+<h3 id="第一步-添加子目录"><a href="#第一步-添加子目录" class="headerlink" title="第一步: 添加子目录"></a>第一步: 添加子目录</h3><ol>
+<li><p>来到 Catalog -&gt; Manage Categories .</p>
+</li>
+<li><p>在左边选择 ‘Default Category’ , 然后点击 ‘Add Subcategory’ 按钮:</p>
+</li>
+</ol>
+<p><img src="https://i.imgur.com/mJ3WdEZ.png"></p>
+<ol start="3">
+<li>填写必要的字段:</li>
+</ol>
+<ul>
+<li><p>Specify your link Name.</p>
+</li>
+<li><p>Set ‘Is Active’ to Yes.</p>
+</li>
+<li><p>In the URL Key field type the name of your page link in lowercase letters with hyphens instead of spaces (f.e.’About Us’ becomes about-us):</p>
+</li>
+</ul>
+<p>这样就算完成了一个子目录的创建，不同主题设置方式有所差异，自己根据需求进行填写即可。</p>
+<p><img src="https://i.imgur.com/t6amqn6.png"></p>
+<h3 id="第二步-找到第一步中创建的子目录所在的重写规则"><a href="#第二步-找到第一步中创建的子目录所在的重写规则" class="headerlink" title="第二步: 找到第一步中创建的子目录所在的重写规则"></a>第二步: 找到第一步中创建的子目录所在的重写规则</h3><p>我们先搜索刚才创建的那个子目录：比如刚才创建的是newpage这个目录，那么我们就在URL重写管理列表里面搜索，找到这个，</p>
+<p><img src="https://i.imgur.com/5fTiGuK.png"></p>
+<p>点击编辑，复制里面的两个东西到编辑器里面存着，等下会用到：</p>
+<p><img src="https://i.imgur.com/jtLds7g.png"></p>
+<pre><code>ID Path
+
+Request Path</code></pre>
+<p>把这两个字段的记录下来。如果这个子目录（newpage）创建了多语种，那么我们分别把跟这个子目录有关多个语种的重写都删除。根据截图，笔者这里创建了六个语种。</p>
+<p><img src="https://i.imgur.com/fxpmKd8.jpg"></p>
+<p>都把这些删除。</p>
+<h3 id="第三步-添加一个新的URL重写"><a href="#第三步-添加一个新的URL重写" class="headerlink" title="第三步: 添加一个新的URL重写"></a>第三步: 添加一个新的URL重写</h3><p>当我们把第二步里面的旧的url重写规则删除之后，我们就要创建自定义的url规则了。</p>
+<p>在后台目录：Catalog — URL Rewrite Management — Add URL Rewrite,新建一个重写的url.</p>
+<p><img src="https://i.imgur.com/HDqCt8C.png"></p>
+<p>在点击添加New URL Rewrite的那里的Create URL Rewrite，选择Custom，下面的位置就把第二部中的,</p>
+<pre><code>ID Path
+
+Request Path</code></pre>
+<p>的值填写进去，如果想要所有语言都重写，那么在Store那里就选择Store view，如果只是针对某一种语言，那么就选择某种语言即可。</p>
+<p>见名知意，我们在Target Path那里选择我们重定向的目标地址，比如笔者这里想要当用户点击newpage这个子目录的时候，跳转到关于我们页面，那么这里的Target Path就写成：</p>
+<pre><code>http://youdomain.com/index.php/about</code></pre>
+<p>接着后面的Redirect就选择 Permanent (301)，这个就是重定向。保存！</p>
+<h3 id="第四步-创建一个页面作为重定向的目标地址"><a href="#第四步-创建一个页面作为重定向的目标地址" class="headerlink" title="第四步: 创建一个页面作为重定向的目标地址"></a>第四步: 创建一个页面作为重定向的目标地址</h3><p>如果我们不想跳转到关于我们页面，也就是说我们跳转的目标地址还没有，那么我们就创建它。</p>
+<p><img src="https://i.imgur.com/JHj5oKe.png"></p>
+<p>这个就是一个页面的创建方法了，没有什么难度。然后里面添加自己想要的内容。</p>
+<h3 id="最后-清除缓存"><a href="#最后-清除缓存" class="headerlink" title="最后: 清除缓存"></a>最后: 清除缓存</h3><p>如果设置完了没有效果不要着急，很可能是没有清除缓存的原因，这个时候去后台清除一下缓存即可，也有可能不小心切换到一个还没有创建URL重写的语言版本下，这个只要注意基本没啥问题。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/12/13/%E7%BB%99wordpress%E7%9A%84woocommerce%E4%BA%A7%E5%93%81%E8%AF%A6%E6%83%85%E9%A1%B5%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%B8%AA%E7%AB%8B%E5%8D%B3%E8%B4%AD%E4%B9%B0%E7%9A%84%E6%8C%89%E9%92%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/12/13/%E7%BB%99wordpress%E7%9A%84woocommerce%E4%BA%A7%E5%93%81%E8%AF%A6%E6%83%85%E9%A1%B5%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%B8%AA%E7%AB%8B%E5%8D%B3%E8%B4%AD%E4%B9%B0%E7%9A%84%E6%8C%89%E9%92%AE/" class="post-title-link" itemprop="url">给wordpress的woocommerce产品详情页添加一个立即购买的按钮的两种方案</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-12-13 17:43:15" itemprop="dateCreated datePublished" datetime="2018-12-13T17:43:15+08:00">2018-12-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:06" itemprop="dateModified" datetime="2020-10-11T11:58:06+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/woocommerce/" itemprop="url" rel="index"><span itemprop="name">woocommerce</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>woocommerce的购物流程在默认时是直接结算购物车的商品，因此在商品在商品详细页面只有一个加入购物车的按钮。</p>
+<p>这个流程应该是在国外的购物网站很常见的流程，但是在我们国内，都是习惯有两个按钮，一个按钮是直接购买，即是点击按钮直接进行结算，另一个是加入购物车按钮，点击加入购物车。</p>
+<p>下面的图片示意让你能够更加了解这两者的区别：</p>
+<p>默认的woocommerce商品详情页的头部：</p>
+<p><img src="https://i.imgur.com/oGoFL61.jpg"></p>
+<p>可以看到只有一个加入购物车的按钮，那么如果进行改造，将会有2个按钮，一个是“立即购买”按钮一个是加入购物车按钮：</p>
+<p><img src="https://i.imgur.com/aPxH92g.jpg"></p>
+<p>可以看到上图，出现了和我们国内电子商务网站相似的两个按钮，点击立即购买即可立即进行结算，点击加入购物车即可进入购物车。</p>
+<p>那么这样的方式我们如何进行实现呢？</p>
+<blockquote>
+<p>加入woocommerce立即结算按钮的方法和逻辑</p>
+</blockquote>
+<p>加入这个按钮，之前我们搜索过一些资料，发现只有一个叫做 “直接结算”按钮插件，这个插件只能将默认的加入购物车按钮替换为直接结算，而不能2个按钮同时出现。</p>
+<p>而另一些代码资料也是进行完全的修改，将加入购物车按钮改造为直接结算。</p>
+<p>想要两者存在，就需要通过判断来实现了。</p>
+<p><strong>第一步</strong>，增加和修改woocommerce主题模板文件中的按钮，<strong>为了防止woocommerce插件更新覆盖这些修改，笔者先进行重写，就是把woocommerce插件目录里面的template这个文件夹复制一份到主题目录下，并且重命名为woocommerce</strong>。</p>
+<p>woocommerce的商品详细页的按钮是在这几个文件中：grouped.php（成组商品）、simple.php（单个商品）、variation-add-to-cart-button.php（可变商品），目录位置：<code>template/single-product/add-to-cart/</code>，找到这几个模板文件找到默认按钮的代码：</p>
+<pre><code>&lt;button type=&quot;submit&quot; class=&quot;single_add_to_cart_button button alt&quot;&gt;&lt;?php echo esc_html( $product-&gt;single_add_to_cart_text() ); ?&gt;&lt;/button&gt;</code></pre>
+<p>可以看到默认的按钮代码是button标签，我们如果需要作出判断，就需要修改为input标签，使用post的方式传递一个数据作为判断的依据，因此我们修改一下：</p>
+<pre><code>&lt;input type=&quot;submit&quot;class=&quot;checkout_this button &quot; name=&quot;checkout&quot; value=&quot;Buy now&quot; /&gt;
+&lt;input type=&quot;submit&quot;class=&quot;single_add_to_cart_button button alt &quot; name=&quot;to_cart_page&quot; value=&quot;&lt;?php echo esc_html( $product-&gt;single_add_to_cart_text() ); ?&gt;&quot; /&gt;</code></pre>
+<p>为了让大家看的明白，我将woocommerce输出的加入购物车的php直接改为汉字，</p>
+<pre><code>&lt;input type=&quot;submit&quot;class=&quot;checkout_this button &quot; name=&quot;checkout&quot; value=&quot;立即购买&quot; /&gt;
+&lt;input type=&quot;submit&quot;class=&quot;single_add_to_cart_button button alt &quot; name=&quot;to_cart_page&quot; value=&quot;加入购物车&quot; /&gt;</code></pre>
+<p>上面的代码改为input之后，立即购买传递一个数据为<code>checkout</code>，而添加购物车则传递另一个数据为<code>to_cart_page</code>，这样我们就有判断的依据了。</p>
+<p><strong>第二步，加入判断，不同的按钮跳转不同的界面</strong></p>
+<p>在你的主题function中加入判断代码，点击立即购买，则提交表单跳转结算页面，点击购物车按钮则提交表单跳转购物车页面：</p>
+<pre><code>add_filter (&#39;add_to_cart_redirect&#39;, &#39;themepark_redirect_to_checkout&#39;);
+function themepark_redirect_to_checkout() &#123;
+    global $woocommerce;
+    if(!empty($_POST[&quot;checkout&quot;]))&#123;
+        $checkout_url = $woocommerce-&gt;cart-&gt;get_checkout_url();
+        return $checkout_url;
+    &#125;else &#123;  
+        $checkout_url = get_permalink( woocommerce_get_page_id( &#39;cart&#39; ) );
+        return $checkout_url;
+    &#125;
+&#125;</code></pre>
+<p>这样我们就完成了两个按钮的改造，可以和国内的电子商务网站一样，可以进行放入购物车，以及直接结算的两种方法了。</p>
+<hr>
+<p>**更新时间：2019/7/25 17:51:23 **</p>
+<h2 id="采用插件的方式为woocommerce产品页面添加立即购买按钮"><a href="#采用插件的方式为woocommerce产品页面添加立即购买按钮" class="headerlink" title="采用插件的方式为woocommerce产品页面添加立即购买按钮"></a>采用插件的方式为woocommerce产品页面添加立即购买按钮</h2><p>这个方法的产生是由于前面那个方案在随着woocommerce插件更新了，而在主题文件夹中的对woocommerce重写的这个文件夹中的文件却没有更新，这个需要手动拷贝woocommerce插件里面的template文件夹中的所有内容，显得很不方便。</p>
+<blockquote>
+<p>而且发现这样一个问题：当我们为woocommerce添加了立即购买按钮的功能后，发现可变产品可以点击起作用，然而在简单产品的产品详情页里面点击加入购物车或者点击立即购买按钮的时候，却不能加入购物车中，这个现象是笔者亲自体验发现的。</p>
+</blockquote>
+<p>为了方便管理和操作，最终选择妥协，转而采用插件的方式，这个插件是从wordpress插件商店下载的，免费版基本可以满足需求，然而免费版里面打开设置界面的时候处处是广告，后来进过笔者的修改，去掉了这些烦人的广告。界面显得清爽了很多，此插件仅仅限于个人使用，如有出于商业目的话，请支持插件开发者，去购买正版。</p>
+<p>如果是个人使用，可以在此处下载插件：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1chCGSQ1M7FB-nvlbS1Bc3g">https://pan.baidu.com/s/1chCGSQ1M7FB-nvlbS1Bc3g</a> 提取码：nbb6 </p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/12/13/%E6%9B%B4%E6%8D%A2wordpress%E5%90%8E%E5%8F%B0%E7%99%BB%E5%BD%95%E7%9A%84%E8%83%8C%E6%99%AF%E6%A0%B7%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/12/13/%E6%9B%B4%E6%8D%A2wordpress%E5%90%8E%E5%8F%B0%E7%99%BB%E5%BD%95%E7%9A%84%E8%83%8C%E6%99%AF%E6%A0%B7%E5%BC%8F/" class="post-title-link" itemprop="url">更换wordpress后台登录的背景样式</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-12-13 17:42:10" itemprop="dateCreated datePublished" datetime="2018-12-13T17:42:10+08:00">2018-12-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:05" itemprop="dateModified" datetime="2020-10-11T11:58:05+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/wordpress/" itemprop="url" rel="index"><span itemprop="name">wordpress</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>wordpress的后台登陆页面很简洁，但不好看，下面我就用简单的方法美化一下wordpress后台登陆页。</p>
+<p><img src="https://i.imgur.com/rx1amjk.jpg"></p>
+<p>1.首先在主题文件夹内的functions.php文件中增加代码，增加在末尾的<code>?&gt;</code>前面，有些php文件里没有末尾的<code>?&gt;</code>这个标记的，就直接增加在末尾。代码如下：</p>
+<pre><code>//后台登录页面
+    function custom_login() &#123;
+        echo &#39;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;&#39; . get_bloginfo(&#39;template_directory&#39;) . &#39;/css/login.css&quot; /&gt;&#39;.&quot;\n&quot;;
+        echo &#39;&lt;script type=&quot;text/javascript&quot; src=&quot;&#39;.get_bloginfo(&#39;template_directory&#39;).&#39;/js/jquery-3.3.1.min.js&quot;&gt;&lt;/script&gt;&#39;.&quot;\n&quot;;
+    &#125;
+    add_action(&#39;login_head&#39;, &#39;custom_login&#39;);
+//后台登录页面标题
+
+function custom_headertitle ( $title ) &#123;
+    return get_bloginfo(&#39;name&#39;);
+&#125;
+add_filter(&#39;login_headertitle&#39;,&#39;custom_headertitle&#39;);
+//后台登录页面链接
+function custom_loginlogo_url($url) &#123;
+    return esc_url( home_url(&#39;/&#39;) );
+&#125;
+add_filter( &#39;login_headerurl&#39;, &#39;custom_loginlogo_url&#39; );
+//后台登录页面底部
+function custom_html() &#123;
+    echo &#39;&lt;div class=&quot;footer&quot;&gt;&#39;.&quot;\n&quot;;
+    echo &#39;&lt;p&gt;Copyright &amp;copy; 2018 All Rights | Theme by &#39;.custom_headertitle ( $title ).&#39;&lt;/p&gt;&#39;.&quot;\n&quot;;
+    echo &#39;&lt;/div&gt;&#39;.&quot;\n&quot;;
+    echo &#39;&lt;script type=&quot;text/javascript&quot; src=&quot;&#39;.get_bloginfo(&#39;template_directory&#39;).&#39;/js/resizeBg.js&quot;&gt;&lt;/script&gt;&#39;.&quot;\n&quot;;
+    echo &#39;&lt;script type=&quot;text/javascript&quot;&gt;&#39;.&quot;\n&quot;;
+    echo &#39;jQuery(\&#39;#bg\&#39;).children(\&#39;img\&#39;).attr(\&#39;src\&#39;, \&#39;&#39;.get_bloginfo(&#39;template_directory&#39;).&#39;/images/login_bg.jpg\&#39;).load(function()&#123;&#39;.&quot;\n&quot;;
+    echo &#39;  resizeImage(\&#39;bg\&#39;);&#39;.&quot;\n&quot;;
+    echo &#39;  jQuery(window).bind(&quot;resize&quot;, function() &#123; resizeImage(\&#39;bg\&#39;); &#125;);&#39;.&quot;\n&quot;;
+    echo &#39;  jQuery(\&#39;.loading\&#39;).fadeOut();&#39;.&quot;\n&quot;;
+    echo &#39;&#125;);&#39;;
+    echo &#39;&lt;/script&gt;&#39;.&quot;\n&quot;;
+&#125;
+add_action(&#39;login_footer&#39;, &#39;custom_html&#39;);</code></pre>
+<p><strong>2.增加CSS和JS文件</strong></p>
+<p>2.1 在主题目录的CSS文件夹下新建login.css文件，代码如下：</p>
+<pre><code>/* clear float*/
+.clearfix:after &#123;
+    content: &quot;.&quot;;
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+&#125;
+.clearfix &#123;
+    display: block;
+&#125;
+/* common*/
+html &#123;
+    overflow:hidden;
+&#125;
+body &#123;
+    /*background:none !important;*/
+    overflow:hidden;
+&#125;
+.login-action-login&#123;
+    background-image: url(&#39;../images/login_bg.jpg&#39;) !important;
+&#125;
+#bg img &#123;
+    opacity:0;
+&#125;
+/* login*/
+#login &#123;
+    font:12px;
+    padding:50px 100px;
+    margin:80px auto 0;
+    background-color:rgba(255, 255, 255, 0.18);
+&#125;
+#login h1 a &#123;
+    font-weight:bold;
+    text-indent:0px;
+    background:none !important;
+    font-size:36px;
+    height:64px;
+    width: 280px;
+    line-height:64px;
+    line-height:180%;
+    text-align:center;
+    color:#FFF;
+    margin-bottom:10px;
+&#125;
+#login form &#123;
+    padding:10px 0px;
+    background:rgba(0,0,0,0);
+    box-shadow: 0 0 0 rgba(0,0,0,0);
+&#125;
+#login form p &#123;
+    position:relative;
+    padding:0px 15px;
+&#125;
+#login a &#123;
+    color:#FFF !important;
+&#125;
+#login_error a &#123;
+    color:#000 !important;
+&#125;
+#login form label &#123;
+    color:#c1c1c1;
+&#125;
+#login form .input &#123;
+    background: rgba(0,0,0,.4);
+    padding: 5px;
+    border-radius: 3px;
+    border: 1px dashed #666;
+    color: #ccc !important;
+    -webkit-transition: .5s border-color ease-in-out;
+&#125;
+.login .input &#123;
+    background: rgba(0,0,0,.4);
+&#125;
+#login form .input:focus &#123;
+    box-shadow:none;
+&#125;
+#login .form-send .bot &#123;
+    width:100%;
+    border-bottom:1px solid #ccc;
+&#125;
+#login form .forgetmenot &#123;
+    float:none;
+&#125;
+#login form p.submit &#123;
+    padding:0px 15px;
+&#125;
+#login .submit .button &#123;
+    width:100%;
+    margin:10px auto;
+    border:none;
+    float:none;
+    border-radius:5px;
+    height:34px;
+    font-size:14px;
+    text-align:center;
+    color:#FFF;
+    background:#529ECC;
+    font-weight:bold;
+    cursor:pointer;
+    -webkit-transition: all .5s linear;
+    -moz-transition: all .5s linear;
+    -o-transition: all .5s linear;
+    transition: all .5s linear;
+&#125;
+#login .submit .button:hover &#123;
+    background:#356fb7;
+&#125;
+/* footer*/
+.footer &#123;
+    font-size:12px;
+    left:0px;
+    bottombottom:10px;
+    height:30px;
+    padding:0px 20px;
+    line-height:30px;
+    color:#FFF;
+&#125;
+.footer a &#123;
+    text-decoration:blink;
+    color:#FFF;
+    border-bottom: 1px dotted #fff;
+&#125;
+/* loading*/
+.loading &#123;
+    position:absolute;
+    top:0px;
+    left:0px;
+    width:100%;
+    height:100%;
+    z-index:99;
+    overflow:hidden;
+    background:#000;
+&#125;
+.nocti_footer p&#123;
+    text-align: center;
+    margin: 15px auto !important;
+&#125;
+.loading img &#123;
+    position:absolute;
+    top:50%;
+    left:50%;
+    margin:-5px 0px 0px -29px;
+&#125;
+
+@media screen and (max-width: 520px) &#123;
+#login &#123;
+    font:12px;
+    padding:20px 20px;
+    margin:20px auto 0;
+    background-color:rgba(0,0,0,.5);
+&#125;
+&#125;</code></pre>
+<p>2.2 创建js文件，在主题目录下的js文件夹里创建resizeBg.js文件，代码如下：</p>
+<pre><code>// 后台背景修改
+function resizeImage(id) &#123;
+    jQuery(&#39;#&#39; + id).css(&#123;
+            &#39;position&#39;: &#39;absolute&#39;,
+            &#39;top&#39;: &#39;0px&#39;,
+            &#39;left&#39;: &#39;0px&#39;,
+            &#39;width&#39;: &#39;100%&#39;,
+            &#39;height&#39;: &#39;100%&#39;,
+            &#39;z-index&#39;: -1,
+            &#39;overflow&#39;: &#39;hidden&#39;
+    &#125;);
+    var w = jQuery(window).width(),
+    h = jQuery(window).height(),
+    o = jQuery(&#39;#&#39; + id).children(&#39;img&#39;),
+    iW = o.width(),
+    iH = o.height();
+    o.css(&#123;
+            &#39;display&#39;: &#39;block&#39;,
+            &#39;opacity&#39;: 0
+    &#125;);
+    if (w &gt; h) &#123;
+            if (iW &gt; iH) &#123;
+                    o.css(&#123;
+                            &#39;width&#39;: w
+                    &#125;);
+                    o.css(&#123;
+                            &#39;height&#39;: Math.round((iH / iW) * w)
+                    &#125;);
+                    var newIh = Math.round((iH / iW) * w);
+                    if (newIh &lt; h) &#123;
+                            o.css(&#123;
+                                    &#39;height&#39;: h
+                            &#125;);
+                            o.css(&#123;
+                                    &#39;width&#39;: Math.round((iW / iH) * h)
+                            &#125;)
+                    &#125;
+            &#125; else &#123;
+                    o.css(&#123;
+                            &#39;height&#39;: h
+                    &#125;);
+                    o.css(&#123;
+                            &#39;width&#39;: Math.round((iW / iH) * h)
+                    &#125;)
+            &#125;
+    &#125; else &#123;
+            o.css(&#123;
+                    &#39;height&#39;: h
+            &#125;);
+            o.css(&#123;
+                    &#39;width&#39;: Math.round((iW / iH) * h)
+            &#125;)
+    &#125;
+    var newIW = o.width(),
+    newIH = o.height();
+    if (newIW &gt; w) &#123;
+            var l = (newIW - w) / 2;
+            o.css(&#39;margin-left&#39;, -l)
+    &#125; else &#123;
+            o.css(&#39;margin-left&#39;, 0)
+    &#125;
+    if (newIH &gt; h) &#123;
+            var t = (newIH - h) / 2;
+            o.css(&#39;margin-top&#39;, -t)
+    &#125; else &#123;
+            o.css(&#39;margin-top&#39;, 0)
+    &#125;
+    o.css(&#123;
+            &#39;opacity&#39;: &#39;1&#39;
+    &#125;)
+&#125;</code></pre>
+<p><strong>3.定义后台背景图片</strong></p>
+<p>需要准备1张图片，名称如下：</p>
+<blockquote>
+<p>login_bg.jpg</p>
+</blockquote>
+<p>将以上文件放在主题目录下的images文件夹里，没有就创建一个。</p>
+<p>说明：笔者这里调用了jquery这个库，如果觉得不方便，大家可以用jquery的cdn，我们把jquery这个放在主题的js目录下。</p>
+<p><strong>总结：</strong></p>
+<p>需要的创建的文件有：resizeBg.js，login.css，login_bg.jpg，jquery.min.js(主题中有了的话这个可以忽略)</p>
+<p>最后的效果如下：</p>
+<p><img src="https://i.imgur.com/OoTG3sO.jpg"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/12/11/wordpress%E7%9A%84enfold%E4%B8%BB%E9%A2%98%E4%B8%AD%E7%9A%84woocommerce%E4%BA%A7%E5%93%81%E5%8D%95%E9%A1%B5%E4%BA%A7%E5%93%81%E7%9B%B8%E5%86%8C%E4%BD%8D%E7%BD%AE%E5%B5%8C%E5%85%A5%E8%A7%86%E9%A2%91%E6%96%B9%E6%A1%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/12/11/wordpress%E7%9A%84enfold%E4%B8%BB%E9%A2%98%E4%B8%AD%E7%9A%84woocommerce%E4%BA%A7%E5%93%81%E5%8D%95%E9%A1%B5%E4%BA%A7%E5%93%81%E7%9B%B8%E5%86%8C%E4%BD%8D%E7%BD%AE%E5%B5%8C%E5%85%A5%E8%A7%86%E9%A2%91%E6%96%B9%E6%A1%88/" class="post-title-link" itemprop="url">wordpress的enfold主题中的woocommerce产品单页产品相册位置嵌入视频方案</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-12-11 18:01:08" itemprop="dateCreated datePublished" datetime="2018-12-11T18:01:08+08:00">2018-12-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:03" itemprop="dateModified" datetime="2020-10-11T11:58:03+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/wordpress/" itemprop="url" rel="index"><span itemprop="name">wordpress</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>一直以来woocommerce产品详情页的产品相册那里不能添加视频位置，可是客户需求是最重要的，最后给出这么一个变态的方案，这里记录一下。</p>
+<p>这里笔者以enfold主题位置，这里是enfold 4.4.1版本，wordpress是最新版。</p>
+<p>笔者的思路：遍历详情页中的已经存在的视频（HTML5视频标签），然后把视频标签中的封面图获取出来，然后把视频里的视频路径获取出来，然后插入到相册里面，把封面图插入进去。然后引用layer弹窗，然后通过点击图片弹出获取的视频标签里面的视频路径。搞定！</p>
+<p>这个思路很合理，我们开始看下怎么一步一步的实现吧</p>
+<p>笔者为了多添加一些自定义tab，这里安装了一个插件，当然这个插件你可以不用安装，个人感觉挺好用，就在这里说明了，插件名：<a target="_blank" rel="noopener" href="https://wordpress.org/plugins/woocommerce-custom-tabs/">Woocommerce Custom Tabs</a>，也可以去笔者的分享链接下载，地址：链接：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1PGBUTzmUqTGcLhld_kzKoQ">https://pan.baidu.com/s/1PGBUTzmUqTGcLhld_kzKoQ</a> ，提取码：8stb </p>
+<p>然后添加视频代码：</p>
+<pre><code>&lt;video id=&quot;myVideo&quot; src=&quot;/wp-content/uploads/2018/12/WordPress-for-Beginners-2015-Tutorial-Series.mp4&quot; poster=&quot;/wp-content/uploads/2018/12/Rope-Innovation-Vehicle-Tracker-picture-video.png&quot; controls=&quot;controls&quot; width=&quot;100%&quot;&gt;&lt;/video&gt;</code></pre>
+<p>这里添加了一个ID（myVideo）。</p>
+<p><img src="https://i.imgur.com/flEa289.jpg"></p>
+<p>这个如果想要显示就显示，不想让视频显示在tab，直接隐藏即可。好的到此为止，视频已经添加成功。</p>
+<p>现在我们就处理逻辑的问题，这里引用了jquery这个库，以及layer.js这个弹窗库。我们把这些逻辑代码在公共模板文件中添加。</p>
+<p>首先找到footer.php文件，在最底部添加如下代码：</p>
+<pre><code>&lt;script src=&quot;http://code.jquery.com/jquery-2.1.4.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://cdn.bootcss.com/layer/2.3/layer.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+var jQuery = $.noConflict(true);
+jQuery(document).ready(function()&#123;
+  var mediaPoster = document.getElementById(&quot;myVideo&quot;).poster;
+  var videoSrc = document.getElementById(&quot;myVideo&quot;).src;
+  console.log(document.getElementById(&quot;myVideo&quot;).poster);
+  if(videoSrc)&#123;
+    jQuery(&quot;.flex-control-thumbs&quot;).append(&quot;&lt;li class=&#39;videlayer&#39;&gt;&lt;img src=&quot;+mediaPoster+&quot;&gt;&lt;/li&gt;&quot;);
+    jQuery(&quot;.videlayer&quot;).on(&quot;click&quot;,&quot;img&quot;,function()&#123;
+        ;!function()&#123;
+        layer.open(&#123;
+          type: 1,
+          title: &#39;myvideo&#39;,
+          area: [&#39;600px&#39;,&#39;400px&#39;],
+          shade: 0.8,
+          closeBtn: 1,
+          shadeClose: true,
+          content: &#39;&lt;video src=&#39;+videoSrc+&#39; controls=&quot;controls&quot; loop=&quot;loop&quot; autoplay=&quot;autoplay&quot;&gt;&lt;/video&gt;&#39;
+        &#125;);
+        &#125;();
+     &#125;);
+  &#125;
+
+&#125;)
+&lt;/script&gt;</code></pre>
+<p>前面的就不用说了，弹窗那块参考这个网址：<a target="_blank" rel="noopener" href="https://www.layui.com/doc/modules/layer.html%E3%80%82">https://www.layui.com/doc/modules/layer.html。</a></p>
+<p>这里笔者说下关于视频属性的获取，这里获取视频的封面图（poster），以及视频的源（src），</p>
+<pre><code>var mediaPoster = document.getElementById(&quot;myVideo&quot;).poster;
+var videoSrc = document.getElementById(&quot;myVideo&quot;).src;</code></pre>
+<p>这个算是video比较重要的两个属性了。<strong>这里用javascript原生的方式获取，不用jquery,因为用jquery貌似获取不到.</strong></p>
+<p>我们都知道，我们每个产品详情页只放一个视频，视频的对应ID是myVideo，所以，我们每个产品添加不同的视频的时候，打开产品详情页就会弹出该页中的ID为myVideo的视频。</p>
+<p>这里为了更加合理，笔者做了一个判断，如果视频源地址存在的话就插入一个dom到相册中，</p>
+<pre><code>if(videoSrc)&#123;
+        jQuery(&quot;.flex-control-thumbs&quot;).append(&quot;&lt;li class=&#39;videlayer&#39;&gt;&lt;img src=&quot;+mediaPoster+&quot;&gt;&lt;/li&gt;&quot;);
+        ...
+&#125;</code></pre>
+<p>并且为这个dom添加一个class，方便点击事件控制。由于这个是jquery动态插入，所以这里采用的点击方式是：</p>
+<pre><code>jQuery(&quot;.videlayer&quot;).on(&quot;click&quot;,&quot;img&quot;,function()&#123;
+...
+&#125;</code></pre>
+<p>而不是</p>
+<pre><code>jQuery(&quot;.videlayer img&quot;).click(function()&#123;
+...
+&#125;</code></pre>
+<p>接着就是通过jquery获取视频的poster的地址：</p>
+<p>好的，最后的效果：</p>
+<p><img src="https://i.imgur.com/jqQwf8k.jpg"></p>
+<p><img src="https://i.imgur.com/FI8WyWr.jpg"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/43/">43</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

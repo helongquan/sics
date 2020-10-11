@@ -1,37 +1,524 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="以前是万网虚拟主机空间越发的不够了，想换服务器由于备案在万网为了方便只好选择了阿里云空间。 配置环境阿里云Linux一键安装web环境是一个方便广大网站建设者的环境配置，省去了使用面板不安全占用系统内存的诸多问题，方便的建设PHP环境省去了，人工配置的繁琐节省时间。 如果是新手建议安装面板解决问题，毕竟这个环境还是需要手动配置的，如果你安装之后不懂可以在阿里云后台申请阿里云的工程师帮您解决问题。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="阿里云Linux一键安装web环境使用教程">
+<meta property="og:url" content="http://example.com/2017/02/17/%E9%98%BF%E9%87%8C%E4%BA%91Linux%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85web%E7%8E%AF%E5%A2%83%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="以前是万网虚拟主机空间越发的不够了，想换服务器由于备案在万网为了方便只好选择了阿里云空间。 配置环境阿里云Linux一键安装web环境是一个方便广大网站建设者的环境配置，省去了使用面板不安全占用系统内存的诸多问题，方便的建设PHP环境省去了，人工配置的繁琐节省时间。 如果是新手建议安装面板解决问题，毕竟这个环境还是需要手动配置的，如果你安装之后不懂可以在阿里云后台申请阿里云的工程师帮您解决问题。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://i.imgur.com/e9yWgR4.jpg">
+<meta property="og:image" content="http://i.imgur.com/tW8lDL3.jpg">
+<meta property="og:image" content="http://i.imgur.com/3F0bFDF.jpg">
+<meta property="og:image" content="http://i.imgur.com/wrCZPSf.jpg">
+<meta property="og:image" content="http://i.imgur.com/nxpbUiZ.jpg">
+<meta property="og:image" content="http://i.imgur.com/kQUnIQk.jpg">
+<meta property="og:image" content="http://i.imgur.com/sZgHmzo.jpg">
+<meta property="og:image" content="http://i.imgur.com/PjQJb0U.jpg">
+<meta property="og:image" content="http://i.imgur.com/O8fPnZb.jpg">
+<meta property="og:image" content="http://i.imgur.com/ERkW0nZ.jpg">
+<meta property="og:image" content="http://i.imgur.com/lVtvANB.jpg">
+<meta property="og:image" content="http://i.imgur.com/CJyW6XJ.jpg">
+<meta property="og:image" content="http://i.imgur.com/rLR1ycF.jpg">
+<meta property="og:image" content="http://i.imgur.com/UAnfpvX.jpg">
+<meta property="og:image" content="http://i.imgur.com/DGYsIiq.jpg">
+<meta property="article:published_time" content="2017-02-17T14:24:39.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:53:06.780Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="阿里云Linux一键安装web环境">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://i.imgur.com/e9yWgR4.jpg">
+
+<link rel="canonical" href="http://example.com/2017/02/17/%E9%98%BF%E9%87%8C%E4%BA%91Linux%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85web%E7%8E%AF%E5%A2%83%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>阿里云Linux一键安装web环境使用教程 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/02/17/%E9%98%BF%E9%87%8C%E4%BA%91Linux%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85web%E7%8E%AF%E5%A2%83%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          阿里云Linux一键安装web环境使用教程
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-02-17 22:24:39" itemprop="dateCreated datePublished" datetime="2017-02-17T22:24:39+08:00">2017-02-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:06" itemprop="dateModified" datetime="2020-10-11T11:53:06+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>以前是万网虚拟主机空间越发的不够了，想换服务器由于备案在万网为了方便只好选择了阿里云空间。</p>
+<p>配置环境阿里云Linux一键安装web环境是一个方便广大网站建设者的环境配置，省去了使用面板不安全占用系统内存的诸多问题，方便的建设PHP环境省去了，人工配置的繁琐节省时间。</p>
+<p>如果是新手建议安装面板解决问题，毕竟这个环境还是需要手动配置的，如果你安装之后不懂可以在阿里云后台申请阿里云的工程师帮您解决问题。</p>
+<p>如果是1G内存以上的ECS可以使用WDCP这个使用的比较多久是版本不怎么更新安全性还是可以的。小于1g内存的可以使用自己的路面板或AMH这个AMH好像收费的不过不贵的。收费才能长久开发的推荐使用。自己的路免费的好像不怎么更新了。</p>
+<p><strong>安装须知</strong></p>
+<p>1、此安装包可在阿里云所有linux系统上部署安装，此安装包包含的软件及版本为：</p>
+<p>nginx：1.0.15、1.2.5、1.4.4</p>
+<p>apache：2.2.22、2.4.2</p>
+<p>mysql：5.1.73、5.5.35、5.6.15</p>
+<p>php：5.3.18、5.4.23、5.5.7</p>
+<p>php扩展：memcache、Zend Engine/ OPcache</p>
+<p>ftp：（yum/apt-get安装）</p>
+<p>phpwind：8.7 GBK</p>
+<p>phpmyadmin：4.1.8</p>
+<p>2、请使用最新的一键安装包脚本安装，以前老版本都存在bug，会导致安装异常以及安装的环境混乱。</p>
+<p>3、执行一键安装包(./install.sh)，会自动清理之前一键安装包安装过的环境。</p>
+<p>如果您已经安装过一键安装包，再次执行安装，如若有重要数据，请自行备份/alidata目录。</p>
+<p>4、一键安装包会将软件安装在/alidata目录下。</p>
+<p>如果您的系统不存在数据盘，则一键安装包会将软件安装到系统/alidata目录下。</p>
+<p>如果您的系统存在数据盘，且还没有格式化挂载数据盘。则一键安装包会自动帮您格式化第一块数据盘，并挂载在/alidata目录下。</p>
+<p>如果您的系统存在数据盘，且已格式化并挂载了第一块数据盘。一键安装包会将第一块数据盘再次挂载到/alidata目录下，并不影响您之前的挂载目录的使用。比如下图所示，安装前，已经挂载了mnt目录。安装后，一键安装包再次挂载/alidata目录。</p>
+<p>如果您的系统存在数据盘，且已格式化数据盘，但没有挂载数据盘。一键安装包会将第一块数据盘挂载到/alidata目录下。</p>
+<p>5、怎么样卸载一键安装包？</p>
+<p>可以执行以下命令完成卸载：</p>
+<pre><code>chmod  777 -R sh-1.3.0/
+
+cd sh-1.3.0/
+
+./uninstall.sh</code></pre>
+<p><strong>准备工具如下：</strong></p>
+<pre><code>xshell 
+
+Xftp</code></pre>
+<p><strong>方法/步骤</strong></p>
+<p>1.首先安装xshell（基本上是点击Next直至安装 完成）</p>
+<p>具体安装过程跟一般的软件安装没什么不同，这里就省略。</p>
+<p>2.安装完这两个工具之后，就可以打开xshell， 设置云服务器登录信息。</p>
+<p><img src="http://i.imgur.com/e9yWgR4.jpg"></p>
+<p>3.设置服务器账号密码。</p>
+<p><img src="http://i.imgur.com/tW8lDL3.jpg"></p>
+<p>4.设置字符集编码（如果不设置字符集编码，则中文字符将会在xshell中显示为乱码）。</p>
+<p><img src="http://i.imgur.com/3F0bFDF.jpg"></p>
+<ol start="5">
+<li>一切准备就绪，让我们连接看看云linux服务器的庐山真面目吧！</li>
+</ol>
+<p><img src="http://i.imgur.com/wrCZPSf.jpg"></p>
+<p>6.在打开的界面中输入cd 就可以进入主目录了。这个cd后门带一个空格的 最早接触到计算机的应该能了解一些的cd 在以前计算机DOS系统下的命了的，本人在初中接触计算机的时候知道一些，看来还是得学习。</p>
+<p><img src="http://i.imgur.com/nxpbUiZ.jpg"></p>
+<p>7.现在开始用xftp上传环境安装文件。</p>
+<p><img src="http://i.imgur.com/kQUnIQk.jpg"></p>
+<p>8.回到shell界面，用ll命令看下情况，输入命令：ll ，是不是多了一个sh-1.3.0目录，熟悉linux的朋友，直接可以用wget命令安装包这样就不用使用上传了。</p>
+<p><img src="http://i.imgur.com/sZgHmzo.jpg"></p>
+<p>9.输入命令：</p>
+<pre><code>chmod –R 777 sh-1.3.0
+  cd sh-1.3.0
+  ./install.sh</code></pre>
+<p>出现了一个选择提示，进入web服务器的选择界面。这里您可以根据需要选择apache或者nginx服务器。1是nginx 2是apache一般选择1就可以了。（简单的讲解下在高并发连接的情况下，Nginx是Apache服务器不错的替代品。Nginx同时也可以作为7层负载均衡服务器来使用。根据我的测试结果，Nginx 0.8.46 + PHP 5.2.14 (FastCGI) 可以承受3万以上的并发连接数，相当于同等环境下Apache的10倍。）这里就不多讲了可以自己百度一下。</p>
+<p>10.这里我们选择nginx，输入1，回车</p>
+<p><img src="http://i.imgur.com/PjQJb0U.jpg"></p>
+<p>11.然后我们再选择要安装的nginx的版本（如果web服务器选择的是apache，这里提示信息则是要安装apache的版本），总共有1.0.15/1.2.5/1.4.4三个版本可以提供我们选择，这里我们选择1.2.5版本，则输入2，回车（如果什么都不输入，直接回车，或者输入错误的字符，则默认选择1.0.15版本）这个我就不截图了选择默认的就可以直接回车键就行.</p>
+<p>12.然后我们再选择要安装的php的版本，总共有5.3.18/5.4.23/5.5.7三个版本可以提供我们选择，这里我们选择5.5.7版本，则输入3，回车（如果什么都不输入，直接回车，或者输入错误的字符，则默认选择5.3.18版本）这个我就不截图了选择默认的就可以直接回车键就行</p>
+<p>13.然后我们再选择要安装的mysql的版本，总共有5.1.73/5.5.35/5.6.15三个版本可以提供我们选择，这里我们选择5.1.73版本，则输入1，回车（如果什么都不输入，直接回车，或者输入错误的字符，则默认选择5.1.73版本）这个我就不截图了选择默认的就可以直接回车键就行.</p>
+<p>14.最后就可以看到可我们刚才选择的版本如下，我们输入y或者Y进行安装。这里，我们就正式进入环境安装环节了。这个环节需要一定的时间和服务器的配置和有有关的一般半个小时左右的，期间不能关闭的。等着就好了可以干点别的去了。</p>
+<p><img src="http://i.imgur.com/O8fPnZb.jpg"></p>
+<p>15.到这个界面说明安装已经结束了，我们可以输入以下命令再次验证是不是已经安装成功</p>
+<p><img src="http://i.imgur.com/ERkW0nZ.jpg"></p>
+<p>16.接着在命令行里输入：</p>
+<pre><code>cat account.log</code></pre>
+<p>就可以看到默认的密码了。</p>
+<p><img src="http://i.imgur.com/lVtvANB.jpg"></p>
+<p>ftp的用户名是：www</p>
+<p>mysql的用户名是：root</p>
+<p>以上密码都是系统随机设置的安全性很高的，可以修改也可以不修改的。</p>
+<p>17.如何管理mysql呢? 这个很简单</p>
+<p>在地址栏输入您的服务器IP/phpmyadmin</p>
+<p>就会看到登陆页面了。输入上面随机的密码就可以了</p>
+<p><img src="http://i.imgur.com/CJyW6XJ.jpg"></p>
+<p>18.安装网站程序这个阿里云的环境默认带一个phpwind论坛的大家可以测试下，在浏览器中输入您的域名会IP就可以出来安全界面了按照提示进行安装就可以了。看下图片就知道了。</p>
+<p><img src="http://i.imgur.com/rLR1ycF.jpg"></p>
+<p><img src="http://i.imgur.com/UAnfpvX.jpg"></p>
+<p><img src="http://i.imgur.com/DGYsIiq.jpg"></p>
+<p>这样就算安装成功了。</p>
+<hr>
+<p><strong>这里来介绍一下域名绑定教程</strong></p>
+<p>1、 登录您的Linux云主机，进入WEB服务器配置文件夹；  　　</p>
+<p>运行命令：cd /aliyun/webserver/apache2.2.15/conf  　　</p>
+<p>2、 备份WEB服务器配置文件；  　　</p>
+<p>运行命令：cp httpd.conf httpd.conf.bak  　　</p>
+<p>3、 修改WEB服务器配置文件；  　　</p>
+<p>运行命令：vi + httpd.conf  　　</p>
+<p>4、 添加网站配置信息；  　　</p>
+<ol>
+<li><p>按字母i键，进入编辑模式；  　　</p>
+</li>
+<li><p>在配置文件末尾，添加  　　</p>
+<p> ServerAdmin admin@domain（您的邮箱）  　　</p>
+<p> DocumentRoot /alidata/www/wwwroot/phpwind （网站存放路径）  　　</p>
+<p> ServerName test.com （网站域名）  　　</p>
+<p> ServerAlias <a target="_blank" rel="noopener" href="http://www.test.com(网站别名)/">www.test.com（网站别名）</a>  　　</p>
+<p> ErrorDocument 404 /404.php  　　</p>
+<p> DirectoryIndex index.html index.php index.htm  　　（网站存放路径）  　　</p>
+<p> Options +Includes  　　</p>
+<p> AllowOverride None  　　</p>
+<p> Order allow,deny  　　</p>
+<p> Allow from all  　　</p>
+</li>
+<li><p>保存修改。</p>
+</li>
+</ol>
+<p>按ESC键，输入”:wq”后回车；  　　</p>
+<ol start="4">
+<li>使配置生效。</li>
+</ol>
+<p>运行命令：../bin/apachectl graceful  　　</p>
+<ol start="5">
+<li>测试网站。请在浏览器中输入域名，测试设置。</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%98%BF%E9%87%8C%E4%BA%91Linux%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85web%E7%8E%AF%E5%A2%83/" rel="tag"># 阿里云Linux一键安装web环境</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/02/14/%E5%87%A0%E4%B8%AA%E4%BC%98%E5%8C%96WordPress%E4%B8%ADJavaScript%E5%8A%A0%E8%BD%BD%E4%BD%93%E9%AA%8C%E7%9A%84%E6%8F%92%E4%BB%B6%E4%BB%8B%E7%BB%8D/" rel="prev" title="几个优化WordPress中JavaScript加载体验的插件介绍">
+      <i class="fa fa-chevron-left"></i> 几个优化WordPress中JavaScript加载体验的插件介绍
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/02/17/%E5%9C%A8Linux%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E5%AE%89%E8%A3%85Swap-File%EF%BC%88%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98%EF%BC%89/" rel="next" title="在Linux服务器上安装Swap File（虚拟内存）">
+      在Linux服务器上安装Swap File（虚拟内存） <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

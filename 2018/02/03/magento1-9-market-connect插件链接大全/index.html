@@ -1,37 +1,559 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="对于插件这块，首先我是在marketplace里面下载一些免费的，或者是收费的，然后登录自己的账号就可以进去下载或者安装，安装的时候会有一个链接，把链接粘贴到magento的connect manager里面安装即可。 这里粘贴一些常用插件： 1.删除订单：BoutikCircus_DeleteOrders URL：http:&#x2F;&#x2F;www.magentocommerce.com&#x2F;extension&#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="magento1.9 market connect插件链接大全">
+<meta property="og:url" content="http://example.com/2018/02/03/magento1-9-market-connect%E6%8F%92%E4%BB%B6%E9%93%BE%E6%8E%A5%E5%A4%A7%E5%85%A8/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="对于插件这块，首先我是在marketplace里面下载一些免费的，或者是收费的，然后登录自己的账号就可以进去下载或者安装，安装的时候会有一个链接，把链接粘贴到magento的connect manager里面安装即可。 这里粘贴一些常用插件： 1.删除订单：BoutikCircus_DeleteOrders URL：http:&#x2F;&#x2F;www.magentocommerce.com&#x2F;extension&#x2F;">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-02-03T03:18:19.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:57:58.535Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="magento1,插件,链接">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2018/02/03/magento1-9-market-connect%E6%8F%92%E4%BB%B6%E9%93%BE%E6%8E%A5%E5%A4%A7%E5%85%A8/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>magento1.9 market connect插件链接大全 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/02/03/magento1-9-market-connect%E6%8F%92%E4%BB%B6%E9%93%BE%E6%8E%A5%E5%A4%A7%E5%85%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          magento1.9 market connect插件链接大全
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-02-03 11:18:19" itemprop="dateCreated datePublished" datetime="2018-02-03T11:18:19+08:00">2018-02-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:58" itemprop="dateModified" datetime="2020-10-11T11:57:58+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/magento1/" itemprop="url" rel="index"><span itemprop="name">magento1</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>对于插件这块，首先我是在marketplace里面下载一些免费的，或者是收费的，然后登录自己的账号就可以进去下载或者安装，安装的时候会有一个链接，把链接粘贴到magento的connect manager里面安装即可。</p>
+<p>这里粘贴一些常用插件：</p>
+<p>1.删除订单：BoutikCircus_DeleteOrders</p>
+<pre><code>URL：http://www.magentocommerce.com/extension/specs/4562/em_deleteorder</code></pre>
+<p>另一个同类插件：</p>
+<pre><code>URL：http://www.magentocommerce.com/magento-connect/Wyomind/extension/6029/wyomind_orderseraser</code></pre>
+<p>2.后台管理产品显示图片：TBT_Enhancedgrid</p>
+<pre><code>URL：http://www.magentocommerce.com/magento-connect/WDCA/extension/748/enhanced-product-grid
+KEY：magento-community/TBT_Enhancedgrid</code></pre>
+<p>3.订单加备注：Customer Order Comment</p>
+<pre><code>URL：http://www.magentocommerce.com/magento-connect/TanRambun/extension/1036/customer-order-comment
+KEY：magento-community/Biebersdorf_CustomerOrderComment</code></pre>
+<p>4.产品图片放大：Magento jqZoom</p>
+<pre><code>URL：http://www.magentocommerce.com/magento-connect/satrun77/extension/1492/magento-jqzoom/
+KEY：magento-community/Safitech_Catalog</code></pre>
+<p>另一个插件：IG LightBox 插件</p>
+<pre><code>URL1：http://www.magentocommerce.com/magento-connect/IDEALIAGroup/extension/1843/ig-lightbox
+URL2：http://www.magentocommerce.com/magento-connect/themes/ig-lightbox.html
+KEY：magento-community/IG_LightBox</code></pre>
+<p>另一个插件：Cueblocks Zoom</p>
+<pre><code>URL：http://www.magentocommerce.com/magento-connect/CueBlocks.com/extension/5367/cueblocks_zoom</code></pre>
+<p>5.批量修改相关产品：Mass Product Relater</p>
+<pre><code>URL：http://www.magentocommerce.com/magento-connect/WDCA/extension/549/mass-product-relater
+KEY：magento-community/Mass_Product_Relater</code></pre>
+<p>6.官方简体中文语言包：</p>
+<pre><code>URL1：http://www.magentocommerce.com/magento-connect/catalog/product/view/id/10320/s/magento-chinese-translation-3408/
+
+URL2：http://www.magentocommerce.com/magento-connect/magento-community-modules-traditional-chinese-taiwan-language-pack.html</code></pre>
+<p>7.Advanced Smtp ( 需要 php_openssl.dll 的支持 )</p>
+<pre><code>URL：http://www.magentocommerce.com/magento-connect/ziq2004/extension/460/advanced-smtp--artson.it
+KEY：magento-community/ArtsOnIT_AdvancedSmtp</code></pre>
+<p>8.IP 访问控制</p>
+<pre><code>URL：http://www.magentocommerce.com/magento-connect/niro/extension/6105/et_ipsecurity</code></pre>
+<p>9.Magento Easy Lightbox</p>
+<pre><code>URL：http://www.magentocommerce.com/magento-connect/TemplatesMaster/extension/1487/magento-easy-lightbox
+KEY：magento-community/magento_easy_lightbox</code></pre>
+<p>10.MW_DeveloperToolbar ( 感谢 ERIC 提供 )</p>
+<pre><code>URL：http://www.magentocommerce.com/module/2271/developer-toolbar
+KEY：magento-community/HM_DeveloperToolbar</code></pre>
+<p>11.Import Products categories, multiple images and custom options</p>
+<pre><code>URL：http://www.magentocommerce.com/magento-connect/capacitywebsolutions/extension/4421/import_products_categories__multiple_images_and_custom_options
+KEY：magento-community/Import_Products_categories__multiple_images_and_custom_options</code></pre>
+<p>另一个导入产品的插件：</p>
+<pre><code>URL：http://www.magentocommerce.com/magento-connect/sunit99/extension/3742/productimport</code></pre>
+<p>12.Magento Social Bookmarking Services</p>
+<pre><code>URL：http://www.magentocommerce.com/magento-connect/_Fluxe/extension/2333/magento-social-bookmarking
+KEY：magento-community/Magentix_SocialBookmarking</code></pre>
+<p>13.Scheduled Products ( 定时激活禁用产品/限时购买插件 )</p>
+<pre><code>URL：http://www.magentocommerce.com/magento-connect/EcommerceDeveloper/extension/3782/ecomdev_scheduledproduct</code></pre>
+<p>14.Magento EasyTabs</p>
+<pre><code>URL：http://www.magentocommerce.com/magento-connect/TemplatesMaster/extension/1725/magento-easytabs</code></pre>
+<p>15.MailChimp Email 发送平台同步集成</p>
+<pre><code>URL：http://www.magentocommerce.com/magento-connect/ebizmarts/extension/1208/ebizmarts-mail-chimp-module</code></pre>
+<p>16.Maintenance Page 网店离线</p>
+<pre><code>URL：http://www.magentocommerce.com/magento-connect/ziq2004/extension/523/maintenance-page--artson.it</code></pre>
+<p>17.Magento 团购插件</p>
+<pre><code>URL：https://www.magentocommerce.com/magento-connect/Zizio/extension/6378/ziziogroupsale</code></pre>
+<p>18.验证码插件</p>
+<pre><code>URL：http://www.magentocommerce.com/module/1169/fontis-recaptcha</code></pre>
+<p>19.产品列表字母排序产品插件</p>
+<pre><code>URL：http://www.magentocommerce.com/magento-connect/vivek291186/extension/5338/alphabates</code></pre>
+<p>20.免费团购插件</p>
+<pre><code>URL：http://www.magentocommerce.com/magento-connect/Zizio/extension/6378/ziziogroupsale</code></pre>
+<p>21.清理无用的图片插件</p>
+<pre><code>URL：http://www.magentocommerce.com/magento-connect/defcon2/extension/1147/image-clean
+KEY：magento-community/Mage_Imaclean</code></pre>
+<p>22.分类产品随机关联</p>
+<pre><code>URL：http://www.magentocommerce.com/magento-connect/Open+Biz+Ltd/extension/4070/openbiz_randomrelatedproducts</code></pre>
+<p>23.顾客登陆重定向</p>
+<pre><code>URL：http://www.magentocommerce.com/magento-connect/MagePsycho/extension/3763/custom_login_redirect</code></pre>
+<p>25.回收站插件</p>
+<pre><code>URL：http://www.magentocommerce.com/magento-connect/_Fluxe/extension/2592/magento-recycle-bin
+KEY：magento-community/Magentix_RecycleBin</code></pre>
+<p>26.客户推荐插件</p>
+<pre><code>URL：http://www.magentocommerce.com/magento-connect/FrenchStallion/extension/1296/referrals</code></pre>
+<p>27.产品展示到 Facebook</p>
+<pre><code>URL：http://www.magentocommerce.com/magento-connect/Turnkeye.com/extension/6131/facebook_products_tab</code></pre>
+<p>28.超级菜单</p>
+<pre><code>URL：http://www.magentocommerce.com/magento-connect/Raptor+Commerce/extension/6081/supermenu_community_edition</code></pre>
+<p>第三方：<a target="_blank" rel="noopener" href="http://web-experiment.info/webandpeople-custom-menu-extension.html">http://web-experiment.info/webandpeople-custom-menu-extension.html</a></p>
+<p>29.给自定义项加描述</p>
+<pre><code>URL：http://www.magentocommerce.com/magento-connect/aijko_GmbH/extension/2678/custom-option-description</code></pre>
+<p>30.电子邮件插件</p>
+<pre><code>http://connect20.magentocommerce.com/community/ASchroder_SMTPPro</code></pre>
+<p>31.自定义分层导航风格</p>
+<pre><code>URL：http://www.magentocommerce.com/magento-connect/custom-layered-navigation-style.html
+KEY2：http://connect20.magentocommerce.com/community/Custom_Layered_Navigation
+KEY1：magento-community/Custom_Layered_Navigation</code></pre>
+<p>32.移动管理插件</p>
+<pre><code>URL：http://www.magentocommerce.com/magento-connect/customer-experience/mobile/mobileadmin-7554.html
+KEY：http://connect20.magentocommerce.com/community/snm_mobileadminc</code></pre>
+<p>33.关联产品管理 自动设置交叉、热卖、相关产品</p>
+<pre><code>URL：http://www.magentocommerce.com/magento-connect/related-proudcts-manager-7301.html
+KEY：http://connect20.magentocommerce.com/community/CommerceStack_Recommender</code></pre>
+<p>34.简单评论模板插件</p>
+<pre><code>URL： http://www.magentocommerce.com/magento-connect/site-management/order-management/easycomments-3534.html
+KEY1：magento-community/EasyComments
+KEY2：http://connect20.magentocommerce.com/community/EasyComments</code></pre>
+<p>35.退货插件</p>
+<pre><code>URL：http://www.magentocommerce.com/magento-connect/site-management/order-management/returnslink-rma-2707.html
+KEY2：http://connect20.magentocommerce.com/community/ReturnsLink</code></pre>
+<p>36.Magento 移动插件</p>
+<pre><code>URL：http://www.magentocommerce.com/magento-connect/magento-mobile-6497.html
+KEY1：magento-core/Magento_Mobile
+KEY2：http://connect20.magentocommerce.com/community/Magento_Mobile</code></pre>
+<p>37.Magento 博客插件</p>
+<pre><code>URL：http://www.magentocommerce.com/magento-connect/blog-community-edition.html
+KEY1：magento-community/AW_Blog
+KEY2：http://connect20.magentocommerce.com/community/AW_Blog</code></pre>
+<p>38.自定项友好切换插件</p>
+<pre><code>URL：http://www.magentocommerce.com/magento-connect/gala-color-swatches-free-9787.html
+KEY1：magento-community/Gala_Colorswatches
+KEY2：http://connect20.magentocommerce.com/community/Gala_Colorswatches</code></pre>
+<p>39.导入产品关联，交叉销售，热卖推荐关系 ( ERIC 分享 )</p>
+<pre><code>URL：http://www.magentocommerce.com/magento-connect/itib-mass-import-product-relations-upsell-and-cross-sell.html
+KEY2: http://connect20.magentocommerce.com/community/ITIB_MassImportProductRelations
+KEY1: magento-community/ITIB_MassImportProductRelations</code></pre>
+<p>40.商品按库存排序</p>
+<pre><code>URL： http://www.magentocommerce.com/magento-connect/customer-experience/category-product-page-enhancements/sort-products-by-stock-status-9821.html
+KEY2：http://connect20.magentocommerce.com/community/Rayfox_Catalog</code></pre>
+<p>41.magento1.x的FAQ插件</p>
+<pre><code>https://connect20.magentocommerce.com/a44e6839a8292747b8add296620e10dd/tarunvishnoi+tv_faq_new-0.1.8</code></pre>
+<p>42.magento1.x的法语语言安装包</p>
+<pre><code>http://connect20.magentocommerce.com/community/Locale_Mage_community_fr_FR</code></pre>
+<p>43.magento免费插件设置快递运费表</p>
+<pre><code>http://connect20.magentocommerce.com/community/Auctionmaid_Matrxrate</code></pre>
+<p><strong>这里列出magento常用的几种语言包下载</strong></p>
+<p>列出一些Magento 1.5以上常用的语言包，方便自己也方便大家使用，安装语言包其实很简单，在Magento连接器中输入相应语言包的key，然后选安装就可以了。（后续会增加） </p>
+<pre><code>简体中文： http://connect20.magentocommerce.com/community/Locale_Mage_community_zh_CN 
+
+德国德语 http://connect20.magentocommerce.com/community/Locale_Mage_community_de_DE 
+
+法国法语： http://connect20.magentocommerce.com/community/Locale_Mage_community_fr_FR 
+
+丹麦语： http://connect20.magentocommerce.com/community/Locale_Mage_community_da_DK 
+
+挪威语： http://connect20.magentocommerce.com/community/Locale_Mage_community_nb_NO 
+
+西班牙语： http://connect20.magentocommerce.com/community/Locale_Mage_community_es_ES 
+
+葡萄牙语： http://connect20.magentocommerce.com/community/Locale_Mage_community_pt_BR 
+
+瑞典语： http://connect20.magentocommerce.com/community/Locale_Mage_community_sv_SE 
+
+芬兰语： http://connect20.magentocommerce.com/community/Locale_Mage_community_fi_FI 
+
+俄罗斯语： http://connect20.magentocommerce.com/community/Locale_Mage_community_ru_RU 
+
+日语: http://connect20.magentocommerce.com/community/Locale_Mage_community_ja_JP 
+
+捷克语： http://connect20.magentocommerce.com/community/Locale_Mage_community_cs_CZ 
+
+希腊语： http://connect20.magentocommerce.com/community/Locale_Mage_community_el_GR 
+
+意大利语： http://connect20.magentocommerce.com/community/Locale_Mage_community_it_IT 
+
+阿拉伯语（沙特阿拉伯，另外还有科威特，埃及阿拉伯语）： http://connect20.magentocommerce.com/community/Locale_Mage_community_ar_SA 
+
+繁体中文： http://connect20.magentocommerce.com/community/Locale_Mage_community_zh_TW</code></pre>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/magento1-%E6%8F%92%E4%BB%B6-%E9%93%BE%E6%8E%A5/" rel="tag"># magento1,插件,链接</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/01/18/%E5%90%84%E7%A7%8D%E6%96%B9%E5%BC%8F%E5%AE%89%E8%A3%85magento%E7%9A%84%E5%90%84%E7%A7%8D%E7%89%88%E6%9C%AC%E8%AF%A6%E8%A7%A3/" rel="prev" title="各种方式安装magento的各种版本详解">
+      <i class="fa fa-chevron-left"></i> 各种方式安装magento的各种版本详解
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/02/03/%E9%87%87%E7%94%A8.htaccess%E5%92%8C.htpasswd%E4%B8%BAwordpress%E5%92%8Cmagento%E7%BD%91%E7%AB%99%E8%AE%BE%E7%BD%AE%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6/" rel="next" title="采用.htaccess和.htpasswd为wordpress和magento网站设置访问控制">
+      采用.htaccess和.htpasswd为wordpress和magento网站设置访问控制 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,37 +1,829 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="介绍 在模板文件中，我们可以根据能与某页面相匹配的条件，利用条件标签更改该页面上将要显示的内容以及内容的显示方式。例如，如果希望在博客首页文章列表的上方显示一段文字，可以利用 is_home() 条件标签轻松实现这一效果。 注：条件标签与WordPress模板层级（Template Hierarchy）密切相关。 警告：你只能在WordPress的文章选择（posts_selection）动作钩子">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WordPress条件标签（Conditional Tags）">
+<meta property="og:url" content="http://example.com/2016/04/11/WordPress%E6%9D%A1%E4%BB%B6%E6%A0%87%E7%AD%BE%EF%BC%88Conditional-Tags%EF%BC%89/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="介绍 在模板文件中，我们可以根据能与某页面相匹配的条件，利用条件标签更改该页面上将要显示的内容以及内容的显示方式。例如，如果希望在博客首页文章列表的上方显示一段文字，可以利用 is_home() 条件标签轻松实现这一效果。 注：条件标签与WordPress模板层级（Template Hierarchy）密切相关。 警告：你只能在WordPress的文章选择（posts_selection）动作钩子">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2016-04-11T04:01:49.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:53:11.765Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2016/04/11/WordPress%E6%9D%A1%E4%BB%B6%E6%A0%87%E7%AD%BE%EF%BC%88Conditional-Tags%EF%BC%89/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>WordPress条件标签（Conditional Tags） | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/04/11/WordPress%E6%9D%A1%E4%BB%B6%E6%A0%87%E7%AD%BE%EF%BC%88Conditional-Tags%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          WordPress条件标签（Conditional Tags）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-04-11 12:01:49" itemprop="dateCreated datePublished" datetime="2016-04-11T12:01:49+08:00">2016-04-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:11" itemprop="dateModified" datetime="2020-10-11T11:53:11+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>介绍</strong></p>
+<p>在模板文件中，我们可以根据能与某页面相匹配的条件，利用条件标签更改该页面上将要显示的内容以及内容的显示方式。例如，如果希望在博客首页文章列表的上方显示一段文字，可以利用 is_home() 条件标签轻松实现这一效果。</p>
+<pre><code>注：条件标签与WordPress模板层级（Template Hierarchy）密切相关。
+警告：你只能在WordPress的文章选择（posts_selection）动作钩子的后面使用条件标签（WP动作钩子是第一位的，通过它可以使用这些条件语句）。对于主题来说，这意味着如果你将这些条件标签直接添加到 functions.php 文件的主体内（即在函数的外部），这些条件标签将不会正常工作。</code></pre>
+<p><strong>条件</strong></p>
+<p>所有条件标签都会检查是否有条件可符合相应页面，之后返回TRUE或者FALSE。下面列出能够使各个条件标签返回TRUE的条件。</p>
+<p><strong>主页（The Main Page）</strong></p>
+<pre><code>is_home()</code></pre>
+<p>显示博客首页时，该条件标签返回TRUE。注意：如果将静态页面作为博客主页（Front Page），该标签会在 设置 &gt; 阅读 中设置的“文章页（Posts page）”返回TRUE。</p>
+<p><strong>首页（The Front Page）</strong></p>
+<pre><code>is_front_page()</code></pre>
+<p>显示博客头版消息（无论是日志或是页面）。当系统显示博客主页且管理面板的 设置 &gt; 阅读 菜单下“主页显示为”选项设为最近发表的文章”，或者 设置 &gt; 阅读 菜单下“主页显示为”选项设为且”主页”是当前被显示的页面时，is_front_page()标签返回TRUE。</p>
+<p><strong>管理面板</strong></p>
+<pre><code>is_admin()</code></pre>
+<p>显示仪表盘或后台管理面板时，该标签返回TRUE。</p>
+<p><strong>单篇日志页面</strong></p>
+<pre><code>is_single()</code></pre>
+<p>显示任何单独一篇日志时，is_single()标签返回TRUE。</p>
+<pre><code>is_single(&#39;17&#39;)</code></pre>
+<p>显示 ID 为17的单篇日志时，该标签返回TRUE。</p>
+<pre><code>is_single(&#39;Irish Stew&#39;)</code></pre>
+<p>显示标题为”Irish Stew”的单篇日志时，该标签返回TRUE。</p>
+<pre><code>is_single(&#39;beef-stew&#39;)</code></pre>
+<p>显示别名为”beef-stew”的单篇日志时，该标签返回TRUE。</p>
+<pre><code>is_single(array(17,&#39;beef-stew&#39;,&#39;Irish Stew&#39;))</code></pre>
+<p>当所显示的单篇日志 ID 为17，或 post_name 为”beef-stew”，或 post_title 为”Irish Stew”时，is_single(array(17,’beef-stew’,’Irish Stew’))标签返回TRUE。</p>
+<pre><code>is_single( array( 17, 19, 1, 11 ) )</code></pre>
+<p>当所显示的日志为 ID = 17，ID = 19， ID = 1 或者 ID = 11 时，该标签返回TRUE。</p>
+<pre><code>is_single( array( &#39;beef-stew&#39;, &#39;pea-soup&#39;, &#39;chili&#39; ) )</code></pre>
+<p>当显示的单篇日志的 post_name 为 “beef-stew” 、 “pea-soup” 或 “chili” 时，该标签返回 TRUE。</p>
+<pre><code>is_single( array( &#39;Beef Stew&#39;, &#39;Pea Soup&#39;, &#39;Chili&#39; ) )</code></pre>
+<p>当显示的单篇日志的 the post_title 为 “Beef Stew” 、”Pea Soup” 或 “Chili”时，该标签返回 TRUE。</p>
+<pre><code>注： 该函数不区分 post ID、 post title 或 post name。如果请求的是 ID 为 17 的文章，post_name 为 17 的文章也会返回 TRUE；post title 为 17 的日志也一样返回TRUE。</code></pre>
+<p>置顶文章</p>
+<pre><code>is_sticky()</code></pre>
+<p>若当前日志的”Stick this post to the front page（将该日志在首页置顶）”复选框被选中，is_sticky()返回TRUE。此时标签没有提供日志的ID变量，因此系统会用到WordPress主循环the Loop的日志ID。</p>
+<pre><code>is_sticky(&#39;17&#39;)</code></pre>
+<p>若ID为17的日志被置顶，该标签返回TRUE。</p>
+<p><strong>文章类型</strong></p>
+<pre><code>get_post_type()</code></pre>
+<p>它不算一个真正的条件标签，但将返回当前文章的已注册的文章类型。例如：if ( ‘book’ == get_post_type() ) …</p>
+<p><strong>将返回文章类型为 ‘book’ 的文章。</strong></p>
+<pre><code>is_singular()</code></pre>
+<p>任何单篇日志、页面 或附件 都会返回 TRUE。 它允许用于文章类型的检测。</p>
+<pre><code>post_type_exists()</code></pre>
+<p>如果所给的文章类型是一个已注册的文章类型，就返回TRUE。它不会测试WordPress默认的文章类型。</p>
+<p><strong>文章类型层级</strong></p>
+<pre><code>is_post_type_hierarchical( $post_type )</code></pre>
+<p>如果 $post_type 在注册的时候就已被设置 支持层级（Hierarchical），就返回 TRUE。</p>
+<pre><code>is_post_type_hierarchical( &#39;book&#39; )</code></pre>
+<p>如果 book 这种文章类型在注册的时候就已被设置 支持层级，就返回TRUE。</p>
+<p><strong>文章类型存档</strong></p>
+<pre><code>is_post_type_archive() </code></pre>
+<p>任何文章类型存档页面，都返回TRUE。</p>
+<pre><code>is_post_type_archive( $post_type ) </code></pre>
+<p>如果文章类型存档页面为 指定的 $post_type （可以是一种文章类型或一组文章类型），就返回TRUE。</p>
+<pre><code>要开启文章类型存档，请在注册文章类型时，使用 &#39;has_archive&#39; =&gt; true 。</code></pre>
+<p><strong>评论弹出式窗口</strong></p>
+<pre><code>is_comments_popup()</code></pre>
+<p>显示的内容在评论弹出式窗口中时，该标签返回TRUE。</p>
+<pre><code>comments_open()</code></pre>
+<p>若评论允许当前日志在WordPress主循环中运行，该标签返回TRUE。</p>
+<pre><code>pings_open()</code></pre>
+<p>若引用通告ping允许当前日志在WordPress主循环中运行，该标签返回TRUE。</p>
+<p><strong>PAGE 页面</strong></p>
+<p>这里的PAGE指的是WordPress的“页面”功能，而不是博客生成的网页。</p>
+<pre><code>is_page()</code></pre>
+<p>显示任何一篇页面时，该标签返回TRUE。</p>
+<pre><code>is_page(&#39;42&#39;)</code></pre>
+<p>显示ID为42的页面时，该标签返回TRUE。</p>
+<pre><code>is_page(&#39;About Me And Joe&#39;)</code></pre>
+<p>若显示的页面的post_name为”About Me And Joe”，该标签返回TRUE。</p>
+<pre><code>is_page(&#39;about-me&#39;)</code></pre>
+<p>若显示的页面的post_name（别名）为”about-me”，该标签返回TRUE。</p>
+<pre><code>is_page(array(42,&#39;about-me&#39;,&#39;About Me And Joe&#39;))</code></pre>
+<p>当所显示的页面 ID 为42，或post_name为”about-me”，或post_title为”About Me And Joe”时，is_page(array(42,’about-me’,’About Me And Joe’))标签返回TRUE。</p>
+<pre><code>is_page( array( 42, 54, 6 ) )</code></pre>
+<p>当页面的 ID 为 42、 54 或 6 时，改标签返回TRUE。</p>
+<p><strong>分页</strong></p>
+<p>你可以使用这个代码来检测是否一篇 日志 或 PAGE页面 被 <!--nextpage--> 标签进行了分页。这是非常有用的，例如你只想在划分为多页的 日志 的第一页中显示 meta-data 。</p>
+<p>例 1</p>
+<pre><code>&lt;?php         
+$paged = $wp_query-&gt;get( &#39;page&#39; );
+
+if ( ! $paged || $paged &lt; 2 ) 
+&#123;
+    // This is not a paginated page (or it&#39;s simply the first page of a paginated page/post)
+
+&#125; 
+else 
+&#123;
+   // This is a paginated page.
+
+&#125;
+?&gt;</code></pre>
+<p><strong>例 2</strong></p>
+<pre><code>&lt;?php
+$paged = get_query_var( &#39;page&#39; ) ? get_query_var( &#39;page&#39; ) : false;
+if ( $paged === false ) 
+&#123;
+    // This is not a paginated page (or it&#39;s simply the first page of a paginated page/post)
+
+&#125; 
+else 
+&#123;
+   // This is a paginated page.
+
+&#125;
+?&gt;</code></pre>
+<p>####子页面####</p>
+<p>不存在子页面函数 is_subpage() ，但是你可以使用下面的代码进行检测：</p>
+<p><strong>片段 1</strong></p>
+<pre><code>&lt;?php
+
+global $post;     // 如果在循环外
+
+if ( is_page() &amp;&amp; $post-&gt;post_parent ) &#123;
+    // 这是一个子页面
+
+&#125; else &#123;
+    // 这不是一个子页面
+&#125;
+?&gt;</code></pre>
+<p>你可以将 片段 2 的代码添加到主题的 functions.php 文件，来自定义自己的 is_subpage() 函数。它同样会像 片段 1 一样检测一个父页面，如果存在父页面，它会返回父页面的ID；反之不返回。</p>
+<p><strong>片段 2</strong></p>
+<pre><code>function is_subpage() &#123;
+    global $post;                              // 加载这个页面的详细信息
+
+    if ( is_page() &amp;&amp; $post-&gt;post_parent ) &#123;   // 测试是否这个页面含有父页面
+        return $post-&gt;post_parent;             // 返回父页面的 ID
+
+    &#125; else &#123;                                   // 不存在父页面，所以...
+        return false;                          // ... 这个问题的答案是错误的
+    &#125;
+&#125;</code></pre>
+<p>要检测这个页面的父页面是一个特定的页面，比如 “About” （默认情况下该页面的ID为 2），我们可以使用 片段 3 的代码。通过检测不同的页面来显示不同的广告横幅图片，或不同的头部图片，例如：</p>
+<p><strong>片段 3</strong></p>
+<pre><code>&lt;?php
+
+if ( is_page( &#39;about&#39; ) || &#39;2&#39; == $post-&gt;post_parent ) &#123;    
+    // the page is &quot;About&quot;, or the parent of the page is &quot;About&quot;
+    $bannerimg = &#39;about.jpg&#39;;
+
+&#125; elseif ( is_page( &#39;learning&#39; ) || &#39;56&#39; == $post-&gt;post_parent ) &#123;    
+    $bannerimg = &#39;teaching.jpg&#39;;
+
+&#125; elseif ( is_page( &#39;admissions&#39; ) || &#39;15&#39; == $post-&gt;post_parent ) &#123; 
+    $bannerimg = &#39;admissions.jpg&#39;;
+
+&#125; else &#123; 
+    $bannerimg = &#39;home.jpg&#39;; // just in case we are at an unclassified page, perhaps the home page
+&#125;    
+
+?&gt;</code></pre>
+<p>片段 4 可以更加容易地实现上面所说的检测。下面这个函数如果检测到的页面是所要找的页面或者这个页面的子页面，这个函数将返回 TRUE。</p>
+<p><strong>片段 4</strong></p>
+<pre><code>function is_tree( $pid ) &#123;      // $pid = The ID of the page we&#39;re looking for pages underneath
+    global $post;               // load details about this page
+
+    if ( is_page($pid) )
+        return true;            // we&#39;re at the page or at a sub page
+
+    $anc = get_post_ancestors( $post-&gt;ID );
+    foreach ( $anc as $ancestor ) &#123;
+        if( is_page() &amp;&amp; $ancestor == $pid ) &#123;
+            return true;
+        &#125;
+    &#125;
+
+    return false;  // we arn&#39;t at the page, and the page is not an ancestor
+&#125;</code></pre>
+<p>添加片段 4 到主题的 functions.php 文件中，并且通过 is_tree( ‘id’ ) 来查看当前页面是否是我们要找的页面或者它的子页面。 is_tree( ‘2’ ) 就等同于 片段 3 中 “is_page( ‘about’ ) || ‘2’ == $post-&gt;post_parent”。</p>
+<pre><code>请注意，如果你有多个级别的页面，父页面只是这个子页面最直接的上一个等级的页面，而不是这个层次结构的最顶级的页面。</code></pre>
+<p><strong>页面模板</strong></p>
+<pre><code>is_page_template()</code></pre>
+<p>目前是否使用了页面模板</p>
+<pre><code>is_page_template(&#39;about.php&#39;)</code></pre>
+<p>是否使用页面模板’about’？注意：页面模板与其它条件标签有所不同，用户需要使用文件名（如 about.php 或my_page_template.php）来指定某个页面模板。</p>
+<p><strong>分类页面</strong></p>
+<pre><code>is_category()</code></pre>
+<p>显示分类存档页面页面时，is_category()标签返回TRUE。</p>
+<pre><code>is_category(&#39;9&#39;)</code></pre>
+<p>显示分类ID为9的存档页面时，is_category(‘9’)标签返回TRUE。</p>
+<pre><code>is_category(&#39;Stinky Cheeses&#39;)</code></pre>
+<p>显示分类名称为“Stinky Cheeses”的存档页面时，is_category(‘Stinky Cheeses’)标签返回TRUE。</p>
+<pre><code>is_category(&#39;blue-cheese&#39;)</code></pre>
+<p>显示分类别名为”blue-cheese”的存档页面时，is_category(‘blue-cheese’) 标签返回TRUE。</p>
+<pre><code>is_category(array(9,&#39;blue-cheese&#39;,&#39;Stinky Cheeses&#39;))</code></pre>
+<p>当所显示的分类存档term_ID为9，或别名为”blue-cheese”，或类别名称为”Stinky Cheeses”时，is_category(array(9,’blue-cheese’,’Stinky Cheeses’)) 标签返回TRUE。</p>
+<pre><code>in_category(&#39;5&#39;)</code></pre>
+<p>若当前日志属于ID 为 5 的分类，in_category(‘5’) 标签返回TRUE。</p>
+<pre><code>in_category( array( 1,2,3 ) )</code></pre>
+<p>如果当前日志属于 ID 为 1, 2, 或 3 的分类，返回TRUE。</p>
+<pre><code>! in_category( array( 4,5,6 ) )</code></pre>
+<p>如果当前日志不属于 ID 为 4, 5, 或 6 的分类，返回TRUE。注意前面添加的感叹号”!“。</p>
+<pre><code>注意：判断条件是否符合时，请不要将“in”写作“is”，两者有很大区别。</code></pre>
+<p><strong>标签页面</strong></p>
+<pre><code>is_tag()</code></pre>
+<p>显示标签存档页面时，is_tag() 会返回TRUE。</p>
+<pre><code>is_tag(&#39;mild&#39;)</code></pre>
+<p>显示别名为“mild”的标签的存档页面时，is_tag(‘mild’) 返回TRUE。</p>
+<pre><code>is_tag(array(&#39;sharp&#39;,&#39;mild&#39;,&#39;extreme&#39;))</code></pre>
+<p>若显示的标签别名为”sharp”、 “mild”或”extreme”，is_tag(array(‘sharp’,’mild’,’extreme’)) 返回TRUE。</p>
+<pre><code>has_tag()</code></pre>
+<p>若当前日志有标签，has_tag()返回TRUE。该标签必须用在WordPress主循环 中。</p>
+<pre><code>has_tag(&#39;mild&#39;)</code></pre>
+<p>若当前日志标签为“mild”，as_tag(‘mild’) 返回TRUE。</p>
+<pre><code>has_tag(array(&#39;sharp&#39;,&#39;mild&#39;,&#39;extreme&#39;))</code></pre>
+<p>若当前日志标签为数组中任一个标签，has_tag(array(‘sharp’,’mild’,’extreme’)) 返回TRUE。</p>
+<p><strong>分类法页面</strong></p>
+<pre><code>is_tax()</code></pre>
+<p>显示任何分类法归档页面时，返回TRUE。</p>
+<pre><code>is_tax( &#39;flavor&#39; )</code></pre>
+<p>显示 flavor 分类法的归档页面时，返回TRUE。</p>
+<pre><code>is_tax( &#39;flavor&#39;, &#39;mild&#39;)</code></pre>
+<p>显示的 flavor 分类法的归档页面的别名为 ‘mild’ 时，返回TRUE。</p>
+<pre><code>is_tax( &#39;flavor&#39;, array( &#39;sharp&#39;, &#39;mild&#39;, &#39;extreme&#39; ) )</code></pre>
+<p>显示的 flavor 分类法的归档页面的别名为数组 “sharp”, “mild”, 或 “extreme” 中的任何一个时，返回TRUE。</p>
+<pre><code>has_term()</code></pre>
+<p>检查当前文章是否包含任何给出的项（term）。第一个参数为空字符串，第二个参数可以是 分类法的别名（slug）或名称（name） 。</p>
+<pre><code>has_term( &#39;green&#39;, &#39;color&#39; )</code></pre>
+<p>当前文章从 color 这个分类法中包含 green 这个项时，返回TRUE。</p>
+<pre><code>has_term( array( &#39;green&#39;, &#39;orange&#39;, &#39;blue&#39; ), &#39;color&#39; )</code></pre>
+<p>当前文章从 color 这个分类法中包含数组中任何一个项时，返回TRUE。</p>
+<p><strong>已注册的分类法</strong></p>
+<pre><code>taxonomy_exists()</code></pre>
+<p>当某一种分类法已通过 register_taxonomy() 进行注册，返回TRUE。</p>
+<p><strong>作者页面</strong></p>
+<pre><code>is_author()</code></pre>
+<p>显示作者页面时，is_author()返回TRUE。</p>
+<pre><code>is_author(&#39;4&#39;)</code></pre>
+<p>若显示的是ID为4的作者的存档页面，is_author(‘4’) 返回TRUE。</p>
+<pre><code>is_author(&#39;Vivian&#39;)</code></pre>
+<p>若显示的是用户名为“Vivian”的作者的存档页面，is_author(‘Vivian’) 返回TRUE。</p>
+<pre><code>is_author(&#39;john-jones&#39;)</code></pre>
+<p>若显示的是用户名为“john-jones”的作者的存档页面，is_author(‘john-jones’) 返回TRUE。</p>
+<pre><code>is_author(array(4,&#39;john-jones&#39;,&#39;Vivian&#39;))</code></pre>
+<p>若页面的用户名ID为4，或user_nicename为“john-jones”，或用户名为“Vivian”，is_author(array(4,’john-jones’,’Vivian’)) 返回TRUE。</p>
+<p><strong>多作者网站</strong></p>
+<pre><code>is_multi_author( )</code></pre>
+<p>当一个网站有多个作者时，返回TRUE。注：首次出现于 WordPress 3.2 中。</p>
+<p><strong>日期页面</strong></p>
+<pre><code>is_date()</code></pre>
+<p>显示日期相关的存档页面（如月存档，年存档，日存档等基于时间的存档页面）时，is_date() 返回TRUE。</p>
+<pre><code>is_year()</code></pre>
+<p>显示年存档信息时，is_year() 返回TRUE。</p>
+<pre><code>is_month()</code></pre>
+<p>显示月存档信息时，is_month() 返回TRUE。</p>
+<pre><code>is_day()</code></pre>
+<p>显示日存档信息时，is_day() 返回TRUE。</p>
+<pre><code>is_time()</code></pre>
+<p>显示某时、某分或某秒的存档信息时，is_time() 返回TRUE。</p>
+<pre><code>is_new_day()</code></pre>
+<p>根据发布日期，如果今天是新的一天时，返回TRUE。用在循环中。</p>
+<p><strong>存档页面</strong></p>
+<pre><code>is_archive()</code></pre>
+<p>无论显示何种存档页面时，is_archive() 都会返回TRUE。类别存档、标签存档、作者存档以及日期存档页面都属于存档页面。</p>
+<p><strong>搜索结果页面</strong></p>
+<pre><code>is_search()</code></pre>
+<p>显示搜索结果页面时，is_search() 返回TRUE。</p>
+<p><strong>404 页面</strong></p>
+<pre><code>is_404()</code></pre>
+<p>出现”HTTP 404: Not Found”错误后所显示的页面。</p>
+<p><strong>分页型页面</strong></p>
+<pre><code>is_paged()</code></pre>
+<p>当前页面需要分页显示时，is_paged()返回TRUE。分页型页面是指某个存档页面或需要分成若干页显示的主页，显示第二页以及之后页面时，is_paged()返回TRUE。有些日志或页面使用<!--nextpage-->快速标签分页显示其内容，这些日志和页面都不属于分页型页面。</p>
+<p><strong>附件</strong></p>
+<pre><code>is_attachment()</code></pre>
+<p>显示某篇日志或页面的附件文件时，is_attachment() 会返回TRUE。附件可以是一张图片，也可以是用户所上传的其它文件。附件能够显示在“页面”或模板上。更多信息请参阅“图片和附件的使用”。</p>
+<p><strong>独立页面、单篇日志或附件</strong></p>
+<pre><code>is_singular()</code></pre>
+<p>当is_single(), is_page() 或is_attachment()返回TRUE时，is_singular() 也返回TRUE。</p>
+<pre><code>is_singular( &#39;book&#39; )</code></pre>
+<p>当正在查看的文章属于 book 这种 自定义文章类型 时，返回TRUE。</p>
+<pre><code>is_singular( array( &#39;newspaper&#39;, &#39;book&#39; ) )</code></pre>
+<p>当正在查看的文章属于 book 或  newspaper 这种 自定义文章类型 时，返回TRUE。</p>
+<p><strong>新闻聚合器</strong></p>
+<pre><code>is_feed()</code></pre>
+<p>网站需要使用RSS订阅时，is_feed()返回TRUE。一般情况下会用到is_feed()标签的是WordPress系统和插件开发人员，普通WordPress用户很少用到is_feed()标签。</p>
+<p><strong>引用通告（Trackback）</strong></p>
+<pre><code>is_trackback()</code></pre>
+<p>网站需要将WordPress钩子勾入Trackback。一般情况下会用到这个标签的是WordPress系统和插件开发人员，普通WordPress用户很少用到is_feed()标签。</p>
+<p><strong>预览</strong></p>
+<pre><code>is_preview()</code></pre>
+<p>若目前页面是在草稿状态下显示的（即预览），is_preview() 返回TRUE。</p>
+<p><strong>摘要</strong></p>
+<pre><code>as_excerpt()</code></pre>
+<p>当前日志要显示摘要时，as_excerpt() 返回TRUE。</p>
+<pre><code>has_excerpt(&#39;42&#39;)</code></pre>
+<p>若ID为42的日志要显示摘要时，has_excerpt(‘42’) 返回TRUE。</p>
+<pre><code>&lt;?php
+// Get $post if you&#39;re inside a function
+global $post;
+
+if ( empty( $post-&gt;post_excerpt ) ) &#123;
+    // This post has no excerpt
+&#125; else &#123;
+    // This post has excerpt
+&#125;
+?&gt;</code></pre>
+<p><strong>其他用法</strong></p>
+<p>当你要隐藏自动摘要或者只显示你文章的摘要：</p>
+<pre><code>&lt;?php if ( ! has_excerpt() ) &#123;
+      echo &#39;&#39;;
+&#125; else &#123; 
+      the_excerpt();
+&#125;</code></pre>
+<p>使用自己的文字替换自动摘要：</p>
+<pre><code>&lt;?php if ( ! has_excerpt() ) &#123;?&gt;
+    &lt;!-- you text or code --&gt;
+&lt;?php &#125; ?&gt;</code></pre>
+<p><strong>已分配导航菜单</strong></p>
+<pre><code>has_nav_menu()</code></pre>
+<p>当已注册的导航菜单分配有一个菜单时，返回TRUE，反之返回FALSE。</p>
+<p><strong>在循环中</strong></p>
+<pre><code>in_the_loop()</code></pre>
+<p>判断目前是否在WordPress主循环中。该标签适用于插件开发人员，若目前在WordPress主循环中，该标签返回TRUE。</p>
+<p><strong>边栏已激活</strong></p>
+<pre><code>is_active_sidebar()</code></pre>
+<p>检查现有侧边栏是否被激活（是否启用）。若侧边栏被启用，is_active_sidebar() 返回TRUE，否则返回FALSE。</p>
+<p><strong>网络中的部分（多站点）</strong></p>
+<pre><code>is_multisite()</code></pre>
+<p>检查当前网站是否是一个WordPress多站点安装。</p>
+<p><strong>主站点（多站点）</strong></p>
+<pre><code>is_main_site()</code></pre>
+<p>确定当前站点是多站点网络中的主站点。</p>
+<p><strong>网络管理员（多站点）</strong></p>
+<pre><code>is_super_admin()</code></pre>
+<p>确定用户是多站点网络的（超级）管理员。</p>
+<p><strong>已启用的插件</strong></p>
+<pre><code>is_plugin_active()</code></pre>
+<p>检查插件是否已启用。</p>
+<p><strong>子主题</strong></p>
+<pre><code>is_child_theme()</code></pre>
+<p>检查是否在使用子主题。</p>
+<p><strong>主题支持功能</strong></p>
+<pre><code>current_theme_supports()</code></pre>
+<p>检查是否存在各种主题功能。</p>
+<p><strong>实例</strong></p>
+<p>下面是这些条件标签的一些使用实例。</p>
+<p><strong>单篇日志</strong></p>
+<p>下面这个例子向我们展示了怎样用is_single()为某个单独日志页面显示独特内容：</p>
+<pre><code>if ( is_single() ) &#123;
+   echo &#39;This is just one of many fabulous entries in the &#39; . single_cat_title() . &#39; category!&#39;;
+&#125;</code></pre>
+<p>选择在 index.php 中显示全文还是摘要。 如果是首页或单篇日志，就显示全文，否则显示摘要：</p>
+<pre><code>if ( is_home() || is_single() ) &#123;
+   the_content();
+&#125;
+else &#123;
+   the_excerpt();
+&#125;</code></pre>
+<p>在不是首页的任何地方显示自定义内容：</p>
+<pre><code>&lt;?php if ( ! is_home() ) &#123;?&gt;
+
+ Insert your markup ...
+
+&lt;?php &#125;?&gt;</code></pre>
+<p><strong>区分基于日期的页面</strong></p>
+<p>如果访问者按日期浏览网站，我们可以用不同颜色标注不同年份的日志或其它信息：</p>
+<pre><code>&lt;?php
+// this starts The Loop
+if ( have_posts() ) : while ( have_posts() ) : the_post(); ?&gt;
+&lt;h2 id=&quot;post-&lt;?php the_ID(); ?&gt;&quot;&gt;
+&lt;a href=&quot;&lt;?php the_permalink() ?&gt;&quot; rel=&quot;bookmark&quot; title=&quot;Permanent Link to &lt;?php the_title(); ?&gt;&quot;&gt;
+&lt;?php the_title(); ?&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;small&gt;&lt;?php the_time(&#39;F jS, Y&#39;) ?&gt; &lt;!-- by &lt;?php the_author() ?&gt; --&gt;&lt;/small&gt;
+
+&lt;?php
+// are we showing a date-based archive?
+if ( is_date() ) &#123;
+     if ( date( &#39;Y&#39; ) != get_the_date( &#39;Y&#39; ) ) &#123;
+          // this post was written in a previous year
+          // so let&#39;s style the content using the &quot;oldentry&quot; class
+          echo &#39;&lt;div class=&quot;oldentry&quot;&gt;&#39;;
+     &#125; else &#123;
+          echo &#39;&lt;div class=&quot;entry&quot;&gt;&#39;;
+     &#125;
+&#125; else &#123;
+     echo &#39;&lt;div class=&quot;entry&quot;&gt;&#39;;
+&#125;
+
+the_content( &#39;Read the rest of this entry »&#39; ); 
+
+?&gt;
+&lt;/div&gt;</code></pre>
+<p>可视化的侧边栏内容</p>
+<p>本例根据访问者当前浏览的界面，在侧边栏上显示不同内容。</p>
+<pre><code>&lt;!-- begin sidebar --&gt;
+&lt;div id=&quot;sidebar&quot;&gt;
+&lt;?php
+// let&#39;s generate info appropriate to the page being displayed
+if ( is_home() ) &#123;
+    // we&#39;re on the home page, so let&#39;s show a list of all top-level categories
+    echo &quot;&lt;ul&gt;&quot;;
+    wp_list_categories( &#39;optionall=0&amp;sort_column=name&amp;list=1&amp;children=0&#39; );
+    echo &quot;&lt;/ul&gt;&quot;;
+&#125; elseif ( is_category() ) &#123;
+    // we&#39;re looking at a single category view, so let&#39;s show _all_ the categories
+     echo &quot;&lt;ul&gt;&quot;;
+    wp_list_categories( &#39;optionall=1&amp;sort_column=name&amp;list=1&amp;children=1&amp;hierarchical=1&#39; );
+    echo &quot;&lt;/ul&gt;&quot;;
+&#125; elseif ( is_single() ) &#123;
+    // we&#39;re looking at a single page, so let&#39;s not show anything in the sidebar
+&#125; elseif ( is_page() ) &#123;
+    // we&#39;re looking at a static page.  Which one?
+    if ( is_page( &#39;About&#39; ) ) &#123;
+        // our about page.
+        echo &quot;&lt;p&gt;This is my about page!&lt;/p&gt;&quot;;
+    &#125; elseif ( is_page( &#39;Colophon&#39; ) ) &#123;
+        echo &quot;&lt;p&gt;This is my colophon page, running on WordPress &quot; . bloginfo( &#39;version&#39; ) . &quot;&lt;/p&gt;&quot;;
+    &#125; else &#123;
+        // catch-all for other pages
+        echo &quot;&lt;p&gt;Vote for Pedro!&lt;/p&gt;&quot;;
+    &#125;
+&#125; else &#123;
+    // catch-all for everything else (archives, searches, 404s, etc)
+    echo &quot;&lt;p&gt;Pedro offers you his protection.&lt;/p&gt;&quot;;
+&#125; // That&#39;s all, folks!
+?&gt;
+&lt;form id=&quot;searchform&quot; method=&quot;get&quot; action=&quot;&lt;?php echo $_SERVER[&#39;PHP_SELF&#39;]; ?&gt;&quot;&gt;
+&lt;div&gt;
+&lt;input type=&quot;text&quot; name=&quot;s&quot; id=&quot;s&quot; size=&quot;15&quot; /&gt;
+&lt;input type=&quot;submit&quot; value=&quot;&lt;?php _e( &#39;Search&#39; ); ?&gt;&quot; /&gt;
+&lt;/div&gt;
+&lt;/form&gt;
+
+&lt;/div&gt;
+&lt;!-- end sidebar --&gt;</code></pre>
+<p><strong>404页面</strong></p>
+<p>设计Error 404页面中的编写友好的错误信息部分有一个使用PHP条件函数isset()的示例。</p>
+<p><strong>动态菜单高亮</strong></p>
+<p>动态菜单高亮中介绍了如何用条件标签在菜单中激活当前页面的高亮显示部分。</p>
+<p><strong>在主题的footer.php文件中</strong></p>
+<p>有时在模板文件（如sidebar.php）中执行的查询可能破坏一些条件标签。例如，某个条件标签可以在header.php文件中正常运行，但却不能适应主题的footer.php文件。这时可以在页脚中把wp_reset_query放条件检验前：</p>
+<pre><code>&lt;?php
+wp_reset_query();
+if ( is_page( &#39;2&#39; ) ) &#123;
+    echo &#39;This is page 2!&#39;;
+&#125; 
+?&gt;</code></pre>
+<p>内容参考：wordpress大学</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2016/04/10/hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%97%B6%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/" rel="prev" title="hexo博客搭建时遇到的一些问题">
+      <i class="fa fa-chevron-left"></i> hexo博客搭建时遇到的一些问题
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2016/04/11/less%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="next" title="less学习笔记">
+      less学习笔记 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,37 +1,618 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="很久没有写一些关于css的设计问题了，今天刚好有这么一个问题，感觉挺有意思的一个斜角设计效果，用到了一些相关的技巧，用以记录下。 本文两个问题：  采用背景位移实现鼠标悬浮的时候，图片进行更换成另外一个效果或者另外一张图片；采用css3的新特性实现图片的斜角设计，鼠标悬浮的时候，发生一些效果的变化。  预期的效果截图如下：   鼠标悬浮上去之后：  背景位移的案例示例代码： &lt;div cla">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网页设计中采用css背景位移和css3的新特性clip path完成不规则特效设计的需求">
+<meta property="og:url" content="http://example.com/2019/08/06/%E7%BD%91%E9%A1%B5%E8%AE%BE%E8%AE%A1%E4%B8%AD%E9%87%87%E7%94%A8css%E8%83%8C%E6%99%AF%E4%BD%8D%E7%A7%BB%E5%92%8Ccss3%E7%9A%84%E6%96%B0%E7%89%B9%E6%80%A7clip-path%E5%AE%8C%E6%88%90%E4%B8%8D%E8%A7%84%E5%88%99%E7%89%B9%E6%95%88%E8%AE%BE%E8%AE%A1%E7%9A%84%E9%9C%80%E6%B1%82/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="很久没有写一些关于css的设计问题了，今天刚好有这么一个问题，感觉挺有意思的一个斜角设计效果，用到了一些相关的技巧，用以记录下。 本文两个问题：  采用背景位移实现鼠标悬浮的时候，图片进行更换成另外一个效果或者另外一张图片；采用css3的新特性实现图片的斜角设计，鼠标悬浮的时候，发生一些效果的变化。  预期的效果截图如下：   鼠标悬浮上去之后：  背景位移的案例示例代码： &lt;div cla">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/FpqTofk.png">
+<meta property="og:image" content="https://i.imgur.com/LwDq55Y.png">
+<meta property="og:image" content="https://i.imgur.com/BAHb6fd.png">
+<meta property="og:image" content="https://i.imgur.com/ZrzAqiS.png">
+<meta property="og:image" content="https://i.imgur.com/h3NcgGI.png">
+<meta property="og:image" content="https://i.imgur.com/BOKlzzW.png">
+<meta property="article:published_time" content="2019-08-06T06:52:07.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:06.272Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="css,clip path,背景位移,div里面的img有留白,倾斜设计,斜角设计,图像裁剪">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/FpqTofk.png">
+
+<link rel="canonical" href="http://example.com/2019/08/06/%E7%BD%91%E9%A1%B5%E8%AE%BE%E8%AE%A1%E4%B8%AD%E9%87%87%E7%94%A8css%E8%83%8C%E6%99%AF%E4%BD%8D%E7%A7%BB%E5%92%8Ccss3%E7%9A%84%E6%96%B0%E7%89%B9%E6%80%A7clip-path%E5%AE%8C%E6%88%90%E4%B8%8D%E8%A7%84%E5%88%99%E7%89%B9%E6%95%88%E8%AE%BE%E8%AE%A1%E7%9A%84%E9%9C%80%E6%B1%82/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>网页设计中采用css背景位移和css3的新特性clip path完成不规则特效设计的需求 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/08/06/%E7%BD%91%E9%A1%B5%E8%AE%BE%E8%AE%A1%E4%B8%AD%E9%87%87%E7%94%A8css%E8%83%8C%E6%99%AF%E4%BD%8D%E7%A7%BB%E5%92%8Ccss3%E7%9A%84%E6%96%B0%E7%89%B9%E6%80%A7clip-path%E5%AE%8C%E6%88%90%E4%B8%8D%E8%A7%84%E5%88%99%E7%89%B9%E6%95%88%E8%AE%BE%E8%AE%A1%E7%9A%84%E9%9C%80%E6%B1%82/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          网页设计中采用css背景位移和css3的新特性clip path完成不规则特效设计的需求
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-08-06 14:52:07" itemprop="dateCreated datePublished" datetime="2019-08-06T14:52:07+08:00">2019-08-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:06" itemprop="dateModified" datetime="2020-10-11T11:58:06+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/css/" itemprop="url" rel="index"><span itemprop="name">css</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>很久没有写一些关于css的设计问题了，今天刚好有这么一个问题，感觉挺有意思的一个斜角设计效果，用到了一些相关的技巧，用以记录下。</p>
+<p>本文两个问题：</p>
+<blockquote>
+<p>采用背景位移实现鼠标悬浮的时候，图片进行更换成另外一个效果或者另外一张图片；采用css3的新特性实现图片的斜角设计，鼠标悬浮的时候，发生一些效果的变化。</p>
+</blockquote>
+<p>预期的效果截图如下：</p>
+<p><img src="https://i.imgur.com/FpqTofk.png"></p>
+<p><img src="https://i.imgur.com/LwDq55Y.png"></p>
+<p>鼠标悬浮上去之后：</p>
+<p><img src="https://i.imgur.com/BAHb6fd.png"></p>
+<p>背景位移的案例示例代码：</p>
+<pre><code>&lt;div class=&quot;wayne_container&quot;&gt;
+    &lt;div class=&quot;wayne_item&quot;&gt;
+        &lt;div class=&quot;way_item_img&quot;&gt;&lt;/div&gt;
+        &lt;h2&gt;hello world&lt;/h2&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;wayne_item&quot;&gt;
+        &lt;div class=&quot;way_item_img&quot;&gt;&lt;/div&gt;
+        &lt;h2&gt;hello world&lt;/h2&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;wayne_item&quot;&gt;
+        &lt;div class=&quot;way_item_img&quot;&gt;&lt;/div&gt;
+        &lt;h2&gt;hello world&lt;/h2&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;wayne_item&quot;&gt;
+        &lt;div class=&quot;way_item_img&quot;&gt;&lt;/div&gt;
+        &lt;h2&gt;hello world&lt;/h2&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;style&gt;
+    .wayne_container&#123;
+        display: flex;
+    &#125;
+    .wayne_item&#123;
+        flex: 1;
+        padding:10px;
+        text-align: center;
+    &#125;
+    .way_item_img&#123;
+        background-image: url(&#39;laser-icon.png&#39;);
+        background-position:0px 0px;
+        width: 100px;
+        height: 100px;
+        transition: 0.1s ease;
+        margin: auto;
+        background-size: 100%;
+    &#125;
+    .wayne_item:hover .way_item_img&#123;
+        background-position:0px 100px;
+    &#125;
+    @media screen and (max-width: 760px)&#123;
+        .wayne_container &#123;
+            display: block !important;
+        &#125;
+        .wayne_item &#123;
+            float: left;
+            width: 50%;
+        &#125;
+        .wayne_item h2&#123;
+          font-size: 16px;
+          margin: 8px 0px;
+        &#125;
+    &#125;
+&lt;/style&gt;</code></pre>
+<p>我们需要一张图片，图片里面有一张图片的两种形式：悬浮之前的样式；悬浮之后的样式，为了确保一致，这两种状态的尺寸是一致的。</p>
+<p>图片如下：</p>
+<p><img src="https://i.imgur.com/ZrzAqiS.png"></p>
+<p>其中一张图片的尺寸为：<code>100px*100px</code>;所以这张大图我们的尺寸为<code>100px*200px</code>;</p>
+<p>用浏览器打开就可以看到相应的效果了。更多而可以参考<a target="_blank" rel="noopener" href="https://www.w3school.com.cn/cssref/pr_background-position.asp">背景位移</a></p>
+<h2 id="关于css3的clip-path特性在斜角设计上的运用"><a href="#关于css3的clip-path特性在斜角设计上的运用" class="headerlink" title="关于css3的clip path特性在斜角设计上的运用"></a>关于css3的clip path特性在斜角设计上的运用</h2><p>这个直接上一个demo示例即可：</p>
+<pre><code>&lt;style&gt;
+    .slide-entry&#123;
+       width: 100%;
+       max-width: 400px;
+    &#125;
+    .slide-entry-excerpt .slider_imggs:after&#123;
+      background: linear-gradient(rgba(255,255,255,1),rgba(255,255,255,1));
+      -webkit-clip-path: polygon(0 0,0 0,100% 100%,0 100%);
+      clip-path: polygon(0 0,0 0,100% 100%,0 100%);
+      bottom: -10px;
+      left: -2px;
+      content: &quot;&quot;;
+      transition: all 250ms ease-in-out;
+      position: absolute;
+      height: 65px;
+      transition: 0.5s ease;
+      width: 120%;
+    &#125;
+    .slider_imggs&#123;
+      margin-bottom: 15px;
+    &#125;
+    .extra_info&#123;
+      opacity: 0;
+      display: none;
+      transition: 0.5s ease;
+    &#125;
+    .extra_info a&#123;
+      opacity: 0;
+      transition: 0.5s ease;
+    &#125;
+    .slider_imggs .wgng img&#123;
+      display: block;
+      max-width: 400px;
+    &#125;
+    .slide-entry-excerpt:hover .extra_info&#123;
+        height: 100%;
+        opacity: 1;
+        display: block;
+        background: rgba(184, 137, 15, 0.7);
+        width: 100%;
+        display: block;
+        position: absolute;
+        z-index: 9999;
+    &#125;
+    .slide-entry-excerpt:hover .extra_info a&#123;
+        position: absolute;
+        top: calc(100%/2 - 40px);
+        left: calc(100%/2 - 40px);
+        opacity: 1;
+        width: 100%;
+        max-width: 80px;
+    &#125;
+    .slider_imggs&#123;
+      position: relative;
+    &#125;
+    .slide-entry-excerpt:hover .slider_imggs:after&#123;
+      height: auto;
+    &#125;
+&lt;/style&gt;
+
+&lt;div class=&quot;slide-entry flex_column av_one_fourth first&quot;&gt;
+    &lt;div class=&quot;slide-entry-excerpt entry-content&quot; itemprop=&quot;text&quot;&gt;
+        &lt;div class=&quot;slider_ittem&quot;&gt;
+            &lt;div class=&quot;slider_imggs&quot;&gt;
+                &lt;span class=&quot;extra_info&quot;&gt;&lt;a href=&quot;#&quot;&gt;&lt;img src=&quot;http://bai.noctivr.com/wp-content/uploads/2019/08/icon.png&quot;&gt;&lt;/a&gt;&lt;/span&gt;
+                &lt;div class=&quot;wgng&quot;&gt;&lt;img src=&quot;http://bai.noctivr.com/wp-content/uploads/2019/08/advantage-shorten-lead-time.jpg&quot;&gt;&lt;/div&gt;
+            &lt;/div&gt;
+            &lt;h3&gt;Military &amp;amp; Defense&lt;/h3&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<p>这里只需要把dom结构设计好，剩下的就是分别处理好鼠标悬浮前和鼠标悬浮后的效果，然后把斜角加进去，然后把细节处理好就行了，本文不是为了提供一个现成的方案，而是提供一个思路，一种启示。我们可以在这个基础上变化成更多的风格。</p>
+<p>比如：从左到右的倾斜；从右到左的倾斜，从中间出发到两边的倾斜等等。这个我们可以选择一个在线的图形裁剪工具：<a target="_blank" rel="noopener" href="http://tools.jb51.net/code/css3path">http://tools.jb51.net/code/css3path</a></p>
+<p>会根据自己想要的形状进行裁剪，最后生成代码，直接粘贴即可。</p>
+<p>比如我想要从中间出发，向两边倾斜怎么做？我们直接从上面的那个示例代码中获得启示：采用css的伪类，有两个伪类，一个是after我们已经用了，那么还有一个before还没用到，所以我们只需要在那个代码的基础上添加如下代码即可：</p>
+<pre><code>.slide-entry-excerpt .slider_imggs:before&#123;
+  background: linear-gradient(rgba(255,255,255,1),rgba(255,255,255,1));
+  -webkit-clip-path: polygon(0 100%, 100% 100%, 100% 10%);
+  clip-path: polygon(0 100%, 100% 100%, 100% 10%);
+  bottom: -10px;
+  right: -2px;
+  content: &quot;&quot;;
+  transition: all 250ms ease-in-out;
+  position: absolute;
+  height: 65px;
+  transition: 0.5s ease;
+  width: 120%;
+&#125;</code></pre>
+<p>我们可以看出与after相比，其实唯一不同的地方就是clip-path的属性值了。这个就是采用在线生成工具生成的，当然我们也可以去查查这个新特性的文档，自己设置。</p>
+<p>添加后，效果就是中间是尖的，像一支铅笔那样：</p>
+<p><img src="https://i.imgur.com/h3NcgGI.png"></p>
+<p>其他的，大家可以根据自己的需要自己发挥。</p>
+<p>当然：笔者还有一个建议，如果自己不知道倾斜的这个效果怎么写的，可以在网上搜索一下，然后找一个有倾斜效果的网站，然后根据开发者工具查找即可，很快就可以定位到这个效果的css代码的。</p>
+<h2 id="解决div里面img图片下方有空白的问题"><a href="#解决div里面img图片下方有空白的问题" class="headerlink" title="解决div里面img图片下方有空白的问题"></a>解决div里面img图片下方有空白的问题</h2><p>在开发的过程中，我发现插入一张图片后，下面想紧跟着一个带背景色的div，不管我怎么折腾他都有一条白边。后来研究了一下发现自己对img标签了解的真不够深入。</p>
+<p>根据上方的代码：</p>
+<pre><code>...
+&lt;div class=&quot;slider_imggs&quot;&gt;
+    &lt;span class=&quot;extra_info&quot;&gt;&lt;a href=&quot;#&quot;&gt;&lt;img src=&quot;http://bai.noctivr.com/wp-content/uploads/2019/08/icon.png&quot;&gt;&lt;/a&gt;&lt;/span&gt;
+    &lt;div class=&quot;wgng&quot;&gt;&lt;img src=&quot;http://bai.noctivr.com/wp-content/uploads/2019/08/advantage-shorten-lead-time.jpg&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+...</code></pre>
+<p>这个里面就有一个典型的img在div里面的情况，当我们什么也不处理的时候，会发现在div里面的img后面有个白色的空间，无论怎么处理都没法去掉。</p>
+<blockquote>
+<p>首先要知道产生这部分空白区域的原理。<br>图片的display属性默认是inline，而这个属性的vertical-align的默认值是baseline。所以就会出现上图的情况（图片底部出现一个小留白区域）。</p>
+</blockquote>
+<p>那么这个问题的解决方案如下：</p>
+<p><strong>方法1：对这个div里面的img由行类元素变成块级元素。</strong></p>
+<pre><code>div.wgng img &#123;
+    display: block;
+&#125;</code></pre>
+<p>这样留白就消失，当然如果此时想要有留白只需要通过padding的方式添加即可。</p>
+<p><strong>方法2：</strong></p>
+<pre><code>div.wgng img &#123;
+    vertical-align: middle;
+&#125;</code></pre>
+<p>既然分析到img的vertical-align默认属性导致出现留白问题，所以直接修改vertical-align属性值就行咯。</p>
+<p><strong>方法3：</strong></p>
+<pre><code>div.wgng img &#123;
+    margin-bottom: -10px;
+&#125;</code></pre>
+<p>把img元素的底部外边距改成负值，同样可以实现去留白的效果。<br>这里修改的值的大小，会影响整个页面的布局。<br>修改的足够小（比如-100px），图片的留白部分就会消失，但是img之后的元素会被动上移，且会藏在img标签的下面。甚至一不小心就很容易把img后面的内容网上移得太多，导致内容显示不全。<br>如下图所示：</p>
+<p><img src="https://i.imgur.com/BOKlzzW.png"></p>
+<p>其中，section里面的内容也会被覆盖一部分。</p>
+<p>所以我这个案例修改成-10就ok了。</p>
+<blockquote>
+<p>因为这个方法可能会导致出现一些意想不到的事情，所以不建议用这个方法。</p>
+</blockquote>
+<p><strong>方法4：</strong></p>
+<pre><code>div.wgng &#123;
+    font-size: 0;
+&#125;</code></pre>
+<p>由上面的分析得到，出现留白的原因是因为垂直对齐的方式所导致的，所以可以修改父元素的font-size，把父元素的字体大小改为0，所以就没什么垂直对齐所言咯。</p>
+<p>要注意的是：这个修改会影响class=”banner”这个元素里面的字体（因为字体属性能继承）。</p>
+<p>同时需要注意的是：font-size要放在img的父元素里<code>div.wgng</code>，不能直接放在img样式里面。</p>
+<p><strong>方法5：</strong></p>
+<pre><code>div.wgng &#123;
+    line-height: 0;
+&#125;</code></pre>
+<p>把img的父元素行高设成0，这样也就没什么垂直对齐所言。</p>
+<p>需要注意的点和方法4所需注意的点差不多。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/css-clip-path-%E8%83%8C%E6%99%AF%E4%BD%8D%E7%A7%BB-div%E9%87%8C%E9%9D%A2%E7%9A%84img%E6%9C%89%E7%95%99%E7%99%BD-%E5%80%BE%E6%96%9C%E8%AE%BE%E8%AE%A1-%E6%96%9C%E8%A7%92%E8%AE%BE%E8%AE%A1-%E5%9B%BE%E5%83%8F%E8%A3%81%E5%89%AA/" rel="tag"># css,clip path,背景位移,div里面的img有留白,倾斜设计,斜角设计,图像裁剪</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/07/31/%E8%BF%90%E7%94%A8javascript%E5%AF%B9shopify%E7%9A%84%E4%BA%A7%E5%93%81%E8%AF%A6%E6%83%85%E9%A1%B5%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%B8%AA%E5%9C%A8%E7%BA%BF%E8%AF%A2%E7%9B%98%E6%8C%89%E9%92%AE%EF%BC%8C%E7%84%B6%E5%90%8E%E8%8E%B7%E5%8F%96%E4%BA%A7%E5%93%81%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BF%A1%E6%81%AF%E5%BF%AB%E9%80%9F%E6%8F%90%E4%BA%A4%E8%AF%A2%E7%9B%98/" rel="prev" title="运用javascript对shopify的产品详情页添加一个在线询盘按钮，然后获取产品的基本信息快速提交询盘">
+      <i class="fa fa-chevron-left"></i> 运用javascript对shopify的产品详情页添加一个在线询盘按钮，然后获取产品的基本信息快速提交询盘
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/08/09/%E4%BB%A5shopify%E7%9A%84section%E6%96%B9%E6%A1%88%E5%AE%9E%E7%8E%B0%E6%A8%A1%E6%9D%BF%E6%96%87%E4%BB%B6%E9%A1%B5%E9%9D%A2%E5%B8%83%E5%B1%80%E7%9A%84%E8%87%AA%E7%94%B1%E5%88%87%E6%8D%A2/" rel="next" title="以shopify的section方案实现模板文件页面布局的自由切换">
+      以shopify的section方案实现模板文件页面布局的自由切换 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E4%BA%8Ecss3%E7%9A%84clip-path%E7%89%B9%E6%80%A7%E5%9C%A8%E6%96%9C%E8%A7%92%E8%AE%BE%E8%AE%A1%E4%B8%8A%E7%9A%84%E8%BF%90%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text">关于css3的clip path特性在斜角设计上的运用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3div%E9%87%8C%E9%9D%A2img%E5%9B%BE%E7%89%87%E4%B8%8B%E6%96%B9%E6%9C%89%E7%A9%BA%E7%99%BD%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">2.</span> <span class="nav-text">解决div里面img图片下方有空白的问题</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

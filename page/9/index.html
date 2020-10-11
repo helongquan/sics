@@ -1,23 +1,4372 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-{% block title %}{{ config.title }}{% if theme.index_with_subtitle and config.subtitle %} - {{config.subtitle }}{% endif %}{% endblock %}
+<link rel="stylesheet" href="/css/main.css">
 
-{% block page_class %}
-  {% if is_home() %}page-home{% endif -%}
-{% endblock %}
 
-{% block content %}
-  <section id="posts" class="posts-expand">
-    {% for post in page.posts %}
-      {{ post_template.render(post, true) }}
-    {% endfor %}
-  </section>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-  {% include '_partials/pagination.swig' %}
-{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
 
-{% block sidebar %}
-  {{ sidebar_template.render(false) }}
-{% endblock %}
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/page/9/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/page/9/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
+            
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/11/06/magento%E5%8E%BB%E6%8E%89%E7%BD%91%E5%9D%80url%E4%B8%AD%E7%9A%84index-php/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/11/06/magento%E5%8E%BB%E6%8E%89%E7%BD%91%E5%9D%80url%E4%B8%AD%E7%9A%84index-php/" class="post-title-link" itemprop="url">magento去掉网址url中的index.php</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-11-06 15:36:09" itemprop="dateCreated datePublished" datetime="2018-11-06T15:36:09+08:00">2018-11-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:00" itemprop="dateModified" datetime="2020-10-11T11:58:00+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/magento1/" itemprop="url" rel="index"><span itemprop="name">magento1</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <ol>
+<li><p>Login to admin section by using the URL</p>
+<p> <a target="_blank" rel="noopener" href="http://domain.com/index.php/admin">http://domain.com/index.php/admin</a></p>
+</li>
+<li><p>then go to “<code>System &gt;&gt; Configuration &gt;&gt;Web &gt;&gt; Search Engines Optimization</code>”</p>
+</li>
+</ol>
+<p>Use Web Server Rewrites : <strong>YES</strong></p>
+<ol start="3">
+<li>Go to “<code>System &gt;&gt; Configuration &gt;&gt;Web &gt;&gt;Secure</code>”</li>
+</ol>
+<p>Use secure URL Frontend: <strong>YES</strong></p>
+<p>4)Then create the .htaccess file under your the magento installed folder.</p>
+<p>If the magento installed under document root ( <code>/home/username/public_html</code>) then add follogig rules into <strong><code>.htaccess</code></strong> file</p>
+<pre><code>&lt;IfModule mod_rewrite.c&gt;
+RewriteEngine On
+RewriteBase /
+RewriteRule ^index\.php$ - [L]
+RewriteCond %&#123;REQUEST_FILENAME&#125; !-f
+RewriteCond %&#123;REQUEST_FILENAME&#125; !-d
+RewriteRule . /index.php [L]
+&lt;/IfModule&gt;</code></pre>
+<p>and If the magento installed under <code>/shop</code> or directory then add the following rules into ” <code>/home/username/public_html/shop/.htaccess</code> ”file.</p>
+<pre><code>&lt;IfModule mod_rewrite.c&gt;
+RewriteEngine On
+RewriteBase /shop/
+RewriteRule ^index\.php$ - [L]
+RewriteCond %&#123;REQUEST_FILENAME&#125; !-f
+RewriteCond %&#123;REQUEST_FILENAME&#125; !-d
+RewriteRule . /shop/index.php [L]
+&lt;/IfModule&gt;</code></pre>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/11/02/javascript%E8%8E%B7%E5%8F%96wordpress%E7%94%A8%E6%88%B7%E6%B5%8F%E8%A7%88%E4%BF%A1%E6%81%AF-cookie%E4%BF%A1%E6%81%AF-%E6%98%BE%E7%A4%BA%E5%9C%A8%E9%A1%B5%E9%9D%A2%E4%B8%8A%E5%B9%B6%E4%B8%94%E5%AD%98%E5%85%A5%E6%95%B0%E6%8D%AE%E5%BA%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/11/02/javascript%E8%8E%B7%E5%8F%96wordpress%E7%94%A8%E6%88%B7%E6%B5%8F%E8%A7%88%E4%BF%A1%E6%81%AF-cookie%E4%BF%A1%E6%81%AF-%E6%98%BE%E7%A4%BA%E5%9C%A8%E9%A1%B5%E9%9D%A2%E4%B8%8A%E5%B9%B6%E4%B8%94%E5%AD%98%E5%85%A5%E6%95%B0%E6%8D%AE%E5%BA%93/" class="post-title-link" itemprop="url">javascript获取wordpress用户浏览信息(cookie信息)显示在页面上并且存入数据库</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-11-02 21:16:37" itemprop="dateCreated datePublished" datetime="2018-11-02T21:16:37+08:00">2018-11-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:58" itemprop="dateModified" datetime="2020-10-11T11:57:58+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/wordpress/" itemprop="url" rel="index"><span itemprop="name">wordpress</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>在阅读这篇文章之前可以阅读以下另外一篇文章：<a target="_blank" rel="noopener" href="http://phpstudy.php.cn/b.php/54085.html">http://phpstudy.php.cn/b.php/54085.html</a>，因为笔者的是以这篇文章进行扩展的，怎么说呢，支持大家的原创，站在巨人的肩上才能看得更远，但是也得尊重那些坚持创作的人，尽管不知道这个链接是否是原创者的博客，但是留个链接是干这行的从业人员的一个良好品德。</p>
+<p>好的，笔者的思路是这样的，</p>
+<blockquote>
+<p>监控网站的所有页面。所以需要把这个js代码放在公共部分，比如wordpress的公共头部或者公共底部。然后，获取登录用户的基本信息，不让它显示在页面上，但是必须要有dom节点，以便jquery能够获取得到。确保这些信息获取到了后，然后对浏览信息进行遍历，遍历的同时把想要获取的信息保存在数据库中，然后对用户的浏览信息处理后，等下次用户登录的时候进行判断，如果当前用户的信息已经在这个用户信息收集表中，那么就对这个用户的信息进行查询，把浏览记录推送到前台。</p>
+</blockquote>
+<p>有了这个思路后，剩下的就是开干的问题了。</p>
+<p>笔者在主题根目录下找到header.php，在<code>&lt;/head&gt;</code>标签前面添加如下代码：</p>
+<pre><code>//引入必要依赖库文件
+&lt;script src=&quot;https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.js&quot;&gt;&lt;/script&gt;
+
+//主要实现的逻辑代码
+&lt;script type=&quot;text/javascript&quot;&gt;
+$(document).ready(function()&#123;
+    var art_title = $(&quot;article .entry-content-header .post-title a&quot;).text(); //文章标题 
+    var art_url = document.URL; //页面地址
+    console.log(art_title);
+    console.log(art_url);
+
+    var canAdd = true; //初始可以插入cookie信息 
+    var hisArt = $.cookie(&quot;hisArt&quot;);
+    var len = 0;
+    if(hisArt)&#123;
+        hisArt = eval(&quot;(&quot;+hisArt+&quot;)&quot;);
+        len = hisArt.length;
+    &#125;
+
+    $(hisArt).each(function()&#123;
+        if(this.title == art_title)&#123;
+            canAdd = false; //已经存在，不能插入 
+            return false;
+        &#125;
+    &#125;);
+
+    if(canAdd==true)&#123;
+        var json = &quot;[&quot;;
+        var start = 0;
+        if(len&gt;10)&#123;
+            start = 1;
+        &#125;
+        for(var i=start;i&lt;len;i++)&#123;
+        json = json + &quot;&#123;\&quot;title\&quot;:\&quot;&quot;+hisArt[i].title+&quot;\&quot;,\&quot;url\&quot;:\&quot;&quot;+hisArt[i].url+&quot;\&quot;&#125;,&quot;;
+        &#125;
+        json = json + &quot;&#123;\&quot;title\&quot;:\&quot;&quot;+art_title+&quot;\&quot;,\&quot;url\&quot;:\&quot;&quot;+art_url+&quot;\&quot;&#125;]&quot;;
+        $.cookie(&quot;hisArt&quot;,json,&#123;
+            expires:1
+        &#125;);
+    &#125;
+
+    //定义一个存放php文件的地址，这个地方根据自己的实际情况来,笔者在主题为nocti的目录下的fenleisousuo文件夹
+    //$website_url = &quot;http://localhost:8080/wordpress/wp-content/themes/nocti/fenleisousuo&quot;;
+    //域名协议的获取这里不用写死的方式，而是采用获取当前协议和域名的方式，这样可以防止当http协议更换到https的时候不能访问的问题
+    var host = window.location.host;
+    var protocol = window.location.protocol;
+    var port = window.location.port;
+    $website_url = protocol+&quot;//&quot;+host+&quot;:&quot;+port+&quot;/wordpress/wp-content/themes/nocti/fenleisousuo&quot;;
+    $(function()&#123;
+        var json = eval(&quot;(&quot;+$.cookie(&quot;hisArt&quot;)+&quot;)&quot;);
+        var list = &quot;&quot;;
+        for(var i=0; i&lt;json.length;i++)&#123;
+           //对浏览记录进行遍历
+            list = list + &quot;&lt;li&gt;&lt;a href=&#39;&quot;+json[i].url+&quot;&#39; target=&#39;_blank&#39;&gt;&quot;+json[i].title+&quot;&lt;/a&gt;&lt;/li&gt;&quot;; 
+
+            //获取用户信息，以及cookie中的信息
+            var user = new Object();
+            user.name = $(&quot;#userinf .username&quot;).text();
+            user.title = json[i].title;
+            user.url = json[i].url;
+            user.userID = $(&quot;#userinf .userID&quot;).text();
+            user.email = $(&quot;#userinf .useremail&quot;).text();
+
+            //发起ajax请求，把获取的信息保存到数据库
+            save_user_info = $.ajax(&#123;
+                url: $website_url+&quot;/add_info.php&quot;,
+                type: &quot;get&quot;,
+                dataType: &quot;json&quot;,
+                data: user,
+                contentType: &quot;application/json&quot;,
+                success: function (res) &#123;
+                    console.log(res);
+                &#125;,
+                error: function (xhr, err, exception) &#123;
+                    console.log(err);
+                &#125;
+            &#125;);
+
+        &#125;
+
+        //把遍历的历史记录显示在id为list的位置
+        $(&quot;#list&quot;).html(list);
+    &#125;);
+
+    //对用户的浏览记录进行获取，然后显示到前台页面来，这有待完善
+    var userInfor = new Object();
+    user.userID = $(&quot;#userinf .userID&quot;).text();
+    get_user_inf = $.ajax(&#123;
+        url: $website_url+&quot;/get_user_history.php&quot;,
+        type: &quot;get&quot;,
+        dataType: &quot;json&quot;,
+        data: userInfor,
+        contentType: &quot;application/json&quot;,
+        success: function (res) &#123;
+            console.log(res);
+
+        &#125;,
+        error: function (xhr, err, exception) &#123;
+            console.log(err);
+        &#125;
+    &#125;);
+
+
+&#125;)
+&lt;/script&gt;</code></pre>
+<p>把这里弄清楚后，我们就来看下这两个后端的文件：add_info.php和get_user_history_info.php</p>
+<p><strong>add_info.php代码</strong></p>
+<pre><code>&lt;?php
+//字符编码设置，以及处理跨域的问题
+header(&quot;Content-type:text/html;charset=utf-8;Access-Control-Allow-Origin:*;Access-Control-Allow-Methods:GET,POST&quot;);
+//获取当前文件所在目录
+$gen=$_SERVER[&#39;DOCUMENT_ROOT&#39;];
+require_once(&quot;$gen/wordpress/wp-config.php&quot;);
+
+//链接mysql服务器 开始
+$con = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD);
+mysqli_select_db($con, DB_NAME);
+
+// 检测连接
+$name = $_GET[&#39;name&#39;];
+$title = $_GET[&#39;title&#39;];
+$url = $_GET[&#39;url&#39;];
+$email = $_GET[&#39;email&#39;];
+$userID = $_GET[&#39;userID&#39;];
+$created_time = date(&#39;Y-m-d G:i:s&#39;, time());
+
+$getold = &quot;SELECT url FROM user_cookie WHERE url = &#39;$url&#39; and userid = &#39;$userID&#39;&quot;;
+if ($getold == &#39;&#39;) &#123;
+    $sql = &quot;UPDATE user_cookie SET create_time = &#39;$created_time&#39;&quot;;
+&#125;else&#123;
+    $sql = &quot;INSERT INTO user_cookie (user,title,url,email,userid,create_time) VALUES (&#39;$name&#39;,&#39;$title&#39;,&#39;$url&#39;,&#39;$email&#39;,&#39;$userID&#39;,&#39;$created_time&#39;)&quot;;
+&#125;
+$result = mysqli_query($con,$sql);
+if (!$result) &#123;
+    printf(&quot;Error: %s\n&quot;, mysqli_error($con));
+    exit();
+&#125;
+
+$jarr = array();
+while ($rows=mysqli_fetch_array($result,MYSQL_ASSOC))&#123;
+    $count=count($rows);//不能在循环语句中，由于每次删除 row数组长度都减小  
+    for($i=0;$i&lt;$count;$i++)&#123;
+        unset($rows[$i]);//删除冗余数据  
+    &#125;
+    array_push($jarr,$rows);
+&#125;
+//查看数组
+// print_r($jarr);
+echo $str=json_encode($jarr,JSON_UNESCAPED_UNICODE);//将数组进行json编码，并且解决中文乱码的问题
+mysqli_close($con);
+?&gt;</code></pre>
+<p>这里面自己看下，这里大家最好先看下笔者的另外一篇关于连接wordpress配置文件的文章，以及另外一篇获取mysql数据，并且以json格式返回数据的文章。这样就能理解这里面的代码了。</p>
+<p><strong>get_user_history_info.php代码</strong></p>
+<pre><code>&lt;?php
+//字符编码设置，以及处理跨域的问题
+header(&quot;Content-type:text/html;charset=utf-8;Access-Control-Allow-Origin:*;Access-Control-Allow-Methods:GET,POST&quot;);
+
+//获取当前文件所在目录
+$gen=$_SERVER[&#39;DOCUMENT_ROOT&#39;];
+require_once(&quot;$gen/wordpress/wp-config.php&quot;);
+
+//链接mysql服务器 开始
+$con = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD);
+mysqli_select_db($con, DB_NAME);
+
+$userID = $_GET[&#39;userID&#39;];
+// 检测连接
+$sql = &quot;SELECT title,url FROM user_cookie WHERE userid = &#39;$userID&#39;&quot;;
+$result = mysqli_query($con,$sql);
+if (!$result) &#123;
+    printf(&quot;Error: %s\n&quot;, mysqli_error($con));
+    exit();
+&#125;
+
+$jarr = array();
+while ($rows=mysqli_fetch_array($result,MYSQL_ASSOC))&#123;
+    $count=count($rows);//不能在循环语句中，由于每次删除 row数组长度都减小  
+    for($i=0;$i&lt;$count;$i++)&#123;
+        unset($rows[$i]);//删除冗余数据  
+    &#125;
+    array_push($jarr,$rows);
+&#125;
+//查看数组
+// print_r($jarr);
+echo $str=json_encode($jarr,JSON_UNESCAPED_UNICODE);//将数组进行json编码，并且解决中文乱码的问题
+mysqli_close($con);
+?&gt;</code></pre>
+<p>然后就是在header.php里面添加获取用户的基本信息的代码：</p>
+<pre><code>&lt;div id=&quot;userinf&quot; style=&quot;display: none&quot;&gt;
+    &lt;?php global $current_user;
+         get_currentuserinfo();
+         echo &#39;用户名：&lt;span class=&quot;username&quot;&gt; &#39; . $current_user-&gt;user_login . &quot;&lt;/span&gt;&lt;br&gt;&quot;;
+         echo &#39;用户邮箱：&lt;span class=&quot;useremail&quot;&gt; &#39; . $current_user-&gt;user_email . &quot;&lt;/span&gt;&lt;br&gt;&quot;;
+         echo &#39;公开显示名：&lt;span class=&quot;nikename&quot;&gt; &#39; . $current_user-&gt;display_name . &quot;&lt;/span&gt;&lt;br&gt;&quot;;
+         echo &#39;用户 ID：&lt;span class=&quot;userID&quot;&gt;&#39; . $current_user-&gt;ID . &quot;&lt;/span&gt;&quot;;
+    ?&gt;
+&lt;/div&gt;</code></pre>
+<p>这样才能获取用户的dom值。</p>
+<p>完成这些后，我们再把数据库表（user_cookie）创建一下：</p>
+<pre><code>SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for user_cookie
+-- ----------------------------
+DROP TABLE IF EXISTS `user_cookie`;
+CREATE TABLE `user_cookie` (
+  `user` varchar(64) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `userid` int(11) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;</code></pre>
+<p>有了这些基本就完成了雏形了，剩下的就需要我们处理一些细节，本文还没有彻底完成，后面会持续更新，敬请关注。</p>
+<p>2018/11/5 17:42:39 更新</p>
+<p>更新位置：</p>
+<p>在header.php那里做记录的字段添加了两个：thumbnail和ip;然后对获取标题的方式做了一下变化，不获取文章详情页的dom元素，而是直接获取页面的title的值，并且对获取的字符串进行了截取。</p>
+<p>我们先看下js部分，这部分跟前面一样，都是写在header.php里面。所有代码如下：</p>
+<pre><code>&lt;script src=&quot;https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+$(document).ready(function()&#123;
+     //文章的标题 
+    // var art_title = $(&quot;.post-template-default article .entry-content-header .post-title a&quot;).text();
+    // 获取页面的标题值,然后截取并保留 “-”前面的内容
+    var art_title = $(document).attr(&quot;title&quot;).split(&#39; – &#39;)[0];
+    var art_url = document.URL; //页面地址
+    var art_thumbnail = $(&quot;.big-preview a img&quot;)[0].src;
+    var art_ip = $(&quot;.userip&quot;).text();
+
+    var canAdd = true; //初始可以插入cookie信息 
+    var hisArt = $.cookie(&quot;hisArt&quot;);
+    var len = 0;
+    if(hisArt)&#123;
+        hisArt = eval(&quot;(&quot;+hisArt+&quot;)&quot;);
+        len = hisArt.length;
+    &#125;
+
+    $(hisArt).each(function()&#123;
+        if(this.title == art_title)&#123;
+            canAdd = false; //已经存在，不能插入 
+            return false;
+        &#125;
+    &#125;);
+
+    if(canAdd==true)&#123;
+        var json = &quot;[&quot;;
+        var start = 0;
+        if(len&gt;10)&#123;
+            start = 1;
+        &#125;
+        for(var i=start;i&lt;len;i++)&#123;
+        json = json + &quot;&#123;\&quot;title\&quot;:\&quot;&quot;+hisArt[i].title+&quot;\&quot;,\&quot;url\&quot;:\&quot;&quot;+hisArt[i].url+&quot;\&quot;,\&quot;thumbnail\&quot;:\&quot;&quot;+hisArt[i].thumbnail+&quot;\&quot;,\&quot;ip\&quot;:\&quot;&quot;+hisArt[i].ip+&quot;\&quot;&#125;,&quot;;
+        &#125;
+        json = json + &quot;&#123;\&quot;title\&quot;:\&quot;&quot;+art_title+&quot;\&quot;,\&quot;url\&quot;:\&quot;&quot;+art_url+&quot;\&quot;,\&quot;thumbnail\&quot;:\&quot;&quot;+art_thumbnail+&quot;\&quot;,\&quot;ip\&quot;:\&quot;&quot;+art_ip+&quot;\&quot;&#125;]&quot;;
+        $.cookie(&quot;hisArt&quot;,json,&#123;
+            expires:1
+        &#125;);
+    &#125;
+
+    //$website_url = &quot;http://localhost:8080/wordpress/wp-content/themes/nocti/fenleisousuo&quot;;
+    //域名协议的获取这里不用写死的方式，而是采用获取当前协议和域名的方式，这样可以防止当http协议更换到https的时候不能访问的问题
+    var host = window.location.host;
+    var protocol = window.location.protocol;
+    var port = window.location.port;
+    $website_url = protocol+&quot;//&quot;+host+&quot;:&quot;+port+&quot;/wordpress/wp-content/themes/nocti/fenleisousuo&quot;;
+    $(function()&#123;
+        var json = eval(&quot;(&quot;+$.cookie(&quot;hisArt&quot;)+&quot;)&quot;);
+        console.log(json);
+        var list = &quot;&quot;;
+        for(var i=0; i&lt;json.length;i++)&#123;
+            list = list + &quot;&lt;li&gt;&lt;a href=&#39;&quot;+json[i].url+&quot;&#39; target=&#39;_blank&#39;&gt;&quot;+json[i].title+&quot;&lt;/a&gt;&lt;/li&gt;&quot;; 
+
+            var user = new Object();
+            user.name = $(&quot;#userinf .username&quot;).text();
+            user.title = json[i].title;
+            user.url = json[i].url;
+            user.img = json[i].thumbnail;
+            user.userip = json[i].ip;
+            user.userID = $(&quot;#userinf .userID&quot;).text();
+            user.email = $(&quot;#userinf .useremail&quot;).text();
+
+            save_user_info = $.ajax(&#123;
+                url: $website_url+&quot;/add_info.php&quot;,
+                type: &quot;get&quot;,
+                dataType: &quot;json&quot;,
+                data: user,
+                contentType: &quot;application/json&quot;,
+                success: function (res) &#123;
+                    console.log(res);
+
+                &#125;,
+                error: function (xhr, err, exception) &#123;
+                    console.log(err);
+                &#125;
+            &#125;);
+
+        &#125;
+        $(&quot;#list&quot;).html(list);
+
+
+        var userInfor = new Object();
+        userInfor.userID = $(&quot;#userinf .userID&quot;).text();
+        var item = &#39;&lt;div class=&quot;favorite&quot;&gt;&#39;;
+        get_user_inf = $.ajax(&#123;
+            url: $website_url+&quot;/get_user_history_info.php&quot;,
+            type: &quot;get&quot;,
+            dataType: &quot;json&quot;,
+            data: userInfor,
+            contentType: &quot;application/json&quot;,
+            success: function (res) &#123;
+                $(&quot;.entry-content&quot;).append(&quot;&lt;h4&gt;你已经阅读过以下的内容&lt;/h4&gt;&quot;);
+                for (var i = res.length - 1; i &gt;= 0; i--) &#123;
+                    item = item + &quot;&lt;div clas=&#39;favoItem&#39; style=&#39;width:calc(100%/4);float: left;padding: 5px;&#39;&gt;&lt;img src=&quot;+res[i].thumbnail+&quot;&gt;&lt;p&gt;&lt;a href=&#39;&quot;+res[i].url+&quot;&#39; target=&#39;_blank&#39;&gt;&quot;+res[i].title+&quot;&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;&quot;;
+                &#125;
+                item = item + &quot;&lt;/div&gt;&quot;;
+                $(&quot;.av-share-box&quot;).html(item);
+            &#125;,
+            error: function (xhr, err, exception) &#123;
+                console.log(err);
+            &#125;
+        &#125;);
+
+    &#125;);
+
+
+&#125;)
+&lt;/script&gt;</code></pre>
+<p>这个里面已经写了些注释了，变化不是很大，看下差异就行。这里说下遇到的问题的地方，问题：每次访问一个新页面的时候，获取的缩略图总是同一张，这个让我困惑了很久，后来发现在json这个里面，只有title和url这两个字段的信息，而笔者采用的是jquery获取缩略图的地址，这个是错误的做法，应该写成：</p>
+<pre><code>var art_thumbnail = $(&quot;.big-preview a img&quot;)[0].src;</code></pre>
+<p>而这个要直接添加进：</p>
+<pre><code>for(var i=start;i&lt;len;i++)&#123;
+json = json + &quot;&#123;\&quot;title\&quot;:\&quot;&quot;+hisArt[i].title+&quot;\&quot;,\&quot;url\&quot;:\&quot;&quot;+hisArt[i].url+&quot;\&quot;,\&quot;thumbnail\&quot;:\&quot;&quot;+hisArt[i].thumbnail+&quot;\&quot;,\&quot;ip\&quot;:\&quot;&quot;+hisArt[i].ip+&quot;\&quot;&#125;,&quot;;
+&#125;
+json = json + &quot;&#123;\&quot;title\&quot;:\&quot;&quot;+art_title+&quot;\&quot;,\&quot;url\&quot;:\&quot;&quot;+art_url+&quot;\&quot;,\&quot;thumbnail\&quot;:\&quot;&quot;+art_thumbnail+&quot;\&quot;,\&quot;ip\&quot;:\&quot;&quot;+art_ip+&quot;\&quot;&#125;]&quot;;
+$.cookie(&quot;hisArt&quot;,json,&#123;
+    expires:1
+&#125;);</code></pre>
+<p>这个里面，这个是一个遍历，就是记录的每一条信息的相关字段，如果这个里面没有加入，只是在发起ajax请求那里写</p>
+<pre><code>$(&quot;.big-preview a img&quot;)[0].src;</code></pre>
+<p>把这个值提交到数据库是不行的，道理很简单，这个只是获取当前页面的img，然后再持续遍历完，</p>
+<pre><code>for(var i=0; i&lt;json.length;i++)&#123;
+    list = list + &quot;&lt;li&gt;&lt;a href=&#39;&quot;+json[i].url+&quot;&#39; target=&#39;_blank&#39;&gt;&quot;+json[i].title+&quot;&lt;/a&gt;&lt;/li&gt;&quot;; 
+
+    var user = new Object();
+    user.name = $(&quot;#userinf .username&quot;).text();
+    more...
+
+
+    save_user_info = $.ajax(&#123;
+        url: $website_url+&quot;/add_info.php&quot;,
+        type: &quot;get&quot;,
+        dataType: &quot;json&quot;,
+        data: user,
+        contentType: &quot;application/json&quot;,
+        success: function (res) &#123;
+            console.log(res);
+
+        &#125;,
+        error: function (xhr, err, exception) &#123;
+            console.log(err);
+        &#125;
+    &#125;);
+
+&#125;</code></pre>
+<p>看到这个代码想必已经明白了，这个里面有个循环遍历，每循环一次获取的图片是同一张，这个就不难理解为何刷新了当前页面，数据库里面获取的图片居然是同一张。</p>
+<p>另外碰到的一个问题就是，在后端做判断的那里出现的问题，就是判断不起作用。先看后端的其中一个（add_info.php）修改后的完整代码：</p>
+<pre><code>&lt;?php
+//字符编码设置，以及处理跨域的问题
+header(&quot;Content-type:text/html;charset=utf-8;Access-Control-Allow-Origin:*;Access-Control-Allow-Methods:GET,POST&quot;);
+//获取当前文件所在目录
+$gen=$_SERVER[&#39;DOCUMENT_ROOT&#39;];
+require_once(&quot;$gen/wordpress/wp-config.php&quot;);
+
+//链接mysql服务器 开始
+$con = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD);
+mysqli_select_db($con, DB_NAME);
+
+// 检测连接
+$name = $_GET[&#39;name&#39;];
+$title = $_GET[&#39;title&#39;];
+$url = $_GET[&#39;url&#39;];
+$email = $_GET[&#39;email&#39;];
+$userID = $_GET[&#39;userID&#39;];
+$created_time = date(&#39;Y-m-d G:i:s&#39;, time());
+$img = $_GET[&#39;img&#39;];
+$ip = $_GET[&#39;userip&#39;];
+
+$getold = mysqli_query($con,&quot;SELECT * FROM user_cookie WHERE url = &#39;$url&#39; and userid = &#39;$userID&#39;&quot;);
+// 删除表中旧的数据
+// mysqli_query($con,&quot;DELETE FROM user_cookie WHERE url = &#39;$url&#39;&quot;);
+
+if ($userID == 0) &#123;   //如果用户没有登录那么，不记录浏览信息
+    exit();
+&#125;else if (mysqli_num_rows($getold) &lt; 1) &#123;
+$sql = &quot;INSERT INTO user_cookie (user,title,url,email,userid,create_time,thumbnail,ip) VALUES (&#39;$name&#39;,&#39;$title&#39;,&#39;$url&#39;,&#39;$email&#39;,&#39;$userID&#39;,&#39;$created_time&#39;,&#39;$img&#39;,&#39;$ip&#39;)&quot;;
+&#125;else&#123;
+    $sql = &quot;UPDATE user_cookie SET create_time = &#39;$created_time&#39;&quot;;
+&#125;
+$result = mysqli_query($con,$sql);
+if (!$result) &#123;
+    printf(&quot;Error: %s\n&quot;, mysqli_error($con));
+    exit();
+&#125;
+
+$jarr = array();
+while ($rows=mysqli_fetch_array($result,MYSQL_ASSOC))&#123;
+    $count=count($rows);//不能在循环语句中，由于每次删除 row数组长度都减小  
+    for($i=0;$i&lt;$count;$i++)&#123;
+        unset($rows[$i]);//删除冗余数据  
+    &#125;
+    array_push($jarr,$rows);
+&#125;
+//查看数组
+// print_r($jarr);
+echo $str=json_encode($jarr,JSON_UNESCAPED_UNICODE);//将数组进行json编码，并且解决中文乱码的问题
+mysqli_close($con);
+?&gt;</code></pre>
+<p>其实在快解决这个问题之前笔者已经快走到极端了，就是每次刷新页面的时候，先把数据表里面的都清空一次，然后再把新的数据插入。这样很显然是下下策了，你想想每次打开一个页面都要删除一遍数据然后再插入一遍，而且万一有点风吹草动，其他用户的浏览信息会被删除了。</p>
+<p>我们看下笔者是如何解决的，还是跟着最开始的那个来，先对数据查询一下，如果这个用户没有登录，那么就不进行下一步了，直接退出（因为这里笔者仅仅想获取已经登录用户的浏览信息，当然如果想要获取非登录用户的浏览信息，只能通过结合IP来进行了，事实上通过IP来判断这个用户是否是老用户不是很准确，因为IP经常会变化）。</p>
+<p>如果用户已经登录，这个时候进一步做判断，如果这个用户已经浏览了这个新闻或者这个商品，那么就不需要再次记录了，而是更新一下时间即可。如果这个用户从来没有阅读过这个信息，那么就执行插入操作。笔者没有错在逻辑，而是错在写法：</p>
+<pre><code>$getold = mysqli_query(&quot;SELECT * FROM user_cookie WHERE url = &#39;$url&#39; and userid = &#39;$userID&#39;&quot;);      //错误的写法</code></pre>
+<p>很显然，这样写是不对的，因为还没连上数据库配置信息。</p>
+<pre><code>$getold = mysqli_query($con,&quot;SELECT * FROM user_cookie WHERE url = &#39;$url&#39; and userid = &#39;$userID&#39;&quot;);   //正确的写法</code></pre>
+<p>这个就是获取符合条件的记录是否存在，如果存在就干啥，不存在就干啥。</p>
+<p>补充一下：</p>
+<pre><code>// 删除表中旧的数据
+// mysqli_query($con,&quot;DELETE FROM user_cookie WHERE url = &#39;$url&#39;&quot;);</code></pre>
+<p>这个是被笔者注释掉的，这个不要用了，作为参考而已。</p>
+<p>搞清楚这个之后，基本就达到目的了。</p>
+<p>我们再把另外一个api对应的文件（get_user_history_info.php）完整代码贴一下：</p>
+<pre><code>&lt;?php
+//字符编码设置，以及处理跨域的问题
+header(&quot;Content-type:text/html;charset=utf-8;Access-Control-Allow-Origin:*;Access-Control-Allow-Methods:GET,POST&quot;);
+
+//获取当前文件所在目录
+$gen=$_SERVER[&#39;DOCUMENT_ROOT&#39;];
+require_once(&quot;$gen/wordpress/wp-config.php&quot;);
+
+//链接mysql服务器 开始
+$con = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD);
+mysqli_select_db($con, DB_NAME);
+
+$userID = $_GET[&#39;userID&#39;];
+// 检测连接
+
+if ($userID == 0) &#123;
+    exit();
+&#125;else&#123;
+    $sql = &quot;SELECT DISTINCT(title),url,thumbnail,email,userid FROM user_cookie WHERE userid = &#39;$userID&#39;&quot;;
+&#125;
+
+$result = mysqli_query($con,$sql);
+if (!$result) &#123;
+    printf(&quot;Error: %s\n&quot;, mysqli_error($con));
+    exit();
+&#125;
+
+$jarr = array();
+while ($rows=mysqli_fetch_array($result,MYSQL_ASSOC))&#123;
+    $count=count($rows);//不能在循环语句中，由于每次删除 row数组长度都减小  
+    for($i=0;$i&lt;$count;$i++)&#123;
+        unset($rows[$i]);//删除冗余数据  
+    &#125;
+    array_push($jarr,$rows);
+&#125;
+//查看数组
+// print_r($jarr);
+echo $str=json_encode($jarr,JSON_UNESCAPED_UNICODE);//将数组进行json编码，并且解决中文乱码的问题
+mysqli_close($con);
+?&gt;</code></pre>
+<p>这个就是一个获取数据表中数据的api，这个里面有个判断，如果是非登录（userid:0）那么，就直接退出程序，不继续执行，否则就进行一个查询操作，查询当前用户浏览过的数据，然后显示到合适的位置。</p>
+<p>其实就三部分，数据库那边笔者更新了下字段，user_cookie.sql代码：</p>
+<pre><code>SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for user_cookie
+-- ----------------------------
+DROP TABLE IF EXISTS `user_cookie`;
+CREATE TABLE `user_cookie` (
+  `user` varchar(64) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `userid` int(11) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `thumbnail` varchar(255) DEFAULT NULL,
+  `ip` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;</code></pre>
+<hr>
+<p>笔者把这个部署到在线网站去，稍作修改即可。</p>
+<p>主题是一样的，这里还是加在header.php那里，</p>
+<pre><code>&lt;script src=&quot;https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+$(document).ready(function()&#123;
+     //文章的标题 
+    // var art_title = $(&quot;.post-template-default article .entry-content-header .post-title a&quot;).text();
+    // 获取页面的标题值,然后截取并保留 “-”前面的内容
+    var art_title = $(document).attr(&quot;title&quot;).split(&#39; – &#39;)[0];
+    // console.log(art_title);
+    var art_url = document.URL; //页面地址
+    var art_thumbnail = $(&quot;.post-template-default article .big-preview a img&quot;)[0].src;
+    var art_ip = $(&quot;.userip&quot;).text();
+
+    // console.log(art_title);
+    // console.log(art_url);
+
+    var canAdd = true; //初始可以插入cookie信息 
+    var hisArt = $.cookie(&quot;hisArt&quot;);
+    var len = 0;
+    if(hisArt)&#123;
+        hisArt = eval(&quot;(&quot;+hisArt+&quot;)&quot;);
+        len = hisArt.length;
+    &#125;
+
+    $(hisArt).each(function()&#123;
+        if(this.title == art_title)&#123;
+            canAdd = false; //已经存在，不能插入 
+            return false;
+        &#125;
+    &#125;);
+
+    if(canAdd==true)&#123;
+        var json = &quot;[&quot;;
+        var start = 0;
+        if(len&gt;10)&#123;
+            start = 1;
+        &#125;
+        for(var i=start;i&lt;len;i++)&#123;
+        json = json + &quot;&#123;\&quot;title\&quot;:\&quot;&quot;+hisArt[i].title+&quot;\&quot;,\&quot;url\&quot;:\&quot;&quot;+hisArt[i].url+&quot;\&quot;,\&quot;thumbnail\&quot;:\&quot;&quot;+hisArt[i].thumbnail+&quot;\&quot;,\&quot;ip\&quot;:\&quot;&quot;+hisArt[i].ip+&quot;\&quot;&#125;,&quot;;
+        &#125;
+        json = json + &quot;&#123;\&quot;title\&quot;:\&quot;&quot;+art_title+&quot;\&quot;,\&quot;url\&quot;:\&quot;&quot;+art_url+&quot;\&quot;,\&quot;thumbnail\&quot;:\&quot;&quot;+art_thumbnail+&quot;\&quot;,\&quot;ip\&quot;:\&quot;&quot;+art_ip+&quot;\&quot;&#125;]&quot;;
+        $.cookie(&quot;hisArt&quot;,json,&#123;
+            expires:1
+        &#125;);
+    &#125;
+
+    //$website_url = &quot;http://yourdomain.com/wp-content/themes/nocti/fenleisousuo&quot;;
+    //域名协议的获取这里不用写死的方式，而是采用获取当前协议和域名的方式，这样可以防止当http协议更换到https的时候不能访问的问题
+    var host = window.location.host;
+    var protocol = window.location.protocol;
+    var port = window.location.port;
+    $website_url = protocol+&quot;//&quot;+host+&quot;:&quot;+port+&quot;/wordpress/wp-content/themes/nocti/fenleisousuo&quot;;
+    $(function()&#123;
+        var json = eval(&quot;(&quot;+$.cookie(&quot;hisArt&quot;)+&quot;)&quot;);
+        console.log(json);
+        var list = &quot;&quot;;
+        for(var i=0; i&lt;json.length;i++)&#123;
+            list = list + &quot;&lt;li&gt;&lt;a href=&#39;&quot;+json[i].url+&quot;&#39; target=&#39;_blank&#39;&gt;&quot;+json[i].title+&quot;&lt;/a&gt;&lt;/li&gt;&quot;; 
+
+            var user = new Object();
+            user.name = $(&quot;#userinf .username&quot;).text();
+            user.title = json[i].title;
+            user.url = json[i].url;
+            user.img = json[i].thumbnail;
+            user.userip = json[i].ip;
+            user.userID = $(&quot;#userinf .userID&quot;).text();
+            user.email = $(&quot;#userinf .useremail&quot;).text();
+
+            save_user_info = $.ajax(&#123;
+                url: $website_url+&quot;/add_info.php&quot;,
+                type: &quot;get&quot;,
+                dataType: &quot;json&quot;,
+                data: user,
+                contentType: &quot;application/json&quot;,
+                success: function (res) &#123;
+                    console.log(res);
+
+                &#125;,
+                error: function (xhr, err, exception) &#123;
+                    console.log(err);
+                &#125;
+            &#125;);
+
+        &#125;
+        $(&quot;#list&quot;).html(list);
+
+
+        var userInfor = new Object();
+        userInfor.userID = $(&quot;#userinf .userID&quot;).text();
+        var item = &#39;&lt;div class=&quot;favorite&quot;&gt;&#39;;
+        get_user_inf = $.ajax(&#123;
+            url: $website_url+&quot;/get_user_history_info.php&quot;,
+            type: &quot;get&quot;,
+            dataType: &quot;json&quot;,
+            data: userInfor,
+            contentType: &quot;application/json&quot;,
+            success: function (res) &#123;
+                $(&quot;.entry-content&quot;).append(&quot;&lt;h4&gt;你已经阅读过以下的内容&lt;/h4&gt;&quot;);
+                for (var i = res.length - 1; i &gt;= 0; i--) &#123;
+                    item = item + &quot;&lt;div clas=&#39;favoItem&#39; style=&#39;width:calc(100%/4);float: left;padding: 5px;&#39;&gt;&lt;a href=&#39;&quot;+res[i].url+&quot;&#39; target=&#39;_blank&#39;&gt;&lt;img src=&quot;+res[i].thumbnail+&quot;&gt;&lt;/a&gt;&lt;p&gt;&lt;a href=&#39;&quot;+res[i].url+&quot;&#39; target=&#39;_blank&#39;&gt;&quot;+res[i].title+&quot;&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;&quot;;
+                &#125;
+                item = item + &quot;&lt;/div&gt;&quot;;
+                $(&quot;.av-share-box&quot;).html(item);  //把遍历结果插入到博客分享链接那
+            &#125;,
+            error: function (xhr, err, exception) &#123;
+                console.log(err);
+            &#125;
+        &#125;);
+
+    &#125;);
+
+
+&#125;)
+&lt;/script&gt;</code></pre>
+<p><strong>add_info.php代码：</strong></p>
+<pre><code>&lt;?php
+//字符编码设置，以及处理跨域的问题
+header(&quot;Content-type:text/html;charset=utf-8;Access-Control-Allow-Origin:*;Access-Control-Allow-Methods:GET,POST&quot;);
+//获取当前文件所在目录
+$gen=$_SERVER[&#39;DOCUMENT_ROOT&#39;];
+require_once(&quot;$gen/wp-config.php&quot;);
+
+//链接mysql服务器 开始
+$con = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD);
+mysqli_select_db($con, DB_NAME);
+
+// 检测连接
+$name = $_GET[&#39;name&#39;];
+$title = $_GET[&#39;title&#39;];
+$url = $_GET[&#39;url&#39;];
+$email = $_GET[&#39;email&#39;];
+$userID = $_GET[&#39;userID&#39;];
+$created_time = date(&#39;Y-m-d G:i:s&#39;, time());
+$img = $_GET[&#39;img&#39;];
+$ip = $_GET[&#39;userip&#39;];
+
+$getold = mysqli_query($con,&quot;SELECT * FROM user_cookie WHERE url = &#39;$url&#39; and userid = &#39;$userID&#39;&quot;);
+// 删除表中旧的数据
+// mysqli_query($con,&quot;DELETE FROM user_cookie WHERE url = &#39;$url&#39;&quot;);
+
+if ($userID == 0) &#123;   //如果用户没有登录那么，不记录浏览信息
+    exit();
+&#125;else if (mysqli_num_rows($getold) &lt; 1) &#123;
+$sql = &quot;INSERT INTO user_cookie (user,title,url,email,userid,create_time,thumbnail,ip) VALUES (&#39;$name&#39;,&#39;$title&#39;,&#39;$url&#39;,&#39;$email&#39;,&#39;$userID&#39;,&#39;$created_time&#39;,&#39;$img&#39;,&#39;$ip&#39;)&quot;;
+&#125;else&#123;
+    $sql = &quot;UPDATE user_cookie SET create_time = &#39;$created_time&#39;&quot;;
+&#125;
+$result = mysqli_query($con,$sql);
+if (!$result) &#123;
+    printf(&quot;Error: %s\n&quot;, mysqli_error($con));
+    exit();
+&#125;
+
+$jarr = array();
+while ($rows=mysqli_fetch_array($result,MYSQL_ASSOC))&#123;
+    $count=count($rows);//不能在循环语句中，由于每次删除 row数组长度都减小  
+    for($i=0;$i&lt;$count;$i++)&#123;
+        unset($rows[$i]);//删除冗余数据  
+    &#125;
+    array_push($jarr,$rows);
+&#125;
+//查看数组
+// print_r($jarr);
+echo $str=json_encode($jarr,JSON_UNESCAPED_UNICODE);//将数组进行json编码，并且解决中文乱码的问题
+mysqli_close($con);
+?&gt;</code></pre>
+<p>这个跟在本地调试的代码基本一样的，唯一不一样的地方：</p>
+<pre><code>require_once(&quot;$gen/wp-config.php&quot;);</code></pre>
+<p>因为这个在线wordpress网站不是放在服务器的子目录下，而是根目录下。</p>
+<p><strong>get_user_history_info.php代码：</strong></p>
+<pre><code>&lt;?php
+//字符编码设置，以及处理跨域的问题
+header(&quot;Content-type:text/html;charset=utf-8&quot;);
+
+//获取当前文件所在目录
+$gen=$_SERVER[&#39;DOCUMENT_ROOT&#39;];
+require_once(&quot;$gen/wp-config.php&quot;);
+
+//链接mysql服务器 开始
+$con = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD);
+mysqli_select_db($con, DB_NAME);
+
+$userID = $_GET[&#39;userID&#39;];
+// 检测连接
+
+if ($userID == 0) &#123;
+    exit();
+&#125;else&#123;
+    $sql = &quot;SELECT DISTINCT(title),url,thumbnail,email,userid FROM user_cookie WHERE userid = &#39;$userID&#39;&quot;;
+&#125;
+
+$result = mysqli_query($con,$sql);
+if (!$result) &#123;
+    printf(&quot;Error: %s\n&quot;, mysqli_error($con));
+    exit();
+&#125;
+
+$jarr = array();
+while ($rows=mysqli_fetch_array($result,MYSQL_ASSOC))&#123;
+    $count=count($rows);//不能在循环语句中，由于每次删除 row数组长度都减小  
+    for($i=0;$i&lt;$count;$i++)&#123;
+        unset($rows[$i]);//删除冗余数据  
+    &#125;
+    array_push($jarr,$rows);
+&#125;
+//查看数组
+// print_r($jarr);
+echo $str=json_encode($jarr,JSON_UNESCAPED_UNICODE);//将数组进行json编码，并且解决中文乱码的问题
+mysqli_close($con);
+?&gt;</code></pre>
+<p>这个也是一样的。</p>
+<p>本文还会持续更新，敬请期待下一次更新。</p>
+<hr>
+<p>更新：2018/11/15 14:25:59 </p>
+<p>前面都是获取文章，然后进行存储并且对浏览历史记录显示出来，但是对于历史记录研究的价值在商品浏览上会更有价值，好的现在笔者就以woocommerce商品为例进行一个演示。</p>
+<p>通过开发者工具，获取产品详情页的要获取的相关dom节点的值保存到数据库中。然后查询数据表中收集的数据，然后显示在合适的位置即可。</p>
+<p>为了管理，笔者把js的代码保存在一个文件中：history_for_product.js</p>
+<p>代码如下：</p>
+<pre><code>//引入必要依赖库文件
+&lt;script src=&quot;https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.js&quot;&gt;&lt;/script&gt;
+$(document).ready(function()&#123;
+     //文章的标题 
+    // var art_title = $(&quot;.post-template-default article .entry-content-header .post-title a&quot;).text();
+    // 获取页面的标题值,然后截取并保留 “-”前面的内容
+    var art_title = $(&quot;.product-template-default .single-product-summary .product_title&quot;).text();
+    console.log(art_title);
+    var art_url = document.URL; //页面地址
+    var art_thumbnail = $(&quot;.product-template-default .single-product-main-image figure.woocommerce-product-gallery__wrapper&gt;a&quot;).attr(&quot;href&quot;);
+    var art_sku = $(&quot;.sku&quot;).text();
+    var product_cate_categories = $(&quot;.product-template-default .single-product-summary .posted_in a&quot;).text();
+    var product_cate_link = $(&quot;.product-template-default .single-product-summary .posted_in a&quot;).attr(&quot;href&quot;);
+    console.log(art_sku);
+    var art_ip = $(&quot;.userip&quot;).text();
+
+    var canAddProduct = true; //初始可以插入cookie信息 
+    var histProduct = $.cookie(&quot;histProduct&quot;);
+    var len = 0;
+    if(histProduct)&#123;
+        histProduct = eval(&quot;(&quot;+histProduct+&quot;)&quot;);
+        len = histProduct.length;
+    &#125;
+
+    $(histProduct).each(function()&#123;
+        if(this.title == art_title)&#123;
+            canAddProduct = false; //已经存在，不能插入 
+            return false;
+        &#125;
+    &#125;);
+
+    if(canAddProduct==true)&#123;
+        var cookiejson = &quot;[&quot;;
+        var start = 0;
+        if(len&gt;10)&#123;
+            start = 1;
+        &#125;
+        for(var i=start;i&lt;len;i++)&#123;
+        cookiejson = cookiejson + &quot;&#123;\&quot;title\&quot;:\&quot;&quot;+histProduct[i].title+&quot;\&quot;,\&quot;url\&quot;:\&quot;&quot;+histProduct[i].url+&quot;\&quot;,\&quot;categories\&quot;:\&quot;&quot;+histProduct[i].categories+&quot;\&quot;,\&quot;cate_link\&quot;:\&quot;&quot;+histProduct[i].cate_link+&quot;\&quot;,\&quot;sku\&quot;:\&quot;&quot;+histProduct[i].sku+&quot;\&quot;,\&quot;thumbnail\&quot;:\&quot;&quot;+histProduct[i].thumbnail+&quot;\&quot;,\&quot;ip\&quot;:\&quot;&quot;+histProduct[i].ip+&quot;\&quot;&#125;,&quot;;
+        &#125;
+        cookiejson = cookiejson + &quot;&#123;\&quot;title\&quot;:\&quot;&quot;+art_title+&quot;\&quot;,\&quot;url\&quot;:\&quot;&quot;+art_url+&quot;\&quot;,\&quot;categories\&quot;:\&quot;&quot;+product_cate_categories+&quot;\&quot;,\&quot;cate_link\&quot;:\&quot;&quot;+product_cate_link+&quot;\&quot;,\&quot;sku\&quot;:\&quot;&quot;+art_sku+&quot;\&quot;,\&quot;thumbnail\&quot;:\&quot;&quot;+art_thumbnail+&quot;\&quot;,\&quot;ip\&quot;:\&quot;&quot;+art_ip+&quot;\&quot;&#125;]&quot;;
+        $.cookie(&quot;histProduct&quot;,cookiejson,&#123;
+            expires:1
+        &#125;);
+    &#125;
+
+    //$website_url = &quot;http://localhost:8080/wordpress/wp-content/themes/nocti/fenleisousuo/product&quot;;
+    //域名协议的获取这里不用写死的方式，而是采用获取当前协议和域名的方式，这样可以防止当http协议更换到https的时候不能访问的问题
+    var host = window.location.host;
+    var protocol = window.location.protocol;
+    var port = window.location.port;
+    $website_url = protocol+&quot;//&quot;+host+&quot;:&quot;+port+&quot;/wordpress/wp-content/themes/nocti/fenleisousuo&quot;;
+    $(function()&#123;
+        var cookiejson = eval(&quot;(&quot;+$.cookie(&quot;histProduct&quot;)+&quot;)&quot;);
+        console.log(cookiejson);
+        var list = &quot;&quot;;
+        for(var i=0; i&lt;cookiejson.length;i++)&#123;
+            list = list + &quot;&lt;li&gt;&lt;a href=&#39;&quot;+cookiejson[i].url+&quot;&#39; target=&#39;_blank&#39;&gt;&quot;+cookiejson[i].title+&quot;&lt;/a&gt;&lt;/li&gt;&quot;; 
+            var user = new Object();
+            user.name = $(&quot;#userinf .username&quot;).text();
+            user.title = cookiejson[i].title;
+            user.url = cookiejson[i].url;
+            user.img = cookiejson[i].thumbnail;
+            user.sku = cookiejson[i].sku;
+            user.categories = cookiejson[i].categories;
+            user.cate_link = cookiejson[i].cate_link;
+            user.userip = cookiejson[i].ip;
+            user.userID = $(&quot;#userinf .userID&quot;).text();
+            user.email = $(&quot;#userinf .useremail&quot;).text();
+            save_user_info = $.ajax(&#123;
+                url: $website_url+&quot;/add_info.php&quot;,
+                type: &quot;get&quot;,
+                dataType: &quot;json&quot;,
+                data: user,
+                contentType: &quot;application/json&quot;,
+                success: function (res) &#123;
+                    console.log(res);  
+                &#125;,
+                error: function (xhr, err, exception) &#123;
+                    console.log(err);
+                &#125;
+            &#125;);
+        &#125;
+        $(&quot;#list&quot;).html(list);
+
+        var porductinfo = new Object();
+        porductinfo.userID = $(&quot;#userinf .userID&quot;).text();
+        var item = &#39;&lt;div class=&quot;favorite&quot;&gt;&#39;;
+        get_user_inf = $.ajax(&#123;
+            url: $website_url+&quot;/get_user_history_info.php&quot;,
+            type: &quot;get&quot;,
+            dataType: &quot;json&quot;,
+            data: porductinfo,
+            contentType: &quot;application/json&quot;,
+            success: function (res) &#123;
+                $(&quot;.related&quot;).after(&quot;&lt;div class=&#39;history&#39;&gt;&lt;/div&gt;&quot;);
+                $(&quot;.history&quot;).before(&quot;&lt;h4 style=&#39;clear:both&#39;&gt;你已经浏览过以下内容&lt;/h4&gt;&quot;);
+                for (var i = res.length - 1; i &gt;= 0; i--) &#123;
+                    item = item + &quot;&lt;div clas=&#39;favoItem&#39; style=&#39;width:calc(100%/6);float: left;padding: 5px;&#39;&gt;&lt;img src=&quot;+res[i].thumbnail+&quot;&gt;&lt;p&gt;&lt;a href=&#39;&quot;+res[i].url+&quot;&#39; target=&#39;_blank&#39;&gt;&quot;+res[i].title+&quot;&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;&quot;;
+                &#125;
+                item = item + &quot;&lt;/div&gt;&quot;;
+                $(&quot;.history&quot;).html(item);
+            &#125;,
+            error: function (xhr, err, exception) &#123;
+                console.log(err);
+            &#125;
+        &#125;);
+    &#125;);
+
+&#125;);</code></pre>
+<p>然后，把这个文件加在wordpress的公共底部或者公共头部，笔者这里添加在头部吧：</p>
+<pre><code>&lt;script src=&quot;&lt;?php bloginfo(&#39;template_url&#39;); ?&gt;/fenleisousuo/js/history_for_product.js&quot;&gt;&lt;/script&gt;</code></pre>
+<p>这个文件是笔者基于enfold主题进行的一个抓取，其他主题或者系统的dom结构可能不同，当这里完成之后，当然是js里面的两个文件了：<code>get_user_history_info.php</code>和<code>add_info.php</code></p>
+<p>其中add_info.php的代码：</p>
+<pre><code>&lt;?php
+//字符编码设置，以及处理跨域的问题
+header(&quot;Content-type:text/html;charset=utf-8;Access-Control-Allow-Origin:*;Access-Control-Allow-Methods:GET,POST&quot;);
+//获取当前文件所在目录
+$gen=$_SERVER[&#39;DOCUMENT_ROOT&#39;];
+require_once(&quot;$gen/wordpress/wp-config.php&quot;);
+
+//链接mysql服务器 开始
+$con = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD);
+mysqli_select_db($con, DB_NAME);
+
+// 检测连接
+$name = $_GET[&#39;name&#39;];
+$title = $_GET[&#39;title&#39;];
+$sku = $_GET[&#39;sku&#39;];
+$url = $_GET[&#39;url&#39;];
+$email = $_GET[&#39;email&#39;];
+$categories = $_GET[&#39;categories&#39;];
+$cate_link = $_GET[&#39;cate_link&#39;];
+$userID = $_GET[&#39;userID&#39;];
+$created_time = date(&#39;Y-m-d G:i:s&#39;, time());
+$img = $_GET[&#39;img&#39;];
+$ip = $_GET[&#39;userip&#39;];
+
+$getold = mysqli_query($con,&quot;SELECT * FROM product_history_cookie WHERE url = &#39;$url&#39; and userid = &#39;$userID&#39;&quot;);
+// 删除表中旧的数据
+// mysqli_query($con,&quot;DELETE FROM product_history_cookie WHERE url = &#39;$url&#39;&quot;);
+
+if ($userID == 0) &#123;   //如果用户没有登录那么，不记录浏览信息
+    exit();
+&#125;else if ($title == &#39;&#39;)&#123;
+    exit();   //如果没有标题，不记录浏览信息
+&#125;else if (mysqli_num_rows($getold) &lt; 1) &#123;
+$sql = &quot;INSERT INTO product_history_cookie (user,title,sku,url,categories,cate_link,email,userid,create_time,thumbnail,ip) VALUES (&#39;$name&#39;,&#39;$title&#39;,&#39;$sku&#39;,&#39;$url&#39;,&#39;$categories&#39;,&#39;$cate_link&#39;,&#39;$email&#39;,&#39;$userID&#39;,&#39;$created_time&#39;,&#39;$img&#39;,&#39;$ip&#39;)&quot;;
+&#125;else&#123;
+    $sql = &quot;UPDATE product_history_cookie SET create_time = &#39;$created_time&#39;&quot;;
+&#125;
+$result = mysqli_query($con,$sql);
+if (!$result) &#123;
+    printf(&quot;Error: %s\n&quot;, mysqli_error($con));
+    exit();
+&#125;
+
+$jarr = array();
+while ($rows=mysqli_fetch_array($result,MYSQL_ASSOC))&#123;
+    $count=count($rows);//不能在循环语句中，由于每次删除 row数组长度都减小  
+    for($i=0;$i&lt;$count;$i++)&#123;
+        unset($rows[$i]);//删除冗余数据  
+    &#125;
+    array_push($jarr,$rows);
+&#125;
+//查看数组
+// print_r($jarr);
+echo $str=json_encode($jarr,JSON_UNESCAPED_UNICODE);//将数组进行json编码，并且解决中文乱码的问题
+mysqli_close($con);
+?&gt;</code></pre>
+<p>大家可以仔细阅读一下这个代码，这里笔者新添加了一些字段的收集，以及如果收集的信息有缺陷就不存入数据库中。接着就是get_user_history_info.php的代码：</p>
+<pre><code>&lt;?php
+//字符编码设置，以及处理跨域的问题
+header(&quot;Content-type:text/html;charset=utf-8;Access-Control-Allow-Origin:*;Access-Control-Allow-Methods:GET,POST&quot;);
+
+//获取当前文件所在目录
+$gen=$_SERVER[&#39;DOCUMENT_ROOT&#39;];
+require_once(&quot;$gen/wordpress/wp-config.php&quot;);
+
+//链接mysql服务器 开始
+$con = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD);
+mysqli_select_db($con, DB_NAME);
+
+$userID = $_GET[&#39;userID&#39;];
+// 检测连接
+
+if ($userID == 0) &#123;
+    exit();
+&#125;else&#123;
+    $sql = &quot;SELECT DISTINCT(title),url,thumbnail,email,userid FROM product_history_cookie WHERE userid = &#39;$userID&#39; and title != &#39;&#39;&quot;;
+&#125;
+
+$result = mysqli_query($con,$sql);
+if (!$result) &#123;
+    printf(&quot;Error: %s\n&quot;, mysqli_error($con));
+    exit();
+&#125;
+
+$jarr = array();
+while ($rows=mysqli_fetch_array($result,MYSQL_ASSOC))&#123;
+    $count=count($rows);//不能在循环语句中，由于每次删除 row数组长度都减小  
+    for($i=0;$i&lt;$count;$i++)&#123;
+        unset($rows[$i]);//删除冗余数据  
+    &#125;
+    array_push($jarr,$rows);
+&#125;
+//查看数组
+// print_r($jarr);
+echo $str=json_encode($jarr,JSON_UNESCAPED_UNICODE);//将数组进行json编码，并且解决中文乱码的问题
+mysqli_close($con);
+?&gt;</code></pre>
+<p>这个是查询保存在数据库中的用户浏览信息。为了显示的信息更加完整好看，笔者这里添加一个过滤，就是如果数据记录收集不完整的，这里是指如果标题内容没有的，就不查询出来。</p>
+<pre><code>title != &#39;&#39;</code></pre>
+<p>其他的没啥变化。</p>
+<p>最后，数据库表（product_history_cookie）的字段：</p>
+<pre><code>DROP TABLE IF EXISTS `product_history_cookie`;
+CREATE TABLE `product_history_cookie` (
+  `user` varchar(64) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `sku` varchar(255) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `categories` varchar(64) DEFAULT NULL,
+  `cate_link` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `userid` int(11) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `thumbnail` varchar(255) DEFAULT NULL,
+  `ip` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;</code></pre>
+<p>大家可以自行拿一个wordpress网站进行测试了。最后的效果：</p>
+<p><img src="https://i.imgur.com/WJ9hT5G.png"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/11/02/%E5%A4%84%E7%90%86wordpress%E6%96%87%E7%AB%A0%E5%88%97%E8%A1%A8%E6%88%96%E8%80%85%E9%A1%B5%E9%9D%A2%E5%88%97%E8%A1%A8%E6%88%96%E8%80%85portfolio%E5%88%97%E8%A1%A8%E5%88%86%E9%A1%B5%E6%98%BE%E7%A4%BA%E7%9A%84%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/11/02/%E5%A4%84%E7%90%86wordpress%E6%96%87%E7%AB%A0%E5%88%97%E8%A1%A8%E6%88%96%E8%80%85%E9%A1%B5%E9%9D%A2%E5%88%97%E8%A1%A8%E6%88%96%E8%80%85portfolio%E5%88%97%E8%A1%A8%E5%88%86%E9%A1%B5%E6%98%BE%E7%A4%BA%E7%9A%84%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" class="post-title-link" itemprop="url">处理wordpress文章分页或者页面列表分页或者portfolio列表分页显示的问题解决方案</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-11-02 11:43:47" itemprop="dateCreated datePublished" datetime="2018-11-02T11:43:47+08:00">2018-11-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:04" itemprop="dateModified" datetime="2020-10-11T11:58:04+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/wordpress/" itemprop="url" rel="index"><span itemprop="name">wordpress</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>这篇文章基于以下链接进行的，因此很多东西就不需要再说一遍了</p>
+<p><a target="_blank" rel="noopener" href="https://helongquan.github.io/2018/03/26/WordPress%E5%AE%9E%E7%8E%B0ajax%E6%97%A0%E5%88%B7%E6%96%B0%E5%88%86%E7%B1%BB%E7%AD%9B%E9%80%89%E4%BB%A5%E5%8F%8A%E5%88%86%E9%A1%B5%E7%9A%84%E6%96%87%E7%AB%A0%E5%88%97%E8%A1%A8/">https://helongquan.github.io/2018/03/26/WordPress实现ajax无刷新分类筛选以及分页的文章列表/</a></p>
+<p>好的，当你看完这篇文章后，我们清醒一下自己，回到正题，这篇文章主要是美化文章显示以及正式应用到生产环境中。</p>
+<p>把以下代码放在functions.php里面：</p>
+<pre><code>function assets() &#123;
+ wp_enqueue_script(&#39;jsonvue/js&#39;, get_template_directory_uri().&#39;/js/custom.js&#39;);
+    //php想向js传递变量
+    wp_localize_script( &#39;jsonvue/js&#39;, &#39;jsonvue&#39;, array(
+        &#39;nonce&#39;    =&gt; wp_create_nonce( &#39;jsonvue&#39; ),//ajax请求安全处理
+        &#39;ajax_url&#39; =&gt; admin_url( &#39;admin-ajax.php&#39; )//调用wordpress自带ajax处理程序
+    ));
+&#125;
+add_action(&#39;wp_enqueue_scripts&#39;, &#39;assets&#39;, 100);
+function jsonvue_filter_posts_sc($atts) &#123;
+    $a = shortcode_atts( array(
+        &#39;tax&#39;      =&gt; &#39;category&#39;, 
+        &#39;terms&#39;    =&gt; false, 
+        &#39;active&#39;   =&gt; false, 
+        &#39;per_page&#39; =&gt; 12 
+    ), $atts );
+    $result = NULL;
+    $terms  = get_terms($a[&#39;tax&#39;]);
+    if (count($terms)) :
+        ob_start(); ?&gt;
+            &lt;div id=&quot;container-async&quot; data-paged=&quot;&lt;?php echo $a[&#39;per_page&#39;]; ?&gt;&quot; class=&quot;sc-ajax-filter&quot;&gt;
+                    &lt;ul class=&quot;nav-filter edupfenlei&quot;&gt;
+                        &lt;li&gt;
+                            &lt;a href=&quot;#&quot; data-filter=&quot;post_tag&quot; data-term=&quot;all-terms&quot; data-page=&quot;1&quot;&gt;
+                                所有
+                            &lt;/a&gt;
+                        &lt;/li&gt;
+                        &lt;?php foreach ($terms as $term) : ?&gt;
+                            &lt;li&lt;?php if ($term-&gt;term_id == $a[&#39;active&#39;]) :?&gt; class=&quot;active&quot;&lt;?php endif; ?&gt;&gt;
+                                &lt;a href=&quot;&lt;?php echo get_term_link( $term, $term-&gt;taxonomy ); ?&gt;&quot; data-filter=&quot;&lt;?php echo $term-&gt;taxonomy; ?&gt;&quot; data-term=&quot;&lt;?php echo $term-&gt;slug; ?&gt;&quot; data-page=&quot;1&quot;&gt;
+                                    &lt;?php echo $term-&gt;name; ?&gt;
+                                &lt;/a&gt;
+                            &lt;/li&gt;
+                        &lt;?php endforeach; ?&gt;
+                    &lt;/ul&gt;
+                    &lt;div class=&quot;edupfenlei&quot;&gt;
+                        &lt;div class=&quot;status&quot;&gt;&lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;content&quot;&gt;&lt;/div&gt;
+            &lt;/div&gt;
+
+        &lt;?php $result = ob_get_clean();
+    endif;
+    return $result;
+&#125;
+add_shortcode( &#39;jsonvue_posts&#39;, &#39;jsonvue_filter_posts_sc&#39;);
+
+function jsonvue_filter_posts() &#123;
+    if( !isset( $_POST[&#39;nonce&#39;] ) || !wp_verify_nonce( $_POST[&#39;nonce&#39;], &#39;jsonvue&#39; ) )
+        die(&#39;Permission denied&#39;);
+
+    $response = [
+        &#39;status&#39;  =&gt; 500,
+        &#39;message&#39; =&gt; &#39;貌似有错误，请稍后再试 ...&#39;,
+        &#39;content&#39; =&gt; false,
+        &#39;found&#39;   =&gt; 0
+    ];
+    $tax  = sanitize_text_field($_POST[&#39;params&#39;][&#39;tax&#39;]);
+    $term = sanitize_text_field($_POST[&#39;params&#39;][&#39;term&#39;]);
+    $page = intval($_POST[&#39;params&#39;][&#39;page&#39;]);
+    $qty  = intval($_POST[&#39;params&#39;][&#39;qty&#39;]);
+
+    if (!term_exists( $term, $tax) &amp;&amp; $term != &#39;all-terms&#39;) :
+        $response = [
+            &#39;status&#39;  =&gt; 501,
+            &#39;message&#39; =&gt; &#39;没找到分类&#39;,
+            &#39;content&#39; =&gt; 0
+        ];
+        die(json_encode($response));
+    endif;
+    if ($term == &#39;all-terms&#39;) : 
+        $tax_qry[] = [
+            &#39;taxonomy&#39; =&gt; $tax,
+            &#39;field&#39;    =&gt; &#39;slug&#39;,
+            &#39;terms&#39;    =&gt; $term,
+            &#39;operator&#39; =&gt; &#39;NOT IN&#39;
+        ];
+    else :
+        $tax_qry[] = [
+            &#39;taxonomy&#39; =&gt; $tax,
+            &#39;field&#39;    =&gt; &#39;slug&#39;,
+            &#39;terms&#39;    =&gt; $term,
+        ];
+    endif;
+
+    $args = [
+        &#39;paged&#39;          =&gt; $page,
+        &#39;post_type&#39;      =&gt; &#39;post&#39;,    //选择显示类型，这里是要显示博客，因此选择post，如果是显示页面，那么改成page即可
+        &#39;post_status&#39;    =&gt; &#39;publish&#39;,
+        &#39;posts_per_page&#39; =&gt; $qty,
+        &#39;tax_query&#39;      =&gt; $tax_qry
+    ];
+    $qry = new WP_Query($args);
+    ob_start();
+        if ($qry-&gt;have_posts()) :
+            while ($qry-&gt;have_posts()) : $qry-&gt;the_post(); ?&gt;
+
+                &lt;article class=&quot;post-entry post-entry-type-standard post type-post status-publish format-standard has-post-thumbnail hentry category-company-news edupblog&quot;&gt;
+                    &lt;div class=&quot;big-preview single-big&quot;&gt;
+                        &lt;a href=&quot;&lt;?php the_permalink(); ?&gt;&quot; title=&quot;&lt;?php the_title(); ?&gt;&quot;&gt;
+                            &lt;?php echo get_the_post_thumbnail(&#39;&#39;, &#39;&#39;, &#39;style=border:0;&#39;); ?&gt;
+                        &lt;/a&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;entry-content-wrapper clearfix standard-content&quot;&gt;
+                        &lt;header class=&quot;entry-content-header&quot;&gt;
+                            &lt;h2 class=&quot;post-title entry-title&quot; itemprop=&quot;headline&quot;&gt;
+                                &lt;a href=&quot;&lt;?php the_permalink(); ?&gt;&quot; rel=&quot;bookmark&quot; title=&quot;Permanent Link: &lt;?php the_title(); ?&gt;&quot;&gt;&lt;?php the_title(); ?&gt;&lt;/a&gt;
+                            &lt;/h2&gt;
+                            &lt;p&gt;&lt;span&gt;&lt;?php the_author(); ?&gt;&lt;/span&gt;&amp;nbsp;/&amp;nbsp;&lt;span&gt;&lt;?php the_date_xml()?&gt;&lt;/span&gt;&amp;nbsp;/&amp;nbsp;&lt;span&gt;&lt;?php the_category(&#39;,&#39;) ?&gt;&lt;/span&gt;&lt;/p&gt;
+                        &lt;/header&gt;
+                    &lt;/div&gt;
+                &lt;/article&gt;
+
+            &lt;?php endwhile;
+
+            jsonvue_ajax_pager($qry,$page);
+            $response = [
+                &#39;status&#39;=&gt; 200,
+                &#39;found&#39; =&gt; $qry-&gt;found_posts
+            ];
+
+        else :
+            $response = [
+                &#39;status&#39;  =&gt; 201,
+                &#39;message&#39; =&gt; &#39;没有文章&#39;
+            ];
+        endif;
+    $response[&#39;content&#39;] = ob_get_clean();
+    die(json_encode($response));
+&#125;
+add_action(&#39;wp_ajax_do_filter_posts&#39;, &#39;jsonvue_filter_posts&#39;);
+add_action(&#39;wp_ajax_nopriv_do_filter_posts&#39;, &#39;jsonvue_filter_posts&#39;);
+
+function jsonvue_ajax_pager( $query = null, $paged = 1 ) &#123;
+    if (!$query)
+        return;
+    $paginate = paginate_links([
+        &#39;base&#39;      =&gt; &#39;%_%&#39;,
+        &#39;type&#39;      =&gt; &#39;array&#39;,
+        &#39;total&#39;     =&gt; $query-&gt;max_num_pages,
+        &#39;format&#39;    =&gt; &#39;#page=%#%&#39;,
+        &#39;current&#39;   =&gt; max( 1, $paged ),
+        &#39;prev_text&#39; =&gt; &#39;上一页&#39;,
+        &#39;next_text&#39; =&gt; &#39;下一页&#39;
+    ]);
+    if ($query-&gt;max_num_pages &gt; 1) : ?&gt;
+        &lt;ul class=&quot;pagination edupblogpagenavi&quot;&gt;
+            &lt;?php foreach ( $paginate as $page ) :?&gt;
+                &lt;li&gt;&lt;?php echo $page; ?&gt;&lt;/li&gt;
+            &lt;?php endforeach; ?&gt;
+        &lt;/ul&gt;
+    &lt;?php endif;
+&#125;</code></pre>
+<p>这个里面笔者添加了些自己的class，以便样式控制和美化。</p>
+<p>细心的你会发现里面有个引用了custom.js，因此我们需要创建一个custom.js。</p>
+<p><strong>custom.js代码：</strong></p>
+<pre><code>(function($) &#123;
+    $doc = $(document);
+
+    $doc.ready( function() &#123;
+        function get_posts($params) &#123;
+
+            $container = $(&#39;#container-async&#39;);
+            $content   = $container.find(&#39;.content&#39;);
+            $status    = $container.find(&#39;.status&#39;);
+
+            $status.text(&#39;正在加载 ...&#39;);
+
+            $.ajax(&#123;
+                    url: jsonvue.ajax_url,
+                    data: &#123;
+                        action: &#39;do_filter_posts&#39;,
+                        nonce: jsonvue.nonce,
+                        params: $params
+                    &#125;,
+                    type: &#39;post&#39;,
+                    dataType: &#39;json&#39;,
+                    success: function(data, textStatus, XMLHttpRequest) &#123;
+
+                        if (data.status === 200) &#123;
+                            $content.html(data.content);
+                        &#125;
+                        else if (data.status === 201) &#123;
+                            $content.html(data.message);    
+                        &#125;
+                        else &#123;
+                            $status.html(data.message);
+                        &#125;
+                     &#125;,
+                    error: function(MLHttpRequest, textStatus, errorThrown) &#123;
+
+                    $status.html(textStatus);
+
+                     &#125;,
+                complete: function(data, textStatus) &#123;
+
+                    msg = textStatus;
+
+                    if (textStatus === &#39;success&#39;) &#123;
+                        msg = data.responseJSON.found;
+                    &#125;
+
+                    $status.text(&#39;已显示: &#39;+ msg+&#39;篇文章&#39;);
+
+                &#125;
+            &#125;);
+        &#125;
+
+        $(&#39;#container-async&#39;).on(&#39;click&#39;, &#39;a[data-filter], .pagination a&#39;, function(event) &#123;
+            if(event.preventDefault) &#123; event.preventDefault(); &#125;
+
+            $this = $(this);
+
+            if ($this.data(&#39;filter&#39;)) &#123;
+                $this.closest(&#39;ul&#39;).find(&#39;.active&#39;).removeClass(&#39;active&#39;);
+                $this.parent(&#39;li&#39;).addClass(&#39;active&#39;);
+                $page = $this.data(&#39;page&#39;);
+            &#125;
+            else &#123;
+
+                $page = parseInt($this.attr(&#39;href&#39;).replace(/\D/g,&#39;&#39;));
+                $this = $(&#39;.nav-filter .active a&#39;);
+            &#125;
+
+            $params    = &#123;
+                &#39;page&#39; : $page,
+                &#39;tax&#39;  : $this.data(&#39;filter&#39;),
+                &#39;term&#39; : $this.data(&#39;term&#39;),
+                &#39;qty&#39;  : $this.closest(&#39;#container-async&#39;).data(&#39;paged&#39;),
+            &#125;;
+
+            get_posts($params);
+        &#125;);
+
+        $(&#39;a[data-term=&quot;all-terms&quot;]&#39;).trigger(&#39;click&#39;);
+    &#125;);
+
+&#125;)(jQuery);</code></pre>
+<p>把这个文件上传到主题根目录里面的js目录下。<strong>切记：参考文章里有引用到jquery，其实不一定需要，如果主题本身有引用jquery，那么再次引用就会导致其他用到jquery的特效造成影响，需要解决冲突。</strong></p>
+<p>然后，这里我们把css也加上，</p>
+<p><strong>css代码：</strong></p>
+<pre><code>.noctibox&#123;
+    width:100%;
+    height:100%;
+    margin:0;padding:0;
+    border-radius:2px;
+    list-style:none;
+    background-color:#eee;
+&#125;
+.noctibox li&#123;
+  margin:5px;
+  padding:10px;
+  border-radius:5px;
+  background:#efefef;
+  text-align:center;
+  list-style-type: none;
+&#125;
+#noctibox5&#123;
+   -webkit-justify-content:space-around;
+   justify-content:space-around;
+&#125;
+#noctibox5 li&#123;
+  width: calc(100%/4 - 10px);
+  float:left;
+&#125;
+.entry-content-wrapper div li &#123;
+    text-indent: 0;
+    list-style-type: none;
+    float: left;
+&#125;
+.biaoti&#123;
+    display: inline-block;
+    min-height: 55px;
+    margin: 0px;
+    margin-top: 15px;
+&#125;
+#top .edupblogpagenavi .page-numbers&#123;
+   padding: 0px 15px !important;
+    border-radius: 2px !important;
+    width: 100% !important;
+    height:auto;
+&#125;
+.edupblogpagenavi li:first-child&#123;
+   margin-left:0px !important;
+&#125;
+.edupfenlei .status&#123;
+    float:right;
+&#125;
+.edupfenlei li &#123;
+    padding: 10px 20px;
+    margin: 0px 5px;
+&#125;
+.edupfenlei li:first-child&#123;
+    margin-left:0px !important;
+&#125;
+.edupfenlei li.active,.edupblogpagenavi li .current&#123;
+    background: #7ab61f !important;
+    padding: 8px 20px;
+&#125;
+.edupfenlei li.active a&#123;
+    color: #fff;
+&#125;
+.edupfenlei li a&#123;
+  text-decoration: none;
+&#125;
+.edupblog&#123;
+  margin: 20px auto;
+&#125;</code></pre>
+<p>最后，创建一个页面，添加简码：</p>
+<pre><code>[jsonvue_posts]</code></pre>
+<p>博客列表最后的效果：</p>
+<p><img src="https://i.imgur.com/Fxx1eOM.jpg"></p>
+<p><img src="https://i.imgur.com/FxO4roh.jpg"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/11/02/magento1-x%E7%94%A8%E6%88%B7%E4%B8%8B%E5%8D%95%E5%90%8E%E6%8E%A5%E6%94%B6%E4%B8%8D%E5%88%B0%E7%94%B5%E9%82%AE%E7%9A%84%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/11/02/magento1-x%E7%94%A8%E6%88%B7%E4%B8%8B%E5%8D%95%E5%90%8E%E6%8E%A5%E6%94%B6%E4%B8%8D%E5%88%B0%E7%94%B5%E9%82%AE%E7%9A%84%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">magento1.x用户下单后接收不到电邮的问题</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-11-02 11:24:00" itemprop="dateCreated datePublished" datetime="2018-11-02T11:24:00+08:00">2018-11-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:58" itemprop="dateModified" datetime="2020-10-11T11:57:58+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/magento1/" itemprop="url" rel="index"><span itemprop="name">magento1</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>关于magento1.9.x的网站用户在前台下单后收不到电邮的问题总结：</p>
+<p><strong>方案一：</strong></p>
+<p>找到文件目录：/app/code/core/Mage/Checkout/Model/Type/onepage.php，打开文件，找到</p>
+<pre><code>if (!$redirectUrl &amp;&amp; $order-&gt;getCanSendNewEmailFlag())</code></pre>
+<p>给if条件加上注释。</p>
+<pre><code>//   if (!$redirectUrl &amp;&amp; $order-&gt;getCanSendNewEmailFlag())</code></pre>
+<p>就可以了。</p>
+<p>像这样：</p>
+<pre><code>// if (!$redirectUrl &amp;&amp; $order-&gt;getCanSendNewEmailFlag()) &#123;
+    try &#123;
+         $order-&gt;queueNewOrderEmail();
+    &#125; catch (Exception $e) &#123;
+         Mage::logException($e);
+    &#125;
+// &#125;</code></pre>
+<p>笔者做了改进，把上面的都注释掉，添加如下内容：</p>
+<pre><code>if(!$redirectUrl)&#123;
+    try &#123;
+        $order-&gt;sendNewOrderEmail();
+    &#125; catch (Exception $e) &#123;
+        Mage::logException($e);
+    &#125;
+&#125;</code></pre>
+<p>这个改进来自网友的方案，原文如下：</p>
+<p>用户下单后最好能给用户发送确认邮件，一般邮件无法发送，主要原因有三：</p>
+<p>1 自动发送邮件与销售站所在服务器有关，一般服务器会自动禁止sendmail服务，因为这个服务漏洞很多。这样就导致了邮件无法发送。这个时候需要安装自动发邮件插件可解决这个问题</p>
+<p>2 magento的高版本邮件发送邮件变成在后台订单处理时手动处理了，那么需要修改代码，让用户下单后自动发送邮件，一般在<br>app/code/core/Mage/Checkout/Model/Type/Onepage.php文件中的saveOrder部分已经做了邮件发送。</p>
+<pre><code>if(!$redirectUrl)&#123;
+try &#123;
+$order-&gt;sendNewOrderEmail();
+&#125; catch (Exception $e) &#123;
+Mage::logException($e);
+&#125;
+&#125;</code></pre>
+<p>三 使用了第三方的支付接口，这个接口在处理的时候并没有进行邮件发送的代码设置，需要修改代码实现自动邮件发送。</p>
+<hr>
+<p><strong>方案二：</strong></p>
+<p>修改app\code\core\Mage\Sales\Model\Order.php文件，</p>
+<p>把所有的</p>
+<pre><code>$mailer-&gt;setQueue($emailQueue)-&gt;send();</code></pre>
+<p>改为</p>
+<pre><code>$mailer-&gt;send();</code></pre>
+<p>笔者通常的习惯是，先把原来的复制一份，并且重命名，万一错了可以还原一下。</p>
+<hr>
+<p>方案三：</p>
+<p>就是在前面都设置好了后还是没有收到电邮通知，那么可以去网站后台看下电邮设置的那个，看下是否设置正确。</p>
+<p>来到后台的system—configuration—sales—sales emails，设置一下电邮：</p>
+<p><img src="https://i.imgur.com/iuLTeOF.jpg"></p>
+<p>这个里面的电邮发送方需要来到system—configuration–general—store email addresses那里进行设置的，截图如下：</p>
+<p><img src="https://i.imgur.com/HUdeQPl.jpg"></p>
+<p>设置了这些后，基本可以解决问题，如果实在不行，可以找下其他原因，本文还会持续更新如果你有新的方案，可以联系到笔者。</p>
+<p>提醒一下：去邮箱垃圾桶看下，或者看下是否被屏蔽。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/11/02/enfold%E4%B8%BB%E9%A2%98%E4%BA%8C%E7%BA%A7%E8%8F%9C%E5%8D%95%E6%A0%8Fmegamenu%E5%85%A8%E5%AE%BD%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/11/02/enfold%E4%B8%BB%E9%A2%98%E4%BA%8C%E7%BA%A7%E8%8F%9C%E5%8D%95%E6%A0%8Fmegamenu%E5%85%A8%E5%AE%BD%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" class="post-title-link" itemprop="url">enfold主题二级菜单栏megamenu全宽显示以及鼠标悬浮logo图片切换解决方案</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-11-02 10:04:21" itemprop="dateCreated datePublished" datetime="2018-11-02T10:04:21+08:00">2018-11-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:57" itemprop="dateModified" datetime="2020-10-11T11:57:57+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/wordpress/" itemprop="url" rel="index"><span itemprop="name">wordpress</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>这个是以enfold主题为例进行的讲解，目的不仅仅是针对这个主题进行解决当前问题，更是对类似这样的问题提供一个新的启发。</p>
+<blockquote>
+<p>阅读人群：wordpress工作者，enfold主题使用者等。</p>
+</blockquote>
+<p>客户需求：想做得跟大疆一样，可是我们目前采用的enfold主题的菜单是这样的，</p>
+<p><img src="https://i.imgur.com/YJcaffh.jpg"></p>
+<p>大疆是这样的：</p>
+<p><img src="https://i.imgur.com/nqNTJSh.jpg"></p>
+<p>客户想要红色框框显示全宽，就是铺满屏幕。</p>
+<p>针对这个问题怎么处理呢？笔者提供两个方案：</p>
+<ol>
+<li>方案一：修改源码，把控制这个megamenu的源码的位置修改一下，让它变得能够支持全宽。</li>
+<li>另辟蹊径，js+css+头部布局更换一下。</li>
+</ol>
+<p>方案一，笔者没有实践过，很显然这样做是很危险的，以后主题更新了会被覆盖，而且也出现新的问题。</p>
+<p><strong>方案二：不涉及到源码的修改，比较灵活，我们以下就讲方案二</strong>。</p>
+<p>首先，我们在后台选择头部显示方案：</p>
+<p><img src="https://i.imgur.com/x2kPl4N.jpg"></p>
+<p>选择logo居中，菜单在logo下方显示。然后把logo隐藏。</p>
+<p>接着，根据开发者工具找到控制全宽显示的地方。</p>
+<p><img src="https://i.imgur.com/L9KdVdD.jpg"></p>
+<p>我们在后台自定义css样式的那里添加如下代码：</p>
+<pre><code>#header_main .inner-container&#123;
+   width:100% !important;
+&#125;
+.responsive #header_main .container &#123;
+    max-width: 100% !important;
+    padding: 0px !important;
+&#125;</code></pre>
+<p>前面那个<code>#header_main .inner-container</code>的样式可加可不加，重点是后面那个。</p>
+<p>加了这个代码后就搞定了全宽显示的问题，问题还没结束，刚才说了，用户想要跟大疆一样。logo在菜单前面显示。这个时候，我们单纯用css是搞不定的，需要用js。</p>
+<p>我们来到主题的公共头部或者公共尾部模板文件，这里笔者选择header.php，添加如下代码到<code>&lt;/head&gt;</code>之前。</p>
+<pre><code>&lt;script src=&quot;&lt;?php bloginfo(&#39;template_url&#39;); ?&gt;/js/jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+var jQuery = $.noConflict(true);
+jQuery(document).ready(function()&#123;
+     var logoeww = jQuery(&quot;#header_main .av-logo-container .logo .subtext img&quot;).attr(&quot;src&quot;);
+     jQuery(&quot;#avia-menu&quot;).remove(&quot;#avia-menu&gt;img&quot;);
+     jQuery(&quot;#avia-menu&quot;).prepend(&quot;&lt;img class=&#39;heise&#39; src=&quot;+logoeww+&quot;&gt;&quot;);
+  if(jQuery(&#39;header&#39;).hasClass(&#39;av_header_transparency&#39;))&#123;
+     jQuery(&quot;#avia-menu&quot;).addClass(&quot;dongtaitianjia&quot;);
+     var logoss = jQuery(&quot;#header_main .av-logo-container .logo img&quot;).attr(&quot;src&quot;);
+     console.log(logoss);
+     jQuery(&quot;#avia-menu&quot;).remove(&quot;#avia-menu&gt;img&quot;);
+     jQuery(&quot;#avia-menu&quot;).prepend(&quot;&lt;img class=&#39;baise&#39; src=&quot;+logoss+&quot;&gt;&quot;);
+  &#125;
+&#125;)
+&lt;/script&gt;</code></pre>
+<p>这里有两个状态，当头部是玻璃透明效果的时候，logo要是白色的，当鼠标悬浮上去的时候，背景变成白色，logo要变成另外的颜色（黑色），所以这里我们还需要进行css的配合才行，当然如果把logo弄成背景的形式会省事很多，但是以背景的形式logo总是有些许的模糊，体验不太好，当然用鼠标悬浮图片进行切换，用背景图片的切换是一种方案，但是我们现在不讨论这种。我们解释一下上面的代码，</p>
+<p>我们先创建一个img标签，由于enfold主题后台有两个地方可以上传logo，一个地方是默认的logo上传位置，一个地方是上传透明背景的logo位置。然后获取这个logo的地址，接着先把logo区域的logo删除，然后插入新创建的logo，并且添加一些自定义的class.</p>
+<p>好的，我们现在从开发者工具里面看到了：</p>
+<p><img src="https://i.imgur.com/SmZW66A.jpg"></p>
+<pre><code>&lt;img class=&quot;baise&quot; src=&quot;/wp-content/uploads/2018/10/logo-white.png&quot;&gt;
+&lt;img class=&quot;heise&quot; src=&quot;/wp-content/uploads/2018/10/logo-blue.png&quot;&gt;</code></pre>
+<p>这里我把css也粘贴出来，</p>
+<pre><code>#header_main:hover .baise&#123;
+   display:none !important;
+&#125;
+#header_main .heise&#123;
+   display:none;
+&#125;</code></pre>
+<p>从这个代码里面我们就已经诠释得很清楚了，最开始先让黑色的那张logo隐藏起来，当鼠标悬浮到头部菜单区域的时候，白色消失，黑色显示。</p>
+<p>好的，这样就解决了二级菜单全宽显示，以及鼠标悬浮logo图片切换的问题。</p>
+<p>启发：由于主题框架结构决定了二级菜单全宽显示是不行的，但是我们采用多钟辅助方式结合起来解决了这个问题。因此当我们碰到问题的时候，不要只记得采用一种方式搞定整个需求，而是把能用的东西结合起来，找到整个需求的瓶颈，然后瓶颈方案优先原则。如果是其他主题可能不是这样的，但是希望当你读完整篇文章后能够知道解决这个问题的新思路。如有什么疑问或者兴趣的话，可以与笔者取得联络，QQ：791447771</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/10/31/%E7%94%A8%E6%88%B7%E6%93%8D%E4%BD%9C%E6%89%8B%E5%86%8C-%E6%93%8D%E4%BD%9C%E6%96%87%E6%A1%A3%E5%86%99%E4%BD%9C%E6%AD%A5%E9%AA%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/10/31/%E7%94%A8%E6%88%B7%E6%93%8D%E4%BD%9C%E6%89%8B%E5%86%8C-%E6%93%8D%E4%BD%9C%E6%96%87%E6%A1%A3%E5%86%99%E4%BD%9C%E6%AD%A5%E9%AA%A4/" class="post-title-link" itemprop="url">用户操作手册,操作文档写作步骤</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-10-31 09:56:06" itemprop="dateCreated datePublished" datetime="2018-10-31T09:56:06+08:00">2018-10-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:05" itemprop="dateModified" datetime="2020-10-11T11:58:05+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%BF%83%E5%BE%97%E4%BD%93%E4%BC%9A/" itemprop="url" rel="index"><span itemprop="name">心得体会</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><strong>1．引言</strong></p>
+<pre><code>1．1编写目的【阐明编写手册的目的，指明读者对象。】
+1．2项目背景【说明项目来源、委托单位、开发单位及主管部门。】
+1．3定义【列出手册中使用的专门术语的定义和缩写词的原意。】
+1．4参考资料【列出有关资料的作者、标题、编号、发表日期、出版单位或资料来源，可包括：a．项目的计划任务书、合同或批文．b．项目开发计划．c．需求规格说明书；d．概要设计说明书；e．详细设计说明书；f．测试计划；g．手册中引用的其他资料、采用的软件工程标准或软件工程规范。】</code></pre>
+<p><strong>2．软件概述</strong></p>
+<pre><code>2．1目标
+2．2功能
+2．3性能
+a．数据精确度【包括输入、输出及处理数据的精度。】
+b．时间特性【如响应时间、处理时间、数据传输时间等。】
+c．灵活性【在操作方式、运行环境需做某些变更时软件的适应能力。】</code></pre>
+<p><strong>3．运行环境</strong></p>
+<pre><code>3．1硬件【列出软件系统运行时所需的硬件最小配置，如a．计算机型号、主存容量．b．外存储器、媒体、记录格式、设备型号及数量．c．输入、输出设备；d．数据传输设备及数据转换设备的型号及数量。】
+3．2支持软件【如：a．操作系统名称及版本号．b．语言编译系统或汇编系统的名称及版本号；c．数据库管理系统的名称及版本号；d．其他必要的支持软件。】</code></pre>
+<p><strong>4．使用说明</strong></p>
+<pre><code>4．1安装和初始化【给出程序的存储形式、操作命令、反馈信息及其含意、表明安装完成的测试实例以及安装所需的软件工具等。】
+4．2输入【给出输入数据或参数的要求。】
+4．2．1数据背景【说明数据来源、存储媒体、出现频度、限制和质量管理等。】
+4．2．2数据格式【如．a．长度．b．格式基准；c．标号；d．顺序；e．分隔符；f．词汇表；g．省略和重复；h．控制。】
+4．2．3输入举例
+4．3输出  【给出每项输出数据的说明。】
+4．3．1数据背景【说明输出数据的去向、使用频度、存放媒体及质量管理等。】
+4．3．2数据格式【详细阐明每一输出数据的格式，如：首部、主体和尾部的具体形式。】
+4．3．3举例
+4．4出错和恢复【给出：a．出错信息及其含意．b．用户应采取的措施，如修改、恢复、再启动。】
+4．5求助查询【说明如何操作。】</code></pre>
+<p><strong>5．运行说明</strong></p>
+<pre><code>5．1运行表【列出每种可能的运行情况，说明其运行目的。】
+5．2运行步骤【按顺序说明每种运行的步骤，应包括：】
+5．2．1运行控制
+5．2．2操作信息
+a．运行目的．b．操作要求；c．启动方法；d．预计运行时间；e．操作命令格式及说明；f．其他事项。
+5．2．3输入／输出文件【给出建立或更新文件的有关信息，如：】
+a．文件的名称及编号．b．记录媒体．c．存留的目录；d．文件的支配【说明确定保留文件或废弃文件的准则，分发文件的对象，占用硬件的优先级及保密控制等。】
+5．2．4启动或恢复过程</code></pre>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/10/30/%E4%BB%BF%E4%BA%AC%E4%B8%9C%E5%95%86%E5%9F%8E%E5%A4%9A%E9%87%8D%E5%88%86%E7%B1%BB%E6%90%9C%E7%B4%A2%E7%9A%84%E6%8B%9B%E8%81%98%E7%B1%BB%E5%B0%8F%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%90%84%E7%A7%8D%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%E4%BB%A5%E5%8F%8A%E5%BC%80%E5%8F%91%E5%BF%83%E5%BE%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/10/30/%E4%BB%BF%E4%BA%AC%E4%B8%9C%E5%95%86%E5%9F%8E%E5%A4%9A%E9%87%8D%E5%88%86%E7%B1%BB%E6%90%9C%E7%B4%A2%E7%9A%84%E6%8B%9B%E8%81%98%E7%B1%BB%E5%B0%8F%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%90%84%E7%A7%8D%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%E4%BB%A5%E5%8F%8A%E5%BC%80%E5%8F%91%E5%BF%83%E5%BE%97/" class="post-title-link" itemprop="url">仿京东商城多重分类搜索的招聘类小项目的各种问题解决办法和用户浏览记录的行为分析以及开发心得</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-10-30 14:30:33" itemprop="dateCreated datePublished" datetime="2018-10-30T14:30:33+08:00">2018-10-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:04" itemprop="dateModified" datetime="2020-10-11T11:58:04+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript/" itemprop="url" rel="index"><span itemprop="name">javascript</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>是时候停下忙碌的工作来写点东西了，这里记录一下关于自己开发的一个参考大疆网站的招聘页面的demo.</p>
+<p><strong>问题汇总：</strong></p>
+<ol>
+<li>php如何把从mysql数据库查询出来的数据变成json格式的数据，以及如何解决查询结果的中文乱码的问题。</li>
+<li>如何解决ajax跨域的问题。</li>
+<li>查询结果中json数据遍历到前端时候去重的问题。</li>
+<li>对于ajax遍历出来的数据没法点击获取dom值的问题，专业点说就是：ajax获取元素，事件绑定不起作用</li>
+<li>对于ajax遍历结果进行懒加载，如何采用显示更多按钮来实现这个需求。</li>
+<li>如何监控dom元素的变化。</li>
+<li>处理ajax多次请求，数据更新而不是叠加的情况。</li>
+<li>处理mysql字段查询结果分组显示，然后在前端巧妙的实现区间查询。</li>
+<li>php端对前端获取参数的判断问题，以及if语句放置的注意事项。</li>
+<li>live函数只能在jquery版本1.9.x以下起作用。</li>
+</ol>
+<p>##php如何把从mysql数据库查询出来的数据变成json格式的数据，以及如何解决查询结果的中文乱码的问题<br>初出茅庐的时候，一直渴望要是哪天能够直接把数据库查询出来的数据变成json格式的数据那多好，就不用写太多的格式转换的函数了，今天这个确实很简单，直接用在php端处理即可。看例子：</p>
+<pre><code>&lt;?php
+header(&quot;Content-type:text/html;charset=utf-8;Access-Control-Allow-Origin:*;Access-Control-Allow-Methods:GET,POST&quot;);//字符编码设置
+$servername = &quot;localhost&quot;;
+$username = &quot;root&quot;;
+$password = &quot;&quot;;
+$dbname = &quot;test&quot;;
+
+// 创建连接 
+$con =mysqli_connect($servername, $username, $password, $dbname);
+
+// 检测连接
+$sql = &quot;SELECT * FROM job&quot;;
+$result = mysqli_query($con,$sql);
+if (!$result) &#123;
+    printf(&quot;Error: %s\n&quot;, mysqli_error($con));
+    exit();
+&#125;
+
+$jarr = array();
+while ($rows=mysqli_fetch_array($result,MYSQL_ASSOC))&#123;
+    $count=count($rows);//不能在循环语句中，由于每次删除 row数组长度都减小  
+    for($i=0;$i&lt;$count;$i++)&#123;
+        unset($rows[$i]);//删除冗余数据  
+    &#125;
+    array_push($jarr,$rows);
+&#125;
+//查看数组
+// print_r($jarr);
+echo $str=json_encode($jarr,JSON_UNESCAPED_UNICODE);//将数组进行json编码，并且解决中文乱码的问题
+mysqli_close($con);
+?&gt;</code></pre>
+<p>最开始不是这样的，这里先贴一个成品。我们说下问题在哪里，</p>
+<p>根据这个我们可以获取表job里面的数据了，可是获取后的结果里面有中文，显示出来就是乱码的，如何解决乱码，我们直接在最后这里添加一个参数<code>JSON_UNESCAPED_UNICODE</code></p>
+<pre><code>json_encode($jarr,JSON_UNESCAPED_UNICODE)</code></pre>
+<p>这样查询出来的结果就没有中文乱码了。</p>
+<p>为了我们查询出来的东西有更多参数控制，以便后面使用，我们可以对返回的json数据进行一个格式的自定，比如我这里设置一个状态，以后如果这个状态为success，那么就执行某个逻辑，如果这个状态为unsuccess，那么这个就执行另外一个逻辑。我们可以这样对这个查询结果进行一个处理：</p>
+<pre><code>echo $str=json_encode(array(&quot;code&quot;=&gt;&quot;1&quot;,&quot;state&quot;=&gt;&quot;success&quot;,&#39;information&#39;=&gt;$jarr),JSON_UNESCAPED_UNICODE);</code></pre>
+<p>这里就把所有的信息放在一个数组里面显示出来，要哪个就获取那个参数即可。</p>
+<pre><code>&#123;
+    &quot;code&quot;: &quot;1&quot;,
+    &quot;state&quot;: &quot;success&quot;,
+    &quot;information&quot;: [
+    &#123;
+        &quot;id&quot;: &quot;1&quot;,
+        &quot;name&quot;: &quot;Windows应用运维工程师&quot;,
+        &quot;category&quot;: &quot;研发类&quot;,
+        &quot;city&quot;: &quot;深圳市&quot;,
+        &quot;pay&quot;: &quot;60000&quot;,
+        &quot;detail&quot;: &quot;知道基本的设计思想&quot;,
+        &quot;created_time&quot;: &quot;2018-10-29 09:18:49&quot;
+    &#125;,
+    &#123;
+        &quot;id&quot;: &quot;2&quot;,
+        &quot;name&quot;: &quot;Linux应用运维工程师&quot;,
+        &quot;category&quot;: &quot;研发类&quot;,
+        &quot;city&quot;: &quot;深圳市&quot;,
+        &quot;pay&quot;: &quot;15000&quot;,
+        &quot;detail&quot;: &quot;知道基本的设计思想&quot;,
+        &quot;created_time&quot;: &quot;2018-10-29 09:18:49&quot;
+    &#125;,
+    ...
+    ]
+
+&#125;</code></pre>
+<p>取回的json数据就是这样的。</p>
+<p>好的，我们回归一个重要的问题就是如何把查询结果变成json的格式？因为，我们查询出来的结果默认是：</p>
+<pre><code>print_r($jarr);</code></pre>
+<p>这个是数组来的，要想把数组变成一个json格式的，那么直接对这个数组格式的数据用函数<code>json_encode()</code>处理。</p>
+<p>##如何解决ajax跨域的问题<br>这个问题非常普遍，由于笔者这里能够控制后端的源码，所以在方案选择上有很多的灵活性，对于跨域问题的解决方案网上有很多教程，而且情况各异，这里咱们就事论事。先科普一下跨域是什么东西。</p>
+<p><strong>什么是跨域？</strong></p>
+<p>当两个域具有相同的协议(如http), 相同的端口(如80)，相同的host（如<a target="_blank" rel="noopener" href="http://www.google.com),那么我们就可以认为它们是相同的域(协议,域名,端口都必须相同)./">www.google.com)，那么我们就可以认为它们是相同的域（协议，域名，端口都必须相同）。</a></p>
+<p>跨域就指着协议，域名，端口不一致，出于安全考虑，跨域的资源之间是无法交互的(例如一般情况跨域的JavaScript无法交互，当然有很多解决跨域的方案)</p>
+<p><strong>Access-Control-Allow-Origin</strong></p>
+<p>Access-Control-Allow-Origin是HTML5中定义的一种解决资源跨域的策略。</p>
+<p>他是通过服务器端返回带有Access-Control-Allow-Origin标识的Response header，用来解决资源的跨域权限问题。</p>
+<p>使用方法，在response添加 Access-Control-Allow-Origin，例如</p>
+<pre><code>Access-Control-Allow-Origin:www.google.com</code></pre>
+<p><a target="_blank" rel="noopener" href="http://www.google.com/">www.google.com</a> 是访问的域名，根据实际情况设置。</p>
+<p>也可以设置为 * 表示该资源谁都可以用</p>
+<pre><code>Access-Control-Allow-Origin: *</code></pre>
+<p>如果资源是html页面，可以设置 </p>
+<pre><code>&lt;meta http-equiv=&quot;Access-Control-Allow-Origin&quot; content=&quot;*&quot;&gt;</code></pre>
+<hr>
+<p>好的关于跨域的科普到此结束，我们来个实例。</p>
+<p><strong>跨域的客户端解决方案</strong></p>
+<pre><code>$(function($)&#123;
+    var url = &#39;http://*****/index&#39;;
+    $.ajax(url, &#123;
+        data: &#123;
+            &#39;cityname&#39;: &#39;成都&#39;,
+            &#39;date&#39;: &#39;2016.12.12&#39;
+        &#125;,
+        dataType: &#39;jsonp&#39;,
+        crossDomain: true,
+        success: function(data) &#123;
+            if(data &amp;&amp; data.resultcode == &#39;200&#39;)&#123;
+                console.log(data.result.today);
+            &#125;
+        &#125;
+    &#125;);
+&#125;);</code></pre>
+<p>将ajax请求中的dataType属性设置为“jsonp”，jsonp是专门用来解决跨域访问而诞生的。</p>
+<p><strong>跨域的服务器端解决方案：</strong></p>
+<p>在服务器端放回的头部添加代码：</p>
+<pre><code>Access-Control-Allow-Origin:*;Access-Control-Allow-Methods:GET,POST&quot;</code></pre>
+<p>如下，</p>
+<pre><code>header(&quot;Content-type:text/html;charset=utf-8;Access-Control-Allow-Origin:*;Access-Control-Allow-Methods:GET,POST&quot;);</code></pre>
+<p>好的，关于跨域的问题我们先讲解到此结束。</p>
+<h2 id="查询结果中json数据遍历到前端时候去重的问题"><a href="#查询结果中json数据遍历到前端时候去重的问题" class="headerlink" title="查询结果中json数据遍历到前端时候去重的问题"></a>查询结果中json数据遍历到前端时候去重的问题</h2><p>这里，我们在查询出数据后，假设我们只能读取接口数据，不能修改SQL语句，这个时候我们又需要对某个字段去重该怎么办？，我们来个实例：</p>
+<pre><code>var arr = [
+    &#123; &quot;name&quot;: &quot;刘红&quot;, &quot;value&quot;: &quot;qqq&quot;, &quot;age&quot;: &quot;10&quot; &#125;,
+    &#123; &quot;name&quot;: &quot;曹操&quot;, &quot;value&quot;: &quot;qqq&quot;, &quot;age&quot;: &quot;10&quot; &#125;,
+    &#123; &quot;name&quot;: &quot;曹操&quot;, &quot;value&quot;: &quot;qqq&quot;, &quot;age&quot;: &quot;13&quot; &#125;,
+    &#123; &quot;name&quot;: &quot;关羽&quot;, &quot;value&quot;: &quot;eee&quot;, &quot;age&quot;: &quot;20&quot; &#125;,
+    &#123; &quot;name&quot;: &quot;刘备&quot;, &quot;value&quot;: &quot;rrr&quot;, &quot;age&quot;: &quot;50&quot; &#125;,
+    &#123; &quot;name&quot;: &quot;张飞&quot;, &quot;value&quot;: &quot;ttt&quot;, &quot;age&quot;: &quot;100&quot; &#125;
+];
+for (var i = 0; i &lt; arr.length; i++) &#123;
+    for (var j =i+1; j &lt;arr.length; ) &#123;
+        if (arr[i].name == arr[j].name &amp;&amp; arr[i].value == arr[j].value &amp;&amp; arr[i].age == arr[j].age) &#123;
+            arr.splice(j,1);
+        &#125;
+        else j++;
+    &#125;
+&#125;
+console.log(arr);</code></pre>
+<p>这样在控制台的输出如下：</p>
+<pre><code>0: &#123;name: &quot;刘红&quot;, value: &quot;qqq&quot;, age: &quot;10&quot;&#125;
+1: &#123;name: &quot;曹操&quot;, value: &quot;qqq&quot;, age: &quot;10&quot;&#125;
+2: &#123;name: &quot;关羽&quot;, value: &quot;eee&quot;, age: &quot;20&quot;&#125;
+3: &#123;name: &quot;刘备&quot;, value: &quot;rrr&quot;, age: &quot;50&quot;&#125;
+4: &#123;name: &quot;张飞&quot;, value: &quot;ttt&quot;, age: &quot;100&quot;&#125;</code></pre>
+<p>这样我们就对第一个字段进行去重了，然后直接读取这个字段就可以遍历出以名字作为列表的下拉框。</p>
+<p>当然，现在笔者这里能够控制后端的编程，所以为了减少不必要的稳定性问题，这里采用的是直接写一个api，专门获取某个字段，然后采用SQL的distinct，如下：</p>
+<pre><code>SELECT DISTINCT(city) FROM job</code></pre>
+<p>这样最省事。</p>
+<h2 id="对于ajax遍历出来的数据没法点击获取dom值的问题"><a href="#对于ajax遍历出来的数据没法点击获取dom值的问题" class="headerlink" title="对于ajax遍历出来的数据没法点击获取dom值的问题"></a>对于ajax遍历出来的数据没法点击获取dom值的问题</h2><p>这个在网上别人专业的问法是这样的：ajax获取元素，事件绑定不起作用。</p>
+<p>因为笔者采用的是遍历出来，然后显示到某处的，比如这里的数据：</p>
+<p><img src="https://i.imgur.com/j5YTLNB.jpg"></p>
+<p>这里的数据不可能写死在前端的，所以就采用ajax向后端发起请求，从api中获得数据，然后遍历显示到这个位置。可是点击某个元素的时候，居然没法点击。而写死的可以被点击获取。这个差异足足卡了笔者一些时间。</p>
+<p><strong>HTML代码：</strong></p>
+<pre><code>&lt;dl id=&quot;select1&quot;&gt;
+    &lt;dt&gt;职位类别：&lt;/dt&gt;
+    &lt;dd class=&quot;select-all selected&quot;&gt;&lt;a href=&quot;#&quot;&gt;全部&lt;/a&gt;&lt;/dd&gt;
+    &lt;dd class=&quot;fenlei&quot;&gt;&lt;a href=&quot;#&quot;&gt;研发类&lt;/a&gt;&lt;/dd&gt;
+    &lt;dd class=&quot;fenlei&quot;&gt;&lt;a href=&quot;#&quot;&gt;市场销售类&lt;/a&gt;&lt;/dd&gt;
+    &lt;dd class=&quot;fenlei&quot;&gt;&lt;a href=&quot;#&quot;&gt;信息安全类&lt;/a&gt;&lt;/dd&gt;
+    &lt;dd class=&quot;fenlei&quot;&gt;&lt;a href=&quot;#&quot;&gt;互联网类&lt;/a&gt;&lt;/dd&gt;
+&lt;/dl&gt;</code></pre>
+<p><strong>js代码：</strong></p>
+<pre><code>$(&quot;#select1&quot;).click(function()&#123;
+    var fen = $(this).addClass(&quot;selected&quot;).siblings().removeClass(&quot;selected&quot;);
+    console.log(fen.text());
+    ...
+&#125;);</code></pre>
+<p>通常，我们写click函数的时候都是这样在写，可是函数里面的东西并没有在遍历的元素身上发生。查阅资料后发现：</p>
+<blockquote>
+<p>网友一：动态创建的html元素需要用jquery的on或者live(这个方法需要用jquery在1.9.x版本以下的才行)去绑定元素的事件，否则只能绑定现有的html元素。</p>
+</blockquote>
+<blockquote>
+<p>网友二：绑定click事件，这是基于现有的DOM元素，on是绑定，是在你当前DOM元素加载完毕后</p>
+</blockquote>
+<blockquote>
+<p>网友三：$(‘#select1’).on(‘click’,’dd’,function(){}) 这是委托事件的绑定方式。事件实际是绑定在ul元素上的，当事件触发会判断事件是否是经过li元素冒泡上来的，是则执行事件代码，不是则不执行。由于li元素上本来就没有绑定事件，所以之后再创建的li元素也可以正常触发。</p>
+</blockquote>
+<p>所以正确的写法如下：</p>
+<pre><code>(&quot;#select1&quot;).on(&quot;click&quot;,&quot;dd&quot;,function()&#123;
+     var fen = $(this).addClass(&quot;selected&quot;).siblings().removeClass(&quot;selected&quot;);
+     console.log(fen.text());
+&#125;);</code></pre>
+<p>这样就能够成功的点击创建的dd元素了。</p>
+<h2 id="对于ajax遍历结果进行懒加载"><a href="#对于ajax遍历结果进行懒加载" class="headerlink" title="对于ajax遍历结果进行懒加载"></a>对于ajax遍历结果进行懒加载</h2><p>这个本来是想要实现分页的，可是一想分页真TM太难了，然后就采用点击加载更多来实现一部分一部分的显示，也算是对用户体验做出了些努力。</p>
+<p>这里废话起来会很久，大家可以看下笔者自己写的另外一篇文章：<a target="_blank" rel="noopener" href="https://helongquan.github.io/2018/10/14/Ajax%E7%82%B9%E5%87%BB%E4%B8%8D%E6%96%AD%E5%8A%A0%E8%BD%BD%E6%95%B0%E6%8D%AE%E5%88%97%E8%A1%A8-%E5%AE%9E%E7%8E%B0%E5%8A%A0%E8%BD%BD%E6%9B%B4%E5%A4%9A%E7%9A%84%E5%8A%9F%E8%83%BD/">https://helongquan.github.io/2018/10/14/Ajax点击不断加载数据列表-实现加载更多的功能/</a></p>
+<p>这里笔者添加的地方是：</p>
+<pre><code>function nwalletProfit(num, cNum)&#123;
+    $.ajax(&#123;
+        type: &quot;get&quot;,
+        url: &quot;http://localhost:8080/project/fenleishaixuan_jingdong/search_all.php&quot;,
+        dataType: &quot;json&quot;,
+        async: false,
+        contentType: &quot;application/json&quot;,
+        success: function (res) &#123;
+            $(&quot;table&quot;).css(&#123;&#39;display&#39;:&#39;table&#39;&#125;);
+            if (res.length &gt; 0)&#123;
+                var i = num;
+                var ci= 0;
+                var x = parseInt((res.length)/10);//x为每10个一组的组数
+                if(cNum &gt;= x)&#123;
+                    $(&quot;.jiaZai_more&quot;).hide(); //当点击更多的次数 ≥ 组数时，隐藏按钮
+                &#125;
+
+                for(; i &lt; res.length; i++)&#123;
+                    var htmltxt = &quot;&quot;;
+                    ci++;
+                    htmltxt += &#39;&lt;tr&gt;&#39;;
+                    htmltxt += &#39;&lt;td class=&quot;mingcheng&quot;&gt;&lt;span&gt;&#39;+res[i][&quot;name&quot;]+&#39;&lt;/span&gt;&lt;/td&gt;&#39;;
+                    htmltxt += &#39;&lt;td&gt;&#39;+res[i][&quot;city&quot;]+&#39;&lt;/td&gt;&#39;;
+                    htmltxt += &#39;&lt;td&gt;&#39;+res[i][&quot;category&quot;]+&#39;&lt;/td&gt;&#39;;
+                    htmltxt += &#39;&lt;td&gt;$&#39;+res[i][&quot;pay&quot;]+&#39;&lt;/td&gt;&#39;;
+
+                    if(ci&gt; 10)&#123;
+                        break;
+                    &#125;
+                    $(&quot;#search_result&quot;).append(htmltxt);
+                &#125;
+
+            &#125;
+
+        &#125;,
+        error: function (e, d, c) &#123;
+        console.log(d)
+        &#125;
+    &#125;);
+&#125;
+nwalletProfit(0);
+var clickNum = 0; //点击的次数
+$(&quot;.jiaZai_more&quot;).on(&#39;click&#39;,&#39;span&#39;, function(event) &#123;
+    event.preventDefault();
+    clickNum++;
+    var iNum = 10*clickNum; //每次点击开始加载的第一个索引值
+    nwalletProfit(iNum, clickNum);
+&#125;);</code></pre>
+<p>这是一个典型的加载更多的ajax请求，请求的部分咱们就忽略了，这里提取一下点击加载更多的时候显示指定条数的代码：</p>
+<pre><code>if (res.length &gt; 0)&#123;
+    var i = num;
+    var ci= 0;
+    var x = parseInt((res.length)/10);//x为每10个一组的组数
+    if(cNum &gt;= x)&#123;
+        $(&quot;.jiaZai_more&quot;).hide(); //当点击更多的次数 ≥ 组数时，隐藏按钮
+    &#125;
+
+    for(; i &lt; res.length; i++)&#123;
+        var htmltxt = &quot;&quot;;
+        ci++;
+        htmltxt += &#39;&lt;tr&gt;&#39;;
+        htmltxt += &#39;&lt;td class=&quot;mingcheng&quot;&gt;&lt;span&gt;&#39;+res[i][&quot;name&quot;]+&#39;&lt;/span&gt;&lt;/td&gt;&#39;;
+        htmltxt += &#39;&lt;td&gt;&#39;+res[i][&quot;city&quot;]+&#39;&lt;/td&gt;&#39;;
+        htmltxt += &#39;&lt;td&gt;&#39;+res[i][&quot;category&quot;]+&#39;&lt;/td&gt;&#39;;
+        htmltxt += &#39;&lt;td&gt;$&#39;+res[i][&quot;pay&quot;]+&#39;&lt;/td&gt;&#39;;
+
+        if(ci&gt; 10)&#123;
+            break;
+        &#125;
+        $(&quot;#search_result&quot;).append(htmltxt);
+    &#125;
+
+&#125;,
+error: function (e, d, c) &#123;
+console.log(d)
+&#125;</code></pre>
+<p>这一部分代码是放在ajax里面的。这些都被写在一个函数<code>nwalletProfit(num, cNum)</code>里面。</p>
+<p>然后，在初始化这个函数，</p>
+<pre><code>nwalletProfit(0);</code></pre>
+<p>然后对加载按钮这个添加一个点击事件：</p>
+<pre><code>var clickNum = 0; //点击的次数
+$(&quot;.jiaZai_more&quot;).on(&#39;click&#39;,&#39;span&#39;, function(event) &#123;
+    event.preventDefault();
+    clickNum++;
+    var iNum = 10*clickNum; //每次点击开始加载的第一个索引值
+    nwalletProfit(iNum, clickNum);
+&#125;);</code></pre>
+<p><strong>HTML代码：</strong></p>
+<pre><code>&lt;div class=&quot;jiaZai_more&quot;&gt;&lt;span&gt;更多&lt;/span&gt;&lt;/div&gt;</code></pre>
+<p>关于加载更多的方案就到此结束。</p>
+<h2 id="如何监控dom元素的变化"><a href="#如何监控dom元素的变化" class="headerlink" title="如何监控dom元素的变化"></a>如何监控dom元素的变化</h2><p>这里是笔者的一个探索，并没有真正应用到项目中去，由于在这个小项目里有牵涉到，因此在这里说明一下，具体了解更多的话，可以参考笔者另外一篇文章：<a target="_blank" rel="noopener" href="https://helongquan.github.io/2018/10/30/Mutation-Observer-API%E7%94%A8%E6%9D%A5%E7%9B%91%E8%A7%86DOM%E5%85%83%E7%B4%A0%E5%8F%98%E5%8A%A8/">https://helongquan.github.io/2018/10/30/Mutation-Observer-API用来监视DOM元素变动/</a></p>
+<p>或者是在网站：<a target="_blank" rel="noopener" href="http://javascript.ruanyifeng.com/dom/mutationobserver.html">http://javascript.ruanyifeng.com/dom/mutationobserver.html</a></p>
+<h2 id="处理ajax多次请求，数据更新而不是叠加的情况"><a href="#处理ajax多次请求，数据更新而不是叠加的情况" class="headerlink" title="处理ajax多次请求，数据更新而不是叠加的情况"></a>处理ajax多次请求，数据更新而不是叠加的情况</h2><p>我们可能经常采用ajax请求来获取数据，然后遍历到前台，甚至是有的时候通过点击来发起ajax请求，可是如果我们采用点击的切换的时候遍历处理的数据是不会对当前页面刷新的，就是说会在前一次的基础上追加后一次请求的数据，这虽然很多时候有这个需求，但是我们更愿意点击切换的时候，显示当前请求到的数据，前一次的被覆盖。这个时候其实很简单，我们直接在点击的时候，在发起ajax请求成功获取数据之前把旧的dom删除即可。来个实例：</p>
+<pre><code>jQuery_1_8_3(&quot;.mingcheng span&quot;).live(&quot;click&quot;,function(event)&#123;
+    event.preventDefault(true);
+
+    jQuery_1_8_3(&quot;table&quot;).css(&#123;&#39;display&#39;:&#39;none&#39;&#125;);
+    jQuery_1_8_3(&quot;.miaosu&quot;).remove(); //关闭旧的职位详情
+    var obj = new Object();
+    obj.name = jQuery_1_8_3(this).text();
+
+    jQuery_1_8_3.ajax(&#123;
+        url: &quot;http://localhost:8080/project/fenleishaixuan_jingdong/search_by_name.php&quot;,
+        type: &quot;get&quot;,
+        dataType: &quot;json&quot;,
+        data: obj,
+        contentType: &quot;application/json&quot;,
+        success: function (res) &#123;
+
+            var htmltxt = &quot;&quot;;
+              htmltxt += &quot;&lt;div class=&#39;miaosu&#39; style=&#39;padding:15px;background:#eaeaea;position:relative&#39;&gt;&quot;;
+              htmltxt += &quot;&lt;h2&gt;职位：&quot;+res[0].name+&quot;&lt;/h2&gt;&quot;;
+              htmltxt += &quot;&lt;p&gt;薪资：&quot;+res[0].pay+&quot;&lt;/p&gt;&quot;;
+              htmltxt += &quot;&lt;p&gt;类别：&quot;+res[0].category+&quot;&lt;/p&gt;&quot;;
+              htmltxt += &quot;&lt;p&gt;地区：&quot;+res[0].city+&quot;&lt;/p&gt;&quot;;
+              htmltxt += &quot;&lt;p&gt;投递简历：&lt;a href=&quot;+res[0].url+&quot;&gt;&quot;+res[0].url+&quot;&lt;/a&gt;&lt;/p&gt;&quot;;
+              htmltxt += &quot;&lt;p&gt;详情说明：&quot;+res[0].detail+&quot;&lt;/p&gt;&quot;;
+              htmltxt += &quot;&lt;span class=&#39;close&#39;&gt;关闭&lt;/span&gt;&lt;/div&gt;&quot;;
+              htmltxt += &quot;&lt;/div&gt;&quot;;
+              jQuery_1_8_3(&quot;#detail_area&quot;).append(htmltxt).show(500);
+        &#125;,
+        error: function (xhr, err, exception) &#123;
+            console.log(err);
+        &#125;
+    &#125;);
+
+&#125;);</code></pre>
+<p>这里我们就运用到了，</p>
+<pre><code>jQuery_1_8_3(&quot;table&quot;).css(&#123;&#39;display&#39;:&#39;none&#39;&#125;);
+jQuery_1_8_3(&quot;.miaosu&quot;).remove(); //关闭旧的职位详情</code></pre>
+<p>这个是在遍历之前写的，所以在点击发出请求，数据显示出来之前把原有的东西隐藏或者删除，这个根据自己的需求自己选择方案。然后再把当前的请求遍历出来，插入到后面。</p>
+<h2 id="处理mysql字段查询结果分组显示，然后在前端巧妙的实现区间查询"><a href="#处理mysql字段查询结果分组显示，然后在前端巧妙的实现区间查询" class="headerlink" title="处理mysql字段查询结果分组显示，然后在前端巧妙的实现区间查询"></a>处理mysql字段查询结果分组显示，然后在前端巧妙的实现区间查询</h2><p>这个实现起来颇有点意思，笔者本来是想在后端实现这个，可是想一想太麻烦了，而且还没想出来。索性从前端进行处理。</p>
+<p>先来张图：</p>
+<p><img src="https://i.imgur.com/wy8YebD.jpg"></p>
+<p>这里就是实现后的效果，先贴一下代码：</p>
+<pre><code>htmlobj_pay = $.ajax(&#123;
+    url: &quot;http://localhost:8080/project/fenleishaixuan_jingdong/getdata_pay.php&quot;,
+    type: &quot;get&quot;,
+    dataType: &quot;json&quot;,
+    contentType: &quot;application/json&quot;,
+    success: function (res) &#123;
+        var groups = 5;
+        var perGroup = (res.length)/groups;  
+        // 向下取整
+        perGroup = Math.floor(perGroup);
+        var newqujian = Array();
+        for (var i = 0; i &lt; res.length; i++) &#123;
+                var z = (i+1)%groups;
+                if(i == 0)&#123;
+                    newqujian.push(res[i][&quot;pay&quot;]);
+                &#125;
+                if(z == 0)&#123;
+                    newqujian.push(res[i][&quot;pay&quot;]);
+                &#125;
+        &#125;
+
+        newqujian.push(res[res.length-1][&quot;pay&quot;]);
+
+        var htmltxt = &quot;&quot;;
+        for (var i = 0; i &lt; newqujian.length; i++) &#123;
+            htmltxt += &quot;&lt;dd&gt;&quot;;
+            htmltxt += &quot;&lt;a href=&#39;#&#39;&gt;&quot;;
+            htmltxt += &quot;&lt;span class=&#39;xiaxian&#39;&gt;&quot;+newqujian[i]+&quot;&lt;/span&gt; - &lt;span class=&#39;shangxian&#39;&gt;&quot;+newqujian[i+1]+&quot;&lt;/span&gt;&quot;;
+            htmltxt += &quot;&lt;/a&gt;&quot;;
+            htmltxt += &quot;&lt;/dd&gt;&quot;;
+        &#125;
+        $(&quot;#select3&quot;).append(htmltxt).show(500);
+
+        $(&quot;#select3 dd:last-child&quot;).remove();
+    &#125;,
+    error: function (xhr, err, exception) &#123;
+        console.log(err);
+    &#125;
+&#125;);</code></pre>
+<p>这里前面的部分是取数据，没啥说的，接着分组，</p>
+<pre><code>var groups = 5;
+var perGroup = (res.length)/groups;  
+// 向下取整
+perGroup = Math.floor(perGroup);</code></pre>
+<p>关于js取整的问题，这里科普下：</p>
+<blockquote>
+<p>1.丢弃小数部分,保留整数部分</p>
+</blockquote>
+<pre><code>parseInt(5/2)</code></pre>
+<blockquote>
+<p>2.向上取整,有小数就整数部分加1</p>
+</blockquote>
+<pre><code> Math.ceil(5/2)</code></pre>
+<blockquote>
+<p>3,四舍五入.</p>
+</blockquote>
+<pre><code>Math.round(5/2)</code></pre>
+<blockquote>
+<p>4,向下取整</p>
+</blockquote>
+<pre><code> Math.floor(5/2) </code></pre>
+<p>分组的问题搞定。接着就是对分组的区间值取出来，然后push到一个新的数组中保存起来，</p>
+<pre><code>var newqujian = Array();
+for (var i = 0; i &lt; res.length; i++) &#123;
+        var z = (i+1)%groups;
+        if(i == 0)&#123;
+            newqujian.push(res[i][&quot;pay&quot;]);
+        &#125;
+        if(z == 0)&#123;
+            newqujian.push(res[i][&quot;pay&quot;]);
+        &#125;
+&#125;
+newqujian.push(res[res.length-1][&quot;pay&quot;]);</code></pre>
+<p>这个就保存了区间值，也就是区间之间的临界值。</p>
+<p>接着就是以保存区间值的这个数组进行遍历了。</p>
+<pre><code>var htmltxt = &quot;&quot;;
+for (var i = 0; i &lt; newqujian.length; i++) &#123;
+    htmltxt += &quot;&lt;dd&gt;&quot;;
+    htmltxt += &quot;&lt;a href=&#39;#&#39;&gt;&quot;;
+    htmltxt += &quot;&lt;span class=&#39;xiaxian&#39;&gt;&quot;+newqujian[i]+&quot;&lt;/span&gt; - &lt;span class=&#39;shangxian&#39;&gt;&quot;+newqujian[i+1]+&quot;&lt;/span&gt;&quot;;
+    htmltxt += &quot;&lt;/a&gt;&quot;;
+    htmltxt += &quot;&lt;/dd&gt;&quot;;
+&#125;
+$(&quot;#select3&quot;).append(htmltxt).show(500);</code></pre>
+<p>然后把遍历的结果保存到前端要显示的dom节点位置即可。这里有个小技巧，</p>
+<pre><code>&lt;span class=&#39;xiaxian&#39;&gt;&quot;+newqujian[i]+&quot;&lt;/span&gt; - &lt;span class=&#39;shangxian&#39;&gt;&quot;+newqujian[i+1]+&quot;&lt;/span&gt;</code></pre>
+<p>这样就把相邻的两个数组显示到一条遍历结果中来了，这个很重要。</p>
+<p>然后，把最后一条删除，为啥呢？因为最后一条是数组最后一条数据和它的下一条，很显然这个是不符合逻辑的，肯定会出现undefind，</p>
+<pre><code>$(&quot;#select3 dd:last-child&quot;).remove();</code></pre>
+<p>好的，完成这些步骤后，就实现了上图的那个样子。</p>
+<h2 id="php端对前端获取参数的判断问题，以及if语句放置的注意事项"><a href="#php端对前端获取参数的判断问题，以及if语句放置的注意事项" class="headerlink" title="php端对前端获取参数的判断问题，以及if语句放置的注意事项"></a>php端对前端获取参数的判断问题，以及if语句放置的注意事项</h2><p>这里可以说是很折腾的，其实是没啥逻辑错误的，笔者这里采用的是最笨的方法，因为这里的搜索过滤条件不多，就三个，可是即使是三个，枚举完毕也有8中可能，先上完整代码：</p>
+<pre><code>&lt;?php
+//字符编码设置，以及处理跨域的问题
+header(&quot;Content-type:text/html;charset=utf-8;Access-Control-Allow-Origin:*;Access-Control-Allow-Methods:GET,POST&quot;);
+$servername = &quot;localhost&quot;;
+$username = &quot;root&quot;;
+$password = &quot;&quot;;
+$dbname = &quot;test&quot;;
+
+// 创建连接 
+$con =mysqli_connect($servername, $username, $password, $dbname);
+
+// 判断一个参数是否获取
+// function check_var( $var, $default = &#39;&#39;)&#123;
+//     return( (isset($var) and !empty($var )) ? $var : (!empty($default) ? $default : false) );
+// &#125;
+
+if(empty($_GET[&#39;city&#39;]) &amp;&amp; empty($_GET[&#39;category&#39;]) &amp;&amp; empty($_GET[&#39;xiaxian&#39;]))&#123;
+    $sql = &quot;SELECT * FROM job&quot;;
+&#125;
+else if (isset($_GET[&#39;city&#39;]) &amp;&amp; empty($_GET[&#39;category&#39;]) &amp;&amp; empty($_GET[&#39;xiaxian&#39;]) ) &#123;
+    $ci = $_GET[&#39;city&#39;];
+    $sql = &quot;SELECT * FROM job WHERE city = &#39;$ci&#39;&quot;;
+&#125;
+else if (empty($_GET[&#39;city&#39;]) &amp;&amp; isset($_GET[&#39;category&#39;]) &amp;&amp; empty($_GET[&#39;xiaxian&#39;]) ) &#123;
+    $cate = $_GET[&#39;category&#39;];
+    $sql = &quot;SELECT * FROM job WHERE category = &#39;$cate&#39;&quot;;
+&#125;
+else if (empty($_GET[&#39;city&#39;]) &amp;&amp; empty($_GET[&#39;category&#39;]) &amp;&amp; isset($_GET[&#39;xiaxian&#39;]) ) &#123;
+    $zc_xx = $_GET[&#39;xiaxian&#39;];
+    $zc_sx = $_GET[&#39;shangxian&#39;];
+    $sql = &quot;SELECT * FROM job WHERE pay BETWEEN $zc_xx AND $zc_sx&quot;;
+&#125;
+else if(isset($_GET[&#39;city&#39;]) &amp;&amp; isset($_GET[&#39;category&#39;]) &amp;&amp; empty($_GET[&#39;xiaxian&#39;]) )&#123;
+    $ci = $_GET[&#39;city&#39;];
+    $cate = $_GET[&#39;category&#39;];
+    $sql = &quot;SELECT * FROM job WHERE city = &#39;$ci&#39; AND category = &#39;$cate&#39;&quot;;
+&#125;
+else if (isset($_GET[&#39;city&#39;]) &amp;&amp; empty($_GET[&#39;category&#39;]) &amp;&amp; isset($_GET[&#39;xiaxian&#39;]) ) &#123;
+    $ci = $_GET[&#39;city&#39;];
+    $zc_xx = $_GET[&#39;xiaxian&#39;];
+    $zc_sx = $_GET[&#39;shangxian&#39;];
+    $sql = &quot;SELECT * FROM job WHERE city = &#39;$ci&#39; AND pay BETWEEN $zc_xx AND $zc_sx&quot;;
+&#125;
+else if (empty($_GET[&#39;city&#39;]) &amp;&amp; isset($_GET[&#39;category&#39;]) &amp;&amp; isset($_GET[&#39;xiaxian&#39;]) ) &#123;
+    $cate = $_GET[&#39;category&#39;];
+    $zc_xx = $_GET[&#39;xiaxian&#39;];
+    $zc_sx = $_GET[&#39;shangxian&#39;];
+    $sql = &quot;SELECT * FROM job WHERE category = &#39;$cate&#39; AND pay BETWEEN $zc_xx AND $zc_sx&quot;;
+&#125;
+else if( isset($_GET[&#39;city&#39;]) &amp;&amp; isset($_GET[&#39;category&#39;]) &amp;&amp; isset($_GET[&#39;xiaxian&#39;]) )&#123;
+    $zc_xx = $_GET[&#39;xiaxian&#39;];
+    $zc_sx = $_GET[&#39;shangxian&#39;];
+    $cate = $_GET[&#39;category&#39;];
+    $ci = $_GET[&#39;city&#39;];
+    $sql = &quot;SELECT * FROM job WHERE pay BETWEEN $zc_xx AND $zc_sx AND category = &#39;$cate&#39; AND city = &#39;$ci&#39;&quot;;
+&#125;
+
+$result = mysqli_query($con,$sql);
+if (!$result) &#123;
+    printf(&quot;Error: %s\n&quot;, mysqli_error($con));
+    exit();
+&#125;
+
+$jarr = array();
+while ($rows=mysqli_fetch_array($result,MYSQL_ASSOC))&#123;
+    $count=count($rows);//不能在循环语句中，由于每次删除 row数组长度都减小  
+    for($i=0;$i&lt;$count;$i++)&#123;
+        unset($rows[$i]);//删除冗余数据  
+    &#125;
+    array_push($jarr,$rows);
+&#125;
+//查看数组
+// print_r($jarr);
+echo $str=json_encode($jarr,JSON_UNESCAPED_UNICODE);//将数组进行json编码，并且解决中文乱码的问题
+mysqli_close($con);
+?&gt;</code></pre>
+<p>这里是修改完成后的代码，最开始呢？其实不是这样的，笔者，写得很混乱，经过观察发现，先写都是为空值的，最后写全部不为空值的条件。<strong>原则就是：限制因素先少后多</strong></p>
+<p>这里还设计到一个php的empty,issset等的用法。大家可以去网站搜索资料了解下他们的差异。这一个完成后，我们还要继续下一个，这里很重要的地方在于这些判断语句里面的参数，最开始笔者在js的ajax请求那边的post对象那里写了这么一个：</p>
+<pre><code>var obj = new Object();
+    obj.category = $(&quot;#selectA a&quot;).text();
+    obj.city = $(&quot;#selectB a&quot;).text();
+    obj.pay = $(&quot;#selectC .xiaxian&quot;).text();
+    obj.xiaxian = $(&quot;#selectC .xiaxian&quot;).text();
+    obj.shangxian = $(&quot;#selectC .shangxian&quot;).text();</code></pre>
+<p>当时心想，为了不影响，</p>
+<pre><code>obj.xiaxian = $(&quot;#selectC .xiaxian&quot;).text();
+obj.shangxian = $(&quot;#selectC .shangxian&quot;).text();</code></pre>
+<p>这两个，就单独再加了一个。结果在chrome调试工具的network那里发现有个请求，请求也没问题，可是把这个请求的api地址放在浏览器上一看，发现地址里面多了一个参数<code>&amp;pay=</code>，这才然我恍然大悟，其实我没有必要写这么一个没用的，因为这样写了，需要在后端php那边的SQL查询也要有这个才行，可是在SQL那边根本就没有这个字段。</p>
+<p>经过整改后，确定了发起ajax请求的时候，post对象的参数就是SQL查询那边的各种条件判断的参数，不能加一些不存在的参数。因为php那边就：</p>
+<pre><code>$_GET[&#39;city&#39;]
+$_GET[&#39;category&#39;]
+$_GET[&#39;xiaxian&#39;]
+$_GET[&#39;shangxian&#39;]</code></pre>
+<p>这四个，对应的就是SQL中的那几个字段，</p>
+<pre><code>$zc_xx = $_GET[&#39;xiaxian&#39;];
+$zc_sx = $_GET[&#39;shangxian&#39;];
+$cate = $_GET[&#39;category&#39;];
+$ci = $_GET[&#39;city&#39;];
+$sql = &quot;SELECT * FROM job WHERE pay BETWEEN $zc_xx AND $zc_sx AND category = &#39;$cate&#39; AND city = &#39;$ci&#39;&quot;;</code></pre>
+<p>这里需要深刻理解下。确保这里没问题后，只要语法没啥问题基本是没有什么错误了。</p>
+<h2 id="live函数只能在jquery版本1-9-x以下起作用"><a href="#live函数只能在jquery版本1-9-x以下起作用" class="headerlink" title="live函数只能在jquery版本1.9.x以下起作用"></a>live函数只能在jquery版本1.9.x以下起作用</h2><p>这里笔者作为最后的补充，这里说下关于jquery版本的问题，由于笔者这里有live方法，经过查阅资料发现这个方法在jquery1.9.x以上被弃用了，所以笔者把jquery版本换成3.3.1版本后，这个不起作用了，所以在这个项目里面笔者采用了这两个版本，为避免冲突，对低版本的那个进行了冲突解决。</p>
+<pre><code>var jQuery_1_8_3 = $.noConflict(true);</code></pre>
+<p>重新对<code>$</code>进行命名。有用到1.8.3版本的地方就用<code>jQuery_1_8_3</code>代替。因为在这个项目中，点击职位详情的时候不起作用，所以笔者根据前面说的那个改成了</p>
+<pre><code>on(&quot;click&quot;,&quot;dd&quot;,function()&#123;...&#125;)</code></pre>
+<p>貌似这个还不起作用，后来想了一下应该要把on换成live试试，没成想，竟然成功了，最后的写法：</p>
+<pre><code>jQuery_1_8_3(&quot;.mingcheng span&quot;).live(&quot;click&quot;,function()&#123;
+
+    jQuery_1_8_3(&quot;table&quot;).css(&#123;&#39;display&#39;:&#39;none&#39;&#125;);
+    jQuery_1_8_3(&quot;.miaosu&quot;).remove(); //关闭旧的职位详情
+    var obj = new Object();
+    obj.name = jQuery_1_8_3(this).text();
+
+    jQuery_1_8_3.ajax(&#123;
+        url: &quot;http://localhost:8080/project/fenleishaixuan_jingdong/search_by_name.php&quot;,
+        type: &quot;get&quot;,
+        dataType: &quot;json&quot;,
+        data: obj,
+        contentType: &quot;application/json&quot;,
+        success: function (res) &#123;
+              var htmltxt = &quot;&quot;;
+              htmltxt += &quot;&lt;div class=&#39;miaosu&#39; style=&#39;padding:15px;background:#eaeaea;position:relative&#39;&gt;&quot;;
+              htmltxt += &quot;&lt;h2&gt;职位：&quot;+res[0].name+&quot;&lt;/h2&gt;&quot;;
+              htmltxt += &quot;&lt;p&gt;薪资：&quot;+res[0].pay+&quot;&lt;/p&gt;&quot;;
+              htmltxt += &quot;&lt;p&gt;类别：&quot;+res[0].category+&quot;&lt;/p&gt;&quot;;
+              htmltxt += &quot;&lt;p&gt;地区：&quot;+res[0].city+&quot;&lt;/p&gt;&quot;;
+              htmltxt += &quot;&lt;p&gt;投递简历：&lt;a href=&quot;+res[0].url+&quot;&gt;&quot;+res[0].url+&quot;&lt;/a&gt;&lt;/p&gt;&quot;;
+              htmltxt += &quot;&lt;p&gt;详情说明：&quot;+res[0].detail+&quot;&lt;/p&gt;&quot;;
+              htmltxt += &quot;&lt;span class=&#39;close&#39;&gt;关闭&lt;/span&gt;&lt;/div&gt;&quot;;
+              htmltxt += &quot;&lt;/div&gt;&quot;;
+              jQuery_1_8_3(&quot;#detail_area&quot;).append(htmltxt).show(500);
+        &#125;,
+        error: function (xhr, err, exception) &#123;
+            console.log(err);
+        &#125;
+    &#125;);
+
+&#125;);</code></pre>
+<p>注意这个写法，</p>
+<pre><code>jQuery_1_8_3(&quot;.mingcheng span&quot;).live(&quot;click&quot;,function()&#123;
+    ...
+&#125;</code></pre>
+<p>最后，我们既然经常使用jquery，那么最好对这个知名度很高的第三方库进行一个了解，版本与版本之间有很大的差异性，其实也不用追求高版本，哪个能够满足设计需求用哪个。</p>
+<p>更新：2018/11/16 18:25:58 </p>
+<p>这里笔者在另外一篇关于收集用户浏览产品信息的博文中有写如何运用用户浏览的产品，根据分类来判断用户的喜好。这里对数据表的数据进行统计分析。希望你在阅读这个更新之前已经阅读了笔者的另外一篇文章：<a target="_blank" rel="noopener" href="http://helongquan.com/2018/11/02/javascript%E8%8E%B7%E5%8F%96wordpress%E7%94%A8%E6%88%B7%E6%B5%8F%E8%A7%88%E4%BF%A1%E6%81%AF-cookie%E4%BF%A1%E6%81%AF-%E6%98%BE%E7%A4%BA%E5%9C%A8%E9%A1%B5%E9%9D%A2%E4%B8%8A%E5%B9%B6%E4%B8%94%E5%AD%98%E5%85%A5%E6%95%B0%E6%8D%AE%E5%BA%93/">javascript获取wordpress用户浏览信息(cookie信息)显示在页面上并且存入数据库</a></p>
+<p>我们接着前面来，在主题的目录下创建文件：get_user_history.php</p>
+<p><strong>代码：</strong></p>
+<pre><code>&lt;?php
+//字符编码设置，以及处理跨域的问题
+header(&quot;Content-type:text/html;charset=utf-8;Access-Control-Allow-Origin:*;Access-Control-Allow-Methods:GET,POST&quot;);
+//获取当前文件所在目录
+$gen=$_SERVER[&#39;DOCUMENT_ROOT&#39;];
+require_once(&quot;$gen/wp-config.php&quot;);
+
+//链接mysql服务器 开始
+$con = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD);
+mysqli_select_db($con, DB_NAME);
+
+// 检测连接
+$sql = &quot;SELECT count(categories) as value, categories AS name FROM product_history_cookie where categories !=&#39;&#39; GROUP BY categories&quot;;
+$result = mysqli_query($con,$sql);
+if (!$result) &#123;
+    printf(&quot;Error: %s\n&quot;, mysqli_error($con));
+    exit();
+&#125;
+
+$jarr = array();
+while ($rows=mysqli_fetch_array($result,MYSQL_ASSOC))&#123;
+    $count=count($rows);//不能在循环语句中，由于每次删除 row数组长度都减小  
+    for($i=0;$i&lt;$count;$i++)&#123;
+        unset($rows[$i]);//删除冗余数据  
+    &#125;
+    array_push($jarr,$rows);
+&#125;
+//查看数组
+// print_r($jarr);
+echo $str=json_encode($jarr,JSON_UNESCAPED_UNICODE);//将数组进行json编码，并且解决中文乱码的问题
+mysqli_close($con);
+?&gt;</code></pre>
+<p>然后在js文件（script.js）后面添加代码：</p>
+<pre><code>$(document).ready(function()&#123;
+
+    $website_url = &quot;http://yourdomain.com/wp-content/themes/nocti/fenleisousuo&quot;;
+
+    htmlobj_category = $.ajax(&#123;
+        url: $website_url+&quot;/getdata_category.php&quot;,
+        type: &quot;get&quot;,
+        dataType: &quot;json&quot;,
+        contentType: &quot;application/json&quot;,
+        success: function (res) &#123;
+            for (var i = 0; i &lt; res.length; i++) &#123;
+                var fenlei = res[i][&quot;category&quot;];
+                var detail = res[i][&quot;detail&quot;];
+                $(&quot;#select1&quot;).append(&quot;&lt;dd class=&#39;fenlei&#39;&gt;&lt;a href=&#39;#&#39;&gt;&quot;+res[i][&quot;category&quot;]+&quot;&lt;/a&gt;&lt;/dd&gt;&quot;);
+            &#125;
+        &#125;,
+        error: function (xhr, err, exception) &#123;
+            console.log(err);
+        &#125;
+    &#125;);
+
+    htmlobj_city = $.ajax(&#123;
+        url: $website_url+&quot;/getdata_city.php&quot;,
+        type: &quot;get&quot;,
+        dataType: &quot;json&quot;,
+        contentType: &quot;application/json&quot;,
+        success: function (res) &#123;
+            for (var i = 0; i &lt; res.length; i++) &#123;
+                var chengshi = res[i][&quot;city&quot;];
+                $(&quot;#select2&quot;).append(&quot;&lt;dd&gt;&lt;a href=&#39;#&#39;&gt;&quot;+chengshi+&quot;&lt;/a&gt;&lt;/dd&gt;&quot;);
+            &#125;
+        &#125;,
+        error: function (xhr, err, exception) &#123;
+            console.log(err);
+        &#125;
+    &#125;);
+
+    htmlobj_pay = $.ajax(&#123;
+        url: $website_url+&quot;/getdata_pay.php&quot;,
+        type: &quot;get&quot;,
+        dataType: &quot;json&quot;,
+        contentType: &quot;application/json&quot;,
+        success: function (res) &#123;
+            var groups = 5;
+            var perGroup = (res.length)/groups;
+            perGroup = Math.floor(perGroup);
+            var newqujian = Array();
+            var houzhe = Array();
+            for (var i = 0; i &lt; res.length; i++) &#123;
+                var z = (i+1)%groups;
+                if(i == 0)&#123;
+                    newqujian.push(res[i][&quot;pay&quot;]);
+                &#125;
+                if(z == 0)&#123;
+                    newqujian.push(res[i][&quot;pay&quot;]);
+                &#125;
+            &#125;
+
+            newqujian.push(res[res.length-1][&quot;pay&quot;]);
+
+            var htmltxt = &quot;&quot;;
+            for (var i = 0; i &lt; newqujian.length; i++) &#123;
+                htmltxt += &quot;&lt;dd&gt;&quot;;
+                htmltxt += &quot;&lt;a href=&#39;#&#39;&gt;&quot;;
+                htmltxt += &quot;&lt;span class=&#39;xiaxian&#39;&gt;&quot;+newqujian[i]+&quot;&lt;/span&gt; - &lt;span class=&#39;shangxian&#39;&gt;&quot;+newqujian[i+1]+&quot;&lt;/span&gt;&quot;;
+                htmltxt += &quot;&lt;/a&gt;&quot;;
+                htmltxt += &quot;&lt;/dd&gt;&quot;;
+            &#125;
+            $(&quot;#select3&quot;).append(htmltxt).show(500);
+
+            $(&quot;#select3 dd:last-child&quot;).remove();
+        &#125;,
+        error: function (xhr, err, exception) &#123;
+            console.log(err);
+        &#125;
+    &#125;);
+
+    function nwalletProfit(num, cNum)&#123;
+        $.ajax(&#123;
+            type: &quot;get&quot;,
+            url: $website_url+&quot;/search_all.php&quot;,
+            dataType: &quot;json&quot;,
+            async: false,
+            contentType: &quot;application/json&quot;,
+            success: function (res) &#123;
+                $(&quot;table&quot;).css(&#123;&#39;display&#39;:&#39;table&#39;&#125;);
+                if (res.length &gt; 0)&#123;
+                    var i = num;
+                    var ci= 0;
+                    var x = parseInt((res.length)/10);
+                    if(cNum &gt;= x)&#123;
+                        $(&quot;.jiaZai_more&quot;).hide();
+                    &#125;
+
+                    for(; i &lt; res.length; i++)&#123;
+                        var htmltxt = &quot;&quot;;
+                        ci++;
+                        htmltxt += &#39;&lt;tr&gt;&#39;;
+                        htmltxt += &#39;&lt;td class=&quot;mingcheng&quot;&gt;&lt;span&gt;&#39;+res[i][&quot;name&quot;]+&#39;&lt;/span&gt;&lt;/td&gt;&#39;;
+                        htmltxt += &#39;&lt;td&gt;&#39;+res[i][&quot;city&quot;]+&#39;&lt;/td&gt;&#39;;
+                        htmltxt += &#39;&lt;td&gt;&#39;+res[i][&quot;category&quot;]+&#39;&lt;/td&gt;&#39;;
+                        htmltxt += &#39;&lt;td&gt;$&#39;+res[i][&quot;pay&quot;]+&#39;&lt;/td&gt;&#39;;
+
+                        if(ci&gt; 10)&#123;
+                            break;
+                        &#125;
+                        $(&quot;#search_result&quot;).append(htmltxt);
+                    &#125;
+
+                &#125;
+
+            &#125;,
+            error: function (e, d, c) &#123;
+            console.log(d)
+            &#125;
+        &#125;);
+    &#125;
+    nwalletProfit(0);
+    var clickNum = 0;
+    $(&quot;.jiaZai_more&quot;).on(&#39;click&#39;,&#39;span&#39;, function() &#123;
+        clickNum++;
+        var iNum = 10*clickNum;
+        nwalletProfit(iNum, clickNum);
+    &#125;);
+
+
+    $(&quot;#select1&quot;).on(&quot;click&quot;,&quot;dd&quot;,function()&#123;
+
+        $(&quot;table&quot;).css(&#123;&#39;display&#39;:&#39;table&#39;&#125;);
+        $(&quot;#search_result tbody tr&quot;).remove();
+        $(&quot;.miaosu&quot;).remove();
+
+        $(this).addClass(&quot;selected&quot;).siblings().removeClass(&quot;selected&quot;);
+        if ($(this).hasClass(&quot;select-all&quot;)) &#123;
+            $(&quot;#selectA&quot;).remove();
+
+            function SelectAllCate(num, cNum)&#123;
+                $.ajax(&#123;
+                    type: &quot;get&quot;,
+                    url: $website_url+&quot;/search_all.php&quot;,
+                    dataType: &quot;json&quot;,
+                    async: false,
+                    contentType: &quot;application/json&quot;,
+                    success: function (res) &#123;
+                        if (res.length &gt; 0)&#123;
+                            var i = num;
+                            var ci= 0;
+                            var x = parseInt((res.length)/10);
+                            if(cNum &gt;= x)&#123;
+                                $(&quot;.jiaZai_more&quot;).hide();
+                            &#125;
+
+                            for(; i &lt; res.length; i++)&#123;
+                                var htmltxt = &quot;&quot;;
+                                ci++;
+                                htmltxt += &#39;&lt;tr&gt;&#39;;
+                                htmltxt += &#39;&lt;td class=&quot;mingcheng&quot;&gt;&lt;span&gt;&#39;+res[i][&quot;name&quot;]+&#39;&lt;/span&gt;&lt;/td&gt;&#39;;
+                                htmltxt += &#39;&lt;td&gt;&#39;+res[i][&quot;city&quot;]+&#39;&lt;/td&gt;&#39;;
+                                htmltxt += &#39;&lt;td&gt;&#39;+res[i][&quot;category&quot;]+&#39;&lt;/td&gt;&#39;;
+                                htmltxt += &#39;&lt;td&gt;$&#39;+res[i][&quot;pay&quot;]+&#39;&lt;/td&gt;&#39;;
+
+                                if(ci&gt; 10)&#123;
+                                    break;
+                                &#125;
+                                $(&quot;#search_result&quot;).append(htmltxt);
+                            &#125;
+
+                        &#125;
+
+                    &#125;,
+                    error: function (e, d, c) &#123;
+                    console.log(d)
+                    &#125;
+                &#125;);
+            &#125;
+
+            SelectAllCate(0);
+            var clickNum = 0;
+            $(&quot;.jiaZai_more&quot;).on(&#39;click&#39;,&#39;span&#39;, function() &#123;
+                clickNum++;
+                var iNum = 10*clickNum;
+                SelectAllCate(iNum, clickNum);
+            &#125;);
+
+
+        &#125; else &#123;
+            var copyThisA = $(this).clone();
+            if ($(&quot;#selectA&quot;).length &gt; 0) &#123;
+                $(&quot;#selectA a&quot;).html($(this).text());
+            &#125; else &#123;
+                $(&quot;.select-result dl&quot;).append(copyThisA.attr(&quot;id&quot;, &quot;selectA&quot;));
+            &#125;
+
+            var obj = new Object();
+                obj.category = $(&quot;#selectA a&quot;).text();
+                obj.city = $(&quot;#selectB a&quot;).text();
+                obj.xiaxian = $(&quot;#selectC .xiaxian&quot;).text();
+                obj.shangxian = $(&quot;#selectC .shangxian&quot;).text();
+
+            $.ajax(&#123;
+                   url: $website_url+&quot;/search_filter.php&quot;,
+                type: &quot;get&quot;,
+                dataType: &quot;json&quot;,
+                data: obj,
+                contentType: &quot;application/json&quot;,
+                success: function (res) &#123;
+                    var htmltxt = &quot;&quot;;
+                    for (var i = 0; i &lt; res.length; i++) &#123;
+                        htmltxt += &quot;&lt;tr&gt;&quot;;
+                        htmltxt += &quot;&lt;td class=&#39;mingcheng&#39;&gt;&lt;span&gt;&quot;+res[i][&quot;name&quot;]+&quot;&lt;/span&gt;&lt;/td&gt;&quot;;
+                        htmltxt += &quot;&lt;td&gt;&quot;+res[i][&quot;city&quot;]+&quot;&lt;/td&gt;&quot;;
+                        htmltxt += &quot;&lt;td&gt;&quot;+res[i][&quot;category&quot;]+&quot;&lt;/td&gt;&quot;;
+                        htmltxt += &quot;&lt;td&gt;&quot;+res[i][&quot;pay&quot;]+&quot;&lt;/td&gt;&quot;;
+                        htmltxt += &quot;&lt;/tr&gt;&quot;;
+                    &#125;
+                    $(&quot;#search_result&quot;).append(htmltxt).show(500);
+
+                &#125;,
+                error: function (xhr, err, exception) &#123;
+                    console.log(err);
+                &#125;
+            &#125;);
+
+        &#125;
+    &#125;);
+
+    $(&quot;#select2&quot;).on(&quot;click&quot;,&quot;dd&quot;,function()&#123;
+
+        $(&quot;table&quot;).css(&#123;&#39;display&#39;:&#39;table&#39;&#125;);
+        $(&quot;#search_result tbody tr&quot;).remove();
+        $(&quot;.miaosu&quot;).remove();
+
+        $(this).addClass(&quot;selected&quot;).siblings().removeClass(&quot;selected&quot;);
+        if ($(this).hasClass(&quot;select-all&quot;)) &#123;
+            $(&quot;#selectB&quot;).remove();
+
+            function SelectAllCity(num, cNum)&#123;
+                $.ajax(&#123;
+                    type: &quot;get&quot;,
+                    url: $website_url+&quot;/search_all.php&quot;,
+                    dataType: &quot;json&quot;,
+                    async: false,
+                    contentType: &quot;application/json&quot;,
+                    success: function (res) &#123;
+
+                        if (res.length &gt; 0)&#123;
+                            var i = num;
+                            var ci= 0;
+                            var x = parseInt((res.length)/10);
+                            if(cNum &gt;= x)&#123;
+                                $(&quot;.jiaZai_more&quot;).hide();
+                            &#125;
+
+                            for(; i &lt; res.length; i++)&#123;
+                                var htmltxt = &quot;&quot;;
+                                ci++;
+                                htmltxt += &#39;&lt;tr&gt;&#39;;
+                                htmltxt += &#39;&lt;td class=&quot;mingcheng&quot;&gt;&lt;span&gt;&#39;+res[i][&quot;name&quot;]+&#39;&lt;/span&gt;&lt;/td&gt;&#39;;
+                                htmltxt += &#39;&lt;td&gt;&#39;+res[i][&quot;city&quot;]+&#39;&lt;/td&gt;&#39;;
+                                htmltxt += &#39;&lt;td&gt;&#39;+res[i][&quot;category&quot;]+&#39;&lt;/td&gt;&#39;;
+                                htmltxt += &#39;&lt;td&gt;$&#39;+res[i][&quot;pay&quot;]+&#39;&lt;/td&gt;&#39;;
+
+                                if(ci&gt; 10)&#123;
+                                    break;
+                                &#125;
+                                $(&quot;#search_result&quot;).append(htmltxt);
+                            &#125;
+
+                        &#125;
+
+                    &#125;,
+                    error: function (e, d, c) &#123;
+                    console.log(d)
+                    &#125;
+                &#125;);
+            &#125;
+
+            SelectAllCity(0);
+            var clickNum = 0;
+            $(&quot;.jiaZai_more&quot;).on(&#39;click&#39;,&#39;span&#39;, function() &#123;
+                clickNum++;
+                var iNum = 10*clickNum;
+                SelectAllCity(iNum, clickNum);
+            &#125;);
+
+
+        &#125; else &#123;
+            var copyThisB = $(this).clone();
+            if ($(&quot;#selectB&quot;).length &gt; 0) &#123;
+                $(&quot;#selectB a&quot;).html($(this).text());
+            &#125; else &#123;
+                $(&quot;.select-result dl&quot;).append(copyThisB.attr(&quot;id&quot;, &quot;selectB&quot;));
+            &#125;
+
+
+            var obj = new Object();
+                obj.category = $(&quot;#selectA a&quot;).text();
+                obj.city = $(&quot;#selectB a&quot;).text();
+                obj.xiaxian = $(&quot;#selectC .xiaxian&quot;).text();
+                obj.shangxian = $(&quot;#selectC .shangxian&quot;).text();
+
+            $.ajax(&#123;
+                url: $website_url+&quot;/search_filter.php&quot;,
+                type: &quot;get&quot;,
+                async: false,
+                dataType: &quot;json&quot;,
+                data: obj,
+                contentType: &quot;application/json&quot;,
+                success: function (res) &#123;
+                    var htmltxt = &quot;&quot;;
+                    for (var i = 0; i &lt; res.length; i++) &#123;
+                        htmltxt += &quot;&lt;tr&gt;&quot;;
+                        htmltxt += &quot;&lt;td class=&#39;mingcheng&#39;&gt;&lt;span&gt;&quot;+res[i][&quot;name&quot;]+&quot;&lt;/span&gt;&lt;/td&gt;&quot;;
+                        htmltxt += &quot;&lt;td&gt;&quot;+res[i][&quot;city&quot;]+&quot;&lt;/td&gt;&quot;;
+                        htmltxt += &quot;&lt;td&gt;&quot;+res[i][&quot;category&quot;]+&quot;&lt;/td&gt;&quot;;
+                        htmltxt += &quot;&lt;td&gt;&quot;+res[i][&quot;pay&quot;]+&quot;&lt;/td&gt;&quot;;
+                        htmltxt += &quot;&lt;/tr&gt;&quot;;
+                    &#125;
+                    $(&quot;#search_result&quot;).append(htmltxt).show(500);
+                &#125;,
+                error: function (xhr, err, exception) &#123;
+                    console.log(err);
+                &#125;
+            &#125;);
+
+
+        &#125;
+    &#125;);
+
+    $(&quot;#select3&quot;).on(&quot;click&quot;,&quot;dd&quot;,function()&#123;
+
+        $(&quot;table&quot;).css(&#123;&#39;display&#39;:&#39;table&#39;&#125;);
+        $(&quot;#search_result tbody tr&quot;).remove();
+        $(&quot;.miaosu&quot;).remove();
+
+        $(this).addClass(&quot;selected&quot;).siblings().removeClass(&quot;selected&quot;);
+        if ($(this).hasClass(&quot;select-all&quot;)) &#123;
+            $(&quot;#selectC&quot;).remove();
+
+            function SelectAllPay(num, cNum)&#123;
+                $.ajax(&#123;
+                    type: &quot;get&quot;,
+                    url: $website_url+&quot;/search_filter.php&quot;,
+                    dataType: &quot;json&quot;,
+                    async: false,
+                    contentType: &quot;application/json&quot;,
+                    success: function (res) &#123;
+
+                        if (res.length &gt; 0)&#123;
+                            var i = num;
+                            var ci= 0;
+                            var x = parseInt((res.length)/10);
+                            if(cNum &gt;= x)&#123;
+                                $(&quot;.jiaZai_more&quot;).hide();
+                            &#125;
+
+                            for(; i &lt; res.length; i++)&#123;
+                                var htmltxt = &quot;&quot;;
+                                ci++;
+                                htmltxt += &#39;&lt;tr&gt;&#39;;
+                                htmltxt += &#39;&lt;td class=&quot;mingcheng&quot;&gt;&lt;span&gt;&#39;+res[i][&quot;name&quot;]+&#39;&lt;/span&gt;&lt;/td&gt;&#39;;
+                                htmltxt += &#39;&lt;td&gt;&#39;+res[i][&quot;city&quot;]+&#39;&lt;/td&gt;&#39;;
+                                htmltxt += &#39;&lt;td&gt;&#39;+res[i][&quot;category&quot;]+&#39;&lt;/td&gt;&#39;;
+                                htmltxt += &#39;&lt;td&gt;$&#39;+res[i][&quot;pay&quot;]+&#39;&lt;/td&gt;&#39;;
+
+                                if(ci&gt; 10)&#123;
+                                    break;
+                                &#125;
+                                $(&quot;#search_result&quot;).append(htmltxt);
+                            &#125;
+
+                        &#125;
+
+                    &#125;,
+                    error: function (e, d, c) &#123;
+                    console.log(d)
+                    &#125;
+                &#125;);
+            &#125;
+
+            SelectAllPay(0);
+            var clickNum = 0;
+            $(&quot;.jiaZai_more&quot;).on(&#39;click&#39;,&#39;span&#39;, function() &#123;
+                clickNum++;
+                var iNum = 10*clickNum;
+                SelectAllPay(iNum, clickNum);
+            &#125;);
+
+
+        &#125; else &#123;
+            var copyThisC = $(this).clone();
+            if ($(&quot;#selectC&quot;).length &gt; 0) &#123;
+                $(&quot;#selectC&quot;).html($(this).html());
+            &#125; else &#123;
+                $(&quot;.select-result dl&quot;).append(copyThisC.attr(&quot;id&quot;, &quot;selectC&quot;));
+            &#125;
+        &#125;
+
+        var obj = new Object();
+            obj.category = $(&quot;#selectA a&quot;).text();
+            obj.city = $(&quot;#selectB a&quot;).text();
+            obj.xiaxian = $(&quot;#selectC .xiaxian&quot;).text();
+            obj.shangxian = $(&quot;#selectC .shangxian&quot;).text();
+
+        $.ajax(&#123;
+            url: $website_url+&quot;/search_filter.php&quot;,
+            type: &quot;get&quot;,
+            async: false,
+            dataType: &quot;json&quot;,
+            data: obj,
+            contentType: &quot;application/json&quot;,
+            success: function (res) &#123;
+                var htmltxt = &quot;&quot;;
+                for (var i = 0; i &lt; res.length; i++) &#123;
+                htmltxt += &quot;&lt;tr&gt;&quot;;
+                htmltxt += &quot;&lt;td class=&#39;mingcheng&#39;&gt;&lt;span&gt;&quot;+res[i][&quot;name&quot;]+&quot;&lt;/span&gt;&lt;/td&gt;&quot;;
+                htmltxt += &quot;&lt;td&gt;&quot;+res[i][&quot;city&quot;]+&quot;&lt;/td&gt;&quot;;
+                htmltxt += &quot;&lt;td&gt;&quot;+res[i][&quot;category&quot;]+&quot;&lt;/td&gt;&quot;;
+                htmltxt += &quot;&lt;td&gt;&quot;+res[i][&quot;pay&quot;]+&quot;&lt;/td&gt;&quot;;
+                htmltxt += &quot;&lt;/tr&gt;&quot;;
+                &#125;
+                $(&quot;#search_result&quot;).append(htmltxt).show(500);
+            &#125;,
+            error: function (xhr, err, exception) &#123;
+                console.log(err);
+            &#125;
+        &#125;);
+    &#125;);
+
+    var jQuery_1_8_3 = $.noConflict(true);
+    jQuery_1_8_3(&quot;#selectA&quot;).live(&quot;click&quot;, function () &#123;
+        jQuery_1_8_3(this).remove();
+        jQuery_1_8_3(&quot;#select1 .select-all&quot;).addClass(&quot;selected&quot;).siblings().removeClass(&quot;selected&quot;);
+    &#125;);
+
+    jQuery_1_8_3(&quot;.close&quot;).live(&quot;click&quot;,function()&#123;
+        jQuery_1_8_3(&quot;#detail_area div&quot;).hide(500);
+        location.reload(true);
+    &#125;);
+
+    jQuery_1_8_3(&quot;#selectB&quot;).live(&quot;click&quot;, function () &#123;
+        jQuery_1_8_3(this).remove();
+        jQuery_1_8_3(&quot;#select2 .select-all&quot;).addClass(&quot;selected&quot;).siblings().removeClass(&quot;selected&quot;);
+    &#125;);
+
+    jQuery_1_8_3(&quot;#selectC&quot;).live(&quot;click&quot;, function () &#123;
+        jQuery_1_8_3(this).remove();
+        jQuery_1_8_3(&quot;#select3 .select-all&quot;).addClass(&quot;selected&quot;).siblings().removeClass(&quot;selected&quot;);
+    &#125;);
+
+    jQuery_1_8_3(&quot;.select dd&quot;).live(&quot;click&quot;, function () &#123;
+        if (jQuery_1_8_3(&quot;.select-result dd&quot;).length &gt; 1) &#123;
+            jQuery_1_8_3(&quot;.select-no&quot;).hide(500);
+        &#125; else &#123;
+            jQuery_1_8_3(&quot;.select-no&quot;).show(500);
+        &#125;
+    &#125;);
+
+
+    jQuery_1_8_3(&quot;.mingcheng span&quot;).live(&quot;click&quot;,function()&#123;
+
+        jQuery_1_8_3(&quot;table&quot;).css(&#123;&#39;display&#39;:&#39;none&#39;&#125;);
+        jQuery_1_8_3(&quot;.miaosu&quot;).remove();
+        var obj = new Object();
+        obj.name = jQuery_1_8_3(this).text();
+
+        jQuery_1_8_3.ajax(&#123;
+            url: $website_url+&quot;/search_by_name.php&quot;,
+            type: &quot;get&quot;,
+            dataType: &quot;json&quot;,
+            data: obj,
+            contentType: &quot;application/json&quot;,
+            success: function (res) &#123;
+
+                var htmltxt = &quot;&quot;;
+                htmltxt += &quot;&lt;div class=&#39;miaosu&#39; style=&#39;padding: 15px;background: #f1f1f1;position:relative&#39;&gt;&quot;;
+                htmltxt += &quot;&lt;h2&gt;职位：&quot;+res[0].name+&quot;&lt;/h2&gt;&quot;;
+                htmltxt += &quot;&lt;p&gt;薪资：&quot;+res[0].pay+&quot;&lt;/p&gt;&quot;;
+                htmltxt += &quot;&lt;p&gt;类别：&quot;+res[0].category+&quot;&lt;/p&gt;&quot;;
+                htmltxt += &quot;&lt;p&gt;地区：&quot;+res[0].city+&quot;&lt;/p&gt;&quot;;
+                htmltxt += &quot;&lt;p&gt;投递简历：&lt;a href=&quot;+res[0].url+&quot;&gt;&quot;+res[0].url+&quot;&lt;/a&gt;&lt;/p&gt;&quot;;
+                htmltxt += &quot;&lt;p&gt;详情说明：&quot;+res[0].detail+&quot;&lt;/p&gt;&quot;;
+                htmltxt += &quot;&lt;span class=&#39;close&#39;&gt;close&lt;/span&gt;&lt;/div&gt;&quot;;
+                htmltxt += &quot;&lt;/div&gt;&quot;;
+                jQuery_1_8_3(&quot;#detail_area&quot;).append(htmltxt).show(500);
+            &#125;,
+            error: function (xhr, err, exception) &#123;
+                console.log(err);
+            &#125;
+        &#125;);
+
+    &#125;);
+
+
+    // 数据可视化统计
+
+    jQuery_1_8_3(&quot;#tj_city&quot;).live(&quot;click&quot;,function()&#123;
+        $(this).addClass(&#39;active&#39;).siblings().removeClass(&#39;active&#39;);
+        $(&quot;#chengshi&quot;).css(&#123;&#39;display&#39;:&#39;block&#39;&#125;).siblings().css(&#123;&#39;display&#39;:&#39;none&#39;&#125;);
+        $(&#39;#search_result&#39;).hide(500);
+        $.ajax(&#123;
+            url: $website_url+&quot;/getdata_city_information.php&quot;,
+            type: &quot;get&quot;,
+            dataType: &quot;json&quot;,
+            contentType: &quot;application/json&quot;,
+            success: function (res) &#123;
+                var citys = new Array();
+                var totals = new Array();
+                for (var i = 0; i &lt; res.length; i++) &#123;
+                    citys.push(res[i].city);
+                    totals.push(res[i].total);
+                &#125;
+
+                // 数据可视化开始
+                var dom = document.getElementById(&quot;chengshi&quot;);
+                var myChart = echarts.init(dom);
+                var app = &#123;&#125;;
+                option = null;
+                option = &#123;
+                    title: &#123;
+                        text: &#39;城市职位发布情况&#39;
+                    &#125;,
+                    tooltip: &#123;
+                        trigger: &#39;axis&#39;
+                    &#125;,
+                    xAxis: &#123;
+                        type: &#39;category&#39;,
+                        data: citys
+                    &#125;,
+                    yAxis: &#123;
+                        type: &#39;value&#39;
+                    &#125;,
+                    series: [&#123;
+                        data: totals,
+                        type: &#39;line&#39;,
+                        smooth: true
+                    &#125;]
+                &#125;;
+                if (option &amp;&amp; typeof option === &quot;object&quot;) &#123;
+                    myChart.setOption(option, true);
+                &#125;
+                // 数据可视化结束
+
+            &#125;,
+            error: function (xhr, err, exception) &#123;
+                console.log(err);
+            &#125;
+        &#125;);
+
+    &#125;);
+
+
+    $(&quot;#tj_pingjun&quot;).click(function()&#123;
+        $(this).addClass(&#39;active&#39;).siblings().removeClass(&#39;active&#39;);
+        $(&quot;#xinzi&quot;).css(&#123;&#39;display&#39;:&#39;block&#39;&#125;).siblings().css(&#123;&#39;display&#39;:&#39;none&#39;&#125;);
+        $(&#39;#search_result&#39;).hide(500);
+        $.ajax(&#123;
+            url: $website_url+&quot;/getdata_category_information.php&quot;,
+            type: &quot;get&quot;,
+            dataType: &quot;json&quot;,
+            contentType: &quot;application/json&quot;,
+            success: function (res) &#123;
+                var fenlei = new Array();
+                console.log(res);
+                for (var i = 0; i &lt; res.length; i++) &#123;
+                    fenlei.push(res[i].name);
+                &#125;
+
+                // 数据可视化开始
+                var dom = document.getElementById(&quot;xinzi&quot;);
+                var myChart = echarts.init(dom);
+                option = &#123;
+                    title : &#123;
+                        text: &#39;各分类平均薪资&#39;,
+                        subtext: &#39;平均薪资&#39;,
+                        x:&#39;center&#39;
+                    &#125;,
+                    tooltip : &#123;
+                        trigger: &#39;item&#39;,
+                        formatter: &quot;&#123;a&#125; &lt;br/&gt;&#123;b&#125; : &#123;c&#125; (&#123;d&#125;%)&quot;
+                    &#125;,
+                    legend: &#123;
+                        orient: &#39;vertical&#39;,
+                        left: &#39;left&#39;,
+                        data: fenlei
+                    &#125;,
+                    series : [
+                        &#123;
+                            name: &#39;职位类别&#39;,
+                            type: &#39;pie&#39;,
+                            radius : &#39;55%&#39;,
+                            center: [&#39;50%&#39;, &#39;60%&#39;],
+                            data: res,
+                            itemStyle: &#123;
+                                emphasis: &#123;
+                                    shadowBlur: 10,
+                                    shadowOffsetX: 0,
+                                    shadowColor: &#39;rgba(0, 0, 0, 0.5)&#39;
+                                &#125;
+                            &#125;
+                        &#125;
+                    ]
+                &#125;;
+
+                if (option &amp;&amp; typeof option === &quot;object&quot;) &#123;
+                    myChart.setOption(option, true);
+                &#125;
+                // 数据可视化结束
+
+            &#125;,
+            error: function (xhr, err, exception) &#123;
+                console.log(err);
+            &#125;
+        &#125;);
+
+    &#125;);
+
+
+    $(&quot;#city_pingjun&quot;).click(function()&#123;
+        $(this).addClass(&#39;active&#39;).siblings().removeClass(&#39;active&#39;);
+        $(&quot;#city_avg&quot;).css(&#123;&#39;display&#39;:&#39;block&#39;&#125;).siblings().css(&#123;&#39;display&#39;:&#39;none&#39;&#125;);
+        $(&#39;#search_result&#39;).hide(500);
+        $.ajax(&#123;
+            url: $website_url+&quot;/getdata_city_pay.php&quot;,
+            type: &quot;get&quot;,
+            dataType: &quot;json&quot;,
+            contentType: &quot;application/json&quot;,
+            success: function (res) &#123;
+                var cc = new Array();
+                var pp = new Array();
+                console.log(res);
+                for (var i = 0; i &lt; res.length; i++) &#123;
+                    cc.push(res[i].city);
+                    pp.push(res[i].value);
+                &#125;
+
+                // 数据可视化开始
+                var dom = document.getElementById(&quot;city_avg&quot;);
+                var myChart = echarts.init(dom);
+                var app = &#123;&#125;;
+                app.title = &#39;坐标轴刻度与标签对齐&#39;;
+
+                option = &#123;
+                    color: [&#39;#3398DB&#39;,&#39;#f43653&#39;,&#39;#547634&#39;],
+                    tooltip : &#123;
+                        trigger: &#39;axis&#39;,
+                        axisPointer : &#123;
+                            type : &#39;shadow&#39;
+                        &#125;
+                    &#125;,
+                    grid: &#123;
+                        left: &#39;3%&#39;,
+                        right: &#39;4%&#39;,
+                        bottom: &#39;3%&#39;,
+                        containLabel: true
+                    &#125;,
+                    xAxis : [
+                        &#123;
+                            type : &#39;category&#39;,
+                            data : cc,
+                            axisTick: &#123;
+                                alignWithLabel: true
+                            &#125;
+                        &#125;
+                    ],
+                    yAxis : [
+                        &#123;
+                            type : &#39;value&#39;
+                        &#125;
+                    ],
+                    series : [
+                        &#123;
+                            name:&#39;平均薪资&#39;,
+                            type:&#39;bar&#39;,
+                            barWidth: &#39;60%&#39;,
+                            data:pp
+                        &#125;
+                    ]
+                &#125;;
+
+                if (option &amp;&amp; typeof option === &quot;object&quot;) &#123;
+                    myChart.setOption(option, true);
+                &#125;
+                // 数据可视化结束
+
+            &#125;,
+            error: function (xhr, err, exception) &#123;
+                console.log(err);
+            &#125;
+        &#125;);
+
+    &#125;);
+
+    $(&quot;#user_aylysis&quot;).click(function()&#123;
+        $(this).addClass(&#39;active&#39;).siblings().removeClass(&#39;active&#39;);
+        $(&quot;#user_history&quot;).css(&#123;&#39;display&#39;:&#39;block&#39;&#125;).siblings().css(&#123;&#39;display&#39;:&#39;none&#39;&#125;);
+        $(&#39;#search_result&#39;).hide(500);
+        $.ajax(&#123;
+            url: $website_url+&quot;/get_user_history.php&quot;,
+            type: &quot;get&quot;,
+            dataType: &quot;json&quot;,
+            contentType: &quot;application/json&quot;,
+            success: function (res) &#123;
+                var fenlei = new Array();
+                console.log(res);
+                for (var i = 0; i &lt; res.length; i++) &#123;
+                    fenlei.push(res[i].name);
+                &#125;
+
+                // 数据可视化开始
+                var dom = document.getElementById(&quot;user_history&quot;);
+                var myChart = echarts.init(dom);
+                option = &#123;
+                    title : &#123;
+                        text: &#39;用户浏览产品分类&#39;,
+                        subtext: &#39;你的爱好&#39;,
+                        x:&#39;center&#39;
+                    &#125;,
+                    tooltip : &#123;
+                        trigger: &#39;item&#39;,
+                        formatter: &quot;&#123;a&#125; &lt;br/&gt;&#123;b&#125; : &#123;c&#125; (&#123;d&#125;%)&quot;
+                    &#125;,
+                    legend: &#123;
+                        orient: &#39;vertical&#39;,
+                        left: &#39;left&#39;,
+                        data: fenlei
+                    &#125;,
+                    series : [
+                        &#123;
+                            name: &#39;产品分类&#39;,
+                            type: &#39;pie&#39;,
+                            radius : &#39;55%&#39;,
+                            center: [&#39;50%&#39;, &#39;60%&#39;],
+                            data: res,
+                            itemStyle: &#123;
+                                emphasis: &#123;
+                                    shadowBlur: 10,
+                                    shadowOffsetX: 0,
+                                    shadowColor: &#39;rgba(0, 0, 0, 0.5)&#39;
+                                &#125;
+                            &#125;
+                        &#125;
+                    ]
+                &#125;;
+
+                if (option &amp;&amp; typeof option === &quot;object&quot;) &#123;
+                    myChart.setOption(option, true);
+                &#125;
+                // 数据可视化结束
+
+            &#125;,
+            error: function (xhr, err, exception) &#123;
+                console.log(err);
+            &#125;
+        &#125;);
+
+    &#125;);
+
+
+
+&#125;);</code></pre>
+<p>这里就已经知道了get_user_history.php这个文件创建的目录了，然后再来到模板文件中fenleisousuo.php，在里面追加代码，添加完成之后是这样的：</p>
+<pre><code>&lt;div id=&quot;tongji&quot;&gt;
+    &lt;div id=&quot;chengshi&quot; style=&quot;height: 450px; margin: 0&quot;&gt;
+
+    &lt;/div&gt;
+    &lt;div id=&quot;xinzi&quot; style=&quot;height: 450px; margin: 0&quot;&gt;
+
+    &lt;/div&gt;
+    &lt;div id=&quot;city_avg&quot; style=&quot;height: 450px; margin: 0&quot;&gt;
+
+    &lt;/div&gt;
+    &lt;div id=&quot;user_history&quot; style=&quot;height: 450px; margin: 0&quot;&gt;
+
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<p>新添加的代码：</p>
+<pre><code>&lt;div id=&quot;user_history&quot; style=&quot;height: 450px; margin: 0&quot;&gt;
+
+&lt;/div&gt;</code></pre>
+<p>另外一部分的代码添加之后如下：</p>
+<pre><code>&lt;li class=&quot;zongjie&quot;&gt;
+    &lt;dl&gt;
+        &lt;dt&gt;职位发布统计&lt;/dt&gt;
+        &lt;dd id=&quot;tj_city&quot;&gt;城市职位发布情况&lt;/dd&gt;
+        &lt;dd id=&quot;tj_pingjun&quot;&gt;各个职业分类平均薪资&lt;/dd&gt;
+        &lt;dd id=&quot;city_pingjun&quot;&gt;各个城市平均薪资&lt;/dd&gt;
+        &lt;dd id=&quot;user_aylysis&quot;&gt;用户行为分析&lt;/dd&gt;
+    &lt;/dl&gt;
+&lt;/li&gt;</code></pre>
+<p>新添加的部分：</p>
+<pre><code>&lt;dd id=&quot;user_aylysis&quot;&gt;用户行为分析&lt;/dd&gt;</code></pre>
+<p>最后的效果：</p>
+<p><img src="https://i.imgur.com/8mE1o8u.png"></p>
+<p>顺便说下，模板文件代码如下：</p>
+<pre><code>&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;META http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1, maximum-scale=1&quot;&gt;
+    &lt;title&gt;nocti&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;&lt;?php bloginfo(&#39;template_url&#39;) ?&gt;/fenleisousuo/css/style.css&quot;&gt;
+    &lt;script src=&quot;&lt;?php bloginfo(&#39;template_url&#39;) ?&gt;/fenleisousuo/js/jquery-3.3.1.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;&lt;?php bloginfo(&#39;template_url&#39;) ?&gt;/fenleisousuo/js/jquery-1.8.3.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;&lt;?php bloginfo(&#39;template_url&#39;) ?&gt;/fenleisousuo/js/echarts.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script type=&quot;text/javascript&quot; src=&quot;&lt;?php bloginfo(&#39;template_url&#39;) ?&gt;/fenleisousuo/js/script.js&quot;&gt;&lt;/script&gt;
+    &lt;style&gt;
+        .demo&#123;
+            width: 100%;
+            display: block;
+            margin: 10px auto;
+            border: 1px solid #aaa;
+        &#125;
+        #main&#123;
+            padding-top: 0px !important;
+        &#125;
+        hr&#123;
+            margin: 10px 0 10px;
+        &#125;
+        a&#123;
+            text-decoration: none !important;
+        &#125;
+        table tr td,table tr th&#123;
+            padding: 8px 15px;
+              border: 1px solid #ccc;
+              text-align: left;
+        &#125;
+        table tr td:first-child&#123;
+            max-width: 100px;
+        &#125;
+        table&#123;
+              border-collapse:collapse;
+              width: 100%;
+              display: none;
+          &#125;
+          .jiaZai_more&#123;
+              text-align: center;
+          &#125;
+          .jiaZai_more span&#123;
+              background: #8BC34A;
+            padding: 8px 30px;
+            display: inline-block;
+            margin: 20px auto;
+            text-align: center;
+            color: #fff;
+            cursor: pointer;
+          &#125;
+          .mingcheng span&#123;
+              color: #009688;
+              cursor: pointer;
+          &#125;
+          .close&#123;
+              position: absolute;
+            right: 5px;
+            top: 5px;
+            background: #FF5722;
+            color: #fff;
+            font-size: 12px;
+            padding: 2px 10px;
+            cursor: pointer;
+          &#125;
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div id=&quot;main&quot;&gt;
+    &lt;div class=&quot;demo&quot;&gt;
+        &lt;ul class=&quot;select&quot;&gt;
+            &lt;li class=&quot;select-list&quot;&gt;
+                &lt;dl id=&quot;select1&quot;&gt;
+                    &lt;dt&gt;Job category:&lt;/dt&gt;
+                    &lt;dd class=&quot;select-all selected&quot;&gt;&lt;a href=&quot;#&quot;&gt;All&lt;/a&gt;&lt;/dd&gt;
+                &lt;/dl&gt;
+            &lt;/li&gt;
+            &lt;li class=&quot;select-list&quot;&gt;
+                &lt;dl id=&quot;select2&quot;&gt;
+                    &lt;dt&gt;Working city:&lt;/dt&gt;
+                    &lt;dd class=&quot;select-all selected&quot;&gt;&lt;a href=&quot;#&quot;&gt;All&lt;/a&gt;&lt;/dd&gt;
+                &lt;/dl&gt;
+            &lt;/li&gt;
+            &lt;li class=&quot;select-list&quot;&gt;
+                &lt;dl id=&quot;select3&quot;&gt;
+                    &lt;dt&gt;Salary:&lt;/dt&gt;
+                    &lt;dd class=&quot;select-all selected&quot;&gt;&lt;a href=&quot;#&quot;&gt;All&lt;/a&gt;&lt;/dd&gt;
+                &lt;/dl&gt;
+            &lt;/li&gt;
+            &lt;li class=&quot;select-result&quot;&gt;
+                &lt;dl&gt;
+                    &lt;dt&gt;Selected conditions:&lt;/dt&gt;
+                    &lt;dd class=&quot;select-no&quot;&gt;No filtering conditions have been selected for the time being.&lt;/dd&gt;
+                &lt;/dl&gt;
+            &lt;/li&gt;
+            &lt;li class=&quot;zongjie&quot;&gt;
+                &lt;dl&gt;
+                    &lt;dt&gt;职位发布统计&lt;/dt&gt;
+                    &lt;dd id=&quot;tj_city&quot;&gt;城市职位发布情况&lt;/dd&gt;
+                    &lt;dd id=&quot;tj_pingjun&quot;&gt;各个职业分类平均薪资&lt;/dd&gt;
+                    &lt;dd id=&quot;city_pingjun&quot;&gt;各个城市平均薪资&lt;/dd&gt;
+                    &lt;dd id=&quot;user_aylysis&quot;&gt;用户行为分析&lt;/dd&gt;
+                &lt;/dl&gt;
+            &lt;/li&gt;
+        &lt;/ul&gt;
+        &lt;hr&gt;
+        &lt;table id=&quot;search_result&quot;&gt;
+            &lt;thead&gt;
+                &lt;tr&gt;
+                    &lt;th&gt;职位&lt;/th&gt;
+                    &lt;th&gt;城市&lt;/th&gt;
+                    &lt;th&gt;类别&lt;/th&gt;
+                    &lt;th&gt;薪资&lt;/th&gt;
+                &lt;/tr&gt;
+            &lt;/thead&gt;
+        &lt;/table&gt;
+        &lt;div id=&quot;detail_area&quot;&gt;&lt;/div&gt;
+        &lt;div class=&quot;jiaZai_more&quot;&gt;&lt;span&gt;More&lt;/span&gt;&lt;/div&gt;
+        &lt;hr&gt;
+        &lt;div id=&quot;tongji&quot;&gt;
+            &lt;div id=&quot;chengshi&quot; style=&quot;height: 450px; margin: 0&quot;&gt;
+
+            &lt;/div&gt;
+            &lt;div id=&quot;xinzi&quot; style=&quot;height: 450px; margin: 0&quot;&gt;
+
+            &lt;/div&gt;
+            &lt;div id=&quot;city_avg&quot; style=&quot;height: 450px; margin: 0&quot;&gt;
+
+            &lt;/div&gt;
+            &lt;div id=&quot;user_history&quot; style=&quot;height: 450px; margin: 0&quot;&gt;
+
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>好的，写到这里结束了，如果您对此还有什么新的看法，可以与笔者取得联络。QQ：791447771</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/10/30/Mutation-Observer-API%E7%94%A8%E6%9D%A5%E7%9B%91%E8%A7%86DOM%E5%85%83%E7%B4%A0%E5%8F%98%E5%8A%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/10/30/Mutation-Observer-API%E7%94%A8%E6%9D%A5%E7%9B%91%E8%A7%86DOM%E5%85%83%E7%B4%A0%E5%8F%98%E5%8A%A8/" class="post-title-link" itemprop="url">Mutation Observer API用来监视DOM元素变动</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-10-30 10:04:15" itemprop="dateCreated datePublished" datetime="2018-10-30T10:04:15+08:00">2018-10-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:02" itemprop="dateModified" datetime="2020-10-11T11:58:02+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript/" itemprop="url" rel="index"><span itemprop="name">javascript</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>Mutation Observer API 用来监视 DOM 变动。DOM 的任何变动，比如节点的增减、属性的变动、文本内容的变动，这个 API 都可以得到通知。</p>
+<p>概念上，它很接近事件，可以理解为 DOM 发生变动就会触发 Mutation Observer 事件。但是，它与事件有一个本质不同：事件是同步触发，也就是说，DOM 的变动立刻会触发相应的事件；Mutation Observer 则是异步触发，DOM 的变动并不会马上触发，而是要等到当前所有 DOM 操作都结束才触发。</p>
+<p>这样设计是为了应付 DOM 变动频繁的特点。举例来说，如果文档中连续插入1000个<p>元素，就会连续触发1000个插入事件，执行每个事件的回调函数，这很可能造成浏览器的卡顿；而 Mutation Observer 完全不同，只在1000个段落都插入结束后才会触发，而且只触发一次。</p>
+<p>Mutation Observer 有以下特点。</p>
+<blockquote>
+<p>它等待所有脚本任务完成后，才会运行（即异步触发方式）。</p>
+<p>它把 DOM 变动记录封装成一个数组进行处理，而不是一条条个别处理 DOM 变动。</p>
+<p>它既可以观察 DOM 的所有类型变动，也可以指定只观察某一类变动。</p>
+</blockquote>
+<h2 id="MutationObserver-构造函数"><a href="#MutationObserver-构造函数" class="headerlink" title="MutationObserver 构造函数"></a>MutationObserver 构造函数</h2><p>使用时，首先使用MutationObserver构造函数，新建一个观察器实例，同时指定这个实例的回调函数。</p>
+<pre><code>var observer = new MutationObserver(callback);</code></pre>
+<p>上面代码中的回调函数，会在每次 DOM 变动后调用。该回调函数接受两个参数，第一个是变动数组，第二个是观察器实例，下面是一个例子。</p>
+<pre><code>var observer = new MutationObserver(function (mutations, observer) &#123;
+  mutations.forEach(function(mutation) &#123;
+    console.log(mutation);
+  &#125;);
+&#125;);</code></pre>
+<h2 id="MutationObserver-的实例方法"><a href="#MutationObserver-的实例方法" class="headerlink" title="MutationObserver 的实例方法"></a>MutationObserver 的实例方法</h2><h3 id="observe"><a href="#observe" class="headerlink" title="observe()"></a>observe()</h3><p>observe方法用来启动监听，它接受两个参数。</p>
+<blockquote>
+<p>第一个参数：所要观察的 DOM 节点</p>
+<p>第二个参数：一个配置对象，指定所要观察的特定变动</p>
+</blockquote>
+<pre><code>var article = document.querySelector(&#39;article&#39;);
+
+var  options = &#123;
+  &#39;childList&#39;: true,
+  &#39;attributes&#39;:true
+&#125; ;
+
+observer.observe(article, options);</code></pre>
+<p>上面代码中，observe方法接受两个参数，第一个是所要观察的DOM元素是article，第二个是所要观察的变动类型（子节点变动和属性变动）。</p>
+<p>观察器所能观察的 DOM 变动类型（即上面代码的options对象），有以下几种。</p>
+<blockquote>
+<p>childList：子节点的变动（指新增，删除或者更改）。</p>
+<p>attributes：属性的变动。</p>
+<p>characterData：节点内容或节点文本的变动。</p>
+</blockquote>
+<p>想要观察哪一种变动类型，就在option对象中指定它的值为true。需要注意的是，必须同时指定childList、attributes和characterData中的一种或多种，若未均指定将报错。</p>
+<p>除了变动类型，options对象还可以设定以下属性：</p>
+<blockquote>
+<p>subtree：布尔值，表示是否将该观察器应用于该节点的所有后代节点。</p>
+<p>attributeOldValue：布尔值，表示观察attributes变动时，是否需要记录变动前的属性值。</p>
+<p>characterDataOldValue：布尔值，表示观察characterData变动时，是否需要记录变动前的值。</p>
+<p>attributeFilter：数组，表示需要观察的特定属性（比如[‘class’,’src’]）。</p>
+</blockquote>
+<pre><code>// 开始监听文档根节点（即&lt;html&gt;标签）的变动
+mutationObserver.observe(document.documentElement, &#123;
+  attributes: true,
+  characterData: true,
+  childList: true,
+  subtree: true,
+  attributeOldValue: true,
+  characterDataOldValue: true
+&#125;);</code></pre>
+<p>对一个节点添加观察器，就像使用addEventListener方法一样，多次添加同一个观察器是无效的，回调函数依然只会触发一次。但是，如果指定不同的options对象，就会被当作两个不同的观察器。</p>
+<p>下面的例子是观察新增的子节点。</p>
+<pre><code>var insertedNodes = [];
+var observer = new MutationObserver(function(mutations) &#123;
+  mutations.forEach(function(mutation) &#123;
+    for (var i = 0; i &lt; mutation.addedNodes.length; i++)
+      insertedNodes.push(mutation.addedNodes[i]);
+  &#125;)
+&#125;);
+observer.observe(document, &#123; childList: true &#125;);
+console.log(insertedNodes);</code></pre>
+<h3 id="disconnect-，takeRecords（）"><a href="#disconnect-，takeRecords（）" class="headerlink" title="disconnect()，takeRecords（）"></a>disconnect()，takeRecords（）</h3><p>disconnect方法用来停止观察。调用该方法后，DOM 再发生变动，也不会触发观察器。</p>
+<pre><code>observer.disconnect();</code></pre>
+<p>takeRecords方法用来清除变动记录，即不再处理未处理的变动。该方法返回变动记录的数组。</p>
+<pre><code>observer.takeRecords();</code></pre>
+<p>下面是一个例子。</p>
+<pre><code>// 保存所有没有被观察器处理的变动
+var changes = mutationObserver.takeRecords();
+
+// 停止观察
+mutationObserver.disconnect();</code></pre>
+<h2 id="MutationRecord-对象"><a href="#MutationRecord-对象" class="headerlink" title="MutationRecord 对象"></a>MutationRecord 对象</h2><p>DOM 每次发生变化，就会生成一条变动记录（MutationRecord 实例）。该实例包含了与变动相关的所有信息。Mutation Observer 处理的就是一个个MutationRecord实例所组成的数组。</p>
+<p>MutationRecord对象包含了DOM的相关信息，有如下属性：</p>
+<blockquote>
+<p>type：观察的变动类型（attribute、characterData或者childList）。</p>
+<p>target：发生变动的DOM节点。</p>
+<p>addedNodes：新增的DOM节点。</p>
+<p>removedNodes：删除的DOM节点。</p>
+<p>previousSibling：前一个同级节点，如果没有则返回null。</p>
+<p>nextSibling：下一个同级节点，如果没有则返回null。</p>
+<p>attributeName：发生变动的属性。如果设置了attributeFilter，则只返回预先指定的属性。</p>
+<p>oldValue：变动前的值。这个属性只对attribute和characterData变动有效，如果发生childList变动，则返回null。</p>
+</blockquote>
+<h2 id="应用示例"><a href="#应用示例" class="headerlink" title="应用示例"></a>应用示例</h2><h3 id="子元素的变动"><a href="#子元素的变动" class="headerlink" title="子元素的变动"></a>子元素的变动</h3><p>下面的例子说明如何读取变动记录。</p>
+<pre><code>var callback = function (records)&#123;
+  records.map(function(record)&#123;
+    console.log(&#39;Mutation type: &#39; + record.type);
+    console.log(&#39;Mutation target: &#39; + record.target);
+  &#125;);
+&#125;;
+
+var mo = new MutationObserver(callback);
+
+var option = &#123;
+  &#39;childList&#39;: true,
+  &#39;subtree&#39;: true
+&#125;;
+
+mo.observe(document.body, option);</code></pre>
+<p>上面代码的观察器，观察<code>&lt;body&gt;</code>的所有下级节点（childList表示观察子节点，subtree表示观察后代节点）的变动。回调函数会在控制台显示所有变动的类型和目标节点。</p>
+<h3 id="属性的变动"><a href="#属性的变动" class="headerlink" title="属性的变动"></a>属性的变动</h3><p>下面的例子说明如何追踪属性的变动。</p>
+<pre><code>var callback = function (records) &#123;
+  records.map(function (record) &#123;
+    console.log(&#39;Previous attribute value: &#39; + record.oldValue);
+  &#125;);
+&#125;;
+
+var mo = new MutationObserver(callback);
+
+var element = document.getElementById(&#39;#my_element&#39;);
+
+var options = &#123;
+  &#39;attributes&#39;: true,
+  &#39;attributeOldValue&#39;: true
+&#125;
+
+mo.observe(element, options);</code></pre>
+<p>上面代码先设定追踪属性变动（’attributes’: true），然后设定记录变动前的值。实际发生变动时，会将变动前的值显示在控制台。</p>
+<h3 id="取代-DOMContentLoaded-事件"><a href="#取代-DOMContentLoaded-事件" class="headerlink" title="取代 DOMContentLoaded 事件"></a>取代 DOMContentLoaded 事件</h3><p>网页加载的时候，DOM 节点的生成会产生变动记录，因此只要观察 DOM 的变动，就能在第一时间触发相关事件，因此也就没有必要使用DOMContentLoaded事件。</p>
+<pre><code>var observer = new MutationObserver(callback);
+observer.observe(document.documentElement, &#123;
+  childList: true,
+  subtree: true
+&#125;);</code></pre>
+<p>上面代码中，监听document.documentElement（即HTML节点）的子节点的变动，subtree属性指定监听还包括后代节点。因此，任意一个网页元素一旦生成，就能立刻被监听到。</p>
+<p>下面的代码，使用MutationObserver对象封装一个监听 DOM 生成的函数。</p>
+<pre><code>(function(win)&#123;
+  &#39;use strict&#39;;
+
+  var listeners = [];
+  var doc = win.document;
+  var MutationObserver = win.MutationObserver || win.WebKitMutationObserver;
+  var observer;
+
+  function ready(selector, fn)&#123;
+    // 储存选择器和回调函数
+    listeners.push(&#123;
+      selector: selector,
+      fn: fn
+    &#125;);
+    if(!observer)&#123;
+      // 监听document变化
+      observer = new MutationObserver(check);
+      observer.observe(doc.documentElement, &#123;
+        childList: true,
+        subtree: true
+      &#125;);
+    &#125;
+    // 检查该节点是否已经在DOM中
+    check();
+  &#125;
+
+  function check()&#123;
+  // 检查是否匹配已储存的节点
+    for(var i = 0; i &lt; listeners.length; i++)&#123;
+      var listener = listeners[i];
+      // 检查指定节点是否有匹配
+      var elements = doc.querySelectorAll(listener.selector);
+      for(var j = 0; j &lt; elements.length; j++)&#123;
+        var element = elements[j];
+        // 确保回调函数只会对该元素调用一次
+        if(!element.ready)&#123;
+          element.ready = true;
+          // 对该节点调用回调函数
+          listener.fn.call(element, element);
+        &#125;
+      &#125;
+    &#125;
+  &#125;
+
+  // 对外暴露ready
+  win.ready = ready;
+
+&#125;)(this);
+
+ready(&#39;.foo&#39;, function(element)&#123;
+  // ...
+&#125;);</code></pre>
+<p>这篇文章来自：阮一峰</p>
+<p>针对上面的这个教程，笔者这里做了一个应用实例：</p>
+<p><strong>HTML代码：</strong></p>
+<pre><code>&lt;ul&gt;
+    &lt;li class=&quot;select-result&quot;&gt;
+        &lt;dl&gt;
+            &lt;dt&gt;已选条件：&lt;/dt&gt;
+            &lt;dd class=&quot;select-no&quot; style=&quot;display: none;&quot;&gt;暂时没有选择过滤条件&lt;/dd&gt;
+            &lt;dd class=&quot;selected&quot; id=&quot;selectB&quot;&gt;&lt;a href=&quot;#&quot;&gt;北京市&lt;/a&gt;&lt;/dd&gt;
+            &lt;dd class=&quot;fenlei selected&quot; id=&quot;selectA&quot;&gt;&lt;a href=&quot;#&quot;&gt;服务类&lt;/a&gt;&lt;/dd&gt;
+            &lt;dd class=&quot;selected&quot; id=&quot;selectA&quot;&gt;&lt;a href=&quot;#&quot;&gt;15000-20000&lt;/a&gt;&lt;/dd&gt;
+        &lt;/dl&gt;
+    &lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+<p><strong>js代码：</strong></p>
+<pre><code>$(document).ready(function()&#123;
+    var insertedNodes = $(&#39;.select-result dl .selected&#39;);
+    var observer = new MutationObserver(function(mutations) &#123;
+        mutations.forEach(function(mutation) &#123;
+            for (var i = 0; i &lt; mutation.addedNodes.length; i++)
+            insertedNodes.push(mutation.addedNodes[i]);
+        &#125;)
+        console.log(insertedNodes.text());
+    &#125;);
+    observer.observe(document, &#123;
+        attributes: true,
+        characterData: true,
+        childList: true,
+        subtree: true,
+        attributeOldValue: true,
+        characterDataOldValue: true
+    &#125;);
+
+&#125;)</code></pre>
+<p>截图如下：</p>
+<p><img src="https://i.imgur.com/9Hn6jn5.jpg"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/10/25/%E5%9C%A8magento%E4%BA%A7%E5%93%81%E8%AF%A6%E6%83%85%E9%A1%B5%E6%98%BE%E7%A4%BA%E5%BA%93%E5%AD%98%E6%95%B0%E9%87%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/10/25/%E5%9C%A8magento%E4%BA%A7%E5%93%81%E8%AF%A6%E6%83%85%E9%A1%B5%E6%98%BE%E7%A4%BA%E5%BA%93%E5%AD%98%E6%95%B0%E9%87%8F/" class="post-title-link" itemprop="url">在magento产品详情页显示库存数量</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-10-25 10:14:27" itemprop="dateCreated datePublished" datetime="2018-10-25T10:14:27+08:00">2018-10-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:04" itemprop="dateModified" datetime="2020-10-11T11:58:04+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/magento1/" itemprop="url" rel="index"><span itemprop="name">magento1</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>在/app/design/frontend/yourtheme/default/template/catalog/product/view.phtml添加如下代码：</p>
+<pre><code>$qty = (int)Mage::getModel(&#39;cataloginventory/stock_item&#39;)-&gt;loadByProduct($_product)-&gt;getQty();
+/**
+* 判断是否的可配置产品
+*/
+if($_product -&gt; isConfigurable ())&#123;
+$_associatedProducts = $_product -&gt; getTypeInstance ( true )-&gt; getUsedProductCollection ( $_product );
+foreach ( $_associatedProducts as $p ) &#123;
+$productQty = (int) $p -&gt; _data[&#39;stock_item&#39;] -&gt; _data[&#39;qty&#39;] ;
+$totalQty += $productQty ;
+&#125;
+$qty = $totalQty;
+&#125;</code></pre>
+<p>如果不进行判断，那么在可配置产品那里库存会显示0，所以，简单产品直接调用上面的那个函数即可，如果是可配置产品，那么就用下面那个if语句里面的，最后的效果：</p>
+<p><img src="https://i.imgur.com/CgoEJ82.jpg"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/10/16/magento%E6%B7%BB%E5%8A%A0%E7%AB%8B%E5%8D%B3%E8%B4%AD%E4%B9%B0-buy-now-%E5%8A%9F%E8%83%BD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/10/16/magento%E6%B7%BB%E5%8A%A0%E7%AB%8B%E5%8D%B3%E8%B4%AD%E4%B9%B0-buy-now-%E5%8A%9F%E8%83%BD/" class="post-title-link" itemprop="url">magento添加立即购买(buy now)功能</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-10-16 19:58:35" itemprop="dateCreated datePublished" datetime="2018-10-16T19:58:35+08:00">2018-10-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:01" itemprop="dateModified" datetime="2020-10-11T11:58:01+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/magento1/" itemprop="url" rel="index"><span itemprop="name">magento1</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>提示：由于笔者有更新，请阅读完整篇文章才进行实践，切记！</p>
+<p>笔者这里是用在magento1.x上，找到目录：</p>
+<pre><code>template\catalog\product\view.phtml</code></pre>
+<p>当然，这个根据你的需求，笔者这里是用在产品详情页，所以就在这个文件里面修改，然后我们找个合适的位置，笔者这里选择找到在产品标题下面显示一个立即购买的按钮。根据开发者工具自己定位或者自己阅读下这个源码也行，然后把如下代码加进去：</p>
+<pre><code>&lt;p&gt;&lt;input class=&quot;buy&quot; id=&quot;checknow&quot; type=&quot;submit&quot; value=&quot;立即购买&quot;/&gt;&lt;/p&gt;
+&lt;script&gt;
+    jQuery(&quot;#checknow&quot;).click(function () &#123;
+        jQuery(&quot;input#return_url&quot;).val(&quot;&lt;?php echo $this-&gt;getUrl(&#39;checkout/onepage/&#39;); ?&gt;&quot;);
+        productAddToCartForm.submit();
+    &#125;)
+&lt;/script&gt;
+&lt;input type=&quot;hidden&quot; name=&quot;return_url&quot; id=&quot;return_url&quot; value=&quot;&quot;/&gt;</code></pre>
+<p>最后的效果：</p>
+<p><img src="https://i.imgur.com/6ZChkqE.jpg"></p>
+<p>当然上面的代码也可以这样写：</p>
+<pre><code>&lt;button id=&quot;checknow&quot; type=&quot;submit&quot; title=&quot;&lt;?php echo $this-&gt;__(&#39;立即购买&#39;) ?&gt;&quot; class=&quot;button btn-cart&quot; &gt;  
+&lt;span&gt;&lt;?php echo $this-&gt;__(&#39;立即购买&#39;) ?&gt;&lt;/span&gt;  
+&lt;/button&gt;  
+
+&lt;script&gt;
+     jQuery(&quot;#checknow&quot;).click(function()&#123;  
+            jQuery(&quot;input#return_url&quot;).val(&quot;&lt;?php echo $this-&gt;getUrl(&#39;checkout/onepage/&#39;); ?&gt;&quot;);  
+            productAddToCartForm.submit();  
+      &#125;)
+&lt;/script&gt;
+
+&lt;input type=&quot;hidden&quot; name=&quot;return_url&quot; id=&quot;return_url&quot; value=&quot;&quot; /&gt;</code></pre>
+<p>其实就是一样的，两者选择其中一个即可。</p>
+<p>如果发现点击立即购买后没有跳转可以尝试把js代码放入，</p>
+<pre><code>jQuery(document).ready(function()&#123;
+  //your js code
+&#125;);</code></pre>
+<p>通常都会跳转的，这里啰嗦了下，因为笔者在做别的开发的时候，依赖jquery的点击事件，不放在这个里面有的时候是不起作用的。</p>
+<p>**更新：2019/1/16 18:55:01 **</p>
+<p>根据笔者的实践，发现有时候出现些问题，比如当在可变商品详情页的时候，样式有点小乱，比如当开启了paypal的时候就会被挤下来，如图：</p>
+<p><img src="https://i.imgur.com/jdXeBwU.jpg"></p>
+<p>或者显示不出来buy now这个按钮，那么添加到哪个文件才是合适的呢？笔者这里是以magento1.x的porto来说，我们找到：</p>
+<pre><code>app/design/frontend/smartwave/porto/template/catalog/product/view/addto.phtml</code></pre>
+<p>来到这个目录，这个文件最开始代码如下：</p>
+<pre><code>&lt;?php
+$store = Mage::app()-&gt;getStore();
+$code  = $store-&gt;getCode();
+?&gt;
+&lt;?php $_product = $this-&gt;getProduct(); ?&gt;
+&lt;?php $_wishlistSubmitUrl = $this-&gt;helper(&#39;wishlist&#39;)-&gt;getAddUrl($_product); ?&gt;
+&lt;ul class=&quot;add-to-links&quot;&gt;
+&lt;?php if ($this-&gt;helper(&#39;wishlist&#39;)-&gt;isAllow()) : ?&gt;
+    &lt;li&gt;&lt;a href=&quot;&lt;?php echo $_wishlistSubmitUrl ?&gt;&quot; onclick=&quot;productAddToCartForm.submitLight(this, this.href); return false;&quot; class=&quot;link-wishlist&quot;&gt;&lt;i class=&quot;icon-wishlist&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;?php endif; ?&gt;
+&lt;?php
+    $_compareUrl = $this-&gt;helper(&#39;catalog/product_compare&#39;)-&gt;getAddUrl($_product);
+?&gt;
+&lt;?php if(Mage::getStoreConfig(&quot;porto_settings/category/compare&quot;, $code) &amp;&amp; $_compareUrl) : ?&gt;
+    &lt;li&gt;&lt;a href=&quot;&lt;?php echo $_compareUrl ?&gt;&quot; class=&quot;link-compare&quot;&gt;&lt;i class=&quot;icon-compare&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;?php endif; ?&gt;
+&lt;/ul&gt;</code></pre>
+<p>根据开发者工具，我们把buy now的按钮对应的代码添加进去，然后通过js的方式把buy now这个按钮动态插入到加入购物车后面，最后代码如下：</p>
+<pre><code>&lt;?php
+$store = Mage::app()-&gt;getStore();
+$code  = $store-&gt;getCode();
+?&gt;
+&lt;!-- add buy now --&gt;
+&lt;div id=&quot;lijigoumai&quot;&gt;
+&lt;input class=&quot;button btn-cart buynowButton&quot; id=&quot;checknow&quot; type=&quot;submit&quot; value=&quot;Buy Now&quot; style=&quot;background: #ff6651;border: 0px ;padding: 13px 20px;border-radius: 5px;color: #fff;margin-left: 5px;font-size: 14px;height: 38px&quot;/&gt;
+&lt;/div&gt;
+&lt;script&gt;
+    jQuery(&quot;#checknow&quot;).click(function () &#123;
+        jQuery(&quot;input#return_url&quot;).val(&quot;&lt;?php echo $this-&gt;getUrl(&#39;checkout/onepage/&#39;); ?&gt;&quot;);
+        productAddToCartForm.submit();
+    &#125;);
+    if(jQuery(&quot;.product-options-bottom&quot;).find(&quot;.buynowButton&quot;).length &gt;= 1)&#123;
+
+        var buynow = jQuery(&quot;#lijigoumai&quot;).html();
+        jQuery(&quot;.btn-cart&quot;).after(buynow);
+        jQuery(&quot;#lijigoumai&quot;).hide();
+    &#125;
+&lt;/script&gt;
+&lt;style&gt;
+    #lijigoumai&#123;
+        display: inline-block;
+    &#125;
+&lt;/style&gt;
+&lt;input type=&quot;hidden&quot; name=&quot;return_url&quot; id=&quot;return_url&quot; value=&quot;&quot;/&gt;
+
+&lt;?php $_product = $this-&gt;getProduct(); ?&gt;
+&lt;?php $_wishlistSubmitUrl = $this-&gt;helper(&#39;wishlist&#39;)-&gt;getAddUrl($_product); ?&gt;
+&lt;ul class=&quot;add-to-links&quot;&gt;
+&lt;?php if ($this-&gt;helper(&#39;wishlist&#39;)-&gt;isAllow()) : ?&gt;
+    &lt;li&gt;&lt;a href=&quot;&lt;?php echo $_wishlistSubmitUrl ?&gt;&quot; onclick=&quot;productAddToCartForm.submitLight(this, this.href); return false;&quot; class=&quot;link-wishlist&quot;&gt;&lt;i class=&quot;icon-wishlist&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;?php endif; ?&gt;
+&lt;?php
+    $_compareUrl = $this-&gt;helper(&#39;catalog/product_compare&#39;)-&gt;getAddUrl($_product);
+?&gt;
+&lt;?php if(Mage::getStoreConfig(&quot;porto_settings/category/compare&quot;, $code) &amp;&amp; $_compareUrl) : ?&gt;
+    &lt;li&gt;&lt;a href=&quot;&lt;?php echo $_compareUrl ?&gt;&quot; class=&quot;link-compare&quot;&gt;&lt;i class=&quot;icon-compare&quot;&gt;&lt;/i&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;?php endif; ?&gt;
+&lt;/ul&gt;</code></pre>
+<p>通过对比，我们很清楚，我们添加的代码如下：</p>
+<pre><code>&lt;!-- add buy now --&gt;
+&lt;div id=&quot;lijigoumai&quot;&gt;
+&lt;input class=&quot;button btn-cart buynowButton&quot; id=&quot;checknow&quot; type=&quot;submit&quot; value=&quot;Buy Now&quot; style=&quot;background: #ff6651;border: 0px ;padding: 13px 20px;border-radius: 5px;color: #fff;margin-left: 5px;font-size: 14px;height: 38px&quot;/&gt;
+&lt;/div&gt;
+&lt;script&gt;
+    jQuery(&quot;#checknow&quot;).click(function () &#123;
+        jQuery(&quot;input#return_url&quot;).val(&quot;&lt;?php echo $this-&gt;getUrl(&#39;checkout/onepage/&#39;); ?&gt;&quot;);
+        productAddToCartForm.submit();
+    &#125;);
+    if(jQuery(&quot;.product-options-bottom&quot;).find(&quot;.buynowButton&quot;).length &gt;= 1)&#123;
+
+        var buynow = jQuery(&quot;#lijigoumai&quot;).html();
+        jQuery(&quot;.btn-cart&quot;).after(buynow);
+        jQuery(&quot;#lijigoumai&quot;).hide();
+    &#125;
+&lt;/script&gt;
+&lt;style&gt;
+    #lijigoumai&#123;
+        display: inline-block;
+    &#125;
+&lt;/style&gt;
+&lt;input type=&quot;hidden&quot; name=&quot;return_url&quot; id=&quot;return_url&quot; value=&quot;&quot;/&gt;</code></pre>
+<p>所以，添加立即购买，我们真正要找的文件是：addto.phtml，通过js和css的调整才能达到最佳的效果。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/8/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/43/">43</a><a class="extend next" rel="next" href="/page/10/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

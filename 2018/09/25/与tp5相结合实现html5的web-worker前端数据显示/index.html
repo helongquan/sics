@@ -1,37 +1,686 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="我们知道浏览器端JavaScript是以单线程的方式执行的，也就是说JavaScript和UI渲染占用同一个主线程，那就意味着，如果JavaScript进行高负载的数据处理，UI渲染就很有可能被阻断，从而造成用户体验的大打折扣。Web Workers作为HTML5新特性之一，为浏览器端JavaScript开创了一种新的运行模式，使之能够在另外的线程中创建新的运行环境，以便使JavaScript能够">
+<meta property="og:type" content="article">
+<meta property="og:title" content="与tp5相结合实现html5的web worker前端数据显示">
+<meta property="og:url" content="http://example.com/2018/09/25/%E4%B8%8Etp5%E7%9B%B8%E7%BB%93%E5%90%88%E5%AE%9E%E7%8E%B0html5%E7%9A%84web-worker%E5%89%8D%E7%AB%AF%E6%95%B0%E6%8D%AE%E6%98%BE%E7%A4%BA/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="我们知道浏览器端JavaScript是以单线程的方式执行的，也就是说JavaScript和UI渲染占用同一个主线程，那就意味着，如果JavaScript进行高负载的数据处理，UI渲染就很有可能被阻断，从而造成用户体验的大打折扣。Web Workers作为HTML5新特性之一，为浏览器端JavaScript开创了一种新的运行模式，使之能够在另外的线程中创建新的运行环境，以便使JavaScript能够">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/lfcgMde.png">
+<meta property="og:image" content="https://i.imgur.com/EAkN01J.png">
+<meta property="og:image" content="https://i.imgur.com/IOQ8yMi.png">
+<meta property="article:published_time" content="2018-09-25T10:08:29.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:03.709Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="tp5,html5,web worker,ajax">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/lfcgMde.png">
+
+<link rel="canonical" href="http://example.com/2018/09/25/%E4%B8%8Etp5%E7%9B%B8%E7%BB%93%E5%90%88%E5%AE%9E%E7%8E%B0html5%E7%9A%84web-worker%E5%89%8D%E7%AB%AF%E6%95%B0%E6%8D%AE%E6%98%BE%E7%A4%BA/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>与tp5相结合实现html5的web worker前端数据显示 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/09/25/%E4%B8%8Etp5%E7%9B%B8%E7%BB%93%E5%90%88%E5%AE%9E%E7%8E%B0html5%E7%9A%84web-worker%E5%89%8D%E7%AB%AF%E6%95%B0%E6%8D%AE%E6%98%BE%E7%A4%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          与tp5相结合实现html5的web worker前端数据显示
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-09-25 18:08:29" itemprop="dateCreated datePublished" datetime="2018-09-25T18:08:29+08:00">2018-09-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:03" itemprop="dateModified" datetime="2020-10-11T11:58:03+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/html5/" itemprop="url" rel="index"><span itemprop="name">html5</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>我们知道浏览器端JavaScript是以单线程的方式执行的，也就是说JavaScript和UI渲染占用同一个主线程，那就意味着，如果JavaScript进行高负载的数据处理，UI渲染就很有可能被阻断，从而造成用户体验的大打折扣。Web Workers作为HTML5新特性之一，为浏览器端JavaScript开创了一种新的运行模式，使之能够在另外的线程中创建新的运行环境，以便使JavaScript能够在后台做一些费时的处理。下面我们就来详细介绍一下Web Workers方面的知识。</p>
+<p>Web Workers可以通过加载一个脚本文件，进而创建一个独立的工作线程，在主线程之外运行。工作线程的创建比较简单，代码如下：</p>
+<pre><code>var worker = new Worker(&#39;js/worker.js&#39;);</code></pre>
+<p>如代码所示，我们只需将含有工作线程的代码文件路径作为参数传入到Worker构造函数中，即可创建一个工作线程，使其能够在后台执行。需要注意的是，脚本的加载有同源策略的限制，所以必须指定与主线程同源的文件。</p>
+<p>在创建完工作线程后，我们就可以在主线程中与工作线程通信了。主线程中通过postMessage方法向工作线程发送消息，也可以通过捕获worker实例的message事件来接收来自工作线程的消息。需要注意的是，在postMessage方法中，我们可以相对自由的传递各种类型的数据，但是像document等BOM对象是无法被传递的。下面就让我们来看看主线程中是如何和工作线程交互的：</p>
+<pre><code>//message sending
+worker.postMessage(&#123;name: &#39;Scott&#39;&#125;);
+
+//message receiving
+worker.onmessage = function(event) &#123;
+var data = event.data;
+//to do
+&#125;</code></pre>
+<p>同样的，在工作线程中我们也可以通过postMessage和onmessage方法来发送和接收数据，下面是工作线程文件worker.js中的代码：</p>
+<pre><code>//message sending
+self.postMessage(&#123;name: &#39;Worker&#39;&#125;);
+
+//message receiving
+self.onmessage = function(event) &#123;
+var data = event.data;
+//to do
+&#125;</code></pre>
+<p>在某些情况下，我们不得不中断工作线程的运行，主线程中我们可以调用worker实例的terminate方法，在工作线程中我们也可以调用close方法中断自身，代码如下：</p>
+<pre><code>//interrupt a work thread in main thread
+worker.terminate();
+
+//interrupt work thread it self
+self.close();</code></pre>
+<p>以上介绍了Web Workers的基本用法，接下来我们来以一个实例说明它在实际项目中是如何应用的。<br>我们经常会加入一些技术群组里探讨技术，广交朋友，如果群组成员太多，查看起来就不太方便，为此我们打算给这个群组加一个搜索的功能，根据关键字搜索与成员信息匹配的数据，就像下面图中所示：</p>
+<p><img src="https://i.imgur.com/lfcgMde.png"></p>
+<p>在这个案例中，群组成员信息预先加载到了客户端，搜索功能也是在客户端完成的，假如数据非常多，一个简单的搜索可能就会在用户体验上造成不小的折扣，我们打算用Web Workers来实现这个操作。现在来看一下示例项目的基本目录结构：</p>
+<p><img src="https://i.imgur.com/EAkN01J.png"></p>
+<p>我们可以看到，在js目录中有个worker.js文件，用于放置工作线程的逻辑代码，此文件在运行时被主线程加载，我们稍后会详细讲解。现在我们先看一下主页面的基本结构：</p>
+<pre><code>&lt;html&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;title&gt;Web Worker&lt;/title&gt;
+&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;css/main.css&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div id=&quot;searching&quot;&gt;
+&lt;div class=&quot;sousuo&quot;&gt;
+&lt;input id=&quot;keywords&quot; type=&quot;search&quot; placeholder=&quot;type in to start searching&quot;&gt;
+&lt;button id=&quot;search-button&quot; onclick=&quot;search();&quot;&gt;搜索&lt;/button&gt;
+&lt;/div&gt;
+&lt;div id=&quot;members&quot;&gt;
+
+&lt;/div&gt;
+&lt;div id=&quot;msg&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;js/jquery-3.3.1.min.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;js/main.js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>看起来很简单，一个搜索框和搜索按钮，下面是搜索结果显示区域。为了使其运行起来，我们还需要main.js的配合，代码如下：</p>
+<pre><code>//a simple group member data example
+var groupMembers = [
+&#123;
+id: 101,
+name: &#39;John Li&#39;,
+skills: &#39;Java programming, Python language, MySQL&#39;
+&#125;,
+&#123;
+id: 102,
+name: &#39;Lisa Wang&#39;,
+skills: &#39;HTML, JavaScript, CSS, Node.js&#39;
+&#125;,
+&#123;
+id: 103,
+name: &#39;Tom Wang&#39;,
+skills: &#39;JavaScript, CSS, HTML5&#39;
+&#125;,
+&#123;
+id: 104,
+name: &#39;Andy Zhang&#39;,
+skills: &#39;PHP language, JavaScript programming, CSS&#39;
+&#125;
+/*
+a large number of data
+    */
+];
+
+//loading the worker.js to instantiate a Worker object
+var worker = new Worker(&#39;js/worker.js&#39;);
+
+//receive message from work thread, and then render the result data
+worker.onmessage = function(e) &#123;
+renderGroupMembers(e.data.results);
+&#125;;
+
+function search() &#123;
+var keywords = $(&#39;#keywords&#39;).val().trim();
+
+//post a message to work thread
+worker.postMessage(&#123;
+groupMembers: groupMembers,
+keywords: keywords
+&#125;);
+&#125;
+
+function renderGroupMembers(members) &#123;
+var html = &#39;&#39;;
+members.forEach(function(member) &#123;
+var resultHtml = &#39;&lt;div class=&quot;member&quot;&gt;&#39;
+    + &#39; &lt;img class=&quot;icon&quot; src=&quot;img/icon.png&quot;&gt;&#39;
+    + &#39; &lt;div class=&quot;info&quot;&gt;&#39;
+    + &#39; &lt;p&gt;&#39; + member.name + &#39;&lt;/p&gt;&#39;
+    + &#39; &lt;p&gt;&#39; + member.skills + &#39;&lt;/p&gt;&#39;
+    + &#39; &lt;/div&gt;&#39;
+    + &#39; &lt;a class=&quot;add&quot;&gt;+Add&lt;/a&gt;&#39;
+    + &#39;&lt;/div&gt;&#39;;
+html += resultHtml;
+&#125;);
+
+$(&#39;#members&#39;).html(html);
+&#125;
+
+renderGroupMembers(groupMembers);</code></pre>
+<p>在这段代码中，我们首先会加载worker.js，实例化一个Worker对象，然后捕获message事件，进而将搜索结果显示到相应区域。而search函数负责监听搜索按钮的点击事件，然后向工作线程发送带有群组数据和关键字的消息，将搜索任务交给工作线程。 最后，我们开看看worker.js是如何运行的：</p>
+<pre><code>//receive the message from main thread
+self.onmessage = function(e) &#123;
+
+var groupMembers = e.data.groupMembers;
+var keywords = e.data.keywords;
+
+var results = searchByKeywords(groupMembers, keywords);
+
+//post the result message to main thread
+self.postMessage(&#123;results: results&#125;);
+&#125;;
+
+//it may be quite complicated in real application
+function searchByKeywords(groupMembers, keywords) &#123;
+var results = [];
+
+keywords = keywords.toLowerCase();
+
+groupMembers.forEach(function(member) &#123;
+var nameMatched = member.name.toLowerCase().indexOf(keywords) &gt; -1;
+var skillsMatched = member.skills.toLowerCase().indexOf(keywords) &gt; -1;
+
+if (nameMatched || skillsMatched) &#123;
+results.push(member);
+&#125;
+&#125;);
+
+return results;
+&#125;</code></pre>
+<p>从上面的代码中可以看到，首先我们会捕获工作线程的message事件，接收群组数据和关键字，然后调用搜索函数，最后将搜索结果发送回主线程，完成这次的搜索任务。 以上就是Web Workers的介绍，在实际开发中，可能面临很多复杂的操作需要在前端完成，我们都可以考虑用Web Workers实现，将复杂操作交给工作线程，进而减少主线程的阻塞，在用户体验上一定会有显著的提升。</p>
+<p>然后样式文件main.css的代码：</p>
+<pre><code>.member&#123;
+display: flex;
+border-bottom: 1px solid #aaa;
+padding: 15px 0px;
+transition: 0.5s ease;
+&#125;
+.member:hover&#123;
+background: #f9f9f9;
+&#125;
+.thumbnail img&#123;
+width: 100%;
+max-width: 180px;
+margin-right: 15px;
+&#125;
+.name&#123;
+font-size: 18px;
+font-weight: bold;
+&#125;
+.member .add&#123;
+background: #8BC34A;
+color: #fff;
+font-size: 12px;
+margin: 0px 10px 0px 0px;
+padding: 5px 15px;
+text-decoration: none;
+&#125;
+.member .add:last-child&#123;
+background: #FF5722;
+&#125;
+.sousuo&#123;
+background: rgba(0, 0, 0, 0.7);
+padding: 20px;
+&#125;
+.sousuo input&#123;
+padding: 8px;
+width: 300px;
+&#125;
+.sousuo button&#123;
+padding: 8px 20px 9px 20px;
+border: 0px;
+&#125;</code></pre>
+<p>这样就基本完成了，效果如下：</p>
+<p><img src="https://i.imgur.com/IOQ8yMi.png"></p>
+<p>但是，我们不能止步于此，让我们继续接着折腾。</p>
+<p>笔者做到这里的时候，很显然数据是写死在里面的，这个时候笔者就在想能不能在本地搭建一个后端服务来提供数据源，为了快速的提供数据，笔者想到了tp5，这里TP5的服务启动就不说了，然后写一个api，查询数据库的东西，把查询数据的内容以api的形式读取出来。这样就可以实现一个ajax请求，提供数据。所以笔者把main.js里面的代码改成如下：</p>
+<pre><code>//a simple group member data example
+
+$(document).ready(function () &#123;
+
+$.ajax(&#123;
+url: &quot;http:localhost:8888/api/webworker/getmember&quot;,
+type: &quot;get&quot;,
+dataType:&quot;json&quot;,
+contentType: &quot;application/json&quot;,
+success: function (res) &#123;
+if (typeof res === &#39;string&#39;) &#123;
+res = JSON.parse(res);
+&#125;
+console.log(res);
+renderGroupMembers(res);
+&#125;,
+error: function (xhr, err, exception) &#123;
+console.log(err);
+$(&quot;#msg&quot;).html(err);
+&#125;
+&#125;);
+
+&#125;);
+
+var groupMembers = [];
+
+
+//loading the worker.js to instantiate a Worker object
+var worker = new Worker(&#39;js/worker.js&#39;);
+
+//receive message from work thread, and then render the result data
+worker.onmessage = function(e) &#123;
+renderGroupMembers(e.data.results);
+&#125;;
+
+function search() &#123;
+var keywords = $(&#39;#keywords&#39;).val().trim();
+
+//post a message to work thread
+worker.postMessage(&#123;
+groupMembers: groupMembers,
+keywords: keywords
+&#125;);
+&#125;
+
+function renderGroupMembers(members) &#123;
+var html = &#39;&#39;;
+members.forEach(function(member) &#123;
+var resultHtml = &#39;&lt;div class=&quot;member&quot;&gt;&#39;
+    + &#39; &lt;div class=&quot;thumbnail&quot;&gt;&#39;
+    + &#39; &lt;img class=&quot;icon&quot; src=&quot;img/icon.jpg&quot;&gt;&#39;
+    + &#39; &lt;/div&gt;&#39;
+    + &#39; &lt;div class=&quot;info&quot;&gt;&#39;
+    + &#39; &lt;p class=&quot;name&quot;&gt;&#39; + member.name + &#39;&lt;/p&gt;&#39;
+    + &#39; &lt;p class=&quot;skill&quot;&gt;&#39; + member.skills + &#39;&lt;/p&gt;&#39;
+    + &#39; &lt;a class=&quot;add&quot;&gt;+Add&lt;/a&gt;&lt;a href=&quot;&#39; + member.url + &#39;&quot; class=&quot;add&quot; target=&quot;_blank&quot;&gt;More&lt;/a&gt;&#39;
+    + &#39; &lt;/div&gt;&#39;
+    + &#39;&lt;/div&gt;&#39;;
+html += resultHtml;
+&#125;);
+
+$(&#39;#members&#39;).html(html);
+&#125;
+
+renderGroupMembers(groupMembers);</code></pre>
+<p>这里由于笔者本地服务器前端用的是nginx，端口是80，而tp5采用的是默认的8888这个端口，所以如果这样请求：</p>
+<pre><code>http:localhost:8888/api/webworker/getmember</code></pre>
+<p>会报404错误，为什么会出错呢？这里有个跨域，因为后端的端口是8888，而前端是80端口，这个虽然是同一台主机，但是这里的端口不一样，也会出现跨域的问题。</p>
+<p>如何解决跨域的问题呢？这里我们采用方向的代理的做法。笔者在win上进行的测试，安装的是window版的nginx，所以我们进入到nginx的配置文件，修改一下配置文件的内容。</p>
+<p>我们主要做的事情就是做一个域名映射。我们打开nginx.conf，找到：</p>
+<pre><code>location / &#123;
+root html;
+index index.html index.htm;
+&#125;</code></pre>
+<p>在这个前面添加：</p>
+<pre><code>location ^~/api/ &#123;
+proxy_pass http://localhost:8888/api/;
+&#125;</code></pre>
+<p>这个由于笔者的后端api地址是/api开始的。所以这里就这样定义。这句话的意思就是，访问</p>
+<pre><code>http://localhost/api/</code></pre>
+<p>的时候，会被转发到</p>
+<pre><code>http://localhost:8888/api/</code></pre>
+<p>就这样我们就可以在本地服务器的数据库添加数据，然后通过tp5来实现json格式的数据供前端进行查询，而前端直接采用html5的web worker的方式结合jquery的方式对数据进行调取了。</p>
+<blockquote>
+<p>提示：笔者发现在自己折腾完了之后，数据虽然能够显示到前端，不过查询的时候还是有问题的，查询不了，出错了，而在笔者折腾之前的那个demo是支持查询的，既然这样是不完美的，笔者依然愿意写出来，起到一个抛砖引玉的作用。</p>
+</blockquote>
+<p>如果想知道web worker的demo，请直接忽略笔者后面的那个尝试，如果想要让显示的数据是直接来自数据库，而不是写死的，那么就可以采用笔者这种方式，笔者这种方式主要解决了两个问题：一个是解决跨域，第二个是实现数据正确的显示出来。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/tp5-html5-web-worker-ajax/" rel="tag"># tp5,html5,web worker,ajax</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/09/25/magento%E5%90%8E%E5%8F%B0%E5%BC%80%E5%90%AF%E4%BA%86%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85%E5%AF%BC%E8%87%B4%E5%9C%A8%E5%AE%89%E8%A3%85%E6%8F%92%E4%BB%B6%E7%9A%84%E6%97%B6%E5%80%99%E6%8A%A5%E9%94%99%E4%BA%86%E9%80%A0%E6%88%90%E5%89%8D%E5%90%8E%E5%8F%B0%E9%83%BD%E6%98%BE%E7%A4%BA%E5%BC%82%E5%B8%B8/" rel="prev" title="magento后台开启了编译安装导致在安装插件的时候报错了造成前后台都显示异常">
+      <i class="fa fa-chevron-left"></i> magento后台开启了编译安装导致在安装插件的时候报错了造成前后台都显示异常
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/09/27/%E5%88%A9%E7%94%A8jquery%E7%9A%84%E6%96%B9%E5%BC%8F%E5%B7%A7%E5%A6%99%E5%9C%B0%E5%AE%9E%E7%8E%B0%E8%83%8C%E6%99%AF%E5%9B%BE%E7%89%87%E5%9C%A8%E6%89%8B%E6%9C%BA%E7%BB%88%E7%AB%AF%E4%B8%8A%E8%87%AA%E9%80%82%E5%BA%94/" rel="next" title="分别用javascript和jquery的方式巧妙地实现背景图片在手机终端上自适应">
+      分别用javascript和jquery的方式巧妙地实现背景图片在手机终端上自适应 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

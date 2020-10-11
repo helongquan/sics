@@ -1,37 +1,437 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="这个问题困惑了我很久，说来话长，在帮公司官网搬迁的过程中，公司旧网的数据库文件有大概9M，这个算是较大的文件，开始的时候报错是Nginx出现413 Request Entity Too Large错误，这个错误，我百度了下，Nginx出现的413 Request Entity Too Large错误,这个错误一般在上传文件的时候出现。 解决方法： 打开nginx主配置文件nginx.conf，一般">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL数据库在导入到新的服务器时候报错解决办法">
+<meta property="og:url" content="http://example.com/2017/07/24/MySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9C%A8%E5%AF%BC%E5%85%A5%E5%88%B0%E6%96%B0%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%97%B6%E5%80%99%E6%8A%A5%E9%94%99%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="这个问题困惑了我很久，说来话长，在帮公司官网搬迁的过程中，公司旧网的数据库文件有大概9M，这个算是较大的文件，开始的时候报错是Nginx出现413 Request Entity Too Large错误，这个错误，我百度了下，Nginx出现的413 Request Entity Too Large错误,这个错误一般在上传文件的时候出现。 解决方法： 打开nginx主配置文件nginx.conf，一般">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://i.imgur.com/xBBjLeM.png">
+<meta property="article:published_time" content="2017-07-24T13:01:41.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:53:18.900Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="网站搬迁,MySQL,报错,服务器,MyISAM">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://i.imgur.com/xBBjLeM.png">
+
+<link rel="canonical" href="http://example.com/2017/07/24/MySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9C%A8%E5%AF%BC%E5%85%A5%E5%88%B0%E6%96%B0%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%97%B6%E5%80%99%E6%8A%A5%E9%94%99%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>MySQL数据库在导入到新的服务器时候报错解决办法 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/07/24/MySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9C%A8%E5%AF%BC%E5%85%A5%E5%88%B0%E6%96%B0%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%97%B6%E5%80%99%E6%8A%A5%E9%94%99%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MySQL数据库在导入到新的服务器时候报错解决办法
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-07-24 21:01:41" itemprop="dateCreated datePublished" datetime="2017-07-24T21:01:41+08:00">2017-07-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:18" itemprop="dateModified" datetime="2020-10-11T11:53:18+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这个问题困惑了我很久，说来话长，在帮公司官网搬迁的过程中，公司旧网的数据库文件有大概9M，这个算是较大的文件，开始的时候报错是Nginx出现413 Request Entity Too Large错误，这个错误，我百度了下，Nginx出现的413 Request Entity Too Large错误,这个错误一般在上传文件的时候出现。</p>
+<p><strong>解决方法：</strong></p>
+<p>打开nginx主配置文件nginx.conf，一般在/usr/local/nginx/conf/nginx.conf这个位置，找到http{}段，修改或者添加</p>
+<p>client_max_body_size 2m; #修改此处上传大小为自己实际需要的大小</p>
+<p>然后重启nginx或者重新加载nginx配置文件即可    </p>
+<p>以php运行下，这个大小client_max_body_size要和php.ini中的如下值的最大值差不多或者更大一点，这样就不会因为NGINX提交数据大小与PHP大小不一致出现错误。</p>
+<pre><code>post_max_size = 2M
+upload_max_filesize = 2M</code></pre>
+<p>phpmyadmin导入mysql数据库提示,您想上传更大的文件/您可能想上传更大的文件，请参考文档来寻找解决方法。</p>
+<p>解决方法：</p>
+<p>检查php.ini 配置文件中的以下三个地方，upload_max_filesize, memory_limit 和post_max_size，并且推荐修改的值要稍大于导入的巨大sql数据库文件；依照这个提示，修改后，重启php环境 。</p>
+<p>这个过程中，由于我使用的是一键web环境安装包，所以开始不清楚php.ini在哪个目录下，找了半天，后来也是百度了一下，还是感觉这个方式寻找文件比较快捷：</p>
+<pre><code>sudo find / -name &#39;php.ini&#39;</code></pre>
+<p>这个语句则会在你整个系统盘中查找php.ini的位置，如果系统很大的话这个可能速度就比较慢，所有如果你确定php.ini是在/etc的话，则可以把bash脚本中的’/‘换成“/etc”.</p>
+<p><strong>各操作系统中php.ini的位置</strong></p>
+<p><img src="http://i.imgur.com/xBBjLeM.png"></p>
+<p>这里还是恶补一下：</p>
+<p>首先PHP.ini文件并不是隐藏文件，寻找php.ini文件的方法有很多种，这里介绍两种最快的方法吧。</p>
+<pre><code>&lt;?  
+phpinfo();  
+?&gt; </code></pre>
+<p>这里说了这么多，主要就是说如何快速的寻找这个php.ini配置文件的地方。</p>
+<p>既然修改完了我就重启服务器呗，由于用apache多了，总是喜欢运行命令：</p>
+<pre><code>service httpd restart</code></pre>
+<p>随之带来的问题就是，提示命令不存在，</p>
+<pre><code>httpd: unrecognized service</code></pre>
+<p>后来我又陷入了一阵折腾，后来我发现我使用的并不是apache，而是nginx，所以命令不能是这样跑的，而是：</p>
+<pre><code>service nginx restart</code></pre>
+<p>就这样一个简单的修改配置，重启服务就这样被我艰难的完成了。</p>
+<p>最主要的是这个重头戏：</p>
+<pre><code>#1064 - You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &#39;TYPE=MyISAM AUTO_INCREMENT=2&#39; at line 6</code></pre>
+<p>导入的时候发现，居然报错了，我看了下报错的意思，大概就是版本问题，然后百度，就是因为这么一百度，我半天时间就被耗尽了，后来终于在<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/21937789/mysql-type-myisam-error">stackoverflow</a>上找到了灵感：</p>
+<pre><code>you must change this
+
+  TYPE=MyISAM
+
+to
+
+ ENGINE=MyISAM</code></pre>
+<p>这里给出案例：参考地址 <a target="_blank" rel="noopener" href="http://dev.mysql.com/doc/refman/5.6/en/create-table.html">http://dev.mysql.com/doc/refman/5.6/en/create-table.html</a></p>
+<p>就是说，把.sql文件里的<code>TYPE=MyISAM</code>全部替换成<code>ENGINE=MyISAM</code></p>
+<p>后来，我在修改好配置（为了让服务器支持上传大文件，而不报错）后，然后修改了脚本文件的<code>TYPE=MyISAM</code>我终于见证了，一次完美的数据库搬迁。</p>
+<p>有的时候对于导入数据文件过大的，中途可能报错，这个时候不要惊慌失措，先看报错的代码，然后可以考虑这样执行，如果原服务器的数据库还能访问的话，可以分批导出，然后分批导入，把没问题的数据表导入，然后针对有问题的数据表单独导出来，再导入到目标服务器的数据库中，有的时候数据的导入尤其要注意数据库的整理规则，使用编辑器可以批量修改，我见过最多情况的是TYPE换成ENGINE，采集规则有utf8mb4的也有其他很多种类的，我建议是先更换TYPE变成ENGINE，如果能够解决问题了，就不管，如果还是报错可以先看下是否采集规则，然后批量修改一下，比如变成utf8_generic_ci等。再导入试试看。</p>
+<p>当然，如果你的问题类似，这篇文章可以救你了，当然，也会碰到其他的问题，逐个击破，不要轻易的重装。这个很费时间。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BD%91%E7%AB%99%E6%90%AC%E8%BF%81-MySQL-%E6%8A%A5%E9%94%99-%E6%9C%8D%E5%8A%A1%E5%99%A8-MyISAM/" rel="tag"># 网站搬迁,MySQL,报错,服务器,MyISAM</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/07/23/WordPress-%E7%A6%81%E7%94%A8%E6%88%96%E7%A6%81%E6%AD%A2%E6%94%B6%E5%BD%95%E5%AA%92%E4%BD%93%E9%A1%B5/" rel="prev" title="WordPress 禁用或禁止收录媒体页">
+      <i class="fa fa-chevron-left"></i> WordPress 禁用或禁止收录媒体页
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/07/24/centos%E4%B8%8B%E6%8C%82%E8%BD%BD%E7%A3%81%E7%9B%98%E7%9A%84%E6%96%B9%E6%B3%95/" rel="next" title="美橙云服务器centos下挂载磁盘的方法">
+      美橙云服务器centos下挂载磁盘的方法 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

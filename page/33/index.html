@@ -1,23 +1,2423 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-{% block title %}{{ config.title }}{% if theme.index_with_subtitle and config.subtitle %} - {{config.subtitle }}{% endif %}{% endblock %}
+<link rel="stylesheet" href="/css/main.css">
 
-{% block page_class %}
-  {% if is_home() %}page-home{% endif -%}
-{% endblock %}
 
-{% block content %}
-  <section id="posts" class="posts-expand">
-    {% for post in page.posts %}
-      {{ post_template.render(post, true) }}
-    {% endfor %}
-  </section>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-  {% include '_partials/pagination.swig' %}
-{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
 
-{% block sidebar %}
-  {{ sidebar_template.render(false) }}
-{% endblock %}
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/page/33/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/page/33/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
+            
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/07/14/wordpress%E4%B8%AD%E8%BF%90%E7%94%A8layer%E7%9A%84%E6%97%B6%E5%80%99%EF%BC%8C%E6%B7%BB%E5%8A%A0%E7%82%B9%E5%87%BB%E4%BA%8B%E4%BB%B6%E9%98%BB%E6%AD%A2%E9%BB%98%E8%AE%A4%E4%BA%8B%E4%BB%B6%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/07/14/wordpress%E4%B8%AD%E8%BF%90%E7%94%A8layer%E7%9A%84%E6%97%B6%E5%80%99%EF%BC%8C%E6%B7%BB%E5%8A%A0%E7%82%B9%E5%87%BB%E4%BA%8B%E4%BB%B6%E9%98%BB%E6%AD%A2%E9%BB%98%E8%AE%A4%E4%BA%8B%E4%BB%B6%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" class="post-title-link" itemprop="url">wordpress中运用layer的时候，添加点击事件阻止默认事件的解决方案</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-07-14 18:53:20" itemprop="dateCreated datePublished" datetime="2017-07-14T18:53:20+08:00">2017-07-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:09" itemprop="dateModified" datetime="2020-10-11T11:53:09+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>当我在把layer运用到wordpress的时候，遇到了各种问题，这种婚嫁关系给我们带来了惊喜也给我们带来了烦恼，今天的主角是要解决阻止默认事件的行为。</p>
+<p>开始我是想做一个类似这样的效果：</p>
+<p><img src="http://i.imgur.com/edKwS6U.jpg"></p>
+<p>看到没？这个是有一个链接的，也就是有a标签在里面，我要为这个文字段落添加一个点击事件，他的html结构是这样的</p>
+<pre><code>&lt;p id=&quot;tongzhi&quot;&gt;
+&lt;a href=&quot;http://www.baidu.com&quot;&gt;add your own text&lt;/a&gt;
+&lt;/p&gt;</code></pre>
+<p>很简单的一个结构，这个时候我点击的时候，只会跳转到百度去了，然而，这个并不是我想要的目标，我的目标是点击这个之后弹出一个弹窗。开始代码是这样的：</p>
+<pre><code>&lt;script&gt;
+window.onload=function()&#123;
+    document.getElementById(&#39;tongzhi&#39;).onclick=tz;
+    function tz()&#123;
+        ;!function()&#123;
+          layer.open(&#123;
+          type: 1
+          ,title:false //不显示标题
+          ,closeBtn: false
+          ,area: &#39;300px;&#39;
+          ,shade: 0.8
+          ,id: &#39;LAY_layuipro&#39; //设定一个id，防止重复弹出
+          ,resize: false
+          ,btn: [&#39;了解详情&#39;, &#39;算了&#39;]
+          ,btnAlign: &#39;c&#39;
+          ,moveType: 1 //拖拽模式，0或者1
+          ,content: &#39;&lt;div style=&quot;padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;&quot;&gt;我白天是个邮递员，晚上就是个有抱负的演员。这是我的博客。我住在天朝的帝都，有条叫做杰克的狗&lt;/div&gt;&#39;
+          ,success: function(layero)&#123;
+            var btn = layero.find(&#39;.layui-layer-btn&#39;);
+            btn.find(&#39;.layui-layer-btn0&#39;).attr(&#123;
+              href: &#39;http://helongquan.github.io/&#39;
+              ,target: &#39;_blank&#39;
+            &#125;);
+          &#125;
+        &#125;);
+        &#125;()
+    &#125;
+&#125;
+&lt;/script&gt;
+
+&lt;style&gt;
+#tongzhi a&#123;
+background:blue;
+padding:10px 20px;
+color:#fff;
+&#125;
+&lt;/style&gt;</code></pre>
+<p>这样的话，点击这个目标元素，总是不弹出东西来，然后定位问题，解决问题，问题的根源在默认事件，取消默认事件即可。</p>
+<p>改进后的代码如下：</p>
+<pre><code>&lt;script&gt;
+window.onload=function()&#123;
+    document.getElementById(&#39;tongzhi&#39;).onclick=tz;
+    function tz(event)&#123;
+        event.preventDefault();
+        ;!function()&#123;
+          layer.open(&#123;
+          type: 1
+          ,title:false //不显示标题
+          ,closeBtn: false
+          ,area: &#39;300px;&#39;
+          ,shade: 0.8
+          ,id: &#39;LAY_layuipro&#39; //设定一个id，防止重复弹出
+          ,resize: false
+          ,btn: [&#39;了解详情&#39;, &#39;算了&#39;]
+          ,btnAlign: &#39;c&#39;
+          ,moveType: 1 //拖拽模式，0或者1
+          ,content: &#39;&lt;div style=&quot;padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;&quot;&gt;我白天是个邮递员，晚上就是个有抱负的演员。这是我的博客。我住在天朝的帝都，有条叫做杰克的狗&lt;/div&gt;&#39;
+          ,success: function(layero)&#123;
+            var btn = layero.find(&#39;.layui-layer-btn&#39;);
+            btn.find(&#39;.layui-layer-btn0&#39;).attr(&#123;
+              href: &#39;http://helongquan.github.io/&#39;
+              ,target: &#39;_blank&#39;
+            &#125;);
+          &#125;
+        &#125;);
+        &#125;()
+    &#125;
+&#125;
+&lt;/script&gt;
+
+&lt;style&gt;
+#tongzhi a&#123;
+background:blue;
+padding:10px 20px;
+color:#fff;
+&#125;
+&lt;/style&gt;</code></pre>
+<p>在第四行和第五行那里，我添加了一个组织默认事件，其实如果是简单的添加那么容易就好了，事实上不是这样的，开始由于其他地方，比如标题：title那里，我添加了标题，缺少了一个符号，导致让问题变得扑朔迷离，后来借助chrome开发者工具的console，找到问题的方法。最后的效果：</p>
+<p><img src="http://i.imgur.com/j8xExs1.jpg"></p>
+<p>其实跟这个相关的还有事件冒泡和事件捕获这两个概念。</p>
+<p>事件冒泡，给你一个典型的例子，点击<a target="_blank" rel="noopener" href="http://pan.baidu.com/s/1pKZPRXT">这里</a>下载，密码：sn00</p>
+<p>html代码如下：</p>
+<pre><code>&lt;!DOCTYPE html &gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Porschev---Jquery 事件冒泡&lt;/title&gt;
+    &lt;script src=&quot;jquery-1.3.2-vsdoc.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;form id=&quot;form1&quot; runat=&quot;server&quot;&gt;
+        &lt;div id=&quot;divOne&quot; onclick=&quot;alert(&#39;我是最外层&#39;);&quot;&gt;
+            &lt;div id=&quot;divTwo&quot; onclick=&quot;alert(&#39;我是中间层！&#39;)&quot;&gt;&lt;a id=&quot;hr_three&quot; href=&quot;http://www.baidu.com&quot; mce_href=&quot;http://www.baidu.com&quot; onclick=&quot;alert(&#39;我是最里层！&#39;)&quot;&gt;点击我&lt;/a&gt;&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>那么如何阻止这个事件冒泡呢？</p>
+<p>方式1.event.stopPropagation();</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+
+        $(function() &#123;
+            $(&quot;#hr_three&quot;).click(function(event) &#123;
+                event.stopPropagation();
+            &#125;);
+        &#125;);
+  &lt;/script&gt;</code></pre>
+<p>再点击“点击我”，会弹出：我是最里层，然后链接到百度。</p>
+<p>方式2.return false; </p>
+<p>如果头部加入的是以下代码：</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+    $(function() &#123; $(&quot;#hr_three&quot;).click(function(event) &#123; return false; &#125;); &#125;);
+&lt;/script&gt;</code></pre>
+<p>再点击“点击我”，会弹出：我是最里层，但不会执行链接到百度页面。</p>
+<p>由此可以看出： </p>
+<p>1.event.stopPropagation(); </p>
+<p>事件处理过程中，阻止了事件冒泡，但不会阻击默认行为（它就执行了超链接的跳转）</p>
+<p>2.return false; </p>
+<p>事件处理过程中，阻止了事件冒泡，也阻止了默认行为（比如刚才它就没有执行超链接的跳转）</p>
+<p>还有一种有冒泡有关的：</p>
+<p>3.event.preventDefault(); </p>
+<p>如果把它放在头部A标签的click事件中，点击“点击我”。</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+    $(function() &#123;
+        $(&quot;#hr_three&quot;).click(function(event) &#123;
+            event.preventDefault();
+        &#125;);
+    &#125;);
+&lt;/script&gt;</code></pre>
+<p>会发现它依次弹出：我是最里层—-&gt;我是中间层—-&gt;我是最外层，但最后却没有跳转到百度。</p>
+<blockquote>
+<p>它的作用是：事件处理过程中，不阻击事件冒泡，但阻击默认行为（它只执行所有弹框，却没有执行超链接跳转）。</p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/07/14/wordpress%E7%BD%91%E7%AB%99%E5%A6%82%E4%BD%95%E8%AE%A9javascript%E5%92%8Ccss%E9%80%89%E6%8B%A9%E6%80%A7%E7%9A%84%E5%8A%A0%E8%BD%BD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/07/14/wordpress%E7%BD%91%E7%AB%99%E5%A6%82%E4%BD%95%E8%AE%A9javascript%E5%92%8Ccss%E9%80%89%E6%8B%A9%E6%80%A7%E7%9A%84%E5%8A%A0%E8%BD%BD/" class="post-title-link" itemprop="url">wordpress网站如何让javascript和css选择性的加载</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-07-14 16:40:51" itemprop="dateCreated datePublished" datetime="2017-07-14T16:40:51+08:00">2017-07-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:10" itemprop="dateModified" datetime="2020-10-11T11:53:10+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>安装的插件越多，网站速度就会越慢。这种说法其实并不完全正确。有些插件只是给网站添加了一个小调用，对网站速度并不造成影响。而有些插件会在每次页面加载时加入jQuery和CSS文件（在网站的<head></head>区域）。假设每个插件都会添加一个jQuery文件和一个CSS文件，而你安装了八个这样的插件，那么就相当于添加了16个HTTP请求。如果插件向页面添加的样式表或jQuery文件数量不止一个，那就相当可怕了。这篇文章我们就介绍如何在避免多余HTTP请求的情况下使用所有需要的WordPress插件。</p>
+<p>注意：进行以下操作最好具备若干PHP知识。</p>
+<p>本文目标：禁用插件在页面加载时添加的所有附加脚本和样式表。</p>
+<p>可是为什么这些插件要向页面添加脚本和样式表呢？这会影响插件的正常运行吗？很高兴你会这样想。对插件的开发目的来说这些CSS代码和JS代码可能相当重要，不过为了更好地管理自己的网站，让网站拥有更快的访问速度，我们可以删除这些代码。通过删除这些CSS文件和JS文件，我们可以：</p>
+<pre><code>将多个文件整合到一个单独文件里
+
+只在需要使用脚本或样式的页面上加载这些文件</code></pre>
+<p><strong>禁用WordPress里的脚本和样式</strong></p>
+<p>WordPress有一个内置系统，通过这个系统我们可以取消注册插件所添加的脚本和样式。但同时WordPress是一个开源软件，其插件由WordPress用户自行开发。这些插件开发者里有专家级开发者，也有开发新手。这意味着，不是所有插件都使用正确的方法加载脚本和样式，这就增加了禁用脚本和样式的难度。正确的方式是利用wp_enqueue_script()和wp_enqueue_style()这两个WordPress函数注册样式表和脚本。</p>
+<p>要确定你希望禁用的脚本或样式，你需要进一步查看插件代码。</p>
+<p><strong>禁用CSS（样式表）</strong></p>
+<p>这里我们以插件Cleaner Gallery为例。这个插件在会每次页面加载时加入自己的CSS文件。首先你需要确认这款插件添加样式表的方法是否正确。你可以打开插件文件gallery.php（gallery.php是插件Cleaner Gallery的文件），然后在其中查找“wp_enqueue_style”，搜索到的结果如下：</p>
+<pre><code>//Code from http://seavia.com/
+wp_enqueue_style( &#39;cleaner-gallery&#39;, CLEANER_GALLERY_URL .
+&#39;cleaner-gallery.css&#39;, false, 0.8, &#39;all&#39; );</code></pre>
+<p>从代码中可以看出负责样式表的句柄为“cleaner-gallery”。然后打开主题中的functions.php文件，添加以下代码：</p>
+<pre><code>add_action( &#39;wp_print_styles&#39;, &#39;my_deregister_styles&#39;, 100 );  
+function my_deregister_styles() &#123;  
+wp_deregister_style( &#39;cleaner-gallery&#39; );  
+&#125;</code></pre>
+<p>你可以利用这个函数决定所取消的样式表操作次数。如果你需要取消注册多个插件的样式表，那么可以使用下面这段代码：</p>
+<pre><code>add_action( &#39;wp_print_styles&#39;, &#39;my_deregister_styles&#39;, 100 );
+function my_deregister_styles() &#123;  
+wp_deregister_style( &#39;cleaner-gallery&#39; );  
+wp_deregister_style( &#39;Plugin Style Handle&#39; );  
+wp_deregister_style( &#39;Plugin Style Handle&#39; );  &#125;</code></pre>
+<p>但是删除本该加载到所有页面的样式表后，Cleaner Gallery插件的功能就会受到影响。例如你的图集的样式和结构会崩坏。要修复这个问题，请打开主题的style.css文件，将插件的CSS代码粘贴到文件的最下方。这里我们用的是Cleaner Gallery插件，那么就将插件文件夹中的cleaner-gallery.css文件复制到主题的style.css文件里。这样不仅可以定制图集的样式，也减少了一次HTTP请求。</p>
+<p>理想状态:分页插件WP-PageNavi在后台的设置页提供了一个删除样式表的选项。</p>
+<p>大多数时候你需要修改这款插件的显示效果以符合网站的色调。因此很多用户最终都会把代码粘贴到style.css文件。现在插件作者给出了一个简单的复选框选项，让用户选择是否取消注册样式表。</p>
+<p>希望越来越多的插件开发者采取这种做法，为WordPress用户提供更多方便。</p>
+<p><strong>禁用JavaScripts</strong></p>
+<p>出于对功能性的考虑，有些插件会向页面添加JavaScript文件，例如Contact Form 7。</p>
+<p>和处理样式文件一样，我们需要在插件文件里找到JS脚本句柄。在Contact Form 7里，脚本句柄为”contact-form-7″。复制以下函数并粘贴到主题的functions.php文件：</p>
+<pre><code>add_action( &#39;wp_print_scripts&#39;, &#39;my_deregister_javascript&#39;, 100 );    
+function my_deregister_javascript() &#123;  
+wp_deregister_script( &#39;contact-form-7&#39; );  
+&#125;</code></pre>
+<p>如果有必要，你也可以在这个函数里取消注册多个脚本。删除JS脚本后会影响插件的功能。你可以把所有JS组合在一起，但有时未必起作用，所以请谨慎操作。</p>
+<p><strong>在特定页面加载脚本</strong></p>
+<p>如果你确实需要Contact Form脚本文件，而又不愿意将它和其他脚本混合。你可以选择只在联系页面加载这些脚本，只需要用到下面这个函数：</p>
+<pre><code>add_action( &#39;wp_print_scripts&#39;, &#39;my_deregister_javascript&#39;, 100 );    
+function my_deregister_javascript() &#123;  
+if ( !is_page(&#39;Contact&#39;) ) &#123;  
+wp_deregister_script( &#39;contact-form-7&#39; );  
+&#125;  
+&#125;</code></pre>
+<p>这样就可以避免在非联系表单页面上加载多余脚本了。对提高网站速度来说这是个实用的方法。我们也可以使用!is_single等其他参数。</p>
+<p>其实按需加载JS还有一个好处就是可以加快WordPress的运行速度，试想一般情况下每个页面需要调用的 JS 不都一样，如果我们强制一些不需要所有 JS 文件的页面也加载整个all.js，那岂不是浪费资源拖慢速度？所以，让不同的页面加载不同js还可以对WordPress进行提速，一举两得。</p>
+<p>按需加载CSS其实道理也和按需加载JS一样：</p>
+<p>加载CSS文件也是同理：</p>
+<pre><code>&lt;?php if (is_home()) &#123; ?&gt;
+
+&lt;?php &#125; elseif( is_single() ) &#123; ?&gt;
+
+&lt;?php &#125; elseif( is_category() || is_archive() || is_search() ) &#123; ?&gt;
+
+&lt;?php &#125; elseif( is_page(1072) ) &#123; ?&gt;
+
+&lt;?php &#125; else &#123; ?&gt;
+
+&lt;?php &#125; ?&gt;</code></pre>
+<p>上面这段代码什么意思呢？就是当打开的是首页时加载style-index.css这个CSS文件，打开文章页时加载style-single.css，打开文章页、归档页或者搜索结果页时加载style-category.css，打开页面且其ID=1072时加载style-links.css，其它页面加载style.css。</p>
+<p>这里作为补充，列举一个网友的提问：wordpress如何禁止插件输出js与css到所有页面？</p>
+<p>针对这个插件：portfolio-slideshow，做以下的回答。</p>
+<p>这里采用这个方法搞定的，没有修改插件内容，直接主题function.php添加下面代码：</p>
+<pre><code>function load_portfolio_slideshow() &#123;
+    // 如果 portfolio-slideshow 之前已注册...
+    if( wp_script_is( &#39;portfolio-slideshow&#39;, &#39;registered&#39; ) ) &#123;
+        // ...取消注册...
+        wp_deregister_style( &#39;portfolio_slideshow&#39; );
+        wp_deregister_script( &#39;portfolio-slideshow&#39; );
+        // 后面根据自己需要自定义......
+    &#125;
+&#125;
+add_action( &#39;wp_enqueue_scripts&#39;, &#39;load_portfolio_slideshow&#39; );</code></pre>
+<p>用来聚合一些专业的问题，专业的回答。如果有不完善的地方，希望斧正。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/07/13/javascript%E5%8E%9F%E7%94%9F%E6%96%B9%E6%B3%95%E5%88%B6%E4%BD%9C%E5%9C%A8%E7%BA%BF%E5%AE%A2%E6%9C%8D%E6%82%AC%E6%B5%AE%E6%8A%98%E5%8F%A0%E6%95%88%E6%9E%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/07/13/javascript%E5%8E%9F%E7%94%9F%E6%96%B9%E6%B3%95%E5%88%B6%E4%BD%9C%E5%9C%A8%E7%BA%BF%E5%AE%A2%E6%9C%8D%E6%82%AC%E6%B5%AE%E6%8A%98%E5%8F%A0%E6%95%88%E6%9E%9C/" class="post-title-link" itemprop="url">javascript原生方法制作在线客服悬浮折叠效果</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-07-13 20:01:09" itemprop="dateCreated datePublished" datetime="2017-07-13T20:01:09+08:00">2017-07-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:30" itemprop="dateModified" datetime="2020-10-11T11:53:30+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>一直以来总有一种想自己做一个有模有样的插件的想法，受到时间的限制和精力的原因，没能如愿，今天先来一个入门级的插件，在线客服插件我给它命名为：service_online</p>
+<p>主要的php文件（index.php）代码如下：</p>
+<pre><code>&lt;?php 
+/*
+Plugin Name: online_service
+Plugin URI: http://helongquan.github.io
+Description: this is skype and QQ online service plugins.
+Version: 1.0.1
+Author: HLQ
+Author URI: http://helongquan.github.io
+License: GPL
+*//* 注册激活插件时要调用的函数 */ 
+register_activation_hook( __FILE__, &#39;display_copyright_install&#39;);   
+
+/* 注册停用插件时要调用的函数 */ 
+register_deactivation_hook( __FILE__, &#39;display_copyright_remove&#39; );  
+
+function display_copyright_install() &#123;  
+    /* 在数据库的 wp_options 表中添加一条记录，第二个参数为默认值 */ 
+    add_option(&quot;online_service&quot;, &quot;&lt;p style=&#39;color:red&#39;&gt;&lt;a href=&#39;#&#39;&gt;在线客服&lt;/a&gt;&lt;/p&gt;&quot;, &#39;&#39;, &#39;yes&#39;);
+    // 在数据中添加默认的颜色
+    add_option(&quot;costum_colors&quot;,&quot;#245249&quot;,&#39;&#39;,&#39;yes&#39;);
+&#125;
+
+function display_copyright_remove() &#123;
+    /* 删除 wp_options 表中的对应记录 */ 
+    delete_option(&#39;online_service&#39;);
+    // 删除自定义颜色
+    delete_option(&#39;costum_colors&#39;);
+&#125;
+
+if( is_admin() ) &#123;
+    /*  利用 admin_menu 钩子，添加菜单 */
+    add_action(&#39;admin_menu&#39;, &#39;display_copyright_menu&#39;);
+&#125;
+
+function display_copyright_menu() &#123;
+    /* add_options_page( $page_title, $menu_title, $capability, $menu_slug, $function);  *//* 页名称，菜单名称，访问级别，菜单别名，点击该菜单时的回调函数（用以显示设置页面） */
+    add_options_page(&#39;Set Copyright&#39;, &#39;在线客服&#39;, &#39;administrator&#39;,&#39;display_copyright&#39;, &#39;display_copyright_html_page&#39;);
+&#125;
+
+// 引入外部样式表
+echo &#39;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;&#39;.$url.&#39;wp-content/plugins/online_service/style.css&quot; /&gt;&#39;;
+// 引入外部js文件
+echo &#39;&lt;script src=&quot;&#39;.$url.&#39;wp-content/plugins/online_service/custom.js&quot;&gt;&lt;/script&gt;&#39;;
+
+
+function display_copyright_html_page() &#123;
+    ?&gt;
+
+    &lt;div&gt;  
+        &lt;h2&gt;添加在线客服联系方式&lt;/h2&gt;
+        &lt;form method=&quot;post&quot; action=&quot;options.php&quot;&gt; 
+            &lt;?php wp_nonce_field(&#39;update-options&#39;); ?&gt;
+            &lt;p&gt;
+                &lt;textarea name=&quot;online_service&quot; id=&quot;online_service&quot; cols=&quot;100&quot; rows=&quot;20&quot;&gt;&lt;?php echo get_option(&#39;online_service&#39;); ?&gt;&lt;/textarea&gt;
+            &lt;/p&gt;
+            &lt;p id=&quot;helong_submit&quot;&gt;
+                &lt;input type=&quot;hidden&quot; name=&quot;action&quot; value=&quot;update&quot; /&gt;
+                &lt;input type=&quot;hidden&quot; name=&quot;page_options&quot; value=&quot;online_service&quot; /&gt;
+                &lt;input type=&quot;submit&quot; value=&quot;保存&quot; class=&quot;button-primary&quot;/&gt;
+            &lt;/p&gt;
+        &lt;/form&gt;
+    &lt;/div&gt;
+&lt;?php
+&#125;
+
+function display_copyright()&#123;
+    echo &quot;&lt;div id=&#39;add_onlineservice&#39;&gt;&lt;ul id=&#39;online_title_zixun&#39;&gt;&lt;li onclick=&#39;showservice();&#39;&gt;立即咨询&lt;/li&gt;&lt;/ul&gt;&lt;ul class=&#39;kehus&#39;&gt;&lt;li id=&#39;online_title_shouqi&#39; onclick=&#39;clegg();&#39;&gt;点击收起&lt;/li&gt;&lt;li style=&quot;.get_option(&#39;costum_colors&#39;).&quot;&gt;&quot;. get_option(&#39;online_service&#39;).&quot;&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;&quot;;
+&#125;
+// 挂载函数到钩子上，这里把函数挂载到wp-footer上
+add_action(&#39;wp_footer&#39;,display_copyright);
+// 添加过滤程序，方便后期读取数据
+add_filter (&#39;wp_footer&#39;,display_copyright);
+?&gt;</code></pre>
+<p>style.css文件的代码如下：</p>
+<pre><code>#add_onlineservice ul &#123;
+    list-style-type: none;
+    background: rgba(125, 150, 239, 0.83) !important;
+    width: 75px;
+    padding: 0px 6px;
+    margin-left: 0px !important;
+&#125;
+
+#online_title_zixun&#123;
+    visibility:hidden;
+&#125;
+
+#add_onlineservice ul li&#123;
+    cursor: pointer;
+&#125;
+
+#add_onlineservice&#123;
+    width: 75px;
+    position: fixed;
+    display: block;
+    margin:5px;
+    right: 1px;
+    top: 80px;
+    background: rgba(125, 150, 239, 0.43) !important;
+    z-index:10001;
+&#125;
+#add_onlineservice h4&#123;
+    font-size:12px !important;
+    cursor: pointer !important;
+    color:#fff !important;
+&#125;
+#add_onlineservice a img&#123;
+    width: 50px;
+&#125;
+#add_onlineservice ul:nth-child(1) &#123;
+    position: fixed;
+    display: block;
+    margin: 5px;
+    right: 1px;
+    top: 126px;
+&#125;
+#add_onlineservice ul:nth-child(2)&#123;
+    position: fixed;
+    display: block;
+    margin:5px;
+    right: 1px;
+    top: 150px;
+&#125;</code></pre>
+<p>javascript文件的代码如下：</p>
+<pre><code>function clegg()&#123;
+var cloee=document.getElementById(&quot;add_onlineservice&quot;).querySelector(&#39;.kehus&#39;);
+cloee.style.visibility=&#39;hidden&#39;;
+var online_title_zixun=document.getElementById(&#39;online_title_zixun&#39;);
+online_title_zixun.setAttribute(&#39;style&#39;,&#39;width:27px;display:block;visibility:visible;&#39;);
+&#125;
+
+function showservice()&#123;
+var cloee=document.getElementById(&quot;add_onlineservice&quot;).querySelector(&#39;.kehus&#39;);
+cloee.setAttribute(&#39;style&#39;,&#39;visibility:visible;display:block&#39;)
+var ppe=document.getElementById(&quot;online_title_zixun&quot;);
+ppe.style.visibility=&#39;hidden&#39;;
+&#125;</code></pre>
+<p>必须值得说的是，我没用jquery,如果用jquery的话，这种效果几行代码就可以搞定，具体的实现方法，自行去百度就行了。</p>
+<p>前面长篇大论了一番，我的重点主要也就是这个折叠效果，都在js里面了。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/07/13/wordpress%E7%99%BB%E5%BD%95cookies%E8%A2%AB%E9%98%BB%E6%AD%A2%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/07/13/wordpress%E7%99%BB%E5%BD%95cookies%E8%A2%AB%E9%98%BB%E6%AD%A2%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" class="post-title-link" itemprop="url">wordpress登录cookies被阻止的解决方法</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-07-13 14:18:21" itemprop="dateCreated datePublished" datetime="2017-07-13T14:18:21+08:00">2017-07-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:13" itemprop="dateModified" datetime="2020-10-11T11:53:13+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>最近折腾wordpress网站的时候整出一大堆问题. 博客登录提示 错误：Cookies被阻止或者您的浏览器不支持。要使用WordPress，您必须启用cookies。但是其他的网站就没有这个问题，在同一个服务器下。那解决wordpress登录cookies被阻止的解决方法是什么呢？</p>
+<p><img src="http://i.imgur.com/1aZv3JI.png"></p>
+<p>参照wordpress告诉的说法：<a target="_blank" rel="noopener" href="http://www.wordpress.la/codex-WordPress%E7%99%BB%E5%BD%95%E9%97%AE%E9%A2%98.html">http://www.wordpress.la/codex-WordPress%E7%99%BB%E5%BD%95%E9%97%AE%E9%A2%98.html</a></p>
+<p>1:本地浏览器没有做过变动，也没有禁止任何cookies</p>
+<p>2:删除插件目录plugins没有解决问题</p>
+<p>3:重新上传了一遍官方同版本安装包覆盖旧文件，没有解决问题.</p>
+<p>4:用户名和密码是正确的，出于防止其他人修改密码造成的，我也修改了一遍密码.同样没有解决问题.</p>
+<p>5:网站URL重定向规则是正确的，规则文件我同样有备份，网站文件路径也没有做过修改.</p>
+<p>6:检查防火墙设置是正确的，没有禁止本地IP.service iptables stop同样也没有效果.</p>
+<p>解决问题的方法非常简单：</p>
+<p>将根目录下的wp-config.php删除，或者是备份下来，不要删除，因为里面还有数据库信息，然后输入登录后台的地址，然后会进行重新安装，这个时候把数据库信息填进去，可能会说要清理数据的事情，点击确定就是了.如果wordpress语言变成了英文件，请打开wp-config.php 找到 define(‘WPLANG’, ‘’); 更改为 define(‘WPLANG’, ‘zh_CN’);</p>
+<blockquote>
+<p>我这里再补充一点，我的问题确实根据以上的方法解决了，可是第二天又发生了，我怀疑是我写的一个插件造成的原因，这个插件会把后台的填写选项字段添加到数据库中，导致出错，我只能先把这个插件停用，删除。然后再运行一次安装就行了。</p>
+</blockquote>
+<blockquote>
+<p>需要提醒的是，如果涉及到清理数据库，升级数据库的事，如果能够备份数据库最好先备份一份。</p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/07/12/wordpress%E5%8A%A0%E9%80%9F%E4%B9%8B%E5%9B%BE%E7%89%87%E6%87%92%E5%8A%A0%E8%BD%BD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/07/12/wordpress%E5%8A%A0%E9%80%9F%E4%B9%8B%E5%9B%BE%E7%89%87%E6%87%92%E5%8A%A0%E8%BD%BD/" class="post-title-link" itemprop="url">wordpress加速之图片懒加载</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-07-12 16:22:47" itemprop="dateCreated datePublished" datetime="2017-07-12T16:22:47+08:00">2017-07-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:12" itemprop="dateModified" datetime="2020-10-11T11:53:12+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><strong>先下载js文件</strong></p>
+<p>点击<a target="_blank" rel="noopener" href="http://pan.baidu.com/s/1c2eVSlE">这里</a>下载，密码：vxm5</p>
+<p>现在把下载的两个js文件放到主题的根目录下。</p>
+<p>我们所需的事情就是把这个js代码引入到Wordpress的头部，如果你的主题，已经加载了jquery，我们就不需要加载jQuery了。直接添加另外一个文件到主题根目录即可。</p>
+<p>在当前主题的header.php中，</header>之前加入以下代码：</p>
+<pre><code>&lt;script src=&quot;&lt;?php echo get_template_directory_uri(); ?&gt;/js/jquery.min.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+/*如果主题已经有jquery，以上可以不要*/
+&lt;script src=&quot;&lt;?php echo get_template_directory_uri(); ?&gt;/js/jquery.lazyload.min.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+    $(function() &#123;
+        $(&quot;img&quot;).lazyload(&#123;
+            effect:&quot;fadeIn&quot;
+          &#125;);
+        &#125;);
+&lt;/script&gt;</code></pre>
+<p><strong>修改functions.php</strong></p>
+<p>在主题的functions.php里面，增加下面的代码，代码的意义在于自动为图片添加data-original 属性，以便实现lazyload。</p>
+<pre><code>add_filter (&#39;the_content&#39;, &#39;lazyload&#39;);
+function lazyload($content) &#123;
+    $loadimg_url=get_bloginfo(&#39;template_directory&#39;).&#39;/loading.gif&#39;;
+    if(!is_feed()||!is_robots) &#123;
+        $content=preg_replace(&#39;/&lt;img(.+)src=[\&#39;&quot;]([^\&#39;&quot;]+)[\&#39;&quot;](.*)&gt;/i&#39;,&quot;&lt;img\$1data-original=\&quot;\$2\&quot; src=\&quot;$loadimg_url\&quot;\$3&gt;\n&lt;noscript&gt;\$0&lt;/noscript&gt;&quot;,$content);
+    &#125;
+    return $content;
+&#125;</code></pre>
+<p><strong>添加一个加载的图片</strong></p>
+<p>右击下面的gif，另存一下，命名为loading.gif，也放在主题的根目录下。</p>
+<p><img src="http://i.imgur.com/bS4jUCz.gif"></p>
+<p>大功告成，刷新看看文章中的图片会延迟加载吗.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/07/12/TP5%E9%87%8CWampServer%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E8%99%9A%E6%8B%9F%E5%9F%9F%E5%90%8D%E9%85%8D%E7%BD%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/07/12/TP5%E9%87%8CWampServer%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E8%99%9A%E6%8B%9F%E5%9F%9F%E5%90%8D%E9%85%8D%E7%BD%AE/" class="post-title-link" itemprop="url">TP5里WampServer如何实现虚拟域名配置 </a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-07-12 13:24:21" itemprop="dateCreated datePublished" datetime="2017-07-12T13:24:21+08:00">2017-07-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:17" itemprop="dateModified" datetime="2020-10-11T11:53:17+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>今天我要写的是在wampserver里如何实现虚拟域名的配置。</p>
+<p>1、修改 apache 的配置文件 httpd.conf<br>首先我们打开 apache 的配置文件 httpd.conf，比如我的是在 D:\wamp\bin\apache\Apache2.2.17\conf 文件夹下，找到这一行：</p>
+<pre><code>#Include conf/extra/httpd-vhosts.conf  //将#去掉</code></pre>
+<p>2、在 httpd-vhosts.conf 文件里加入：</p>
+<pre><code>&lt;VirtualHost *:80&gt;
+    DocumentRoot &quot;D:/wamp/www/tp5admin/public&quot;
+    ServerName www.tp5admin.com
+    ServerAlias tp5admin.com
+&lt;/VirtualHost&gt;</code></pre>
+<p>3、修改windows的 hosts 文件：</p>
+<p>打开 C:\WINDOWS\system32\drivers\etc\hosts 文件，添加一句：</p>
+<pre><code> 127.0.0.1 www.tp5admin.com</code></pre>
+<p>4、在浏览器中打开<a href="http://www.tp5admin.com，如果可以正常访问，那么你配置成功了，如果发现如下错误：">www.tp5admin.com，如果可以正常访问，那么你配置成功了，如果发现如下错误：</a></p>
+<p>You don’t have permission to access / on this server.</p>
+<p>原因：这主要是目录访问权限没有设置，需要设置对目录的访问权！</p>
+<p>5、在 httpd.conf 文件中，找到这么一段：</p>
+<pre><code>&lt;Directory /&gt;
+    Options FollowSymLinks
+    AllowOverride None
+    Order deny,allow
+    Deny from all
+&lt;/Directory&gt;</code></pre>
+<p>改成：</p>
+<pre><code>&lt;Directory /&gt;
+    Options FollowSymLinks Includes
+    AllowOverride None
+    Order deny,allow
+    Allow from all
+&lt;/Directory&gt;</code></pre>
+<p>这时你在浏览器里输入<a href="http://www.tp5admin.com没有问题了，可以正常访问，但是当你输入localhost是又出现错误了，原因是因为我没有在httpd.conf里配置这一个，在文件末尾加上：">www.tp5admin.com没有问题了，可以正常访问，但是当你输入localhost是又出现错误了，原因是因为我没有在httpd.conf里配置这一个，在文件末尾加上：</a></p>
+<pre><code>&lt;VirtualHost *:80&gt;
+    DocumentRoot &quot;D:/wamp/www/&quot;
+    ServerName localhost
+    ServerAlias localhost
+&lt;/VirtualHost</code></pre>
+<p>这样就没有问题了。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/07/10/wordpress%E4%B8%AD%E8%BF%90%E7%94%A8javascript%E5%AE%9E%E7%8E%B0%E9%BC%A0%E6%A0%87%E6%82%AC%E6%B5%AE%E6%98%BE%E7%A4%BA%E5%86%85%E5%AE%B9%E6%96%B9%E6%A1%88%E4%BA%8C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/07/10/wordpress%E4%B8%AD%E8%BF%90%E7%94%A8javascript%E5%AE%9E%E7%8E%B0%E9%BC%A0%E6%A0%87%E6%82%AC%E6%B5%AE%E6%98%BE%E7%A4%BA%E5%86%85%E5%AE%B9%E6%96%B9%E6%A1%88%E4%BA%8C/" class="post-title-link" itemprop="url">wordpress中运用javascript实现鼠标悬浮显示内容方案二</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-07-10 20:22:16" itemprop="dateCreated datePublished" datetime="2017-07-10T20:22:16+08:00">2017-07-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:08" itemprop="dateModified" datetime="2020-10-11T11:53:08+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>wordpress终究是要拥抱javascript的，我慢慢感觉到，我们的很多特效很多的交互效果如果缺少了javascript和css3，我觉得会让wordpress，缺少很多魅力。</p>
+<p>今天就分享这么一个案例：</p>
+<p>鼠标悬浮在某个区块或者一张图片或者是一段文字，然后显示一些内容，比如图文混排的，全部是文字的，或者是其他别的。</p>
+<p>这里我们可以用原生的方式实现，不借助任何库,针对这个我前面的一篇文章已经说了，后来对这个方案进行了修改，消除了冗余，请允许我短暂的小白，没办法，成长的过程需要犯很多错误。</p>
+<p>效果是这样的</p>
+<p><img src="http://i.imgur.com/ZreNkei.png"></p>
+<p>先用wordpress的visual composer来个两行三列，第一行第二列放一张图片，通过控制样式来达到图片的排版方式，然后，就是重点了，先在本地做一个类似的效果，然后逐步移植，这是我的方法。</p>
+<p>我做了一个html页面，代码如下：</p>
+<pre><code>&lt;!doctype html&gt;  
+&lt;head&gt;  
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;   
+    &lt;title&gt;TEST&lt;/title&gt;  
+&lt;/head&gt;  
+&lt;style type=&quot;text/css&quot;&gt;  
+    /*body&#123;  
+        position: relative;  
+    &#125;*/
+    #nocti_app_container&#123;
+      position: relative;
+    &#125;
+  #nocti_app_container ul&#123;
+    -webkit-padding-start: 20px;
+      margin-top: 0px;
+  &#125;
+    #nocti_inform_1&#123;
+          left: 40px;  
+          max-height: auto;           /* 设置最大高度，当高度达到此值时出现滚动条 */  
+          overflow: auto;              /* 自动添加滚动条 */  
+          box-shadow:0px 0px 10px #000;   /* 外阴影 */  
+          display: none;   /* 默认隐藏 */  
+    &#125;
+    .nocti_float_2&#123;
+      float: left;
+      padding: 10px;
+      width: 45%;
+      max-width: 750px;
+    &#125;
+    .nocti_float_2 img&#123;
+      max-width: 600px;
+      width: 100%;
+    &#125;
+
+  #nocti_inform_2&#123; 
+      max-height: auto;           /* 设置最大高度，当高度达到此值时出现滚动条 */  
+      overflow: auto;              /* 自动添加滚动条 */  
+      box-shadow:0px 0px 10px #000;   /* 外阴影 */  
+      display: none;   /* 默认隐藏 */
+      right: 40px;  
+    &#125;
+  .nocti_buttonss&#123;
+    display: block;
+      margin: 40px;
+      float: left;
+  &#125;
+  .nocti_display_contents_ss&#123;
+    position: absolute;  
+    top: 70px;
+    width: 100%;
+    z-index: 10; 
+    max-width: 750px;
+    background-color: rgba(93, 192, 236, 0.36);
+  &#125;
+  .nocti_display_contents_ss:before&#123;
+    content: &#39;\25C8&#39;;
+    margin: 0px;
+    padding: 10px;
+    background: rgba(56, 132, 212, 0.72);
+  &#125;
+  #btn_2&#123;
+    float: right;
+    right: 40px;
+  &#125;
+&lt;/style&gt;  
+&lt;script type=&quot;text/javascript&quot;&gt;  
+      //显示悬浮层1 
+      function showInform_1()&#123;  
+        document.getElementById(&quot;nocti_inform_1&quot;).style.display=&#39;block&#39;;
+        document.getElementById(&quot;nocti_inform_2&quot;).style.display=&#39;none&#39;; 
+        // document.getElementById(&quot;nocti_inform_1&quot;).css(&quot;display&quot;,&quot;block&quot;);  
+      &#125;
+      //隐藏悬浮层1 
+      function hiddenInform_1(event)&#123;
+         var nocti_inform_1_Div = document.getElementById(&#39;nocti_inform_1&#39;);
+         var x=event.clientX;
+         var y=event.clientY;
+         var divx1 = nocti_inform_1_Div.offsetLeft;
+         var divy1 = nocti_inform_1_Div.offsetTop;
+         var divx2 = nocti_inform_1_Div.offsetLeft + nocti_inform_1_Div.offsetWidth;
+         var divy2 = nocti_inform_1_Div.offsetTop + nocti_inform_1_Div.offsetHeight;
+         if( x &lt; divx1 || x &gt; divx2 || y &lt; divy1 || y &gt; divy2)&#123;
+              document.getElementById(&#39;nocti_inform_1&#39;).style.display=&#39;none&#39;;
+         &#125;
+      &#125;
+
+      //显示悬浮层2  
+      function showInform_2()&#123;
+        document.getElementById(&quot;nocti_inform_1&quot;).style.display=&#39;none&#39;;
+        document.getElementById(&quot;nocti_inform_2&quot;).style.display=&#39;block&#39;;  
+        // document.getElementById(&quot;nocti_inform_2&quot;).css(&quot;display&quot;,&quot;block&quot;);  
+      &#125;  
+      //隐藏悬浮层2 
+      function hiddenInform_2(event)&#123;  
+         var nocti_inform_2_Div = document.getElementById(&#39;nocti_inform_2&#39;);  
+         var x=event.clientX;
+         var y=event.clientY;
+         var divx1 = nocti_inform_2_Div.offsetLeft;
+         var divy1 = nocti_inform_2_Div.offsetTop;
+         var divx2 = nocti_inform_2_Div.offsetLeft + nocti_inform_2_Div.offsetWidth;
+         var divy2 = nocti_inform_2_Div.offsetTop + nocti_inform_2_Div.offsetHeight;
+         if( x &lt; divx1 || x &gt; divx2 || y &lt; divy1 || y &gt; divy2)&#123;
+              document.getElementById(&#39;nocti_inform_2&#39;).style.display=&#39;none&#39;;
+         &#125;
+      &#125;
+
+&lt;/script&gt;  
+&lt;body&gt;
+&lt;div id=&quot;nocti_app_container&quot;&gt;
+  &lt;div class=&quot;nocti_buttonss&quot; id=&quot;btn_1&quot;&gt;
+      &lt;a onMouseOver=&quot;javascript:showInform_1();&quot;  onMouseOut=&quot;hiddenInform_1()&quot;&gt;  
+      最新公告  
+      &lt;/a&gt;
+  &lt;/div&gt;
+  &lt;div id=&quot;nocti_inform_1&quot;  onMouseOver=&quot;javascript:showInform_1();&quot;  onMouseOut=&quot;hiddenInform_1(event)&quot; class=&quot;nocti_display_contents_ss&quot;&gt;  
+     &lt;div id=&quot;nocti_layer_pic_2&quot; class=&quot;nocti_float_2&quot;&gt;
+        &lt;img src=&quot;1.jpg&quot; alt=&quot;&quot;&gt;
+     &lt;/div&gt;
+     &lt;div id=&quot;nocti_content_custom_3&quot; class=&quot;nocti_float_2&quot;&gt;
+        &lt;ul&gt;
+          &lt;li&gt;编号5005车辆发车间隔异常&lt;/li&gt;
+          &lt;li&gt;编号5005车辆发车间隔异常&lt;/li&gt;
+          &lt;li&gt;编号5005车辆发车间隔异常&lt;/li&gt;
+          &lt;li&gt;编号5005车辆发车间隔异常&lt;/li&gt;
+          &lt;li&gt;编号5005车辆发车间隔异常&lt;/li&gt;
+          &lt;li&gt;编号5005车辆发车间隔异常&lt;/li&gt;
+          &lt;li&gt;编号5005车辆发车间隔异常&lt;/li&gt;
+          &lt;li&gt;编号5005车辆发车间隔异常&lt;/li&gt;
+          &lt;li&gt;编号5005车辆发车间隔异常&lt;/li&gt;
+          &lt;li&gt;编号5005车辆发车间隔异常&lt;/li&gt;
+          &lt;li&gt;编号5005车辆发车间隔异常&lt;/li&gt;
+          &lt;li&gt;编号5005车辆发车间隔异常&lt;/li&gt;
+        &lt;/ul&gt;
+     &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;nocti_buttonss&quot; id=&quot;btn_2&quot;&gt;
+    &lt;a onMouseOver=&quot;javascript:showInform_2();&quot;  onMouseOut=&quot;hiddenInform_2()&quot;&gt;  
+    天朝帝都  
+    &lt;/a&gt; 
+  &lt;/div&gt; 
+  &lt;div id=&quot;nocti_inform_2&quot;  onMouseOver=&quot;javascript:showInform_2();&quot;  onMouseOut=&quot;hiddenInform_2(event)&quot; class=&quot;nocti_display_contents_ss&quot;&gt;  
+     &lt;div id=&quot;nocti_layer_pic_4&quot; class=&quot;nocti_float_2&quot;&gt;
+        &lt;img src=&quot;2.jpg&quot; alt=&quot;&quot;&gt;
+     &lt;/div&gt;
+     &lt;div id=&quot;nocti_content_custom_5&quot; class=&quot;nocti_float_2&quot;&gt;
+        &lt;ul&gt;
+          &lt;li&gt;我住在天朝帝都，一名叫做杰克的狗&lt;/li&gt;
+          &lt;li&gt;我住在天朝帝都，一名叫做杰克的狗&lt;/li&gt;
+          &lt;li&gt;我住在天朝帝都，一名叫做杰克的狗&lt;/li&gt;
+          &lt;li&gt;我住在天朝帝都，一名叫做杰克的狗&lt;/li&gt;
+          &lt;li&gt;我住在天朝帝都，一名叫做杰克的狗&lt;/li&gt;
+          &lt;li&gt;我住在天朝帝都，一名叫做杰克的狗&lt;/li&gt;
+          &lt;li&gt;我住在天朝帝都，一名叫做杰克的狗&lt;/li&gt;
+          &lt;li&gt;我住在天朝帝都，一名叫做杰克的狗&lt;/li&gt;
+          &lt;li&gt;我住在天朝帝都，一名叫做杰克的狗&lt;/li&gt;
+          &lt;li&gt;我住在天朝帝都，一名叫做杰克的狗&lt;/li&gt;
+          &lt;li&gt;我住在天朝帝都，一名叫做杰克的狗&lt;/li&gt;
+          &lt;li&gt;我住在天朝帝都，一名叫做杰克的狗&lt;/li&gt;
+        &lt;/ul&gt;
+     &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/body&gt;  
+&lt;/html&gt; </code></pre>
+<p>根据原理：</p>
+<p>根据处理，我成功应用到wordpress上的是，如下：</p>
+<p><strong>css代码：</strong></p>
+<pre><code>/*鼠标悬浮显示javascript内容的代码 开始*/
+#nocti_app_container&#123;
+      position: relative;
+    &#125;
+#nocti_app_container ul&#123;
+  -webkit-padding-start: 20px;
+    margin-top: 0px;
+&#125;
+#nocti_inform_1&#123;
+    left: 230px;
+    top:200px;  
+    max-height: auto;           /* 设置最大高度，当高度达到此值时出现滚动条 */  
+    overflow: auto;              /* 自动添加滚动条 */  
+    box-shadow:0px 0px 10px #000;   /* 外阴影 */  
+    display: none;   /* 默认隐藏 */  
+&#125;
+
+#nocti_inform_2&#123; 
+    max-height: auto;           /* 设置最大高度，当高度达到此值时出现滚动条 */  
+    overflow: auto;              /* 自动添加滚动条 */  
+    box-shadow:0px 0px 10px #000;   /* 外阴影 */  
+    display: none;   /* 默认隐藏 */
+    left: 0px;
+    top: 200px;
+&#125;
+
+#nocti_inform_3&#123; 
+    max-height: auto;           /* 设置最大高度，当高度达到此值时出现滚动条 */  
+    overflow: auto;              /* 自动添加滚动条 */  
+    box-shadow:0px 0px 10px #000;   /* 外阴影 */  
+    display: none;   /* 默认隐藏 */
+    left:230px; 
+&#125;
+
+#nocti_inform_4&#123; 
+    max-height: auto;           /* 设置最大高度，当高度达到此值时出现滚动条 */  
+    overflow: auto;              /* 自动添加滚动条 */  
+    box-shadow:0px 0px 10px #000;   /* 外阴影 */  
+    display: none;   /* 默认隐藏 */
+    left: 0px;
+    top: 70px; 
+&#125;
+
+.nocti_float_2&#123;
+  float: left;
+  padding: 5px;
+  width: 43%;
+  max-width: 480px;
+&#125;
+
+.nocti_float_2 ul li&#123;
+  font-size: 14px !important;
+  line-height: 18px !important;
+&#125;
+
+.nocti_float_2 img&#123;
+  max-width: 600px;
+  width: 100%;
+&#125;
+
+
+.nocti_buttonss&#123;
+  display: block;
+  margin: 40px;
+  float: left;
+&#125;
+.nocti_display_contents_ss&#123;
+  position: absolute;  
+  top: 70px;
+  width: 100%;
+  z-index: 11120 !important; 
+  max-width: 480px;
+  background-color:rgb(111, 165, 243);
+&#125;
+/*.nocti_display_contents_ss:before&#123;
+  content: &#39;\25C8&#39;;
+  margin: 0px;
+  padding: 10px;
+  background: rgba(56, 132, 212, 0.72);
+&#125;*/
+
+.nocti_custome_close&#123;
+    float: right;
+    background: rgba(255, 255, 255, 0.37) !important;
+    padding: 0px 5px;
+    cursor: pointer;
+&#125;
+/*鼠标悬浮显示javascript内容的样式 结束*/</code></pre>
+<p>四个区域的代码分别如下：</p>
+<p>区域一：</p>
+<pre><code>&lt;div id=&quot;nocti_inform_1&quot; onmousemove=&quot;javascript:showInform_1();&quot; onclick=&quot;javascript:showInform_1();&quot; onmouseout=&quot;javascript:hiddenInform_1(event)&quot; class=&quot;nocti_display_contents_ss&quot;&gt;  
+ &lt;div id=&quot;nocti_layer_pic_1&quot; class=&quot;nocti_float_2&quot;&gt;
+    &lt;img src=&quot;http://img1.imgtn.bdimg.com/it/u=3744454695,2293072484&amp;fm=26&amp;gp=0.jpg&quot; alt=&quot;&quot;&gt;
+ &lt;/div&gt;
+ &lt;div id=&quot;nocti_content_custom_1&quot; class=&quot;nocti_float_2&quot;&gt;
+    &lt;ul&gt;
+      &lt;li&gt;编号5001车辆发车间隔异常&lt;/li&gt;
+      &lt;li&gt;编号5001车辆发车间隔异常&lt;/li&gt;
+      &lt;li&gt;编号5001车辆发车间隔异常&lt;/li&gt;
+      &lt;li&gt;编号5001车辆发车间隔异常&lt;/li&gt;
+      &lt;li&gt;编号5001车辆发车间隔异常&lt;/li&gt;
+      &lt;li&gt;编号5001车辆发车间隔异常&lt;/li&gt;
+    &lt;/ul&gt;
+ &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<p>区域二：</p>
+<pre><code>&lt;div id=&quot;nocti_inform_2&quot;  onmousemove=&quot;javascript:showInform_2();&quot; onclick=&quot;javascript:showInform_2();&quot;  onmouseout=&quot;javascript:hiddenInform_2(event)&quot; class=&quot;nocti_display_contents_ss&quot;&gt;  
+ &lt;div id=&quot;nocti_layer_pic_2&quot; class=&quot;nocti_float_2&quot;&gt;
+    &lt;img src=&quot;http://img0.imgtn.bdimg.com/it/u=1581844854,2690543586&amp;fm=26&amp;gp=0.jpg&quot; alt=&quot;&quot;&gt;
+ &lt;/div&gt;
+ &lt;div id=&quot;nocti_content_custom_2&quot; class=&quot;nocti_float_2&quot;&gt;
+    &lt;ul&gt;
+      &lt;li&gt;编号5005车辆发车间隔异常&lt;/li&gt;
+      &lt;li&gt;编号5005车辆发车间隔异常&lt;/li&gt;
+      &lt;li&gt;编号5005车辆发车间隔异常&lt;/li&gt;
+      &lt;li&gt;编号5005车辆发车间隔异常&lt;/li&gt;
+      &lt;li&gt;编号5005车辆发车间隔异常&lt;/li&gt;
+      &lt;li&gt;编号5005车辆发车间隔异常&lt;/li&gt;
+    &lt;/ul&gt;
+ &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<p>区域三：</p>
+<pre><code>&lt;div id=&quot;nocti_inform_3&quot;  onmousemove=&quot;javascript:showInform_3();&quot; onclick=&quot;javascript:showInform_3();&quot;  onmouseout=&quot;javascript:hiddenInform_3(event)&quot; class=&quot;nocti_display_contents_ss&quot;&gt;  
+ &lt;div id=&quot;nocti_layer_pic_3&quot; class=&quot;nocti_float_2&quot;&gt;
+    &lt;img src=&quot;http://att.huarenjie.com/attachment/forum/201605/04/123739chjc8hoefdnaxadj.jpg&quot; alt=&quot;&quot;&gt;
+ &lt;/div&gt;
+ &lt;div id=&quot;nocti_content_custom_3&quot; class=&quot;nocti_float_2&quot;&gt;
+    &lt;ul&gt;
+      &lt;li&gt;编号5003车辆发车间隔异常&lt;/li&gt;
+      &lt;li&gt;编号5003车辆发车间隔异常&lt;/li&gt;
+      &lt;li&gt;编号5003车辆发车间隔异常&lt;/li&gt;
+      &lt;li&gt;编号5003车辆发车间隔异常&lt;/li&gt;
+      &lt;li&gt;编号5003车辆发车间隔异常&lt;/li&gt;
+      &lt;li&gt;编号5003车辆发车间隔异常&lt;/li&gt;
+    &lt;/ul&gt;
+ &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<p>区域四：</p>
+<pre><code>&lt;div id=&quot;nocti_inform_4&quot;  onmousemove=&quot;javascript:showInform_4();&quot; onclick=&quot;javascript:showInform_4();&quot; onmouseout=&quot;javascript:hiddenInform_4(event)&quot; class=&quot;nocti_display_contents_ss&quot;&gt;  
+ &lt;div id=&quot;nocti_layer_pic_4&quot; class=&quot;nocti_float_2&quot;&gt;
+    &lt;img src=&quot;http://pic.zhutou.com/html/UploadPic/2010-2/201021017139529.jpg&quot; alt=&quot;&quot;&gt;
+ &lt;/div&gt;
+ &lt;div id=&quot;nocti_content_custom_4&quot; class=&quot;nocti_float_2&quot;&gt;
+    &lt;ul&gt;
+      &lt;li&gt;编号5004车辆发车间隔异常&lt;/li&gt;
+      &lt;li&gt;编号5004车辆发车间隔异常&lt;/li&gt;
+      &lt;li&gt;编号5004车辆发车间隔异常&lt;/li&gt;
+      &lt;li&gt;编号5004车辆发车间隔异常&lt;/li&gt;
+      &lt;li&gt;编号5004车辆发车间隔异常&lt;/li&gt;
+      &lt;li&gt;编号5004车辆发车间隔异常&lt;/li&gt;
+    &lt;/ul&gt;
+ &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<p>这些代码都是放在code里面，而不是放在文本里面，这是值得注意的。</p>
+<p>然后javascript代码放在最后，也可以放在同一个区域，最好在这个区域单独弄一个ID，以免把其他的区域弄乱了。</p>
+<p><img src="http://i.imgur.com/Zb7JLAr.png"></p>
+<p>我是这样放的，javascript主代码单独放一个区域也没关系，为了不必要的麻烦，最好这样放，提示：</p>
+<p>不能把javascript代码放在前面或者是这四个当中的任何一个的前面，因为javascript代码是流执行的，按照前后顺序执行的，否则会出错。</p>
+<p>javascript代码如下：</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+
+var articles=document.getElementById(&#39;nocti_custom_3&#39;).querySelectorAll(&#39;article&#39;);
+var article_1=articles[0];
+var article_2=articles[1];
+var article_3=articles[2];
+var article_4=articles[3];
+
+// 第一个
+
+article_1.onmousemove=function()&#123;
+  showInform_1();
+&#125;
+
+article_1.onmouseout=function(event)&#123;
+  hiddenInform_1(event);
+&#125;
+
+function showInform_1()&#123;
+        document.getElementById(&quot;nocti_inform_1&quot;).style.display=&#39;block&#39;;
+        document.getElementById(&quot;nocti_inform_2&quot;).style.display=&#39;none&#39;;
+        document.getElementById(&quot;nocti_inform_3&quot;).style.display=&#39;none&#39;;
+        document.getElementById(&quot;nocti_inform_4&quot;).style.display=&#39;none&#39;;
+
+&#125;
+
+function hiddenInform_1(event)&#123;
+         var nocti_inform_1_Div = document.getElementById(&#39;nocti_inform_1&#39;);
+         var x=event.clientX;
+         var y=event.clientY;
+         var divx1 = nocti_inform_1_Div.offsetLeft;
+         var divy1 = nocti_inform_1_Div.offsetTop;
+         var divx2 = nocti_inform_1_Div.offsetLeft + nocti_inform_1_Div.offsetWidth;
+         var divy2 = nocti_inform_1_Div.offsetTop + nocti_inform_1_Div.offsetHeight;
+         if( x &lt; divx1 || x &gt; divx2 || y &lt; divy1 || y &gt; divy2)&#123;
+              document.getElementById(&#39;nocti_inform_1&#39;).style.display=&#39;none&#39;;
+         &#125;
+&#125;
+
+
+
+// 第二个
+
+article_2.onmousemove=function()&#123;
+  showInform_2();
+&#125;
+
+article_2.onmouseout=function(event)&#123;
+  hiddenInform_2(event);
+&#125;
+
+function showInform_2()&#123;
+        document.getElementById(&quot;nocti_inform_1&quot;).style.display=&#39;none&#39;;
+        document.getElementById(&quot;nocti_inform_2&quot;).style.display=&#39;block&#39;;
+        document.getElementById(&quot;nocti_inform_3&quot;).style.display=&#39;none&#39;;
+        document.getElementById(&quot;nocti_inform_4&quot;).style.display=&#39;none&#39;;
+&#125;
+
+function hiddenInform_2(event)&#123;
+   var nocti_inform_1_Div = document.getElementById(&#39;nocti_inform_2&#39;);
+   var x=event.clientX;
+   var y=event.clientY;
+   var divx1 = nocti_inform_1_Div.offsetLeft;
+   var divy1 = nocti_inform_1_Div.offsetTop;
+   var divx2 = nocti_inform_1_Div.offsetLeft + nocti_inform_1_Div.offsetWidth;
+   var divy2 = nocti_inform_1_Div.offsetTop + nocti_inform_1_Div.offsetHeight;
+   if( x &lt; divx1 || x &gt; divx2 || y &lt; divy1 || y &gt; divy2)&#123;
+        document.getElementById(&#39;nocti_inform_2&#39;).style.display=&#39;none&#39;;
+   &#125;
+&#125;
+
+
+// 第三个
+
+article_3.onmousemove=function()&#123;
+  showInform_3();
+&#125;
+
+article_3.onmouseout=function(event)&#123;
+  hiddenInform_3(event);
+&#125;
+
+function showInform_3()&#123;
+        document.getElementById(&quot;nocti_inform_1&quot;).style.display=&#39;none&#39;;
+        document.getElementById(&quot;nocti_inform_2&quot;).style.display=&#39;none&#39;;
+        document.getElementById(&quot;nocti_inform_3&quot;).style.display=&#39;block&#39;;
+        document.getElementById(&quot;nocti_inform_4&quot;).style.display=&#39;none&#39;;
+
+&#125;
+
+function hiddenInform_3(event)&#123;
+   var nocti_inform_1_Div = document.getElementById(&#39;nocti_inform_3&#39;);
+   var x=event.clientX;
+   var y=event.clientY;
+   var divx1 = nocti_inform_1_Div.offsetLeft;
+   var divy1 = nocti_inform_1_Div.offsetTop;
+   var divx2 = nocti_inform_1_Div.offsetLeft + nocti_inform_1_Div.offsetWidth;
+   var divy2 = nocti_inform_1_Div.offsetTop + nocti_inform_1_Div.offsetHeight;
+   if( x &lt; divx1 || x &gt; divx2 || y &lt; divy1 || y &gt; divy2)&#123;
+        document.getElementById(&#39;nocti_inform_3&#39;).style.display=&#39;none&#39;;
+   &#125;
+&#125;
+
+
+// 第四个
+article_4.onmousemove=function()&#123;
+  showInform_4();
+&#125;
+
+article_4.onmouseout=function(event)&#123;
+  hiddenInform_4(event);
+&#125;
+
+function showInform_4()&#123;
+        document.getElementById(&quot;nocti_inform_1&quot;).style.display=&#39;none&#39;;
+        document.getElementById(&quot;nocti_inform_2&quot;).style.display=&#39;none&#39;;
+        document.getElementById(&quot;nocti_inform_3&quot;).style.display=&#39;none&#39;;
+        document.getElementById(&quot;nocti_inform_4&quot;).style.display=&#39;block&#39;;
+
+&#125;
+
+function hiddenInform_4(event)&#123;
+   var nocti_inform_1_Div = document.getElementById(&#39;nocti_inform_4&#39;);
+   var x=event.clientX;
+   var y=event.clientY;
+   var divx1 = nocti_inform_1_Div.offsetLeft;
+   var divy1 = nocti_inform_1_Div.offsetTop;
+   var divx2 = nocti_inform_1_Div.offsetLeft + nocti_inform_1_Div.offsetWidth;
+   var divy2 = nocti_inform_1_Div.offsetTop + nocti_inform_1_Div.offsetHeight;
+   if( x &lt; divx1 || x &gt; divx2 || y &lt; divy1 || y &gt; divy2)&#123;
+        document.getElementById(&#39;nocti_inform_4&#39;).style.display=&#39;none&#39;;
+   &#125;
+&#125;
+
+&lt;/script&gt;</code></pre>
+<p>相比于前面的那个方式，这个方案里的javascript代码更简洁更优雅。</p>
+<p>简单的这样复制粘贴可能不会出效果，因为，我这里用了一些ID和class，还有区域，用错任何一个地方都可能不会出现预期的效果。之所以记录下来，旨在参考，这里面有四个article，通过选择器选择，分别对这四个进行事件处理程序的添加，然后达到效果。</p>
+<p>这个方法到此结束，如果你有更好的方法，请立即与我联系，我的QQ：791447771</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/07/10/JS%E5%9C%A8%E6%96%B0%E7%AA%97%E5%8F%A3%E6%89%93%E5%BC%80%E8%B6%85%E9%93%BE%E6%8E%A5%E7%9A%84%E6%96%B9%E6%B3%95%E5%B0%8F%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/07/10/JS%E5%9C%A8%E6%96%B0%E7%AA%97%E5%8F%A3%E6%89%93%E5%BC%80%E8%B6%85%E9%93%BE%E6%8E%A5%E7%9A%84%E6%96%B9%E6%B3%95%E5%B0%8F%E7%BB%93/" class="post-title-link" itemprop="url">JS在新窗口打开超链接的方法小结</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-07-10 19:03:38" itemprop="dateCreated datePublished" datetime="2017-07-10T19:03:38+08:00">2017-07-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:29" itemprop="dateModified" datetime="2020-10-11T11:53:29+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>使用方法：在下面的js代码里面前面写了，大家可以看看直接复制粘贴就可以用了有问题可以联系我&lt;/pJS代码如下 </p>
+<p>一 让整个网页页面内的链接都在新窗口打开:在head中加入</p>
+<pre><code>&lt;base target=&quot;_blank&quot;&gt;</code></pre>
+<p>二 让一个DIV里所有链接在新窗口打开： </p>
+<p>在body中加入 </p>
+<p>代码如下:</p>
+<pre><code>&lt;SCRIPT LANGUAGE=&quot;JavaScript&quot;&gt; 
+&lt;!- 
+var anchors = document.getElementById(&quot;DIV名&quot;).getElementsByTagName(&quot;a&quot;); 
+for(var i=0;i&lt;anchors.length;i++) 
+&#123;var anchor = anchors[i];anchor.target=&quot;_blank&quot;;&#125; 
+//–&gt; 
+&lt;/SCRIPT&gt;</code></pre>
+<p>加入了是否特别要当前窗口打开的 </p>
+<p>代码如下:</p>
+<pre><code>   //控制超链接在新窗口打开 
+　　var tar=&quot;&quot;; 
+　　tar=&quot;_blank&quot;; 
+　　var urls=document.getElementsByTagName(&quot;a&quot;); 
+　　for (var i=0;i 
+　　&#123; 
+　　if(urls[i].target!=&quot;_self&quot;)&#123; 
+　　urls[i].target=tar; 
+　　&#125; 
+　　&#125;</code></pre>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/07/10/wordpress%E4%B8%AD%E8%BF%90%E7%94%A8javascript%E5%AE%9E%E7%8E%B0%E9%BC%A0%E6%A0%87%E6%82%AC%E6%B5%AE%E6%98%BE%E7%A4%BA%E5%86%85%E5%AE%B9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/07/10/wordpress%E4%B8%AD%E8%BF%90%E7%94%A8javascript%E5%AE%9E%E7%8E%B0%E9%BC%A0%E6%A0%87%E6%82%AC%E6%B5%AE%E6%98%BE%E7%A4%BA%E5%86%85%E5%AE%B9/" class="post-title-link" itemprop="url">wordpress中运用javascript实现鼠标悬浮显示内容</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-07-10 18:23:41" itemprop="dateCreated datePublished" datetime="2017-07-10T18:23:41+08:00">2017-07-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:08" itemprop="dateModified" datetime="2020-10-11T11:53:08+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>wordpress终究是要拥抱javascript的，我慢慢感觉到，我们的很多特效很多的交互效果如果缺少了javascript和css3，我觉得会让wordpress，缺少很多魅力。</p>
+<p>今天就分享这么一个案例：</p>
+<p>鼠标悬浮在某个区块或者一张图片或者是一段文字，然后显示一些内容，比如图文混排的，全部是文字的，或者是其他别的。</p>
+<p>这里我们可以用原生的方式实现，不借助任何库。</p>
+<p>效果是这样的</p>
+<p><img src="http://i.imgur.com/ZreNkei.png"></p>
+<p>先用wordpress的visual composer来个两行三列，第一行第二列放一张图片，通过控制样式来达到图片的排版方式，然后，就是重点了，先在本地做一个类似的效果，然后逐步移植，这是我的方法。</p>
+<p>我做了一个html页面，代码如下：</p>
+<pre><code>&lt;!doctype html&gt;  
+&lt;head&gt;  
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;   
+    &lt;title&gt;TEST&lt;/title&gt;  
+&lt;/head&gt;  
+&lt;style type=&quot;text/css&quot;&gt;  
+    /*body&#123;  
+        position: relative;  
+    &#125;*/
+    #nocti_app_container&#123;
+      position: relative;
+    &#125;
+  #nocti_app_container ul&#123;
+    -webkit-padding-start: 20px;
+      margin-top: 0px;
+  &#125;
+    #nocti_inform_1&#123;
+          left: 40px;  
+          max-height: auto;           /* 设置最大高度，当高度达到此值时出现滚动条 */  
+          overflow: auto;              /* 自动添加滚动条 */  
+          box-shadow:0px 0px 10px #000;   /* 外阴影 */  
+          display: none;   /* 默认隐藏 */  
+    &#125;
+    .nocti_float_2&#123;
+      float: left;
+      padding: 10px;
+      width: 45%;
+      max-width: 750px;
+    &#125;
+    .nocti_float_2 img&#123;
+      max-width: 600px;
+      width: 100%;
+    &#125;
+
+  #nocti_inform_2&#123; 
+      max-height: auto;           /* 设置最大高度，当高度达到此值时出现滚动条 */  
+      overflow: auto;              /* 自动添加滚动条 */  
+      box-shadow:0px 0px 10px #000;   /* 外阴影 */  
+      display: none;   /* 默认隐藏 */
+      right: 40px;  
+    &#125;
+  .nocti_buttonss&#123;
+    display: block;
+      margin: 40px;
+      float: left;
+  &#125;
+  .nocti_display_contents_ss&#123;
+    position: absolute;  
+    top: 70px;
+    width: 100%;
+    z-index: 10; 
+    max-width: 750px;
+    background-color: rgba(93, 192, 236, 0.36);
+  &#125;
+  .nocti_display_contents_ss:before&#123;
+    content: &#39;\25C8&#39;;
+    margin: 0px;
+    padding: 10px;
+    background: rgba(56, 132, 212, 0.72);
+  &#125;
+  #btn_2&#123;
+    float: right;
+    right: 40px;
+  &#125;
+&lt;/style&gt;  
+&lt;script type=&quot;text/javascript&quot;&gt;  
+      //显示悬浮层1 
+      function showInform_1()&#123;  
+        document.getElementById(&quot;nocti_inform_1&quot;).style.display=&#39;block&#39;;
+        document.getElementById(&quot;nocti_inform_2&quot;).style.display=&#39;none&#39;; 
+        // document.getElementById(&quot;nocti_inform_1&quot;).css(&quot;display&quot;,&quot;block&quot;);  
+      &#125;
+      //隐藏悬浮层1 
+      function hiddenInform_1(event)&#123;
+         var nocti_inform_1_Div = document.getElementById(&#39;nocti_inform_1&#39;);
+         var x=event.clientX;
+         var y=event.clientY;
+         var divx1 = nocti_inform_1_Div.offsetLeft;
+         var divy1 = nocti_inform_1_Div.offsetTop;
+         var divx2 = nocti_inform_1_Div.offsetLeft + nocti_inform_1_Div.offsetWidth;
+         var divy2 = nocti_inform_1_Div.offsetTop + nocti_inform_1_Div.offsetHeight;
+         if( x &lt; divx1 || x &gt; divx2 || y &lt; divy1 || y &gt; divy2)&#123;
+              document.getElementById(&#39;nocti_inform_1&#39;).style.display=&#39;none&#39;;
+         &#125;
+      &#125;
+
+      //显示悬浮层2  
+      function showInform_2()&#123;
+        document.getElementById(&quot;nocti_inform_1&quot;).style.display=&#39;none&#39;;
+        document.getElementById(&quot;nocti_inform_2&quot;).style.display=&#39;block&#39;;  
+        // document.getElementById(&quot;nocti_inform_2&quot;).css(&quot;display&quot;,&quot;block&quot;);  
+      &#125;  
+      //隐藏悬浮层2 
+      function hiddenInform_2(event)&#123;  
+         var nocti_inform_2_Div = document.getElementById(&#39;nocti_inform_2&#39;);  
+         var x=event.clientX;
+         var y=event.clientY;
+         var divx1 = nocti_inform_2_Div.offsetLeft;
+         var divy1 = nocti_inform_2_Div.offsetTop;
+         var divx2 = nocti_inform_2_Div.offsetLeft + nocti_inform_2_Div.offsetWidth;
+         var divy2 = nocti_inform_2_Div.offsetTop + nocti_inform_2_Div.offsetHeight;
+         if( x &lt; divx1 || x &gt; divx2 || y &lt; divy1 || y &gt; divy2)&#123;
+              document.getElementById(&#39;nocti_inform_2&#39;).style.display=&#39;none&#39;;
+         &#125;
+      &#125;
+
+&lt;/script&gt;  
+&lt;body&gt;
+&lt;div id=&quot;nocti_app_container&quot;&gt;
+  &lt;div class=&quot;nocti_buttonss&quot; id=&quot;btn_1&quot;&gt;
+      &lt;a onMouseOver=&quot;javascript:showInform_1();&quot;  onMouseOut=&quot;hiddenInform_1()&quot;&gt;  
+      最新公告  
+      &lt;/a&gt;
+  &lt;/div&gt;
+  &lt;div id=&quot;nocti_inform_1&quot;  onMouseOver=&quot;javascript:showInform_1();&quot;  onMouseOut=&quot;hiddenInform_1(event)&quot; class=&quot;nocti_display_contents_ss&quot;&gt;  
+     &lt;div id=&quot;nocti_layer_pic_2&quot; class=&quot;nocti_float_2&quot;&gt;
+        &lt;img src=&quot;1.jpg&quot; alt=&quot;&quot;&gt;
+     &lt;/div&gt;
+     &lt;div id=&quot;nocti_content_custom_3&quot; class=&quot;nocti_float_2&quot;&gt;
+        &lt;ul&gt;
+          &lt;li&gt;编号5005车辆发车间隔异常&lt;/li&gt;
+          &lt;li&gt;编号5005车辆发车间隔异常&lt;/li&gt;
+          &lt;li&gt;编号5005车辆发车间隔异常&lt;/li&gt;
+          &lt;li&gt;编号5005车辆发车间隔异常&lt;/li&gt;
+          &lt;li&gt;编号5005车辆发车间隔异常&lt;/li&gt;
+          &lt;li&gt;编号5005车辆发车间隔异常&lt;/li&gt;
+          &lt;li&gt;编号5005车辆发车间隔异常&lt;/li&gt;
+          &lt;li&gt;编号5005车辆发车间隔异常&lt;/li&gt;
+          &lt;li&gt;编号5005车辆发车间隔异常&lt;/li&gt;
+          &lt;li&gt;编号5005车辆发车间隔异常&lt;/li&gt;
+          &lt;li&gt;编号5005车辆发车间隔异常&lt;/li&gt;
+          &lt;li&gt;编号5005车辆发车间隔异常&lt;/li&gt;
+        &lt;/ul&gt;
+     &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;nocti_buttonss&quot; id=&quot;btn_2&quot;&gt;
+    &lt;a onMouseOver=&quot;javascript:showInform_2();&quot;  onMouseOut=&quot;hiddenInform_2()&quot;&gt;  
+    天朝帝都  
+    &lt;/a&gt; 
+  &lt;/div&gt; 
+  &lt;div id=&quot;nocti_inform_2&quot;  onMouseOver=&quot;javascript:showInform_2();&quot;  onMouseOut=&quot;hiddenInform_2(event)&quot; class=&quot;nocti_display_contents_ss&quot;&gt;  
+     &lt;div id=&quot;nocti_layer_pic_4&quot; class=&quot;nocti_float_2&quot;&gt;
+        &lt;img src=&quot;2.jpg&quot; alt=&quot;&quot;&gt;
+     &lt;/div&gt;
+     &lt;div id=&quot;nocti_content_custom_5&quot; class=&quot;nocti_float_2&quot;&gt;
+        &lt;ul&gt;
+          &lt;li&gt;我住在天朝帝都，一名叫做杰克的狗&lt;/li&gt;
+          &lt;li&gt;我住在天朝帝都，一名叫做杰克的狗&lt;/li&gt;
+          &lt;li&gt;我住在天朝帝都，一名叫做杰克的狗&lt;/li&gt;
+          &lt;li&gt;我住在天朝帝都，一名叫做杰克的狗&lt;/li&gt;
+          &lt;li&gt;我住在天朝帝都，一名叫做杰克的狗&lt;/li&gt;
+          &lt;li&gt;我住在天朝帝都，一名叫做杰克的狗&lt;/li&gt;
+          &lt;li&gt;我住在天朝帝都，一名叫做杰克的狗&lt;/li&gt;
+          &lt;li&gt;我住在天朝帝都，一名叫做杰克的狗&lt;/li&gt;
+          &lt;li&gt;我住在天朝帝都，一名叫做杰克的狗&lt;/li&gt;
+          &lt;li&gt;我住在天朝帝都，一名叫做杰克的狗&lt;/li&gt;
+          &lt;li&gt;我住在天朝帝都，一名叫做杰克的狗&lt;/li&gt;
+          &lt;li&gt;我住在天朝帝都，一名叫做杰克的狗&lt;/li&gt;
+        &lt;/ul&gt;
+     &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/body&gt;  
+&lt;/html&gt; </code></pre>
+<p>根据原理：</p>
+<p>根据处理，我成功应用到wordpress上的是，如下：</p>
+<p><strong>css代码：</strong></p>
+<pre><code>/*鼠标悬浮显示javascript内容的代码 开始*/
+#nocti_app_container&#123;
+      position: relative;
+    &#125;
+#nocti_app_container ul&#123;
+  -webkit-padding-start: 20px;
+    margin-top: 0px;
+&#125;
+#nocti_inform_1&#123;
+    left: 230px;
+    top:200px;  
+    max-height: auto;           /* 设置最大高度，当高度达到此值时出现滚动条 */  
+    overflow: auto;              /* 自动添加滚动条 */  
+    box-shadow:0px 0px 10px #000;   /* 外阴影 */  
+    display: none;   /* 默认隐藏 */  
+&#125;
+
+#nocti_inform_2&#123; 
+    max-height: auto;           /* 设置最大高度，当高度达到此值时出现滚动条 */  
+    overflow: auto;              /* 自动添加滚动条 */  
+    box-shadow:0px 0px 10px #000;   /* 外阴影 */  
+    display: none;   /* 默认隐藏 */
+    left: 0px;
+    top: 200px;
+&#125;
+
+#nocti_inform_3&#123; 
+    max-height: auto;           /* 设置最大高度，当高度达到此值时出现滚动条 */  
+    overflow: auto;              /* 自动添加滚动条 */  
+    box-shadow:0px 0px 10px #000;   /* 外阴影 */  
+    display: none;   /* 默认隐藏 */
+    left:230px; 
+&#125;
+
+#nocti_inform_4&#123; 
+    max-height: auto;           /* 设置最大高度，当高度达到此值时出现滚动条 */  
+    overflow: auto;              /* 自动添加滚动条 */  
+    box-shadow:0px 0px 10px #000;   /* 外阴影 */  
+    display: none;   /* 默认隐藏 */
+    left: 0px;
+    top: 70px; 
+&#125;
+
+.nocti_float_2&#123;
+  float: left;
+  padding: 5px;
+  width: 43%;
+  max-width: 480px;
+&#125;
+
+.nocti_float_2 ul li&#123;
+  font-size: 14px !important;
+  line-height: 18px !important;
+&#125;
+
+.nocti_float_2 img&#123;
+  max-width: 600px;
+  width: 100%;
+&#125;
+
+
+.nocti_buttonss&#123;
+  display: block;
+  margin: 40px;
+  float: left;
+&#125;
+.nocti_display_contents_ss&#123;
+  position: absolute;  
+  top: 70px;
+  width: 100%;
+  z-index: 11120 !important; 
+  max-width: 480px;
+  background-color:rgb(111, 165, 243);
+&#125;
+/*.nocti_display_contents_ss:before&#123;
+  content: &#39;\25C8&#39;;
+  margin: 0px;
+  padding: 10px;
+  background: rgba(56, 132, 212, 0.72);
+&#125;*/
+
+.nocti_custome_close&#123;
+    float: right;
+    background: rgba(255, 255, 255, 0.37) !important;
+    padding: 0px 5px;
+    cursor: pointer;
+&#125;
+/*鼠标悬浮显示javascript内容的样式 结束*/</code></pre>
+<p>四个区域的代码分别如下：</p>
+<p>区域一：</p>
+<pre><code>&lt;div id=&quot;nocti_inform_1&quot;  onmouseover=&quot;javascript:showInform_1();&quot; onclick=&quot;javascript:showInform_1();&quot;  onmousemove=&quot;hiddenInform_1(event)&quot; class=&quot;nocti_display_contents_ss&quot;&gt;  
+     &lt;div id=&quot;nocti_layer_pic_1&quot; class=&quot;nocti_float_2&quot;&gt;
+        &lt;img src=&quot;http://img1.imgtn.bdimg.com/it/u=3744454695,2293072484&amp;fm=26&amp;gp=0.jpg&quot; alt=&quot;&quot;&gt;
+     &lt;/div&gt;
+     &lt;div id=&quot;nocti_content_custom_1&quot; class=&quot;nocti_float_2&quot;&gt;
+        &lt;ul&gt;
+          &lt;li&gt;编号5001车辆发车间隔异常&lt;/li&gt;
+          &lt;li&gt;编号5001车辆发车间隔异常&lt;/li&gt;
+          &lt;li&gt;编号5001车辆发车间隔异常&lt;/li&gt;
+          &lt;li&gt;编号5001车辆发车间隔异常&lt;/li&gt;
+          &lt;li&gt;编号5001车辆发车间隔异常&lt;/li&gt;
+          &lt;li&gt;编号5001车辆发车间隔异常&lt;/li&gt;
+        &lt;/ul&gt;
+     &lt;/div&gt;
+     &lt;a onclick=&quot;hiddenInform_1();&quot; class=&quot;nocti_custome_close&quot;&gt;close&lt;/a&gt;
+  &lt;/div&gt;</code></pre>
+<p>区域二：</p>
+<pre><code>&lt;div id=&quot;nocti_inform_2&quot;  onmouseover=&quot;javascript:showInform_2();&quot; onclick=&quot;javascript:showInform_2();&quot;  onmousemove=&quot;hiddenInform_2(event)&quot; class=&quot;nocti_display_contents_ss&quot;&gt;  
+     &lt;div id=&quot;nocti_layer_pic_2&quot; class=&quot;nocti_float_2&quot;&gt;
+        &lt;img src=&quot;http://img0.imgtn.bdimg.com/it/u=1581844854,2690543586&amp;fm=26&amp;gp=0.jpg&quot; alt=&quot;&quot;&gt;
+     &lt;/div&gt;
+     &lt;div id=&quot;nocti_content_custom_2&quot; class=&quot;nocti_float_2&quot;&gt;
+        &lt;ul&gt;
+          &lt;li&gt;编号5005车辆发车间隔异常&lt;/li&gt;
+          &lt;li&gt;编号5005车辆发车间隔异常&lt;/li&gt;
+          &lt;li&gt;编号5005车辆发车间隔异常&lt;/li&gt;
+          &lt;li&gt;编号5005车辆发车间隔异常&lt;/li&gt;
+          &lt;li&gt;编号5005车辆发车间隔异常&lt;/li&gt;
+          &lt;li&gt;编号5005车辆发车间隔异常&lt;/li&gt;
+        &lt;/ul&gt;
+     &lt;/div&gt;
+     &lt;a onclick=&quot;hiddenInform_2();&quot; class=&quot;nocti_custome_close&quot;&gt;close&lt;/a&gt;
+  &lt;/div&gt;</code></pre>
+<p>区域三：</p>
+<pre><code>&lt;div id=&quot;nocti_inform_3&quot;  onmouseover=&quot;javascript:showInform_3();&quot; onclick=&quot;javascript:showInform_3();&quot;  onmousemove=&quot;hiddenInform_3(event)&quot; class=&quot;nocti_display_contents_ss&quot;&gt;  
+     &lt;div id=&quot;nocti_layer_pic_3&quot; class=&quot;nocti_float_2&quot;&gt;
+        &lt;img src=&quot;http://att.huarenjie.com/attachment/forum/201605/04/123739chjc8hoefdnaxadj.jpg&quot; alt=&quot;&quot;&gt;
+     &lt;/div&gt;
+     &lt;div id=&quot;nocti_content_custom_3&quot; class=&quot;nocti_float_2&quot;&gt;
+        &lt;ul&gt;
+          &lt;li&gt;编号5003车辆发车间隔异常&lt;/li&gt;
+          &lt;li&gt;编号5003车辆发车间隔异常&lt;/li&gt;
+          &lt;li&gt;编号5003车辆发车间隔异常&lt;/li&gt;
+          &lt;li&gt;编号5003车辆发车间隔异常&lt;/li&gt;
+          &lt;li&gt;编号5003车辆发车间隔异常&lt;/li&gt;
+          &lt;li&gt;编号5003车辆发车间隔异常&lt;/li&gt;
+        &lt;/ul&gt;
+     &lt;/div&gt;
+
+     &lt;a onclick=&quot;hiddenInform_3(event);&quot; class=&quot;nocti_custome_close&quot;&gt;close&lt;/a&gt;
+  &lt;/div&gt;</code></pre>
+<p>区域四：</p>
+<pre><code>&lt;div id=&quot;nocti_inform_4&quot;  onmouseover=&quot;javascript:showInform_4();&quot; onclick=&quot;javascript:showInform_4();&quot; onmousemove=&quot;hiddenInform_4(event)&quot; class=&quot;nocti_display_contents_ss&quot;&gt;  
+     &lt;div id=&quot;nocti_layer_pic_4&quot; class=&quot;nocti_float_2&quot;&gt;
+        &lt;img src=&quot;http://pic.zhutou.com/html/UploadPic/2010-2/201021017139529.jpg&quot; alt=&quot;&quot;&gt;
+     &lt;/div&gt;
+     &lt;div id=&quot;nocti_content_custom_4&quot; class=&quot;nocti_float_2&quot;&gt;
+        &lt;ul&gt;
+          &lt;li&gt;编号5004车辆发车间隔异常&lt;/li&gt;
+          &lt;li&gt;编号5004车辆发车间隔异常&lt;/li&gt;
+          &lt;li&gt;编号5004车辆发车间隔异常&lt;/li&gt;
+          &lt;li&gt;编号5004车辆发车间隔异常&lt;/li&gt;
+          &lt;li&gt;编号5004车辆发车间隔异常&lt;/li&gt;
+          &lt;li&gt;编号5004车辆发车间隔异常&lt;/li&gt;
+        &lt;/ul&gt;
+     &lt;/div&gt;
+
+     &lt;a onclick=&quot;hiddenInform_4(event);&quot; class=&quot;nocti_custome_close&quot;&gt;close&lt;/a&gt;
+  &lt;/div&gt;</code></pre>
+<p>这些代码都是放在code里面，而不是放在文本里面，这是值得注意的。</p>
+<p>然后javascript代码放在最后，也可以放在同一个区域，最好在这个区域单独弄一个ID，以免把其他的区域弄乱了。</p>
+<p><img src="http://i.imgur.com/Zb7JLAr.png"></p>
+<p>我是这样放的，javascript主代码单独放一个区域也没关系，为了不必要的麻烦，最好这样放，提示：</p>
+<p>不能把javascript代码放在前面或者是这四个当中的任何一个的前面，因为javascript代码是流执行的，按照前后顺序执行的，否则会出错。</p>
+<p>javascript代码如下：</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+
+var articles=document.getElementById(&#39;nocti_custom_3&#39;).querySelectorAll(&#39;article&#39;);
+var article_1=articles[0];
+var article_2=articles[1];
+var article_3=articles[2];
+var article_4=articles[3];
+
+// 第一个
+article_1.onmouseover=function()&#123;
+  document.getElementById(&#39;nocti_inform_1&#39;).style.display=&#39;block&#39;;
+&#125;
+
+article_1.onclick=function(event)&#123;
+  event.preventDefault();
+  document.getElementById(&#39;nocti_inform_1&#39;).style.display=&#39;block&#39;;
+&#125;
+
+article_1.onmousemove=function(event)&#123;
+         var nocti_inform_1_Div = document.getElementById(&#39;nocti_inform_1&#39;);
+         var x=event.clientX;
+         var y=event.clientY;
+         var divx1 = nocti_inform_1_Div.offsetLeft;
+         var divy1 = nocti_inform_1_Div.offsetTop;
+         var divx2 = nocti_inform_1_Div.offsetLeft + nocti_inform_1_Div.offsetWidth;
+         var divy2 = nocti_inform_1_Div.offsetTop + nocti_inform_1_Div.offsetHeight;
+         if( x &lt; divx1 || x &gt; divx2 || y &lt; divy1 || y &gt; divy2)&#123;
+              document.getElementById(&#39;nocti_inform_1&#39;).style.display=&#39;none&#39;;
+         &#125;
+&#125;
+
+
+function showInform_1()&#123;
+        document.getElementById(&quot;nocti_inform_1&quot;).style.display=&#39;block&#39;;
+        document.getElementById(&quot;nocti_inform_2&quot;).style.display=&#39;none&#39;;
+        document.getElementById(&quot;nocti_inform_3&quot;).style.display=&#39;none&#39;;
+        document.getElementById(&quot;nocti_inform_4&quot;).style.display=&#39;none&#39;;
+
+&#125;
+
+function hiddenInform_1(event)&#123;
+         var nocti_inform_1_Div = document.getElementById(&#39;nocti_inform_1&#39;);
+         var x=event.clientX;
+         var y=event.clientY;
+         var divx1 = nocti_inform_1_Div.offsetLeft;
+         var divy1 = nocti_inform_1_Div.offsetTop;
+         var divx2 = nocti_inform_1_Div.offsetLeft + nocti_inform_1_Div.offsetWidth;
+         var divy2 = nocti_inform_1_Div.offsetTop + nocti_inform_1_Div.offsetHeight;
+         if( x &lt; divx1 || x &gt; divx2 || y &lt; divy1 || y &gt; divy2)&#123;
+              document.getElementById(&#39;nocti_inform_1&#39;).style.display=&#39;none&#39;;
+         &#125;
+&#125;
+
+
+
+// 第二个
+article_2.onmouseover=function()&#123;
+  document.getElementById(&#39;nocti_inform_2&#39;).style.display=&#39;block&#39;;
+&#125;
+
+article_2.onclick=function(event)&#123;
+  event.preventDefault();
+  document.getElementById(&#39;nocti_inform_2&#39;).style.display=&#39;block&#39;;
+&#125;
+
+article_2.onmousemove=function(event)&#123;
+   var nocti_inform_1_Div = document.getElementById(&#39;nocti_inform_2&#39;);
+   var x=event.clientX;
+   var y=event.clientY;
+   var divx1 = nocti_inform_1_Div.offsetLeft;
+   var divy1 = nocti_inform_1_Div.offsetTop;
+   var divx2 = nocti_inform_1_Div.offsetLeft + nocti_inform_1_Div.offsetWidth;
+   var divy2 = nocti_inform_1_Div.offsetTop + nocti_inform_1_Div.offsetHeight;
+   if( x &lt; divx1 || x &gt; divx2 || y &lt; divy1 || y &gt; divy2)&#123;
+        document.getElementById(&#39;nocti_inform_2&#39;).style.display=&#39;none&#39;;
+   &#125;
+&#125;
+
+
+function showInform_2()&#123;
+        document.getElementById(&quot;nocti_inform_1&quot;).style.display=&#39;none&#39;;
+        document.getElementById(&quot;nocti_inform_2&quot;).style.display=&#39;block&#39;;
+        document.getElementById(&quot;nocti_inform_3&quot;).style.display=&#39;none&#39;;
+        document.getElementById(&quot;nocti_inform_4&quot;).style.display=&#39;none&#39;;
+&#125;
+
+function hiddenInform_2(event)&#123;
+   var nocti_inform_1_Div = document.getElementById(&#39;nocti_inform_2&#39;);
+   var x=event.clientX;
+   var y=event.clientY;
+   var divx1 = nocti_inform_1_Div.offsetLeft;
+   var divy1 = nocti_inform_1_Div.offsetTop;
+   var divx2 = nocti_inform_1_Div.offsetLeft + nocti_inform_1_Div.offsetWidth;
+   var divy2 = nocti_inform_1_Div.offsetTop + nocti_inform_1_Div.offsetHeight;
+   if( x &lt; divx1 || x &gt; divx2 || y &lt; divy1 || y &gt; divy2)&#123;
+        document.getElementById(&#39;nocti_inform_2&#39;).style.display=&#39;none&#39;;
+   &#125;
+&#125;
+
+
+// 第三个
+article_3.onmouseover=function()&#123;
+  document.getElementById(&#39;nocti_inform_3&#39;).style.display=&#39;block&#39;;
+&#125;
+
+article_3.onclick=function(event)&#123;
+  event.preventDefault();
+  document.getElementById(&#39;nocti_inform_3&#39;).style.display=&#39;block&#39;;
+&#125;
+
+article_3.onmousemove=function(event)&#123;
+   var nocti_inform_1_Div = document.getElementById(&#39;nocti_inform_3&#39;);
+   var x=event.clientX;
+   var y=event.clientY;
+   var divx1 = nocti_inform_1_Div.offsetLeft;
+   var divy1 = nocti_inform_1_Div.offsetTop;
+   var divx2 = nocti_inform_1_Div.offsetLeft + nocti_inform_1_Div.offsetWidth;
+   var divy2 = nocti_inform_1_Div.offsetTop + nocti_inform_1_Div.offsetHeight;
+   if( x &lt; divx1 || x &gt; divx2 || y &lt; divy1 || y &gt; divy2)&#123;
+        document.getElementById(&#39;nocti_inform_3&#39;).style.display=&#39;none&#39;;
+   &#125;
+&#125;
+
+
+function showInform_3()&#123;
+        document.getElementById(&quot;nocti_inform_1&quot;).style.display=&#39;none&#39;;
+        document.getElementById(&quot;nocti_inform_2&quot;).style.display=&#39;none&#39;;
+        document.getElementById(&quot;nocti_inform_3&quot;).style.display=&#39;block&#39;;
+        document.getElementById(&quot;nocti_inform_4&quot;).style.display=&#39;none&#39;;
+
+&#125;
+
+function hiddenInform_3(event)&#123;
+   var nocti_inform_1_Div = document.getElementById(&#39;nocti_inform_3&#39;);
+   var x=event.clientX;
+   var y=event.clientY;
+   var divx1 = nocti_inform_1_Div.offsetLeft;
+   var divy1 = nocti_inform_1_Div.offsetTop;
+   var divx2 = nocti_inform_1_Div.offsetLeft + nocti_inform_1_Div.offsetWidth;
+   var divy2 = nocti_inform_1_Div.offsetTop + nocti_inform_1_Div.offsetHeight;
+   if( x &lt; divx1 || x &gt; divx2 || y &lt; divy1 || y &gt; divy2)&#123;
+        document.getElementById(&#39;nocti_inform_3&#39;).style.display=&#39;none&#39;;
+   &#125;
+&#125;
+
+
+// 第四个
+article_4.onmouseover=function()&#123;
+  document.getElementById(&#39;nocti_inform_4&#39;).style.display=&#39;block&#39;;
+&#125;
+
+article_4.onclick=function(event)&#123;
+  event.preventDefault();
+  document.getElementById(&#39;nocti_inform_4&#39;).style.display=&#39;block&#39;;
+&#125;
+
+article_4.onmousemove=function(event)&#123;
+   var nocti_inform_1_Div = document.getElementById(&#39;nocti_inform_4&#39;);
+   var x=event.clientX;
+   var y=event.clientY;
+   var divx1 = nocti_inform_1_Div.offsetLeft;
+   var divy1 = nocti_inform_1_Div.offsetTop;
+   var divx2 = nocti_inform_1_Div.offsetLeft + nocti_inform_1_Div.offsetWidth;
+   var divy2 = nocti_inform_1_Div.offsetTop + nocti_inform_1_Div.offsetHeight;
+   if( x &lt; divx1 || x &gt; divx2 || y &lt; divy1 || y &gt; divy2)&#123;
+        document.getElementById(&#39;nocti_inform_4&#39;).style.display=&#39;none&#39;;
+   &#125;
+&#125;
+
+
+function showInform_4()&#123;
+        document.getElementById(&quot;nocti_inform_1&quot;).style.display=&#39;none&#39;;
+        document.getElementById(&quot;nocti_inform_2&quot;).style.display=&#39;none&#39;;
+        document.getElementById(&quot;nocti_inform_3&quot;).style.display=&#39;none&#39;;
+        document.getElementById(&quot;nocti_inform_4&quot;).style.display=&#39;block&#39;;
+
+&#125;
+
+function hiddenInform_4(event)&#123;
+   var nocti_inform_1_Div = document.getElementById(&#39;nocti_inform_4&#39;);
+   var x=event.clientX;
+   var y=event.clientY;
+   var divx1 = nocti_inform_1_Div.offsetLeft;
+   var divy1 = nocti_inform_1_Div.offsetTop;
+   var divx2 = nocti_inform_1_Div.offsetLeft + nocti_inform_1_Div.offsetWidth;
+   var divy2 = nocti_inform_1_Div.offsetTop + nocti_inform_1_Div.offsetHeight;
+   if( x &lt; divx1 || x &gt; divx2 || y &lt; divy1 || y &gt; divy2)&#123;
+        document.getElementById(&#39;nocti_inform_4&#39;).style.display=&#39;none&#39;;
+   &#125;
+&#125;
+
+&lt;/script&gt;</code></pre>
+<p>这里面有些冗余，我暂且不说了，其实代码还可以写得更优雅。</p>
+<p>简单的这样复制粘贴可能不会出效果，因为，我这里用了一些ID和class，还有区域，用错任何一个地方都可能不会出现预期的效果。之所以记录下来，旨在参考，这里面有四个article，通过选择器选择，分别对这四个进行事件处理程序的添加，然后达到效果。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/07/07/querySelector%E5%92%8CquerySelectorAll%E9%80%89%E6%8B%A9%E5%85%83%E7%B4%A0%E7%A4%BA%E4%BE%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/07/07/querySelector%E5%92%8CquerySelectorAll%E9%80%89%E6%8B%A9%E5%85%83%E7%B4%A0%E7%A4%BA%E4%BE%8B/" class="post-title-link" itemprop="url">querySelector和querySelectorAll选择元素示例</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-07-07 16:50:50" itemprop="dateCreated datePublished" datetime="2017-07-07T16:50:50+08:00">2017-07-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:18" itemprop="dateModified" datetime="2020-10-11T11:53:18+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/32/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/32/">32</a><span class="page-number current">33</span><a class="page-number" href="/page/34/">34</a><span class="space">&hellip;</span><a class="page-number" href="/page/43/">43</a><a class="extend next" rel="next" href="/page/34/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

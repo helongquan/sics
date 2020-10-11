@@ -1,37 +1,618 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="这篇文章对应的原文地址：https:&#x2F;&#x2F;devdocs.magento.com&#x2F;guides&#x2F;m1x&#x2F;magefordev&#x2F;mage-for-dev-6.html 在所有快节奏开发部署的项目里，保持开发环境与生产环境的数据库同步是一件非常头疼的事情。Magento内置了版本资源移植脚本，能够帮助开发团队在开发过程中很好的解决这个问题。 在Magento模型与ORM基础一文中，我们为Weblog模块">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Magento开发文档(六):Magento模型启动资源">
+<meta property="og:url" content="http://example.com/2018/08/16/Magento%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3-%E5%85%AD-Magento%E6%A8%A1%E5%9E%8B%E5%90%AF%E5%8A%A8%E8%B5%84%E6%BA%90/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="这篇文章对应的原文地址：https:&#x2F;&#x2F;devdocs.magento.com&#x2F;guides&#x2F;m1x&#x2F;magefordev&#x2F;mage-for-dev-6.html 在所有快节奏开发部署的项目里，保持开发环境与生产环境的数据库同步是一件非常头疼的事情。Magento内置了版本资源移植脚本，能够帮助开发团队在开发过程中很好的解决这个问题。 在Magento模型与ORM基础一文中，我们为Weblog模块">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-08-16T12:46:34.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:00.942Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="magento,magento开发,magento1.x,模型，启动资源">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2018/08/16/Magento%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3-%E5%85%AD-Magento%E6%A8%A1%E5%9E%8B%E5%90%AF%E5%8A%A8%E8%B5%84%E6%BA%90/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>Magento开发文档(六):Magento模型启动资源 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/08/16/Magento%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3-%E5%85%AD-Magento%E6%A8%A1%E5%9E%8B%E5%90%AF%E5%8A%A8%E8%B5%84%E6%BA%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Magento开发文档(六):Magento模型启动资源
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-08-16 20:46:34" itemprop="dateCreated datePublished" datetime="2018-08-16T20:46:34+08:00">2018-08-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:00" itemprop="dateModified" datetime="2020-10-11T11:58:00+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/magento1/" itemprop="url" rel="index"><span itemprop="name">magento1</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这篇文章对应的原文地址：<a target="_blank" rel="noopener" href="https://devdocs.magento.com/guides/m1x/magefordev/mage-for-dev-6.html">https://devdocs.magento.com/guides/m1x/magefordev/mage-for-dev-6.html</a></p>
+<p>在所有快节奏开发部署的项目里，保持开发环境与生产环境的数据库同步是一件非常头疼的事情。Magento内置了版本资源移植脚本，能够帮助开发团队在开发过程中很好的解决这个问题。</p>
+<p>在Magento模型与ORM基础一文中，我们为Weblog模块创建了一个模型，因为演示目的，当时手动创建的数据库。这次，我们为模型创建一个启动资源(Setup Resource)，让Magento自动创建表。接下来，我们还会创建一个升级安装资源脚本，从而实现模型的自动升级。本节介绍的内容大概分为以下几步。</p>
+<ul>
+<li>添加启动资源配置文件</li>
+<li>创建启动资源类文件</li>
+<li>创建安装脚本</li>
+<li>创建升级脚本</li>
+</ul>
+<h2 id="添加启动资源配置文件"><a href="#添加启动资源配置文件" class="headerlink" title="添加启动资源配置文件"></a>添加启动资源配置文件</h2><p>继续使用上一篇教程中创建的weblog模块。在<code>&lt;resources /&gt;</code>节点中，添加下列配置文件，</p>
+<pre><code>&lt;resources&gt;
+    &lt;!-- ... --&gt;
+    &lt;weblog_setup&gt;  &lt;!-- 添加启动资源配置文件 ，&lt;weblog_setup&gt;标签用来用来识别该启动资源,这个标签就是模块下的sql目录下的weblog_setup目录名--&gt;
+            &lt;setup&gt;
+                &lt;module&gt;Magentotutorial_Weblog&lt;/module&gt;
+                &lt;class&gt;Magentotutorial_Weblog_Model_Resource_Setup&lt;/class&gt;
+            &lt;/setup&gt;
+            &lt;connection&gt;
+                &lt;use&gt;core_setup&lt;/use&gt;
+            &lt;/connection&gt;
+     &lt;/weblog_setup&gt;
+    &lt;!-- ... --&gt;
+&lt;/resources&gt;</code></pre>
+<p><code>&lt;weblog_setup&gt;</code>标签用来用来识别该启动资源。Magento建议该命名使用”模块名<code>_setup</code>”的格式。<code>&lt;module /&gt;</code>标签必须包含当前“命名空间_模块名”。<code>&lt;class /&gt;</code>指定我们为该模块创建的启动资源类名。对于简单的启动资源脚本，我们不需要创建自定义的类文件，当然应用自定义的启动资源脚本，更灵活，更易于扩展。</p>
+<p>添加上述内容到配置文件之后，清空缓存，浏览Magento的任意界面，系统将会抛出如下异常，</p>
+<pre><code>Fatal error: Class ‘Magentotutorial_Weblog_Model_Resource_Setup’ not found in</code></pre>
+<p>Magento试图实例化我们刚刚在配置文件中指定的启动资源类，系统提示无法找到该类。我们在如下路径创建该文件。</p>
+<pre><code>File: app/code/local/Magentotutorial/Weblog/Model/Resource/Setup.php</code></pre>
+<p>Setup.php代码：</p>
+<pre><code>&lt;?php 
+class Magentotutorial_Weblog_Model_Resource_Setup extends Mage_Core_Model_Resource_Setup &#123;
+
+&#125;
+?&gt;</code></pre>
+<p>完成之后，重新刷新页面，页面就能够正常显示了。到这里，启动资源配置文件初步完成。</p>
+<h2 id="创建安装脚本"><a href="#创建安装脚本" class="headerlink" title="创建安装脚本"></a>创建安装脚本</h2><p>接下来，开始创建安装脚本。该脚本会包含CREATE TABLE或其他SQL代码，用来初始化该模块。首先，回忆下配置文件，</p>
+<pre><code>&lt;modules&gt;
+    &lt;Magentotutorial_Weblog&gt;
+        &lt;version&gt;0.1.0&lt;/version&gt;
+    &lt;/Magentotutorial_Weblog&gt;
+&lt;/modules&gt;</code></pre>
+<p>这部分是所有配置文件必须的，用来识别一个模块的版本号。安装脚本的命名就需要依据此版本号。我们假设当前weblog模块的版本号为0.1.0。</p>
+<p>在下列路径创建启动脚本：</p>
+<pre><code>File: app/code/local/Magentotutorial/Weblog/sql/weblog_setup/mysql4-install-0.1.0.php</code></pre>
+<p>并暂时写入下列代码到这个启动脚本文件(mysql4-install-0.1.0.php)中：</p>
+<pre><code>&lt;?php
+echo &#39;Running This Upgrade: &#39;.get_class($this).&quot;\n &lt;br /&gt; \n&quot;;
+die(&quot;Exit for now&quot;);
+?&gt;</code></pre>
+<p>上述路径的<code>weblog_setup</code>部分必须匹配在配置文件中设置的<code>&lt;weblog_setup&gt;</code>标签。0.1.0匹配的是在模块中填写的<code>&lt;version&gt;</code>版本号。清空Magento缓存，访问任意页面，会看到如下内容，</p>
+<pre><code>unning This Upgrade: Magentotutorial_Weblog_Model_Resource_Setup
+Exit for now
+…</code></pre>
+<p>这说明安装脚本正常运行了。这里为了演示目的，没有加入SQL代码，我们只专注于安装机制本身。现在移除<code>die()</code>语句，保留以下部分。</p>
+<pre><code>echo &#39;Running This Upgrade: &#39;.get_class($this).&quot;\n &lt;br /&gt; \n&quot;;</code></pre>
+<p>刷新页面，页面会显示升级成功的消息。再次刷新，就会显示正常页面了。</p>
+<h2 id="启动资源版本"><a href="#启动资源版本" class="headerlink" title="启动资源版本"></a>启动资源版本</h2><p>Magento的启动资源能够自动运行安装脚本，你只需要将正确的代码放入安装脚本，或者升级脚本当中。由于版本号的原因，你可以保留所有的脚本，便于查看各个版本中数据库结构的变动。</p>
+<p>使用你最喜欢的数据库客户端，查看<code>core_resource</code>表，</p>
+<pre><code>mysql&gt; select * from core_resource;</code></pre>
+<p>该表包含所有已安装的模块及其版本号，可以在底部看到我们创建的weblog模块。</p>
+<pre><code>| weblog_setup            | 0.1.0      | 0.1.0        |</code></pre>
+<p>该表的记录也是Magento知道如何避免重复运行安装、更新脚本的原因。如果在开发阶段，你想让系统重新运行安装脚本，可以从该表中删除相应的模块记录。在上面的演示过程中，系统运行了weblog的安装脚本，当时脚本中还不包含任何SQL内容，这里我们删除<code>weblog_setup</code>记录，并在安装脚本中写入实际的SQL代码，创建weblog的表。</p>
+<p>首先，运行一下语句删除<code>weblog_setup</code>记录（当然，你可以在phpmyadmin中直接点击删除按钮）。</p>
+<pre><code>DELETE from core_resource where code = &#39;weblog_setup&#39;;</code></pre>
+<p>然后，删除我们在《<a target="_blank" rel="noopener" href="https://helongquan.github.io/2018/08/16/Magento%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3-%E4%BA%94-Magento%E6%A8%A1%E5%9E%8B%E4%B8%8EORM%E5%9F%BA%E7%A1%80/">Magento模型与ORM基础</a>》建立的<code>blog_posts</code>表，因为我们这里即将使用启动资源重新建立该表。</p>
+<pre><code>DROP TABLE blog_posts;</code></pre>
+<p>接着，添加下列SQL代码到启动脚本(mysql4-install-0.1.0.php)中，</p>
+<pre><code>&lt;?php
+// 方式一
+$installer = $this;
+$installer-&gt;startSetup();
+$installer-&gt;run(&quot;
+    CREATE TABLE `&#123;$installer-&gt;getTable(&#39;weblog/blogpost&#39;)&#125;` (
+        `blogpost_id` int(11) NOT NULL auto_increment,
+        `title` text,
+        `post` text,
+        `date` datetime default NULL,
+        `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP,
+        PRIMARY KEY (`blogpost_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+INSERT INTO `&#123;$installer-&gt;getTable(&#39;weblog/blogpost&#39;)&#125;` VALUES (1,&#39;My New Title&#39;,&#39;This is a blog post&#39;,&#39;2009-07-01 00:00:00&#39;,&#39;2009-07-02 23:12:30&#39;);
+&quot;);
+$installer-&gt;endSetup();
+?&gt;</code></pre>
+<p>当然还可以采用第二种方式：</p>
+<pre><code>&lt;?php
+// 方式二
+$installer = $this;
+$installer-&gt;startSetup();
+$table = $installer-&gt;getConnection()-&gt;newTable($installer-&gt;getTable(&#39;weblog/blogpost&#39;))
+    -&gt;addColumn(&#39;blogpost_id&#39;, Varien_Db_Ddl_Table::TYPE_INTEGER, null, array(
+        &#39;unsigned&#39; =&gt; true,
+        &#39;nullable&#39; =&gt; false,
+        &#39;primary&#39; =&gt; true,
+        &#39;identity&#39; =&gt; true,
+        ), &#39;Blogpost ID&#39;)
+    -&gt;addColumn(&#39;title&#39;, Varien_Db_Ddl_Table::TYPE_TEXT, null, array(
+        &#39;nullable&#39; =&gt; false,
+        ), &#39;Blogpost Title&#39;)
+    -&gt;addColumn(&#39;post&#39;, Varien_Db_Ddl_Table::TYPE_TEXT, null, array(
+        &#39;nullable&#39; =&gt; true,
+        ), &#39;Blogpost Body&#39;)
+    -&gt;addColumn(&#39;date&#39;, Varien_Db_Ddl_Table::TYPE_DATETIME, null, array(
+        ), &#39;Blogpost Date&#39;)
+    -&gt;addColumn(&#39;timestamp&#39;, Varien_Db_Ddl_Table::TYPE_TIMESTAMP, null, array(
+        ), &#39;Timestamp&#39;)
+    -&gt;setComment(&#39;Magentotutorial weblog/blogpost entity table&#39;);
+$installer-&gt;getConnection()-&gt;createTable($table);
+$installer-&gt;run(&quot;INSERT INTO `&#123;$installer-&gt;getTable(&#39;weblog/blogpost&#39;)&#125;` VALUES (1,&#39;My New Title&#39;,&#39;This is a blog post&#39;,&#39;2009-07-01 00:00:00&#39;,&#39;2009-07-02 23:12:30&#39;)&quot;);
+$installer-&gt;endSetup();
+
+?&gt;</code></pre>
+<p>把以上的两种方式中的任何一种方式，加入到启动脚本中，保存。</p>
+<p><strong>这里值得说明的是：</strong><br>对于RDBMS不可知的脚本的情况下采用方式二比较合适，因为从版本1.6开始，Magento（理论上）支持更多的数据库后端，然后只支持MySQL。由于我们的安装脚本包含原始SQL语句，因此它可能无法在其他数据库系统上正常运行，例如MSSQL。因此，安装脚本名称是前缀带有mysql4的字符串。</p>
+<p>为了使安装脚本与数据库兼容，Magento提供了DDL（数据定义语言）表对象。所以方式二是我们的安装脚本的替代版本，可以在任何受支持的RDBMS上运行。如果确保实在Mysql上运行的话，那么用方式一就可以了，经过笔者实践，这两种都是OK的。方式二只是针对兼容性，在不可知的数据库管理系统中就用方式二。</p>
+<p>清空Magento缓存，访问任意页面，一切正常的话，重新打开数据库，会见到blog_posts表创建成功了。</p>
+<p>如果想多次测试的话，需要删除两个地方：</p>
+<p>1.删除我们上面创建的数据表：blog_posts。</p>
+<p>2.删除<code>core_resource</code>表中的<code>weblog_setup</code>记录，</p>
+<pre><code>DELETE from core_resource where code = &#39;weblog_setup&#39;;</code></pre>
+<p>3.然后在浏览器中输入weblog模块的路由下的任何地址：</p>
+<pre><code>http://yourdomain.com/weblog/*</code></pre>
+<p>比如：</p>
+<pre><code>http://yourdomain.com/weblog/index/showAllBlogPosts</code></pre>
+<p>这个时候，我们就看到了浏览器显示了如下内容：</p>
+<pre><code>My New Title
+This is a blog post</code></pre>
+<p>道理很简单，因为这里引用了控制器（IndexController.php）下的这个方法：</p>
+<pre><code>public function showAllBlogPostsAction() &#123;
+    $posts = Mage::getModel(&#39;weblog/blogpost&#39;)-&gt;getCollection();
+    foreach($posts as $blog_post)&#123;
+        echo &#39;&lt;p&gt;&#39;.$blog_post-&gt;getTitle().&#39;&lt;/p&gt;&#39;;
+        echo nl2br($blog_post-&gt;getPost());
+    &#125;
+&#125;</code></pre>
+<p>显示了安装脚本里插入的一条数据记录，因为只插入了一条，所以就显示了一条记录的标题（title字段）和记录的内容（post字段）。</p>
+<p>接着，我们去数据库看下，发现blog_posts表也被添加了。</p>
+<h2 id="Magento启动脚本详解"><a href="#Magento启动脚本详解" class="headerlink" title="Magento启动脚本详解"></a>Magento启动脚本详解</h2><p>一起来看下这个启动脚本，首先，第一行中有个$this。</p>
+<pre><code>$installer = $this;</code></pre>
+<p>安装脚本都是在启动资源类的上下文中运行的，所以上面的$this表示的就是启动资源类。也就是说，在安装脚本中，任何对于$this的引用都是对于启动资源类对象的引用。在核心模块的启动脚本中，Magento团队都将该对象的引用赋值给$installer变量，当然这并不是必须的，但是从Magento团队的做法来看，这也算是一个最佳实践。</p>
+<p>继续解析启动脚本，上面的代码前后调用了两个方法</p>
+<pre><code>$installer-&gt;startSetup();
+//...
+$instaler-&gt;endSetup();</code></pre>
+<p>如果你看过<code>Mage_Core_Model_Resource_Setup</code>类(启动资源类继承自该类)，路径位于app/code/core/Mage/Core/Model/Resource/Setup.php，你会发现这些方法进行了一些基础的SQL操作。</p>
+<pre><code>public function startSetup() &#123;
+    $this-&gt;_conn-&gt;multi_query(&quot;SET SQL_MODE=&#39;&#39;;
+        SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+        SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE=&#39;NO_AUTO_VALUE_ON_ZERO&#39;;
+    &quot;);
+    return $this;
+&#125;
+
+public function endSetup() &#123;
+    $this-&gt;_conn-&gt;multi_query(&quot;
+        SET SQL_MODE=IFNULL(@OLD_SQL_MODE,&#39;&#39;);
+        SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS,0);
+    &quot;);
+    return $this;
+&#125;</code></pre>
+<p>这些基本语句大家应该很熟悉了，就不多做解释。接着再看启动脚本中的最后一块，<code>run()</code>方法。</p>
+<pre><code>$installer-&gt;run(...);</code></pre>
+<p>该方法的参数包含创建数据库表的所有SQL语句，就想在命令行中键入的命令一样。可以在这个参数中指定任意数量的SQL语句，只需要用分号隔开每条SQL语句即可。当然，可能你还注意到了下面这个方法，</p>
+<pre><code>$installer-&gt;getTable(&#39;weblog/blogpost&#39;);</code></pre>
+<p>getTable()方法需要一个Magento模型URI作为参数，返回表名。当然你也可以硬编码为该表的名字，这里之所以使用这个方法，主要是为了确保即使表名更改，也可以正常获取到修改后的表名。<code>Mage_Core_Model_Resource_Setup</code>类包含了许多类似getTable()的非常有用的助手方法。想要学习安装脚本，最后的办法就是看Magento核心代码中模块的SQL升级脚本。</p>
+<h2 id="模块升级"><a href="#模块升级" class="headerlink" title="模块升级"></a>模块升级</h2><p>上文中已经学习了如何利用Magento启动脚本创建数据库表，如果你想更改已经存在的数据库表的结构，该如何操作呢？Magento的启动资源支持简单的版本支持，能够自动运行脚本升级模块的数据库表结构。</p>
+<p>Magento模块的安装脚本只会运行一次，并且不会再次为这个模块运行另外一个安装脚本（当然，除非你手动从<code>core_resource</code>表中删除该记录）。所以，如果想更改表结构，可以创建一个升级脚本(upgrade script)。升级脚本和安装脚本非常类似，不同之处也会在下文中一一提到。</p>
+<p>首先，在下列路径创建升级脚本并填写如下内容，</p>
+<pre><code>File: app/code/local/Magentotutorial/Weblog/sql/weblog_setup/mysql4-upgrade-0.1.0-0.2.0.php:</code></pre>
+<p>mysql4-upgrade-0.1.0-0.2.0.php代码如下：</p>
+<pre><code>&lt;?php
+echo &#39;Testing our upgrade script (mysql4-upgrade-0.1.0-0.2.0.php) and halting execution to avoid updating the system version number &lt;br /&gt;&#39;;
+die();
+?&gt;</code></pre>
+<p>可以看到，升级脚本与安装脚本都在同样的文件夹中，命名方式稍有不同。最明显的是，升级脚本中包含upgrade。其次，包含两个版本号，用<code>“-”</code>分隔开。第一个版本号(0.1.0)是我们要升级的模块的版本号。第二个(0.2.0)是当前模块要升级到的版本号。</p>
+<p>清空Magento缓存，访问任意页面，可以看到脚本并不会运行。我们需要更新配置文件中的版本号来促发更新脚本，把原来的配置文件里的版本0.1.0改成0.2.0</p>
+<pre><code>&lt;modules&gt;
+    &lt;Magentotutorial_Weblog&gt;
+        &lt;version&gt;0.2.0&lt;/version&gt;
+    &lt;/Magentotutorial_Weblog&gt;
+&lt;/modules&gt;</code></pre>
+<p>完成配置文件版本号修改之后，清空Magento缓存，访问任意页面，就能看到升级脚本输出了上述echo语句，注意这里使用了<code>die()</code>语句组织了脚本继续运行，所以<code>core_resource</code>表中该模块的版本号依然为0.1.0。</p>
+<p>在进行实际的更新脚本之前，还有一个很重要的细节需要注意到。在如下路径创建另外一个升级脚本，如下。</p>
+<pre><code>File: app/code/local/Magentotutorial/Weblog/sql/weblog_setup/mysql4-upgrade-0.1.0-0.1.5.php:</code></pre>
+<p>mysql4-upgrade-0.1.0-0.1.5.php代码如下：</p>
+<pre><code>&lt;?php
+echo &#39;Testing our upgrade script (mysql4-upgrade-0.1.0-0.1.5.php) and NOT halting execution &lt;br /&gt;&#39;;
+?&gt;</code></pre>
+<p>访问任意页面，你会发现，页面中会显示两个升级脚本里的内容。Magento在发现某个模块的版本号有变化时，系统会自动运行所有的升级脚本。尽管我们并没有实际创建该模块的0.1.5版本，Magento默认已经读取到了升级脚本，所以就会尝试运行。并且，系统会自动按照版本号从低版本向高版本运行。</p>
+<p>查看下<code>core_resource</code>表，你会注意到Magento当前版本为0.1.5（mysql4-upgrade-0.1.0-0.1.5.php中没有die()或exit()组织脚本运行，所以当前模块的版本号已经被更新为0.1.5）。这是因为完全执行了0.1.0-0.1.5的升级，却没有完成0.1.0-0.2.0的升级。</p>
+<p>了解这些内容之后，让我们继续。首先开始编码0.1.0-0.2.0的升级脚本。把以下代码添加到</p>
+<pre><code>&lt;?php 
+$installer = $this;
+$installer-&gt;startSetup();
+$installer-&gt;run(&quot;
+ALTER TABLE `&#123;$installer-&gt;getTable(&#39;weblog/blogpost&#39;)&#125;`
+CHANGE post post text not null;
+&quot;);
+$installer-&gt;endSetup();
+die(&quot;You&#39;ll see why this is here in a second&quot;);
+ ?&gt;</code></pre>
+<p>完成之后访问任意页面。很好，你会发现系统没有提示你运行成功。也就是说升级脚本根本没有运行。post字段还是Null值，更明显的是die()语句也同样没有执行。为什么会这样呢？</p>
+<ul>
+<li>weblog_setup资源的版本是0.1.0</li>
+<li>我们需要升级该模块到0.2.0</li>
+<li>Magento系统查找升级脚本，其中有两个脚本需要运行，0.1.0-0.1.5和0.1.0-0.2.0。</li>
+<li>Magento系统按照版本号，从低到高自动运行上述两个脚本</li>
+<li>首先运行0.1.0-0.1.5</li>
+<li>完成之后，当前weblog_setup资源的版本号是0.1.5</li>
+<li>接着运行0.1.0-0.2.0脚本，执行停止了。</li>
+<li>上步停止的原因是，weblog_setup的版本号已经被升级为0.1.5，并没有发现任何0.1.5-0.2.0这种类似的脚本，因为上述两个脚本全部指示是从0.1.0的版本开始升级。</li>
+</ul>
+<p>实现这种连续升级的正确方法，应该是以下面的形式命名升级脚本，就是逐级命名。</p>
+<pre><code>mysql4-upgrade-0.1.0-0.1.5.php #This goes from 0.1.0 to 0.1.5
+mysql4-upgrade-0.1.5-0.2.0.php #This goes 0.1.5 to 0.2.0</code></pre>
+<p>这样的话，Magento就能够一次性运行这两个升级脚本了。</p>
+<h2 id="Magento启动资源总结"><a href="#Magento启动资源总结" class="headerlink" title="Magento启动资源总结"></a>Magento启动资源总结</h2><p>本篇主要讲了如何使用Magento启动资源创建不同版本的数据库脚本，现在你应该能够大概理解核心模块中的升级脚本的含义了。对于启动资源来说，除了方便开发者做数据库升级及移植外，对于创建和修改EAV模型有着更重要的作用。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/magento-magento%E5%BC%80%E5%8F%91-magento1-x-%E6%A8%A1%E5%9E%8B%EF%BC%8C%E5%90%AF%E5%8A%A8%E8%B5%84%E6%BA%90/" rel="tag"># magento,magento开发,magento1.x,模型，启动资源</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/08/16/Magento%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3-%E4%BA%94-Magento%E6%A8%A1%E5%9E%8B%E4%B8%8EORM%E5%9F%BA%E7%A1%80/" rel="prev" title="Magento开发文档(五):Magento模型与ORM基础">
+      <i class="fa fa-chevron-left"></i> Magento开发文档(五):Magento模型与ORM基础
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/08/17/hexo%E5%AE%89%E8%A3%85%E5%92%8C%E5%8D%B8%E8%BD%BD%E6%8F%92%E4%BB%B6%E7%9A%84%EF%BC%8C%E4%BB%A5%E5%8F%8A%E6%B7%BB%E5%8A%A0hexo%E5%8D%9A%E5%AE%A2%E7%9A%84%E4%B8%80%E4%BA%9B%E5%8A%9F%E8%83%BD/" rel="next" title="hexo安装和卸载插件的，以及添加hexo博客的一些功能，比如hexo的站点加速问题">
+      hexo安装和卸载插件的，以及添加hexo博客的一些功能，比如hexo的站点加速问题 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E5%90%AF%E5%8A%A8%E8%B5%84%E6%BA%90%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">添加启动资源配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC"><span class="nav-number">2.</span> <span class="nav-text">创建安装脚本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E8%B5%84%E6%BA%90%E7%89%88%E6%9C%AC"><span class="nav-number">3.</span> <span class="nav-text">启动资源版本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Magento%E5%90%AF%E5%8A%A8%E8%84%9A%E6%9C%AC%E8%AF%A6%E8%A7%A3"><span class="nav-number">4.</span> <span class="nav-text">Magento启动脚本详解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A8%A1%E5%9D%97%E5%8D%87%E7%BA%A7"><span class="nav-number">5.</span> <span class="nav-text">模块升级</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Magento%E5%90%AF%E5%8A%A8%E8%B5%84%E6%BA%90%E6%80%BB%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text">Magento启动资源总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

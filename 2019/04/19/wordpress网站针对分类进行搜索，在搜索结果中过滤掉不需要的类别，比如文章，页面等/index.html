@@ -1,37 +1,414 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="用过wordpress的人都知道，这个系统的搜索是整站搜索，搜索的结果包括文章，页面等等。搜索结果往往很多，不精准。  很多时候，我们希望搜索结果是精确的，比如笔者有个客户希望在wordpress里面能够输入维修师傅的所在的区域能够搜索出这个区域的所有维修师傅，那么这个时候用wordpress的默认的搜索功能就不行了。  这里，笔者推荐一个wordpress插件：Relevanssi 这个插件可以">
+<meta property="og:type" content="article">
+<meta property="og:title" content="wordpress网站针对分类进行搜索，在搜索结果中过滤掉不需要的类别，比如文章，页面等">
+<meta property="og:url" content="http://example.com/2019/04/19/wordpress%E7%BD%91%E7%AB%99%E9%92%88%E5%AF%B9%E5%88%86%E7%B1%BB%E8%BF%9B%E8%A1%8C%E6%90%9C%E7%B4%A2%EF%BC%8C%E5%9C%A8%E6%90%9C%E7%B4%A2%E7%BB%93%E6%9E%9C%E4%B8%AD%E8%BF%87%E6%BB%A4%E6%8E%89%E4%B8%8D%E9%9C%80%E8%A6%81%E7%9A%84%E7%B1%BB%E5%88%AB%EF%BC%8C%E6%AF%94%E5%A6%82%E6%96%87%E7%AB%A0%EF%BC%8C%E9%A1%B5%E9%9D%A2%E7%AD%89/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="用过wordpress的人都知道，这个系统的搜索是整站搜索，搜索的结果包括文章，页面等等。搜索结果往往很多，不精准。  很多时候，我们希望搜索结果是精确的，比如笔者有个客户希望在wordpress里面能够输入维修师傅的所在的区域能够搜索出这个区域的所有维修师傅，那么这个时候用wordpress的默认的搜索功能就不行了。  这里，笔者推荐一个wordpress插件：Relevanssi 这个插件可以">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/vw4q3hq.jpg">
+<meta property="og:image" content="https://i.imgur.com/0jBBzMM.jpg">
+<meta property="article:published_time" content="2019-04-19T07:22:21.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:03.447Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="过滤搜索,分类搜索,重写搜索,wordpress搜索,Relevanssi">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/vw4q3hq.jpg">
+
+<link rel="canonical" href="http://example.com/2019/04/19/wordpress%E7%BD%91%E7%AB%99%E9%92%88%E5%AF%B9%E5%88%86%E7%B1%BB%E8%BF%9B%E8%A1%8C%E6%90%9C%E7%B4%A2%EF%BC%8C%E5%9C%A8%E6%90%9C%E7%B4%A2%E7%BB%93%E6%9E%9C%E4%B8%AD%E8%BF%87%E6%BB%A4%E6%8E%89%E4%B8%8D%E9%9C%80%E8%A6%81%E7%9A%84%E7%B1%BB%E5%88%AB%EF%BC%8C%E6%AF%94%E5%A6%82%E6%96%87%E7%AB%A0%EF%BC%8C%E9%A1%B5%E9%9D%A2%E7%AD%89/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>wordpress网站针对分类进行搜索，在搜索结果中过滤掉不需要的类别，比如文章，页面等 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/04/19/wordpress%E7%BD%91%E7%AB%99%E9%92%88%E5%AF%B9%E5%88%86%E7%B1%BB%E8%BF%9B%E8%A1%8C%E6%90%9C%E7%B4%A2%EF%BC%8C%E5%9C%A8%E6%90%9C%E7%B4%A2%E7%BB%93%E6%9E%9C%E4%B8%AD%E8%BF%87%E6%BB%A4%E6%8E%89%E4%B8%8D%E9%9C%80%E8%A6%81%E7%9A%84%E7%B1%BB%E5%88%AB%EF%BC%8C%E6%AF%94%E5%A6%82%E6%96%87%E7%AB%A0%EF%BC%8C%E9%A1%B5%E9%9D%A2%E7%AD%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          wordpress网站针对分类进行搜索，在搜索结果中过滤掉不需要的类别，比如文章，页面等
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-04-19 15:22:21" itemprop="dateCreated datePublished" datetime="2019-04-19T15:22:21+08:00">2019-04-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:03" itemprop="dateModified" datetime="2020-10-11T11:58:03+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/wordpress/" itemprop="url" rel="index"><span itemprop="name">wordpress</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>用过wordpress的人都知道，这个系统的搜索是整站搜索，搜索的结果包括文章，页面等等。搜索结果往往很多，不精准。</p>
+<blockquote>
+<p>很多时候，我们希望搜索结果是精确的，比如笔者有个客户希望在wordpress里面能够输入维修师傅的所在的区域能够搜索出这个区域的所有维修师傅，那么这个时候用wordpress的默认的搜索功能就不行了。</p>
+</blockquote>
+<p>这里，笔者推荐一个wordpress插件：<a target="_blank" rel="noopener" href="https://wordpress.org/plugins/relevanssi/">Relevanssi</a></p>
+<p>这个插件可以对搜索进行重写，可以自己设定搜索的结果，比如笔者只允许搜索结果显示product，那么笔者输入某个关键词，而这个关键词可能在文章中，页面中，相册集中都存在，但是搜索结果只显示对产品的搜索。那么有了这个特性，那么我们就可以针对以上的那个问题给出方案了。</p>
+<p>我们可以以portfolio来作为方案，新建很多分类，把这些分类当做维修师傅所在的区域，维修师傅就是portfolio的单个内容，那么我们在这个插件里面设置一下只搜索portfolio即可。那么我们输入区域名称的话，那么属于这个区域的所有维修师傅就在搜索结果页面中显示了。</p>
+<p><img src="https://i.imgur.com/vw4q3hq.jpg"></p>
+<p>勾选了这个以后，然后重新创建这个索引即可，在Indexing—Build the index，点击这个按钮，会自动创建这个索引。</p>
+<p><img src="https://i.imgur.com/0jBBzMM.jpg"></p>
+<p>最后，保存一下：Save the options</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%BF%87%E6%BB%A4%E6%90%9C%E7%B4%A2-%E5%88%86%E7%B1%BB%E6%90%9C%E7%B4%A2-%E9%87%8D%E5%86%99%E6%90%9C%E7%B4%A2-wordpress%E6%90%9C%E7%B4%A2-Relevanssi/" rel="tag"># 过滤搜索,分类搜索,重写搜索,wordpress搜索,Relevanssi</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/03/29/%E5%88%A9%E7%94%A8magento2%E7%9A%84rest-api%E6%9D%A5%E8%8E%B7%E5%8F%96%E5%95%86%E5%9F%8E%E7%BD%91%E7%AB%99%E7%9A%84%E6%95%B0%E6%8D%AE%EF%BC%8C%E5%A6%82%E4%BA%A7%E5%93%81%EF%BC%8C%E7%94%A8%E6%88%B7%EF%BC%8C%E8%AE%A2%E5%8D%95%E7%AD%89%E7%AD%89%E4%BF%A1%E6%81%AF%EF%BC%8C%E4%BB%A5%E5%8F%8A%E5%80%9F%E5%8A%A9postman%E8%B0%83%E8%AF%95%E9%81%87%E5%88%B0%E7%9A%84%E5%90%84%E7%A7%8D%E5%9D%91/" rel="prev" title="利用magento2的rest api来获取商城网站的数据，如产品，用户，订单等等信息，以及借助postman调试遇到的各种坑">
+      <i class="fa fa-chevron-left"></i> 利用magento2的rest api来获取商城网站的数据，如产品，用户，订单等等信息，以及借助postman调试遇到的各种坑
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/04/24/%E5%9C%A8wordpress%E7%9A%84enfold%E4%B8%BB%E9%A2%98%E4%B8%AD%E9%80%9A%E8%BF%87js%E5%8A%A8%E6%80%81%E6%8F%92%E5%85%A5%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD%E5%88%B0%E8%8F%9C%E5%8D%95%E4%BD%8D%E7%BD%AE%E4%BB%A5%E8%A7%A3%E5%86%B3%E5%9E%82%E7%9B%B4%E8%8F%9C%E5%8D%95%E6%B2%A1%E6%9C%89%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD%E7%9A%84%E9%97%AE%E9%A2%98/" rel="next" title="在wordpress的enfold主题中通过js动态插入搜索功能到菜单位置以解决垂直菜单没有搜索功能，以及让搜索框显示在菜单位置的问题">
+      在wordpress的enfold主题中通过js动态插入搜索功能到菜单位置以解决垂直菜单没有搜索功能，以及让搜索框显示在菜单位置的问题 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

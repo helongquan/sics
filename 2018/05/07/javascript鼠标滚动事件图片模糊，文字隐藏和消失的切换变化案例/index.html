@@ -1,37 +1,475 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="这个案例是基于苹果官网的效果而来的，客户想要鼠标悬浮的时候不需要特效，只有用户的鼠标在这个区域，滚动鼠标的时候，所在区域的图片相应的模糊，同时进行缩放，然后有文字状态由隐藏变成显示。当鼠标往上滚动的时候，图片变得清晰，同时放大，在这个过程中，文字状态由显示变成隐藏。 我们知道这个需求后，我们就进行定位问题，这个问题我们采用javascript方案，然后配合css的模糊特性和透明度来进行解决。 废话">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javascript鼠标滚动事件图片模糊，文字隐藏和消失的切换变化案例">
+<meta property="og:url" content="http://example.com/2018/05/07/javascript%E9%BC%A0%E6%A0%87%E6%BB%9A%E5%8A%A8%E4%BA%8B%E4%BB%B6%E5%9B%BE%E7%89%87%E6%A8%A1%E7%B3%8A%EF%BC%8C%E6%96%87%E5%AD%97%E9%9A%90%E8%97%8F%E5%92%8C%E6%B6%88%E5%A4%B1%E7%9A%84%E5%88%87%E6%8D%A2%E5%8F%98%E5%8C%96%E6%A1%88%E4%BE%8B/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="这个案例是基于苹果官网的效果而来的，客户想要鼠标悬浮的时候不需要特效，只有用户的鼠标在这个区域，滚动鼠标的时候，所在区域的图片相应的模糊，同时进行缩放，然后有文字状态由隐藏变成显示。当鼠标往上滚动的时候，图片变得清晰，同时放大，在这个过程中，文字状态由显示变成隐藏。 我们知道这个需求后，我们就进行定位问题，这个问题我们采用javascript方案，然后配合css的模糊特性和透明度来进行解决。 废话">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/XkcclI0.jpg">
+<meta property="og:image" content="https://i.imgur.com/txvI13P.jpg">
+<meta property="article:published_time" content="2018-05-07T07:42:25.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:57:58.067Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="javascript,鼠标滚动,图片模糊,文字隐藏,文字消失">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/XkcclI0.jpg">
+
+<link rel="canonical" href="http://example.com/2018/05/07/javascript%E9%BC%A0%E6%A0%87%E6%BB%9A%E5%8A%A8%E4%BA%8B%E4%BB%B6%E5%9B%BE%E7%89%87%E6%A8%A1%E7%B3%8A%EF%BC%8C%E6%96%87%E5%AD%97%E9%9A%90%E8%97%8F%E5%92%8C%E6%B6%88%E5%A4%B1%E7%9A%84%E5%88%87%E6%8D%A2%E5%8F%98%E5%8C%96%E6%A1%88%E4%BE%8B/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>javascript鼠标滚动事件图片模糊，文字隐藏和消失的切换变化案例 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/05/07/javascript%E9%BC%A0%E6%A0%87%E6%BB%9A%E5%8A%A8%E4%BA%8B%E4%BB%B6%E5%9B%BE%E7%89%87%E6%A8%A1%E7%B3%8A%EF%BC%8C%E6%96%87%E5%AD%97%E9%9A%90%E8%97%8F%E5%92%8C%E6%B6%88%E5%A4%B1%E7%9A%84%E5%88%87%E6%8D%A2%E5%8F%98%E5%8C%96%E6%A1%88%E4%BE%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          javascript鼠标滚动事件图片模糊，文字隐藏和消失的切换变化案例
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-05-07 15:42:25" itemprop="dateCreated datePublished" datetime="2018-05-07T15:42:25+08:00">2018-05-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:58" itemprop="dateModified" datetime="2020-10-11T11:57:58+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这个案例是基于苹果官网的效果而来的，客户想要鼠标悬浮的时候不需要特效，只有用户的鼠标在这个区域，滚动鼠标的时候，所在区域的图片相应的模糊，同时进行缩放，然后有文字状态由隐藏变成显示。当鼠标往上滚动的时候，图片变得清晰，同时放大，在这个过程中，文字状态由显示变成隐藏。</p>
+<p>我们知道这个需求后，我们就进行定位问题，这个问题我们采用javascript方案，然后配合css的模糊特性和透明度来进行解决。</p>
+<p>废话少说，代码贴上：</p>
+<pre><code>&lt;style type=&quot;text/css&quot;&gt;
+    .nocticontainer&#123;
+        position: relative;
+        //overflow: hidden;
+        height: auto;
+        text-align: center;
+    &#125;
+    .nocticontainer img&#123;
+        //width:1920px;
+        //height:600px;
+    &#125;
+    .description&#123;
+        position: absolute;
+        background: transparent;
+        top: 50%;
+        width: 320px;
+        left: 50%;
+        opacity: 0;
+        z-index: 999;
+    &#125;
+    @media (max-width:767px)&#123;
+        .description &#123;
+            position: absolute;
+            background: transparent;
+            top: 10%;
+            width: 100%;
+            left: 0% !important;
+            opacity: 0;
+            z-index: 999;
+        &#125;
+    &#125;
+&lt;/style&gt;
+
+&lt;script language=&quot;javascript&quot;&gt;
+function bigimg(obj) &#123;
+    //obj是一个对象，初始时obj并没有zoom属性，所以给zoom赋值为100；
+    var zoom = parseInt(obj.style.zoom)||100;
+    console.log(zoom);
+    //每次滚动鼠标时，改变zoom的大小
+    //event.wheelDelta有两个值，120，-120，取值情况取决于滚动鼠标的方向
+    var delta = event.wheelDelta;
+    zoom += delta/12;//每次滚动加减
+    if (zoom &gt;= 41 &amp;&amp; zoom &lt;=100) &#123;
+        obj.style.zoom = zoom+&quot;%&quot;;
+        //更改后的zoom赋值给obj
+        // console.log(obj.style.zoom);
+        $(&quot;.nocticontainer img&quot;).css(&#123;&quot;filter&quot;:&quot;blur(10px)&quot;,&quot;transform&quot;:&quot;scale(1.2)&quot;,&quot;transition&quot;:&quot;10s&quot;,&quot;duration&quot;:&quot;3s&quot;,&quot;opacity&quot;:&quot;0.5&quot;&#125;);
+        $(&#39;.description&#39;).css(&#123;&quot;opacity&quot;:&quot;1&quot;,&quot;transition&quot;:&quot;10s&quot;,&quot;left&quot;:&quot;30%&quot;&#125;);
+
+    &#125;else if(zoom &gt;=101)&#123;
+        $(&quot;.nocticontainer img&quot;).css(&#123;&quot;filter&quot;:&quot;blur(0px)&quot;,&quot;transform&quot;:&quot;scale(1.5)&quot;,&quot;transition&quot;:&quot;10s&quot;,&quot;duration&quot;:&quot;3s&quot;,&quot;opacity&quot;:&quot;1&quot;&#125;);
+        $(&#39;.description&#39;).css(&#123;&quot;filter&quot;:&quot;blur(0px)&quot;,&quot;opacity&quot;:&quot;0&quot;&#125;);
+    &#125;else if(zoom &lt;= 40)&#123;
+        $(&quot;.nocticontainer img&quot;).css(&#123;&quot;transform&quot;:&quot;scale(1)&quot;,&quot;filter&quot;:&quot;blur(0px)&quot;,&quot;opacity&quot;:&quot;1&quot;,&quot;transition&quot;:&quot;15s&quot;&#125;);
+        $(&#39;.description&#39;).css(&#123;&quot;opacity&quot;:&quot;0&quot;,&quot;transition&quot;:&quot;15s&quot;,&quot;left&quot;:&quot;50%&quot;&#125;);
+    &#125;
+    return false;
+
+&#125;
+
+&lt;/script&gt;
+
+
+&lt;div&gt;
+    &lt;div class=&quot;nocticontainer&quot;&gt;
+        &lt;div class=&quot;description&quot;&gt;
+            &lt;h2&gt;The freedom of cellular&lt;/h2&gt;
+            &lt;p&gt;Take a call when you’re out on the water. Ask Siri to send a message. Stream your favorite songs on your run. And do it all while leaving your phone behind.&lt;/p&gt;
+        &lt;/div&gt;
+    &lt;img src=&quot;test.png&quot; width=&quot;100%&quot; heigth=&quot;600px&quot; onmousewheel=&quot;bigimg(this)&quot;&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<p>把代码放在wordpress页面的某个地方，然后去前台看下效果：</p>
+<p>这个是鼠标往下滚动的效果，文字显示，图片模糊：</p>
+<p><img src="https://i.imgur.com/XkcclI0.jpg"></p>
+<p>这个是鼠标往上滚动的效果，文字消失，图片清晰：</p>
+<p><img src="https://i.imgur.com/txvI13P.jpg"></p>
+<p>这里需要注意的是javascript跟css的相互结合，让特效变得更有意思，更加的灵活。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/javascript-%E9%BC%A0%E6%A0%87%E6%BB%9A%E5%8A%A8-%E5%9B%BE%E7%89%87%E6%A8%A1%E7%B3%8A-%E6%96%87%E5%AD%97%E9%9A%90%E8%97%8F-%E6%96%87%E5%AD%97%E6%B6%88%E5%A4%B1/" rel="tag"># javascript,鼠标滚动,图片模糊,文字隐藏,文字消失</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/05/05/%E4%BA%91%E5%B9%B3%E5%8F%B0%E8%B5%B0%E8%BF%87%E7%9A%84%E5%9D%91%E5%92%8C%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0/" rel="prev" title="云平台走过的坑和日常笔记">
+      <i class="fa fa-chevron-left"></i> 云平台走过的坑和日常笔记
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/05/08/javascript%E7%89%B9%E6%95%88%E4%B9%8B%E9%BC%A0%E6%A0%87%E6%BB%9A%E5%8A%A8%E6%96%B9%E5%90%91%E4%BA%8B%E4%BB%B6%E8%A7%A6%E5%8F%91%E7%AC%94%E5%A4%B4%E5%92%8C%E7%AC%94%E8%BA%AB%E5%88%86%E5%90%88/" rel="next" title="javascript特效之鼠标滚动方向事件触发笔头和笔身分合">
+      javascript特效之鼠标滚动方向事件触发笔头和笔身分合 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

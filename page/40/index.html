@@ -1,23 +1,1922 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-{% block title %}{{ config.title }}{% if theme.index_with_subtitle and config.subtitle %} - {{config.subtitle }}{% endif %}{% endblock %}
+<link rel="stylesheet" href="/css/main.css">
 
-{% block page_class %}
-  {% if is_home() %}page-home{% endif -%}
-{% endblock %}
 
-{% block content %}
-  <section id="posts" class="posts-expand">
-    {% for post in page.posts %}
-      {{ post_template.render(post, true) }}
-    {% endfor %}
-  </section>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-  {% include '_partials/pagination.swig' %}
-{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
 
-{% block sidebar %}
-  {{ sidebar_template.render(false) }}
-{% endblock %}
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/page/40/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/page/40/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
+            
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/08/18/css3%E4%B8%AD%E7%9A%84content%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/08/18/css3%E4%B8%AD%E7%9A%84content%E5%AD%97%E7%AC%A6%E7%BC%96%E7%A0%81/" class="post-title-link" itemprop="url">css3中的content字符编码</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-08-18 23:07:51" itemprop="dateCreated datePublished" datetime="2016-08-18T23:07:51+08:00">2016-08-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:35" itemprop="dateModified" datetime="2020-10-11T11:53:35+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>content有5种属性</p>
+<p>content:””; // 为空</p>
+<p>content:attr(title); // 可以获取标签属性值 也可以获取自定义属性值 比如css是 <code>div:after&#123;content:attr(gaga)&#125;</code>则可以获取到了123</p>
+<p>content:”我是谁”; // 填写字符串比如// css是<code>div:after&#123;content:&quot;我是&quot;counter(title)&quot;,我怕&quot;counter(gaga);&#125;</code>结果就是 “我是gaga2,我怕gaga1”；</p>
+<p>content:”\21e0”; //获取如下的图的字符集图标 斜杠就是转义 不过有一些图标在浏览器直接是有一些差别。</p>
+<p>content:url(123.gif); //使用指定的绝对或相对地址插入一个外部资源（图像，声频，视频或浏览器支持的其他任何资源）</p>
+<p>最近也在找一些content的unicode字符编码，现在把对应的贴出来，供参考。</p>
+<p><img src="http://i.imgur.com/gM84zp3.jpg"></p>
+<p>除此之外，我们还可以对content的内容做一些样式的设置，比如我们想让content里的文字或者是符合自定义一些颜色，大小，位置的摆放都是可以的，参考代码如下：</p>
+<pre><code>blockquote::before &#123;  
+    content: &quot;003E&quot;;  
+    position: absolute;  
+    z-index: -1;  
+    color: #DDD;  
+    font-size: 120px;  
+    font-family: serif;  
+    font-weight: bolder;  
+&#125;</code></pre>
+<p>最终的效果就是一个非常大加粗的大于号。</p>
+<p>这里可以推荐一篇文章，这个作者总结得不错，<a target="_blank" rel="noopener" href="http://www.zhangxinxu.com/wordpress/2010/04/css-content%E5%86%85%E5%AE%B9%E7%94%9F%E6%88%90%E6%8A%80%E6%9C%AF%E4%BB%A5%E5%8F%8A%E5%BA%94%E7%94%A8/">CSS content内容生成技术以及应用</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/08/18/%E6%89%8B%E5%8A%A8%E5%88%A0%E9%99%A4joomla%E6%89%A9%E5%B1%95%E6%8F%92%E4%BB%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/08/18/%E6%89%8B%E5%8A%A8%E5%88%A0%E9%99%A4joomla%E6%89%A9%E5%B1%95%E6%8F%92%E4%BB%B6/" class="post-title-link" itemprop="url">手动删除joomla扩展插件</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-08-18 22:46:27" itemprop="dateCreated datePublished" datetime="2016-08-18T22:46:27+08:00">2016-08-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:52:56" itemprop="dateModified" datetime="2020-10-11T11:52:56+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Joomla是全球知名的开源建站CMS系统，很多扩展和插件可以实现各种功能，但是实际使用中经常会发生插件无法彻底卸载，无法删除的现象，可以按照以下的步骤进行手动清除：</p>
+<p>注意：请操作前备份joomla全站，避免后续操作造成问题后无法恢复。</p>
+<p>1.进入joomla管理后台，选择扩展-扩展管理-管理，然后选中需要删除的扩展，点击卸载；</p>
+<p>2.上述操作无法彻底删除扩展时，手动删除joomla根目录下的以下目录以及相关名称文件；</p>
+<pre><code>/administrator/components/com_扩展名
+
+/administrator/modules/mod_扩展名
+
+/components/com_扩展名
+
+/plugins/扩展名
+
+/plugins/system/扩展名
+
+/media/扩展名</code></pre>
+<p>3.删除数据库相关数据；</p>
+<p>删除扩展名相关的表，例如数据库名为test，扩展为sh404sef，即删除test_sh404sef_XXX相关的所有表，</p>
+<p>对应mysql命令如下：</p>
+<pre><code>mysql -u username -p</code></pre>
+<p>输入密码</p>
+<pre><code>&gt;use test;
+
+&gt;show tables;
+
+&gt;drop table test_sh404sef_XXX;</code></pre>
+<p>删除test_extensions表、test_menu表中数据：</p>
+<pre><code>&gt;select name from news_extensions;
+
+&gt;delete from test_extensions where name = ‘上条命令中查找到的所有与要删除扩展名相关的name’;</code></pre>
+<p>4.清除joomla缓存，网站-网站维护-清除缓存/清除过期缓存；</p>
+<p>5.重新登录joomla后台，选择选择扩展-扩展管理-管理，已经找不到要删除的扩展，删除成功；</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/08/05/Joomla3-6-2%E5%AE%89%E8%A3%85%E7%9A%84%E6%97%B6%E5%80%99%E5%8D%A1%E4%BD%8F%E4%B8%8D%E5%8A%A8%E4%BA%86%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/08/05/Joomla3-6-2%E5%AE%89%E8%A3%85%E7%9A%84%E6%97%B6%E5%80%99%E5%8D%A1%E4%BD%8F%E4%B8%8D%E5%8A%A8%E4%BA%86%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" class="post-title-link" itemprop="url">Joomla3.6.2安装的时候卡住不动了解决方案</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-08-05 22:29:03" itemprop="dateCreated datePublished" datetime="2016-08-05T22:29:03+08:00">2016-08-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:30" itemprop="dateModified" datetime="2020-10-11T11:53:30+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>在某次安装Joomla的时候，点击安装等了很久一直被卡着不动了，起初还以为这个东西很大，安装的文件很多，然后就傻傻地等着，直到我等得失望为止，在最后一步创建数据库和相应数据表时，出现卡住的情况。如果你也出现这种情况，那么如下操作就可以解决你的问题：</p>
+<p><strong>方案一：</strong></p>
+<pre><code>1. 找到joomla安装目录下的`joomla.sql`文件，`installation/sql/mysql/joomla.sql`。
+
+2.修改此`joomla.sql`脚本文件，将所有的`ENGINE=InnoDB`改成`ENGINE=MyISAM`。
+
+3.保存修改后，重新安装。 如果没有其他问题，应当就算安装成功了。</code></pre>
+<p><strong>方案二：</strong></p>
+<p>下载2.2e version of Wamp Server ，安装这个版本的Wamp Server。</p>
+<p>2.4版本的Wamp Server使用PHP 5.4版本，这个版的PHP跟Joomla 3.6.2兼容得有问题。</p>
+<p>所以我们可以把Wamp Server降级，而不需要更改Joomla.sql里面的代码;</p>
+<p>如果集成服务器是XAMPP的也可以把版本降低一点。以上建议仅作参考，如有不合理的地方，望斧正，并且提出批评意见。</p>
+<p>我是一个CMS折腾迷，如果你也是这样一个人，请与我联系，我们一起来折腾，我的QQ：791447771，别忘了与我取得联系。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/08/02/wordpress%E4%B8%AD%E9%92%88%E5%AF%B9jquery%E5%86%B2%E7%AA%81%E9%80%A0%E6%88%90%E7%9A%84js%E7%89%B9%E6%95%88%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/08/02/wordpress%E4%B8%AD%E9%92%88%E5%AF%B9jquery%E5%86%B2%E7%AA%81%E9%80%A0%E6%88%90%E7%9A%84js%E7%89%B9%E6%95%88%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" class="post-title-link" itemprop="url">wordpress中针对jquery冲突造成的js特效解决方案</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-08-02 23:07:14" itemprop="dateCreated datePublished" datetime="2016-08-02T23:07:14+08:00">2016-08-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:07" itemprop="dateModified" datetime="2020-10-11T11:53:07+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>在wordpress主题当中，经常性会运用一些js插件或者特效，但是往往事与愿违，根据笔者的经历，遇到如下两个问题：</p>
+<p>1、jquery被重复引用，直接导致的结果就是该页面中其他引用过jquery的效果显示不出来，比如revolution slider就会出现这种情况。针对这种情况只能取消引用jquery，这样有的时候对引进的特效不会产生影响，revolution slider也不会受影响。</p>
+<p>2、另外一种情况，就是页面本身引用的jquery不能兼容引进的第三方特效，就是二者不能并存的这种情况，那么怎么办呢？由于直接修改jquery源代码比较难，那么我们可以采用iframe的方式。</p>
+<p>这里介绍一下iframe的一些基本用法：</p>
+<pre><code>&lt;iframe&gt;是框架的一种形式，也比较常用到。</code></pre>
+<p><strong>例子1</strong></p>
+<pre><code>&lt;iframe width=420 height=330 frameborder=0 scrolling=auto src=URL&gt;&lt;/iframe&gt;</code></pre>
+<p>不用多说了。</p>
+<pre><code>width插入页的宽；height插入页的高；scrolling 是否显示页面滚动条（可选的参数为 auto、yes、no，如果省略这个参数，则默认为auto）；frameborder  边框大小；</code></pre>
+<p>注意：URL建议用绝对路径</p>
+<pre><code>传说中百DU用：&lt;iframe width=“0” height=“0” frameborder=“0” scrolling=“auto” src=“WWW .webjx.com”&gt;&lt;/iframe&gt;</code></pre>
+<p><strong>例子2</strong></p>
+<p>如果一个页面里面有框架。。随便点页面里的连接，要求在这个<code>&lt;iframe&gt;</code> 里打开。在iframe 中加入name=** （**自己设定）</p>
+<pre><code>&lt;iframe name=**  &gt;&lt;/iframe&gt;</code></pre>
+<p>然后在修改默认打开模式，：网页HEAD中加上<code>&lt;a href=URL target=**&gt;</code>或部分连接的目标框架设为（**）</p>
+<p><strong>例子3</strong></p>
+<p>要插入一个页面。要求只拿中间一部分。其他的都不要。</p>
+<p>代码：</p>
+<pre><code>&lt;iframe name=123  align=middle marginwidth=0 marginheight=0 vspace=-170 hspace=0 src=&quot;http://www.habotalk.com&quot;  frameborder=no scrolling=no  width=776  height=2500&gt;&lt;/iframe&gt;</code></pre>
+<p>控制插入页被框架覆盖的深度 <code>marginwidth=0 marginheight=0；</code>控制框架覆盖上部分的深度</p>
+<p>vspace=-170 </p>
+<p>scrolling滚动条要否（auto、yes、no）   frameborder框架的边框大小，<code>width=776  height=2500</code>此框架的大小。</p>
+<p>一、页面内加入iframe</p>
+<pre><code>&lt;iframe width=420 height=330 frameborder=0 scrolling=auto src=URL&gt;&lt;/iframe&gt;，</code></pre>
+<p>scrolling表示是否显示页面滚动条，可选的参数为auto、yes、no，如果省略这个参数，则默认为auto。</p>
+<p>二、超链接指向这个嵌入的网页，只要给这个iframe命名就可以了。</p>
+<p>方法是<code>&lt;iframe name=**&gt;</code>，例如我命名为aa，写入这句HTML语言</p>
+<pre><code>&lt;iframe width=420 height=330 name=aa frameborder=0 src=http://www.habotalk.com&gt;&lt;/iframe&gt;</code></pre>
+<p>然后，网页上的超链接语句应该写为：<code>&lt;a  href=URL target=aa&gt;</code></p>
+<p>三、如果把frameborder设为1，效果就像文本框一样</p>
+<p>透明的IFRAME的用法</p>
+<p>必需IE5.5以上版本才支持</p>
+<p>在transparentBody.htm文件的<body>标签中，我已经加入了<code>style=&quot;background-color=transparent&quot;</code> 通过以下四种IFRAME的写法我想大概你对iframe背景透明效果的实现方法应该会有个清晰的了解：</p>
+<pre><code>&lt;IFRAME ID=&quot;Frame1&quot; SRC=&quot;transparentBody.htm&quot; allowTransparency=&quot;true&quot;&gt;&lt;/IFRAME&gt; 
+
+&lt;IFRAME ID=&quot;Frame2&quot; SRC=&quot;transparentBody.htm&quot; allowTransparency=&quot;true&quot; STYLE=&quot;background-color: green&quot;&gt; &lt;/IFRAME&gt;
+
+&lt;IFRAME ID=&quot;Frame3&quot; SRC=&quot;transparentBody.htm&quot;&gt;&lt;/IFRAME&gt;
+
+&lt;IFRAME ID=&quot;Frame4&quot; SRC=&quot;transparentBody.htm&quot; STYLE=&quot;background-color: green&quot;&gt; &lt;/IFRAME&gt;</code></pre>
+<p>更多的iframe用法可以参考这个网址：<a target="_blank" rel="noopener" href="http://www.jb51.net/web/14537.html">http://www.jb51.net/web/14537.html</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/07/27/wordpress%E4%B8%AD%E6%8C%89%E6%8F%AD%E8%AE%A1%E7%AE%97%E5%99%A8%E5%8A%9F%E8%83%BD%E7%9A%84%E5%85%BC%E5%AE%B9%E6%80%A7%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/07/27/wordpress%E4%B8%AD%E6%8C%89%E6%8F%AD%E8%AE%A1%E7%AE%97%E5%99%A8%E5%8A%9F%E8%83%BD%E7%9A%84%E5%85%BC%E5%AE%B9%E6%80%A7%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">wordpress中按揭计算器功能的兼容性问题</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-07-27 22:37:37" itemprop="dateCreated datePublished" datetime="2016-07-27T22:37:37+08:00">2016-07-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:09" itemprop="dateModified" datetime="2020-10-11T11:53:09+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>记得在制作一个按揭计算机的时候，点击链接—然后在同一个窗口弹出一个计算机，里面有类似表单的输入框，这是一个做金融和房产的企业网站必备的工具吧。因此，经过一段时间的折腾，我也如愿以偿的完成了这么一个计算机，可是发现在IE浏览器上兼容得并不好，具体问题是：<br>在谷歌浏览器、火狐、safari中貌似兼容得不错，输入框中可以输入文字，可是在ie系列中是不可以输入的，就是可以点击输入，但是不显示文字，因此，让我郁闷了半天，然后就开始着手解决这个问题。<br>IE浏览器之外的浏览器显示都是这样的，可以计算。</p>
+<p><img src="http://i.imgur.com/Qmid4Xi.png"></p>
+<p>在IE浏览器上是这样的：</p>
+<p><img src="http://i.imgur.com/8Q1zKz2.png"></p>
+<p>于是找呀找，逐个排除，直到找到了一个js文件，jquery.lightbox_mine.js（这是什么鬼？？？）。<br>然后在这个里面找到了这么一句话：</p>
+<pre><code>if (ie6) &#123;
+var src = /^https/i.test(window.location.href || &#39;&#39;) ? &#39;javascript:false&#39; : &#39;about:blank&#39;;
+$iframe.attr(&#39;src&#39;, src);
+$(&#39;body&#39;).append($iframe);
+&#125; // iframe shim for ie6, to hide select elements
+$(&#39;body&#39;).append($self.hide()).append($overlay);</code></pre>
+<p>问题就出在这里，可恶的ie6,恨你好久了。</p>
+<p>于是把这段代码注释，保存文件，重新覆盖已经存在的jquery.lightbox_mine.js，这样就可以正常了，很多时候一旦出现浏览器差异性问题，我们总是查找来自浏览器兼容性上的问题，这个问题从本质上说可能不算兼容性问题吧，这是针对浏览器而进行的设置。</p>
+<p>后来想想感觉这个弹出层没有关闭按钮，上面图片中的“关闭按钮”是不是存在的，结果就是打开了，可以运算，却不能关闭，如果不想运算了只能把窗口关了，感觉设计得不是很人性化，于是就做一个关闭按钮，最开始的思路是简单粗暴，直接写一个方法。</p>
+<p>最开始是介样的：</p>
+<pre><code>&lt;INPUT TYPE=&quot;BUTTON&quot; value=&quot;关闭&quot; onClick=&quot;window.close()&quot;&gt;</code></pre>
+<p>哇！天呐，简直丑爆了，点击后的效果直接跟最开始的一样，很显然，这个代码会把把整个窗口关了。</p>
+<p>然后，就想了个靠谱点的法子，采用JavaScript的方式，关闭某个区块，具体代码如下：</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot; charset=&quot;utf-8&quot;&gt;
+function closeTuceng()&#123;
+   $(&quot;#calculator&quot;).hide();
+&#125;
+&lt;/script&gt;
+&lt;span&gt;&lt;a href=&quot;#&quot; class=&quot;button&quot; onClick=&quot;closeTuceng()&quot;&gt;關閉&lt;/a&gt;&lt;/span&gt;</code></pre>
+<p>最终的效果如下：</p>
+<p><img src="http://i.imgur.com/G3oVk2z.png"></p>
+<p>参考代码<a target="_blank" rel="noopener" href="http://pan.baidu.com/s/1gfdRcGV">下载</a></p>
+<p>今晚就写到这里，有共同兴趣的可以共同学习，共同探讨，作者QQ：791447771</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/07/20/wordpress%E5%90%8E%E5%8F%B0%E4%B8%AD%E7%BC%96%E8%BE%91%E6%A8%A1%E5%BC%8F%E4%B8%8B%E6%B7%BB%E5%8A%A0html%E4%BB%A3%E7%A0%81%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9%E5%92%8C%E5%BF%83%E5%BE%97%E5%88%86%E4%BA%AB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/07/20/wordpress%E5%90%8E%E5%8F%B0%E4%B8%AD%E7%BC%96%E8%BE%91%E6%A8%A1%E5%BC%8F%E4%B8%8B%E6%B7%BB%E5%8A%A0html%E4%BB%A3%E7%A0%81%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9%E5%92%8C%E5%BF%83%E5%BE%97%E5%88%86%E4%BA%AB/" class="post-title-link" itemprop="url">wordpress后台中编辑模式下添加html代码的注意事项和心得分享</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-07-20 22:13:57" itemprop="dateCreated datePublished" datetime="2016-07-20T22:13:57+08:00">2016-07-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:12" itemprop="dateModified" datetime="2020-10-11T11:53:12+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><strong>总结：在WordPress后台中添加html代码的注意事项和心得分享</strong></p>
+<p>作者很久前在接手一个网站需求的时候，客户的要求是用户在访问客户的网站的时候，一开始弹出一个层叠图，并且有提示（一些广告之类的东西）。</p>
+<p>最开始我把这个功能写在一个html文件中，很显然，文件中包含了一些引用，比如jQuery以及自己的一些外部js代码，这个时候我直接把整个代码贴在了某个页面的对应的后台编辑器中，然后刷新前台，发现报错了，提示大概意思是你的这个文件里有jQuery，导致某些slider没法正常运转，后来我的解决思路是：</p>
+<pre><code>1、把这个html代码分成三部分，第一部分存放在一个html功能区块中
+
+2、多次复用的html代码存放在另外一个html功能区块中
+
+3、最后，把JavaScript代码和外部js文件存放在一个js功能区块中</code></pre>
+<p><em>注意：当然，可以根据需求可以分更多部分，不影响管理即可，最重要的是，这些被切分的区块必须符合一个完整的html文件的顺序，否则会出现意想不到的问题。</em></p>
+<p>这里很值得提醒的是，因为很多的网站都会引用了jQuery，所以当我们把自己写好的引用了jQuery的html文件放进去的时候，很多时候会报错，原因是，jQuery被重复加载了，导致了一些错误。</p>
+<p>解决方案是：把jQuery的引用去掉即可，因为整个网站中已经引用了jquery了，无须再次引用。</p>
+<p>这里应该得到一些启发：一个完整的html文件是可以被分成多个片段放在不同的html功能区块中。当然，前提必须是在同一个页面，而不能跨页面存放。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/07/16/WOW-Slider%E5%A6%82%E4%BD%95%E5%8E%BB%E9%99%A4%E6%B0%B4%E5%8D%B0%E6%95%B4%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/07/16/WOW-Slider%E5%A6%82%E4%BD%95%E5%8E%BB%E9%99%A4%E6%B0%B4%E5%8D%B0%E6%95%B4%E7%90%86/" class="post-title-link" itemprop="url">WOW Slider如何去除水印整理</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-07-16 15:10:43" itemprop="dateCreated datePublished" datetime="2016-07-16T15:10:43+08:00">2016-07-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:07" itemprop="dateModified" datetime="2020-10-11T11:53:07+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>作为前端开发的兄弟们，接触频率较多的无非就那几种，作为现代网站开发中，轮播，旋转，鼠标悬停似乎变得必不可少，这些效果我们可以自己通过js的方法实现或者是css3来实现，当然这是对于比较熟悉代码的同学们而言的，如果对编程一点也不懂的同学估计有点难度；另一种方法，我们可以通过一些生成器或者生成器来完成网站的局部效果，这种方式较为通用，快速而高效，懂得软件的一般操作的从业人员基本就能掌握，废话说了很多，现在我来介绍一款软件：WOW Slider</p>
+<p>这是一种幻灯片效果的生成器，操作容易，给我们带来了方便，我们再也不用费脑筋去一个个代码的敲出来了，同时有个美中不足的地方是，这款软件是收费的，而且价格不菲。当然，也有免费版的，但是都会在每一章图片后面自动添加了水印，让人很不舒服，那如何去除这个小小的logo呢？</p>
+<p>我开始接触的时候，为了去除这个logo可谓费了不少时间，仍然找不到好的方法，百度搜索的都是如下的一些方案：</p>
+<p>1、在wowslider.js里找到show()方法改为hide()，可能有几个show可以一个个试。</p>
+<p>这个方法说得很含糊，因为wowslider.js有两个，一个是这个软件模板引擎的wowslider.js，另一个是生成幻灯片之后的在engine1文件夹里面的wowslider.js，这个会让那些初学者分不清楚，后来我根据这个提示两个都改了，貌似没啥用，被我放弃了。</p>
+<p>2、在engine文件夹下编辑script.js，Ctrl+F：把var t=”xxxxxxxx”改成 var t=””</p>
+<p>截图如下：</p>
+<p><img src="http://i.imgur.com/pIyqLcd.png"></p>
+<p>这种方式看起来挺详细的，这个是针对V8.2版本的，经过尝试由于版本不一样，没法实现，果断放弃了。而且对比了下这个版本跟最新版V8.7，界面太丑了，还是新版的好看，功能丰富了不少，所以没有使用旧版。</p>
+<p>3、找到wowslider.js,打开之后搜索</p>
+<pre><code>(&quot;contextmenu&quot;,function(c)&#123;return false&#125;).show()
+
+把show()改成hide()就可以了</code></pre>
+<p>这种方法也被尝试了，还是不见好转，看来国内的解决方案有待提升呀，好多都是复制粘贴，转了一圈回来还是没找到。这个解决方案是来自这个网站：<a target="_blank" rel="noopener" href="http://blog.wangjunfeng.com/archives/475">http://blog.wangjunfeng.com/archives/475</a></p>
+<p>4、方法四</p>
+<p>用firebug 定位 水印 灰色 字体  关键字：right: “5px”  发现在此修改css可将水印去掉</p>
+<p>在wowslider.js中  搜索 5px 找到</p>
+<pre><code> ai.append(ae) &#125; K(ai).css(&#123; zIndex: 11, right: &quot;5px&quot;, bottom: &quot;2px&quot;&#125;).appendTo(Q); </code></pre>
+<p>替换成 </p>
+<pre><code>ai.append(ae) &#125; K(ai).css(&#123; zIndex: 11, right: &quot;5px&quot;, bottom: &quot;2px&quot;, display: &quot;none&quot; &#125;).appendTo(Q); </code></pre>
+<p>这种方法具有开创性，避开js,直接通过css的方法去掉这个水印，不过经过尝试，也以失败而告终，后来不知怎滴，我的天才般的想法诞生了。</p>
+<p>我的方法是，继承方法四，我在想这个logo不是在右下角嘛，我就直接在那个div里面设置样式，直接，我在软件的模板引擎里面找到wowslider.js，找到</p>
+<pre><code>aI(&quot;&lt;div&gt;&quot;).css(&#123; position: &quot;relative&quot;, width: &quot;100%&quot;, &quot;font-size&quot;: 0, &quot;line-height&quot;: 0, &quot;max-height&quot;: &quot;100%&quot;, overflow: &quot;hidden&quot;&#125;)</code></pre>
+<p>我之所以能找到这里也是通过开发者工具定位到样式，然后顺藤摸瓜找到这里，然后把上面的待改成</p>
+<pre><code>aI(&quot;&lt;div&gt;&quot;).css(&#123; position: &quot;relative&quot;, width: &quot;100%&quot;, &quot;font-size&quot;: 0, &quot;line-height&quot;: 0, &quot;max-height&quot;: &quot;100%&quot;, overflow: &quot;hidden&quot;,&quot;margin-bottom&quot;:&quot;-30px&quot; &#125;)</code></pre>
+<p>这样就直接把那个水印给遮住了，效果不受影响，后来测试了一下，发现兼容性有点问题，效果最好的是chrome和safari,有问题的是火狐和IE，那么怎么办呢？</p>
+<p>我们还是回到开发这工具，通过设置幻灯片的高度来遮住这个logo即可。虽然这种方法很邪恶但是总比找不到方法又想用的了，再则咱们又不是用于商业用途，如果同学们想用于商业用途，建议还是要去买正版的，用着放心。</p>
+<p>最后贴一下各大浏览器的效果：</p>
+<p>chrome下是这样的</p>
+<p><img src="http://i.imgur.com/P3BJSy0.png"></p>
+<p>firefox下是这样的</p>
+<p><img src="http://i.imgur.com/KJLsGYV.png"></p>
+<p>safari下是这样的</p>
+<p><img src="http://i.imgur.com/tHl65Ue.png"></p>
+<p>IE支持得最差，如下图</p>
+<p><img src="http://i.imgur.com/nRLTRm5.png"></p>
+<p>针对有问题的怎么办呢？这里我们就需要辛苦下，在生成的WOW Slider文件夹下有个engine1，找到这个文件夹里的style.css打开找到</p>
+<pre><code>#wowslider-container1 .ws_images&#123;
+    position: relative;
+    left:0;
+    top:0;
+    height:100%;
+    max-height:360px;
+    max-width: 960px;
+    vertical-align: top;
+    border:none;
+    overflow: hidden;
+&#125;</code></pre>
+<p>我们就可以对这个高度值进行调整，调小点就可以掩盖掉那个水印，经过自己的测试，大概从360px变成330px即可。</p>
+<p>最后针对不同屏幕尺寸编写一个样式即可，高度用一个浏览器尺子插件会更方便，写了这么多，大家可能会觉得这样会比较麻烦。对于这种治标不治本的hack方法不建议同学们学习，最好花点钱来得舒服。</p>
+<p>作为补充，如果不觉得麻烦的话，可以把准备好的图片先把高度增加50-70px（高度根据实际情况增加）空白，然后通过WOW Slider把经过高度增加后的图片进行生成，无论是wordpress还是文件夹形式的，然后找到生成后的文件夹里面加过水印的图片部分切掉。同样的，在wordpress插件中先把生成后的压缩包解压，然后剪切掉有水印的部分，然后压缩即可。这样无论是在哪一个浏览器上都不会出现水印，因为图片中根本就没水印了。</p>
+<p>今天就写到这里，欢迎新朋友有问题与我一起探讨，很乐意接受挑战。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/06/29/web%E5%89%8D%E7%AB%AF%E4%B8%AD%E5%A6%82%E4%BD%95%E5%88%B6%E4%BD%9C%E4%B8%80%E4%B8%AA%E7%82%B9%E5%87%BB%E9%A1%B5%E9%9D%A2%E5%B7%A6%E4%BE%A7%E6%98%BE%E7%A4%BA%E5%9C%A8%E5%8F%B3%E4%BE%A7%E7%9A%84%E7%AD%89%E9%AB%98%E6%95%88%E6%9E%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/06/29/web%E5%89%8D%E7%AB%AF%E4%B8%AD%E5%A6%82%E4%BD%95%E5%88%B6%E4%BD%9C%E4%B8%80%E4%B8%AA%E7%82%B9%E5%87%BB%E9%A1%B5%E9%9D%A2%E5%B7%A6%E4%BE%A7%E6%98%BE%E7%A4%BA%E5%9C%A8%E5%8F%B3%E4%BE%A7%E7%9A%84%E7%AD%89%E9%AB%98%E6%95%88%E6%9E%9C/" class="post-title-link" itemprop="url">web前端中如何制作一个点击页面左侧显示在右侧的等高效果</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-06-29 23:26:17" itemprop="dateCreated datePublished" datetime="2016-06-29T23:26:17+08:00">2016-06-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:15" itemprop="dateModified" datetime="2020-10-11T11:53:15+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>随着不断折腾网站的过程中，遇到过很多使用率很高的小模块，今天我就来根据自己制定的要求，一步一步的制作出一个很帅的、点击左边显示在右边的、等高度显示的自适应网页来。</p>
+<p>先把制作的要求贴出来：</p>
+<pre><code>要求一：制作一个效果非常帅的手风琴效果侧边栏
+要求二：能够点击左侧垂直菜单的链接在同一页面的右侧显示
+要求三：能够左右两栏高度一致
+要求四：能够自适应各种屏幕的显示效果
+要求五：能够点击左边的链接，在右边显示外部页面的内容</code></pre>
+<p>第一步新建一个html文件：index.html</p>
+<pre><code>&lt;!doctype html&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;title&gt;很帅的手风琴模块&lt;/title&gt;
+
+&lt;link rel=&quot;stylesheet&quot; href=&quot;css/reset.css&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;css/bootstrap.min.css&quot;&gt;
+&lt;script src=&quot;js/jquery-2.1.1.min.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;js/bootstrap.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;js/modernizr.js&quot;&gt;&lt;/script&gt;
+&lt;style type=&quot;text/css&quot;&gt;
+    .zb-shoufengqin-left&#123;
+        width: 30%;
+        float: left;
+    &#125;
+    .zb-shoufengqin-right&#123;
+        width: 69%;
+        float: left;
+        height: auto;
+        margin: 57px 10px 10px 0px;
+        padding: 20px 10px;
+        background: #6A4040;
+        color: #fff;
+    &#125;
+
+    @media screen and (max-width: 760px) &#123;
+    .zb-shoufengqin-left&#123;
+        width: 100%;
+    &#125;
+    .zb-shoufengqin-right&#123;
+        width: 100%;
+        padding: 10px;
+        margin: 0px 10px 10px 0px;
+    &#125;
+    &#125;
+&lt;/style&gt;
+
+
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div&gt;
+&lt;!-- 左侧手风琴折叠菜单 开始 --&gt;
+    &lt;div class=&quot;zb-shoufengqin-left&quot; id=&quot;zb-shoufengqin-left&quot;&gt;
+
+    &lt;/div&gt;
+&lt;!-- 左侧手风琴折叠菜单 结束 --&gt;
+
+&lt;!-- 页面右侧内容 开始--&gt;
+    &lt;div class=&quot;zb-shoufengqin-right&quot; id=&quot;zb-shoufengqin-right&quot;&gt;
+
+    &lt;/div&gt;
+&lt;!-- 页面右侧内容 结束 --&gt;
+&lt;/div&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>这里需要引入必要的文件，文件结构如下：</p>
+<p><img src="http://i.imgur.com/k0FqCmr.png"></p>
+<p>其中，aa.html文件主要用来实现等高效果的</p>
+<p>home.html文件用来实现点击左边显示在右边的效果的</p>
+<p>第二步：在第一步的基础上制作手风琴垂直菜单效果，那么第一步的代码就变成如下：</p>
+<pre><code>&lt;!doctype html&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;title&gt;很帅的手风琴模块&lt;/title&gt;
+
+&lt;link rel=&quot;stylesheet&quot; href=&quot;css/reset.css&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;css/bootstrap.min.css&quot;&gt;
+&lt;script src=&quot;js/jquery-2.1.1.min.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;js/bootstrap.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;js/modernizr.js&quot;&gt;&lt;/script&gt;
+&lt;style type=&quot;text/css&quot;&gt;
+    .zb-shoufengqin-left&#123;
+        width: 30%;
+        float: left;
+    &#125;
+    .zb-shoufengqin-right&#123;
+        width: 69%;
+        float: left;
+        height: auto;
+        margin: 57px 10px 10px 0px;
+        padding: 20px 10px;
+        background: #6A4040;
+        color: #fff;
+    &#125;
+
+    @media screen and (max-width: 760px) &#123;
+    .zb-shoufengqin-left&#123;
+        width: 100%;
+    &#125;
+    .zb-shoufengqin-right&#123;
+        width: 100%;
+        padding: 10px;
+        margin: 0px 10px 10px 0px;
+    &#125;
+    &#125;
+&lt;/style&gt;
+
+
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div&gt;
+&lt;!-- 左侧手风琴折叠菜单 开始 --&gt;
+&lt;div class=&quot;zb-shoufengqin-left&quot; id=&quot;zb-shoufengqin-left&quot;&gt;
+    &lt;ul class=&quot;cd-accordion-menu animated&quot;&gt;
+    &lt;li class=&quot;has-children&quot;&gt;
+        &lt;input type=&quot;checkbox&quot; name =&quot;group-1&quot; id=&quot;group-1&quot; checked&gt;
+        &lt;label for=&quot;group-1&quot;&gt;Group 1&lt;/label&gt;
+        &lt;ul&gt;
+            &lt;li class=&quot;has-children&quot;&gt;
+                &lt;input type=&quot;checkbox&quot; name =&quot;sub-group-1&quot; id=&quot;sub-group-1&quot;&gt;
+                &lt;label for=&quot;sub-group-1&quot;&gt;Sub Group 1&lt;/label&gt;
+                &lt;ul&gt;
+                    &lt;li&gt;
+                        &lt;a href=&quot;javascript:funcShow(1)&quot;&gt;荷塘月色第一段&lt;/a&gt;
+                    &lt;/li&gt;
+                    &lt;li&gt;
+                        &lt;a href=&quot;javascript:funcShow(2)&quot;&gt;荷塘月色第二段&lt;/a&gt;
+                    &lt;/li&gt;
+                    &lt;li&gt;
+                        &lt;a href=&quot;javascript:funcShow(3)&quot;&gt;荷塘月色第三段&lt;/a&gt;
+                    &lt;/li&gt;
+                &lt;/ul&gt;
+            &lt;/li&gt;
+            &lt;li class=&quot;has-children&quot;&gt;
+                &lt;input type=&quot;checkbox&quot; name =&quot;sub-group-2&quot; id=&quot;sub-group-2&quot;&gt;
+                &lt;label for=&quot;sub-group-2&quot;&gt;Sub Group 2&lt;/label&gt;
+                &lt;ul&gt;
+                    &lt;li class=&quot;has-children&quot;&gt;
+                        &lt;input type=&quot;checkbox&quot; name =&quot;sub-group-level-3&quot; id=&quot;sub-group-level-3&quot;&gt;
+                        &lt;label for=&quot;sub-group-level-3&quot;&gt;Sub Group Level 3&lt;/label&gt;
+                        &lt;ul&gt;
+                            &lt;li&gt;&lt;a href=&quot;javascript:funcShow(4)&quot;&gt;荷塘月色第四段&lt;/a&gt;&lt;/li&gt;
+                            &lt;li&gt;&lt;a href=&quot;javascript:funcShow(5)&quot;&gt;荷塘月色第五段&lt;/a&gt;&lt;/li&gt;
+                        &lt;/ul&gt;
+                    &lt;/li&gt;
+                    &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image3&lt;/a&gt;&lt;/li&gt;
+                &lt;/ul&gt;
+            &lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image4&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image5&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li class=&quot;has-children&quot;&gt;
+        &lt;input type=&quot;checkbox&quot; name =&quot;group-2&quot; id=&quot;group-2&quot;&gt;
+        &lt;label for=&quot;group-2&quot;&gt;Group 2&lt;/label&gt;
+        &lt;ul&gt;
+            &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image6&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image7&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li class=&quot;has-children&quot;&gt;
+        &lt;input type=&quot;checkbox&quot; name =&quot;group-3&quot; id=&quot;group-3&quot;&gt;
+        &lt;label for=&quot;group-3&quot;&gt;Group 3&lt;/label&gt;
+        &lt;ul&gt;
+            &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image8&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image9&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li class=&quot;has-children&quot;&gt;
+        &lt;input type=&quot;checkbox&quot; name =&quot;group-4&quot; id=&quot;group-4&quot;&gt;
+        &lt;label for=&quot;group-4&quot;&gt;Group 4&lt;/label&gt;
+        &lt;ul&gt;
+            &lt;li class=&quot;has-children&quot;&gt;
+                &lt;input type=&quot;checkbox&quot; name =&quot;sub-group-3&quot; id=&quot;sub-group-3&quot;&gt;
+                &lt;label for=&quot;sub-group-3&quot;&gt;Sub Group 3&lt;/label&gt;
+                &lt;ul&gt;
+                    &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image10&lt;/a&gt;&lt;/li&gt;
+                    &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image11&lt;/a&gt;&lt;/li&gt;
+                &lt;/ul&gt;
+            &lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image12&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image13&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/div&gt;
+&lt;!-- 左侧手风琴折叠菜单 结束 --&gt;
+
+&lt;!-- 页面右侧内容 开始--&gt;
+    &lt;div class=&quot;zb-shoufengqin-right&quot; id=&quot;zb-shoufengqin-right&quot;&gt;
+
+    &lt;/div&gt;
+&lt;!-- 页面右侧内容 结束 --&gt;
+&lt;/div&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>接着我们继续往下实现点击页面的左侧垂直菜单链接，在同一页面的右侧显示，也就是home.html文件中实现的效果，那么index.html文件代码就变成如下：</p>
+<pre><code>&lt;!doctype html&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;title&gt;很帅的手风琴模块&lt;/title&gt;
+
+&lt;link rel=&quot;stylesheet&quot; href=&quot;css/reset.css&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;css/bootstrap.min.css&quot;&gt;
+&lt;script src=&quot;js/jquery-2.1.1.min.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;js/bootstrap.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;js/modernizr.js&quot;&gt;&lt;/script&gt;
+&lt;style type=&quot;text/css&quot;&gt;
+    .zb-shoufengqin-left&#123;
+        width: 30%;
+        float: left;
+    &#125;
+    .zb-shoufengqin-right&#123;
+        width: 69%;
+        float: left;
+        height: auto;
+        margin: 57px 10px 10px 0px;
+        padding: 20px 10px;
+        background: #6A4040;
+        color: #fff;
+    &#125;
+
+    @media screen and (max-width: 760px) &#123;
+    .zb-shoufengqin-left&#123;
+        width: 100%;
+    &#125;
+    .zb-shoufengqin-right&#123;
+        width: 100%;
+        padding: 10px;
+        margin: 0px 10px 10px 0px;
+    &#125;
+    &#125;
+&lt;/style&gt;
+
+&lt;!-- 以下的这段js代码用来实现页面左右两个部分内容的绑定，即点击左边的链接在右边显示相应的内容 --&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+function funcShow(id)&#123;
+for(var i=0;i&lt;16;i++)&#123;
+var divInfo =document.getElementById(&#39;div&#39;+(i+1));
+divInfo.style.display=&#39;none&#39;;
+&#125;
+var div =document.getElementById(&#39;div&#39;+id);
+div.style.display=&#39;block&#39;;
+&#125;
+&lt;/script&gt;
+
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div&gt;
+&lt;!-- 左侧手风琴折叠菜单 开始 --&gt;
+&lt;div class=&quot;zb-shoufengqin-left&quot; id=&quot;zb-shoufengqin-left&quot;&gt;
+    &lt;ul class=&quot;cd-accordion-menu animated&quot;&gt;
+    &lt;li class=&quot;has-children&quot;&gt;
+        &lt;input type=&quot;checkbox&quot; name =&quot;group-1&quot; id=&quot;group-1&quot; checked&gt;
+        &lt;label for=&quot;group-1&quot;&gt;Group 1&lt;/label&gt;
+        &lt;ul&gt;
+            &lt;li class=&quot;has-children&quot;&gt;
+                &lt;input type=&quot;checkbox&quot; name =&quot;sub-group-1&quot; id=&quot;sub-group-1&quot;&gt;
+                &lt;label for=&quot;sub-group-1&quot;&gt;Sub Group 1&lt;/label&gt;
+                &lt;ul&gt;
+                    &lt;li&gt;
+                        &lt;a href=&quot;javascript:funcShow(1)&quot;&gt;荷塘月色第一段&lt;/a&gt;
+                    &lt;/li&gt;
+                    &lt;li&gt;
+                        &lt;a href=&quot;javascript:funcShow(2)&quot;&gt;荷塘月色第二段&lt;/a&gt;
+                    &lt;/li&gt;
+                    &lt;li&gt;
+                        &lt;a href=&quot;javascript:funcShow(3)&quot;&gt;荷塘月色第三段&lt;/a&gt;
+                    &lt;/li&gt;
+                &lt;/ul&gt;
+            &lt;/li&gt;
+            &lt;li class=&quot;has-children&quot;&gt;
+                &lt;input type=&quot;checkbox&quot; name =&quot;sub-group-2&quot; id=&quot;sub-group-2&quot;&gt;
+                &lt;label for=&quot;sub-group-2&quot;&gt;Sub Group 2&lt;/label&gt;
+                &lt;ul&gt;
+                    &lt;li class=&quot;has-children&quot;&gt;
+                        &lt;input type=&quot;checkbox&quot; name =&quot;sub-group-level-3&quot; id=&quot;sub-group-level-3&quot;&gt;
+                        &lt;label for=&quot;sub-group-level-3&quot;&gt;Sub Group Level 3&lt;/label&gt;
+                        &lt;ul&gt;
+                            &lt;li&gt;&lt;a href=&quot;javascript:funcShow(4)&quot;&gt;荷塘月色第四段&lt;/a&gt;&lt;/li&gt;
+                            &lt;li&gt;&lt;a href=&quot;javascript:funcShow(5)&quot;&gt;荷塘月色第五段&lt;/a&gt;&lt;/li&gt;
+                        &lt;/ul&gt;
+                    &lt;/li&gt;
+                    &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image3&lt;/a&gt;&lt;/li&gt;
+                &lt;/ul&gt;
+            &lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image4&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image5&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li class=&quot;has-children&quot;&gt;
+        &lt;input type=&quot;checkbox&quot; name =&quot;group-2&quot; id=&quot;group-2&quot;&gt;
+        &lt;label for=&quot;group-2&quot;&gt;Group 2&lt;/label&gt;
+        &lt;ul&gt;
+            &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image6&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image7&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li class=&quot;has-children&quot;&gt;
+        &lt;input type=&quot;checkbox&quot; name =&quot;group-3&quot; id=&quot;group-3&quot;&gt;
+        &lt;label for=&quot;group-3&quot;&gt;Group 3&lt;/label&gt;
+        &lt;ul&gt;
+            &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image8&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image9&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li class=&quot;has-children&quot;&gt;
+        &lt;input type=&quot;checkbox&quot; name =&quot;group-4&quot; id=&quot;group-4&quot;&gt;
+        &lt;label for=&quot;group-4&quot;&gt;Group 4&lt;/label&gt;
+        &lt;ul&gt;
+            &lt;li class=&quot;has-children&quot;&gt;
+                &lt;input type=&quot;checkbox&quot; name =&quot;sub-group-3&quot; id=&quot;sub-group-3&quot;&gt;
+                &lt;label for=&quot;sub-group-3&quot;&gt;Sub Group 3&lt;/label&gt;
+                &lt;ul&gt;
+                    &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image10&lt;/a&gt;&lt;/li&gt;
+                    &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image11&lt;/a&gt;&lt;/li&gt;
+                &lt;/ul&gt;
+            &lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image12&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image13&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/div&gt;
+&lt;!-- 左侧手风琴折叠菜单 结束 --&gt;
+
+&lt;!-- 页面右侧内容 开始--&gt;
+&lt;div class=&quot;zb-shoufengqin-right&quot; id=&quot;zb-shoufengqin-right&quot;&gt;
+    &lt;div id=&quot;div1&quot; style=&quot;display:block&quot;&gt;
+        &lt;p&gt;
+            这几天心里颇不宁静。今晚在院子里坐着乘凉，忽然想起日日走过的荷塘，在这满月的月光里，总该另有一番样子吧。月亮渐渐地升高了，墙外马路上孩子们的欢笑，已经听不见了；妻在屋里拍着闰儿，迷迷糊糊地哼着眠歌。我悄悄地披了大衫，带上门出去。沿着荷塘，是一条曲折的小煤屑路。这是一条幽僻的路；白天也少人走，夜晚更加寂寞。荷塘四面，长着许多树，蓊蓊(wěng)郁郁的。路的一旁，是些杨柳，和一些不知道名字的树。没有月光的晚上，这路上阴森森的，有些怕人。今晚却很好，虽然月光也还是淡淡的。路上只我一个人，背着手踱着。这一片天地好像是我的；我也像超出了平常的自己，到了另一世界里。我爱热闹，也爱冷静；爱群居，也爱独处。像今晚上，一个人在这苍茫的月下，什么都可以想，什么都可以不想，便觉是个自由的人。白天里一定要做的事，一定要说的话，现在都可不理。这是独处的妙处，我且受用这无边的荷香月色好了。
+        &lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;div2&quot; style=&quot;display:none&quot;&gt;
+        &lt;p&gt;
+            曲曲折折的荷塘上面，弥望的是田田的叶子。叶子出水很高，像亭亭的舞女的裙。层层的叶子中间，零星地点缀着些白花，有袅娜(niǎo,nuó)地开着的，有羞涩地打着朵儿的；正如一粒粒的明珠，又如碧天里的星星，又如刚出浴的美人。微风过处，送来缕缕清香，仿佛远处高楼上渺茫的歌声似的。这时候叶子与花也有一丝的颤动，像闪电一般，霎时传过荷塘的那边去了。叶子本是肩并肩密密地挨着，这便宛然有了一道凝碧的波痕。叶子底下是脉脉(mò)的流水，遮住了，不能见一些颜色；而叶子却更见风致了。月光如流水一般，静静地泻在这一片叶子和花上。薄薄的青雾浮起在荷塘里。叶子和花仿佛在牛乳中洗过一 样；又像笼着轻纱的梦。虽然是满月，天上却有一层淡淡的云，所以不能朗照；但我以为这恰是到了好处——酣眠固不可少，小睡也别有风味的。月光是隔了树照过来的，高处丛生的灌木，落下参差的斑驳的黑影，峭楞楞如鬼一般；弯弯的杨柳的稀疏的倩影，却又像是画在荷叶上。塘中的月色并不均匀；但光与影有着和谐的旋律，如梵婀(ē)玲(英语violin小提琴的译音)上奏着的名曲。
+        &lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;div3&quot; style=&quot;display:none&quot;&gt;
+        &lt;p&gt;
+            荷塘的四面，远远近近，高高低低都是树，而杨柳最多。这些树将一片荷塘重重围住；只在小路一旁，漏着几段空隙，像是特为月光留下的。树色一例是阴阴的，乍看像一团烟雾；但杨柳的丰姿，便在烟雾里也辨得出。树梢上隐隐约约的是一带远山，只有些大意罢了。树缝里也漏着一两点路灯光，没精打采的，是渴睡人的眼。这时候最热闹的，要数树上的蝉声与水里的蛙声；但热闹是他们的，我什么也没有。
+        &lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;div4&quot; style=&quot;display:none&quot;&gt;
+        &lt;p&gt;
+            忽然想起采莲的事情来了。采莲是江南的旧俗，似乎很早就有，而六朝时为盛；从诗歌里可以约略知道。采莲的是少年的女子，她们是荡着小船，唱着艳歌去的。采莲人不用说很多，还有看采莲的人。那是一个热闹的季节，也是一个风流的季节。梁元帝《采莲赋》里说得好：于是妖童媛(yuán)女，荡舟心许；鷁(yì)首徐回，兼传羽杯；欋(zhào)将移而藻挂，船欲动而萍开。尔其纤腰束素，迁延顾步；夏始春余，叶嫩花初，恐沾裳而浅笑，畏倾船而敛裾(jū)见当时嬉游的光景了。这真是有趣的事，可惜我们现在早已无福消受了。
+        &lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;div5&quot; style=&quot;display:none&quot;&gt;
+        &lt;p&gt;
+            于是又记起《西洲曲》里的句子：采莲南塘秋，莲花过人头；低头弄莲子，莲子清如水。今晚若有采莲人，这儿的莲花也算得“过人头”了；只不见一些流水的影子，是不行的。这令我到底惦着江南了。这样想着，猛一抬头，不觉已是自己的门前；轻轻地推门进去，什么声息也没有，妻已睡熟好久了。
+        &lt;/p&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- 页面右侧内容 结束 --&gt;
+&lt;/div&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>到这里我们基本能够实现前面的几个效果，可是页面看起来很寒碜，高度不一致，那么如何让这两个区域显示的高度一致呢？我们继续往下，我们需要写一段js代码，来让他们判断左右的高度，然后以较高的那个为准，那么index.html代码将会变成如下：</p>
+<pre><code>&lt;!doctype html&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;title&gt;很帅的手风琴模块&lt;/title&gt;
+
+&lt;link rel=&quot;stylesheet&quot; href=&quot;css/reset.css&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;css/bootstrap.min.css&quot;&gt;
+&lt;script src=&quot;js/jquery-2.1.1.min.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;js/bootstrap.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;js/modernizr.js&quot;&gt;&lt;/script&gt;
+&lt;style type=&quot;text/css&quot;&gt;
+    .zb-shoufengqin-left&#123;
+        width: 30%;
+        float: left;
+    &#125;
+    .zb-shoufengqin-right&#123;
+        width: 69%;
+        float: left;
+        height: auto;
+        margin: 57px 10px 10px 0px;
+        padding: 20px 10px;
+        background: #6A4040;
+        color: #fff;
+    &#125;
+
+    @media screen and (max-width: 760px) &#123;
+    .zb-shoufengqin-left&#123;
+        width: 100%;
+    &#125;
+    .zb-shoufengqin-right&#123;
+        width: 100%;
+        padding: 10px;
+        margin: 0px 10px 10px 0px;
+    &#125;
+    &#125;
+&lt;/style&gt;
+
+&lt;!-- 以下的这段js代码用来实现页面左右两个部分内容的绑定，即点击左边的链接在右边显示相应的内容 --&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+function funcShow(id)&#123;
+for(var i=0;i&lt;16;i++)&#123;
+var divInfo =document.getElementById(&#39;div&#39;+(i+1));
+divInfo.style.display=&#39;none&#39;;
+&#125;
+var div =document.getElementById(&#39;div&#39;+id);
+div.style.display=&#39;block&#39;;
+&#125;
+&lt;/script&gt;
+
+&lt;!-- 以下的脚本代码用来确保左右两列的高度一致，始终以最高的那个为准 --&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+    $(function()&#123;
+        var heightleft= $(&quot;#zb-shoufengqin-left&quot;).height();
+        var heightright= $(&quot;#zb-shoufengqin-right&quot;).height();
+        if (heightleft&gt;heightright) &#123;
+            $(&quot;#zb-shoufengqin-right&quot;).height(heightleft);
+        &#125;
+        else&#123;
+            $(&quot;#zb-shoufengqin-left&quot;).height(heightright);
+        &#125;
+    &#125;)
+&lt;/script&gt;
+
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div&gt;
+&lt;!-- 左侧手风琴折叠菜单 开始 --&gt;
+&lt;div class=&quot;zb-shoufengqin-left&quot; id=&quot;zb-shoufengqin-left&quot;&gt;
+    &lt;ul class=&quot;cd-accordion-menu animated&quot;&gt;
+    &lt;li class=&quot;has-children&quot;&gt;
+        &lt;input type=&quot;checkbox&quot; name =&quot;group-1&quot; id=&quot;group-1&quot; checked&gt;
+        &lt;label for=&quot;group-1&quot;&gt;Group 1&lt;/label&gt;
+        &lt;ul&gt;
+            &lt;li class=&quot;has-children&quot;&gt;
+                &lt;input type=&quot;checkbox&quot; name =&quot;sub-group-1&quot; id=&quot;sub-group-1&quot;&gt;
+                &lt;label for=&quot;sub-group-1&quot;&gt;Sub Group 1&lt;/label&gt;
+                &lt;ul&gt;
+                    &lt;li&gt;
+                        &lt;a href=&quot;javascript:funcShow(1)&quot;&gt;荷塘月色第一段&lt;/a&gt;
+                    &lt;/li&gt;
+                    &lt;li&gt;
+                        &lt;a href=&quot;javascript:funcShow(2)&quot;&gt;荷塘月色第二段&lt;/a&gt;
+                    &lt;/li&gt;
+                    &lt;li&gt;
+                        &lt;a href=&quot;javascript:funcShow(3)&quot;&gt;荷塘月色第三段&lt;/a&gt;
+                    &lt;/li&gt;
+                &lt;/ul&gt;
+            &lt;/li&gt;
+            &lt;li class=&quot;has-children&quot;&gt;
+                &lt;input type=&quot;checkbox&quot; name =&quot;sub-group-2&quot; id=&quot;sub-group-2&quot;&gt;
+                &lt;label for=&quot;sub-group-2&quot;&gt;Sub Group 2&lt;/label&gt;
+                &lt;ul&gt;
+                    &lt;li class=&quot;has-children&quot;&gt;
+                        &lt;input type=&quot;checkbox&quot; name =&quot;sub-group-level-3&quot; id=&quot;sub-group-level-3&quot;&gt;
+                        &lt;label for=&quot;sub-group-level-3&quot;&gt;Sub Group Level 3&lt;/label&gt;
+                        &lt;ul&gt;
+                            &lt;li&gt;&lt;a href=&quot;javascript:funcShow(4)&quot;&gt;荷塘月色第四段&lt;/a&gt;&lt;/li&gt;
+                            &lt;li&gt;&lt;a href=&quot;javascript:funcShow(5)&quot;&gt;荷塘月色第五段&lt;/a&gt;&lt;/li&gt;
+                        &lt;/ul&gt;
+                    &lt;/li&gt;
+                    &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image3&lt;/a&gt;&lt;/li&gt;
+                &lt;/ul&gt;
+            &lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image4&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image5&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li class=&quot;has-children&quot;&gt;
+        &lt;input type=&quot;checkbox&quot; name =&quot;group-2&quot; id=&quot;group-2&quot;&gt;
+        &lt;label for=&quot;group-2&quot;&gt;Group 2&lt;/label&gt;
+        &lt;ul&gt;
+            &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image6&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image7&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li class=&quot;has-children&quot;&gt;
+        &lt;input type=&quot;checkbox&quot; name =&quot;group-3&quot; id=&quot;group-3&quot;&gt;
+        &lt;label for=&quot;group-3&quot;&gt;Group 3&lt;/label&gt;
+        &lt;ul&gt;
+            &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image8&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image9&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li class=&quot;has-children&quot;&gt;
+        &lt;input type=&quot;checkbox&quot; name =&quot;group-4&quot; id=&quot;group-4&quot;&gt;
+        &lt;label for=&quot;group-4&quot;&gt;Group 4&lt;/label&gt;
+        &lt;ul&gt;
+            &lt;li class=&quot;has-children&quot;&gt;
+                &lt;input type=&quot;checkbox&quot; name =&quot;sub-group-3&quot; id=&quot;sub-group-3&quot;&gt;
+                &lt;label for=&quot;sub-group-3&quot;&gt;Sub Group 3&lt;/label&gt;
+                &lt;ul&gt;
+                    &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image10&lt;/a&gt;&lt;/li&gt;
+                    &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image11&lt;/a&gt;&lt;/li&gt;
+                &lt;/ul&gt;
+            &lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image12&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image13&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/div&gt;
+&lt;!-- 左侧手风琴折叠菜单 结束 --&gt;
+
+&lt;!-- 页面右侧内容 开始--&gt;
+&lt;div class=&quot;zb-shoufengqin-right&quot; id=&quot;zb-shoufengqin-right&quot;&gt;
+    &lt;div id=&quot;div1&quot; style=&quot;display:block&quot;&gt;
+        &lt;p&gt;
+            这几天心里颇不宁静。今晚在院子里坐着乘凉，忽然想起日日走过的荷塘，在这满月的月光里，总该另有一番样子吧。月亮渐渐地升高了，墙外马路上孩子们的欢笑，已经听不见了；妻在屋里拍着闰儿，迷迷糊糊地哼着眠歌。我悄悄地披了大衫，带上门出去。沿着荷塘，是一条曲折的小煤屑路。这是一条幽僻的路；白天也少人走，夜晚更加寂寞。荷塘四面，长着许多树，蓊蓊(wěng)郁郁的。路的一旁，是些杨柳，和一些不知道名字的树。没有月光的晚上，这路上阴森森的，有些怕人。今晚却很好，虽然月光也还是淡淡的。路上只我一个人，背着手踱着。这一片天地好像是我的；我也像超出了平常的自己，到了另一世界里。我爱热闹，也爱冷静；爱群居，也爱独处。像今晚上，一个人在这苍茫的月下，什么都可以想，什么都可以不想，便觉是个自由的人。白天里一定要做的事，一定要说的话，现在都可不理。这是独处的妙处，我且受用这无边的荷香月色好了。
+        &lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;div2&quot; style=&quot;display:none&quot;&gt;
+        &lt;p&gt;
+            曲曲折折的荷塘上面，弥望的是田田的叶子。叶子出水很高，像亭亭的舞女的裙。层层的叶子中间，零星地点缀着些白花，有袅娜(niǎo,nuó)地开着的，有羞涩地打着朵儿的；正如一粒粒的明珠，又如碧天里的星星，又如刚出浴的美人。微风过处，送来缕缕清香，仿佛远处高楼上渺茫的歌声似的。这时候叶子与花也有一丝的颤动，像闪电一般，霎时传过荷塘的那边去了。叶子本是肩并肩密密地挨着，这便宛然有了一道凝碧的波痕。叶子底下是脉脉(mò)的流水，遮住了，不能见一些颜色；而叶子却更见风致了。月光如流水一般，静静地泻在这一片叶子和花上。薄薄的青雾浮起在荷塘里。叶子和花仿佛在牛乳中洗过一 样；又像笼着轻纱的梦。虽然是满月，天上却有一层淡淡的云，所以不能朗照；但我以为这恰是到了好处——酣眠固不可少，小睡也别有风味的。月光是隔了树照过来的，高处丛生的灌木，落下参差的斑驳的黑影，峭楞楞如鬼一般；弯弯的杨柳的稀疏的倩影，却又像是画在荷叶上。塘中的月色并不均匀；但光与影有着和谐的旋律，如梵婀(ē)玲(英语violin小提琴的译音)上奏着的名曲。
+        &lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;div3&quot; style=&quot;display:none&quot;&gt;
+        &lt;p&gt;
+            荷塘的四面，远远近近，高高低低都是树，而杨柳最多。这些树将一片荷塘重重围住；只在小路一旁，漏着几段空隙，像是特为月光留下的。树色一例是阴阴的，乍看像一团烟雾；但杨柳的丰姿，便在烟雾里也辨得出。树梢上隐隐约约的是一带远山，只有些大意罢了。树缝里也漏着一两点路灯光，没精打采的，是渴睡人的眼。这时候最热闹的，要数树上的蝉声与水里的蛙声；但热闹是他们的，我什么也没有。
+        &lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;div4&quot; style=&quot;display:none&quot;&gt;
+        &lt;p&gt;
+            忽然想起采莲的事情来了。采莲是江南的旧俗，似乎很早就有，而六朝时为盛；从诗歌里可以约略知道。采莲的是少年的女子，她们是荡着小船，唱着艳歌去的。采莲人不用说很多，还有看采莲的人。那是一个热闹的季节，也是一个风流的季节。梁元帝《采莲赋》里说得好：于是妖童媛(yuán)女，荡舟心许；鷁(yì)首徐回，兼传羽杯；欋(zhào)将移而藻挂，船欲动而萍开。尔其纤腰束素，迁延顾步；夏始春余，叶嫩花初，恐沾裳而浅笑，畏倾船而敛裾(jū)见当时嬉游的光景了。这真是有趣的事，可惜我们现在早已无福消受了。
+        &lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;div5&quot; style=&quot;display:none&quot;&gt;
+        &lt;p&gt;
+            于是又记起《西洲曲》里的句子：采莲南塘秋，莲花过人头；低头弄莲子，莲子清如水。今晚若有采莲人，这儿的莲花也算得“过人头”了；只不见一些流水的影子，是不行的。这令我到底惦着江南了。这样想着，猛一抬头，不觉已是自己的门前；轻轻地推门进去，什么声息也没有，妻已睡熟好久了。
+        &lt;/p&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- 页面右侧内容 结束 --&gt;
+&lt;/div&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>最后，我们如何让这个漂亮的效果能够适应各种终端设备呢？其实这是个样式的问题，我们可以通过媒体查询来实现，这里我已经简单的在style中写了，在max-width:760px中显示的样式，原理很简单，这里就不再重复了。</p>
+<p>最终的效果如下图：</p>
+<p><img src="http://i.imgur.com/ho7EAqf.png"></p>
+<p>效果代码可以在这里<a target="_blank" rel="noopener" href="http://pan.baidu.com/s/1eSoaVq6">下载</a></p>
+<p>如果有深入探讨的，请随时与我取得联系，我的QQ:791447771</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/06/04/%E5%88%86%E4%BA%AB%E5%87%A0%E6%AC%BE%E4%BC%98%E7%A7%80%E7%9A%84web%E5%89%8D%E7%AB%AF%E6%A1%86%E6%9E%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/06/04/%E5%88%86%E4%BA%AB%E5%87%A0%E6%AC%BE%E4%BC%98%E7%A7%80%E7%9A%84web%E5%89%8D%E7%AB%AF%E6%A1%86%E6%9E%B6/" class="post-title-link" itemprop="url">分享几款优秀的web前端框架</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-06-04 16:42:41" itemprop="dateCreated datePublished" datetime="2016-06-04T16:42:41+08:00">2016-06-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:04" itemprop="dateModified" datetime="2020-10-11T11:53:04+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><img src="http://i.imgur.com/Bb4WFUh.jpg"></p>
+<p>从事web前端已经有一些时间了，解决过不少棘手的问题，现在回头想想曾经的麻烦都是因为缺少充分的准备，试想一下，如果当初能够准备好充分的UI库，充分的资源，能够多点时间去了解一些优秀的UI库是不是能够面临新的问题的时候能够快速地给出很好的解决方案，记得曾经就遇到过一个问题，结果客户那边催促得紧，这边还没找到一个良好的解决方案，这种心情就像热锅上的蚂蚁。</p>
+<p>中间省略部分废话…</p>
+<p>首先要推荐的就是的弹窗UI框架layerUI，用过的朋友会觉得非常省时间，尤其是在一些修改网站的局部效果的时候会用得上，与其各个地去添加js代码，还不如直接引用这个框架来得省事，当然这里提醒一下，对于初学者不建议过于依赖这些UI框架。</p>
+<p>参考网址：<a target="_blank" rel="noopener" href="http://layer.layui.com/">http://layer.layui.com/</a></p>
+<p>下载地址：<a target="_blank" rel="noopener" href="http://pan.baidu.com/s/1eSuLke2">http://pan.baidu.com/s/1eSuLke2</a>   密码：pp0z</p>
+<p>引用官网的话说：</p>
+<blockquote>
+<p>layer是一款近年来备受青睐的web弹层组件，她具备全方位的解决方案，致力于服务各水平段的开发人员，您的页面会轻松地拥有丰富友好的操作体验。<br>在与同类组件的比较中，layer总是能轻易获胜。她尽可能地在以更少的代码展现更强健的功能，且格外注重性能的提升、易用和实用性，正因如此，越来越多的开发者将媚眼投上了layer（已被2772810人次关注）。layer兼容了包括IE6在内的所有主流浏览器。 她数量可观的接口，使得您可以自定义太多您需要的风格，每一种弹层模式各具特色，广受欢迎。当然，这种“王婆卖瓜”的陈述听起来总是有点难受，因此你需要进一步了解她是否真的如你所愿。</p>
+</blockquote>
+<p>当我们在官网下载他们的demo后你就会发现，其实引用这个是相当方便的，头部需要的引用的文件如下：</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot; src=&quot;js/jquery-2.2.3.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;layer/layer.js&quot;&gt;&lt;/script&gt;</code></pre>
+<p>中间是一些HTML代码，当然其中也可以添加一些js代码，这里我以图片相册功能为例，添加三个ID中的图片相册功能，代码如下：</p>
+<pre><code>&lt;script&gt;
+    +!function()&#123;
+        layer.ready(function()&#123;
+            layer.photos(&#123;
+                photos:&#39;#LayerPhoto&#39;
+            &#125;);
+        &#125;);
+    &#125;()
+&lt;/script&gt;
+
+&lt;script&gt;
+    +!function()&#123;
+        layer.ready(function()&#123;
+            layer.photos(&#123;
+                photos:&#39;#zb-tupian&#39;
+            &#125;);
+        &#125;);
+    &#125;()
+&lt;/script&gt;
+
+&lt;script&gt;
+    +!function()&#123;
+        layer.ready(function()&#123;
+            layer.photos(&#123;
+                photos:&#39;#zb-zhaopian&#39;
+            &#125;);
+        &#125;);
+    &#125;()
+&lt;/script&gt;</code></pre>
+<p>完整的demo下载地址：<a target="_blank" rel="noopener" href="http://pan.baidu.com/s/1pL9vUCb">http://pan.baidu.com/s/1pL9vUCb</a>     密码：fivl</p>
+<p>中间的一些写法大家可以直接参考官网的文档，针对不同的弹窗效果遵守不同的写法。</p>
+<p><strong>第二个值得推荐的web前端框架是：jQuery WeUI</strong></p>
+<p>相对于bootstrap而言，这个框架算是比较轻量级的了，他们的功能大同小异，随着UI框架的使用，遵循的原则大致相同，即先去官网下载这个库，把下载的这个库根据官网的使用说明对这个库的引用，然后根据使用规则也就是所谓的API，把他们的API用在HTML文件的各个角落，然后在浏览器上打开这个html文件，刷新一下就可以看到奇迹发生了，用了一遍之后，你会发现你快爱上它了…</p>
+<p>好吧，废话少说，把这个库的官网给贴上：<a target="_blank" rel="noopener" href="http://lihongxun945.github.io/jquery-weui/">http://lihongxun945.github.io/jquery-weui/</a></p>
+<p>jQuery WeUI的下载地址：<a target="_blank" rel="noopener" href="http://pan.baidu.com/s/1jI4g2lK">http://pan.baidu.com/s/1jI4g2lK</a>     密码：wlwi</p>
+<p>这里再把这个库的demo地址贴上：<a target="_blank" rel="noopener" href="http://lihongxun945.github.io/jquery-weui/dist/demos/">http://lihongxun945.github.io/jquery-weui/dist/demos/</a></p>
+<p>先去体验一把，看看是不是自己想要的那种效果，然后再使用也不迟，嘻嘻<del>~</del></p>
+<p>第三个值得推荐的：还没被发现。如果看过这篇文章的读者，发现了有值得推荐的web前端框架，请打电话告诉我，我给你打赏。</p>
+<p>如果你觉得我是在你学习的道路上值得交往的同学，请把你更好的库发一份到我的邮箱：<a href="mailto:&#55;&#x39;&#x31;&#x34;&#52;&#x37;&#x37;&#55;&#49;&#x40;&#x71;&#113;&#46;&#x63;&#x6f;&#x6d;">&#55;&#x39;&#x31;&#x34;&#52;&#x37;&#x37;&#55;&#49;&#x40;&#x71;&#113;&#46;&#x63;&#x6f;&#x6d;</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/04/29/%E4%B8%BAwordpress%E8%AE%BE%E8%AE%A1%E5%90%8E%E5%8F%B0%E7%99%BB%E5%BD%95%E7%95%8C%E9%9D%A2%E5%92%8C%E6%9B%B4%E6%8D%A2logo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/04/29/%E4%B8%BAwordpress%E8%AE%BE%E8%AE%A1%E5%90%8E%E5%8F%B0%E7%99%BB%E5%BD%95%E7%95%8C%E9%9D%A2%E5%92%8C%E6%9B%B4%E6%8D%A2logo/" class="post-title-link" itemprop="url">为wordpress设计后台登录界面和更换logo</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-04-29 14:58:25" itemprop="dateCreated datePublished" datetime="2016-04-29T14:58:25+08:00">2016-04-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:52:53" itemprop="dateModified" datetime="2020-10-11T11:52:53+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><strong>wordpress修改后台登录logo方法：</strong></p>
+<p>wordpress网站后台登陆界面有个Logo图标，在自己的网站摆着官方的图标，很多人看起来很不舒服，所以大家都希望更换掉这个图标，为此，本站推荐两种wordpress更换图标的方法：</p>
+<p><strong>方法一：只需要把其原本调用的logo图片替换为自己的logo图片即可，具体步骤如下：</strong></p>
+<p>准备一张命名为logo-login.gif的背景透明的图片大小规格为310px*70px</p>
+<p>在wordpress根目录的wp-admin/images文件夹中找到logo-login.gif文件，用这张图片覆盖替换为自己准备好的logo-login.gif图片即可</p>
+<p>访问后台登陆界面，图标已更换。</p>
+<p>优点：简单，快捷，适合新手使用；</p>
+<p>缺点：更新升级版本时又得重新修改。</p>
+<p><strong>方法二：在functions.php修改，具体步骤如下：</strong></p>
+<p>1、在主题函数文件functions.php中，添加如下一行，以修改链接地址：</p>
+<pre><code>add_filter(&#39;login_headerurl&#39;, create_function(false,&#39;return get_bloginfo(&#39;siteurl&#39;);&quot;));</code></pre>
+<p>2、在主题函数文件functions.php中，添加如下一行，以修改链接地址的标题提示：</p>
+<pre><code>add_filter(&#39;login_headertitle&#39;, create_function(false,&quot;return get_bloginfo(&#39;description&#39;);&quot;));</code></pre>
+<p>3、在主题函数文件functions.php中，添加如下内容，以修改由CSS控制显示的链接图片：</p>
+<pre><code>function nowspark_login_head() &#123;
+echo ‘&lt;style type=”text/css”&gt;body.login #login h1 a &#123;background:url(http://www.mengzhiyi.info/wp-content/themes/mengzhiyi/images/buttom_logo.gif) no-repeat 0 0 transparent;height: 31px;width: 155px;padding:0;margin:0 auto 1em;&#125;&lt;/style&gt;’;
+&#125;
+add_action(“login_head”, “nowspark_login_head”);//modify the background image</code></pre>
+<p>将url中链接修改为你自己的链接即可！</p>
+<p>优点：更新版本无需重新更改，更改图片的同时把链接地址和标题提示也同时修改掉了；</p>
+<hr>
+<p><strong>通过修改WordPress后台登录地址，提高WordPress安全性的方法。</strong></p>
+<p>使用 Stealth Login Page 插件</p>
+<p>该插件设置非常简单，设置一个非法访问后台地址 /wp-admin 或 /wp-login.php 时，重定向到指定网址；然后设置自定义登录地址的链接参数，具体见下图：</p>
+<p>Stealth-Login-Page-wpdaxue_com<br>保存设置后，只能通过那个自定义登录地址才能访问到登录表单，其他后台地址一律重定向到所设置的重定向地址。该插件一个比较大的特色就是支持 多站点网络，具体设置可以查看插件文档（插件自带一个文档页面）</p>
+<p>在后台插件安装界面搜索 Stealth Login Page 即可在线安装，或者下载 Stealth Login Page</p>
+<p>使用 Protected wp-login 插件</p>
+<p>Protected wp-login 是一个比较简单，但还算实用的WordPress插件，通过在登录地址后面添加验证参数来提高安全性，一起来了解下。</p>
+<p>1.在后台插件安装界面搜索 Protected wp-login 即可现在安装，或者下载 Protected wp-login</p>
+<p>2.启用 Protected wp-login，在后台 &gt; 设置 &gt;Protected wp-login，进入设置界面：</p>
+<pre><code>protected-wp-login-wpdaxue_com</code></pre>
+<p>该插件有三个设置选项：</p>
+<p>Enable protection（启用保护）<br>Your secure key（你的安全密钥——如果不是包含安全密钥的地址，即使你的用户名和密码正确，都没办法登录）<br>Enable stealth mode（启用隐身模式——如果不是包含安全密钥的地址，都不显示登录表单）<br>勾选启用保护，输入安全密钥（演示中输入 fuck_you），保存更改，就会得到一个登录地址，如上图所示。</p>
+<p>不知咱回事测试的时候，生成的地址居然是：</p>
+<pre><code>http://demo.wpdaxue.info/wp-login.php/wp-login.php?sk=fuck_you</code></pre>
+<p>经过测试，上面的地址可以正常登录，下面地址也可以</p>
+<pre><code>http://demo.wpdaxue.info/wp-login.php?sk=fuck_you</code></pre>
+<p>如果是其他地址，即使你的用户名和密码正确，都是没办法登录的！如果开启了隐身模式，除了上面的地址之外，其他任何地址都看不到登录表单。</p>
+<p>倡萌提示：请记得将生成的登录地址添加到浏览器的收藏夹，如果忘记了，导致无法登录，可以通过FTP登录插件目录，更名或删除该插件即可恢复。<br>使用代码</p>
+<p>如果你不喜欢插件，可以将下面的代码添加到当前主题的 functions.php 文件：</p>
+<pre><code>//保护后台登录
+add_action(&#39;login_enqueue_scripts&#39;,&#39;login_protection&#39;);  
+function login_protection()&#123;  
+if($_GET[&#39;word&#39;] != &#39;press&#39;)header(&#39;Location: http://www.wpdaxue.com/&#39;);  
+&#125;</code></pre>
+<p>这样一来，后台登录的唯一地址就是 <a target="_blank" rel="noopener" href="http://yoursite/wp-login.php?word=press%EF%BC%8C%E5%A6%82%E6%9E%9C%E4%B8%8D%E6%98%AF%E8%BF%99%E4%B8%AA%E5%9C%B0%E5%9D%80%EF%BC%8C%E5%B0%B1%E4%BC%9A%E8%87%AA%E5%8A%A8%E8%B7%B3%E8%BD%AC%E5%88%B0">http://yoursite/wp-login.php?word=press，如果不是这个地址，就会自动跳转到</a> <a target="_blank" rel="noopener" href="http://www.wpdaxue.com/">http://www.wpdaxue.com/</a> ，不信你试试！</p>
+<p>你可以修改第 4 行的 Word、press 和 <a target="_blank" rel="noopener" href="http://www.wpdaxue.com/">http://www.wpdaxue.com/</a> 这三个参数。</p>
+<hr>
+<p>##WordPress 自定义后台登录页面方案一</p>
+<p>这几天在折腾关于全背景登录的页面。效果类似于 @Lofter 登录的效果，刚开始觉得没啥技术含量，最后觉得里面还是有点内容的。主要难点在于后面的背景如何自适应和窗口大小改变等比例缩放图片适应窗口。至于怎样实现大家还是看Demo吧，Demo里的JS有注释和说明。</p>
+<pre><code>Demo：http://demo.webjyh.com/full-bg-login-form/</code></pre>
+<p>Demo做好了，于是想想干脆把WordPress后台的登录界面换一下。换成这样全背景的多好看。于是就成就了我现在的登录页面各位请看地址。</p>
+<p>效果图：</p>
+<pre><code>WordPress Login：http://webjyh.com/wp-login.php</code></pre>
+<p>至于怎样改我就不一一细说了，我把资料地址发一份给大家，地址请看  @如何自定义WordPress的登录页面  。为了大家方便，我把我这里的登录页面打包共享给大家，怎样安装呢。将下载下来的压缩包解压。然后大家把这几个文件夹（css，images，js）  Copy到 你现在当前使用主题根目录下。请各位注意文件重名的问题，别把主题文件内容给替换了。functions.php 此文件不用Copy，后面用来添加你主题的代码的。</p>
+<p>当以上步骤做完了。下面我们来修改主题代码。将当前使用的主题 找到 functions.php  打开。在文件的最下方添加以下代码，代码就是刚刚下载的压缩包里的 functions.php 代码。直接Copy 过去就可以了。还是把代码贴出来吧。</p>
+<pre><code>//Login Page
+function custom_login() &#123;
+    echo &#39;  &lt;link href=&quot;&#39; . get_bloginfo(&#39;template_directory&#39;) . &#39;/css/login.css&quot; rel=&quot;stylesheet&quot; type=&quot;text/css&quot; /&gt;&#39;.&quot;\n&quot;;
+    echo &#39;&lt;script type=&quot;text/javascript&quot; src=&quot;&#39;.get_bloginfo(&#39;template_directory&#39;).&#39;/js/jquery.min.js&quot;&gt;&lt;/script&gt;&#39;.&quot;\n&quot;; &#125; add_action(&#39;login_head&#39;, &#39;custom_login&#39;); //Login Page Title function custom_headertitle ( $title ) &#123; return get_bloginfo(&#39;name&#39;); &#125; add_filter(&#39;login_headertitle&#39;,&#39;custom_headertitle&#39;); //Login Page Link function custom_loginlogo_url($url) &#123; return esc_url( home_url(&#39;/&#39;) ); &#125; add_filter( &#39;login_headerurl&#39;, &#39;custom_loginlogo_url&#39; ); //Login Page Footer function custom_html() &#123; echo &#39;&lt;/pre&gt;
+&lt;div class=&quot;footer&quot;&gt;&#39;.&quot;\n&quot;; echo &#39;
+Copyright © &#39;.date(&#39;Y&#39;).&#39; All Rights | Author by &lt;a href=&quot;http://webjyh.com&quot; target=&quot;_blank&quot;&gt;M.J&lt;/a&gt;
+
+&#39;.&quot;\n&quot;; echo &#39;&lt;/div&gt;
+&lt;pre&gt;
+&#39;.&quot;\n&quot;; echo &#39;&lt;script type=&quot;text/javascript&quot; src=&quot;&#39;.get_bloginfo(&#39;template_directory&#39;).&#39;/js/resizeBg.js&quot;&gt;&lt;/script&gt;&#39;.&quot;\n&quot;;
+ echo &#39;&lt;script type=&quot;text/javascript&quot;&gt;// &lt;![CDATA[
+&#39;.&quot;\n&quot;;
+    echo &#39;jQuery(&quot;body&quot;).prepend(&quot;
+
+&lt;div class=\&quot;loading\&quot;&gt;&lt;img src=\&quot;&#39;.get_bloginfo(&#39;template_directory&#39;).&#39;/images/login_loading.gif\&quot; width=\&quot;58\&quot; height=\&quot;10\&quot;&gt;&lt;/div&gt;
+&lt;div id=\&quot;bg\&quot;&gt;&lt;img /&gt;&lt;/div&gt;
+
+&quot;);&#39;.&quot;\n&quot;;
+    echo &#39;jQuery(\&#39;#bg\&#39;).children(\&#39;img\&#39;).attr(\&#39;src\&#39;, \&#39;&#39;.get_bloginfo(&#39;template_directory&#39;).&#39;/images/login_bg.jpg\&#39;).load(function()&#123;&#39;.&quot;\n&quot;;
+    echo &#39;  resizeImage(\&#39;bg\&#39;);&#39;.&quot;\n&quot;;
+    echo &#39;  jQuery(window).bind(&quot;resize&quot;, function() &#123; resizeImage(\&#39;bg\&#39;); &#125;);&#39;.&quot;\n&quot;;
+    echo &#39;  jQuery(\&#39;.loading\&#39;).fadeOut();&#39;.&quot;\n&quot;;
+    echo &#39;&#125;);&#39;;
+    echo &#39;
+// ]]&gt;&lt;/script&gt;&#39;.&quot;\n&quot;;
+ &#125;
+ add_action(&#39;login_footer&#39;, &#39;custom_html&#39;);</code></pre>
+<p>关于这个登录界面的jQuery问题，因为这个后台的效果是使用jQuery库来实现的，所以说，如果说没修改之前的后台登录界面主题就带了这个jQuery库，大家可以把以上代码中的jQuery 库给注释了。关于肿么看呢，右击查看源代码。如何注释jQuery代码呢。大家找到以下代码。</p>
+<pre><code>echo &#39;&lt;script type=&quot;text/javascript&quot; src=&quot;&#39;.get_bloginfo(&#39;template_directory&#39;).&#39;/js/jquery.min.js&quot;&gt;&lt;/script&gt;&#39;.&quot;\n&quot;;</code></pre>
+<p>将其改成</p>
+<pre><code>//echo &#39;&lt;script type=&quot;text/javascript&quot; src=&quot;&#39;.get_bloginfo(&#39;template_directory&#39;).&#39;/js/jquery.min.js&quot;&gt;&lt;/script&gt;&#39;.&quot;\n&quot;;</code></pre>
+<p>这样就可以了，到此大家美化WordPress后台登录界面已经完成，赶紧去看看吧！！！最重要的一点忘记说了，页面不兼容IE，一个IE我都没测试，测试了Chrome 和 FireFox。坑爹的IE我测试不起啊！</p>
+<p>附件下载：<a target="_blank" rel="noopener" href="http://webjyh.com/wp-content/uploads/2013/12/wordpress-login-page.zip">http://webjyh.com/wp-content/uploads/2013/12/wordpress-login-page.zip</a></p>
+<hr>
+<p>##自定义WordPress后台登陆界面方案二</p>
+<p>效果一：</p>
+<p><img src="http://i.imgur.com/KFN6yKv.jpg"></p>
+<p>效果二：</p>
+<p><img src="http://i.imgur.com/ErLAcxA.png"></p>
+<p>编辑functions.php文件,加入以下代码</p>
+<pre><code>//登录界面
+function diy_login_page() &#123;
+  echo &#39;&lt;link rel=&quot;stylesheet&quot; href=&quot;&#39; . get_bloginfo( &#39;template_directory&#39; ) . &#39;/login.css&quot; type=&quot;text/css&quot; media=&quot;all&quot; /&gt;&#39; . &quot;\n&quot;;
+&#125;
+add_action( &#39;login_enqueue_scripts&#39;, &#39;diy_login_page&#39; );</code></pre>
+<p>在当前模板目录下新建login.css,内容如下：login.css</p>
+<pre><code>html&#123;
+  background: transparent;
+&#125;
+body.login&#123;
+  background: #000 url(&quot;images/login_bg.jpg&quot;) no-repeat center top;
+&#125;
+body.login div#login h1 a &#123;
+  display: none;
+&#125;
+body.login div#login h1&#123;
+  display: block;
+  height: 70px;
+&#125;
+.login form,.login form .input, .login input[type=&quot;text&quot;],.wp-core-ui .button-primary,.wp-core-ui .button-primary:hover&#123;
+  -webkit-box-shadow:none;
+  box-shadow:none;
+  -webkit-border-radius: 0;
+  border-radius: 0;
+&#125;
+.login form&#123;
+  background: rgba(10,35,35,.4);
+  border: none;
+&#125;
+.login form .input, .login input[type=&quot;text&quot;]&#123;
+  background: transparent;
+  border-color: #444;
+  color: #eee;
+&#125;
+.login form .input:focus&#123;
+  border-color: #666;
+&#125;
+.login label&#123;
+  color: #999;
+  line-height: 35px;
+&#125;
+
+.wp-core-ui .button.button-primary&#123;
+  background: rgba(187,64,48,.7);
+  border: none;
+  line-height: 12px;
+  padding: 10px 30px;
+&#125;
+.wp-core-ui .button-primary:hover&#123;
+  background: rgba(0,0,0,.4);
+  -webkit-transition: background 0.5s ease-out 0s;
+  -moz-transition: background 0.5s ease-out 0s;
+  -ms-transition: background 0.5s ease-out 0s;
+  -o-transition: background 0.5s ease-out 0s;
+  transition: background 0.5s ease-out 0s;
+&#125;
+.wp-core-ui .button.button-primary,
+.login label,
+.login form .input&#123;
+  font-family: &#39;Microsoft YaHei&#39;;
+&#125;
+#nav,#backtoblog&#123;
+  display: none;
+&#125;
+/*白色*/
+body.login&#123;
+  background: #fff url(&quot;http://ww1.sinaimg.cn/large/5d2f370dgw1ebce7cxr03j21400p0n9l.jpg&quot;);
+&#125;
+.login label&#123;
+  color: #000;
+  line-height: 35px;
+&#125;
+.login form&#123;
+  background: rgba(255,255,255,.6);
+&#125;
+.login form .input, .login input[type=&quot;text&quot;]&#123;
+  background: transparent;
+  border-color: rgba(50,50,50,.5);
+  color: #666;
+&#125;
+.login form .input:focus&#123;
+  border-color: rgba(50,50,50,.8);
+&#125;</code></pre>
+<p>补充一下,这个css是两个版本的,全文粘贴过去是白色版本的,如果想要黑色的需要删除 /<em>白色</em>/ 往后的部分.</p>
+<p>这里参考了其他作者的设计，作为进一步整理者和知识的传播者，本文仅供读者参考，如遇侵权，请通知本人。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/39/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/39/">39</a><span class="page-number current">40</span><a class="page-number" href="/page/41/">41</a><span class="space">&hellip;</span><a class="page-number" href="/page/43/">43</a><a class="extend next" rel="next" href="/page/41/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

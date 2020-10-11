@@ -1,37 +1,423 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="通常情况下，我们在采用enfold主题的时候会有一个对主题的各种设置的地方，如下图：  而这几个地方我们通常不怎么用，而且也很危险，特别是重置那个按钮，当你设置了各种选项后谁还会重置？而且这个重置这个按钮也很容易被误点击当做保存，如果这样的话将会失去所有的设置，打回原形，如果没有备份的话，因此去掉这个重置会更好，而且导入demo，以及主题更新这些都是危险的操作，屏蔽掉会更有利。我们看下如何处理这个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="wordpress的enfold主题屏蔽后台主题设置处的重置按钮，以及导入导出等选项">
+<meta property="og:url" content="http://example.com/2019/01/17/wordpress%E7%9A%84enfold%E4%B8%BB%E9%A2%98%E5%B1%8F%E8%94%BD%E5%90%8E%E5%8F%B0%E4%B8%BB%E9%A2%98%E8%AE%BE%E7%BD%AE%E5%A4%84%E7%9A%84%E9%87%8D%E7%BD%AE%E6%8C%89%E9%92%AE%EF%BC%8C%E4%BB%A5%E5%8F%8A%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E7%AD%89%E9%80%89%E9%A1%B9/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="通常情况下，我们在采用enfold主题的时候会有一个对主题的各种设置的地方，如下图：  而这几个地方我们通常不怎么用，而且也很危险，特别是重置那个按钮，当你设置了各种选项后谁还会重置？而且这个重置这个按钮也很容易被误点击当做保存，如果这样的话将会失去所有的设置，打回原形，如果没有备份的话，因此去掉这个重置会更好，而且导入demo，以及主题更新这些都是危险的操作，屏蔽掉会更有利。我们看下如何处理这个">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/uRn2brR.jpg">
+<meta property="article:published_time" content="2019-01-17T07:07:05.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:03.226Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="enfold设置,wordpress,重置按钮,屏蔽">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/uRn2brR.jpg">
+
+<link rel="canonical" href="http://example.com/2019/01/17/wordpress%E7%9A%84enfold%E4%B8%BB%E9%A2%98%E5%B1%8F%E8%94%BD%E5%90%8E%E5%8F%B0%E4%B8%BB%E9%A2%98%E8%AE%BE%E7%BD%AE%E5%A4%84%E7%9A%84%E9%87%8D%E7%BD%AE%E6%8C%89%E9%92%AE%EF%BC%8C%E4%BB%A5%E5%8F%8A%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E7%AD%89%E9%80%89%E9%A1%B9/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>wordpress的enfold主题屏蔽后台主题设置处的重置按钮，以及导入导出等选项 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/01/17/wordpress%E7%9A%84enfold%E4%B8%BB%E9%A2%98%E5%B1%8F%E8%94%BD%E5%90%8E%E5%8F%B0%E4%B8%BB%E9%A2%98%E8%AE%BE%E7%BD%AE%E5%A4%84%E7%9A%84%E9%87%8D%E7%BD%AE%E6%8C%89%E9%92%AE%EF%BC%8C%E4%BB%A5%E5%8F%8A%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E7%AD%89%E9%80%89%E9%A1%B9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          wordpress的enfold主题屏蔽后台主题设置处的重置按钮，以及导入导出等选项
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-01-17 15:07:05" itemprop="dateCreated datePublished" datetime="2019-01-17T15:07:05+08:00">2019-01-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:03" itemprop="dateModified" datetime="2020-10-11T11:58:03+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/wordpress/" itemprop="url" rel="index"><span itemprop="name">wordpress</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>通常情况下，我们在采用enfold主题的时候会有一个对主题的各种设置的地方，如下图：</p>
+<p><img src="https://i.imgur.com/uRn2brR.jpg"></p>
+<p>而这几个地方我们通常不怎么用，而且也很危险，特别是重置那个按钮，当你设置了各种选项后谁还会重置？而且这个重置这个按钮也很容易被误点击当做保存，如果这样的话将会失去所有的设置，打回原形，如果没有备份的话，因此去掉这个重置会更好，而且导入demo，以及主题更新这些都是危险的操作，屏蔽掉会更有利。我们看下如何处理这个。</p>
+<p>在enfold主题里面的functions.php文件中添加如下代码：</p>
+<pre><code>add_action(&#39;admin_head&#39;, &#39;remove_reset_button&#39;);
+function remove_reset_button() &#123;
+echo &#39;&lt;style&gt;
+.avia_footer_reset&#123; display: none !important; &#125; 
+&lt;/style&gt;&#39;;
+&#125;
+
+add_action(&#39;admin_head&#39;, &#39;hide_theme_options&#39;);
+
+function hide_theme_options() &#123;
+echo &#39;&lt;style&gt;
+#wpbody-content #avia_options_page .avia_button.avia_button_grey.avia_reset,#wpbody-content #avia_options_page .avia_section_header.goto_update,#wpbody-content #avia_options_page .avia_section_header.goto_upload,#wpbody-content #avia_options_page .avia_section_header.goto_demo &#123;
+display: none !important;
+&#125;
+&lt;/style&gt;&#39;;
+&#125;</code></pre>
+<p>保存，然后再次打开wordpress后台，来到主题设置这里，我们会发现，以上红色框框中的那个几个没有了。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/enfold%E8%AE%BE%E7%BD%AE-wordpress-%E9%87%8D%E7%BD%AE%E6%8C%89%E9%92%AE-%E5%B1%8F%E8%94%BD/" rel="tag"># enfold设置,wordpress,重置按钮,屏蔽</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/01/09/magento1-x%E7%9A%84porto%E4%B8%BB%E9%A2%98%E5%AF%B9%E4%BA%A7%E5%93%81%E5%88%86%E7%B1%BB%E9%A1%B5%E7%9A%84%E9%87%8D%E6%9E%84%E4%B9%8B%E6%98%BE%E7%A4%BA%E5%BD%93%E5%89%8D%E5%88%86%E7%B1%BB%E7%9A%84%E5%AD%90%E5%88%86%E7%B1%BB%E4%BB%A5%E5%8F%8A%E7%BC%A9%E7%95%A5%E5%9B%BE%EF%BC%8C%E4%BB%A5%E5%8F%8A%E8%B0%83%E7%94%A8%E5%BD%93%E5%89%8D%E5%88%86%E7%B1%BB%E7%9A%84%E6%89%80%E6%9C%89%E5%90%8E%E4%BB%A3%E5%88%86%E7%B1%BB/" rel="prev" title="magento1.x的porto主题对产品分类页的重构之显示当前分类的子分类以及缩略图，以及调用当前分类的所有后代分类和侧边栏调用首页垂直菜单的方法">
+      <i class="fa fa-chevron-left"></i> magento1.x的porto主题对产品分类页的重构之显示当前分类的子分类以及缩略图，以及调用当前分类的所有后代分类和侧边栏调用首页垂直菜单的方法
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/01/19/%E5%88%BB%E9%AA%A8%E9%93%AD%E5%BF%83%E7%9A%84%E6%88%90%E9%95%BF%E9%9C%80%E8%A6%81%E4%B8%80%E7%95%AA%E8%A3%82%E5%BF%83%E4%B9%8B%E7%97%9B/" rel="next" title="刻骨铭心的成长需要一番裂心之痛">
+      刻骨铭心的成长需要一番裂心之痛 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,37 +1,496 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="今天就来通过javascript实现一下笔头跟笔身的分合特效，一个做笔的客户匆忙的找到我，想要一个笔头跟笔身分开和在一起的效果，希望能够通过鼠标滚动就能达到这个效果。 看到这个问题，我就开干了： 直接上代码： &lt;!DOCTYPE html&gt; &lt;html lang&#x3D;&quot;en&quot;&gt; &lt;head&gt;   &lt;meta charset&#x3D;&quot;UT">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javascript特效之鼠标滚动方向事件触发笔头和笔身分合">
+<meta property="og:url" content="http://example.com/2018/05/08/javascript%E7%89%B9%E6%95%88%E4%B9%8B%E9%BC%A0%E6%A0%87%E6%BB%9A%E5%8A%A8%E6%96%B9%E5%90%91%E4%BA%8B%E4%BB%B6%E8%A7%A6%E5%8F%91%E7%AC%94%E5%A4%B4%E5%92%8C%E7%AC%94%E8%BA%AB%E5%88%86%E5%90%88/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="今天就来通过javascript实现一下笔头跟笔身的分合特效，一个做笔的客户匆忙的找到我，想要一个笔头跟笔身分开和在一起的效果，希望能够通过鼠标滚动就能达到这个效果。 看到这个问题，我就开干了： 直接上代码： &lt;!DOCTYPE html&gt; &lt;html lang&#x3D;&quot;en&quot;&gt; &lt;head&gt;   &lt;meta charset&#x3D;&quot;UT">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/9Uh3EFV.jpg">
+<meta property="og:image" content="https://i.imgur.com/PTDC08p.jpg">
+<meta property="article:published_time" content="2018-05-08T06:50:36.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:57:57.942Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="javascript,鼠标滚动,滚动方向,笔盖,笔身,笔头,分合">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/9Uh3EFV.jpg">
+
+<link rel="canonical" href="http://example.com/2018/05/08/javascript%E7%89%B9%E6%95%88%E4%B9%8B%E9%BC%A0%E6%A0%87%E6%BB%9A%E5%8A%A8%E6%96%B9%E5%90%91%E4%BA%8B%E4%BB%B6%E8%A7%A6%E5%8F%91%E7%AC%94%E5%A4%B4%E5%92%8C%E7%AC%94%E8%BA%AB%E5%88%86%E5%90%88/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>javascript特效之鼠标滚动方向事件触发笔头和笔身分合 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/05/08/javascript%E7%89%B9%E6%95%88%E4%B9%8B%E9%BC%A0%E6%A0%87%E6%BB%9A%E5%8A%A8%E6%96%B9%E5%90%91%E4%BA%8B%E4%BB%B6%E8%A7%A6%E5%8F%91%E7%AC%94%E5%A4%B4%E5%92%8C%E7%AC%94%E8%BA%AB%E5%88%86%E5%90%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          javascript特效之鼠标滚动方向事件触发笔头和笔身分合
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-05-08 14:50:36" itemprop="dateCreated datePublished" datetime="2018-05-08T14:50:36+08:00">2018-05-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:57" itemprop="dateModified" datetime="2020-10-11T11:57:57+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>今天就来通过javascript实现一下笔头跟笔身的分合特效，一个做笔的客户匆忙的找到我，想要一个笔头跟笔身分开和在一起的效果，希望能够通过鼠标滚动就能达到这个效果。</p>
+<p>看到这个问题，我就开干了：</p>
+<p>直接上代码：</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;铅笔盖子和笔身分合特效&lt;/title&gt;
+  &lt;script src=&quot;https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js&quot;&gt;&lt;/script&gt;
+  &lt;style type=&quot;text/css&quot;&gt;
+      .wumens&#123;
+        display: flex;
+        padding:20px 0px;
+        width: 100%;
+        background: red;
+        color:#fff;
+      &#125;
+      .braver&#123;
+        flex:1;
+      &#125;
+      .wenziqu&#123;
+        padding:60px;
+      &#125;
+      .tupianqu img&#123;
+        display: block;
+        width: 100%;
+        max-width: 50px;
+        margin: 0 auto;
+      &#125;
+      .bishengs&#123;
+        z-index: 0;
+      &#125;
+      @media (max-width: 767px)&#123;
+        .wumens &#123;
+          display: block !important;
+      &#125;
+
+      &#125;
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+  &lt;!-- 鼠标滚动方向触发相应的事件 --&gt;
+    &lt;script&gt;
+       var scrollFunc = function (e) &#123;  
+            var direct = 0;  
+            e = e || window.event;  
+            if (e.wheelDelta) &#123;  //判断浏览器IE，谷歌滑轮事件               
+                if (e.wheelDelta &gt; 0) &#123; //当滑轮向上滚动时  
+                    // alert(&quot;滑轮向上滚动&quot;);
+                    $(&#39;.gaizi&#39;).css(&#123;&quot;transform&quot;:&quot;translateY(0px)&quot;,&quot;z-index&quot;:&quot;0&quot;,&quot;transition&quot;:&quot;2s&quot;&#125;);
+                    $(&#39;.bisheng&#39;).css(&#123;&quot;transform&quot;:&quot;translateY(0px)&quot;,&quot;z-index&quot;:&quot;999&quot;,&quot;transition&quot;:&quot;2s&quot;&#125;);  
+                &#125;  
+                if (e.wheelDelta &lt; 0) &#123; //当滑轮向下滚动时  
+                    // alert(&quot;滑轮向下滚动&quot;);
+                    $(&#39;.gaizi&#39;).css(&#123;&quot;transform&quot;:&quot;translateY(50px)&quot;,&quot;z-index&quot;:&quot;0&quot;,&quot;transition&quot;:&quot;2s&quot;&#125;);
+                    $(&#39;.bisheng&#39;).css(&#123;&quot;transform&quot;:&quot;translateY(-10px)&quot;,&quot;z-index&quot;:&quot;9999&quot;,&quot;transition&quot;:&quot;2s&quot;&#125;); 
+                &#125;  
+            &#125; else if (e.detail) &#123;  //Firefox滑轮事件  
+                if (e.detail&gt; 0) &#123; //当滑轮向上滚动时  
+                    // alert(&quot;滑轮向上滚动&quot;);
+                    $(&#39;.gaizi&#39;).css(&#123;&quot;transform&quot;:&quot;translateY(0px)&quot;,&quot;z-index&quot;:&quot;0&quot;&#125;);
+                &#125;  
+                if (e.detail&lt; 0) &#123; //当滑轮向下滚动时  
+                    // alert(&quot;滑轮向下滚动&quot;);
+                    $(&#39;.gaizi&#39;).css(&#123;&quot;transform&quot;:&quot;translateY(60px)&quot;,&quot;z-index&quot;:&quot;0&quot;&#125;);
+                &#125;  
+            &#125;  
+            ScrollText(direct);  
+        &#125;  
+        //给页面绑定滑轮滚动事件  
+        if (document.addEventListener) &#123;  
+            document.addEventListener(&#39;DOMMouseScroll&#39;, scrollFunc, false);  
+        &#125;  
+        //滚动滑轮触发scrollFunc方法  
+        window.onmousewheel = document.onmousewheel = scrollFunc;    
+    &lt;/script&gt; 
+
+
+    &lt;div class=&quot;wumens&quot;&gt;
+        &lt;div class=&quot;braver wenziqu&quot;&gt;
+          &lt;h2&gt;LEADING INHALATION TECHNOLOGY FORWARD&lt;/h2&gt;
+          &lt;p&gt;As your partner, it’s our responsibility to provide high-performance state-of-the-art solutions, allowing producers to focus on their craft and leaving the hardware to us. At Jupiter Research, it’s our passion to design, develop and manufacture vaporization technologies exclusively for the natural plant-derived oil producer. The modern consumers’ demand for purity and performance is a challenge. Hardware available today is antiquated and originally intended for the electronic cigarette industry. Jupiter’s proprietary technology is engineered specifically for today’s high viscosity extracts, giving the producer a proven and reliable solution to deliver their product. Jupiter’s Liquid platform provides powerful performance with the intended flavor and efficacy you and your customers expect.&lt;/p&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;braver tupianqu&quot;&gt;
+          &lt;img class=&quot;gaizi&quot; src=&quot;1.png&quot; alt=&quot;&quot;&gt;
+          &lt;img class=&quot;bisheng&quot; src=&quot;2.png&quot; alt=&quot;&quot;&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>后面这两张图片，自己做，笔者不提供了，这里注意两点：</p>
+<ol>
+<li>这个需要依赖jquery</li>
+<li>做两张合适的图，能够很好的契合在一起的那种</li>
+</ol>
+<p>最后，注意鼠标滚动事件，往上滚动和往下滚动触发不同的事件，然后配合css3的效果，就完成一个逼真的效果，看到这个demo后，客户高兴得请我喝了一杯咖啡。</p>
+<p>demo地址没有，但是我贴两张图片吧：</p>
+<p>默认情况或者是鼠标往上滚动是这样的：</p>
+<p><img src="https://i.imgur.com/9Uh3EFV.jpg"></p>
+<p>当鼠标向下滚动后效果如下：</p>
+<p><img src="https://i.imgur.com/PTDC08p.jpg"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/javascript-%E9%BC%A0%E6%A0%87%E6%BB%9A%E5%8A%A8-%E6%BB%9A%E5%8A%A8%E6%96%B9%E5%90%91-%E7%AC%94%E7%9B%96-%E7%AC%94%E8%BA%AB-%E7%AC%94%E5%A4%B4-%E5%88%86%E5%90%88/" rel="tag"># javascript,鼠标滚动,滚动方向,笔盖,笔身,笔头,分合</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/05/07/javascript%E9%BC%A0%E6%A0%87%E6%BB%9A%E5%8A%A8%E4%BA%8B%E4%BB%B6%E5%9B%BE%E7%89%87%E6%A8%A1%E7%B3%8A%EF%BC%8C%E6%96%87%E5%AD%97%E9%9A%90%E8%97%8F%E5%92%8C%E6%B6%88%E5%A4%B1%E7%9A%84%E5%88%87%E6%8D%A2%E5%8F%98%E5%8C%96%E6%A1%88%E4%BE%8B/" rel="prev" title="javascript鼠标滚动事件图片模糊，文字隐藏和消失的切换变化案例">
+      <i class="fa fa-chevron-left"></i> javascript鼠标滚动事件图片模糊，文字隐藏和消失的切换变化案例
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/05/08/wordpress%E8%81%94%E7%B3%BB%E8%A1%A8%E5%8D%95%E5%BC%B9%E7%AA%97%E9%87%87%E7%94%A8popup-maker%E6%8F%92%E4%BB%B6%E6%96%B9%E6%A1%88%E5%AE%9E%E7%8E%B0%E7%9A%84%E8%AF%A6%E8%A7%A3/" rel="next" title="wordpress联系表单弹窗采用popup maker弹窗插件方案实现网站头部添加询价表单的弹出效果">
+      wordpress联系表单弹窗采用popup maker弹窗插件方案实现网站头部添加询价表单的弹出效果 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

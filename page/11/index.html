@@ -1,23 +1,2022 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-{% block title %}{{ config.title }}{% if theme.index_with_subtitle and config.subtitle %} - {{config.subtitle }}{% endif %}{% endblock %}
+<link rel="stylesheet" href="/css/main.css">
 
-{% block page_class %}
-  {% if is_home() %}page-home{% endif -%}
-{% endblock %}
 
-{% block content %}
-  <section id="posts" class="posts-expand">
-    {% for post in page.posts %}
-      {{ post_template.render(post, true) }}
-    {% endfor %}
-  </section>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-  {% include '_partials/pagination.swig' %}
-{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
 
-{% block sidebar %}
-  {{ sidebar_template.render(false) }}
-{% endblock %}
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/page/11/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/page/11/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
+            
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/09/28/magento%E6%98%AF%E9%87%87%E7%94%A8%E4%BC%AAhash%E5%8A%A0%E5%AF%86%E6%96%B9%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/09/28/magento%E6%98%AF%E9%87%87%E7%94%A8%E4%BC%AAhash%E5%8A%A0%E5%AF%86%E6%96%B9%E5%BC%8F/" class="post-title-link" itemprop="url">magento是采用伪hash加密方式</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-09-28 12:06:47" itemprop="dateCreated datePublished" datetime="2018-09-28T12:06:47+08:00">2018-09-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:01" itemprop="dateModified" datetime="2020-10-11T11:58:01+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/magento1/" itemprop="url" rel="index"><span itemprop="name">magento1</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Magento 是采用Hash加密方式的，今天给某个项目换成别的网站系统。发现与Magento的加密方式不一样，找到Magento的加密方式与验证方式，并分离出来与大家分享。</p>
+<pre><code>&lt;?php
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+$password    = &#39;abcd&#39;;
+$hash = &#39;bf8d0ec1c358da673b6b841e0c775355:xz&#39;;
+echo getHash($password,2).&#39;&lt;br&gt;&#39;; //hash 加密
+echo validateHash($password,$hash); //hash 加密验证
+function getRandomString($len, $chars=null)
+&#123;
+    if (is_null($chars)) &#123;
+        $chars = &quot;abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789&quot;;
+    &#125;
+    mt_srand(10000000*(double)microtime());
+    for ($i = 0, $str = &#39;&#39;, $lc = strlen($chars)-1; $i &lt; $len; $i++) &#123;
+        $str .= $chars[mt_rand(0, $lc)];
+    &#125;
+    return $str;
+&#125;
+function getHash($password, $salt=false)
+&#123;
+    if (is_integer($salt)) &#123;
+        $salt = getRandomString($salt);
+    &#125;
+    return $salt===false ? md5($password) : md5($salt.$password).&#39;:&#39;.$salt;
+&#125;
+/*
+ * 验证密码
+ @param string $password
+    * @param string $hash
+    * @return bool
+ */
+function validateHash($password,$hash)
+&#123;
+    $hashArr = explode(&#39;:&#39;, $hash);
+    switch (count($hashArr)) &#123;
+        case 1:
+            return getHash($password) === $hash;
+        case 2:
+            return getHash($hashArr[1] . $password) === $hashArr[0];
+    &#125;
+    return &#39;Invalid hash.&#39;;
+&#125;
+?&gt;</code></pre>
+<p>这个或许可以从这个里面获取一些启发。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/09/27/%E5%88%A9%E7%94%A8jquery%E7%9A%84%E6%96%B9%E5%BC%8F%E5%B7%A7%E5%A6%99%E5%9C%B0%E5%AE%9E%E7%8E%B0%E8%83%8C%E6%99%AF%E5%9B%BE%E7%89%87%E5%9C%A8%E6%89%8B%E6%9C%BA%E7%BB%88%E7%AB%AF%E4%B8%8A%E8%87%AA%E9%80%82%E5%BA%94/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/09/27/%E5%88%A9%E7%94%A8jquery%E7%9A%84%E6%96%B9%E5%BC%8F%E5%B7%A7%E5%A6%99%E5%9C%B0%E5%AE%9E%E7%8E%B0%E8%83%8C%E6%99%AF%E5%9B%BE%E7%89%87%E5%9C%A8%E6%89%8B%E6%9C%BA%E7%BB%88%E7%AB%AF%E4%B8%8A%E8%87%AA%E9%80%82%E5%BA%94/" class="post-title-link" itemprop="url">分别用javascript和jquery的方式巧妙地实现背景图片在手机终端上自适应</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-09-27 18:40:46" itemprop="dateCreated datePublished" datetime="2018-09-27T18:40:46+08:00">2018-09-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:04" itemprop="dateModified" datetime="2020-10-11T11:58:04+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript/" itemprop="url" rel="index"><span itemprop="name">javascript</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>这个是一个非常经典和很多客户需求的地方，通常以图片作为背景的方式是不可以实现自适应的，当然我们仍然可以做到自适应。方法有两种：</p>
+<ol>
+<li>采用单纯的css</li>
+<li>jquery+css方式实现图片完整显示</li>
+</ol>
+<p>笔者将会以这两种方式进行讲解。</p>
+<h2 id="采用单纯的css"><a href="#采用单纯的css" class="headerlink" title="采用单纯的css"></a>采用单纯的css</h2><p>这种方式的优点就是不需要掺和进来一些js代码，能够满足大多数用户需求（只想让背景图片完整显示），这里展示一个demo，代码：</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;Document&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id=&quot;lilyassistant&quot;&gt;
+    &lt;div class=&quot;av-parallax&quot;&gt;
+      &lt;h2&gt;世界，你好&lt;/h2&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;style&gt;
+    .av-parallax&#123;
+      background-image: url(&#39;http://www.kingold.com/uploadfiles/%E5%9B%BE%E5%BA%93-%E4%BB%8E%E9%83%BD/201708210914521452.jpg&#39;);
+      height: 800px;
+      width: auto;
+    &#125;
+  &lt;/style&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>我们这个时候在浏览器上访问当然就是一个高度为800px的背景图，当我们把浏览器切换到手机版的时候，我们会看到图片显示是不完整的。好饿，我们开始对这个东西进行一个处理，添加代码：</p>
+<pre><code>@media (max-width:767px)&#123;
+.av-parallax&#123;
+     background-size:100%;
+    background-repeat: no-repeat;     
+&#125;
+&#125;</code></pre>
+<p>这个时候，我们在手机版上查看的时候，就看到如下：</p>
+<p><img src="https://i.imgur.com/1phroix.png"></p>
+<p>背景图片是完整的。</p>
+<p>细心的读者可能会发现，这个图片虽然完整了，可是图片的区域的高度还是800px,还是写死的，并不是真正完美的自适应，当然如果在图片上的文字不多的话还好，如果文字很多的话就会溢出。导致一张背景图片不够装，这个时候看起来就不是很美观。而且这种方式还不能确保文字是针对图片是垂直居中对齐的，而是针对整个区域的高度是垂直居中对齐的，这样显然不是很好的。但不可否认的是，我们确实实现了背景图片的自适应。</p>
+<h2 id="jquery-css方式实现图片完整显示"><a href="#jquery-css方式实现图片完整显示" class="headerlink" title="jquery+css方式实现图片完整显示"></a>jquery+css方式实现图片完整显示</h2><p>作为方案一的补充，我们来试试方案二。这个方案是为了满足这样一个需求：</p>
+<blockquote>
+<p>背景图片要完整显示，文字不要有溢出，可以放在图片的前面或者后面。</p>
+</blockquote>
+<p>笔者的思路：由于在很多页面上已经存在了，不可能一个一个页面的修改。这样工作量很大，只能通过代码的方式来批量解决。所以我们先观察代码结构，接着是通过jquery把背景图片的url获取，然后就是动态添加一个img标签在这个区域前面或者后面，然后把这个区域的背景图片删除。</p>
+<p>首先我们先把完整的demo代码粘贴一下，然后逐步讲解：</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;Document&lt;/title&gt;
+  &lt;script src=&quot;https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id=&quot;lilyassistant&quot;&gt;
+    &lt;div class=&quot;av-parallax&quot;&gt;
+      &lt;h2&gt;世界，你好&lt;/h2&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;style&gt;
+    .av-parallax&#123;
+      background-image: url(&#39;http://www.kingold.com/uploadfiles/%E5%9B%BE%E5%BA%93-%E4%BB%8E%E9%83%BD/201708210914521452.jpg&#39;);
+      height:100%;
+      width: auto;
+    &#125;
+  &lt;/style&gt;
+  &lt;script&gt;
+    $(document).ready(function()&#123;
+      var back = $(&quot;#lilyassistant .av-parallax&quot;).css(&quot;backgroundImage&quot;).replace(&#39;url(&#39;,&#39;&#39;).replace(&#39;)&#39;,&#39;&#39;).replace(/\&quot;/g, &quot;&quot;);
+      $(&quot;#lilyassistant .av-parallax&quot;).css(&#123;&#39;background-image&#39;: &#39;none&#39;&#125;);
+      console.log(back);
+      $(&quot;#lilyassistant .av-parallax&quot;).prepend(&#39;&lt;img src=&quot;#&quot;&gt;&#39;);
+      $(&quot;#lilyassistant .av-parallax&gt;img&quot;).attr(&quot;src&quot;,back).css(&#123;&#39;width&#39;:&#39;100%&#39;&#125;);
+    &#125;);
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p><strong>第一步：通过jquery获取background image的url</strong></p>
+<pre><code>var back = $(&quot;#lilyassistant .av-parallax&quot;).css(&quot;backgroundImage&quot;).replace(&#39;url(&#39;,&#39;&#39;).replace(&#39;)&#39;,&#39;&#39;);</code></pre>
+<p>我们可以通过在浏览器的控制台打印查看我们这个变量里获取的是不是图片的url地址：</p>
+<pre><code>console.log(back);</code></pre>
+<p><img src="https://i.imgur.com/F4atr0t.png"></p>
+<p>我们做到了，不过我们看到这个url地址是一个有双引号的。我们需要的是一个没有双引号的，那么怎么去掉呢？</p>
+<p>直接替换：</p>
+<pre><code>d = d.replace(&quot;\&quot;&quot;,&quot;&quot;).replace(&quot;\&quot;&quot;,&quot;&quot;);</code></pre>
+<p>如果不确定有多少个双引号：</p>
+<pre><code>d = d.replace(/\&quot;/g, &quot;&quot;);</code></pre>
+<p>这里就两个双引号，所以我们即可以用第一个，也可以用第二个。</p>
+<pre><code>var back1 = $(&quot;#lilyassistant .av-parallax&quot;).css(&quot;backgroundImage&quot;).replace(&#39;url(&#39;,&#39;&#39;).replace(&#39;)&#39;,&#39;&#39;).replace(&quot;\&quot;&quot;,&quot;&quot;).replace(&quot;\&quot;&quot;,&quot;&quot;);
+
+console.log(back1);
+
+var back2 = $(&quot;#lilyassistant .av-parallax&quot;).css(&quot;backgroundImage&quot;).replace(&#39;url(&#39;,&#39;&#39;).replace(&#39;)&#39;,&#39;&#39;).replace(/\&quot;/g, &quot;&quot;);
+
+console.log(back2);</code></pre>
+<p><img src="https://i.imgur.com/9QIw1C3.png"></p>
+<p>我们看到，这两个效果是一样的，如果有多个，那么就用：</p>
+<pre><code>replace(/\&quot;/g, &quot;&quot;)</code></pre>
+<p>好的，我们接着就把这个背景图片删除，</p>
+<pre><code>$(&quot;#lilyassistant .av-parallax&quot;).css(&#123;&#39;background-image&#39;: &#39;none&#39;&#125;);</code></pre>
+<p>当然，我们还可以运用jquery的<code>.removeAttr()</code>，比如：</p>
+<pre><code>$element.removeAttr(&quot;data-id&quot;);
+$element.removeAttr(&quot;style&quot;);
+$element.removeAttr(&quot;alt&quot;);
+$element.removeAttr(&quot;href&quot;);</code></pre>
+<p>这样我们查看这个时候，会发现背景图片已经不存在了。</p>
+<p>接着，我们需要创建一个img标签然后插入到这个区域中，</p>
+<pre><code>$(&quot;#lilyassistant .av-parallax&quot;).prepend(&#39;&lt;img src=&quot;#&quot;&gt;&#39;);</code></pre>
+<p>如果想要插在后面，那么改成如下即可，</p>
+<pre><code>$(&quot;#lilyassistant .av-parallax&quot;).append(&#39;&lt;img src=&quot;#&quot;&gt;&#39;);</code></pre>
+<p>然后，对这个img标签添加一个属性，并且传入前面获取的那个背景图片的url。</p>
+<pre><code>$(&quot;#lilyassistant .av-parallax img&quot;).attr(&quot;src&quot;,back).css(&#123;&#39;width&#39;:&#39;100%&#39;&#125;);</code></pre>
+<p>这样的话，我们就完成了，如果在实际情况的话，背景区域很可能写死了高度，那么这里最好把高度变成100%，</p>
+<pre><code>#lilyassistant .av-parallax&#123;height:100%&#125;</code></pre>
+<p>这样就不用让一个空的背景图片占据了高度。</p>
+<p>最后的效果：</p>
+<p><img src="https://i.imgur.com/BrygCxU.png"></p>
+<p>这个其实根本不是什么自适应，而是采用了一个技巧，把背景图片换成了图片来显示。</p>
+<hr>
+<p>**更新：2019/6/19 19:19:50 **</p>
+<p>前面那种方法依赖jquery，会导致一些跟网站其他地方不兼容的问题发生，所以为了更加自由的来处理，减少依赖，笔者分享了采用javascript原生的方法来把背景图片变成img标签的方法实现自适应的目的：</p>
+<p>假设一个页面里面有很多个区块组成，每个区块都用一个id作为标识，然后每个区块都用背景图片。笔者完成后的javascript代码如下：</p>
+<pre><code>if (document.getElementById(&quot;nocti_porto_first&quot;)) &#123;
+  var dom_id = document.getElementById(&quot;nocti_porto_first&quot;);
+  changePic(dom_id);
+&#125;
+
+if (document.getElementById(&quot;nocti_porto_second&quot;)) &#123;
+  var dom_id = document.getElementById(&quot;nocti_porto_second&quot;);
+  changePic(dom_id);
+&#125;
+
+if (document.getElementById(&quot;nocti_porto_third&quot;)) &#123;
+  var dom_id = document.getElementById(&quot;nocti_porto_third&quot;);
+  changePic(dom_id);
+&#125;
+
+if (document.getElementById(&quot;nocti_porto_fourth&quot;)) &#123;
+  var dom_id = document.getElementById(&quot;nocti_porto_fourth&quot;);
+  changePic(dom_id);
+&#125;
+
+if (document.getElementById(&quot;nocti_porto_sixth&quot;)) &#123;
+  var dom_id = document.getElementById(&quot;nocti_porto_sixth&quot;);
+  changePic(dom_id);
+&#125;
+
+if (document.getElementById(&quot;nocti_porto_fifth&quot;)) &#123;
+  var dom_id = document.getElementById(&quot;nocti_porto_fifth&quot;);
+  changePic(dom_id);
+&#125;
+
+function changePic(dom_id)&#123;
+  var bg_img_url = dom_id.style.backgroundImage.replace(&#39;url(&#39;,&#39;&#39;).replace(&#39;)&#39;,&#39;&#39;).replace(/\&quot;/g, &quot;&quot;);
+  dom_id.style.background = &#39;none&#39;;
+  dom_id.querySelector(&quot;.container&quot;).style.height = &#39;auto&#39;;
+  var imgss = document.createElement(&quot;img&quot;);
+  imgss.setAttribute(&#39;src&#39;,bg_img_url);
+  imgss.setAttribute(&#39;class&#39;,&quot;new_imgs&quot;);
+  dom_id.insertBefore(imgss,dom_id.firstChild);
+&#125;</code></pre>
+<p>说明：为了提高安全性，笔者对每个都进行一个判断，如果有这个id才执行，希望读者也能养成一个良好的编码习惯。</p>
+<p>也就是代码片段：</p>
+<pre><code>if (true) &#123;
+  // some code.
+&#125;</code></pre>
+<p>用原生的方法，做某个元素是否存在有如下的讲究，以下是从网站摘录的，希望仔细参考：</p>
+<blockquote>
+<p>假设页面有如下节点</p>
+</blockquote>
+<pre><code>&lt;div&gt;这里是DIV节点&lt;/div&gt;
+&lt;div&gt;这里是DIV节点&lt;/div&gt;
+&lt;span&gt;这里是span节点&lt;/span&gt;</code></pre>
+<p>判断节点是否在页面：</p>
+<pre><code>var is_exist = document.getElementsByTagName(&#39;div&#39;).exist();
+alert(is_exist); // true
+
+var is_exist = document.getElementsByTagName(&#39;span&#39;).exist();
+alert(is_exist); // true
+
+var is_exist = document.getElementsByTagName(&#39;p&#39;).exist();
+alert(is_exist); // false</code></pre>
+<blockquote>
+<p>注意：如果使用是使用document.getElementById()方法获取对象的就不能使用exist()方法，因为根据ID取节点对象的方法在取不到节点的情况下会返回一个空对象，不会集成原型exist()函数，所以会报错！所以如果是根据ID取对象的可以直接if(obj)这样既可判断DOM节点是否存在页面中。</p>
+</blockquote>
+<p>也就是：</p>
+<pre><code>if (document.getElementById(&quot;nocti_porto_sixth&quot;)) &#123;
+  // some code.
+&#125;</code></pre>
+<p>为了减少不必要的重复，笔者把重复的代码写成一个函数，就是：</p>
+<pre><code>function changePic(dom_id)&#123;
+  var bg_img_url = dom_id.style.backgroundImage.replace(&#39;url(&#39;,&#39;&#39;).replace(&#39;)&#39;,&#39;&#39;).replace(/\&quot;/g, &quot;&quot;);
+  dom_id.style.background = &#39;none&#39;;
+  dom_id.querySelector(&quot;.container&quot;).style.height = &#39;auto&#39;;
+  var imgss = document.createElement(&quot;img&quot;);
+  imgss.setAttribute(&#39;src&#39;,bg_img_url);
+  imgss.setAttribute(&#39;class&#39;,&quot;new_imgs&quot;);
+  dom_id.insertBefore(imgss,dom_id.firstChild);
+&#125;</code></pre>
+<p>这样就可以把这个变得更加简练。中间有很多javascript的基础用法，大家去阅读下，笔者的思路很简单：</p>
+<blockquote>
+<p>先获取dom的背景图片地址—把背景图片去掉—把区块的内部的高度设置为自动—创建img节点—插入到区块的里面</p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/09/25/%E4%B8%8Etp5%E7%9B%B8%E7%BB%93%E5%90%88%E5%AE%9E%E7%8E%B0html5%E7%9A%84web-worker%E5%89%8D%E7%AB%AF%E6%95%B0%E6%8D%AE%E6%98%BE%E7%A4%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/09/25/%E4%B8%8Etp5%E7%9B%B8%E7%BB%93%E5%90%88%E5%AE%9E%E7%8E%B0html5%E7%9A%84web-worker%E5%89%8D%E7%AB%AF%E6%95%B0%E6%8D%AE%E6%98%BE%E7%A4%BA/" class="post-title-link" itemprop="url">与tp5相结合实现html5的web worker前端数据显示</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-09-25 18:08:29" itemprop="dateCreated datePublished" datetime="2018-09-25T18:08:29+08:00">2018-09-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:03" itemprop="dateModified" datetime="2020-10-11T11:58:03+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/html5/" itemprop="url" rel="index"><span itemprop="name">html5</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>我们知道浏览器端JavaScript是以单线程的方式执行的，也就是说JavaScript和UI渲染占用同一个主线程，那就意味着，如果JavaScript进行高负载的数据处理，UI渲染就很有可能被阻断，从而造成用户体验的大打折扣。Web Workers作为HTML5新特性之一，为浏览器端JavaScript开创了一种新的运行模式，使之能够在另外的线程中创建新的运行环境，以便使JavaScript能够在后台做一些费时的处理。下面我们就来详细介绍一下Web Workers方面的知识。</p>
+<p>Web Workers可以通过加载一个脚本文件，进而创建一个独立的工作线程，在主线程之外运行。工作线程的创建比较简单，代码如下：</p>
+<pre><code>var worker = new Worker(&#39;js/worker.js&#39;);</code></pre>
+<p>如代码所示，我们只需将含有工作线程的代码文件路径作为参数传入到Worker构造函数中，即可创建一个工作线程，使其能够在后台执行。需要注意的是，脚本的加载有同源策略的限制，所以必须指定与主线程同源的文件。</p>
+<p>在创建完工作线程后，我们就可以在主线程中与工作线程通信了。主线程中通过postMessage方法向工作线程发送消息，也可以通过捕获worker实例的message事件来接收来自工作线程的消息。需要注意的是，在postMessage方法中，我们可以相对自由的传递各种类型的数据，但是像document等BOM对象是无法被传递的。下面就让我们来看看主线程中是如何和工作线程交互的：</p>
+<pre><code>//message sending
+worker.postMessage(&#123;name: &#39;Scott&#39;&#125;);
+
+//message receiving
+worker.onmessage = function(event) &#123;
+var data = event.data;
+//to do
+&#125;</code></pre>
+<p>同样的，在工作线程中我们也可以通过postMessage和onmessage方法来发送和接收数据，下面是工作线程文件worker.js中的代码：</p>
+<pre><code>//message sending
+self.postMessage(&#123;name: &#39;Worker&#39;&#125;);
+
+//message receiving
+self.onmessage = function(event) &#123;
+var data = event.data;
+//to do
+&#125;</code></pre>
+<p>在某些情况下，我们不得不中断工作线程的运行，主线程中我们可以调用worker实例的terminate方法，在工作线程中我们也可以调用close方法中断自身，代码如下：</p>
+<pre><code>//interrupt a work thread in main thread
+worker.terminate();
+
+//interrupt work thread it self
+self.close();</code></pre>
+<p>以上介绍了Web Workers的基本用法，接下来我们来以一个实例说明它在实际项目中是如何应用的。<br>我们经常会加入一些技术群组里探讨技术，广交朋友，如果群组成员太多，查看起来就不太方便，为此我们打算给这个群组加一个搜索的功能，根据关键字搜索与成员信息匹配的数据，就像下面图中所示：</p>
+<p><img src="https://i.imgur.com/lfcgMde.png"></p>
+<p>在这个案例中，群组成员信息预先加载到了客户端，搜索功能也是在客户端完成的，假如数据非常多，一个简单的搜索可能就会在用户体验上造成不小的折扣，我们打算用Web Workers来实现这个操作。现在来看一下示例项目的基本目录结构：</p>
+<p><img src="https://i.imgur.com/EAkN01J.png"></p>
+<p>我们可以看到，在js目录中有个worker.js文件，用于放置工作线程的逻辑代码，此文件在运行时被主线程加载，我们稍后会详细讲解。现在我们先看一下主页面的基本结构：</p>
+<pre><code>&lt;html&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;title&gt;Web Worker&lt;/title&gt;
+&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;css/main.css&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div id=&quot;searching&quot;&gt;
+&lt;div class=&quot;sousuo&quot;&gt;
+&lt;input id=&quot;keywords&quot; type=&quot;search&quot; placeholder=&quot;type in to start searching&quot;&gt;
+&lt;button id=&quot;search-button&quot; onclick=&quot;search();&quot;&gt;搜索&lt;/button&gt;
+&lt;/div&gt;
+&lt;div id=&quot;members&quot;&gt;
+
+&lt;/div&gt;
+&lt;div id=&quot;msg&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;js/jquery-3.3.1.min.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;js/main.js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>看起来很简单，一个搜索框和搜索按钮，下面是搜索结果显示区域。为了使其运行起来，我们还需要main.js的配合，代码如下：</p>
+<pre><code>//a simple group member data example
+var groupMembers = [
+&#123;
+id: 101,
+name: &#39;John Li&#39;,
+skills: &#39;Java programming, Python language, MySQL&#39;
+&#125;,
+&#123;
+id: 102,
+name: &#39;Lisa Wang&#39;,
+skills: &#39;HTML, JavaScript, CSS, Node.js&#39;
+&#125;,
+&#123;
+id: 103,
+name: &#39;Tom Wang&#39;,
+skills: &#39;JavaScript, CSS, HTML5&#39;
+&#125;,
+&#123;
+id: 104,
+name: &#39;Andy Zhang&#39;,
+skills: &#39;PHP language, JavaScript programming, CSS&#39;
+&#125;
+/*
+a large number of data
+    */
+];
+
+//loading the worker.js to instantiate a Worker object
+var worker = new Worker(&#39;js/worker.js&#39;);
+
+//receive message from work thread, and then render the result data
+worker.onmessage = function(e) &#123;
+renderGroupMembers(e.data.results);
+&#125;;
+
+function search() &#123;
+var keywords = $(&#39;#keywords&#39;).val().trim();
+
+//post a message to work thread
+worker.postMessage(&#123;
+groupMembers: groupMembers,
+keywords: keywords
+&#125;);
+&#125;
+
+function renderGroupMembers(members) &#123;
+var html = &#39;&#39;;
+members.forEach(function(member) &#123;
+var resultHtml = &#39;&lt;div class=&quot;member&quot;&gt;&#39;
+    + &#39; &lt;img class=&quot;icon&quot; src=&quot;img/icon.png&quot;&gt;&#39;
+    + &#39; &lt;div class=&quot;info&quot;&gt;&#39;
+    + &#39; &lt;p&gt;&#39; + member.name + &#39;&lt;/p&gt;&#39;
+    + &#39; &lt;p&gt;&#39; + member.skills + &#39;&lt;/p&gt;&#39;
+    + &#39; &lt;/div&gt;&#39;
+    + &#39; &lt;a class=&quot;add&quot;&gt;+Add&lt;/a&gt;&#39;
+    + &#39;&lt;/div&gt;&#39;;
+html += resultHtml;
+&#125;);
+
+$(&#39;#members&#39;).html(html);
+&#125;
+
+renderGroupMembers(groupMembers);</code></pre>
+<p>在这段代码中，我们首先会加载worker.js，实例化一个Worker对象，然后捕获message事件，进而将搜索结果显示到相应区域。而search函数负责监听搜索按钮的点击事件，然后向工作线程发送带有群组数据和关键字的消息，将搜索任务交给工作线程。 最后，我们开看看worker.js是如何运行的：</p>
+<pre><code>//receive the message from main thread
+self.onmessage = function(e) &#123;
+
+var groupMembers = e.data.groupMembers;
+var keywords = e.data.keywords;
+
+var results = searchByKeywords(groupMembers, keywords);
+
+//post the result message to main thread
+self.postMessage(&#123;results: results&#125;);
+&#125;;
+
+//it may be quite complicated in real application
+function searchByKeywords(groupMembers, keywords) &#123;
+var results = [];
+
+keywords = keywords.toLowerCase();
+
+groupMembers.forEach(function(member) &#123;
+var nameMatched = member.name.toLowerCase().indexOf(keywords) &gt; -1;
+var skillsMatched = member.skills.toLowerCase().indexOf(keywords) &gt; -1;
+
+if (nameMatched || skillsMatched) &#123;
+results.push(member);
+&#125;
+&#125;);
+
+return results;
+&#125;</code></pre>
+<p>从上面的代码中可以看到，首先我们会捕获工作线程的message事件，接收群组数据和关键字，然后调用搜索函数，最后将搜索结果发送回主线程，完成这次的搜索任务。 以上就是Web Workers的介绍，在实际开发中，可能面临很多复杂的操作需要在前端完成，我们都可以考虑用Web Workers实现，将复杂操作交给工作线程，进而减少主线程的阻塞，在用户体验上一定会有显著的提升。</p>
+<p>然后样式文件main.css的代码：</p>
+<pre><code>.member&#123;
+display: flex;
+border-bottom: 1px solid #aaa;
+padding: 15px 0px;
+transition: 0.5s ease;
+&#125;
+.member:hover&#123;
+background: #f9f9f9;
+&#125;
+.thumbnail img&#123;
+width: 100%;
+max-width: 180px;
+margin-right: 15px;
+&#125;
+.name&#123;
+font-size: 18px;
+font-weight: bold;
+&#125;
+.member .add&#123;
+background: #8BC34A;
+color: #fff;
+font-size: 12px;
+margin: 0px 10px 0px 0px;
+padding: 5px 15px;
+text-decoration: none;
+&#125;
+.member .add:last-child&#123;
+background: #FF5722;
+&#125;
+.sousuo&#123;
+background: rgba(0, 0, 0, 0.7);
+padding: 20px;
+&#125;
+.sousuo input&#123;
+padding: 8px;
+width: 300px;
+&#125;
+.sousuo button&#123;
+padding: 8px 20px 9px 20px;
+border: 0px;
+&#125;</code></pre>
+<p>这样就基本完成了，效果如下：</p>
+<p><img src="https://i.imgur.com/IOQ8yMi.png"></p>
+<p>但是，我们不能止步于此，让我们继续接着折腾。</p>
+<p>笔者做到这里的时候，很显然数据是写死在里面的，这个时候笔者就在想能不能在本地搭建一个后端服务来提供数据源，为了快速的提供数据，笔者想到了tp5，这里TP5的服务启动就不说了，然后写一个api，查询数据库的东西，把查询数据的内容以api的形式读取出来。这样就可以实现一个ajax请求，提供数据。所以笔者把main.js里面的代码改成如下：</p>
+<pre><code>//a simple group member data example
+
+$(document).ready(function () &#123;
+
+$.ajax(&#123;
+url: &quot;http:localhost:8888/api/webworker/getmember&quot;,
+type: &quot;get&quot;,
+dataType:&quot;json&quot;,
+contentType: &quot;application/json&quot;,
+success: function (res) &#123;
+if (typeof res === &#39;string&#39;) &#123;
+res = JSON.parse(res);
+&#125;
+console.log(res);
+renderGroupMembers(res);
+&#125;,
+error: function (xhr, err, exception) &#123;
+console.log(err);
+$(&quot;#msg&quot;).html(err);
+&#125;
+&#125;);
+
+&#125;);
+
+var groupMembers = [];
+
+
+//loading the worker.js to instantiate a Worker object
+var worker = new Worker(&#39;js/worker.js&#39;);
+
+//receive message from work thread, and then render the result data
+worker.onmessage = function(e) &#123;
+renderGroupMembers(e.data.results);
+&#125;;
+
+function search() &#123;
+var keywords = $(&#39;#keywords&#39;).val().trim();
+
+//post a message to work thread
+worker.postMessage(&#123;
+groupMembers: groupMembers,
+keywords: keywords
+&#125;);
+&#125;
+
+function renderGroupMembers(members) &#123;
+var html = &#39;&#39;;
+members.forEach(function(member) &#123;
+var resultHtml = &#39;&lt;div class=&quot;member&quot;&gt;&#39;
+    + &#39; &lt;div class=&quot;thumbnail&quot;&gt;&#39;
+    + &#39; &lt;img class=&quot;icon&quot; src=&quot;img/icon.jpg&quot;&gt;&#39;
+    + &#39; &lt;/div&gt;&#39;
+    + &#39; &lt;div class=&quot;info&quot;&gt;&#39;
+    + &#39; &lt;p class=&quot;name&quot;&gt;&#39; + member.name + &#39;&lt;/p&gt;&#39;
+    + &#39; &lt;p class=&quot;skill&quot;&gt;&#39; + member.skills + &#39;&lt;/p&gt;&#39;
+    + &#39; &lt;a class=&quot;add&quot;&gt;+Add&lt;/a&gt;&lt;a href=&quot;&#39; + member.url + &#39;&quot; class=&quot;add&quot; target=&quot;_blank&quot;&gt;More&lt;/a&gt;&#39;
+    + &#39; &lt;/div&gt;&#39;
+    + &#39;&lt;/div&gt;&#39;;
+html += resultHtml;
+&#125;);
+
+$(&#39;#members&#39;).html(html);
+&#125;
+
+renderGroupMembers(groupMembers);</code></pre>
+<p>这里由于笔者本地服务器前端用的是nginx，端口是80，而tp5采用的是默认的8888这个端口，所以如果这样请求：</p>
+<pre><code>http:localhost:8888/api/webworker/getmember</code></pre>
+<p>会报404错误，为什么会出错呢？这里有个跨域，因为后端的端口是8888，而前端是80端口，这个虽然是同一台主机，但是这里的端口不一样，也会出现跨域的问题。</p>
+<p>如何解决跨域的问题呢？这里我们采用方向的代理的做法。笔者在win上进行的测试，安装的是window版的nginx，所以我们进入到nginx的配置文件，修改一下配置文件的内容。</p>
+<p>我们主要做的事情就是做一个域名映射。我们打开nginx.conf，找到：</p>
+<pre><code>location / &#123;
+root html;
+index index.html index.htm;
+&#125;</code></pre>
+<p>在这个前面添加：</p>
+<pre><code>location ^~/api/ &#123;
+proxy_pass http://localhost:8888/api/;
+&#125;</code></pre>
+<p>这个由于笔者的后端api地址是/api开始的。所以这里就这样定义。这句话的意思就是，访问</p>
+<pre><code>http://localhost/api/</code></pre>
+<p>的时候，会被转发到</p>
+<pre><code>http://localhost:8888/api/</code></pre>
+<p>就这样我们就可以在本地服务器的数据库添加数据，然后通过tp5来实现json格式的数据供前端进行查询，而前端直接采用html5的web worker的方式结合jquery的方式对数据进行调取了。</p>
+<blockquote>
+<p>提示：笔者发现在自己折腾完了之后，数据虽然能够显示到前端，不过查询的时候还是有问题的，查询不了，出错了，而在笔者折腾之前的那个demo是支持查询的，既然这样是不完美的，笔者依然愿意写出来，起到一个抛砖引玉的作用。</p>
+</blockquote>
+<p>如果想知道web worker的demo，请直接忽略笔者后面的那个尝试，如果想要让显示的数据是直接来自数据库，而不是写死的，那么就可以采用笔者这种方式，笔者这种方式主要解决了两个问题：一个是解决跨域，第二个是实现数据正确的显示出来。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/09/25/magento%E5%90%8E%E5%8F%B0%E5%BC%80%E5%90%AF%E4%BA%86%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85%E5%AF%BC%E8%87%B4%E5%9C%A8%E5%AE%89%E8%A3%85%E6%8F%92%E4%BB%B6%E7%9A%84%E6%97%B6%E5%80%99%E6%8A%A5%E9%94%99%E4%BA%86%E9%80%A0%E6%88%90%E5%89%8D%E5%90%8E%E5%8F%B0%E9%83%BD%E6%98%BE%E7%A4%BA%E5%BC%82%E5%B8%B8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/09/25/magento%E5%90%8E%E5%8F%B0%E5%BC%80%E5%90%AF%E4%BA%86%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85%E5%AF%BC%E8%87%B4%E5%9C%A8%E5%AE%89%E8%A3%85%E6%8F%92%E4%BB%B6%E7%9A%84%E6%97%B6%E5%80%99%E6%8A%A5%E9%94%99%E4%BA%86%E9%80%A0%E6%88%90%E5%89%8D%E5%90%8E%E5%8F%B0%E9%83%BD%E6%98%BE%E7%A4%BA%E5%BC%82%E5%B8%B8/" class="post-title-link" itemprop="url">magento后台开启了编译安装导致在安装插件的时候报错了造成前后台都显示异常</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-09-25 17:44:03" itemprop="dateCreated datePublished" datetime="2018-09-25T17:44:03+08:00">2018-09-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:00" itemprop="dateModified" datetime="2020-10-11T11:58:00+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/magento1/" itemprop="url" rel="index"><span itemprop="name">magento1</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>magento 装一个用户积分插件时,报错：</p>
+<pre><code>Mage registry key “_singleton/awall/feed_extensions” already exists</code></pre>
+<p>原因应该是开了编译时安装的，先去关掉编译。</p>
+<p>因为进不去后台，所以手动修改includes/config.php这个文件，把里面的代码注释一下就ok了。</p>
+<p>这个可能是安装个别插件或者安装所有插件都发生的事，所以我们如果开启了这个编译，那么就先去关闭再安装插件。如何关闭编译呢？前面已经说了，直接进入源码注释里面的代码：</p>
+<pre><code>define(&#39;COMPILER_INCLUDE_PATH&#39;, dirname(__FILE__).DIRECTORY_SEPARATOR.&#39;src&#39;);</code></pre>
+<p>改成</p>
+<pre><code>#define(&#39;COMPILER_INCLUDE_PATH&#39;, dirname(__FILE__).DIRECTORY_SEPARATOR.&#39;src&#39;);</code></pre>
+<p>这个关闭后，报错就解除了。</p>
+<hr>
+<p><strong>可是，我们的目的不是禁用这个插件，而是安装这个插件的同时又要启用编译（compilation），因为开启这个能够让网站速度快很多。这个时候怎么办呢？</strong></p>
+<p>首先，来到Configuration进去advanced那里把安装的那个插件（积分插件）禁用先，禁用后刷新缓存。确保禁用后，这个时候我们来到：magento后台—Tools—Compilation，可能这个时候会有一个提示，由于笔者这里是自己在电脑新建的一个config.php，为了保险把原来的那个config.php重命名了，然后把新建的这个上传上去了，没有为新建的这个文件设置足够的权限，所以我们在magento后台访问compilation的时候，提示：</p>
+<pre><code>includes/config.php is not writeabled.</code></pre>
+<p>这个提示很明显是说这个文件权限问题，所以我们在shell那里对这个文件设置权限：</p>
+<pre><code>chmod -R 777 config.php</code></pre>
+<p>保存后，刷新后台，再次进入compilation就没问题了，好的，由于我们前面对这个文件里的内容全部注释掉了，所以这里肯定是disable状态，这个时候，我们别急着enable，而是先点击右边的那个Run compilation Process。点击这个完成后，这个就会自动启用了而不用点击enable.</p>
+<p>当然，我们也可以直接在includes/config.php这个文件里面把前面注释的解除掉，然后保存。这个时候我们进入到compilation就应该可以看到这个已经启用了。</p>
+<blockquote>
+<p>切记： 如果网站本身已经启用了compilation，那么在安装插件的时候，要先进去禁用这个，然后才能安装插件，以免造成不必要的麻烦，等插件安装完毕后，确保没有问题了，再进入到complition那里启动这个。刷新缓存查看是否存在异常，每一步都看下是否有异常的地方，以便发生问题的时候排查。</p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/09/13/%E5%A6%82%E4%BD%95%E5%88%B6%E4%BD%9Cmagento%E6%A8%A1%E6%9D%BF%E6%88%96%E8%80%85%E6%98%AFmagento%E4%B8%BB%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/09/13/%E5%A6%82%E4%BD%95%E5%88%B6%E4%BD%9Cmagento%E6%A8%A1%E6%9D%BF%E6%88%96%E8%80%85%E6%98%AFmagento%E4%B8%BB%E9%A2%98/" class="post-title-link" itemprop="url">如何制作magento模板或者是magento主题</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-09-13 19:41:14" itemprop="dateCreated datePublished" datetime="2018-09-13T19:41:14+08:00">2018-09-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:05" itemprop="dateModified" datetime="2020-10-11T11:58:05+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/magento1/" itemprop="url" rel="index"><span itemprop="name">magento1</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>magento在国内的使用普及率不是很高，因此很多相关的解决方案都没有很好的被提供，在magento的模板制作的这个方面也是一样，因此，很多人经常会问这样一个问题：如何制作magneto模板。个人觉得Magento模板制作的难点在于不了解Magento的架构，不会调动block。Magento的block调动几乎都是靠xml，在下面的内容会提及如何操作。</p>
+<p>制作Magento模板的前提是：你要会Html，div+css。不管你想做什么模板，这个都是基础。如果想要做出个精致的Magento，还必须精通div+css。因为涉及到一个浏览器的兼容问题，当你在Firefox下打开你的Magento商城看着感觉是很完美，但是到了其他浏览器上可能会发生显示上的问题。</p>
+<p>在制作Magento模板之前，首先要选一个比较简单的模板（magento自带的那种默认模板就是很好的选择），然后在此基础上做。我个人推荐使用Blank模板，这个模板比较干净，图片除了必须的几乎没有，而且css也很精简。我刚开始做Magento模板的时候用的是Default的模板，这个模板的css文件很大，而且等模板完成后，会有很多无用图片。</p>
+<p>Magento模板最主要的地方是首页，首页完成后，Magento模板就完成一小半了。我个人习惯是先改头部和尾部，这两个地方是所有页面都有的，也就是公共的部分。头部的东西都在app\design\frontend\default\yourtheme\template\page\html\header.phtml里面。底部的东西都在app\design\frontend\default\yourtheme\template\page\html\footer.phtml里面。这两块的话都是靠css修改的，没什么好说的。我重点讲下中间部分的布局等。</p>
+<p>Magento的布局对于新手来说，是比较困难的。如果英语好的话建议去看看官方的介绍<a target="_blank" rel="noopener" href="http://www.magentocommerce.com/design_guide/articles/intro-to-layouts">http://www.magentocommerce.com/design_guide/articles/intro-to-layouts</a>，现在网上也有很多翻译好的了，想要的可以去找找。我个人认为布局就是把已有的block放到应该的地方，一般都是在xml里面调动。我介绍下catalog.xml，其他的就不说了，原理都一样，而且大部分的布局都可以在catalog里面实现。app\design\frontend\default\yourtheme\layout\catalog.xml,进入后你可以看到类似的注释“Default layout, loads most of the pages”，这些注释的意思就是你所改的是什么地方的布局，例如：“Default layout, loads most of the pages”这句说的就是网站默认布局。</p>
+<p>我们接着往下看，会看到很多的<code>&lt;reference&gt;</code>标签，这些都是需要在page.xml里定义过后，这里才能用，这里先不详细介绍了。这些“name”有“left”，“right”，“header”等等，从字面上我们就能看出来他们所指的位置，“left”是指左边栏，“right”指右边栏，“header”指头部。各个<code>&lt;reference&gt;</code>标签里会包含多个<code>&lt;block&gt;</code>，其中block就是我要调用的功能模块了。例如经常会有人问怎样把左边的什么移到右边，这个问题很好解决，在“left”里找到对应的block放到右边，这样就成功了。是不是觉得很简单，这篇就先讲到这，没写过这样的教程，可能讲的不详细，如果有不懂的可以联系我们，我们一起解决尚未解决的问题。</p>
+<p><strong>记住：</strong>不要去找一个设计复杂的模板来改，这样会让你很难把握制作一个模板的最基本的方法。以及整个模板的脉络。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/09/13/%E9%80%9A%E8%BF%87contact-form-7%E5%92%8CAdvanced-Contact-form-7-DB%E7%BB%93%E5%90%88%E5%AE%9E%E7%8E%B0wordpress%E7%BD%91%E7%AB%99%E5%89%8D%E5%8F%B0%E5%8F%91%E9%80%81%E8%81%94%E7%B3%BB%E8%A1%A8%E5%8D%95%E5%90%8E%E5%8F%B0%E6%94%B6%E5%88%B0%E7%95%99%E8%A8%80%E4%BF%A1%E6%81%AF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/09/13/%E9%80%9A%E8%BF%87contact-form-7%E5%92%8CAdvanced-Contact-form-7-DB%E7%BB%93%E5%90%88%E5%AE%9E%E7%8E%B0wordpress%E7%BD%91%E7%AB%99%E5%89%8D%E5%8F%B0%E5%8F%91%E9%80%81%E8%81%94%E7%B3%BB%E8%A1%A8%E5%8D%95%E5%90%8E%E5%8F%B0%E6%94%B6%E5%88%B0%E7%95%99%E8%A8%80%E4%BF%A1%E6%81%AF/" class="post-title-link" itemprop="url">通过contact form 7和Advanced Contact form 7 DB结合实现wordpress网站前台发送联系表单后台收到留言信息</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-09-13 14:57:01" itemprop="dateCreated datePublished" datetime="2018-09-13T14:57:01+08:00">2018-09-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:06" itemprop="dateModified" datetime="2020-10-11T11:58:06+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/wordpress/" itemprop="url" rel="index"><span itemprop="name">wordpress</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>干这行久了，你就会发现，什么样的客户需求都有可能的，而如果你没有选择一个合适的网站系统，那么很难实现各种用户的需求，笔者选择wordpress建站，是一个正确的选择，回忆过去这几年的建站生涯，要是选择别的建站系统，我相信我会疯掉的。</p>
+<p>今天就分享一个客户需求方案：客户希望能够让网站的前台的联系表单，当用户提交留言后，能够在后台收到用户的留言信息。contact form 7这个插件，笔者可是经常使用的，是非常方便和强大，最重要的是免费，大家可以支持一下这个开发者。</p>
+<p>好的，针对上面的这个需求，我们怎么做呢？</p>
+<p>方案：contact form 7+Advanced Contact form 7 DB这两个插件</p>
+<h2 id="Advanced-Contact-form-7-DB插件的安装"><a href="#Advanced-Contact-form-7-DB插件的安装" class="headerlink" title="Advanced Contact form 7 DB插件的安装"></a>Advanced Contact form 7 DB插件的安装</h2><p>这个在网站的后台那里搜索这个插件，点击安装，启用，不做任何设置。</p>
+<p>Advanced Contact form 7 DB插件下载地址：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1ymBdbL9DXQ60DfvLhFDrmA">https://pan.baidu.com/s/1ymBdbL9DXQ60DfvLhFDrmA</a>  提取码：xmho</p>
+<p>contact form 7插件这个的安装就不用说了，安装完毕，然后随便创建一个联系表单，这里命名为：test contact form。</p>
+<p><img src="https://i.imgur.com/GWWxeQi.png"></p>
+<p>把联系表单那里该设置的设置一下，以便能够通过电邮的方式可以接收到用户提交的信息的字段。如果什么都不加，那么不能看到用户在前台留言的信息，道理很简单，因为我们没有获取联系表单的字段。</p>
+<p><img src="https://i.imgur.com/Fzwx84q.png"></p>
+<p>设置完毕之后，然后新建一个页面，调用联系表单的短码，接着到前台，会看到一个联系表单，填写完毕所有的输入框，点击提交。</p>
+<p><img src="https://i.imgur.com/49bzZIu.png"></p>
+<p>前台联系表单：</p>
+<p><img src="https://i.imgur.com/MWZwLeI.png"></p>
+<p>这样的话，我们直接可以在电邮里面收到用户在前台的留言，<strong>同时，</strong>我们可以进入网站的后台，来到Advanced CF7 DB这里，</p>
+<p><img src="https://i.imgur.com/Q07bfQ6.png"></p>
+<p>选择我们刚才创建的那个联系表单，（以后随着使用可能会很多，但是我们在哪个联系表单上留言，那么我们就要去所属的哪个联系表单里面去看留言信息），因此这里选择test contact form。我们就可以看到我们刚才在前台的留言信息。</p>
+<p><img src="https://i.imgur.com/If79Gaz.png"></p>
+<p>如果想要看我们的设置的接收的电邮，我们直接去电邮里面查看就行了，通常呢wordpress发送的电邮会被放入垃圾箱，或者是被屏蔽，如果大家的收件箱里面没有看到留言很可能就会在这两个地方找到我们从wordpress上面发送。</p>
+<p>好的，废话这么多，目的就是一个，通过这两个插件，我们可以实现在网站后台查看用户在前台的留言信息。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/09/12/magento%E7%9A%84market%E4%B8%BB%E9%A2%98%E5%AE%9E%E7%8E%B0%E4%BA%A7%E5%93%81%E5%88%86%E7%B1%BB3%E5%88%97%E5%92%8C4%E5%88%97%E6%98%BE%E7%A4%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/09/12/magento%E7%9A%84market%E4%B8%BB%E9%A2%98%E5%AE%9E%E7%8E%B0%E4%BA%A7%E5%93%81%E5%88%86%E7%B1%BB3%E5%88%97%E5%92%8C4%E5%88%97%E6%98%BE%E7%A4%BA/" class="post-title-link" itemprop="url">magento的market主题实现页面中的产品分类3列和4列显示</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-09-12 16:56:02" itemprop="dateCreated datePublished" datetime="2018-09-12T16:56:02+08:00">2018-09-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:01" itemprop="dateModified" datetime="2020-10-11T11:58:01+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/magento1/" itemprop="url" rel="index"><span itemprop="name">magento1</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>笔者在折腾magento的时候，发现这个主题都是四列的，看截图：</p>
+<p><img src="https://i.imgur.com/7PMpKZF.png"></p>
+<p>这个情况是在没有侧边栏的还好，就是整个页面1 column的情况是OK的，可是比如，笔者想要新建一个页面，页面里面想要放一些文本，图片，甚至还想在这个里面添加一些分类产品（某个分类下的产品），比如：</p>
+<p><img src="https://i.imgur.com/pZQvjPV.png"></p>
+<p>这个就是由侧边栏（左边是侧边栏，右边是内容区），这个时候如果仍然保持四列的话就不好看，显得比较拥挤。如果改成三列就相对来说很好看，截图：</p>
+<p><img src="https://i.imgur.com/0s79AjE.png"></p>
+<p>那这个是如何实现的呢，这里笔者吐个槽，发现magento的个性化产品分类的列数还是相当不容易的，反正自己是折腾了好久。</p>
+<p>笔者通过首页找到控制显示产品分类的布局代码：</p>
+<p><img src="https://i.imgur.com/JVji67z.png"></p>
+<p>前台对应的就是：</p>
+<p><img src="https://i.imgur.com/7PMpKZF.png"></p>
+<p>所以，笔者顺腾摸瓜，找这个文件：app/design/frontend/yourtheme/default/template/sm/tablisting/default.phtml</p>
+<p>后来，笔者在这个目录下找到了其他的模板文件：</p>
+<p><img src="https://i.imgur.com/G9PAMuU.png"></p>
+<p>比如：<code>default_v6.phtml</code>;<code>default_v8.phtml</code>;经过笔者实践发现<code>default_v6.phtml</code>这个是三列的。笔者新建了一个页面，命名为：test page one，然后在首页那里复制里面的布局（Design）代码，去掉不必要的部分，然后把里面的<code>default.phtml</code>改成<code>default_v6.phtml</code>，最后如下：</p>
+<pre><code>&lt;reference name=&quot;content&quot;&gt;
+     &lt;block type=&quot;tablisting/list&quot; name=&quot;tablisting1&quot; template=&quot;sm/tablisting/default_v6_custom.phtml&quot;&gt;
+     &lt;/block&gt;
+     &lt;block type=&quot;tablisting/list&quot; name=&quot;tablisting3&quot; template=&quot;sm/tablisting/default_v6.phtml&quot;&gt;
+        &lt;action method=&quot;setConfig&quot;&gt;
+                     &lt;values&gt;
+                        &lt;title&gt;分类：139,51和72&lt;/title&gt;
+                        &lt;type_tab_display&gt;category&lt;/type_tab_display&gt;
+                        &lt;product_category&gt;139,72,51&lt;/product_category&gt;
+                        &lt;product_order_by&gt;created_at&lt;/product_order_by&gt;
+                        &lt;product_order_dir&gt;desc&lt;/product_order_dir&gt;
+                     &lt;/values&gt;
+        &lt;/action&gt;
+     &lt;/block&gt;
+&lt;/reference&gt;</code></pre>
+<p>从这个代码里面，我们看到我们引用的是<code>default_v6.phtml</code>这个模板文件，而且第一个那里为了对比，笔者还复制了这个文件然后重新命名为：<code>default_v6_custom.phtml</code>，目的是为了<code>default_v6.phtml</code>这个文件在其他地方的引用不受影响，然后打开文件<code>default_v6_custom.phtml</code>，我们通过开发者工具定位，并且确定了一个位置，添加了一个class，当然这个可以根据需要自己选择合适的位置即可，笔者找到以下代码：</p>
+<pre><code>&lt;div class=&quot;respl-items &lt;?php echo $cls; ?&gt;  &lt;?php echo $cls_device; ?&gt;&quot; &gt;</code></pre>
+<p>改成：</p>
+<pre><code>&lt;div class=&quot;respl-items &lt;?php echo $cls; ?&gt;  &lt;?php echo $cls_device; ?&gt; my_three_column&quot; &gt;</code></pre>
+<p><img src="https://i.imgur.com/8Gd22oT.png"></p>
+<p>这样前台界面如下：</p>
+<p><img src="https://i.imgur.com/svXLMKj.png"></p>
+<p>其实这样是不好看的，必须要通过css来让这个全宽100%显示。所以，我们在css中添加代码：</p>
+<pre><code>@media (min-width: 1600px)&#123;
+.yt-tab-listing .my_three_column .respl-item &#123;
+    width: calc(100%/3);
+&#125;
+&#125;</code></pre>
+<p>这个是在开发者工具确定的，相信样式问题不是很大，可能有的读者就会问了，为什么不直接在默认的四列的里面通过css的方式，让他变成三列的？这里做个说明：因为前面笔者也是尝试通过样式直接来修改default.phtml的文件，问题是虽然能够改成三列，但是也显示4个产品每页，这样会显示成：</p>
+<p><img src="https://i.imgur.com/Z78s4wk.png"></p>
+<p>所以，这样做是行不通的。</p>
+<p>好的，我们在这个页面添加了代码后。然后在css样式文件中添加了样式代码之后，到前台看下效果：</p>
+<p><img src="https://i.imgur.com/GJPmlhI.png"></p>
+<p><img src="https://i.imgur.com/7JPTd4J.png"></p>
+<p>我们对比一下，第一张是，笔者进行了自定义的class的模板文件，第二张还是保留了<code>default_v6.phtml</code>默认的，从截图可以看出，每页显示3张。如果想要更多的基于<code>default_v6.phtml</code>这个模板文件的个性化，我们就可以在这个模板文件的基础上复制一份，然后重命名，然后在布局里面引用即可。</p>
+<p>好的，关于采用三列的产品形式已经说明完毕，大家可能注意到这里笔者使用的布局代码：</p>
+<pre><code>&lt;values&gt;
+  &lt;title&gt;分类：139,51和72&lt;/title&gt;
+  &lt;type_tab_display&gt;category&lt;/type_tab_display&gt;
+  &lt;product_category&gt;139,72,51&lt;/product_category&gt;
+  &lt;product_order_by&gt;created_at&lt;/product_order_by&gt;
+  &lt;product_order_dir&gt;desc&lt;/product_order_dir&gt;
+&lt;/values&gt;</code></pre>
+<p>比如以上这个，这个就是可以自定义这个地方显示哪个分类的产品，根据上面这个我们可以看出，这里引用的是产品分类ID为：139,72,51这三个分类的产品，当然还有其他的参数，大家可以进入到这个模块的配置文件里面进行详细的了解，路径：app/code/local/Sm/Tablisting/etc/config.xml</p>
+<pre><code>&lt;tablisting_cfg&gt;
+      &lt;general&gt;
+          &lt;isenabled&gt;1&lt;/isenabled&gt;
+          &lt;title&gt;Best sellers&lt;/title&gt;
+      &lt;/general&gt;
+&lt;module_setting&gt;
+    &lt;nb_column0&gt;4&lt;/nb_column0&gt;
+    &lt;nb_column1&gt;4&lt;/nb_column1&gt;
+    &lt;nb_column2&gt;4&lt;/nb_column2&gt;
+    &lt;nb_column3&gt;2&lt;/nb_column3&gt;
+    &lt;nb_column4&gt;1&lt;/nb_column4&gt;
+    &lt;product_links_target&gt;_self&lt;/product_links_target&gt;
+    &lt;count_readmore_display&gt;1&lt;/count_readmore_display&gt;
+&lt;/module_setting&gt;            
+      &lt;product_selection&gt;
+          &lt;type_tab_display&gt;category&lt;/type_tab_display&gt;
+          &lt;order_tab&gt;&lt;/order_tab&gt;
+          &lt;product_category&gt;&lt;/product_category&gt;
+          &lt;product_order_by&gt;best_sales&lt;/product_order_by&gt;
+          &lt;product_order_dir&gt;desc&lt;/product_order_dir&gt;
+          &lt;product_limitation&gt;20&lt;/product_limitation&gt;
+      &lt;/product_selection&gt;
+&lt;product_display_setting&gt;
+    &lt;item_image_width&gt;300&lt;/item_image_width&gt;
+    &lt;item_image_height&gt;300&lt;/item_image_height&gt;
+    &lt;item_title_display&gt;1&lt;/item_title_display&gt;
+    &lt;item_title_max_characs&gt;20&lt;/item_title_max_characs&gt;
+    &lt;item_desc_display&gt;0&lt;/item_desc_display&gt;
+    &lt;item_desc_max_characs&gt;150&lt;/item_desc_max_characs&gt;
+          &lt;item_description_striptags&gt;1&lt;/item_description_striptags&gt;
+          &lt;item_description_keeptags&gt;&lt;/item_description_keeptags&gt;
+    &lt;item_price_disp&gt;1&lt;/item_price_disp&gt;
+          &lt;item_review_disp&gt;1&lt;/item_review_disp&gt;
+    &lt;item_cart_disp&gt;1&lt;/item_cart_disp&gt;
+    &lt;item_wishlist_disp&gt;1&lt;/item_wishlist_disp&gt;
+    &lt;item_compare_disp&gt;1&lt;/item_compare_disp&gt;
+&lt;/product_display_setting&gt;
+      &lt;advanced&gt;
+          &lt;include_jquery&gt;0&lt;/include_jquery&gt;
+          &lt;pretext&gt;&lt;/pretext&gt;
+          &lt;posttext&gt;&lt;/posttext&gt;
+      &lt;/advanced&gt;
+&lt;/tablisting_cfg&gt;</code></pre>
+<p>从这个里面，相信你已经明白上面的那个其实就是对这个里面的一个重写而已。这里多说一点，对于获取产品分类ID，我们可以在magento的网站后台，来到产品的分类那里，随便选择其中一个分类，点击进入详情，</p>
+<p><img src="https://i.imgur.com/kHemCbN.png"></p>
+<p>这里就是产品的分类ID，这个很有用。</p>
+<p>鉴于笔者对这个列数的问题，已经折腾了很久，一直纳闷这个<code>default_v6.phtml</code>为何这么轻易的就解决了笔者的烦恼，相比于<code>default.phtml</code>来说，这个文件又有什么玄机，笔者忍不住的进入到<code>default_v6.phtml</code>这个文件中，与<code>default.phtml</code>对比了下，其实没有什么大的区别，区别就在于</p>
+<blockquote>
+<p><code>default_v6.phtml</code>里面引用的是<code>default_items_v6.phtml</code></p>
+<p><code>default.phtml</code>里面引用的是<code>default_item.phtml</code></p>
+</blockquote>
+<p>所以造成这两个文件有本质的列数上的区别就应该在他们各自的引用的文件里可以找到答案了。当笔者迫不及待的打开<code>default_items_v6.phtml</code>和<code>default_items.phtml</code>这两个文件进行对比的时候发现<code>default_items_v6.phtml</code>文件里面有个：</p>
+<pre><code>$column = 3; </code></pre>
+<p><img src="https://i.imgur.com/7uOcW5p.png"></p>
+<p>而<code>default_items.phtml</code>里面没有发现，而是一些判断：</p>
+<p><img src="https://i.imgur.com/gHxkxwS.png"></p>
+<p>这里最后默认的有个，</p>
+<pre><code>$column = 4; </code></pre>
+<p>大致的意思就是，当其他的条件不符合的时候，就是4列。所以笔者大胆的想象了一下，如果哪天有个客户需求想要某个页面5列，那么笔者就可以充分运用<code>default_items_v6.phtml</code>这个文件，复制这个文件，然后重命名一下，然后把里面的，</p>
+<pre><code>$column = 3; </code></pre>
+<p>改成：</p>
+<pre><code>$column = 5; </code></pre>
+<p>这个猜测笔者没有时间实践，大家可以去实践一下。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/09/11/%E7%BB%99Magento%E6%96%B0%E5%93%81widget%E6%B7%BB%E5%8A%A0%E5%88%86%E7%B1%BB%E7%AD%9B%E9%80%89%E4%BA%A7%E5%93%81%E5%8A%9F%E8%83%BD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/09/11/%E7%BB%99Magento%E6%96%B0%E5%93%81widget%E6%B7%BB%E5%8A%A0%E5%88%86%E7%B1%BB%E7%AD%9B%E9%80%89%E4%BA%A7%E5%93%81%E5%8A%9F%E8%83%BD/" class="post-title-link" itemprop="url">给Magento的后台页面的文本编辑器那里调用widget的方式添加添加产品时实现添加分类筛选产品功能</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-09-11 19:16:55" itemprop="dateCreated datePublished" datetime="2018-09-11T19:16:55+08:00">2018-09-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:05" itemprop="dateModified" datetime="2020-10-11T11:58:05+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/magento1/" itemprop="url" rel="index"><span itemprop="name">magento1</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Magento自带的新品Widget木有根据分类筛选产品的功能，下面我就简单说一下怎么给新品Widget添加分类筛选产品功能，给有需要的同鞋参考一下。</p>
+<p>首先找到<code>app/code/core/Mage/Catalog/etc/widget.xml</code>,找到<code>&lt;/cache_lifetime&gt;</code>,在这个节点后面添加</p>
+<pre><code>&lt;category_id translate=&quot;label&quot;&gt;
+&lt;visible&gt;1&lt;/visible&gt;
+&lt;required&gt;0&lt;/required&gt;
+&lt;label&gt;Choose Category&lt;/label&gt;
+&lt;type&gt;label&lt;/type&gt;
+&lt;helper_block&gt;
+&lt;type&gt;adminhtml/catalog_category_widget_chooser&lt;/type&gt;
+&lt;data&gt;
+&lt;button translate=&quot;open&quot;&gt;
+&lt;open&gt;Select Category…&lt;/open&gt;
+&lt;/button&gt;
+&lt;/data&gt;
+&lt;/helper_block&gt;
+&lt;sort_order&gt;10&lt;/sort_order&gt;
+&lt;/category_id&gt;</code></pre>
+<p>然后找到<code>app/code/core/Mage/Catalog/Block/Product/New.php</code>,在New.php文件找到<code>_beforeToHtml()</code>函数，再在这个函数里找到</p>
+<pre><code>$collection = Mage::getResourceModel(&#39;catalog/product_collection&#39;);</code></pre>
+<p>在这段代码后面添加</p>
+<pre><code>if($categoryId = $this-&gt;getCategoryId()) &#123;
+    $collection-&gt;addCategoryFilter(Mage::getModel(‘catalog/category’)-&gt;load($categoryId));
+&#125;</code></pre>
+<p>保存即可。</p>
+<p>根据笔者观察发现，在<code>_beforeToHtml()</code>函数中没有找到</p>
+<pre><code>$collection = Mage::getResourceModel(&#39;catalog/product_collection&#39;);</code></pre>
+<p>而是在<code>_getProductCollection</code>找到了，是否应该加在这个里面呢，大家可以试一试。不过根据上面的添加已经实现了可以显示分类选择的问题，不过即使这样能够选择，貌似由于笔者的主题中没有过滤的模板文件，还是不能根据选择的分类进行显示。如果大家有新的突破可以联系笔者，笔者将会对这篇文章进行更新。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/09/11/HTML5%E7%9A%84sessionStorage%E5%92%8ClocalStorage%E7%9A%84%E7%94%A8%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/09/11/HTML5%E7%9A%84sessionStorage%E5%92%8ClocalStorage%E7%9A%84%E7%94%A8%E6%B3%95/" class="post-title-link" itemprop="url">HTML5的sessionStorage和localStorage的用法</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-09-11 09:06:25" itemprop="dateCreated datePublished" datetime="2018-09-11T09:06:25+08:00">2018-09-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:57" itemprop="dateModified" datetime="2020-10-11T11:57:57+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/html5/" itemprop="url" rel="index"><span itemprop="name">html5</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>关于HTML5 的sessionStorage和localStorage技术以及用法分享如下，首先声明，这里参考了这篇文章：<a target="_blank" rel="noopener" href="https://blog.csdn.net/u010297791/article/details/56667150%EF%BC%8C%E8%AF%B7%E5%A4%A7%E5%AE%B6%E6%94%AF%E6%8C%81%E4%BB%96%E7%9A%84%E5%8E%9F%E5%88%9B%EF%BC%8C%E5%A5%BD%E7%9A%84%EF%BC%8C%E6%88%91%E4%BB%AC%E7%BB%A7%E7%BB%AD%E5%BE%80%E4%B8%8B%E3%80%82">https://blog.csdn.net/u010297791/article/details/56667150，请大家支持他的原创，好的，我们继续往下。</a></p>
+<p>使用HTML5可以在本地存储用户的浏览数据。早些时候,本地存储使用的是 cookie。但是Web 存储需要更加的安全与快速，这些数据不会被保存在服务器上，但是这些数据只用于用户请求网站数据上。它也可以存储大量的数据，而不影响网站的性能。数据以 键/值 对存在, web网页的数据只允许该网页访问使用。</p>
+<p>Web Storage的目的是为了克服由cookie带来的一些限制，当数据需要被严格控制在客户端上时，无须持续地将数据发回服务器。Web Storage的两个主要目标是：</p>
+<ol>
+<li>提供一种在cookie之外存储会话数据的途径。</li>
+<li>提供一种存储大量可以跨会话存在的数据的机制。</li>
+</ol>
+<blockquote>
+<p>Web Storage又分为两种： sessionStorage 和localStorage ，即这两个是Storage的一个实例。从字面意思就可以很清楚的看出来，sessionStorage将数据保存在session中，浏览器关闭也就没了；而localStorage则一直将数据保存在客户端本地； 不管是sessionStorage，还是localStorage，可使用的API都相同，常用的有如下几个（以localStorage为例）：</p>
+</blockquote>
+<ol>
+<li>保存数据：localStorage.setItem(key,value);</li>
+<li>读取数据：localStorage.getItem(key);</li>
+<li>删除单个数据：localStorage.removeItem(key);</li>
+<li>删除所有数据：localStorage.clear();</li>
+<li>得到某个索引的key：localStorage.key(index);</li>
+</ol>
+<p>如上，key和value都必须为字符串，换言之，web Storage的API只能操作字符串。</p>
+<h2 id="1、sessionStorage对象"><a href="#1、sessionStorage对象" class="headerlink" title="1、sessionStorage对象"></a>1、sessionStorage对象</h2><p>sessionStorage对象存储特定于某个对话的数据，也就是它的生命周期为当前窗口或标签页，一旦窗口或标签页被永久关闭了，那么所有通过sessionStorage存储的数据也就被清空了。存储在sessionStorage中的数据可以跨越页面刷新而存在，同时如果浏览器支持，浏览器崩溃并重启之后依然可以可用（注意：Firefox和Weblit都支持，IE则不行）。</p>
+<p>因为sessionStorage对象绑定于某个服务器会话，所以当文件在本地运行的时候是不可用的。存储在sessionStorage中的数据只能由最初给对象存储数据的页面访问到，所以对多页面应用有限制。<br>接下来写一个简单的例子说明说如何使用的。<br>代码如下：</p>
+<pre><code>&lt;!DOCTYPE HTML&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;title&gt;HTML5--Web存储SessionStorage&lt;/title&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+window.onload = function()
+&#123;
+//首先获得body中的3个input元素
+var msg = document.getElementById(&quot;msg&quot;);
+var getData = document.getElementById(&quot;getData&quot;);
+var setData = document.getElementById(&quot;setData&quot;);
+
+setData.onclick = function()//存入数据
+&#123;
+if(msg.value) &#123;
+sessionStorage.setItem(&quot;data&quot;, msg.value);
+alert(&quot;信息已保存到data字段中&quot;);
+&#125; else &#123;
+alert(&quot;信息不能为空&quot;);
+&#125;
+&#125;;
+
+getData.onclick = function()//获取数据
+&#123;
+var msg = sessionStorage.getItem(&quot;data&quot;);
+if(msg) &#123;
+alert(&quot;data字段中的值为：&quot; + msg);
+&#125; else &#123;
+alert(&quot;data字段无值！&quot;);
+&#125;
+&#125;
+&#125;
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;input id=&quot;msg&quot; type=&quot;text&quot; placeholder=&quot;请输入要保存的数据&quot;/&gt;
+&lt;input id=&quot;setData&quot; type=&quot;button&quot; value=&quot;保存数据&quot;/&gt;
+&lt;input id=&quot;getData&quot; type=&quot;button&quot; value=&quot;获取数据&quot;/&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>效果如下：</p>
+<html><head><meta charset="UTF-8"><script type="text/javascript"> window.onload = function() {var msg = document.getElementById("msg"); var getData = document.getElementById("getData"); var setData = document.getElementById("setData"); setData.onclick = function() {if(msg.value) {sessionStorage.setItem("data", msg.value); alert("信息已保存到data字段中"); } else {alert("信息不能为空"); } }; getData.onclick = function() {var msg = sessionStorage.getItem("data"); if(msg) {alert("data字段中的值为：" + msg); } else {alert("data字段无值！"); } } } </script></head><body><input id="msg" type="text" placeholder="请输入要保存的数据"/><input id="setData" type="button" value="保存数据"/><input id="getData" type="button" value="获取数据"/></body></html>
+
+<p><strong>注意：</strong><br>当你关闭此页面或者关闭浏览器的时候，sessionStorage中保存的数据才会消失，也就是说重新打开此页面的时候，点击获取数据，将不会显示任何数据，刷新页面无效。由此可以证明，sessionStorage的生命周期为，某个用户浏览网站时，从进入到离开的这段时间。</p>
+<p>不同浏览器写入数据方法略有不同。Firefox和Webkit实现了同步写入，所以添加到存储空间中的数据是立刻被提交的。而IE的实现则是异步写入数据，所以在设置数据和将数据实际写入磁盘之间可能有一些延迟。</p>
+<p>我们还可以通过结合length属性和key()方法来迭代sessionStorage中的值。首先是通过key()方法获取指定位置上的名字，然后再通过getItem（）方法找出对应名字的值。</p>
+<p>我同样写一个例子。</p>
+<p>代码如下：</p>
+<pre><code>&lt;!DOCTYPE HTML&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;utf-8&quot;/&gt;
+&lt;title&gt;HTML5 Web Storage&lt;/title&gt;
+&lt;style&gt;
+.box&#123;
+width:320px;
+border: 1px solid #000000;
+padding: 10px 10px;
+&#125;
+.text&#123;
+margin-top:5px;
+margin-bottom:5px;
+width: 200px;
+height: 20px;
+&#125;
+.addBtn,.searchBtn,.loadBtn&#123;
+border: 1px solid #00A2E9;
+background-color: #66d3ff;
+padding: 5px 10px;
+font-size: 14px;
+&#125;
+#list&#123;
+background-color:#8ad6ff;
+display: none;
+margin-top: 10px;
+&#125;
+td,tr&#123;
+list-style: none;
+&#125;
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div class=&quot;box&quot;&gt;
+&lt;form id=&quot;myForm&quot;&gt;
+&lt;!--姓名--&gt;
+&lt;label for=&quot;userName&quot;&gt;姓 名：&lt;/label&gt;
+&lt;input type=&quot;text&quot; id=&quot;userName&quot; name=&quot;userName&quot; class=&quot;text&quot;/&gt;&lt;br/&gt;
+
+&lt;!--手机号码--&gt;
+&lt;label for=&quot;mobilephone&quot;&gt;手机号码：&lt;/label&gt;
+&lt;input type=&quot;text&quot; id=&quot;mobilephone&quot; name=&quot;mobilephone&quot; class=&quot;text&quot;/&gt;&lt;br/&gt;
+
+&lt;input class=&quot;addBtn&quot; type=&quot;button&quot; onclick=&quot;save()&quot; value=&quot;新增记录&quot;/&gt;
+&lt;/form&gt;
+
+&lt;!--查找机主--&gt;
+&lt;hr/&gt;
+&lt;label for=&quot;search_phone&quot;&gt;输入手机号：&lt;/label&gt;
+&lt;input type=&quot;text&quot; id=&quot;search_phone&quot; name=&quot;search_phone&quot; class=&quot;text&quot;/&gt;
+
+&lt;input class=&quot;searchBtn&quot; type=&quot;button&quot; onclick=&quot;find()&quot; value=&quot;查找机主&quot;/&gt;
+&lt;p id=&quot;find_result&quot;&gt;&lt;br/&gt;&lt;/p&gt;
+
+&lt;!--显示所有的信息--&gt;
+&lt;input type=&quot;button&quot; onclick=&quot;loadAll()&quot; value=&quot;显示所有的信息&quot; class=&quot;loadBtn&quot;&gt;
+&lt;div id =&quot;list&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/body&gt;
+&lt;script&gt;
+function save()&#123;
+var mobilephone = document.getElementById(&quot;mobilephone&quot;).value;
+var userName = document.getElementById(&quot;userName&quot;).value;
+var myForm = document.getElementById(&quot;myForm&quot;);
+sessionStorage.setItem(mobilephone,userName);
+myForm.reset();
+&#125;
+
+//查找数据
+function find()&#123;
+var search_phone = document.getElementById(&quot;search_phone&quot;).value;
+var name = sessionStorage.getItem(search_phone);
+var find_result = document.getElementById(&quot;find_result&quot;);
+find_result.innerHTML = search_phone + &quot;的机主是：&quot; + name;
+&#125;
+
+//将所有存储在localStorage中的对象提取出来，并展现到界面上
+function loadAll()&#123;
+var list = document.getElementById(&quot;list&quot;);
+if(sessionStorage.length&gt;0)&#123;
+list.style.display=&quot;block&quot;;
+var result = &quot;&lt;table border=&#39;1&#39;&gt;&quot;;
+result += &quot;&lt;tr&gt;&lt;td&gt;姓名&lt;/td&gt;&lt;td&gt;手机号码&lt;/td&gt;&lt;/tr&gt;&quot;;
+for(var i=0;i&lt;sessionStorage.length;i++)&#123;
+var mobilephone = sessionStorage.key(i);
+var name = sessionStorage.getItem(mobilephone);
+result += &quot;&lt;tr&gt;&lt;td&gt;&quot;+name+&quot;&lt;/td&gt;&lt;td&gt;&quot;+mobilephone+&quot;&lt;/td&gt;&lt;/tr&gt;&quot;;
+&#125;
+result += &quot;&lt;/table&gt;&quot;;
+list.innerHTML = result;
+&#125;else&#123;
+list.innerHTML = &quot;目前数据为空，赶紧开始加入联系人吧&quot;;
+&#125;
+&#125;
+&lt;/script&gt;
+&lt;/html&gt;</code></pre>
+<p>效果如下：</p>
+<html><head><meta charset="utf-8"/><style> .box{width:320px; border: 1px solid #000000; padding: 10px 10px; } .text{margin-top:5px; margin-bottom:5px; width: 200px; height: 20px; } .addBtn,.searchBtn,.loadBtn{border: 1px solid #00A2E9; background-color: #66d3ff; padding: 5px 10px; font-size: 14px; } #list{background-color:#8ad6ff; display: none; margin-top: 10px; } td,tr{list-style: none; } </style></head><body><div class="box"><form id="myForm"><label for="userName">姓 名：</label><input type="text" id="userName" name="userName" class="text"/><br/><label for="mobilephone">手机号码：</label><input type="text" id="mobilephone" name="mobilephone" class="text"/><br/><input class="addBtn" type="button" onclick="save()" value="新增记录"/></form><hr/><label for="search_phone">输入手机号：</label><input type="text" id="search_phone" name="search_phone" class="text"/><input class="searchBtn" type="button" onclick="find()" value="查找机主"/><p id="find_result"><br/></p><input type="button" onclick="loadAll()" value="显示所有的信息" class="loadBtn"><div id ="list"></div></div></body><script> function save(){var mobilephone = document.getElementById("mobilephone").value; var userName = document.getElementById("userName").value; var myForm = document.getElementById("myForm"); sessionStorage.setItem(mobilephone,userName); myForm.reset(); } function find(){var search_phone = document.getElementById("search_phone").value; var name = sessionStorage.getItem(search_phone); var find_result = document.getElementById("find_result"); find_result.innerHTML = search_phone + "的机主是：" + name; } function loadAll(){var list = document.getElementById("list"); if(sessionStorage.length>0){list.style.display="block"; var result = "<table border='1'>"; result += "<tr><td>姓名</td><td>手机号码</td></tr>"; for(var i=0;i<sessionStorage.length;i++){var mobilephone = sessionStorage.key(i); var name = sessionStorage.getItem(mobilephone); result += "<tr><td>"+name+"</td><td>"+mobilephone+"</td></tr>"; } result += "</table>"; list.innerHTML = result; }else{list.innerHTML = "目前数据为空，赶紧开始加入联系人吧"; } } </script></html>
+
+<p>除了使用案例中的遍历方法之外，也可以使用<code>for-in</code>循环来迭代sessionStorage中的值：</p>
+<pre><code>for（var key in sessionStorage）&#123;
+var value = sessionStorage.getItem(key);
+console.log(key + &quot;=&quot; + value);
+&#125;</code></pre>
+<h2 id="2、localStorage-示例"><a href="#2、localStorage-示例" class="headerlink" title="2、localStorage 示例"></a>2、localStorage 示例</h2><p>localStorage一直将数据保存在客户端本地。localStorage 和sessionStorage的用法相似，如果想要体验一下，可以把上面的两个文件中的sessionStorage替换成localStorage，然后在浏览器端访问下，添加一些数据，保存，然后关闭浏览器再次打开这个文件，我们直接查询的时候，发现里面的内容是存在的。</p>
+<p><img src="https://i.imgur.com/dIwmShG.png"></p>
+<blockquote>
+<p>总结：</p>
+<p>localStorage在本地永久性存储数据，除非显式将其删除或清空，sessionStorage存储的数据只在会话期间有效，关闭浏览器则自动删除</p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/09/07/magento1-x%E4%B8%AD%E5%85%A8%E5%B1%80%E5%BC%95%E5%85%A5%E5%A4%96%E9%83%A8%E6%A0%B7%E5%BC%8F%EF%BC%8C%E6%88%96%E8%80%85%E5%BC%95%E5%85%A5%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A0%B7%E5%BC%8F%E8%A1%A8%E5%88%B0%E7%BD%91%E7%AB%99%E5%85%AC%E5%85%B1%E9%83%A8%E5%88%86%EF%BC%8C%E4%BB%A5%E4%BE%BF%E8%87%AA%E5%AE%9A%E4%B9%89%E4%BF%AE%E6%94%B9%E7%BD%91%E7%AB%99css%E6%A0%B7%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/09/07/magento1-x%E4%B8%AD%E5%85%A8%E5%B1%80%E5%BC%95%E5%85%A5%E5%A4%96%E9%83%A8%E6%A0%B7%E5%BC%8F%EF%BC%8C%E6%88%96%E8%80%85%E5%BC%95%E5%85%A5%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A0%B7%E5%BC%8F%E8%A1%A8%E5%88%B0%E7%BD%91%E7%AB%99%E5%85%AC%E5%85%B1%E9%83%A8%E5%88%86%EF%BC%8C%E4%BB%A5%E4%BE%BF%E8%87%AA%E5%AE%9A%E4%B9%89%E4%BF%AE%E6%94%B9%E7%BD%91%E7%AB%99css%E6%A0%B7%E5%BC%8F/" class="post-title-link" itemprop="url">magento1.x中全局引入外部样式或者js文件，或者引入自定义样式表和js文件到网站公共部分，以便自定义修改网站css样式和JavaScript脚本，以及引入font-awesome这个字体图标库</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-09-07 15:59:52" itemprop="dateCreated datePublished" datetime="2018-09-07T15:59:52+08:00">2018-09-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:58" itemprop="dateModified" datetime="2020-10-11T11:57:58+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/magento1/" itemprop="url" rel="index"><span itemprop="name">magento1</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>笔者前面几篇文章都是针对引入js做了一个详细的说明，对于css也有说过，说的是针对某个页面进行引用样式表，也说了在某个页面中引入样式表作为全局文件，可是这样总感觉不是很方便，笔者最想要的是能够像wordpress那样自定义一个网站的样式，把自己的css代码放在自定义的一个css文件中，然后把这个自定义的文件引入到商城网站的公共头部，这样的话就可以做到只需要修改一个样式文件，就可以对整个网站的样式进行控制了。</p>
+<h2 id="样式文件作为全局引入："><a href="#样式文件作为全局引入：" class="headerlink" title="样式文件作为全局引入："></a>样式文件作为全局引入：</h2><p>我们把这个自定义的样式表命个名字：custom.css</p>
+<p>思路：把这个文件在公共头部引入，并且放在最后，这样就可以覆盖前面的样式表了。</p>
+<p>magento的跟wordpress不一样，我们需要找到page.xml,文件地址：</p>
+<pre><code>app/design/frontend/yourtheme/default/layout/page.xml</code></pre>
+<p>这个是控制整个网站页面的布局文件。然后找到：</p>
+<pre><code>&lt;block type=&quot;page/html_head&quot; name=&quot;head&quot; as=&quot;head&quot;&gt;
+    ...
+    &lt;action method=&quot;addItem&quot;&gt;&lt;type&gt;skin_css&lt;/type&gt;&lt;name&gt;css/imageslider.css&lt;/name&gt;&lt;/action&gt;
+    &lt;action method=&quot;addItem&quot;&gt;&lt;type&gt;skin_css&lt;/type&gt;&lt;name&gt;css/new_cpanel.css&lt;/name&gt;&lt;/action&gt;
+    &lt;action method=&quot;addItem&quot;&gt;&lt;type&gt;skin_css&lt;/type&gt;&lt;name&gt;css/yt-responsive.css&lt;/name&gt;&lt;/action&gt;
+    &lt;action method=&quot;addItem&quot;&gt;&lt;type&gt;skin_css&lt;/type&gt;&lt;name&gt;css/colors/yellow.css&lt;/name&gt;&lt;/action&gt;
+&lt;/block&gt;</code></pre>
+<p>类似这样的（这个跟大家的主题不同而不同，毕竟样式表命名不可能所有主题都是这样命名的），这里就是引入样式的地方，这个<code>block</code>是在<code>head</code>那个地方引入的，也就是公共的头部，所以我们在这个最后添加我们前面创建的custom.css。</p>
+<pre><code>&lt;block type=&quot;page/html_head&quot; name=&quot;head&quot; as=&quot;head&quot;&gt;
+    ...
+    &lt;action method=&quot;addItem&quot;&gt;&lt;type&gt;skin_css&lt;/type&gt;&lt;name&gt;css/imageslider.css&lt;/name&gt;&lt;/action&gt;
+    &lt;action method=&quot;addItem&quot;&gt;&lt;type&gt;skin_css&lt;/type&gt;&lt;name&gt;css/new_cpanel.css&lt;/name&gt;&lt;/action&gt;
+    &lt;action method=&quot;addItem&quot;&gt;&lt;type&gt;skin_css&lt;/type&gt;&lt;name&gt;css/yt-responsive.css&lt;/name&gt;&lt;/action&gt;
+    &lt;action method=&quot;addItem&quot;&gt;&lt;type&gt;skin_css&lt;/type&gt;&lt;name&gt;css/colors/yellow.css&lt;/name&gt;&lt;/action&gt;
+    &lt;action method=&quot;addItem&quot;&gt;&lt;type&gt;skin_css&lt;/type&gt;&lt;name&gt;css/custom.css&lt;/name&gt;&lt;/action&gt;
+&lt;/block&gt;</code></pre>
+<p>截图如下：</p>
+<p><img src="https://i.imgur.com/JkHLySI.png"></p>
+<p>这个custom.css文件放在路径：magento_root/skin/frontend/yourtheme/default/css/custom.css</p>
+<p>这样的话，我们就可以在custom.css里面随便样式代码了，然后打开网站的任何页面，查看源代码，我们就可以看到这个custom.css被引入了。</p>
+<p>如果我们在custom.css里面添加一些代码：</p>
+<pre><code>.element-blue&#123;
+    background:#8BC34A;
+    padding:15px;
+    color:#fff;
+&#125;</code></pre>
+<p>好的，我们打开首页一看：</p>
+<p><img src="https://i.imgur.com/zI5xgIm.png"></p>
+<p>这个说明我们custom.css已经起作用了。</p>
+<h2 id="js文件作为全局引入："><a href="#js文件作为全局引入：" class="headerlink" title="js文件作为全局引入："></a>js文件作为全局引入：</h2><p>同样的，我们也可以在magento_root/skin/frontend/yourtheme/default/js中新建一个custom.js文件，作为自定义的JavaScript脚本，笔者为了测试是否有效，我们可以在这个文件里面添加一条代码：</p>
+<pre><code>alert(&quot;hi !&quot;);</code></pre>
+<p>在</p>
+<pre><code>&lt;block type=&quot;page/html_head&quot; name=&quot;head&quot; as=&quot;head&quot;&gt;
+    ...
+    &lt;action method=&quot;addItem&quot;&gt;&lt;type&gt;skin_js&lt;/type&gt;&lt;name&gt;js/owl.carousel.js&lt;/name&gt;&lt;/action&gt;
+    &lt;action method=&quot;addItem&quot;&gt;&lt;type&gt;skin_js&lt;/type&gt;&lt;name&gt;js/jquery.session.js&lt;/name&gt;&lt;/action&gt;
+    &lt;action method=&quot;addItem&quot;&gt;&lt;type&gt;skin_js&lt;/type&gt;&lt;name&gt;js/ytcpanel.js&lt;/name&gt;&lt;/action&gt;
+&lt;/block&gt;</code></pre>
+<p>类似这样的地方，添加我们自己创建的js文件：</p>
+<p><img src="https://i.imgur.com/s2HGxLq.png"></p>
+<pre><code>&lt;block type=&quot;page/html_head&quot; name=&quot;head&quot; as=&quot;head&quot;&gt;
+    ...
+    &lt;action method=&quot;addItem&quot;&gt;&lt;type&gt;skin_js&lt;/type&gt;&lt;name&gt;js/owl.carousel.js&lt;/name&gt;&lt;/action&gt;
+    &lt;action method=&quot;addItem&quot;&gt;&lt;type&gt;skin_js&lt;/type&gt;&lt;name&gt;js/jquery.session.js&lt;/name&gt;&lt;/action&gt;
+    &lt;action method=&quot;addItem&quot;&gt;&lt;type&gt;skin_js&lt;/type&gt;&lt;name&gt;js/ytcpanel.js&lt;/name&gt;&lt;/action&gt;
+    &lt;action method=&quot;addItem&quot;&gt;&lt;type&gt;skin_js&lt;/type&gt;&lt;name&gt;js/custom.js&lt;/name&gt;&lt;/action&gt;
+&lt;/block&gt;</code></pre>
+<p>添加完毕后，我们在网站前台刷新一下，弹出窗口了：</p>
+<p><img src="https://i.imgur.com/zmjdz2f.png"></p>
+<p>好的，我们关于引入js文件和css作为全局的问题已经说完了，我们可以再发挥点想象力，引入<strong>Font Awesome</strong>，这个是一个很出名的字体图标库。</p>
+<h2 id="引入Font-Awesome"><a href="#引入Font-Awesome" class="headerlink" title="引入Font Awesome"></a>引入Font Awesome</h2><p>我们去<a target="_blank" rel="noopener" href="http://fontawesome.dashgame.com/">Font Awesome</a>字体库下载这个包。</p>
+<p>解压后会有如下文件夹（css，fonts，scss和less），直接把fonts这个文件夹复制放在magento_root/skin/frontend/yourtheme/default/下，反正就是在font-awesome.css所处的css文件夹的同一个目录下（保持我们下载font-awesome包一样的），这个我就不说了。</p>
+<p><img src="https://i.imgur.com/fV3YeX0.png"></p>
+<p>然后，我们还是在page.xml这个里面搜索下font-awesome.css，看下是否已经引入，即使引入了，也可以把刚才下载的那个最新版的font-awesome.css覆盖一下。如果没有引入，那么我们可以把以下这个</p>
+<pre><code>&lt;action method=&quot;addItem&quot;&gt;&lt;type&gt;skin_css&lt;/type&gt;&lt;name&gt;css/font-awesome.css&lt;/name&gt;&lt;params/&gt;&lt;/action&gt;</code></pre>
+<p>找个合适的位置添加到里面去：</p>
+<p><img src="https://i.imgur.com/xZrtcRg.png"></p>
+<p>保存，然后我们做个测试，随便找个可以添加代码的地方添加如下代码，比如笔者这里还是选择防伪码显示的列表的模板文件fan.phtml：</p>
+<pre><code>&lt;tr&gt;
+    &lt;td&gt;&lt;i class=&quot;fa fa-file-picture-o&quot;&gt;&lt;/i&gt; 缩略图&lt;/td&gt;
+    &lt;td&gt;&lt;i class=&quot;fa fa-barcode&quot;&gt;&lt;/i&gt; 防伪码&lt;/td&gt;
+    &lt;td&gt;&lt;i class=&quot;fa fa-address-card&quot;&gt;&lt;/i&gt; 品牌商&lt;/td&gt;
+    &lt;td&gt;&lt;i class=&quot;fa fa-user&quot;&gt;&lt;/i&gt; 负责人&lt;/td&gt;
+    &lt;td&gt;&lt;i class=&quot;fa fa-bank&quot;&gt;&lt;/i&gt; 公司名称&lt;/td&gt;
+    &lt;td&gt;&lt;i class=&quot;fa fa-file&quot;&gt;&lt;/i&gt; 文件名&lt;/td&gt;
+&lt;/tr&gt;</code></pre>
+<p>保存，刷新前台，</p>
+<p><img src="https://i.imgur.com/j3hHcUZ.png"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/43/">43</a><a class="extend next" rel="next" href="/page/12/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

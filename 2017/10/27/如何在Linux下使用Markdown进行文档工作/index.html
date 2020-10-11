@@ -1,37 +1,451 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="自从使用了markdown，做文档工作就很顺手。我几乎将工作中所有的文档工作都用markdown来完成。最近有了一些新的体验，也发现了一些新的问题。 在Linux系统中，编辑markdown可以用retext工具，可以在shell里面打开markdown文件，前提电脑安装了markdown： # Debian&#x2F;Ubuntu sudo apt-get install retext retext Re">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何在Linux下使用Markdown进行文档工作">
+<meta property="og:url" content="http://example.com/2017/10/27/%E5%A6%82%E4%BD%95%E5%9C%A8Linux%E4%B8%8B%E4%BD%BF%E7%94%A8Markdown%E8%BF%9B%E8%A1%8C%E6%96%87%E6%A1%A3%E5%B7%A5%E4%BD%9C/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="自从使用了markdown，做文档工作就很顺手。我几乎将工作中所有的文档工作都用markdown来完成。最近有了一些新的体验，也发现了一些新的问题。 在Linux系统中，编辑markdown可以用retext工具，可以在shell里面打开markdown文件，前提电脑安装了markdown： # Debian&#x2F;Ubuntu sudo apt-get install retext retext Re">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-10-27T09:23:22.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:52:57.482Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="linux, markdown">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2017/10/27/%E5%A6%82%E4%BD%95%E5%9C%A8Linux%E4%B8%8B%E4%BD%BF%E7%94%A8Markdown%E8%BF%9B%E8%A1%8C%E6%96%87%E6%A1%A3%E5%B7%A5%E4%BD%9C/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>如何在Linux下使用Markdown进行文档工作 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/10/27/%E5%A6%82%E4%BD%95%E5%9C%A8Linux%E4%B8%8B%E4%BD%BF%E7%94%A8Markdown%E8%BF%9B%E8%A1%8C%E6%96%87%E6%A1%A3%E5%B7%A5%E4%BD%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          如何在Linux下使用Markdown进行文档工作
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-10-27 17:23:22" itemprop="dateCreated datePublished" datetime="2017-10-27T17:23:22+08:00">2017-10-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:52:57" itemprop="dateModified" datetime="2020-10-11T11:52:57+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>自从使用了markdown，做文档工作就很顺手。我几乎将工作中所有的文档工作都用markdown来完成。最近有了一些新的体验，也发现了一些新的问题。</p>
+<p>在Linux系统中，编辑markdown可以用retext工具，可以在shell里面打开markdown文件，前提电脑安装了markdown：</p>
+<pre><code># Debian/Ubuntu
+sudo apt-get install retext
+retext Release-Notes.md</code></pre>
+<p>要将markdown文件转换成html文件，可以用discount或python-markdown软件包提供的markdown：</p>
+<pre><code># Debian/Ubuntu
+sudo apt-get install discount</code></pre>
+<p>或：</p>
+<pre><code># Debian/Ubuntu
+sudo apt-get install python-markdown</code></pre>
+<p>转换工作很简单：</p>
+<pre><code># 用discount提供的markdown工具
+markdown -o Release-Notes.html Release-Notes.md
+# 用python-markdown提供的markdown_py工具
+markdown_py -o html4 Release-Notest.md &gt; Release-Notes.html</code></pre>
+<p>如果要生成PDF，也很简单，可以用python-pisa提供的xhtml2pdf：</p>
+<pre><code># Debian/Ubuntu
+sudo apt-get install python-pisa
+
+# 将html转换成PDF
+xhtml2pdf --html Release-Notes.html Release-Notes.pdf</code></pre>
+<p>所以，你可以在文档目录下放置这样一个Makefile来自动这个过程：</p>
+<pre><code># Makefile
+
+MD = markdown
+MDFLAGS = -T
+H2P = xhtml2pdf
+H2PFLAGS = --html
+SOURCES := $(wildcard *.md)
+OBJECTS := $(patsubst %.md, %.html, $(wildcard *.md))
+OBJECTS_PDF := $(patsubst %.md, %.pdf, $(wildcard *.md))
+
+all: build
+
+build: html pdf
+
+pdf: $(OBJECTS_PDF)
+
+html: $(OBJECTS)
+
+$(OBJECTS_PDF): %.pdf: %.html
+    $(H2P) $(H2PFLAGS) $&lt; &gt; $@ 
+
+$(OBJECTS): %.html: %.md
+    $(MD) $(MDFLAGS) -o $@ $&lt;
+clean:
+    rm -f $(OBJECTS)</code></pre>
+<p>这样你就可以通过简单的一个命令生成当前目录下所有md文件的pdf或html输出了：</p>
+<pre><code># html 输出
+make html
+
+# pdf输出
+make pdf</code></pre>
+<p>这里有个问题是如果markdown的内容是中文，那么转换出来的html在浏览器中打开就无法自动识别编码，pdf更惨，直接是一堆乱码。这时我们可以借助markdown对html标记的支持来在markdown文件中加入编码信息。例如我们要将markdown转换为html4文件，可以在文件的开头加上meta标记，指明编码格式：</p>
+<pre><code>sed -i &#39;1i\&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;&#39; *.md</code></pre>
+<p>这样就可以了。另外，最近使用图灵社区的编辑系统时，markdown会时不时将下划线（_）当作斜体的标记，结果函数名就成了这样的：</p>
+<pre><code># 实际上是ssl_use_cabundle
+sslusecabundle</code></pre>
+<p>我建议斜体字标记采用单个星号（<em>），加粗字体采用两个星号（<strong>），这样使用起来就方便多了。当然，这个问题本身在于markdown说用星号或下划线都可以。但实际上，两个都支持反倒会造成一些问题。比如有的地方用下划线（<strong>粗体</strong> -&gt; 粗体），有的地方用星号（</strong>粗体** -&gt; 粗体），看起来反倒混乱不堪（选星号</em>的另一个理由是下划线在内容中出现的概率比星号高很多）。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/linux-markdown/" rel="tag"># linux, markdown</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/10/27/docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3/" rel="prev" title="docker常用命令详解">
+      <i class="fa fa-chevron-left"></i> docker常用命令详解
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/10/31/%E7%BD%91%E7%AB%99%E5%BA%95%E9%83%A8%E6%B7%BB%E5%8A%A0%E8%81%94%E7%B3%BB%E8%A1%A8%E5%8D%95%E6%95%99%E7%A8%8B/" rel="next" title="wordpress网站底部添加联系表单教程">
+      wordpress网站底部添加联系表单教程 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

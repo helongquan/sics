@@ -1,37 +1,766 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="今天笔者分享一个关于ajax和jquery相互结合在表单查询中的应用，目的在于说明：回调函数在查询过程的中的应用，以提升整个过程的体验度和逻辑上的合理性。 我们先把HTML代码贴一下： &lt;!DOCTYPE html&gt; &lt;html lang&#x3D;&quot;en&quot;&gt; &lt;head&gt;     &lt;meta charset&#x3D;&quot;UTF-8&quot;&amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jquery与ajax相结合在表单查询中的应用，以及ajax回调函数在整个查询过程中的体现，比如内容的过滤等。">
+<meta property="og:url" content="http://example.com/2019/06/27/jquery%E4%B8%8Eajax%E7%9B%B8%E7%BB%93%E5%90%88%E5%9C%A8%E8%A1%A8%E5%8D%95%E6%9F%A5%E8%AF%A2%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8%EF%BC%8C%E4%BB%A5%E5%8F%8Aajax%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0%E5%9C%A8%E6%95%B4%E4%B8%AA%E6%9F%A5%E8%AF%A2%E8%BF%87%E7%A8%8B%E4%B8%AD%E7%9A%84%E4%BD%93%E7%8E%B0/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="今天笔者分享一个关于ajax和jquery相互结合在表单查询中的应用，目的在于说明：回调函数在查询过程的中的应用，以提升整个过程的体验度和逻辑上的合理性。 我们先把HTML代码贴一下： &lt;!DOCTYPE html&gt; &lt;html lang&#x3D;&quot;en&quot;&gt; &lt;head&gt;     &lt;meta charset&#x3D;&quot;UTF-8&quot;&amp;">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/ncASgx5.png">
+<meta property="article:published_time" content="2019-06-27T11:24:49.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:57:58.106Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="jquery,ajax,回调函数,load,过滤,物流单号查询,单号查询">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/ncASgx5.png">
+
+<link rel="canonical" href="http://example.com/2019/06/27/jquery%E4%B8%8Eajax%E7%9B%B8%E7%BB%93%E5%90%88%E5%9C%A8%E8%A1%A8%E5%8D%95%E6%9F%A5%E8%AF%A2%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8%EF%BC%8C%E4%BB%A5%E5%8F%8Aajax%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0%E5%9C%A8%E6%95%B4%E4%B8%AA%E6%9F%A5%E8%AF%A2%E8%BF%87%E7%A8%8B%E4%B8%AD%E7%9A%84%E4%BD%93%E7%8E%B0/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>jquery与ajax相结合在表单查询中的应用，以及ajax回调函数在整个查询过程中的体现，比如内容的过滤等。 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/06/27/jquery%E4%B8%8Eajax%E7%9B%B8%E7%BB%93%E5%90%88%E5%9C%A8%E8%A1%A8%E5%8D%95%E6%9F%A5%E8%AF%A2%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8%EF%BC%8C%E4%BB%A5%E5%8F%8Aajax%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0%E5%9C%A8%E6%95%B4%E4%B8%AA%E6%9F%A5%E8%AF%A2%E8%BF%87%E7%A8%8B%E4%B8%AD%E7%9A%84%E4%BD%93%E7%8E%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          jquery与ajax相结合在表单查询中的应用，以及ajax回调函数在整个查询过程中的体现，比如内容的过滤等。
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-06-27 19:24:49" itemprop="dateCreated datePublished" datetime="2019-06-27T19:24:49+08:00">2019-06-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:58" itemprop="dateModified" datetime="2020-10-11T11:57:58+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ajax/" itemprop="url" rel="index"><span itemprop="name">ajax</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>今天笔者分享一个关于ajax和jquery相互结合在表单查询中的应用，目的在于说明：回调函数在查询过程的中的应用，以提升整个过程的体验度和逻辑上的合理性。</p>
+<p>我们先把HTML代码贴一下：</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Document&lt;/title&gt;
+    &lt;link href=&quot;https://cdn.bootcss.com/twitter-bootstrap/3.4.1/css/bootstrap.min.css&quot; rel=&quot;stylesheet&quot;&gt;
+    &lt;script src=&quot;https://code.jquery.com/jquery-3.2.1.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdn.bootcss.com/twitter-bootstrap/3.4.1/js/bootstrap.min.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class=&quot;container&quot;&gt;
+        &lt;div class=&quot;alert alert-success&quot; role=&quot;alert&quot;&gt;物流单号跟踪查询系统：&lt;/div&gt;
+
+            &lt;div class=&quot;input-group&quot;&gt;
+              &lt;input type=&quot;text&quot; class=&quot;form-control&quot; id=&quot;billNos&quot; value=&quot;232559747358&quot; placeholder=&quot;测试单号232559747358&quot;&gt;
+              &lt;span class=&quot;input-group-btn&quot; style=&quot;display: block;&quot;&gt;
+                &lt;input class=&quot;btn btn-primary&quot; id=&quot;search&quot; type=&quot;button&quot; value=&quot;搜索&quot;&gt;
+              &lt;/span&gt;
+            &lt;/div&gt;
+
+            &lt;br&gt;
+        &lt;div id=&quot;result&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>为了样式美观，笔者就引入了bootstrap，当然这个不是必须的。</p>
+<p>这个就是一个输入框，然后一个按钮。</p>
+<h2 id="必要的测试信息"><a href="#必要的测试信息" class="headerlink" title="必要的测试信息"></a>必要的测试信息</h2><p>为了测试方便，笔者就找了一个测试用的物流单号查询api。</p>
+<p>笔者想要实现的一个场景：</p>
+<blockquote>
+<p>输入物流单号，点击查询按钮，当单号正确的时候，有数据显示出来，如果单号不正确或者单号为空的时候，就提示用户，当点击查询按钮的时候，按钮处于禁用状态以禁止用户再次提交，然后按钮文字显示查询中…等字样，当查询完后后按钮文本用新的文本替代，只要输入框内容没有发生变化，按钮始终处于禁用状态，当输入框有变化的时候按钮解除禁用状态，同时按钮文字回到最初的文本。</p>
+</blockquote>
+<p>这一系列该怎么一步一步的实现呢？跟着笔者来。</p>
+<h3 id="良好的编码习惯"><a href="#良好的编码习惯" class="headerlink" title="良好的编码习惯"></a>良好的编码习惯</h3><p>为了不让一个操作显得太臃肿，笔者建议把每一个功能单独写成一个函数。</p>
+<p>笔者先把实现完毕的所有js代码粘贴出来：</p>
+<pre><code>&lt;script&gt;
+        const domain = &quot;http://LSU.itdida.com&quot;;
+
+        $(document).ready(function() &#123;
+
+            $(&quot;#search&quot;).click(function() &#123;
+                if ($(&quot;#billNos&quot;).val() == &#39;&#39; || $(&quot;#billNos&quot;).val() == null) &#123;
+                    alert(&quot;订单号不能为空！&quot;);
+                    return;
+                &#125;
+                getCost($(&quot;#billNos&quot;).val());
+            &#125;);
+
+            $(&#39;#billNos&#39;).bind(&#39;input propertychange&#39;, function() &#123;
+                $(&quot;#search&quot;).removeAttr(&#39;disabled&#39;);
+                $(&quot;#search&quot;).val(&quot;查询&quot;);
+            &#125;);
+
+        &#125;);
+
+        function getUserToken()&#123;
+            var token;
+            $.ajax(&#123;
+                  url: domain+&quot;/itdida-api/login?username=XXX&amp;password=123789&quot;,
+                  type: &quot;POST&quot;,
+                  async:false,
+                  dataType: &quot;json&quot;,
+                contentType: &quot;application/json&quot;,
+                  success: function(res)&#123;
+                      console.log(res.data);
+                      token = res.data;
+                  &#125;,
+                  error: function (xhr, err, exception) &#123;
+                    console.log(err);
+                  &#125;
+            &#125;);
+
+            return token;
+        &#125;
+
+        function getCost(yundan_number)&#123;
+            htmlobj = $.ajax(&#123;
+                beforeSend: function()&#123;
+                    $(&quot;#search&quot;).val(&quot;正在查询...&quot;);
+                    $(&quot;#search&quot;).attr(&quot;disabled&quot;,&quot;disabled&quot;);
+                &#125;,
+                url: domain+&quot;/itdida-api/track?keHuDanHaoList=&quot;+yundan_number+&quot;&amp;access_token=&quot;+getUserToken(),
+                type: &quot;POST&quot;,
+                dataType: &quot;json&quot;,
+                contentType: &quot;application/json&quot;,
+                success: function (res) &#123;
+                    if (typeof res === &#39;string&#39;) &#123;
+                        res = JSON.parse(res);
+                    &#125;
+                    html_dom(res);
+                &#125;,
+                error: function (xhr, err, exception) &#123;
+                    console.log(err);
+                &#125;,
+                complete: function()&#123;
+                    setTimeout(function()&#123;
+                        $(&quot;#search&quot;).val(&quot;查询完毕！&quot;);
+                    &#125;, 500);
+                &#125;
+            &#125;);
+
+        &#125;
+
+        function html_dom(res)&#123;
+            var html = &#39;&lt;div class=&quot;panel panel-default&quot;&gt;&#39;;
+            html += &#39;&lt;div class=&quot;panel-heading&quot;&gt;&lt;p&gt;查询结果：&lt;/p&gt;&lt;/div&gt;&#39;;
+            html += &#39;&lt;div class=&quot;panel-body&quot;&gt;&#39;;
+            html += &#39;&lt;p&gt;客户单号：&#39;+res.data[0].keHuDanHao+&#39;&lt;/p&gt;&#39;;
+            html += &#39;&lt;p&gt;状态码：&#39;+res.statusCode+&#39;&lt;/p&gt;&#39;;
+            html += &#39;&lt;p&gt;订单状态：&#39;+res.data[0].message+&#39;&lt;/p&gt;&#39;;
+            html += &#39;&lt;/div&gt;&#39;;
+            html += &#39;&lt;table class=&quot;table&quot;&gt;&#39;;
+            html += &#39;&lt;tr&gt;&#39;;
+            html += &#39;&lt;th&gt;日期&lt;/th&gt;&#39;;
+            html += &#39;&lt;th&gt;描述&lt;/th&gt;&#39;;
+            html += &#39;&lt;th&gt;位置&lt;/th&gt;&#39;;
+            html += &#39;&lt;/tr&gt;&#39;;
+            for (var i = 0; i &lt; res.data[0].trackList.length; i++) &#123;
+                var trackList = res.data[0].trackList;
+                html += &#39;&lt;tr&gt;&#39;;
+                html += &#39;&lt;td&gt;&#39;;
+                html += trackList[i].date;
+                html += &#39;&lt;/td&gt;&#39;;
+                html += &#39;&lt;td&gt;&#39;;
+                html += trackList[i].miaoShu;
+                html += &#39;&lt;/td&gt;&#39;;
+                html += &#39;&lt;td&gt;&#39;;
+                if (trackList[i].weiZhi == &#39;&#39;) &#123;
+                    html += &#39;-&#39;;
+                &#125;else&#123;
+                    html += trackList[i].weiZhi;
+                &#125;
+                html += &#39;&lt;/td&gt;&#39;;
+                html += &#39;&lt;/tr&gt;&#39;;
+            &#125;
+            html += &#39;&lt;/table&gt;&#39;;
+            html += &#39;&lt;/div&gt;&#39;;
+
+            if (res.data[0].code != 200) &#123;
+                $(&quot;#result&quot;).html(&#39;&lt;div class=&quot;alert alert-danger&quot; role=&quot;alert&quot;&gt;&#39;+res.data[0].message+&#39;&lt;/div&gt;&#39;);
+            &#125;else&#123;
+                $(&quot;#result&quot;).html(html);
+            &#125;
+        &#125;
+
+&lt;/script&gt;</code></pre>
+<p>实现的最终效果截图如下：</p>
+<p><img src="https://i.imgur.com/ncASgx5.png"></p>
+<p>现在我们一步一步的剖析这个js代码。</p>
+<p>1.首先，定义一个变量，保存一个使用频率较高的值，这里笔者为了避免代码的重复，就把域名这个用domain这个变量保存起来。</p>
+<p>2.接着根据该api的请求规则，先要获取token才能进行查询运单号，所以笔者用一个函数先获取token，通过ajax的方式来获取这个token，为了让该函数能够返回值，只能禁用ajax的异步请求了，函数如下：</p>
+<pre><code>function getUserToken()&#123;
+    var token;
+    $.ajax(&#123;
+          url: domain+&quot;/itdida-api/login?username=XXX&amp;password=123789&quot;,
+          type: &quot;POST&quot;,
+          async:false,  //禁用异步加载才能让token变量获取到res.data的值
+          dataType: &quot;json&quot;,
+          contentType: &quot;application/json&quot;,
+          success: function(res)&#123;
+              console.log(res.data);
+              token = res.data;
+          &#125;,
+          error: function (xhr, err, exception) &#123;
+              console.log(err);
+            &#125;
+    &#125;);
+
+    return token;
+&#125;</code></pre>
+<p>那么就相当于这个函数执行完的结果就是<code>res.data</code>，就相当于<code>getUserToken() = res.data</code>.</p>
+<p>3.获取到token后当然就是查询订单号的函数的编写了，笔者这里以订单号为形式参数传递进来，函数集体写法如下：</p>
+<pre><code>function getCost(yundan_number)&#123;
+    htmlobj = $.ajax(&#123;
+           beforeSend: function()&#123;
+                $(&quot;#search&quot;).val(&quot;正在查询...&quot;);
+                $(&quot;#search&quot;).attr(&quot;disabled&quot;,&quot;disabled&quot;);
+           &#125;,
+          url: domain+&quot;/itdida-api/track?keHuDanHaoList=&quot;+yundan_number+&quot;&amp;access_token=&quot;+getUserToken(),
+          type: &quot;POST&quot;,
+          dataType: &quot;json&quot;,
+          contentType: &quot;application/json&quot;,
+          success: function (res) &#123;
+              if (typeof res === &#39;string&#39;) &#123;
+                  res = JSON.parse(res);
+              &#125;
+              html_dom(res);
+          &#125;,
+          error: function (xhr, err, exception) &#123;
+              console.log(err);
+          &#125;,
+          complete: function()&#123;
+            setTimeout(function()&#123;
+                $(&quot;#search&quot;).val(&quot;查询完毕！&quot;);
+            &#125;, 500);
+        &#125;
+      &#125;);
+&#125;</code></pre>
+<p>这个就是点击查询按钮后发生的函数了，这个函数包含了很多知识点，且看笔者一行一行的分析。</p>
+<p>js代码片段：</p>
+<pre><code>beforeSend: function()&#123;
+    $(&quot;#search&quot;).val(&quot;正在查询...&quot;);
+    $(&quot;#search&quot;).attr(&quot;disabled&quot;,&quot;disabled&quot;);
+&#125;</code></pre>
+<p>这个是ajax在发起请求之前发生的事情，具体的解释请参考<a target="_blank" rel="noopener" href="http://www.w3school.com.cn/jquery/ajax_ajax.asp">w3c链接</a>。这个代码片段就是在点击查询的时候，按钮文字替换为<code>正在查询...</code>，同时添加禁用属性<code>disabled</code>，以免用户重复提交。</p>
+<p>完成这个之后就是发起请求的阶段了，js代码片段如下：</p>
+<pre><code>url: domain+&quot;/itdida-api/track?keHuDanHaoList=&quot;+yundan_number+&quot;&amp;access_token=&quot;+getUserToken(),
+type: &quot;POST&quot;,
+dataType: &quot;json&quot;,
+contentType: &quot;application/json&quot;,
+success: function (res) &#123;
+    if (typeof res === &#39;string&#39;) &#123;
+        res = JSON.parse(res);
+    &#125;
+    html_dom(res);
+&#125;,
+error: function (xhr, err, exception) &#123;
+    console.log(err);
+&#125;</code></pre>
+<p>这个就是ajax函数的核心请求了，其实也是很简单的。这个就不一一说明了，不清楚的可以把ajax最基本的写法了解下即可。这个里面包含了请求地址，请求方式，请求类型，执行成功的函数，执行失败的函数。</p>
+<p>4.请求成功后，就是ajax请求完毕的回调函数了，js代码片段：</p>
+<pre><code>complete: function()&#123;
+    setTimeout(function()&#123;
+            $(&quot;#search&quot;).val(&quot;查询完毕！&quot;);
+    &#125;, 500);
+&#125;</code></pre>
+<p>因为这个api响应速度太快，为了体验一把，所以笔者用了一个定时执行函数。笔者就用了一个500ms后再执行这个回调函数，然后把按钮的文本用<code>查询完毕!</code>来取代。</p>
+<hr>
+<p>查询点击，请求，响应的事情就完成了，当然请求回来的数据需要渲染出来，为了美观笔者就用bootstrap的面板组件来渲染，具体的js函数如下：</p>
+<pre><code>function html_dom(res)&#123;
+    var html = &#39;&lt;div class=&quot;panel panel-default&quot;&gt;&#39;;
+        html += &#39;&lt;div class=&quot;panel-heading&quot;&gt;&lt;p&gt;查询结果：&lt;/p&gt;&lt;/div&gt;&#39;;
+        html += &#39;&lt;div class=&quot;panel-body&quot;&gt;&#39;;
+        html += &#39;&lt;p&gt;客户单号：&#39;+res.data[0].keHuDanHao+&#39;&lt;/p&gt;&#39;;
+        html += &#39;&lt;p&gt;状态码：&#39;+res.statusCode+&#39;&lt;/p&gt;&#39;;
+        html += &#39;&lt;p&gt;订单状态：&#39;+res.data[0].message+&#39;&lt;/p&gt;&#39;;
+        html += &#39;&lt;/div&gt;&#39;;
+        html += &#39;&lt;table class=&quot;table&quot;&gt;&#39;;
+        html += &#39;&lt;tr&gt;&#39;;
+        html += &#39;&lt;th&gt;日期&lt;/th&gt;&#39;;
+        html += &#39;&lt;th&gt;描述&lt;/th&gt;&#39;;
+        html += &#39;&lt;th&gt;位置&lt;/th&gt;&#39;;
+        html += &#39;&lt;/tr&gt;&#39;;
+        for (var i = 0; i &lt; res.data[0].trackList.length; i++) &#123;
+            var trackList = res.data[0].trackList;
+            html += &#39;&lt;tr&gt;&#39;;
+            html += &#39;&lt;td&gt;&#39;;
+            html += trackList[i].date;
+            html += &#39;&lt;/td&gt;&#39;;
+            html += &#39;&lt;td&gt;&#39;;
+            html += trackList[i].miaoShu;
+            html += &#39;&lt;/td&gt;&#39;;
+            html += &#39;&lt;td&gt;&#39;;
+            if (trackList[i].weiZhi == &#39;&#39;) &#123;
+                html += &#39;-&#39;;
+            &#125;else&#123;
+                html += trackList[i].weiZhi;
+            &#125;
+            html += &#39;&lt;/td&gt;&#39;;
+            html += &#39;&lt;/tr&gt;&#39;;
+        &#125;
+        html += &#39;&lt;/table&gt;&#39;;
+        html += &#39;&lt;/div&gt;&#39;;
+
+        if (res.data[0].code != 200) &#123;
+            $(&quot;#result&quot;).html(&#39;&lt;div class=&quot;alert alert-danger&quot; role=&quot;alert&quot;&gt;&#39;+res.data[0].message+&#39;&lt;/div&gt;&#39;);
+        &#125;else&#123;
+            $(&quot;#result&quot;).html(html);
+        &#125;
+&#125;</code></pre>
+<p>说明：同样的，笔者也是以形参的方式传递到这个函数中，然后进行数据渲染。然后在dom中显示出来，而且还对查询的结果做了判断，</p>
+<pre><code>if (res.data[0].code != 200) &#123;
+    $(&quot;#result&quot;).html(&#39;&lt;div class=&quot;alert alert-danger&quot; role=&quot;alert&quot;&gt;&#39;+res.data[0].message+&#39;&lt;/div&gt;&#39;);
+&#125;else&#123;
+    $(&quot;#result&quot;).html(html);
+&#125;</code></pre>
+<p>这句话的意思就是如果返回码是200，那么把变量<code>html</code>的dom显示到id为<code>result</code>的div中。然后再把这个函数<code>html_dom(res)</code>引入到点击按钮查询成功后的地方。也就是函数<code>getCost(yundan_number)</code>中。这样就完成了输入单号，然后点击按钮查询数据，显示在页面中了。</p>
+<p>5.而这些函数都是需要调用才能执行的，不调用不会对页面产生任何影响，由于这些时间需要依赖jquery，所以，这里在jquery加载完毕在执行，代码片段如下：</p>
+<pre><code>$(document).ready(function() &#123;
+
+    $(&quot;#search&quot;).click(function() &#123;
+        if ($(&quot;#billNos&quot;).val() == &#39;&#39; || $(&quot;#billNos&quot;).val() == null) &#123;
+            alert(&quot;订单号不能为空！&quot;);
+            return;
+        &#125;
+        getCost($(&quot;#billNos&quot;).val());
+    &#125;);
+
+    $(&#39;#billNos&#39;).bind(&#39;input propertychange&#39;, function() &#123;
+        $(&quot;#search&quot;).removeAttr(&#39;disabled&#39;);
+        $(&quot;#search&quot;).val(&quot;查询&quot;);
+    &#125;);
+
+&#125;);</code></pre>
+<p>说明：点击id为search的按钮，首先做判断，如果输入框为空，那么不进行查询，直接提示用户，订单号为空，然后直接return，结束继续往下执行。如果订单不为空，那么就会执行函数<code>getCost()</code>，参数的值就是输入框的值，所以值为<code>$(&quot;#billNos&quot;).val()</code>，然后运行函数，把结果显示在dom节点中。</p>
+<p>前面笔者的一个场景中说过，我希望输入框的内容发生辩护的时候搜索按钮文字会初始化，而不是一直是禁用状态，不然没法点击提交。所以关于监听输入框值发生变化话的函数如下：</p>
+<pre><code>$(&#39;#billNos&#39;).bind(&#39;input propertychange&#39;, function() &#123;
+    // your code
+&#125;);</code></pre>
+<p>这个就是监听哪个输入框就绑定哪个输入框对应的id即可。笔者希望实现的是输入框内容发生变化后，查询按钮解除禁用状态，然后就是按钮文本初始化最初的样子，那么这个就是很简单的事了。</p>
+<pre><code>$(&#39;#billNos&#39;).bind(&#39;input propertychange&#39;, function() &#123;
+    $(&quot;#search&quot;).removeAttr(&#39;disabled&#39;);
+    $(&quot;#search&quot;).val(&quot;查询&quot;);
+&#125;);</code></pre>
+<p>所以经过种种，就实现了笔者的最初的设想。</p>
+<hr>
+<p>当然，笔者还有个回调函数需要讲解，笔者用一个例子来说明把。</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Document&lt;/title&gt;
+    &lt;script src=&quot;https://code.jquery.com/jquery-3.2.1.min.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class=&quot;container&quot;&gt;
+        &lt;h2&gt;jquery的ajax通过load的方法加载内容，以及有回调函数&lt;/h2&gt;
+        &lt;button id=&quot;load&quot; type=&quot;button&quot;&gt;点击加载内容&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;app&quot;&gt;&lt;/div&gt;
+    &lt;script&gt;
+        $(document).ready(function() &#123;
+            $(&quot;#load&quot;).click(function(event) &#123;
+                $(&quot;#app&quot;).load(&quot;load/conteng.html&quot;,function(responseTxt,statusTxt,xhr)&#123;
+                    if(statusTxt==&quot;success&quot;)
+                         alert(&quot;外部内容加载成功！&quot;);
+                         $(&quot;#app&quot;).css(&#123;&quot;background&quot;:&quot;#f2f2f2&quot;,&quot;padding&quot;:&quot;20px&quot;,&quot;margin-top&quot;:&quot;20px&quot;&#125;);
+                         $(&quot;p&quot;).filter(&quot;.mbti_sugg_title&quot;).css(&#123;&quot;background&quot;:&quot;#f2f2f2&quot;,&quot;padding&quot;:&quot;15px&quot;&#125;);
+                        $(&quot;p&quot;).not(&quot;.mbti_sugg_title&quot;).css(&#123;&quot;color&quot;:&quot;#aaa&quot;&#125;);
+                         hideBtn(&quot;#load&quot;);
+                    if(statusTxt==&quot;error&quot;)
+                         alert(&quot;Error: &quot;+xhr.status+&quot;: &quot;+xhr.statusText);
+                &#125;);
+            &#125;);
+
+        &#125;);
+
+        function hideBtn(dom_id)&#123;
+            $(dom_id).hide();
+        &#125;
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>说明：这里涉及到几个知识点：jquery的load方法，load方法中的回调函数，jquery的过滤。</p>
+<p>当笔者点击按钮的时候，那么会加载一个外部的dom片段，资源路径：<code>load/conteng.html</code>，通常load就是这样用的，其实后面的那个function不写是完全可以的。</p>
+<p>可是，我想加载过来的内容按照我的要求来显示咋办？比如我想让加载出来的内容有个背景色，内边距，外边距。</p>
+<p>那么这里就要用到一个回调了，如果是简单的样式问题，那么用css也是可以解决的，但是如果css解决不了的怎么办，那么就需要用到js函数了，对吧？所以这里我们看下用回调函数来解决这个加载后样式的问题怎么做呢？看代码片段：</p>
+<pre><code>function(responseTxt,statusTxt,xhr)&#123;
+    if(statusTxt==&quot;success&quot;)
+         alert(&quot;外部内容加载成功！&quot;);
+         $(&quot;#app&quot;).css(&#123;&quot;background&quot;:&quot;#f2f2f2&quot;,&quot;padding&quot;:&quot;20px&quot;,&quot;margin-top&quot;:&quot;20px&quot;&#125;);
+         $(&quot;p&quot;).filter(&quot;.mbti_sugg_title&quot;).css(&#123;&quot;background&quot;:&quot;#f2f2f2&quot;,&quot;padding&quot;:&quot;15px&quot;&#125;);
+        $(&quot;p&quot;).not(&quot;.mbti_sugg_title&quot;).css(&#123;&quot;color&quot;:&quot;#aaa&quot;&#125;);
+         hideBtn(&quot;#load&quot;);
+    if(statusTxt==&quot;error&quot;)
+         alert(&quot;Error: &quot;+xhr.status+&quot;: &quot;+xhr.statusText);
+&#125;</code></pre>
+<p>这个就是当加载成功后，id为app的dom添加样式，然后就是所有class为<code>mbti_sugg_title</code>的p标签的背景和边距为指定的样式，然后所有class不是为<code>mbti_sugg_title</code>的p标签的样式为指定的颜色；然后就是把按钮隐藏起来<code>hideBtn(&quot;#load&quot;)</code>，这一连串的东西都可以在回调函数中完成。</p>
+<p>回调函数的好处就是让函数的执行有个依赖关系，虽然ajax的异步请求会对依赖关系造成一些威胁，但是通过回调函数可以很好的解决函数执行的某些先后关系。</p>
+<p>当然，笔者仅仅是写了一个很简单的回调函数，真正情况可能会更复杂，但是当你明白了回调函数是个什么东西的时候就会很好的运用它来解决工作中的问题了。</p>
+<p>本文到此结束，后续会继续更新，敬请关注。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/jquery-ajax-%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0-load-%E8%BF%87%E6%BB%A4-%E7%89%A9%E6%B5%81%E5%8D%95%E5%8F%B7%E6%9F%A5%E8%AF%A2-%E5%8D%95%E5%8F%B7%E6%9F%A5%E8%AF%A2/" rel="tag"># jquery,ajax,回调函数,load,过滤,物流单号查询,单号查询</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/06/21/%E4%BB%8E%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%89%93%E5%8D%B0%E6%9F%90%E4%B8%AA%E7%9B%AE%E5%BD%95%E4%B8%8B%E7%9A%84%E6%89%80%E6%9C%89%E6%96%87%E4%BB%B6%E5%92%8C%E6%96%87%E4%BB%B6%E5%A4%B9%E7%9A%84%E8%B7%AF%E5%BE%84%E4%BF%9D%E5%AD%98%E5%88%B0%E4%B8%80%E4%B8%AAtxt%E6%96%87%E4%BB%B6%E4%B8%AD%EF%BC%8C%E7%84%B6%E5%90%8E%E9%80%9A%E8%BF%87ajax%E7%9A%84%E6%96%B9%E5%BC%8F%E8%8E%B7%E5%8F%96txt%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E6%AF%8F%E4%B8%80%E8%A1%8C%E8%B7%AF%E5%BE%84%E7%84%B6%E5%90%8E%E9%80%9A%E8%BF%87jquery%E7%9A%84%E6%96%B9%E5%BC%8F%E9%81%8D%E5%8E%86%E5%87%BA%E6%9D%A5/" rel="prev" title="从服务器端打印某个目录下的所有文件和文件夹的路径保存到一个txt文件中，然后通过ajax的方式获取txt文件中的每一行路径然后通过jquery的方式遍历出来">
+      <i class="fa fa-chevron-left"></i> 从服务器端打印某个目录下的所有文件和文件夹的路径保存到一个txt文件中，然后通过ajax的方式获取txt文件中的每一行路径然后通过jquery的方式遍历出来
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/06/28/javascript%E7%9A%84%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/" rel="next" title="javascript的编码规范">
+      javascript的编码规范 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BF%85%E8%A6%81%E7%9A%84%E6%B5%8B%E8%AF%95%E4%BF%A1%E6%81%AF"><span class="nav-number">1.</span> <span class="nav-text">必要的测试信息</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%89%AF%E5%A5%BD%E7%9A%84%E7%BC%96%E7%A0%81%E4%B9%A0%E6%83%AF"><span class="nav-number">1.1.</span> <span class="nav-text">良好的编码习惯</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

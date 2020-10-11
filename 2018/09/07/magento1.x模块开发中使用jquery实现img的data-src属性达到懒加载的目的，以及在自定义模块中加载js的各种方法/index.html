@@ -1,37 +1,732 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="笔者在完成一个：https:&#x2F;&#x2F;helongquan.github.io&#x2F;2018&#x2F;09&#x2F;07&#x2F;%E4%BD%BF%E7%94%A8jquery%E5%AE%9E%E7%8E%B0img%E7%9A%84data-src%E5%B1%9E%E6%80%A7%E8%BE%BE%E5%88%B0%E6%87%92%E5%8A%A0%E8%BD%BD%E7%9A%84%E7%9B%AE%E7%9A%84">
+<meta property="og:type" content="article">
+<meta property="og:title" content="magento1.x模块开发中使用jquery实现img的data-src属性达到懒加载的目的，以及在自定义模块中加载js的各种方法">
+<meta property="og:url" content="http://example.com/2018/09/07/magento1.x%E6%A8%A1%E5%9D%97%E5%BC%80%E5%8F%91%E4%B8%AD%E4%BD%BF%E7%94%A8jquery%E5%AE%9E%E7%8E%B0img%E7%9A%84data-src%E5%B1%9E%E6%80%A7%E8%BE%BE%E5%88%B0%E6%87%92%E5%8A%A0%E8%BD%BD%E7%9A%84%E7%9B%AE%E7%9A%84%EF%BC%8C%E4%BB%A5%E5%8F%8A%E5%9C%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A8%A1%E5%9D%97%E4%B8%AD%E5%8A%A0%E8%BD%BDjs%E7%9A%84%E5%90%84%E7%A7%8D%E6%96%B9%E6%B3%95/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="笔者在完成一个：https:&#x2F;&#x2F;helongquan.github.io&#x2F;2018&#x2F;09&#x2F;07&#x2F;%E4%BD%BF%E7%94%A8jquery%E5%AE%9E%E7%8E%B0img%E7%9A%84data-src%E5%B1%9E%E6%80%A7%E8%BE%BE%E5%88%B0%E6%87%92%E5%8A%A0%E8%BD%BD%E7%9A%84%E7%9B%AE%E7%9A%84">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/tyy6h0m.png">
+<meta property="og:image" content="https://i.imgur.com/77ozQQf.png">
+<meta property="og:image" content="https://i.imgur.com/9CNNHtW.png">
+<meta property="og:image" content="https://i.imgur.com/OY6XwfC.png">
+<meta property="article:published_time" content="2018-09-07T02:56:38.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:57:59.233Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="magento1.x,jquery,img,data-src,懒加载,引入js,加载js">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/tyy6h0m.png">
+
+<link rel="canonical" href="http://example.com/2018/09/07/magento1.x%E6%A8%A1%E5%9D%97%E5%BC%80%E5%8F%91%E4%B8%AD%E4%BD%BF%E7%94%A8jquery%E5%AE%9E%E7%8E%B0img%E7%9A%84data-src%E5%B1%9E%E6%80%A7%E8%BE%BE%E5%88%B0%E6%87%92%E5%8A%A0%E8%BD%BD%E7%9A%84%E7%9B%AE%E7%9A%84%EF%BC%8C%E4%BB%A5%E5%8F%8A%E5%9C%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A8%A1%E5%9D%97%E4%B8%AD%E5%8A%A0%E8%BD%BDjs%E7%9A%84%E5%90%84%E7%A7%8D%E6%96%B9%E6%B3%95/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>magento1.x模块开发中使用jquery实现img的data-src属性达到懒加载的目的，以及在自定义模块中加载js的各种方法 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/09/07/magento1.x%E6%A8%A1%E5%9D%97%E5%BC%80%E5%8F%91%E4%B8%AD%E4%BD%BF%E7%94%A8jquery%E5%AE%9E%E7%8E%B0img%E7%9A%84data-src%E5%B1%9E%E6%80%A7%E8%BE%BE%E5%88%B0%E6%87%92%E5%8A%A0%E8%BD%BD%E7%9A%84%E7%9B%AE%E7%9A%84%EF%BC%8C%E4%BB%A5%E5%8F%8A%E5%9C%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A8%A1%E5%9D%97%E4%B8%AD%E5%8A%A0%E8%BD%BDjs%E7%9A%84%E5%90%84%E7%A7%8D%E6%96%B9%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          magento1.x模块开发中使用jquery实现img的data-src属性达到懒加载的目的，以及在自定义模块中加载js的各种方法
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-09-07 10:56:38" itemprop="dateCreated datePublished" datetime="2018-09-07T10:56:38+08:00">2018-09-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:59" itemprop="dateModified" datetime="2020-10-11T11:57:59+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/magento1/" itemprop="url" rel="index"><span itemprop="name">magento1</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>笔者在完成一个：<a target="_blank" rel="noopener" href="https://helongquan.github.io/2018/09/07/%E4%BD%BF%E7%94%A8jquery%E5%AE%9E%E7%8E%B0img%E7%9A%84data-src%E5%B1%9E%E6%80%A7%E8%BE%BE%E5%88%B0%E6%87%92%E5%8A%A0%E8%BD%BD%E7%9A%84%E7%9B%AE%E7%9A%84/">https://helongquan.github.io/2018/09/07/%E4%BD%BF%E7%94%A8jquery%E5%AE%9E%E7%8E%B0img%E7%9A%84data-src%E5%B1%9E%E6%80%A7%E8%BE%BE%E5%88%B0%E6%87%92%E5%8A%A0%E8%BD%BD%E7%9A%84%E7%9B%AE%E7%9A%84/</a>的时候，突然想到，如何能够把这个应用到magento的模块开发中，这样对于获取图片，不就可以减少加载速度了吗？来吧！</p>
+<p>说明：笔者以下的引用都是以自定义模块（fan）来做讲解的。</p>
+<h2 id="前提"><a href="#前提" class="headerlink" title="前提"></a>前提</h2><p>为了节省篇幅，笔者这里假设你已经创建了一个模块，并且添加了相应的数据。具体的方法，可以在本站点找到创建防伪码功能，以及在后台添加防伪码的模块开发教程。笔者在后台添加若干的内容：</p>
+<p><img src="https://i.imgur.com/tyy6h0m.png"></p>
+<p>数据表：fan</p>
+<p><img src="https://i.imgur.com/77ozQQf.png"></p>
+<p>然后，笔者创建了一个模块，然后通过浏览器来获取这个内容，并显示在前台：</p>
+<p><img src="https://i.imgur.com/9CNNHtW.png"></p>
+<p>笔者就是想要在这个显示的这个列表的时候，采用懒加载，那么我们就不得不对这个模块引入jquery，本来嘛magento这个主题已经有了jquery，但是不起作用，因此不得不对这个模块再进行一次引用，好了这个有个重要的概念：<strong>在模块中引入js</strong>，方法如下：</p>
+<h3 id="在模块中引入外部js文件"><a href="#在模块中引入外部js文件" class="headerlink" title="在模块中引入外部js文件"></a>在模块中引入外部js文件</h3><p>1.首先找到这个模块的布局文件，地址：app/design/frontend/yourtheme/default/layout/fan.xml<br>这个fan.xml就是笔者在创建模块的时候，在前台的布局文件，我们打开这个文件。</p>
+<p>代码：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;layout version=&quot;0.1.0&quot;&gt;
+    &lt;default&gt;
+    &lt;/default&gt;
+    &lt;fan_index_index&gt;
+        &lt;reference name=&quot;root&quot;&gt;
+            &lt;action method=&quot;setTemplate&quot;&gt;&lt;template&gt;page/2columns-left.phtml&lt;/template&gt;&lt;/action&gt;
+        &lt;/reference&gt;
+        &lt;reference name=&quot;content&quot;&gt;
+            &lt;block type=&quot;fan/fan&quot; name=&quot;fan&quot; template=&quot;fan/fan.phtml&quot; /&gt;
+        &lt;/reference&gt;
+    &lt;/fan_index_index&gt;
+    &lt;fan_index_view&gt;
+        &lt;reference name=&quot;content&quot;&gt;
+            &lt;block type=&quot;fan/fan&quot; name=&quot;fan&quot; template=&quot;fan/view.phtml&quot; /&gt;
+        &lt;/reference&gt;
+    &lt;/fan_index_view&gt;
+&lt;/layout&gt;</code></pre>
+<p>原来是有东西在里面的，我们不管，我们需要添加如下代码进去：</p>
+<pre><code>&lt;reference name=&quot;head&quot;&gt;
+    &lt;action method=&quot;addJs&quot;&gt;
+        &lt;script&gt;jquery-3.2.1.min.js&lt;/script&gt;
+    &lt;/action&gt;
+&lt;/reference&gt;</code></pre>
+<p>这个代码意思就是加载在magento网站根目录下的js文件夹里自己添加进去的<code>jquery-3.2.1.min.js</code>文件。</p>
+<p>添加后的fan.xml如下：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;layout version=&quot;0.1.0&quot;&gt;
+    &lt;default&gt;
+    &lt;/default&gt;
+    &lt;fan_index_index&gt;
+        &lt;reference name=&quot;root&quot;&gt;
+            &lt;action method=&quot;setTemplate&quot;&gt;&lt;template&gt;page/2columns-left.phtml&lt;/template&gt;&lt;/action&gt;
+        &lt;/reference&gt;
+        &lt;reference name=&quot;head&quot;&gt;
+            &lt;action method=&quot;addJs&quot;&gt;
+                &lt;script&gt;jquery-3.2.1.min.js&lt;/script&gt;
+            &lt;/action&gt;
+        &lt;/reference&gt;
+        &lt;reference name=&quot;content&quot;&gt;
+            &lt;block type=&quot;fan/fan&quot; name=&quot;fan&quot; template=&quot;fan/fan.phtml&quot; /&gt;
+        &lt;/reference&gt;
+    &lt;/fan_index_index&gt;
+    &lt;fan_index_view&gt;
+        &lt;reference name=&quot;content&quot;&gt;
+            &lt;block type=&quot;fan/fan&quot; name=&quot;fan&quot; template=&quot;fan/view.phtml&quot; /&gt;
+        &lt;/reference&gt;
+    &lt;/fan_index_view&gt;
+&lt;/layout&gt;</code></pre>
+<p>当然，经过笔者的实践发现，这样添加也是可以的：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;layout version=&quot;0.1.0&quot;&gt;
+    &lt;default&gt;
+        &lt;reference name=&quot;head&quot;&gt;
+            &lt;action method=&quot;addJs&quot;&gt;
+                &lt;script&gt;jquery-3.1.1.min.js&lt;/script&gt;
+            &lt;/action&gt;
+        &lt;/reference&gt;
+    &lt;/default&gt;
+    &lt;fan_index_index&gt;
+        &lt;reference name=&quot;root&quot;&gt;
+            &lt;action method=&quot;setTemplate&quot;&gt;&lt;template&gt;page/2columns-left.phtml&lt;/template&gt;&lt;/action&gt;
+        &lt;/reference&gt;
+        &lt;reference name=&quot;content&quot;&gt;
+            &lt;block type=&quot;fan/fan&quot; name=&quot;fan&quot; template=&quot;fan/fan.phtml&quot; /&gt;
+        &lt;/reference&gt;
+    &lt;/fan_index_index&gt;
+    &lt;fan_index_view&gt;
+        &lt;reference name=&quot;content&quot;&gt;
+            &lt;block type=&quot;fan/fan&quot; name=&quot;fan&quot; template=&quot;fan/view.phtml&quot; /&gt;
+        &lt;/reference&gt;
+    &lt;/fan_index_view&gt;
+&lt;/layout&gt;</code></pre>
+<p>为了区分，笔者这里引入的是<code>jquery-3.1.1.min.js</code>，这里的js放置的位置是在网站根目录下的js文件夹中。</p>
+<h2 id="另外一种方法引入js：引入在skin这个目录下的主题下的js文件夹中的js"><a href="#另外一种方法引入js：引入在skin这个目录下的主题下的js文件夹中的js" class="headerlink" title="另外一种方法引入js：引入在skin这个目录下的主题下的js文件夹中的js"></a>另外一种方法引入js：引入在skin这个目录下的主题下的js文件夹中的js</h2><p>那么可不可以引用放在其他地方的js呢？无论是从管理方便还是基于个人习惯出发，这种可能性是存在的，答案是可以引用放在其他地方的。接下来我们来引用放在skin目录下的js文件夹中的js文件。</p>
+<p>经过实践发现，如果我们想要引入一个外部位于skin目录下的js，比如jquery，那么我们要把这个js放在基础模板中的js文件夹下（magento_root/skin/frontend/base/default/js/jquery-3.1.1.min.js）,而不是我们自己的主题下的js文件夹下，这个地方要注意。我们怎么做呢？</p>
+<p>首先，你可以在你的主题 local.xml 中添加自定义的JS文件，该文件位于：/app/design/frontend/yourtheme/default/layout/local.xml，打开，然后添加代码：</p>
+<pre><code>&lt;layout version=&quot;0.1.0&quot;&gt;
+    &lt;default&gt;
+        &lt;reference name=&quot;head&quot;&gt;
+            &lt;action method=&quot;addItem&quot;&gt;&lt;type&gt;skin_js&lt;/type&gt;&lt;name&gt;js/jquery-3.1.1.min.js&lt;/name&gt;&lt;/action&gt;
+        &lt;/reference&gt;
+    &lt;/default&gt;
+&lt;/layout&gt;</code></pre>
+<p>如果你固执己见，就想把这js加在自己当前所用的这个主题比如：porto主题，那么我们先把jquery-3.1.1.min.js粘贴放在这个主题的js目录下，然后对上面的这个代码做个修改：</p>
+<pre><code>&lt;layout version=&quot;0.1.0&quot;&gt;
+    &lt;default&gt;
+        &lt;reference name=&quot;head&quot;&gt;
+            &lt;action method=&quot;addItem&quot;&gt;&lt;type&gt;skin_js&lt;/type&gt;&lt;name&gt;../../porto/default/js/jquery-3.1.1.min.js&lt;/name&gt;&lt;/action&gt;
+        &lt;/reference&gt;
+    &lt;/default&gt;
+&lt;/layout&gt;</code></pre>
+<h2 id="好的，关于各种引入js的方法在自定义模块中已经完毕，我们继续回到正题，接着往下看。"><a href="#好的，关于各种引入js的方法在自定义模块中已经完毕，我们继续回到正题，接着往下看。" class="headerlink" title="好的，关于各种引入js的方法在自定义模块中已经完毕，我们继续回到正题，接着往下看。"></a>好的，关于各种引入js的方法在自定义模块中已经完毕，我们继续回到正题，接着往下看。</h2><p>添加完毕后，我们来到控制这个内容显示的fan.phtml文件，地址：app/design/frontend/yourtheme/default/template/fan/fan.phtml</p>
+<p>原来的代码：</p>
+<pre><code>&lt;h3&gt;&lt;?php echo $this-&gt;__(&#39;Voodoo最新防伪码列表&#39;) ?&gt;&lt;/h3&gt;
+&lt;table class=&quot;biaoge&quot;&gt;
+    &lt;tr&gt;
+        &lt;td&gt;缩略图&lt;/td&gt;
+        &lt;td&gt;防伪码&lt;/td&gt;
+        &lt;td&gt;品牌商&lt;/td&gt;
+        &lt;td&gt;负责人&lt;/td&gt;
+        &lt;td&gt;公司名称&lt;/td&gt;
+        &lt;td&gt;文件名&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;?php foreach($this-&gt;getNewsList() as $item): ?&gt;
+        &lt;tr&gt;
+            &lt;td&gt;
+                &lt;?php if (pathinfo($item[&#39;filename&#39;])[&#39;extension&#39;] != &#39;pdf&#39;):?&gt;
+                &lt;img src=&quot;&lt;?php echo Mage::getBaseUrl(&#39;media&#39;) . &#39;fan/&#39;.$item[&#39;filename&#39;] ?&gt;&quot; alt=&quot;&lt;?php echo $item[&#39;bianma&#39;]?&gt;&quot; width=&quot;64&quot; height=&quot;64&quot;/&gt;
+                &lt;?php else:?&gt;
+                &lt;a href=&quot;&lt;?php echo Mage::getBaseUrl(&#39;media&#39;) . &#39;fan/&#39;.$item[&#39;filename&#39;] ?&gt;&quot; download&gt;&lt;img src=&quot;http://www.tanzrepdelhi.com/images/pdficon.png&quot; alt=&quot;&lt;?php echo $item[&#39;bianma&#39;]?&gt;&quot; width=&quot;64&quot; height=&quot;64&quot;/&gt;&lt;/a&gt;
+                &lt;?php endif; ?&gt;
+            &lt;/td&gt;
+            &lt;td&gt;
+                &lt;h5&gt;&lt;?php echo $item[&#39;bianma&#39;] ?&gt;&lt;/h5&gt;
+            &lt;/td&gt;
+            &lt;td&gt;
+                &lt;h5&gt;&lt;?php echo $item[&#39;brand&#39;] ?&gt;&lt;/h5&gt;
+            &lt;/td&gt;
+            &lt;td&gt;
+                &lt;h5&gt;&lt;?php echo $item[&#39;user&#39;] ?&gt;&lt;/h5&gt;
+            &lt;/td&gt;
+            &lt;td&gt;
+                &lt;h5&gt;&lt;?php echo $item[&#39;company&#39;] ?&gt;&lt;/h5&gt;
+            &lt;/td&gt;
+            &lt;td&gt;
+                &lt;h5&gt;&lt;?php echo $item[&#39;filename&#39;] ?&gt;&lt;/h5&gt;
+            &lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;?php endforeach; ?&gt;
+&lt;/table&gt;
+
+&lt;style&gt;
+    input.input-text &#123;
+        width: 100% !important;
+    &#125;
+    .yt_main_inner select&#123;
+        width: 100%;
+        margin-bottom: 20px;
+    &#125;
+    input[type=&quot;submit&quot;]&#123;
+        width: 150px;
+        margin-bottom: 20px;
+        background: #444444;
+        color: #fff;
+        border: 0px;
+    &#125;
+    .biaoge td,.biaoge th&#123;
+        padding:8px 10px;
+        border:1px solid #ccc;
+    &#125;
+    .biaoge tr td:first-child&#123;
+        width:80px;
+    &#125;
+    .biaoge tr:first-child&#123;
+        background: #666;
+        color: #fff;
+    &#125;
+    .biaoge img&#123;
+        width: 100%;
+    &#125;
+    .biaoge&#123;
+        border-collapse:collapse !important;
+        border: 1px solid;
+        width: 100%;
+    &#125;
+&lt;/style&gt;</code></pre>
+<p>我们需要对这个代码进行修改，第一个地方，我们找到img那里，</p>
+<pre><code>&lt;img src=&quot;&lt;?php echo Mage::getBaseUrl(&#39;media&#39;) . &#39;fan/&#39;.$item[&#39;filename&#39;] ?&gt;&quot; alt=&quot;&lt;?php echo $item[&#39;bianma&#39;]?&gt;&quot; width=&quot;64&quot; height=&quot;64&quot;/&gt;</code></pre>
+<p>改成，</p>
+<pre><code>&lt;img src=&quot;&lt;?php echo Mage::getBaseUrl(&#39;media&#39;) . &#39;fan/loading.gif&#39; ?&gt;&quot; data-src=&quot;&lt;?php echo Mage::getBaseUrl(&#39;media&#39;) . &#39;fan/&#39;.$item[&#39;filename&#39;] ?&gt;&quot; alt=&quot;&lt;?php echo $item[&#39;bianma&#39;]?&gt;&quot; width=&quot;64&quot; height=&quot;64&quot;/&gt;</code></pre>
+<p>这里自己需要在目录添加一个加载的gif(loading.gif)，尽量弄小点就行。</p>
+<p>地址：magento_root/media/fan/loading.gif</p>
+<p>然后，在这个文件最下面添加js代码：</p>
+<pre><code>&lt;script&gt;
+    start();
+    $(window).on(&#39;scroll&#39;, function() &#123;
+        start();
+    &#125;)
+
+    function start() &#123;
+        //.not(&#39;[data-isLoaded]&#39;)选中已加载的图片不需要重新加载，确定哪个范围内的图片需要这个功能，这里是container里的所有图片
+        $(&#39;.biaoge img&#39;).not(&#39;[data-isLoaded]&#39;).each(function() &#123;
+            var $node = $(this);
+            if (isShow($node)) &#123;
+                loadImg($node);
+            &#125;
+        &#125;)
+    &#125;
+
+    //判断一个元素是不是出现在窗口(视野)
+    function isShow($node) &#123;
+        return $node.offset().top &lt;= $(window).height() + $(window).scrollTop();
+    &#125;
+    //加载图片
+    function loadImg($img) &#123;
+        //.attr(值)
+        //.attr(属性名称,值)
+        $img.attr(&#39;src&#39;, $img.attr(&#39;data-src&#39;)); //把data-src的值 赋值给src
+        $img.attr(&#39;data-isLoaded&#39;, 1); //已加载的图片做标记
+    &#125;
+&lt;/script&gt;</code></pre>
+<p>由于我们只对这个表格里面的内容进行懒加载，所以我们找到这个：<code>.biaoge img</code>，然后控制如果出现在视口范围里的图片就显示，否则都显示loading.gif这个图片。</p>
+<p><img src="https://i.imgur.com/OY6XwfC.png"></p>
+<p>看到了吗，左边的那个是已经显示出来的东西，右边笔者选择后面还没有显示的地方，里面的img的属性标签src的地址还是loading.gif图片，这事因为我们还没滑动到这张图片的位置，这样就大大减少了整个页面的加载时间。</p>
+<p>添加后的fan.phtml代码如下：</p>
+<pre><code>&lt;h3&gt;&lt;?php echo $this-&gt;__(&#39;Voodoo最新防伪码列表&#39;) ?&gt;&lt;/h3&gt;
+&lt;table class=&quot;biaoge&quot;&gt;
+    &lt;tr&gt;
+        &lt;td&gt;缩略图&lt;/td&gt;
+        &lt;td&gt;防伪码&lt;/td&gt;
+        &lt;td&gt;品牌商&lt;/td&gt;
+        &lt;td&gt;负责人&lt;/td&gt;
+        &lt;td&gt;公司名称&lt;/td&gt;
+        &lt;td&gt;文件名&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;?php foreach($this-&gt;getNewsList() as $item): ?&gt;
+        &lt;tr&gt;
+            &lt;td&gt;
+                &lt;?php if (pathinfo($item[&#39;filename&#39;])[&#39;extension&#39;] != &#39;pdf&#39;):?&gt;
+                &lt;img src=&quot;&lt;?php echo Mage::getBaseUrl(&#39;media&#39;) . &#39;fan/loading.gif&#39; ?&gt;&quot; data-src=&quot;&lt;?php echo Mage::getBaseUrl(&#39;media&#39;) . &#39;fan/&#39;.$item[&#39;filename&#39;] ?&gt;&quot; alt=&quot;&lt;?php echo $item[&#39;bianma&#39;]?&gt;&quot; width=&quot;64&quot; height=&quot;64&quot;/&gt;
+                &lt;?php else:?&gt;
+                &lt;a href=&quot;&lt;?php echo Mage::getBaseUrl(&#39;media&#39;) . &#39;fan/&#39;.$item[&#39;filename&#39;] ?&gt;&quot; download&gt;&lt;img src=&quot;http://www.tanzrepdelhi.com/images/pdficon.png&quot; alt=&quot;&lt;?php echo $item[&#39;bianma&#39;]?&gt;&quot; width=&quot;64&quot; height=&quot;64&quot;/&gt;&lt;/a&gt;
+                &lt;?php endif; ?&gt;
+            &lt;/td&gt;
+            &lt;td&gt;
+                &lt;h5&gt;&lt;?php echo $item[&#39;bianma&#39;] ?&gt;&lt;/h5&gt;
+            &lt;/td&gt;
+            &lt;td&gt;
+                &lt;h5&gt;&lt;?php echo $item[&#39;brand&#39;] ?&gt;&lt;/h5&gt;
+            &lt;/td&gt;
+            &lt;td&gt;
+                &lt;h5&gt;&lt;?php echo $item[&#39;user&#39;] ?&gt;&lt;/h5&gt;
+            &lt;/td&gt;
+            &lt;td&gt;
+                &lt;h5&gt;&lt;?php echo $item[&#39;company&#39;] ?&gt;&lt;/h5&gt;
+            &lt;/td&gt;
+            &lt;td&gt;
+                &lt;h5&gt;&lt;?php echo $item[&#39;filename&#39;] ?&gt;&lt;/h5&gt;
+            &lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;?php endforeach; ?&gt;
+&lt;/table&gt;
+
+&lt;style&gt;
+    input.input-text &#123;
+        width: 100% !important;
+    &#125;
+    .yt_main_inner select&#123;
+        width: 100%;
+        margin-bottom: 20px;
+    &#125;
+    input[type=&quot;submit&quot;]&#123;
+        width: 150px;
+        margin-bottom: 20px;
+        background: #444444;
+        color: #fff;
+        border: 0px;
+    &#125;
+    .biaoge td,.biaoge th&#123;
+        padding:8px 10px;
+        border:1px solid #ccc;
+    &#125;
+    .biaoge tr td:first-child&#123;
+        width:80px;
+    &#125;
+    .biaoge tr:first-child&#123;
+        background: #666;
+        color: #fff;
+    &#125;
+    .biaoge img&#123;
+        width: 100%;
+    &#125;
+    .biaoge&#123;
+        border-collapse:collapse !important;
+        border: 1px solid;
+        width: 100%;
+    &#125;
+&lt;/style&gt;
+
+&lt;script&gt;
+    start();
+    $(window).on(&#39;scroll&#39;, function() &#123;
+        start();
+    &#125;)
+
+    function start() &#123;
+        //.not(&#39;[data-isLoaded]&#39;)选中已加载的图片不需要重新加载，确定哪个范围内的图片需要这个功能，这里是container里的所有图片
+        $(&#39;.biaoge img&#39;).not(&#39;[data-isLoaded]&#39;).each(function() &#123;
+            var $node = $(this);
+            if (isShow($node)) &#123;
+                loadImg($node);
+            &#125;
+        &#125;)
+    &#125;
+
+    //判断一个元素是不是出现在窗口(视野)
+    function isShow($node) &#123;
+        return $node.offset().top &lt;= $(window).height() + $(window).scrollTop();
+    &#125;
+    //加载图片
+    function loadImg($img) &#123;
+        //.attr(值)
+        //.attr(属性名称,值)
+        $img.attr(&#39;src&#39;, $img.attr(&#39;data-src&#39;)); //把data-src的值 赋值给src
+        $img.attr(&#39;data-isLoaded&#39;, 1); //已加载的图片做标记
+    &#125;
+&lt;/script&gt;</code></pre>
+<p><strong>其实，这个问题就是四点：</strong></p>
+<ol>
+<li>对特定模块引入外部资源（js/css，这里引入的主要是js的库文件，css的话，直接写在这个模板文件里面即可），由于模块不是在后台中的页面那里添加，因此没法从网站的后台page那里的design那里引入外部文件，所以这个值得深入了解。</li>
+<li>然后就是确定好需要懒加载的范围，笔者确定的是在<code>.biaoge</code>这个class下的所有图片。</li>
+<li>添加相应的js代码</li>
+<li>把img标签那里做个修改，添加data-src这个属性，并且把真正的图片引用地址放在这个里面，而在src这个里面只需要放置一张小的图片作为填充即可，为了体验度好点，笔者这里用的是一张类似加载的gif图，你不必跟我一样。</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/magento1-x-jquery-img-data-src-%E6%87%92%E5%8A%A0%E8%BD%BD-%E5%BC%95%E5%85%A5js-%E5%8A%A0%E8%BD%BDjs/" rel="tag"># magento1.x,jquery,img,data-src,懒加载,引入js,加载js</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/09/07/%E4%BD%BF%E7%94%A8jquery%E5%AE%9E%E7%8E%B0img%E7%9A%84data-src%E5%B1%9E%E6%80%A7%E8%BE%BE%E5%88%B0%E6%87%92%E5%8A%A0%E8%BD%BD%E7%9A%84%E7%9B%AE%E7%9A%84/" rel="prev" title="使用jquery实现img的data-src属性达到懒加载的目的">
+      <i class="fa fa-chevron-left"></i> 使用jquery实现img的data-src属性达到懒加载的目的
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/09/07/magento1-x%E4%B8%AD%E5%85%A8%E5%B1%80%E5%BC%95%E5%85%A5%E5%A4%96%E9%83%A8%E6%A0%B7%E5%BC%8F%EF%BC%8C%E6%88%96%E8%80%85%E5%BC%95%E5%85%A5%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A0%B7%E5%BC%8F%E8%A1%A8%E5%88%B0%E7%BD%91%E7%AB%99%E5%85%AC%E5%85%B1%E9%83%A8%E5%88%86%EF%BC%8C%E4%BB%A5%E4%BE%BF%E8%87%AA%E5%AE%9A%E4%B9%89%E4%BF%AE%E6%94%B9%E7%BD%91%E7%AB%99css%E6%A0%B7%E5%BC%8F/" rel="next" title="magento1.x中全局引入外部样式或者js文件，或者引入自定义样式表和js文件到网站公共部分，以便自定义修改网站css样式和JavaScript脚本，以及引入font-awesome这个字体图标库">
+      magento1.x中全局引入外部样式或者js文件，或者引入自定义样式表和js文件到网站公共部分，以便自定义修改网站css样式和JavaScript脚本，以及引入font-awesome这个字体图标库 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E6%8F%90"><span class="nav-number">1.</span> <span class="nav-text">前提</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8%E6%A8%A1%E5%9D%97%E4%B8%AD%E5%BC%95%E5%85%A5%E5%A4%96%E9%83%A8js%E6%96%87%E4%BB%B6"><span class="nav-number">1.1.</span> <span class="nav-text">在模块中引入外部js文件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%A6%E5%A4%96%E4%B8%80%E7%A7%8D%E6%96%B9%E6%B3%95%E5%BC%95%E5%85%A5js%EF%BC%9A%E5%BC%95%E5%85%A5%E5%9C%A8skin%E8%BF%99%E4%B8%AA%E7%9B%AE%E5%BD%95%E4%B8%8B%E7%9A%84%E4%B8%BB%E9%A2%98%E4%B8%8B%E7%9A%84js%E6%96%87%E4%BB%B6%E5%A4%B9%E4%B8%AD%E7%9A%84js"><span class="nav-number">2.</span> <span class="nav-text">另外一种方法引入js：引入在skin这个目录下的主题下的js文件夹中的js</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A5%BD%E7%9A%84%EF%BC%8C%E5%85%B3%E4%BA%8E%E5%90%84%E7%A7%8D%E5%BC%95%E5%85%A5js%E7%9A%84%E6%96%B9%E6%B3%95%E5%9C%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A8%A1%E5%9D%97%E4%B8%AD%E5%B7%B2%E7%BB%8F%E5%AE%8C%E6%AF%95%EF%BC%8C%E6%88%91%E4%BB%AC%E7%BB%A7%E7%BB%AD%E5%9B%9E%E5%88%B0%E6%AD%A3%E9%A2%98%EF%BC%8C%E6%8E%A5%E7%9D%80%E5%BE%80%E4%B8%8B%E7%9C%8B%E3%80%82"><span class="nav-number">3.</span> <span class="nav-text">好的，关于各种引入js的方法在自定义模块中已经完毕，我们继续回到正题，接着往下看。</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

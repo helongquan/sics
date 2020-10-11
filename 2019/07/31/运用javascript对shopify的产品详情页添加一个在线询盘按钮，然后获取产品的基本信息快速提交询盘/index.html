@@ -1,37 +1,557 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="本文是基于笔者经常测试的一个shopify主题mixer，笔者想要实现一个这样啊的需求，就是在产品详情页添加一个按钮，用户点击这个按钮的时候，就可以跳转到联系我们页面，然后把该产品的基本信息，比如：产品标题，产品链接，产品属性，产品价格等等填充到联系我们页面的表单中，如果用户登录了的话，还可以获取用户名称用户的电邮自动填充到联系表单中，用户只需要点击提交即可快速询盘了。这个对于用户而言是一个很好的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="运用javascript对shopify的产品详情页添加一个在线询盘按钮，然后获取产品的基本信息快速提交询盘">
+<meta property="og:url" content="http://example.com/2019/07/31/%E8%BF%90%E7%94%A8javascript%E5%AF%B9shopify%E7%9A%84%E4%BA%A7%E5%93%81%E8%AF%A6%E6%83%85%E9%A1%B5%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%B8%AA%E5%9C%A8%E7%BA%BF%E8%AF%A2%E7%9B%98%E6%8C%89%E9%92%AE%EF%BC%8C%E7%84%B6%E5%90%8E%E8%8E%B7%E5%8F%96%E4%BA%A7%E5%93%81%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BF%A1%E6%81%AF%E5%BF%AB%E9%80%9F%E6%8F%90%E4%BA%A4%E8%AF%A2%E7%9B%98/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="本文是基于笔者经常测试的一个shopify主题mixer，笔者想要实现一个这样啊的需求，就是在产品详情页添加一个按钮，用户点击这个按钮的时候，就可以跳转到联系我们页面，然后把该产品的基本信息，比如：产品标题，产品链接，产品属性，产品价格等等填充到联系我们页面的表单中，如果用户登录了的话，还可以获取用户名称用户的电邮自动填充到联系表单中，用户只需要点击提交即可快速询盘了。这个对于用户而言是一个很好的">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/p9cwOjK.png">
+<meta property="og:image" content="https://i.imgur.com/DmA1uEI.png">
+<meta property="article:published_time" content="2019-07-31T07:01:26.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:06.640Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="shopify,javascript,产品详情页添加询盘按钮,自动填充产品信息到联系表单,购物车页面添加询盘表单,批量询盘">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/p9cwOjK.png">
+
+<link rel="canonical" href="http://example.com/2019/07/31/%E8%BF%90%E7%94%A8javascript%E5%AF%B9shopify%E7%9A%84%E4%BA%A7%E5%93%81%E8%AF%A6%E6%83%85%E9%A1%B5%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%B8%AA%E5%9C%A8%E7%BA%BF%E8%AF%A2%E7%9B%98%E6%8C%89%E9%92%AE%EF%BC%8C%E7%84%B6%E5%90%8E%E8%8E%B7%E5%8F%96%E4%BA%A7%E5%93%81%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BF%A1%E6%81%AF%E5%BF%AB%E9%80%9F%E6%8F%90%E4%BA%A4%E8%AF%A2%E7%9B%98/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>运用javascript对shopify的产品详情页添加一个在线询盘按钮，然后获取产品的基本信息快速提交询盘 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/07/31/%E8%BF%90%E7%94%A8javascript%E5%AF%B9shopify%E7%9A%84%E4%BA%A7%E5%93%81%E8%AF%A6%E6%83%85%E9%A1%B5%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%B8%AA%E5%9C%A8%E7%BA%BF%E8%AF%A2%E7%9B%98%E6%8C%89%E9%92%AE%EF%BC%8C%E7%84%B6%E5%90%8E%E8%8E%B7%E5%8F%96%E4%BA%A7%E5%93%81%E7%9A%84%E5%9F%BA%E6%9C%AC%E4%BF%A1%E6%81%AF%E5%BF%AB%E9%80%9F%E6%8F%90%E4%BA%A4%E8%AF%A2%E7%9B%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          运用javascript对shopify的产品详情页添加一个在线询盘按钮，然后获取产品的基本信息快速提交询盘
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-07-31 15:01:26" itemprop="dateCreated datePublished" datetime="2019-07-31T15:01:26+08:00">2019-07-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:06" itemprop="dateModified" datetime="2020-10-11T11:58:06+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/shopify/" itemprop="url" rel="index"><span itemprop="name">shopify</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本文是基于笔者经常测试的一个shopify主题mixer，笔者想要实现一个这样啊的需求，就是在产品详情页添加一个按钮，用户点击这个按钮的时候，就可以跳转到联系我们页面，然后把该产品的基本信息，比如：产品标题，产品链接，产品属性，产品价格等等填充到联系我们页面的表单中，如果用户登录了的话，还可以获取用户名称用户的电邮自动填充到联系表单中，用户只需要点击提交即可快速询盘了。这个对于用户而言是一个很好的体验。</p>
+<p>问题来了，那么怎么做呢？</p>
+<p>为了测试方便而不影响正在使用的这个产品详情的模板文件，笔者在后台的主题定制里面的Edit code那里，点击进去找到主题源码的Templates文件夹，点击新建一个模板，然后模板选择product，名字自己随便填写一个，比如：style2</p>
+<p>然后就会有默认的代码，通常这个默认的代码就是主题默认的产品详情页的模板代码，我们只需要在这个基础上进行添加即可。</p>
+<p>找到合适的位置，我们添加一个按钮：</p>
+<pre><code>&lt;a href=&quot;#&quot; style=&quot;display:inline-block;background: #FF5722;padding:8px 20px;border-radius:3px;color: #fff;&quot; id=&quot;contact_to_quotation&quot; target=&quot;_blank&quot;&gt;contact us to quotation&lt;/a&gt;&lt;/p&gt;</code></pre>
+<p>然后我们就把javascript代码添加在这个产品的模板文件的最后面：</p>
+<pre><code>&lt;script&gt;
+  jQuery(function($) &#123;
+
+    $(&quot;#contact_to_quotation&quot;).click(function(event)&#123;
+       // 阻止事件冒泡的发生
+       event.preventDefault();
+       // 获取产品的基本信息，比如产品的标题，页面的链接，产品的价格等等
+       var production_info = new Object();
+           production_info.title = $(&quot;.product-single__title&quot;).text();
+           production_info.url = window.location.href;
+           production_info.ProductPrice = $(&quot;#ProductPrice&quot;).text();
+           production_info.production_rendor = $(&quot;.product-vendor&quot;).text();
+       // 跳转到联系我们页面去，这里笔者采用相对路径的方式，然后追加参数，而这些参数值就是产品的一些基本信息
+       window.location.href=&quot;/pages/contact-us?title=&quot;+production_info.title+&quot;&amp;url=&quot;+production_info.url+&quot;&amp;ProductPrice=&quot;+production_info.ProductPrice+&quot;&amp;rendor=&quot;+production_info.production_rendor;
+
+       // 阻止默认事件，由于这个是a标签，所以默认事件会是一个链接到某个地方的默认行为，通过添加return false就可以阻止这个默认行为
+       return false;
+    &#125;);
+
+  &#125;);   
+
+&lt;/script&gt;</code></pre>
+<p>保存这个产品模板文件，然后新建一个产品，然后在右下角Product template那个位置选择刚才新建的这个产品模板文件（product style2），然后在前台就可以看产品详情页里有一个按钮。</p>
+<p><img src="https://i.imgur.com/p9cwOjK.png"></p>
+<p>点击这个按钮后，就可以看到一个页面发生了跳转，而且跳转到联系我们页面的时候可以在地址栏那里看到一些参数，而这些参数的值将会被填充在联系表单中，而如何填充到某个表单里面去呢？</p>
+<p>我们继续往下看。</p>
+<p>我们需要在Templates文件夹下找到联系我们页面的那个模板文件，笔者这里是page.contact.liquid，打开文件，在最后面添加如下的javascript代码：</p>
+<pre><code>&lt;script&gt;
+  // 获取url中的参数函数
+  function getUrlParam(name) &#123;
+      var reg = new RegExp(&quot;(^|&amp;)&quot; + name + &quot;=([^&amp;]*)(&amp;|$)&quot;); //构造一个含有目标参数的正则表达式对象
+      var r = window.location.search.substr(1).match(reg); //匹配目标参数
+      if (r != null) return decodeURI(r[2]);
+      return null; //返回参数值
+  &#125;
+
+  jQuery(function($) &#123;
+    // 把url里面的参数值获取保存在变量中
+    var quotation_product_url = getUrlParam(&#39;url&#39;);
+    var quotation_product_title = getUrlParam(&#39;title&#39;);
+    var quotation_product_price = getUrlParam(&#39;ProductPrice&#39;);
+    var quotation_product_price_rendor = getUrlParam(&#39;rendor&#39;);
+    // 把获取到的参数值以一行显示一个的方式显示出来，所以这里后面添加了一个换行符\n
+    var product_info = &#39;product title:&#39;+quotation_product_title+&#39;\n&#39;;
+        product_info += &#39;product url:&#39;+quotation_product_url+&#39;\n&#39;;
+        product_info += &#39;product price:&#39;+quotation_product_price+&#39;\n&#39;;
+    product_info += &#39;rendor:&#39;+quotation_product_price_rendor+&#39;\n&#39;;
+    // 把加工后的信息填充到指定的位置，这里是ID为ContactFormMessage的dom中。
+    $($(&quot;#ContactFormMessage&quot;).text(product_info));
+  &#125;);
+
+&lt;/script&gt;</code></pre>
+<p>这样的话就可以看到在联系表单中ID为ContactFormMessage的textarea中显示了如下信息：</p>
+<pre><code>product title:Antique ceramic ware
+product url:https://test.myshopify.com/products/antique-ceramic-ware
+product price:$0.10
+rendor:              Brand:              NOC</code></pre>
+<p>效果图如下：</p>
+<p><img src="https://i.imgur.com/DmA1uEI.png"></p>
+<p>由于笔者这里仅仅是用作测试，所以随便获取了几个信息进行了展示，如果用于生产环境中可能会更多，更严格，逻辑控制更严谨，完成了这一步我们基本就算完成了这个需求了。更多的可以学习下javascript。</p>
+<hr>
+<p>**更新：2019/8/7 16:19:19 **</p>
+<p>我们扩展一下，我们可以运用这个方式来实现网站的批量询价的目的，当用户想要对多个产品进行询盘的时候，如果一个一个的进行发送会很费时费劲，我们可以让用户加入购物车，然后在购物页面获取所有产品的信息列表，然后在购物车页面添加一个联系表单，然后把所有的产品信息列表填充到联系表单中，用户只需要填写必要的信息，比如电子邮箱，名称即可提交询盘了。</p>
+<p>这个如何实现呢？</p>
+<p>这个方案跟前面的有点不一样，前面的那个是获取url链接里面的参数值。而这里不需要获取url链接里面的参数值，而是直接获取页面中的dom的文本数据，然后提取出来。</p>
+<p>这里笔者就以shopify里面的购物车页面作为讲解，我们先添加几个产品到购物车页面，然后我们进入到购物车页面，那么我们就可以看到购物车页面有几个产品，以列表的形式被罗列出来。</p>
+<p>我们只需要找到购入车页面添加联系表单：</p>
+<pre><code>&lt;h2&gt;&lt;a href=&quot;#&quot; id=&quot;cart_quotation&quot;&gt;Quotation now&lt;/a&gt;&lt;/h2&gt;
+&lt;div class=&quot;nocti_contact_form&quot;&gt;
+  &lt;div class=&quot;contact-form-section&quot;&gt;
+    &#123;% form 'contact' %&#125;
+	    &#123;% if form.posted_successfully? %&#125;
+	    <p class="note form-success">
+	      &#123;&#123; 'contact.form.post_success' | t &#125;&#125;
+	    </p>
+	    &#123;% endif %&#125;
+	
+	    &#123;&#123; form.errors | default_errors &#125;&#125;
+	    &#123;% assign name_attr = 'contact.form.name' | t | handle %&#125;
+	
+	    <label for="ContactFormName" class="label--hidden">&#123;&#123; 'contact.form.name' | t &#125;&#125;</label>
+	    <input type="text" id="ContactFormName" name="contact[&#123;&#123; name_attr &#125;&#125;]" placeholder="&#123;&#123; 'contact.form.name' | t &#125;&#125;" autocapitalize="words" value="&#123;% if form[name_attr] %&#125;&#123;&#123; form[name_attr] &#125;&#125;&#123;% elsif customer %&#125;&#123;&#123; customer.name &#125;&#125;&#123;% endif %&#125;">
+	
+	    <label for="ContactFormEmail" class="label--hidden">&#123;&#123; 'contact.form.email' | t &#125;&#125;</label>
+	    <input type="email" id="ContactFormEmail" name="contact[email]" placeholder="&#123;&#123; 'contact.form.email' | t &#125;&#125;" autocorrect="off" autocapitalize="off" value="&#123;% if form.email %&#125;&#123;&#123; form.email &#125;&#125;&#123;% elsif customer %&#125;&#123;&#123; customer.email &#125;&#125;&#123;% endif %&#125;">
+	
+	    <label for="ContactFormMessage" class="label--hidden">&#123;&#123; 'contact.form.message' | t &#125;&#125;</label>
+	    <textarea rows="7" id="ContactFormMessage" name="contact[body]" placeholder="&#123;&#123; 'contact.form.message' | t &#125;&#125;">&#123;% if form.body %&#125;&#123;&#123; form.body &#125;&#125;&#123;% endif %&#125;</textarea>
+	
+	    <button type="submit" class="btn">&#123;&#123; 'contact.form.send' | t &#125;&#125;</button>
+	    &#123;% endform %&#125;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<p>把这个代码放在合适的位置即可。我们就可以在购物车页面中看到一个联系表单，这个联系表单代码是从笔者这个主题中获取的，可能不同的主题联系表单代码有所不一样，大家找到自己主题中的联系表单代码加入进来即可。</p>
+<p>在购物车页面利用开发者工具定位，然后获取产列表的dom，这个就不多说了，实现的js代码如下：</p>
+<pre><code>&lt;script&gt;
+  jQuery(function($) &#123;
+
+    var products_list = $(&quot;.cart__row .grid__item .cart_items&quot;);
+
+    var pro_mesage = &#39;&#39;;
+    for(var i = 0; i &lt; products_list.length; i++)&#123;
+      pro_mesage += &#39;产品名称：&#39;+$.trim($(products_list[i]).find(&#39;.cart-title a&#39;).text());
+      pro_mesage += &#39;\n&#39;;
+      pro_mesage += &#39;产品价格：&#39;+$(products_list[i]).parent().siblings().find(&quot;.product_jiage&quot;).text().replace(/[ ]/g,&#39;&#39;);
+      pro_mesage += &#39;\n&#39;;
+      pro_mesage += &#39;产品链接：&#123;&#123;shop.url&#125;&#125;&#39;+$(products_list[i]).find(&quot;.cart-title a&quot;).attr(&quot;href&quot;).replace(/[ ]/g,&#39;&#39;);
+      pro_mesage += &#39;\n&#39;;
+      pro_mesage += &#39;\n&#39;;
+    &#125;
+
+    if (products_list.length &gt;= 1) &#123;
+      $($(&quot;#ContactFormMessage&quot;).text(pro_mesage));
+    &#125;
+  &#125;);
+
+&lt;/script&gt;</code></pre>
+<p>这个需要说明几个地方。</p>
+<ol>
+<li>去掉文本前面和后面的空格</li>
+<li>去掉文本中所有的空格</li>
+<li>shopify中在js中置入shopify系统的代码</li>
+</ol>
+<p><strong>去掉文本前面和后面的空格</strong></p>
+<p>当笔者获取dom的文本后填入联系表单的时候，发现老是有空格，而这个空格是在dom中本身就存在的，如果填入有空格就显得很不整齐，所以需要清除掉。</p>
+<p>去除值两边的空格用函数：<code>$.trim()</code>;</p>
+<pre><code>$.trim(这里面就是jquery获取的dom文本)</code></pre>
+<p>在本示例中就是：</p>
+<pre><code>$.trim($(products_list[i]).find(&#39;.cart-title a&#39;).text())</code></pre>
+<p><strong>去掉文本中所有的空格</strong></p>
+<p>去除值所有的空格，包括两边的和中间的：<code>replace(/[ ]/g,&#39;&#39;)</code></p>
+<blockquote>
+<p>注意：中括号里是一个空格</p>
+</blockquote>
+<p>本示例中的用法如下：</p>
+<pre><code>$(products_list[i]).find(&quot;.cart-title a&quot;).attr(&quot;href&quot;).replace(/[ ]/g,&#39;&#39;);</code></pre>
+<p>这个就是用来去掉链接中的所有空格。</p>
+<p>网上示例：</p>
+<pre><code>$(&#39;#name&#39;).val().replace(/[ ]/g,&#39;&#39;);</code></pre>
+<p>参考链接：<a target="_blank" rel="noopener" href="https://www.csdn.net/gather_2d/OtTaEgxsNTc3LWJsb2cO0O0O.html">https://www.csdn.net/gather_2d/OtTaEgxsNTc3LWJsb2cO0O0O.html</a></p>
+<p><strong>shopify中在js中置入shopify系统的代码</strong></p>
+<p>在本示例中，这个地方获取的a标签的href的属性值为相对路径，而我要填充的需要一个完整的产品链接，所以需要获取的url，当然这个方法有很多种，最常用的是<a target="_blank" rel="noopener" href="https://www.cnblogs.com/youcong/p/9477965.html">javascript获取当前url</a>的信息。</p>
+<p>而在本示例中，我就不用这种方法了，因为cart.liquid这个是一个liquid文件，所以是支持和允许采用liquid语法的，所以根据对shopify的文档的查阅发现，获取网站url的代码为：</p>
+<pre><code>&#123;&#123;shop.url&#125;&#125;</code></pre>
+<p>所以我们拼接起来即可：</p>
+<pre><code>pro_mesage += &#39;产品链接：&#123;&#123;shop.url&#125;&#125;&#39;+$(products_list[i]).find(&quot;.cart-title a&quot;).attr(&quot;href&quot;).replace(/[ ]/g,&#39;&#39;);</code></pre>
+<p>然后，我们就可以完成这个产品信息列表的自动填充到联系表单里了。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/shopify-javascript-%E4%BA%A7%E5%93%81%E8%AF%A6%E6%83%85%E9%A1%B5%E6%B7%BB%E5%8A%A0%E8%AF%A2%E7%9B%98%E6%8C%89%E9%92%AE-%E8%87%AA%E5%8A%A8%E5%A1%AB%E5%85%85%E4%BA%A7%E5%93%81%E4%BF%A1%E6%81%AF%E5%88%B0%E8%81%94%E7%B3%BB%E8%A1%A8%E5%8D%95-%E8%B4%AD%E7%89%A9%E8%BD%A6%E9%A1%B5%E9%9D%A2%E6%B7%BB%E5%8A%A0%E8%AF%A2%E7%9B%98%E8%A1%A8%E5%8D%95-%E6%89%B9%E9%87%8F%E8%AF%A2%E7%9B%98/" rel="tag"># shopify,javascript,产品详情页添加询盘按钮,自动填充产品信息到联系表单,购物车页面添加询盘表单,批量询盘</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/07/29/%E5%BC%80%E5%8F%91shopify%E4%B8%BB%E9%A2%98%E8%AF%A6%E7%BB%86%E6%95%99%E7%A8%8B%E5%92%8C%E5%A1%AB%E5%9D%91%E8%AE%B0%E5%BD%95/" rel="prev" title="开发shopify主题详细教程和填坑记录">
+      <i class="fa fa-chevron-left"></i> 开发shopify主题详细教程和填坑记录
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/08/06/%E7%BD%91%E9%A1%B5%E8%AE%BE%E8%AE%A1%E4%B8%AD%E9%87%87%E7%94%A8css%E8%83%8C%E6%99%AF%E4%BD%8D%E7%A7%BB%E5%92%8Ccss3%E7%9A%84%E6%96%B0%E7%89%B9%E6%80%A7clip-path%E5%AE%8C%E6%88%90%E4%B8%8D%E8%A7%84%E5%88%99%E7%89%B9%E6%95%88%E8%AE%BE%E8%AE%A1%E7%9A%84%E9%9C%80%E6%B1%82/" rel="next" title="网页设计中采用css背景位移和css3的新特性clip path完成不规则特效设计的需求">
+      网页设计中采用css背景位移和css3的新特性clip path完成不规则特效设计的需求 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

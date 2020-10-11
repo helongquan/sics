@@ -1,37 +1,1933 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="是时候停下忙碌的工作来写点东西了，这里记录一下关于自己开发的一个参考大疆网站的招聘页面的demo. 问题汇总：  php如何把从mysql数据库查询出来的数据变成json格式的数据，以及如何解决查询结果的中文乱码的问题。 如何解决ajax跨域的问题。 查询结果中json数据遍历到前端时候去重的问题。 对于ajax遍历出来的数据没法点击获取dom值的问题，专业点说就是：ajax获取元素，事件绑定不起">
+<meta property="og:type" content="article">
+<meta property="og:title" content="仿京东商城多重分类搜索的招聘类小项目的各种问题解决办法和用户浏览记录的行为分析以及开发心得">
+<meta property="og:url" content="http://example.com/2018/10/30/%E4%BB%BF%E4%BA%AC%E4%B8%9C%E5%95%86%E5%9F%8E%E5%A4%9A%E9%87%8D%E5%88%86%E7%B1%BB%E6%90%9C%E7%B4%A2%E7%9A%84%E6%8B%9B%E8%81%98%E7%B1%BB%E5%B0%8F%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%90%84%E7%A7%8D%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%E4%BB%A5%E5%8F%8A%E5%BC%80%E5%8F%91%E5%BF%83%E5%BE%97/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="是时候停下忙碌的工作来写点东西了，这里记录一下关于自己开发的一个参考大疆网站的招聘页面的demo. 问题汇总：  php如何把从mysql数据库查询出来的数据变成json格式的数据，以及如何解决查询结果的中文乱码的问题。 如何解决ajax跨域的问题。 查询结果中json数据遍历到前端时候去重的问题。 对于ajax遍历出来的数据没法点击获取dom值的问题，专业点说就是：ajax获取元素，事件绑定不起">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/j5YTLNB.jpg">
+<meta property="og:image" content="https://i.imgur.com/wy8YebD.jpg">
+<meta property="og:image" content="https://i.imgur.com/8mE1o8u.png">
+<meta property="article:published_time" content="2018-10-30T06:30:33.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:04.004Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="多重分类搜索，php做后端，json，数据库，招聘，商城">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/j5YTLNB.jpg">
+
+<link rel="canonical" href="http://example.com/2018/10/30/%E4%BB%BF%E4%BA%AC%E4%B8%9C%E5%95%86%E5%9F%8E%E5%A4%9A%E9%87%8D%E5%88%86%E7%B1%BB%E6%90%9C%E7%B4%A2%E7%9A%84%E6%8B%9B%E8%81%98%E7%B1%BB%E5%B0%8F%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%90%84%E7%A7%8D%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%E4%BB%A5%E5%8F%8A%E5%BC%80%E5%8F%91%E5%BF%83%E5%BE%97/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>仿京东商城多重分类搜索的招聘类小项目的各种问题解决办法和用户浏览记录的行为分析以及开发心得 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/10/30/%E4%BB%BF%E4%BA%AC%E4%B8%9C%E5%95%86%E5%9F%8E%E5%A4%9A%E9%87%8D%E5%88%86%E7%B1%BB%E6%90%9C%E7%B4%A2%E7%9A%84%E6%8B%9B%E8%81%98%E7%B1%BB%E5%B0%8F%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%90%84%E7%A7%8D%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95%E4%BB%A5%E5%8F%8A%E5%BC%80%E5%8F%91%E5%BF%83%E5%BE%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          仿京东商城多重分类搜索的招聘类小项目的各种问题解决办法和用户浏览记录的行为分析以及开发心得
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-10-30 14:30:33" itemprop="dateCreated datePublished" datetime="2018-10-30T14:30:33+08:00">2018-10-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:04" itemprop="dateModified" datetime="2020-10-11T11:58:04+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript/" itemprop="url" rel="index"><span itemprop="name">javascript</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>是时候停下忙碌的工作来写点东西了，这里记录一下关于自己开发的一个参考大疆网站的招聘页面的demo.</p>
+<p><strong>问题汇总：</strong></p>
+<ol>
+<li>php如何把从mysql数据库查询出来的数据变成json格式的数据，以及如何解决查询结果的中文乱码的问题。</li>
+<li>如何解决ajax跨域的问题。</li>
+<li>查询结果中json数据遍历到前端时候去重的问题。</li>
+<li>对于ajax遍历出来的数据没法点击获取dom值的问题，专业点说就是：ajax获取元素，事件绑定不起作用</li>
+<li>对于ajax遍历结果进行懒加载，如何采用显示更多按钮来实现这个需求。</li>
+<li>如何监控dom元素的变化。</li>
+<li>处理ajax多次请求，数据更新而不是叠加的情况。</li>
+<li>处理mysql字段查询结果分组显示，然后在前端巧妙的实现区间查询。</li>
+<li>php端对前端获取参数的判断问题，以及if语句放置的注意事项。</li>
+<li>live函数只能在jquery版本1.9.x以下起作用。</li>
+</ol>
+<p>##php如何把从mysql数据库查询出来的数据变成json格式的数据，以及如何解决查询结果的中文乱码的问题<br>初出茅庐的时候，一直渴望要是哪天能够直接把数据库查询出来的数据变成json格式的数据那多好，就不用写太多的格式转换的函数了，今天这个确实很简单，直接用在php端处理即可。看例子：</p>
+<pre><code>&lt;?php
+header(&quot;Content-type:text/html;charset=utf-8;Access-Control-Allow-Origin:*;Access-Control-Allow-Methods:GET,POST&quot;);//字符编码设置
+$servername = &quot;localhost&quot;;
+$username = &quot;root&quot;;
+$password = &quot;&quot;;
+$dbname = &quot;test&quot;;
+
+// 创建连接 
+$con =mysqli_connect($servername, $username, $password, $dbname);
+
+// 检测连接
+$sql = &quot;SELECT * FROM job&quot;;
+$result = mysqli_query($con,$sql);
+if (!$result) &#123;
+    printf(&quot;Error: %s\n&quot;, mysqli_error($con));
+    exit();
+&#125;
+
+$jarr = array();
+while ($rows=mysqli_fetch_array($result,MYSQL_ASSOC))&#123;
+    $count=count($rows);//不能在循环语句中，由于每次删除 row数组长度都减小  
+    for($i=0;$i&lt;$count;$i++)&#123;
+        unset($rows[$i]);//删除冗余数据  
+    &#125;
+    array_push($jarr,$rows);
+&#125;
+//查看数组
+// print_r($jarr);
+echo $str=json_encode($jarr,JSON_UNESCAPED_UNICODE);//将数组进行json编码，并且解决中文乱码的问题
+mysqli_close($con);
+?&gt;</code></pre>
+<p>最开始不是这样的，这里先贴一个成品。我们说下问题在哪里，</p>
+<p>根据这个我们可以获取表job里面的数据了，可是获取后的结果里面有中文，显示出来就是乱码的，如何解决乱码，我们直接在最后这里添加一个参数<code>JSON_UNESCAPED_UNICODE</code></p>
+<pre><code>json_encode($jarr,JSON_UNESCAPED_UNICODE)</code></pre>
+<p>这样查询出来的结果就没有中文乱码了。</p>
+<p>为了我们查询出来的东西有更多参数控制，以便后面使用，我们可以对返回的json数据进行一个格式的自定，比如我这里设置一个状态，以后如果这个状态为success，那么就执行某个逻辑，如果这个状态为unsuccess，那么这个就执行另外一个逻辑。我们可以这样对这个查询结果进行一个处理：</p>
+<pre><code>echo $str=json_encode(array(&quot;code&quot;=&gt;&quot;1&quot;,&quot;state&quot;=&gt;&quot;success&quot;,&#39;information&#39;=&gt;$jarr),JSON_UNESCAPED_UNICODE);</code></pre>
+<p>这里就把所有的信息放在一个数组里面显示出来，要哪个就获取那个参数即可。</p>
+<pre><code>&#123;
+    &quot;code&quot;: &quot;1&quot;,
+    &quot;state&quot;: &quot;success&quot;,
+    &quot;information&quot;: [
+    &#123;
+        &quot;id&quot;: &quot;1&quot;,
+        &quot;name&quot;: &quot;Windows应用运维工程师&quot;,
+        &quot;category&quot;: &quot;研发类&quot;,
+        &quot;city&quot;: &quot;深圳市&quot;,
+        &quot;pay&quot;: &quot;60000&quot;,
+        &quot;detail&quot;: &quot;知道基本的设计思想&quot;,
+        &quot;created_time&quot;: &quot;2018-10-29 09:18:49&quot;
+    &#125;,
+    &#123;
+        &quot;id&quot;: &quot;2&quot;,
+        &quot;name&quot;: &quot;Linux应用运维工程师&quot;,
+        &quot;category&quot;: &quot;研发类&quot;,
+        &quot;city&quot;: &quot;深圳市&quot;,
+        &quot;pay&quot;: &quot;15000&quot;,
+        &quot;detail&quot;: &quot;知道基本的设计思想&quot;,
+        &quot;created_time&quot;: &quot;2018-10-29 09:18:49&quot;
+    &#125;,
+    ...
+    ]
+
+&#125;</code></pre>
+<p>取回的json数据就是这样的。</p>
+<p>好的，我们回归一个重要的问题就是如何把查询结果变成json的格式？因为，我们查询出来的结果默认是：</p>
+<pre><code>print_r($jarr);</code></pre>
+<p>这个是数组来的，要想把数组变成一个json格式的，那么直接对这个数组格式的数据用函数<code>json_encode()</code>处理。</p>
+<p>##如何解决ajax跨域的问题<br>这个问题非常普遍，由于笔者这里能够控制后端的源码，所以在方案选择上有很多的灵活性，对于跨域问题的解决方案网上有很多教程，而且情况各异，这里咱们就事论事。先科普一下跨域是什么东西。</p>
+<p><strong>什么是跨域？</strong></p>
+<p>当两个域具有相同的协议(如http), 相同的端口(如80)，相同的host（如<a target="_blank" rel="noopener" href="http://www.google.com),那么我们就可以认为它们是相同的域(协议,域名,端口都必须相同)./">www.google.com)，那么我们就可以认为它们是相同的域（协议，域名，端口都必须相同）。</a></p>
+<p>跨域就指着协议，域名，端口不一致，出于安全考虑，跨域的资源之间是无法交互的(例如一般情况跨域的JavaScript无法交互，当然有很多解决跨域的方案)</p>
+<p><strong>Access-Control-Allow-Origin</strong></p>
+<p>Access-Control-Allow-Origin是HTML5中定义的一种解决资源跨域的策略。</p>
+<p>他是通过服务器端返回带有Access-Control-Allow-Origin标识的Response header，用来解决资源的跨域权限问题。</p>
+<p>使用方法，在response添加 Access-Control-Allow-Origin，例如</p>
+<pre><code>Access-Control-Allow-Origin:www.google.com</code></pre>
+<p><a target="_blank" rel="noopener" href="http://www.google.com/">www.google.com</a> 是访问的域名，根据实际情况设置。</p>
+<p>也可以设置为 * 表示该资源谁都可以用</p>
+<pre><code>Access-Control-Allow-Origin: *</code></pre>
+<p>如果资源是html页面，可以设置 </p>
+<pre><code>&lt;meta http-equiv=&quot;Access-Control-Allow-Origin&quot; content=&quot;*&quot;&gt;</code></pre>
+<hr>
+<p>好的关于跨域的科普到此结束，我们来个实例。</p>
+<p><strong>跨域的客户端解决方案</strong></p>
+<pre><code>$(function($)&#123;
+    var url = &#39;http://*****/index&#39;;
+    $.ajax(url, &#123;
+        data: &#123;
+            &#39;cityname&#39;: &#39;成都&#39;,
+            &#39;date&#39;: &#39;2016.12.12&#39;
+        &#125;,
+        dataType: &#39;jsonp&#39;,
+        crossDomain: true,
+        success: function(data) &#123;
+            if(data &amp;&amp; data.resultcode == &#39;200&#39;)&#123;
+                console.log(data.result.today);
+            &#125;
+        &#125;
+    &#125;);
+&#125;);</code></pre>
+<p>将ajax请求中的dataType属性设置为“jsonp”，jsonp是专门用来解决跨域访问而诞生的。</p>
+<p><strong>跨域的服务器端解决方案：</strong></p>
+<p>在服务器端放回的头部添加代码：</p>
+<pre><code>Access-Control-Allow-Origin:*;Access-Control-Allow-Methods:GET,POST&quot;</code></pre>
+<p>如下，</p>
+<pre><code>header(&quot;Content-type:text/html;charset=utf-8;Access-Control-Allow-Origin:*;Access-Control-Allow-Methods:GET,POST&quot;);</code></pre>
+<p>好的，关于跨域的问题我们先讲解到此结束。</p>
+<h2 id="查询结果中json数据遍历到前端时候去重的问题"><a href="#查询结果中json数据遍历到前端时候去重的问题" class="headerlink" title="查询结果中json数据遍历到前端时候去重的问题"></a>查询结果中json数据遍历到前端时候去重的问题</h2><p>这里，我们在查询出数据后，假设我们只能读取接口数据，不能修改SQL语句，这个时候我们又需要对某个字段去重该怎么办？，我们来个实例：</p>
+<pre><code>var arr = [
+    &#123; &quot;name&quot;: &quot;刘红&quot;, &quot;value&quot;: &quot;qqq&quot;, &quot;age&quot;: &quot;10&quot; &#125;,
+    &#123; &quot;name&quot;: &quot;曹操&quot;, &quot;value&quot;: &quot;qqq&quot;, &quot;age&quot;: &quot;10&quot; &#125;,
+    &#123; &quot;name&quot;: &quot;曹操&quot;, &quot;value&quot;: &quot;qqq&quot;, &quot;age&quot;: &quot;13&quot; &#125;,
+    &#123; &quot;name&quot;: &quot;关羽&quot;, &quot;value&quot;: &quot;eee&quot;, &quot;age&quot;: &quot;20&quot; &#125;,
+    &#123; &quot;name&quot;: &quot;刘备&quot;, &quot;value&quot;: &quot;rrr&quot;, &quot;age&quot;: &quot;50&quot; &#125;,
+    &#123; &quot;name&quot;: &quot;张飞&quot;, &quot;value&quot;: &quot;ttt&quot;, &quot;age&quot;: &quot;100&quot; &#125;
+];
+for (var i = 0; i &lt; arr.length; i++) &#123;
+    for (var j =i+1; j &lt;arr.length; ) &#123;
+        if (arr[i].name == arr[j].name &amp;&amp; arr[i].value == arr[j].value &amp;&amp; arr[i].age == arr[j].age) &#123;
+            arr.splice(j,1);
+        &#125;
+        else j++;
+    &#125;
+&#125;
+console.log(arr);</code></pre>
+<p>这样在控制台的输出如下：</p>
+<pre><code>0: &#123;name: &quot;刘红&quot;, value: &quot;qqq&quot;, age: &quot;10&quot;&#125;
+1: &#123;name: &quot;曹操&quot;, value: &quot;qqq&quot;, age: &quot;10&quot;&#125;
+2: &#123;name: &quot;关羽&quot;, value: &quot;eee&quot;, age: &quot;20&quot;&#125;
+3: &#123;name: &quot;刘备&quot;, value: &quot;rrr&quot;, age: &quot;50&quot;&#125;
+4: &#123;name: &quot;张飞&quot;, value: &quot;ttt&quot;, age: &quot;100&quot;&#125;</code></pre>
+<p>这样我们就对第一个字段进行去重了，然后直接读取这个字段就可以遍历出以名字作为列表的下拉框。</p>
+<p>当然，现在笔者这里能够控制后端的编程，所以为了减少不必要的稳定性问题，这里采用的是直接写一个api，专门获取某个字段，然后采用SQL的distinct，如下：</p>
+<pre><code>SELECT DISTINCT(city) FROM job</code></pre>
+<p>这样最省事。</p>
+<h2 id="对于ajax遍历出来的数据没法点击获取dom值的问题"><a href="#对于ajax遍历出来的数据没法点击获取dom值的问题" class="headerlink" title="对于ajax遍历出来的数据没法点击获取dom值的问题"></a>对于ajax遍历出来的数据没法点击获取dom值的问题</h2><p>这个在网上别人专业的问法是这样的：ajax获取元素，事件绑定不起作用。</p>
+<p>因为笔者采用的是遍历出来，然后显示到某处的，比如这里的数据：</p>
+<p><img src="https://i.imgur.com/j5YTLNB.jpg"></p>
+<p>这里的数据不可能写死在前端的，所以就采用ajax向后端发起请求，从api中获得数据，然后遍历显示到这个位置。可是点击某个元素的时候，居然没法点击。而写死的可以被点击获取。这个差异足足卡了笔者一些时间。</p>
+<p><strong>HTML代码：</strong></p>
+<pre><code>&lt;dl id=&quot;select1&quot;&gt;
+    &lt;dt&gt;职位类别：&lt;/dt&gt;
+    &lt;dd class=&quot;select-all selected&quot;&gt;&lt;a href=&quot;#&quot;&gt;全部&lt;/a&gt;&lt;/dd&gt;
+    &lt;dd class=&quot;fenlei&quot;&gt;&lt;a href=&quot;#&quot;&gt;研发类&lt;/a&gt;&lt;/dd&gt;
+    &lt;dd class=&quot;fenlei&quot;&gt;&lt;a href=&quot;#&quot;&gt;市场销售类&lt;/a&gt;&lt;/dd&gt;
+    &lt;dd class=&quot;fenlei&quot;&gt;&lt;a href=&quot;#&quot;&gt;信息安全类&lt;/a&gt;&lt;/dd&gt;
+    &lt;dd class=&quot;fenlei&quot;&gt;&lt;a href=&quot;#&quot;&gt;互联网类&lt;/a&gt;&lt;/dd&gt;
+&lt;/dl&gt;</code></pre>
+<p><strong>js代码：</strong></p>
+<pre><code>$(&quot;#select1&quot;).click(function()&#123;
+    var fen = $(this).addClass(&quot;selected&quot;).siblings().removeClass(&quot;selected&quot;);
+    console.log(fen.text());
+    ...
+&#125;);</code></pre>
+<p>通常，我们写click函数的时候都是这样在写，可是函数里面的东西并没有在遍历的元素身上发生。查阅资料后发现：</p>
+<blockquote>
+<p>网友一：动态创建的html元素需要用jquery的on或者live(这个方法需要用jquery在1.9.x版本以下的才行)去绑定元素的事件，否则只能绑定现有的html元素。</p>
+</blockquote>
+<blockquote>
+<p>网友二：绑定click事件，这是基于现有的DOM元素，on是绑定，是在你当前DOM元素加载完毕后</p>
+</blockquote>
+<blockquote>
+<p>网友三：$(‘#select1’).on(‘click’,’dd’,function(){}) 这是委托事件的绑定方式。事件实际是绑定在ul元素上的，当事件触发会判断事件是否是经过li元素冒泡上来的，是则执行事件代码，不是则不执行。由于li元素上本来就没有绑定事件，所以之后再创建的li元素也可以正常触发。</p>
+</blockquote>
+<p>所以正确的写法如下：</p>
+<pre><code>(&quot;#select1&quot;).on(&quot;click&quot;,&quot;dd&quot;,function()&#123;
+     var fen = $(this).addClass(&quot;selected&quot;).siblings().removeClass(&quot;selected&quot;);
+     console.log(fen.text());
+&#125;);</code></pre>
+<p>这样就能够成功的点击创建的dd元素了。</p>
+<h2 id="对于ajax遍历结果进行懒加载"><a href="#对于ajax遍历结果进行懒加载" class="headerlink" title="对于ajax遍历结果进行懒加载"></a>对于ajax遍历结果进行懒加载</h2><p>这个本来是想要实现分页的，可是一想分页真TM太难了，然后就采用点击加载更多来实现一部分一部分的显示，也算是对用户体验做出了些努力。</p>
+<p>这里废话起来会很久，大家可以看下笔者自己写的另外一篇文章：<a target="_blank" rel="noopener" href="https://helongquan.github.io/2018/10/14/Ajax%E7%82%B9%E5%87%BB%E4%B8%8D%E6%96%AD%E5%8A%A0%E8%BD%BD%E6%95%B0%E6%8D%AE%E5%88%97%E8%A1%A8-%E5%AE%9E%E7%8E%B0%E5%8A%A0%E8%BD%BD%E6%9B%B4%E5%A4%9A%E7%9A%84%E5%8A%9F%E8%83%BD/">https://helongquan.github.io/2018/10/14/Ajax点击不断加载数据列表-实现加载更多的功能/</a></p>
+<p>这里笔者添加的地方是：</p>
+<pre><code>function nwalletProfit(num, cNum)&#123;
+    $.ajax(&#123;
+        type: &quot;get&quot;,
+        url: &quot;http://localhost:8080/project/fenleishaixuan_jingdong/search_all.php&quot;,
+        dataType: &quot;json&quot;,
+        async: false,
+        contentType: &quot;application/json&quot;,
+        success: function (res) &#123;
+            $(&quot;table&quot;).css(&#123;&#39;display&#39;:&#39;table&#39;&#125;);
+            if (res.length &gt; 0)&#123;
+                var i = num;
+                var ci= 0;
+                var x = parseInt((res.length)/10);//x为每10个一组的组数
+                if(cNum &gt;= x)&#123;
+                    $(&quot;.jiaZai_more&quot;).hide(); //当点击更多的次数 ≥ 组数时，隐藏按钮
+                &#125;
+
+                for(; i &lt; res.length; i++)&#123;
+                    var htmltxt = &quot;&quot;;
+                    ci++;
+                    htmltxt += &#39;&lt;tr&gt;&#39;;
+                    htmltxt += &#39;&lt;td class=&quot;mingcheng&quot;&gt;&lt;span&gt;&#39;+res[i][&quot;name&quot;]+&#39;&lt;/span&gt;&lt;/td&gt;&#39;;
+                    htmltxt += &#39;&lt;td&gt;&#39;+res[i][&quot;city&quot;]+&#39;&lt;/td&gt;&#39;;
+                    htmltxt += &#39;&lt;td&gt;&#39;+res[i][&quot;category&quot;]+&#39;&lt;/td&gt;&#39;;
+                    htmltxt += &#39;&lt;td&gt;$&#39;+res[i][&quot;pay&quot;]+&#39;&lt;/td&gt;&#39;;
+
+                    if(ci&gt; 10)&#123;
+                        break;
+                    &#125;
+                    $(&quot;#search_result&quot;).append(htmltxt);
+                &#125;
+
+            &#125;
+
+        &#125;,
+        error: function (e, d, c) &#123;
+        console.log(d)
+        &#125;
+    &#125;);
+&#125;
+nwalletProfit(0);
+var clickNum = 0; //点击的次数
+$(&quot;.jiaZai_more&quot;).on(&#39;click&#39;,&#39;span&#39;, function(event) &#123;
+    event.preventDefault();
+    clickNum++;
+    var iNum = 10*clickNum; //每次点击开始加载的第一个索引值
+    nwalletProfit(iNum, clickNum);
+&#125;);</code></pre>
+<p>这是一个典型的加载更多的ajax请求，请求的部分咱们就忽略了，这里提取一下点击加载更多的时候显示指定条数的代码：</p>
+<pre><code>if (res.length &gt; 0)&#123;
+    var i = num;
+    var ci= 0;
+    var x = parseInt((res.length)/10);//x为每10个一组的组数
+    if(cNum &gt;= x)&#123;
+        $(&quot;.jiaZai_more&quot;).hide(); //当点击更多的次数 ≥ 组数时，隐藏按钮
+    &#125;
+
+    for(; i &lt; res.length; i++)&#123;
+        var htmltxt = &quot;&quot;;
+        ci++;
+        htmltxt += &#39;&lt;tr&gt;&#39;;
+        htmltxt += &#39;&lt;td class=&quot;mingcheng&quot;&gt;&lt;span&gt;&#39;+res[i][&quot;name&quot;]+&#39;&lt;/span&gt;&lt;/td&gt;&#39;;
+        htmltxt += &#39;&lt;td&gt;&#39;+res[i][&quot;city&quot;]+&#39;&lt;/td&gt;&#39;;
+        htmltxt += &#39;&lt;td&gt;&#39;+res[i][&quot;category&quot;]+&#39;&lt;/td&gt;&#39;;
+        htmltxt += &#39;&lt;td&gt;$&#39;+res[i][&quot;pay&quot;]+&#39;&lt;/td&gt;&#39;;
+
+        if(ci&gt; 10)&#123;
+            break;
+        &#125;
+        $(&quot;#search_result&quot;).append(htmltxt);
+    &#125;
+
+&#125;,
+error: function (e, d, c) &#123;
+console.log(d)
+&#125;</code></pre>
+<p>这一部分代码是放在ajax里面的。这些都被写在一个函数<code>nwalletProfit(num, cNum)</code>里面。</p>
+<p>然后，在初始化这个函数，</p>
+<pre><code>nwalletProfit(0);</code></pre>
+<p>然后对加载按钮这个添加一个点击事件：</p>
+<pre><code>var clickNum = 0; //点击的次数
+$(&quot;.jiaZai_more&quot;).on(&#39;click&#39;,&#39;span&#39;, function(event) &#123;
+    event.preventDefault();
+    clickNum++;
+    var iNum = 10*clickNum; //每次点击开始加载的第一个索引值
+    nwalletProfit(iNum, clickNum);
+&#125;);</code></pre>
+<p><strong>HTML代码：</strong></p>
+<pre><code>&lt;div class=&quot;jiaZai_more&quot;&gt;&lt;span&gt;更多&lt;/span&gt;&lt;/div&gt;</code></pre>
+<p>关于加载更多的方案就到此结束。</p>
+<h2 id="如何监控dom元素的变化"><a href="#如何监控dom元素的变化" class="headerlink" title="如何监控dom元素的变化"></a>如何监控dom元素的变化</h2><p>这里是笔者的一个探索，并没有真正应用到项目中去，由于在这个小项目里有牵涉到，因此在这里说明一下，具体了解更多的话，可以参考笔者另外一篇文章：<a target="_blank" rel="noopener" href="https://helongquan.github.io/2018/10/30/Mutation-Observer-API%E7%94%A8%E6%9D%A5%E7%9B%91%E8%A7%86DOM%E5%85%83%E7%B4%A0%E5%8F%98%E5%8A%A8/">https://helongquan.github.io/2018/10/30/Mutation-Observer-API用来监视DOM元素变动/</a></p>
+<p>或者是在网站：<a target="_blank" rel="noopener" href="http://javascript.ruanyifeng.com/dom/mutationobserver.html">http://javascript.ruanyifeng.com/dom/mutationobserver.html</a></p>
+<h2 id="处理ajax多次请求，数据更新而不是叠加的情况"><a href="#处理ajax多次请求，数据更新而不是叠加的情况" class="headerlink" title="处理ajax多次请求，数据更新而不是叠加的情况"></a>处理ajax多次请求，数据更新而不是叠加的情况</h2><p>我们可能经常采用ajax请求来获取数据，然后遍历到前台，甚至是有的时候通过点击来发起ajax请求，可是如果我们采用点击的切换的时候遍历处理的数据是不会对当前页面刷新的，就是说会在前一次的基础上追加后一次请求的数据，这虽然很多时候有这个需求，但是我们更愿意点击切换的时候，显示当前请求到的数据，前一次的被覆盖。这个时候其实很简单，我们直接在点击的时候，在发起ajax请求成功获取数据之前把旧的dom删除即可。来个实例：</p>
+<pre><code>jQuery_1_8_3(&quot;.mingcheng span&quot;).live(&quot;click&quot;,function(event)&#123;
+    event.preventDefault(true);
+
+    jQuery_1_8_3(&quot;table&quot;).css(&#123;&#39;display&#39;:&#39;none&#39;&#125;);
+    jQuery_1_8_3(&quot;.miaosu&quot;).remove(); //关闭旧的职位详情
+    var obj = new Object();
+    obj.name = jQuery_1_8_3(this).text();
+
+    jQuery_1_8_3.ajax(&#123;
+        url: &quot;http://localhost:8080/project/fenleishaixuan_jingdong/search_by_name.php&quot;,
+        type: &quot;get&quot;,
+        dataType: &quot;json&quot;,
+        data: obj,
+        contentType: &quot;application/json&quot;,
+        success: function (res) &#123;
+
+            var htmltxt = &quot;&quot;;
+              htmltxt += &quot;&lt;div class=&#39;miaosu&#39; style=&#39;padding:15px;background:#eaeaea;position:relative&#39;&gt;&quot;;
+              htmltxt += &quot;&lt;h2&gt;职位：&quot;+res[0].name+&quot;&lt;/h2&gt;&quot;;
+              htmltxt += &quot;&lt;p&gt;薪资：&quot;+res[0].pay+&quot;&lt;/p&gt;&quot;;
+              htmltxt += &quot;&lt;p&gt;类别：&quot;+res[0].category+&quot;&lt;/p&gt;&quot;;
+              htmltxt += &quot;&lt;p&gt;地区：&quot;+res[0].city+&quot;&lt;/p&gt;&quot;;
+              htmltxt += &quot;&lt;p&gt;投递简历：&lt;a href=&quot;+res[0].url+&quot;&gt;&quot;+res[0].url+&quot;&lt;/a&gt;&lt;/p&gt;&quot;;
+              htmltxt += &quot;&lt;p&gt;详情说明：&quot;+res[0].detail+&quot;&lt;/p&gt;&quot;;
+              htmltxt += &quot;&lt;span class=&#39;close&#39;&gt;关闭&lt;/span&gt;&lt;/div&gt;&quot;;
+              htmltxt += &quot;&lt;/div&gt;&quot;;
+              jQuery_1_8_3(&quot;#detail_area&quot;).append(htmltxt).show(500);
+        &#125;,
+        error: function (xhr, err, exception) &#123;
+            console.log(err);
+        &#125;
+    &#125;);
+
+&#125;);</code></pre>
+<p>这里我们就运用到了，</p>
+<pre><code>jQuery_1_8_3(&quot;table&quot;).css(&#123;&#39;display&#39;:&#39;none&#39;&#125;);
+jQuery_1_8_3(&quot;.miaosu&quot;).remove(); //关闭旧的职位详情</code></pre>
+<p>这个是在遍历之前写的，所以在点击发出请求，数据显示出来之前把原有的东西隐藏或者删除，这个根据自己的需求自己选择方案。然后再把当前的请求遍历出来，插入到后面。</p>
+<h2 id="处理mysql字段查询结果分组显示，然后在前端巧妙的实现区间查询"><a href="#处理mysql字段查询结果分组显示，然后在前端巧妙的实现区间查询" class="headerlink" title="处理mysql字段查询结果分组显示，然后在前端巧妙的实现区间查询"></a>处理mysql字段查询结果分组显示，然后在前端巧妙的实现区间查询</h2><p>这个实现起来颇有点意思，笔者本来是想在后端实现这个，可是想一想太麻烦了，而且还没想出来。索性从前端进行处理。</p>
+<p>先来张图：</p>
+<p><img src="https://i.imgur.com/wy8YebD.jpg"></p>
+<p>这里就是实现后的效果，先贴一下代码：</p>
+<pre><code>htmlobj_pay = $.ajax(&#123;
+    url: &quot;http://localhost:8080/project/fenleishaixuan_jingdong/getdata_pay.php&quot;,
+    type: &quot;get&quot;,
+    dataType: &quot;json&quot;,
+    contentType: &quot;application/json&quot;,
+    success: function (res) &#123;
+        var groups = 5;
+        var perGroup = (res.length)/groups;  
+        // 向下取整
+        perGroup = Math.floor(perGroup);
+        var newqujian = Array();
+        for (var i = 0; i &lt; res.length; i++) &#123;
+                var z = (i+1)%groups;
+                if(i == 0)&#123;
+                    newqujian.push(res[i][&quot;pay&quot;]);
+                &#125;
+                if(z == 0)&#123;
+                    newqujian.push(res[i][&quot;pay&quot;]);
+                &#125;
+        &#125;
+
+        newqujian.push(res[res.length-1][&quot;pay&quot;]);
+
+        var htmltxt = &quot;&quot;;
+        for (var i = 0; i &lt; newqujian.length; i++) &#123;
+            htmltxt += &quot;&lt;dd&gt;&quot;;
+            htmltxt += &quot;&lt;a href=&#39;#&#39;&gt;&quot;;
+            htmltxt += &quot;&lt;span class=&#39;xiaxian&#39;&gt;&quot;+newqujian[i]+&quot;&lt;/span&gt; - &lt;span class=&#39;shangxian&#39;&gt;&quot;+newqujian[i+1]+&quot;&lt;/span&gt;&quot;;
+            htmltxt += &quot;&lt;/a&gt;&quot;;
+            htmltxt += &quot;&lt;/dd&gt;&quot;;
+        &#125;
+        $(&quot;#select3&quot;).append(htmltxt).show(500);
+
+        $(&quot;#select3 dd:last-child&quot;).remove();
+    &#125;,
+    error: function (xhr, err, exception) &#123;
+        console.log(err);
+    &#125;
+&#125;);</code></pre>
+<p>这里前面的部分是取数据，没啥说的，接着分组，</p>
+<pre><code>var groups = 5;
+var perGroup = (res.length)/groups;  
+// 向下取整
+perGroup = Math.floor(perGroup);</code></pre>
+<p>关于js取整的问题，这里科普下：</p>
+<blockquote>
+<p>1.丢弃小数部分,保留整数部分</p>
+</blockquote>
+<pre><code>parseInt(5/2)</code></pre>
+<blockquote>
+<p>2.向上取整,有小数就整数部分加1</p>
+</blockquote>
+<pre><code> Math.ceil(5/2)</code></pre>
+<blockquote>
+<p>3,四舍五入.</p>
+</blockquote>
+<pre><code>Math.round(5/2)</code></pre>
+<blockquote>
+<p>4,向下取整</p>
+</blockquote>
+<pre><code> Math.floor(5/2) </code></pre>
+<p>分组的问题搞定。接着就是对分组的区间值取出来，然后push到一个新的数组中保存起来，</p>
+<pre><code>var newqujian = Array();
+for (var i = 0; i &lt; res.length; i++) &#123;
+        var z = (i+1)%groups;
+        if(i == 0)&#123;
+            newqujian.push(res[i][&quot;pay&quot;]);
+        &#125;
+        if(z == 0)&#123;
+            newqujian.push(res[i][&quot;pay&quot;]);
+        &#125;
+&#125;
+newqujian.push(res[res.length-1][&quot;pay&quot;]);</code></pre>
+<p>这个就保存了区间值，也就是区间之间的临界值。</p>
+<p>接着就是以保存区间值的这个数组进行遍历了。</p>
+<pre><code>var htmltxt = &quot;&quot;;
+for (var i = 0; i &lt; newqujian.length; i++) &#123;
+    htmltxt += &quot;&lt;dd&gt;&quot;;
+    htmltxt += &quot;&lt;a href=&#39;#&#39;&gt;&quot;;
+    htmltxt += &quot;&lt;span class=&#39;xiaxian&#39;&gt;&quot;+newqujian[i]+&quot;&lt;/span&gt; - &lt;span class=&#39;shangxian&#39;&gt;&quot;+newqujian[i+1]+&quot;&lt;/span&gt;&quot;;
+    htmltxt += &quot;&lt;/a&gt;&quot;;
+    htmltxt += &quot;&lt;/dd&gt;&quot;;
+&#125;
+$(&quot;#select3&quot;).append(htmltxt).show(500);</code></pre>
+<p>然后把遍历的结果保存到前端要显示的dom节点位置即可。这里有个小技巧，</p>
+<pre><code>&lt;span class=&#39;xiaxian&#39;&gt;&quot;+newqujian[i]+&quot;&lt;/span&gt; - &lt;span class=&#39;shangxian&#39;&gt;&quot;+newqujian[i+1]+&quot;&lt;/span&gt;</code></pre>
+<p>这样就把相邻的两个数组显示到一条遍历结果中来了，这个很重要。</p>
+<p>然后，把最后一条删除，为啥呢？因为最后一条是数组最后一条数据和它的下一条，很显然这个是不符合逻辑的，肯定会出现undefind，</p>
+<pre><code>$(&quot;#select3 dd:last-child&quot;).remove();</code></pre>
+<p>好的，完成这些步骤后，就实现了上图的那个样子。</p>
+<h2 id="php端对前端获取参数的判断问题，以及if语句放置的注意事项"><a href="#php端对前端获取参数的判断问题，以及if语句放置的注意事项" class="headerlink" title="php端对前端获取参数的判断问题，以及if语句放置的注意事项"></a>php端对前端获取参数的判断问题，以及if语句放置的注意事项</h2><p>这里可以说是很折腾的，其实是没啥逻辑错误的，笔者这里采用的是最笨的方法，因为这里的搜索过滤条件不多，就三个，可是即使是三个，枚举完毕也有8中可能，先上完整代码：</p>
+<pre><code>&lt;?php
+//字符编码设置，以及处理跨域的问题
+header(&quot;Content-type:text/html;charset=utf-8;Access-Control-Allow-Origin:*;Access-Control-Allow-Methods:GET,POST&quot;);
+$servername = &quot;localhost&quot;;
+$username = &quot;root&quot;;
+$password = &quot;&quot;;
+$dbname = &quot;test&quot;;
+
+// 创建连接 
+$con =mysqli_connect($servername, $username, $password, $dbname);
+
+// 判断一个参数是否获取
+// function check_var( $var, $default = &#39;&#39;)&#123;
+//     return( (isset($var) and !empty($var )) ? $var : (!empty($default) ? $default : false) );
+// &#125;
+
+if(empty($_GET[&#39;city&#39;]) &amp;&amp; empty($_GET[&#39;category&#39;]) &amp;&amp; empty($_GET[&#39;xiaxian&#39;]))&#123;
+    $sql = &quot;SELECT * FROM job&quot;;
+&#125;
+else if (isset($_GET[&#39;city&#39;]) &amp;&amp; empty($_GET[&#39;category&#39;]) &amp;&amp; empty($_GET[&#39;xiaxian&#39;]) ) &#123;
+    $ci = $_GET[&#39;city&#39;];
+    $sql = &quot;SELECT * FROM job WHERE city = &#39;$ci&#39;&quot;;
+&#125;
+else if (empty($_GET[&#39;city&#39;]) &amp;&amp; isset($_GET[&#39;category&#39;]) &amp;&amp; empty($_GET[&#39;xiaxian&#39;]) ) &#123;
+    $cate = $_GET[&#39;category&#39;];
+    $sql = &quot;SELECT * FROM job WHERE category = &#39;$cate&#39;&quot;;
+&#125;
+else if (empty($_GET[&#39;city&#39;]) &amp;&amp; empty($_GET[&#39;category&#39;]) &amp;&amp; isset($_GET[&#39;xiaxian&#39;]) ) &#123;
+    $zc_xx = $_GET[&#39;xiaxian&#39;];
+    $zc_sx = $_GET[&#39;shangxian&#39;];
+    $sql = &quot;SELECT * FROM job WHERE pay BETWEEN $zc_xx AND $zc_sx&quot;;
+&#125;
+else if(isset($_GET[&#39;city&#39;]) &amp;&amp; isset($_GET[&#39;category&#39;]) &amp;&amp; empty($_GET[&#39;xiaxian&#39;]) )&#123;
+    $ci = $_GET[&#39;city&#39;];
+    $cate = $_GET[&#39;category&#39;];
+    $sql = &quot;SELECT * FROM job WHERE city = &#39;$ci&#39; AND category = &#39;$cate&#39;&quot;;
+&#125;
+else if (isset($_GET[&#39;city&#39;]) &amp;&amp; empty($_GET[&#39;category&#39;]) &amp;&amp; isset($_GET[&#39;xiaxian&#39;]) ) &#123;
+    $ci = $_GET[&#39;city&#39;];
+    $zc_xx = $_GET[&#39;xiaxian&#39;];
+    $zc_sx = $_GET[&#39;shangxian&#39;];
+    $sql = &quot;SELECT * FROM job WHERE city = &#39;$ci&#39; AND pay BETWEEN $zc_xx AND $zc_sx&quot;;
+&#125;
+else if (empty($_GET[&#39;city&#39;]) &amp;&amp; isset($_GET[&#39;category&#39;]) &amp;&amp; isset($_GET[&#39;xiaxian&#39;]) ) &#123;
+    $cate = $_GET[&#39;category&#39;];
+    $zc_xx = $_GET[&#39;xiaxian&#39;];
+    $zc_sx = $_GET[&#39;shangxian&#39;];
+    $sql = &quot;SELECT * FROM job WHERE category = &#39;$cate&#39; AND pay BETWEEN $zc_xx AND $zc_sx&quot;;
+&#125;
+else if( isset($_GET[&#39;city&#39;]) &amp;&amp; isset($_GET[&#39;category&#39;]) &amp;&amp; isset($_GET[&#39;xiaxian&#39;]) )&#123;
+    $zc_xx = $_GET[&#39;xiaxian&#39;];
+    $zc_sx = $_GET[&#39;shangxian&#39;];
+    $cate = $_GET[&#39;category&#39;];
+    $ci = $_GET[&#39;city&#39;];
+    $sql = &quot;SELECT * FROM job WHERE pay BETWEEN $zc_xx AND $zc_sx AND category = &#39;$cate&#39; AND city = &#39;$ci&#39;&quot;;
+&#125;
+
+$result = mysqli_query($con,$sql);
+if (!$result) &#123;
+    printf(&quot;Error: %s\n&quot;, mysqli_error($con));
+    exit();
+&#125;
+
+$jarr = array();
+while ($rows=mysqli_fetch_array($result,MYSQL_ASSOC))&#123;
+    $count=count($rows);//不能在循环语句中，由于每次删除 row数组长度都减小  
+    for($i=0;$i&lt;$count;$i++)&#123;
+        unset($rows[$i]);//删除冗余数据  
+    &#125;
+    array_push($jarr,$rows);
+&#125;
+//查看数组
+// print_r($jarr);
+echo $str=json_encode($jarr,JSON_UNESCAPED_UNICODE);//将数组进行json编码，并且解决中文乱码的问题
+mysqli_close($con);
+?&gt;</code></pre>
+<p>这里是修改完成后的代码，最开始呢？其实不是这样的，笔者，写得很混乱，经过观察发现，先写都是为空值的，最后写全部不为空值的条件。<strong>原则就是：限制因素先少后多</strong></p>
+<p>这里还设计到一个php的empty,issset等的用法。大家可以去网站搜索资料了解下他们的差异。这一个完成后，我们还要继续下一个，这里很重要的地方在于这些判断语句里面的参数，最开始笔者在js的ajax请求那边的post对象那里写了这么一个：</p>
+<pre><code>var obj = new Object();
+    obj.category = $(&quot;#selectA a&quot;).text();
+    obj.city = $(&quot;#selectB a&quot;).text();
+    obj.pay = $(&quot;#selectC .xiaxian&quot;).text();
+    obj.xiaxian = $(&quot;#selectC .xiaxian&quot;).text();
+    obj.shangxian = $(&quot;#selectC .shangxian&quot;).text();</code></pre>
+<p>当时心想，为了不影响，</p>
+<pre><code>obj.xiaxian = $(&quot;#selectC .xiaxian&quot;).text();
+obj.shangxian = $(&quot;#selectC .shangxian&quot;).text();</code></pre>
+<p>这两个，就单独再加了一个。结果在chrome调试工具的network那里发现有个请求，请求也没问题，可是把这个请求的api地址放在浏览器上一看，发现地址里面多了一个参数<code>&amp;pay=</code>，这才然我恍然大悟，其实我没有必要写这么一个没用的，因为这样写了，需要在后端php那边的SQL查询也要有这个才行，可是在SQL那边根本就没有这个字段。</p>
+<p>经过整改后，确定了发起ajax请求的时候，post对象的参数就是SQL查询那边的各种条件判断的参数，不能加一些不存在的参数。因为php那边就：</p>
+<pre><code>$_GET[&#39;city&#39;]
+$_GET[&#39;category&#39;]
+$_GET[&#39;xiaxian&#39;]
+$_GET[&#39;shangxian&#39;]</code></pre>
+<p>这四个，对应的就是SQL中的那几个字段，</p>
+<pre><code>$zc_xx = $_GET[&#39;xiaxian&#39;];
+$zc_sx = $_GET[&#39;shangxian&#39;];
+$cate = $_GET[&#39;category&#39;];
+$ci = $_GET[&#39;city&#39;];
+$sql = &quot;SELECT * FROM job WHERE pay BETWEEN $zc_xx AND $zc_sx AND category = &#39;$cate&#39; AND city = &#39;$ci&#39;&quot;;</code></pre>
+<p>这里需要深刻理解下。确保这里没问题后，只要语法没啥问题基本是没有什么错误了。</p>
+<h2 id="live函数只能在jquery版本1-9-x以下起作用"><a href="#live函数只能在jquery版本1-9-x以下起作用" class="headerlink" title="live函数只能在jquery版本1.9.x以下起作用"></a>live函数只能在jquery版本1.9.x以下起作用</h2><p>这里笔者作为最后的补充，这里说下关于jquery版本的问题，由于笔者这里有live方法，经过查阅资料发现这个方法在jquery1.9.x以上被弃用了，所以笔者把jquery版本换成3.3.1版本后，这个不起作用了，所以在这个项目里面笔者采用了这两个版本，为避免冲突，对低版本的那个进行了冲突解决。</p>
+<pre><code>var jQuery_1_8_3 = $.noConflict(true);</code></pre>
+<p>重新对<code>$</code>进行命名。有用到1.8.3版本的地方就用<code>jQuery_1_8_3</code>代替。因为在这个项目中，点击职位详情的时候不起作用，所以笔者根据前面说的那个改成了</p>
+<pre><code>on(&quot;click&quot;,&quot;dd&quot;,function()&#123;...&#125;)</code></pre>
+<p>貌似这个还不起作用，后来想了一下应该要把on换成live试试，没成想，竟然成功了，最后的写法：</p>
+<pre><code>jQuery_1_8_3(&quot;.mingcheng span&quot;).live(&quot;click&quot;,function()&#123;
+
+    jQuery_1_8_3(&quot;table&quot;).css(&#123;&#39;display&#39;:&#39;none&#39;&#125;);
+    jQuery_1_8_3(&quot;.miaosu&quot;).remove(); //关闭旧的职位详情
+    var obj = new Object();
+    obj.name = jQuery_1_8_3(this).text();
+
+    jQuery_1_8_3.ajax(&#123;
+        url: &quot;http://localhost:8080/project/fenleishaixuan_jingdong/search_by_name.php&quot;,
+        type: &quot;get&quot;,
+        dataType: &quot;json&quot;,
+        data: obj,
+        contentType: &quot;application/json&quot;,
+        success: function (res) &#123;
+              var htmltxt = &quot;&quot;;
+              htmltxt += &quot;&lt;div class=&#39;miaosu&#39; style=&#39;padding:15px;background:#eaeaea;position:relative&#39;&gt;&quot;;
+              htmltxt += &quot;&lt;h2&gt;职位：&quot;+res[0].name+&quot;&lt;/h2&gt;&quot;;
+              htmltxt += &quot;&lt;p&gt;薪资：&quot;+res[0].pay+&quot;&lt;/p&gt;&quot;;
+              htmltxt += &quot;&lt;p&gt;类别：&quot;+res[0].category+&quot;&lt;/p&gt;&quot;;
+              htmltxt += &quot;&lt;p&gt;地区：&quot;+res[0].city+&quot;&lt;/p&gt;&quot;;
+              htmltxt += &quot;&lt;p&gt;投递简历：&lt;a href=&quot;+res[0].url+&quot;&gt;&quot;+res[0].url+&quot;&lt;/a&gt;&lt;/p&gt;&quot;;
+              htmltxt += &quot;&lt;p&gt;详情说明：&quot;+res[0].detail+&quot;&lt;/p&gt;&quot;;
+              htmltxt += &quot;&lt;span class=&#39;close&#39;&gt;关闭&lt;/span&gt;&lt;/div&gt;&quot;;
+              htmltxt += &quot;&lt;/div&gt;&quot;;
+              jQuery_1_8_3(&quot;#detail_area&quot;).append(htmltxt).show(500);
+        &#125;,
+        error: function (xhr, err, exception) &#123;
+            console.log(err);
+        &#125;
+    &#125;);
+
+&#125;);</code></pre>
+<p>注意这个写法，</p>
+<pre><code>jQuery_1_8_3(&quot;.mingcheng span&quot;).live(&quot;click&quot;,function()&#123;
+    ...
+&#125;</code></pre>
+<p>最后，我们既然经常使用jquery，那么最好对这个知名度很高的第三方库进行一个了解，版本与版本之间有很大的差异性，其实也不用追求高版本，哪个能够满足设计需求用哪个。</p>
+<p>更新：2018/11/16 18:25:58 </p>
+<p>这里笔者在另外一篇关于收集用户浏览产品信息的博文中有写如何运用用户浏览的产品，根据分类来判断用户的喜好。这里对数据表的数据进行统计分析。希望你在阅读这个更新之前已经阅读了笔者的另外一篇文章：<a target="_blank" rel="noopener" href="http://helongquan.com/2018/11/02/javascript%E8%8E%B7%E5%8F%96wordpress%E7%94%A8%E6%88%B7%E6%B5%8F%E8%A7%88%E4%BF%A1%E6%81%AF-cookie%E4%BF%A1%E6%81%AF-%E6%98%BE%E7%A4%BA%E5%9C%A8%E9%A1%B5%E9%9D%A2%E4%B8%8A%E5%B9%B6%E4%B8%94%E5%AD%98%E5%85%A5%E6%95%B0%E6%8D%AE%E5%BA%93/">javascript获取wordpress用户浏览信息(cookie信息)显示在页面上并且存入数据库</a></p>
+<p>我们接着前面来，在主题的目录下创建文件：get_user_history.php</p>
+<p><strong>代码：</strong></p>
+<pre><code>&lt;?php
+//字符编码设置，以及处理跨域的问题
+header(&quot;Content-type:text/html;charset=utf-8;Access-Control-Allow-Origin:*;Access-Control-Allow-Methods:GET,POST&quot;);
+//获取当前文件所在目录
+$gen=$_SERVER[&#39;DOCUMENT_ROOT&#39;];
+require_once(&quot;$gen/wp-config.php&quot;);
+
+//链接mysql服务器 开始
+$con = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD);
+mysqli_select_db($con, DB_NAME);
+
+// 检测连接
+$sql = &quot;SELECT count(categories) as value, categories AS name FROM product_history_cookie where categories !=&#39;&#39; GROUP BY categories&quot;;
+$result = mysqli_query($con,$sql);
+if (!$result) &#123;
+    printf(&quot;Error: %s\n&quot;, mysqli_error($con));
+    exit();
+&#125;
+
+$jarr = array();
+while ($rows=mysqli_fetch_array($result,MYSQL_ASSOC))&#123;
+    $count=count($rows);//不能在循环语句中，由于每次删除 row数组长度都减小  
+    for($i=0;$i&lt;$count;$i++)&#123;
+        unset($rows[$i]);//删除冗余数据  
+    &#125;
+    array_push($jarr,$rows);
+&#125;
+//查看数组
+// print_r($jarr);
+echo $str=json_encode($jarr,JSON_UNESCAPED_UNICODE);//将数组进行json编码，并且解决中文乱码的问题
+mysqli_close($con);
+?&gt;</code></pre>
+<p>然后在js文件（script.js）后面添加代码：</p>
+<pre><code>$(document).ready(function()&#123;
+
+    $website_url = &quot;http://yourdomain.com/wp-content/themes/nocti/fenleisousuo&quot;;
+
+    htmlobj_category = $.ajax(&#123;
+        url: $website_url+&quot;/getdata_category.php&quot;,
+        type: &quot;get&quot;,
+        dataType: &quot;json&quot;,
+        contentType: &quot;application/json&quot;,
+        success: function (res) &#123;
+            for (var i = 0; i &lt; res.length; i++) &#123;
+                var fenlei = res[i][&quot;category&quot;];
+                var detail = res[i][&quot;detail&quot;];
+                $(&quot;#select1&quot;).append(&quot;&lt;dd class=&#39;fenlei&#39;&gt;&lt;a href=&#39;#&#39;&gt;&quot;+res[i][&quot;category&quot;]+&quot;&lt;/a&gt;&lt;/dd&gt;&quot;);
+            &#125;
+        &#125;,
+        error: function (xhr, err, exception) &#123;
+            console.log(err);
+        &#125;
+    &#125;);
+
+    htmlobj_city = $.ajax(&#123;
+        url: $website_url+&quot;/getdata_city.php&quot;,
+        type: &quot;get&quot;,
+        dataType: &quot;json&quot;,
+        contentType: &quot;application/json&quot;,
+        success: function (res) &#123;
+            for (var i = 0; i &lt; res.length; i++) &#123;
+                var chengshi = res[i][&quot;city&quot;];
+                $(&quot;#select2&quot;).append(&quot;&lt;dd&gt;&lt;a href=&#39;#&#39;&gt;&quot;+chengshi+&quot;&lt;/a&gt;&lt;/dd&gt;&quot;);
+            &#125;
+        &#125;,
+        error: function (xhr, err, exception) &#123;
+            console.log(err);
+        &#125;
+    &#125;);
+
+    htmlobj_pay = $.ajax(&#123;
+        url: $website_url+&quot;/getdata_pay.php&quot;,
+        type: &quot;get&quot;,
+        dataType: &quot;json&quot;,
+        contentType: &quot;application/json&quot;,
+        success: function (res) &#123;
+            var groups = 5;
+            var perGroup = (res.length)/groups;
+            perGroup = Math.floor(perGroup);
+            var newqujian = Array();
+            var houzhe = Array();
+            for (var i = 0; i &lt; res.length; i++) &#123;
+                var z = (i+1)%groups;
+                if(i == 0)&#123;
+                    newqujian.push(res[i][&quot;pay&quot;]);
+                &#125;
+                if(z == 0)&#123;
+                    newqujian.push(res[i][&quot;pay&quot;]);
+                &#125;
+            &#125;
+
+            newqujian.push(res[res.length-1][&quot;pay&quot;]);
+
+            var htmltxt = &quot;&quot;;
+            for (var i = 0; i &lt; newqujian.length; i++) &#123;
+                htmltxt += &quot;&lt;dd&gt;&quot;;
+                htmltxt += &quot;&lt;a href=&#39;#&#39;&gt;&quot;;
+                htmltxt += &quot;&lt;span class=&#39;xiaxian&#39;&gt;&quot;+newqujian[i]+&quot;&lt;/span&gt; - &lt;span class=&#39;shangxian&#39;&gt;&quot;+newqujian[i+1]+&quot;&lt;/span&gt;&quot;;
+                htmltxt += &quot;&lt;/a&gt;&quot;;
+                htmltxt += &quot;&lt;/dd&gt;&quot;;
+            &#125;
+            $(&quot;#select3&quot;).append(htmltxt).show(500);
+
+            $(&quot;#select3 dd:last-child&quot;).remove();
+        &#125;,
+        error: function (xhr, err, exception) &#123;
+            console.log(err);
+        &#125;
+    &#125;);
+
+    function nwalletProfit(num, cNum)&#123;
+        $.ajax(&#123;
+            type: &quot;get&quot;,
+            url: $website_url+&quot;/search_all.php&quot;,
+            dataType: &quot;json&quot;,
+            async: false,
+            contentType: &quot;application/json&quot;,
+            success: function (res) &#123;
+                $(&quot;table&quot;).css(&#123;&#39;display&#39;:&#39;table&#39;&#125;);
+                if (res.length &gt; 0)&#123;
+                    var i = num;
+                    var ci= 0;
+                    var x = parseInt((res.length)/10);
+                    if(cNum &gt;= x)&#123;
+                        $(&quot;.jiaZai_more&quot;).hide();
+                    &#125;
+
+                    for(; i &lt; res.length; i++)&#123;
+                        var htmltxt = &quot;&quot;;
+                        ci++;
+                        htmltxt += &#39;&lt;tr&gt;&#39;;
+                        htmltxt += &#39;&lt;td class=&quot;mingcheng&quot;&gt;&lt;span&gt;&#39;+res[i][&quot;name&quot;]+&#39;&lt;/span&gt;&lt;/td&gt;&#39;;
+                        htmltxt += &#39;&lt;td&gt;&#39;+res[i][&quot;city&quot;]+&#39;&lt;/td&gt;&#39;;
+                        htmltxt += &#39;&lt;td&gt;&#39;+res[i][&quot;category&quot;]+&#39;&lt;/td&gt;&#39;;
+                        htmltxt += &#39;&lt;td&gt;$&#39;+res[i][&quot;pay&quot;]+&#39;&lt;/td&gt;&#39;;
+
+                        if(ci&gt; 10)&#123;
+                            break;
+                        &#125;
+                        $(&quot;#search_result&quot;).append(htmltxt);
+                    &#125;
+
+                &#125;
+
+            &#125;,
+            error: function (e, d, c) &#123;
+            console.log(d)
+            &#125;
+        &#125;);
+    &#125;
+    nwalletProfit(0);
+    var clickNum = 0;
+    $(&quot;.jiaZai_more&quot;).on(&#39;click&#39;,&#39;span&#39;, function() &#123;
+        clickNum++;
+        var iNum = 10*clickNum;
+        nwalletProfit(iNum, clickNum);
+    &#125;);
+
+
+    $(&quot;#select1&quot;).on(&quot;click&quot;,&quot;dd&quot;,function()&#123;
+
+        $(&quot;table&quot;).css(&#123;&#39;display&#39;:&#39;table&#39;&#125;);
+        $(&quot;#search_result tbody tr&quot;).remove();
+        $(&quot;.miaosu&quot;).remove();
+
+        $(this).addClass(&quot;selected&quot;).siblings().removeClass(&quot;selected&quot;);
+        if ($(this).hasClass(&quot;select-all&quot;)) &#123;
+            $(&quot;#selectA&quot;).remove();
+
+            function SelectAllCate(num, cNum)&#123;
+                $.ajax(&#123;
+                    type: &quot;get&quot;,
+                    url: $website_url+&quot;/search_all.php&quot;,
+                    dataType: &quot;json&quot;,
+                    async: false,
+                    contentType: &quot;application/json&quot;,
+                    success: function (res) &#123;
+                        if (res.length &gt; 0)&#123;
+                            var i = num;
+                            var ci= 0;
+                            var x = parseInt((res.length)/10);
+                            if(cNum &gt;= x)&#123;
+                                $(&quot;.jiaZai_more&quot;).hide();
+                            &#125;
+
+                            for(; i &lt; res.length; i++)&#123;
+                                var htmltxt = &quot;&quot;;
+                                ci++;
+                                htmltxt += &#39;&lt;tr&gt;&#39;;
+                                htmltxt += &#39;&lt;td class=&quot;mingcheng&quot;&gt;&lt;span&gt;&#39;+res[i][&quot;name&quot;]+&#39;&lt;/span&gt;&lt;/td&gt;&#39;;
+                                htmltxt += &#39;&lt;td&gt;&#39;+res[i][&quot;city&quot;]+&#39;&lt;/td&gt;&#39;;
+                                htmltxt += &#39;&lt;td&gt;&#39;+res[i][&quot;category&quot;]+&#39;&lt;/td&gt;&#39;;
+                                htmltxt += &#39;&lt;td&gt;$&#39;+res[i][&quot;pay&quot;]+&#39;&lt;/td&gt;&#39;;
+
+                                if(ci&gt; 10)&#123;
+                                    break;
+                                &#125;
+                                $(&quot;#search_result&quot;).append(htmltxt);
+                            &#125;
+
+                        &#125;
+
+                    &#125;,
+                    error: function (e, d, c) &#123;
+                    console.log(d)
+                    &#125;
+                &#125;);
+            &#125;
+
+            SelectAllCate(0);
+            var clickNum = 0;
+            $(&quot;.jiaZai_more&quot;).on(&#39;click&#39;,&#39;span&#39;, function() &#123;
+                clickNum++;
+                var iNum = 10*clickNum;
+                SelectAllCate(iNum, clickNum);
+            &#125;);
+
+
+        &#125; else &#123;
+            var copyThisA = $(this).clone();
+            if ($(&quot;#selectA&quot;).length &gt; 0) &#123;
+                $(&quot;#selectA a&quot;).html($(this).text());
+            &#125; else &#123;
+                $(&quot;.select-result dl&quot;).append(copyThisA.attr(&quot;id&quot;, &quot;selectA&quot;));
+            &#125;
+
+            var obj = new Object();
+                obj.category = $(&quot;#selectA a&quot;).text();
+                obj.city = $(&quot;#selectB a&quot;).text();
+                obj.xiaxian = $(&quot;#selectC .xiaxian&quot;).text();
+                obj.shangxian = $(&quot;#selectC .shangxian&quot;).text();
+
+            $.ajax(&#123;
+                   url: $website_url+&quot;/search_filter.php&quot;,
+                type: &quot;get&quot;,
+                dataType: &quot;json&quot;,
+                data: obj,
+                contentType: &quot;application/json&quot;,
+                success: function (res) &#123;
+                    var htmltxt = &quot;&quot;;
+                    for (var i = 0; i &lt; res.length; i++) &#123;
+                        htmltxt += &quot;&lt;tr&gt;&quot;;
+                        htmltxt += &quot;&lt;td class=&#39;mingcheng&#39;&gt;&lt;span&gt;&quot;+res[i][&quot;name&quot;]+&quot;&lt;/span&gt;&lt;/td&gt;&quot;;
+                        htmltxt += &quot;&lt;td&gt;&quot;+res[i][&quot;city&quot;]+&quot;&lt;/td&gt;&quot;;
+                        htmltxt += &quot;&lt;td&gt;&quot;+res[i][&quot;category&quot;]+&quot;&lt;/td&gt;&quot;;
+                        htmltxt += &quot;&lt;td&gt;&quot;+res[i][&quot;pay&quot;]+&quot;&lt;/td&gt;&quot;;
+                        htmltxt += &quot;&lt;/tr&gt;&quot;;
+                    &#125;
+                    $(&quot;#search_result&quot;).append(htmltxt).show(500);
+
+                &#125;,
+                error: function (xhr, err, exception) &#123;
+                    console.log(err);
+                &#125;
+            &#125;);
+
+        &#125;
+    &#125;);
+
+    $(&quot;#select2&quot;).on(&quot;click&quot;,&quot;dd&quot;,function()&#123;
+
+        $(&quot;table&quot;).css(&#123;&#39;display&#39;:&#39;table&#39;&#125;);
+        $(&quot;#search_result tbody tr&quot;).remove();
+        $(&quot;.miaosu&quot;).remove();
+
+        $(this).addClass(&quot;selected&quot;).siblings().removeClass(&quot;selected&quot;);
+        if ($(this).hasClass(&quot;select-all&quot;)) &#123;
+            $(&quot;#selectB&quot;).remove();
+
+            function SelectAllCity(num, cNum)&#123;
+                $.ajax(&#123;
+                    type: &quot;get&quot;,
+                    url: $website_url+&quot;/search_all.php&quot;,
+                    dataType: &quot;json&quot;,
+                    async: false,
+                    contentType: &quot;application/json&quot;,
+                    success: function (res) &#123;
+
+                        if (res.length &gt; 0)&#123;
+                            var i = num;
+                            var ci= 0;
+                            var x = parseInt((res.length)/10);
+                            if(cNum &gt;= x)&#123;
+                                $(&quot;.jiaZai_more&quot;).hide();
+                            &#125;
+
+                            for(; i &lt; res.length; i++)&#123;
+                                var htmltxt = &quot;&quot;;
+                                ci++;
+                                htmltxt += &#39;&lt;tr&gt;&#39;;
+                                htmltxt += &#39;&lt;td class=&quot;mingcheng&quot;&gt;&lt;span&gt;&#39;+res[i][&quot;name&quot;]+&#39;&lt;/span&gt;&lt;/td&gt;&#39;;
+                                htmltxt += &#39;&lt;td&gt;&#39;+res[i][&quot;city&quot;]+&#39;&lt;/td&gt;&#39;;
+                                htmltxt += &#39;&lt;td&gt;&#39;+res[i][&quot;category&quot;]+&#39;&lt;/td&gt;&#39;;
+                                htmltxt += &#39;&lt;td&gt;$&#39;+res[i][&quot;pay&quot;]+&#39;&lt;/td&gt;&#39;;
+
+                                if(ci&gt; 10)&#123;
+                                    break;
+                                &#125;
+                                $(&quot;#search_result&quot;).append(htmltxt);
+                            &#125;
+
+                        &#125;
+
+                    &#125;,
+                    error: function (e, d, c) &#123;
+                    console.log(d)
+                    &#125;
+                &#125;);
+            &#125;
+
+            SelectAllCity(0);
+            var clickNum = 0;
+            $(&quot;.jiaZai_more&quot;).on(&#39;click&#39;,&#39;span&#39;, function() &#123;
+                clickNum++;
+                var iNum = 10*clickNum;
+                SelectAllCity(iNum, clickNum);
+            &#125;);
+
+
+        &#125; else &#123;
+            var copyThisB = $(this).clone();
+            if ($(&quot;#selectB&quot;).length &gt; 0) &#123;
+                $(&quot;#selectB a&quot;).html($(this).text());
+            &#125; else &#123;
+                $(&quot;.select-result dl&quot;).append(copyThisB.attr(&quot;id&quot;, &quot;selectB&quot;));
+            &#125;
+
+
+            var obj = new Object();
+                obj.category = $(&quot;#selectA a&quot;).text();
+                obj.city = $(&quot;#selectB a&quot;).text();
+                obj.xiaxian = $(&quot;#selectC .xiaxian&quot;).text();
+                obj.shangxian = $(&quot;#selectC .shangxian&quot;).text();
+
+            $.ajax(&#123;
+                url: $website_url+&quot;/search_filter.php&quot;,
+                type: &quot;get&quot;,
+                async: false,
+                dataType: &quot;json&quot;,
+                data: obj,
+                contentType: &quot;application/json&quot;,
+                success: function (res) &#123;
+                    var htmltxt = &quot;&quot;;
+                    for (var i = 0; i &lt; res.length; i++) &#123;
+                        htmltxt += &quot;&lt;tr&gt;&quot;;
+                        htmltxt += &quot;&lt;td class=&#39;mingcheng&#39;&gt;&lt;span&gt;&quot;+res[i][&quot;name&quot;]+&quot;&lt;/span&gt;&lt;/td&gt;&quot;;
+                        htmltxt += &quot;&lt;td&gt;&quot;+res[i][&quot;city&quot;]+&quot;&lt;/td&gt;&quot;;
+                        htmltxt += &quot;&lt;td&gt;&quot;+res[i][&quot;category&quot;]+&quot;&lt;/td&gt;&quot;;
+                        htmltxt += &quot;&lt;td&gt;&quot;+res[i][&quot;pay&quot;]+&quot;&lt;/td&gt;&quot;;
+                        htmltxt += &quot;&lt;/tr&gt;&quot;;
+                    &#125;
+                    $(&quot;#search_result&quot;).append(htmltxt).show(500);
+                &#125;,
+                error: function (xhr, err, exception) &#123;
+                    console.log(err);
+                &#125;
+            &#125;);
+
+
+        &#125;
+    &#125;);
+
+    $(&quot;#select3&quot;).on(&quot;click&quot;,&quot;dd&quot;,function()&#123;
+
+        $(&quot;table&quot;).css(&#123;&#39;display&#39;:&#39;table&#39;&#125;);
+        $(&quot;#search_result tbody tr&quot;).remove();
+        $(&quot;.miaosu&quot;).remove();
+
+        $(this).addClass(&quot;selected&quot;).siblings().removeClass(&quot;selected&quot;);
+        if ($(this).hasClass(&quot;select-all&quot;)) &#123;
+            $(&quot;#selectC&quot;).remove();
+
+            function SelectAllPay(num, cNum)&#123;
+                $.ajax(&#123;
+                    type: &quot;get&quot;,
+                    url: $website_url+&quot;/search_filter.php&quot;,
+                    dataType: &quot;json&quot;,
+                    async: false,
+                    contentType: &quot;application/json&quot;,
+                    success: function (res) &#123;
+
+                        if (res.length &gt; 0)&#123;
+                            var i = num;
+                            var ci= 0;
+                            var x = parseInt((res.length)/10);
+                            if(cNum &gt;= x)&#123;
+                                $(&quot;.jiaZai_more&quot;).hide();
+                            &#125;
+
+                            for(; i &lt; res.length; i++)&#123;
+                                var htmltxt = &quot;&quot;;
+                                ci++;
+                                htmltxt += &#39;&lt;tr&gt;&#39;;
+                                htmltxt += &#39;&lt;td class=&quot;mingcheng&quot;&gt;&lt;span&gt;&#39;+res[i][&quot;name&quot;]+&#39;&lt;/span&gt;&lt;/td&gt;&#39;;
+                                htmltxt += &#39;&lt;td&gt;&#39;+res[i][&quot;city&quot;]+&#39;&lt;/td&gt;&#39;;
+                                htmltxt += &#39;&lt;td&gt;&#39;+res[i][&quot;category&quot;]+&#39;&lt;/td&gt;&#39;;
+                                htmltxt += &#39;&lt;td&gt;$&#39;+res[i][&quot;pay&quot;]+&#39;&lt;/td&gt;&#39;;
+
+                                if(ci&gt; 10)&#123;
+                                    break;
+                                &#125;
+                                $(&quot;#search_result&quot;).append(htmltxt);
+                            &#125;
+
+                        &#125;
+
+                    &#125;,
+                    error: function (e, d, c) &#123;
+                    console.log(d)
+                    &#125;
+                &#125;);
+            &#125;
+
+            SelectAllPay(0);
+            var clickNum = 0;
+            $(&quot;.jiaZai_more&quot;).on(&#39;click&#39;,&#39;span&#39;, function() &#123;
+                clickNum++;
+                var iNum = 10*clickNum;
+                SelectAllPay(iNum, clickNum);
+            &#125;);
+
+
+        &#125; else &#123;
+            var copyThisC = $(this).clone();
+            if ($(&quot;#selectC&quot;).length &gt; 0) &#123;
+                $(&quot;#selectC&quot;).html($(this).html());
+            &#125; else &#123;
+                $(&quot;.select-result dl&quot;).append(copyThisC.attr(&quot;id&quot;, &quot;selectC&quot;));
+            &#125;
+        &#125;
+
+        var obj = new Object();
+            obj.category = $(&quot;#selectA a&quot;).text();
+            obj.city = $(&quot;#selectB a&quot;).text();
+            obj.xiaxian = $(&quot;#selectC .xiaxian&quot;).text();
+            obj.shangxian = $(&quot;#selectC .shangxian&quot;).text();
+
+        $.ajax(&#123;
+            url: $website_url+&quot;/search_filter.php&quot;,
+            type: &quot;get&quot;,
+            async: false,
+            dataType: &quot;json&quot;,
+            data: obj,
+            contentType: &quot;application/json&quot;,
+            success: function (res) &#123;
+                var htmltxt = &quot;&quot;;
+                for (var i = 0; i &lt; res.length; i++) &#123;
+                htmltxt += &quot;&lt;tr&gt;&quot;;
+                htmltxt += &quot;&lt;td class=&#39;mingcheng&#39;&gt;&lt;span&gt;&quot;+res[i][&quot;name&quot;]+&quot;&lt;/span&gt;&lt;/td&gt;&quot;;
+                htmltxt += &quot;&lt;td&gt;&quot;+res[i][&quot;city&quot;]+&quot;&lt;/td&gt;&quot;;
+                htmltxt += &quot;&lt;td&gt;&quot;+res[i][&quot;category&quot;]+&quot;&lt;/td&gt;&quot;;
+                htmltxt += &quot;&lt;td&gt;&quot;+res[i][&quot;pay&quot;]+&quot;&lt;/td&gt;&quot;;
+                htmltxt += &quot;&lt;/tr&gt;&quot;;
+                &#125;
+                $(&quot;#search_result&quot;).append(htmltxt).show(500);
+            &#125;,
+            error: function (xhr, err, exception) &#123;
+                console.log(err);
+            &#125;
+        &#125;);
+    &#125;);
+
+    var jQuery_1_8_3 = $.noConflict(true);
+    jQuery_1_8_3(&quot;#selectA&quot;).live(&quot;click&quot;, function () &#123;
+        jQuery_1_8_3(this).remove();
+        jQuery_1_8_3(&quot;#select1 .select-all&quot;).addClass(&quot;selected&quot;).siblings().removeClass(&quot;selected&quot;);
+    &#125;);
+
+    jQuery_1_8_3(&quot;.close&quot;).live(&quot;click&quot;,function()&#123;
+        jQuery_1_8_3(&quot;#detail_area div&quot;).hide(500);
+        location.reload(true);
+    &#125;);
+
+    jQuery_1_8_3(&quot;#selectB&quot;).live(&quot;click&quot;, function () &#123;
+        jQuery_1_8_3(this).remove();
+        jQuery_1_8_3(&quot;#select2 .select-all&quot;).addClass(&quot;selected&quot;).siblings().removeClass(&quot;selected&quot;);
+    &#125;);
+
+    jQuery_1_8_3(&quot;#selectC&quot;).live(&quot;click&quot;, function () &#123;
+        jQuery_1_8_3(this).remove();
+        jQuery_1_8_3(&quot;#select3 .select-all&quot;).addClass(&quot;selected&quot;).siblings().removeClass(&quot;selected&quot;);
+    &#125;);
+
+    jQuery_1_8_3(&quot;.select dd&quot;).live(&quot;click&quot;, function () &#123;
+        if (jQuery_1_8_3(&quot;.select-result dd&quot;).length &gt; 1) &#123;
+            jQuery_1_8_3(&quot;.select-no&quot;).hide(500);
+        &#125; else &#123;
+            jQuery_1_8_3(&quot;.select-no&quot;).show(500);
+        &#125;
+    &#125;);
+
+
+    jQuery_1_8_3(&quot;.mingcheng span&quot;).live(&quot;click&quot;,function()&#123;
+
+        jQuery_1_8_3(&quot;table&quot;).css(&#123;&#39;display&#39;:&#39;none&#39;&#125;);
+        jQuery_1_8_3(&quot;.miaosu&quot;).remove();
+        var obj = new Object();
+        obj.name = jQuery_1_8_3(this).text();
+
+        jQuery_1_8_3.ajax(&#123;
+            url: $website_url+&quot;/search_by_name.php&quot;,
+            type: &quot;get&quot;,
+            dataType: &quot;json&quot;,
+            data: obj,
+            contentType: &quot;application/json&quot;,
+            success: function (res) &#123;
+
+                var htmltxt = &quot;&quot;;
+                htmltxt += &quot;&lt;div class=&#39;miaosu&#39; style=&#39;padding: 15px;background: #f1f1f1;position:relative&#39;&gt;&quot;;
+                htmltxt += &quot;&lt;h2&gt;职位：&quot;+res[0].name+&quot;&lt;/h2&gt;&quot;;
+                htmltxt += &quot;&lt;p&gt;薪资：&quot;+res[0].pay+&quot;&lt;/p&gt;&quot;;
+                htmltxt += &quot;&lt;p&gt;类别：&quot;+res[0].category+&quot;&lt;/p&gt;&quot;;
+                htmltxt += &quot;&lt;p&gt;地区：&quot;+res[0].city+&quot;&lt;/p&gt;&quot;;
+                htmltxt += &quot;&lt;p&gt;投递简历：&lt;a href=&quot;+res[0].url+&quot;&gt;&quot;+res[0].url+&quot;&lt;/a&gt;&lt;/p&gt;&quot;;
+                htmltxt += &quot;&lt;p&gt;详情说明：&quot;+res[0].detail+&quot;&lt;/p&gt;&quot;;
+                htmltxt += &quot;&lt;span class=&#39;close&#39;&gt;close&lt;/span&gt;&lt;/div&gt;&quot;;
+                htmltxt += &quot;&lt;/div&gt;&quot;;
+                jQuery_1_8_3(&quot;#detail_area&quot;).append(htmltxt).show(500);
+            &#125;,
+            error: function (xhr, err, exception) &#123;
+                console.log(err);
+            &#125;
+        &#125;);
+
+    &#125;);
+
+
+    // 数据可视化统计
+
+    jQuery_1_8_3(&quot;#tj_city&quot;).live(&quot;click&quot;,function()&#123;
+        $(this).addClass(&#39;active&#39;).siblings().removeClass(&#39;active&#39;);
+        $(&quot;#chengshi&quot;).css(&#123;&#39;display&#39;:&#39;block&#39;&#125;).siblings().css(&#123;&#39;display&#39;:&#39;none&#39;&#125;);
+        $(&#39;#search_result&#39;).hide(500);
+        $.ajax(&#123;
+            url: $website_url+&quot;/getdata_city_information.php&quot;,
+            type: &quot;get&quot;,
+            dataType: &quot;json&quot;,
+            contentType: &quot;application/json&quot;,
+            success: function (res) &#123;
+                var citys = new Array();
+                var totals = new Array();
+                for (var i = 0; i &lt; res.length; i++) &#123;
+                    citys.push(res[i].city);
+                    totals.push(res[i].total);
+                &#125;
+
+                // 数据可视化开始
+                var dom = document.getElementById(&quot;chengshi&quot;);
+                var myChart = echarts.init(dom);
+                var app = &#123;&#125;;
+                option = null;
+                option = &#123;
+                    title: &#123;
+                        text: &#39;城市职位发布情况&#39;
+                    &#125;,
+                    tooltip: &#123;
+                        trigger: &#39;axis&#39;
+                    &#125;,
+                    xAxis: &#123;
+                        type: &#39;category&#39;,
+                        data: citys
+                    &#125;,
+                    yAxis: &#123;
+                        type: &#39;value&#39;
+                    &#125;,
+                    series: [&#123;
+                        data: totals,
+                        type: &#39;line&#39;,
+                        smooth: true
+                    &#125;]
+                &#125;;
+                if (option &amp;&amp; typeof option === &quot;object&quot;) &#123;
+                    myChart.setOption(option, true);
+                &#125;
+                // 数据可视化结束
+
+            &#125;,
+            error: function (xhr, err, exception) &#123;
+                console.log(err);
+            &#125;
+        &#125;);
+
+    &#125;);
+
+
+    $(&quot;#tj_pingjun&quot;).click(function()&#123;
+        $(this).addClass(&#39;active&#39;).siblings().removeClass(&#39;active&#39;);
+        $(&quot;#xinzi&quot;).css(&#123;&#39;display&#39;:&#39;block&#39;&#125;).siblings().css(&#123;&#39;display&#39;:&#39;none&#39;&#125;);
+        $(&#39;#search_result&#39;).hide(500);
+        $.ajax(&#123;
+            url: $website_url+&quot;/getdata_category_information.php&quot;,
+            type: &quot;get&quot;,
+            dataType: &quot;json&quot;,
+            contentType: &quot;application/json&quot;,
+            success: function (res) &#123;
+                var fenlei = new Array();
+                console.log(res);
+                for (var i = 0; i &lt; res.length; i++) &#123;
+                    fenlei.push(res[i].name);
+                &#125;
+
+                // 数据可视化开始
+                var dom = document.getElementById(&quot;xinzi&quot;);
+                var myChart = echarts.init(dom);
+                option = &#123;
+                    title : &#123;
+                        text: &#39;各分类平均薪资&#39;,
+                        subtext: &#39;平均薪资&#39;,
+                        x:&#39;center&#39;
+                    &#125;,
+                    tooltip : &#123;
+                        trigger: &#39;item&#39;,
+                        formatter: &quot;&#123;a&#125; &lt;br/&gt;&#123;b&#125; : &#123;c&#125; (&#123;d&#125;%)&quot;
+                    &#125;,
+                    legend: &#123;
+                        orient: &#39;vertical&#39;,
+                        left: &#39;left&#39;,
+                        data: fenlei
+                    &#125;,
+                    series : [
+                        &#123;
+                            name: &#39;职位类别&#39;,
+                            type: &#39;pie&#39;,
+                            radius : &#39;55%&#39;,
+                            center: [&#39;50%&#39;, &#39;60%&#39;],
+                            data: res,
+                            itemStyle: &#123;
+                                emphasis: &#123;
+                                    shadowBlur: 10,
+                                    shadowOffsetX: 0,
+                                    shadowColor: &#39;rgba(0, 0, 0, 0.5)&#39;
+                                &#125;
+                            &#125;
+                        &#125;
+                    ]
+                &#125;;
+
+                if (option &amp;&amp; typeof option === &quot;object&quot;) &#123;
+                    myChart.setOption(option, true);
+                &#125;
+                // 数据可视化结束
+
+            &#125;,
+            error: function (xhr, err, exception) &#123;
+                console.log(err);
+            &#125;
+        &#125;);
+
+    &#125;);
+
+
+    $(&quot;#city_pingjun&quot;).click(function()&#123;
+        $(this).addClass(&#39;active&#39;).siblings().removeClass(&#39;active&#39;);
+        $(&quot;#city_avg&quot;).css(&#123;&#39;display&#39;:&#39;block&#39;&#125;).siblings().css(&#123;&#39;display&#39;:&#39;none&#39;&#125;);
+        $(&#39;#search_result&#39;).hide(500);
+        $.ajax(&#123;
+            url: $website_url+&quot;/getdata_city_pay.php&quot;,
+            type: &quot;get&quot;,
+            dataType: &quot;json&quot;,
+            contentType: &quot;application/json&quot;,
+            success: function (res) &#123;
+                var cc = new Array();
+                var pp = new Array();
+                console.log(res);
+                for (var i = 0; i &lt; res.length; i++) &#123;
+                    cc.push(res[i].city);
+                    pp.push(res[i].value);
+                &#125;
+
+                // 数据可视化开始
+                var dom = document.getElementById(&quot;city_avg&quot;);
+                var myChart = echarts.init(dom);
+                var app = &#123;&#125;;
+                app.title = &#39;坐标轴刻度与标签对齐&#39;;
+
+                option = &#123;
+                    color: [&#39;#3398DB&#39;,&#39;#f43653&#39;,&#39;#547634&#39;],
+                    tooltip : &#123;
+                        trigger: &#39;axis&#39;,
+                        axisPointer : &#123;
+                            type : &#39;shadow&#39;
+                        &#125;
+                    &#125;,
+                    grid: &#123;
+                        left: &#39;3%&#39;,
+                        right: &#39;4%&#39;,
+                        bottom: &#39;3%&#39;,
+                        containLabel: true
+                    &#125;,
+                    xAxis : [
+                        &#123;
+                            type : &#39;category&#39;,
+                            data : cc,
+                            axisTick: &#123;
+                                alignWithLabel: true
+                            &#125;
+                        &#125;
+                    ],
+                    yAxis : [
+                        &#123;
+                            type : &#39;value&#39;
+                        &#125;
+                    ],
+                    series : [
+                        &#123;
+                            name:&#39;平均薪资&#39;,
+                            type:&#39;bar&#39;,
+                            barWidth: &#39;60%&#39;,
+                            data:pp
+                        &#125;
+                    ]
+                &#125;;
+
+                if (option &amp;&amp; typeof option === &quot;object&quot;) &#123;
+                    myChart.setOption(option, true);
+                &#125;
+                // 数据可视化结束
+
+            &#125;,
+            error: function (xhr, err, exception) &#123;
+                console.log(err);
+            &#125;
+        &#125;);
+
+    &#125;);
+
+    $(&quot;#user_aylysis&quot;).click(function()&#123;
+        $(this).addClass(&#39;active&#39;).siblings().removeClass(&#39;active&#39;);
+        $(&quot;#user_history&quot;).css(&#123;&#39;display&#39;:&#39;block&#39;&#125;).siblings().css(&#123;&#39;display&#39;:&#39;none&#39;&#125;);
+        $(&#39;#search_result&#39;).hide(500);
+        $.ajax(&#123;
+            url: $website_url+&quot;/get_user_history.php&quot;,
+            type: &quot;get&quot;,
+            dataType: &quot;json&quot;,
+            contentType: &quot;application/json&quot;,
+            success: function (res) &#123;
+                var fenlei = new Array();
+                console.log(res);
+                for (var i = 0; i &lt; res.length; i++) &#123;
+                    fenlei.push(res[i].name);
+                &#125;
+
+                // 数据可视化开始
+                var dom = document.getElementById(&quot;user_history&quot;);
+                var myChart = echarts.init(dom);
+                option = &#123;
+                    title : &#123;
+                        text: &#39;用户浏览产品分类&#39;,
+                        subtext: &#39;你的爱好&#39;,
+                        x:&#39;center&#39;
+                    &#125;,
+                    tooltip : &#123;
+                        trigger: &#39;item&#39;,
+                        formatter: &quot;&#123;a&#125; &lt;br/&gt;&#123;b&#125; : &#123;c&#125; (&#123;d&#125;%)&quot;
+                    &#125;,
+                    legend: &#123;
+                        orient: &#39;vertical&#39;,
+                        left: &#39;left&#39;,
+                        data: fenlei
+                    &#125;,
+                    series : [
+                        &#123;
+                            name: &#39;产品分类&#39;,
+                            type: &#39;pie&#39;,
+                            radius : &#39;55%&#39;,
+                            center: [&#39;50%&#39;, &#39;60%&#39;],
+                            data: res,
+                            itemStyle: &#123;
+                                emphasis: &#123;
+                                    shadowBlur: 10,
+                                    shadowOffsetX: 0,
+                                    shadowColor: &#39;rgba(0, 0, 0, 0.5)&#39;
+                                &#125;
+                            &#125;
+                        &#125;
+                    ]
+                &#125;;
+
+                if (option &amp;&amp; typeof option === &quot;object&quot;) &#123;
+                    myChart.setOption(option, true);
+                &#125;
+                // 数据可视化结束
+
+            &#125;,
+            error: function (xhr, err, exception) &#123;
+                console.log(err);
+            &#125;
+        &#125;);
+
+    &#125;);
+
+
+
+&#125;);</code></pre>
+<p>这里就已经知道了get_user_history.php这个文件创建的目录了，然后再来到模板文件中fenleisousuo.php，在里面追加代码，添加完成之后是这样的：</p>
+<pre><code>&lt;div id=&quot;tongji&quot;&gt;
+    &lt;div id=&quot;chengshi&quot; style=&quot;height: 450px; margin: 0&quot;&gt;
+
+    &lt;/div&gt;
+    &lt;div id=&quot;xinzi&quot; style=&quot;height: 450px; margin: 0&quot;&gt;
+
+    &lt;/div&gt;
+    &lt;div id=&quot;city_avg&quot; style=&quot;height: 450px; margin: 0&quot;&gt;
+
+    &lt;/div&gt;
+    &lt;div id=&quot;user_history&quot; style=&quot;height: 450px; margin: 0&quot;&gt;
+
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<p>新添加的代码：</p>
+<pre><code>&lt;div id=&quot;user_history&quot; style=&quot;height: 450px; margin: 0&quot;&gt;
+
+&lt;/div&gt;</code></pre>
+<p>另外一部分的代码添加之后如下：</p>
+<pre><code>&lt;li class=&quot;zongjie&quot;&gt;
+    &lt;dl&gt;
+        &lt;dt&gt;职位发布统计&lt;/dt&gt;
+        &lt;dd id=&quot;tj_city&quot;&gt;城市职位发布情况&lt;/dd&gt;
+        &lt;dd id=&quot;tj_pingjun&quot;&gt;各个职业分类平均薪资&lt;/dd&gt;
+        &lt;dd id=&quot;city_pingjun&quot;&gt;各个城市平均薪资&lt;/dd&gt;
+        &lt;dd id=&quot;user_aylysis&quot;&gt;用户行为分析&lt;/dd&gt;
+    &lt;/dl&gt;
+&lt;/li&gt;</code></pre>
+<p>新添加的部分：</p>
+<pre><code>&lt;dd id=&quot;user_aylysis&quot;&gt;用户行为分析&lt;/dd&gt;</code></pre>
+<p>最后的效果：</p>
+<p><img src="https://i.imgur.com/8mE1o8u.png"></p>
+<p>顺便说下，模板文件代码如下：</p>
+<pre><code>&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+    &lt;META http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1, maximum-scale=1&quot;&gt;
+    &lt;title&gt;nocti&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;&lt;?php bloginfo(&#39;template_url&#39;) ?&gt;/fenleisousuo/css/style.css&quot;&gt;
+    &lt;script src=&quot;&lt;?php bloginfo(&#39;template_url&#39;) ?&gt;/fenleisousuo/js/jquery-3.3.1.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;&lt;?php bloginfo(&#39;template_url&#39;) ?&gt;/fenleisousuo/js/jquery-1.8.3.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;&lt;?php bloginfo(&#39;template_url&#39;) ?&gt;/fenleisousuo/js/echarts.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script type=&quot;text/javascript&quot; src=&quot;&lt;?php bloginfo(&#39;template_url&#39;) ?&gt;/fenleisousuo/js/script.js&quot;&gt;&lt;/script&gt;
+    &lt;style&gt;
+        .demo&#123;
+            width: 100%;
+            display: block;
+            margin: 10px auto;
+            border: 1px solid #aaa;
+        &#125;
+        #main&#123;
+            padding-top: 0px !important;
+        &#125;
+        hr&#123;
+            margin: 10px 0 10px;
+        &#125;
+        a&#123;
+            text-decoration: none !important;
+        &#125;
+        table tr td,table tr th&#123;
+            padding: 8px 15px;
+              border: 1px solid #ccc;
+              text-align: left;
+        &#125;
+        table tr td:first-child&#123;
+            max-width: 100px;
+        &#125;
+        table&#123;
+              border-collapse:collapse;
+              width: 100%;
+              display: none;
+          &#125;
+          .jiaZai_more&#123;
+              text-align: center;
+          &#125;
+          .jiaZai_more span&#123;
+              background: #8BC34A;
+            padding: 8px 30px;
+            display: inline-block;
+            margin: 20px auto;
+            text-align: center;
+            color: #fff;
+            cursor: pointer;
+          &#125;
+          .mingcheng span&#123;
+              color: #009688;
+              cursor: pointer;
+          &#125;
+          .close&#123;
+              position: absolute;
+            right: 5px;
+            top: 5px;
+            background: #FF5722;
+            color: #fff;
+            font-size: 12px;
+            padding: 2px 10px;
+            cursor: pointer;
+          &#125;
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div id=&quot;main&quot;&gt;
+    &lt;div class=&quot;demo&quot;&gt;
+        &lt;ul class=&quot;select&quot;&gt;
+            &lt;li class=&quot;select-list&quot;&gt;
+                &lt;dl id=&quot;select1&quot;&gt;
+                    &lt;dt&gt;Job category:&lt;/dt&gt;
+                    &lt;dd class=&quot;select-all selected&quot;&gt;&lt;a href=&quot;#&quot;&gt;All&lt;/a&gt;&lt;/dd&gt;
+                &lt;/dl&gt;
+            &lt;/li&gt;
+            &lt;li class=&quot;select-list&quot;&gt;
+                &lt;dl id=&quot;select2&quot;&gt;
+                    &lt;dt&gt;Working city:&lt;/dt&gt;
+                    &lt;dd class=&quot;select-all selected&quot;&gt;&lt;a href=&quot;#&quot;&gt;All&lt;/a&gt;&lt;/dd&gt;
+                &lt;/dl&gt;
+            &lt;/li&gt;
+            &lt;li class=&quot;select-list&quot;&gt;
+                &lt;dl id=&quot;select3&quot;&gt;
+                    &lt;dt&gt;Salary:&lt;/dt&gt;
+                    &lt;dd class=&quot;select-all selected&quot;&gt;&lt;a href=&quot;#&quot;&gt;All&lt;/a&gt;&lt;/dd&gt;
+                &lt;/dl&gt;
+            &lt;/li&gt;
+            &lt;li class=&quot;select-result&quot;&gt;
+                &lt;dl&gt;
+                    &lt;dt&gt;Selected conditions:&lt;/dt&gt;
+                    &lt;dd class=&quot;select-no&quot;&gt;No filtering conditions have been selected for the time being.&lt;/dd&gt;
+                &lt;/dl&gt;
+            &lt;/li&gt;
+            &lt;li class=&quot;zongjie&quot;&gt;
+                &lt;dl&gt;
+                    &lt;dt&gt;职位发布统计&lt;/dt&gt;
+                    &lt;dd id=&quot;tj_city&quot;&gt;城市职位发布情况&lt;/dd&gt;
+                    &lt;dd id=&quot;tj_pingjun&quot;&gt;各个职业分类平均薪资&lt;/dd&gt;
+                    &lt;dd id=&quot;city_pingjun&quot;&gt;各个城市平均薪资&lt;/dd&gt;
+                    &lt;dd id=&quot;user_aylysis&quot;&gt;用户行为分析&lt;/dd&gt;
+                &lt;/dl&gt;
+            &lt;/li&gt;
+        &lt;/ul&gt;
+        &lt;hr&gt;
+        &lt;table id=&quot;search_result&quot;&gt;
+            &lt;thead&gt;
+                &lt;tr&gt;
+                    &lt;th&gt;职位&lt;/th&gt;
+                    &lt;th&gt;城市&lt;/th&gt;
+                    &lt;th&gt;类别&lt;/th&gt;
+                    &lt;th&gt;薪资&lt;/th&gt;
+                &lt;/tr&gt;
+            &lt;/thead&gt;
+        &lt;/table&gt;
+        &lt;div id=&quot;detail_area&quot;&gt;&lt;/div&gt;
+        &lt;div class=&quot;jiaZai_more&quot;&gt;&lt;span&gt;More&lt;/span&gt;&lt;/div&gt;
+        &lt;hr&gt;
+        &lt;div id=&quot;tongji&quot;&gt;
+            &lt;div id=&quot;chengshi&quot; style=&quot;height: 450px; margin: 0&quot;&gt;
+
+            &lt;/div&gt;
+            &lt;div id=&quot;xinzi&quot; style=&quot;height: 450px; margin: 0&quot;&gt;
+
+            &lt;/div&gt;
+            &lt;div id=&quot;city_avg&quot; style=&quot;height: 450px; margin: 0&quot;&gt;
+
+            &lt;/div&gt;
+            &lt;div id=&quot;user_history&quot; style=&quot;height: 450px; margin: 0&quot;&gt;
+
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>好的，写到这里结束了，如果您对此还有什么新的看法，可以与笔者取得联络。QQ：791447771</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%A4%9A%E9%87%8D%E5%88%86%E7%B1%BB%E6%90%9C%E7%B4%A2%EF%BC%8Cphp%E5%81%9A%E5%90%8E%E7%AB%AF%EF%BC%8Cjson%EF%BC%8C%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%8C%E6%8B%9B%E8%81%98%EF%BC%8C%E5%95%86%E5%9F%8E/" rel="tag"># 多重分类搜索，php做后端，json，数据库，招聘，商城</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/10/30/Mutation-Observer-API%E7%94%A8%E6%9D%A5%E7%9B%91%E8%A7%86DOM%E5%85%83%E7%B4%A0%E5%8F%98%E5%8A%A8/" rel="prev" title="Mutation Observer API用来监视DOM元素变动">
+      <i class="fa fa-chevron-left"></i> Mutation Observer API用来监视DOM元素变动
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/10/31/%E7%94%A8%E6%88%B7%E6%93%8D%E4%BD%9C%E6%89%8B%E5%86%8C-%E6%93%8D%E4%BD%9C%E6%96%87%E6%A1%A3%E5%86%99%E4%BD%9C%E6%AD%A5%E9%AA%A4/" rel="next" title="用户操作手册,操作文档写作步骤">
+      用户操作手册,操作文档写作步骤 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2%E7%BB%93%E6%9E%9C%E4%B8%ADjson%E6%95%B0%E6%8D%AE%E9%81%8D%E5%8E%86%E5%88%B0%E5%89%8D%E7%AB%AF%E6%97%B6%E5%80%99%E5%8E%BB%E9%87%8D%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">1.</span> <span class="nav-text">查询结果中json数据遍历到前端时候去重的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E4%BA%8Eajax%E9%81%8D%E5%8E%86%E5%87%BA%E6%9D%A5%E7%9A%84%E6%95%B0%E6%8D%AE%E6%B2%A1%E6%B3%95%E7%82%B9%E5%87%BB%E8%8E%B7%E5%8F%96dom%E5%80%BC%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">2.</span> <span class="nav-text">对于ajax遍历出来的数据没法点击获取dom值的问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E4%BA%8Eajax%E9%81%8D%E5%8E%86%E7%BB%93%E6%9E%9C%E8%BF%9B%E8%A1%8C%E6%87%92%E5%8A%A0%E8%BD%BD"><span class="nav-number">3.</span> <span class="nav-text">对于ajax遍历结果进行懒加载</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E7%9B%91%E6%8E%A7dom%E5%85%83%E7%B4%A0%E7%9A%84%E5%8F%98%E5%8C%96"><span class="nav-number">4.</span> <span class="nav-text">如何监控dom元素的变化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%84%E7%90%86ajax%E5%A4%9A%E6%AC%A1%E8%AF%B7%E6%B1%82%EF%BC%8C%E6%95%B0%E6%8D%AE%E6%9B%B4%E6%96%B0%E8%80%8C%E4%B8%8D%E6%98%AF%E5%8F%A0%E5%8A%A0%E7%9A%84%E6%83%85%E5%86%B5"><span class="nav-number">5.</span> <span class="nav-text">处理ajax多次请求，数据更新而不是叠加的情况</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%84%E7%90%86mysql%E5%AD%97%E6%AE%B5%E6%9F%A5%E8%AF%A2%E7%BB%93%E6%9E%9C%E5%88%86%E7%BB%84%E6%98%BE%E7%A4%BA%EF%BC%8C%E7%84%B6%E5%90%8E%E5%9C%A8%E5%89%8D%E7%AB%AF%E5%B7%A7%E5%A6%99%E7%9A%84%E5%AE%9E%E7%8E%B0%E5%8C%BA%E9%97%B4%E6%9F%A5%E8%AF%A2"><span class="nav-number">6.</span> <span class="nav-text">处理mysql字段查询结果分组显示，然后在前端巧妙的实现区间查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#php%E7%AB%AF%E5%AF%B9%E5%89%8D%E7%AB%AF%E8%8E%B7%E5%8F%96%E5%8F%82%E6%95%B0%E7%9A%84%E5%88%A4%E6%96%AD%E9%97%AE%E9%A2%98%EF%BC%8C%E4%BB%A5%E5%8F%8Aif%E8%AF%AD%E5%8F%A5%E6%94%BE%E7%BD%AE%E7%9A%84%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">7.</span> <span class="nav-text">php端对前端获取参数的判断问题，以及if语句放置的注意事项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#live%E5%87%BD%E6%95%B0%E5%8F%AA%E8%83%BD%E5%9C%A8jquery%E7%89%88%E6%9C%AC1-9-x%E4%BB%A5%E4%B8%8B%E8%B5%B7%E4%BD%9C%E7%94%A8"><span class="nav-number">8.</span> <span class="nav-text">live函数只能在jquery版本1.9.x以下起作用</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

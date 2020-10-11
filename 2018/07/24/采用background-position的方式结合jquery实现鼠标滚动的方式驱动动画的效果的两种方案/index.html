@@ -1,37 +1,1271 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="最近有对background-position有了新的兴趣，虽说css是很简单的事，但是如果你要深入了解了它以后你会发现css不简单。 好的，笔者想要对这个网站进行特效仿制：http:&#x2F;&#x2F;www.ccell.com&#x2F;Product&#x2F;CARTRIDGE&#x2F;TH2。 当鼠标进入到这个区域的时候，鼠标滚动方向的不同，产品会实现一个动画，最终完成产品的组合。先截几张图看下吧。   又比如：    这种图片的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="采用background-position的方式结合jquery实现鼠标滚动的方式驱动动画的效果的两种方案">
+<meta property="og:url" content="http://example.com/2018/07/24/%E9%87%87%E7%94%A8background-position%E7%9A%84%E6%96%B9%E5%BC%8F%E7%BB%93%E5%90%88jquery%E5%AE%9E%E7%8E%B0%E9%BC%A0%E6%A0%87%E6%BB%9A%E5%8A%A8%E7%9A%84%E6%96%B9%E5%BC%8F%E9%A9%B1%E5%8A%A8%E5%8A%A8%E7%94%BB%E7%9A%84%E6%95%88%E6%9E%9C%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E6%A1%88/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="最近有对background-position有了新的兴趣，虽说css是很简单的事，但是如果你要深入了解了它以后你会发现css不简单。 好的，笔者想要对这个网站进行特效仿制：http:&#x2F;&#x2F;www.ccell.com&#x2F;Product&#x2F;CARTRIDGE&#x2F;TH2。 当鼠标进入到这个区域的时候，鼠标滚动方向的不同，产品会实现一个动画，最终完成产品的组合。先截几张图看下吧。   又比如：    这种图片的">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/CuFl1oh.png">
+<meta property="og:image" content="https://i.imgur.com/fL1ogAL.png">
+<meta property="og:image" content="https://i.imgur.com/4GIv1th.png">
+<meta property="og:image" content="https://i.imgur.com/Y3ZYSSt.png">
+<meta property="og:image" content="https://i.imgur.com/glqDVog.png">
+<meta property="og:image" content="https://i.imgur.com/tybeRbD.png">
+<meta property="og:image" content="https://i.imgur.com/ETTpaDW.png">
+<meta property="og:image" content="https://i.imgur.com/BjEXK4A.png">
+<meta property="og:image" content="https://i.imgur.com/AMy3UEV.png">
+<meta property="article:published_time" content="2018-07-24T01:42:13.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:06.839Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="background-position,jquery,鼠标滚动,动画效果,js">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/CuFl1oh.png">
+
+<link rel="canonical" href="http://example.com/2018/07/24/%E9%87%87%E7%94%A8background-position%E7%9A%84%E6%96%B9%E5%BC%8F%E7%BB%93%E5%90%88jquery%E5%AE%9E%E7%8E%B0%E9%BC%A0%E6%A0%87%E6%BB%9A%E5%8A%A8%E7%9A%84%E6%96%B9%E5%BC%8F%E9%A9%B1%E5%8A%A8%E5%8A%A8%E7%94%BB%E7%9A%84%E6%95%88%E6%9E%9C%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E6%A1%88/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>采用background-position的方式结合jquery实现鼠标滚动的方式驱动动画的效果的两种方案 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/07/24/%E9%87%87%E7%94%A8background-position%E7%9A%84%E6%96%B9%E5%BC%8F%E7%BB%93%E5%90%88jquery%E5%AE%9E%E7%8E%B0%E9%BC%A0%E6%A0%87%E6%BB%9A%E5%8A%A8%E7%9A%84%E6%96%B9%E5%BC%8F%E9%A9%B1%E5%8A%A8%E5%8A%A8%E7%94%BB%E7%9A%84%E6%95%88%E6%9E%9C%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E6%A1%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          采用background-position的方式结合jquery实现鼠标滚动的方式驱动动画的效果的两种方案
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-07-24 09:42:13" itemprop="dateCreated datePublished" datetime="2018-07-24T09:42:13+08:00">2018-07-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:06" itemprop="dateModified" datetime="2020-10-11T11:58:06+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>最近有对background-position有了新的兴趣，虽说css是很简单的事，但是如果你要深入了解了它以后你会发现css不简单。</p>
+<p>好的，笔者想要对这个网站进行特效仿制：<a target="_blank" rel="noopener" href="http://www.ccell.com/Product/CARTRIDGE/TH2">http://www.ccell.com/Product/CARTRIDGE/TH2</a>。</p>
+<p>当鼠标进入到这个区域的时候，鼠标滚动方向的不同，产品会实现一个动画，最终完成产品的组合。先截几张图看下吧。</p>
+<p><img src="https://i.imgur.com/CuFl1oh.png"></p>
+<p><img src="https://i.imgur.com/fL1ogAL.png"></p>
+<p>又比如：</p>
+<p><img src="https://i.imgur.com/4GIv1th.png"></p>
+<p><img src="https://i.imgur.com/Y3ZYSSt.png"></p>
+<p><img src="https://i.imgur.com/glqDVog.png"></p>
+<p>这种图片的形态是随着鼠标的滚动发生的一系列变化的快照。笔者以前写过这样一篇文章，大概就是通过鼠标滚动实现组合模块的分离和合并效果，只可惜那种方式只适合2D效果，也就是一个二维平面的，三维的是不行的。就像我们上面的这些图片，这个是具有三维特性的，有透明穿插的部分，也有立体感的部分，我们只能采用图片的方式去做。</p>
+<p>我们把这个过程中的动画的每一帧都做成PNG图片，如下：</p>
+<p><img src="https://i.imgur.com/tybeRbD.png"></p>
+<p>命名为：31515495359.png，这个图片名会在后面的html里面用到，所以这里特别说明一下，以便区分。</p>
+<p>另外一张是：</p>
+<p><img src="https://i.imgur.com/ETTpaDW.png"></p>
+<p>命名为：11515739686.png，这个图片名会在后面的html里面用到，所以这里特别说明一下，以便区分。</p>
+<p>这种等距离排布好的，不同帧数下显示的不同角度，这种思维来自gif图的制作。然后通过js的方式来实现，滚动一次播放一帧，滚动方向不同也播放的内容也不同。这样就完成了一个大概的思维。</p>
+<p>方案一：把所有帧的图片做在一张大图上，然后均匀的排成一排，这个地方要注意的是，要等距离的排布，做成PNG格式的。其中html代码如下：</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;./src/custom.css&quot;&gt;
+    &lt;script src=&quot;./src/jquery.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;./src/ifie8.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;./src/js.js&quot;&gt;&lt;/script&gt;
+    &lt;title&gt;test&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div class=&quot;main&quot;&gt;
+    &lt;div class=&quot;tech-wrap tech-wrap2&quot;&gt;
+        &lt;div class=&quot;tech tech2 shp&quot;&gt;
+            &lt;div class=&quot;left&quot;&gt;
+                &lt;!-- frame：总帧数，width:每一帧的宽度，showpx：页面滚动到产品露出多少像素后触发效果，speed：动画的速度，scale：缩放比例，reverse：运动完后是否继续反向运动  /Uploads/article/original_img/11515739686.png--&gt;
+                &lt;div class=&quot;img-box img-box-th210&quot; style=&quot;background-image: url(&#39;./src/11515739686.png&#39;); transform: scale(0.986458); width: 256px; background-size: 3584px; background-position: 0px center;&quot; frame=&quot;14&quot; width=&quot;320&quot; showpx=&quot;500&quot; speed=&quot;3&quot; scale=&quot;0.8&quot; reverse=&quot;true&quot;&gt;
+                    &lt;img class=&quot;hidden&quot; src=&quot;./src/11515739686.png&quot; alt=&quot;&quot;&gt;
+                    &lt;!-- 和背景图一样的图片,用来判断背景图是否加载完成 --&gt;
+                    &lt;div class=&quot;tip tip1&quot;&gt;
+                        &lt;div class=&quot;plus&quot;&gt;+&lt;/div&gt;
+                        &lt;div class=&quot;text&quot;&gt;
+                            &lt;div class=&quot;title&quot;&gt;Ceramic Mouth Piece&lt;/div&gt;
+                            &lt;div class=&quot;intro&quot;&gt;Ceramic mouth piece offers cooler.&lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;tip tip2&quot;&gt;
+                        &lt;div class=&quot;plus&quot;&gt;+&lt;/div&gt;
+                        &lt;div class=&quot;text&quot;&gt;
+                            &lt;div class=&quot;title&quot;&gt;Glass Housing&lt;/div&gt;
+                            &lt;div class=&quot;intro&quot;&gt;Glass housing ensures better anticorrosion.&lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;jd-wrap&quot;&gt;
+        &lt;div class=&quot;jd shp&quot;&gt;
+            &lt;span class=&quot;tc&quot;&gt;
+                &lt;div class=&quot;title1&quot;&gt;THE PUREST TASTE&lt;/div&gt;
+                &lt;div class=&quot;ani-box-wrap ani-th210&quot; style=&quot;transform: scale(0.986458);&quot;&gt;
+                    &lt;!-- frame：总帧数，width:每一帧的宽度，showpx：页面滚动到产品露出多少像素后触发效果，speed：动画的速度，scale：缩放比例  --&gt;
+                    &lt;div class=&quot;ani-box-th210&quot; style=&quot;background-image: url(&#39;./src/31515495359.png&#39;); width: 183px; background-size: 2379px; background-position: -2196px center;&quot; frame=&quot;13&quot; width=&quot;183&quot; showpx=&quot;200&quot; speed=&quot;6&quot; scale=&quot;1&quot;&gt;
+                        &lt;img class=&quot;hidden&quot; src=&quot;./src/31515495359.png&quot; alt=&quot;&quot;&gt;&lt;!-- 和背景图一样的图片,用来判断背景图是否加载完成 --&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;tip tip1&quot;&gt;
+                        &lt;div class=&quot;plus&quot;&gt;+&lt;/div&gt;
+                        &lt;div class=&quot;text&quot;&gt;
+                            &lt;div class=&quot;title&quot;&gt;Ceramic Mouth Piece&lt;/div&gt;
+                            &lt;div class=&quot;intro&quot;&gt;Ceramic mouth piece offers cooler.&lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;&lt;div class=&quot;tip tip2&quot;&gt;
+                        &lt;div class=&quot;plus&quot;&gt;+&lt;/div&gt;
+                        &lt;div class=&quot;text&quot;&gt;
+                            &lt;div class=&quot;title&quot;&gt;Glass Housing&lt;/div&gt;
+                            &lt;div class=&quot;intro&quot;&gt;Glass housing ensures better anticorrosion.&lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;&lt;div class=&quot;tip tip5&quot;&gt;
+                        &lt;div class=&quot;plus&quot;&gt;+&lt;/div&gt;
+                        &lt;div class=&quot;text&quot;&gt;
+                            &lt;div class=&quot;title&quot;&gt;Revolutionary Heating Elements&lt;/div&gt;
+                            &lt;div class=&quot;intro&quot;&gt;Ceramic core porosity ensures continuous.&lt;/div&gt;
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/span&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>css代码如下：</p>
+<pre><code>img.hidden &#123;
+    display: none;
+&#125;
+.tech-wrap &#123;
+    width: 100%;
+    max-width: 1920px;
+    margin: 0 auto;
+&#125;
+.tech &#123;
+    width: 100%;
+    height: 895px;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    position: relative;
+    overflow: hidden;
+&#125;
+.tech .left &#123;
+    display: table;
+    width: 57%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+&#125;
+.tech .left .img-box &#123;
+    width: 90%;
+    padding-top: 80%;
+    background-size: 100% auto;
+    margin: 0 auto;
+    background-repeat: no-repeat;
+    position: relative;
+&#125;
+.tech .left .img-box .pb1 &#123;
+    width: 74.82%;
+    position: absolute;
+    right: 24%;
+    bottom: 19.2%;
+    z-index: 2;
+&#125;
+.tech .left .img-box .pb2 &#123;
+    width: 50.36%;
+    position: absolute;
+    left: 24%;
+    top: 19.2%;
+    z-index: 1;
+&#125;
+.tech .left .tip &#123;
+    width: 46px;
+    height: 46px;
+    position: absolute;
+    z-index: 3;
+&#125;
+.tech .left .plus &#123;
+    width: 100%;
+    height: 100%;
+    line-height: 42px;
+    border: 2px solid #298dac;
+    border-radius: 50%;
+    font-size: 26px;
+    color: #333;
+    text-align: center;
+    cursor: pointer;
+    transition: all .3s;
+&#125;
+.tech .left .plus:hover &#123;
+    background-color: #298dac;
+    color: #fff;
+&#125;
+.tech .left .tip1 &#123;
+    left: 80px;
+    top: 34.4%;
+&#125;
+.tech .left .tip2 &#123;
+    right: 170px;
+    bottom: 24%;
+&#125;
+.tech .left .tip:hover .text &#123;
+    visibility: visible;
+    opacity: 1;
+&#125;
+.tech .left .text &#123;
+    width: 225px;
+    position: absolute;
+    left: -60px;
+    top: 60px;
+    visibility: hidden;
+    opacity: 0;
+    transition: all .3s;
+&#125;
+.tech .left .text .title &#123;
+    font-size: 20px;
+    color: #333;
+    line-height: 26px;
+    padding-bottom: 10px;
+    font-weight: bold;
+&#125;
+.tech .left .text .intro &#123;
+    font-size: 16px;
+    color: #333;
+    line-height: 26px;
+&#125;
+.tech2 &#123;
+    font-size: 0;
+    display: table;
+&#125;
+.tech2 .left .img-box &#123;
+    position: relative;
+    top: 0;
+    left: 0;
+    margin: 0 auto;
+    padding-top: 0;
+    background-size: auto auto;
+    background-position: left center;
+    background-repeat: no-repeat;
+&#125;
+.tech2 .left .img-box-th210 &#123;
+    height: 140%;
+    position: relative;
+    margin-top: 0%;
+&#125;
+.tech2 .left .img-box-th210 .tip1 &#123;
+    left: -30px;
+    top: 25%;
+&#125;
+.tech2 .left .img-box-th210 .tip2 &#123;
+    left: 230px;
+    bottom: 25%;
+&#125;
+.tech2 .left .img-box-th210 .tip1 .text &#123;
+    left: -135px;
+    top: 60px;
+&#125;
+.tech2 .left .img-box-th210 .tip2 .text &#123;
+    left: -20px;
+    bottom: 60px;
+    top: auto;
+&#125;
+.tech2 .left .img-box-m6t10 &#123;
+    height: 100%;
+&#125;
+.tech2 .left .img-box-m6t10 .tip1 &#123;
+    left: 300px;
+    top: 100px;
+&#125;
+.tech2 .left .img-box-m6t10 .tip2 &#123;
+    left: 250px;
+    bottom: 100px;
+&#125;
+.tech2 .left .img-box-m6t10 .tip1 .text &#123;
+    left: -235px;
+    top: 0px;
+&#125;
+.tech2 .left .img-box-m6t10 .tip2 .text &#123;
+    left: 60px;
+    bottom: 0px;
+    top: auto;
+&#125;
+.jd-wrap &#123;
+    width: 100%;
+    max-width: 1920px;
+    margin: 0 auto;
+&#125;
+.jd &#123;
+    display: table;
+    width: 100%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;
+    position: relative;
+    overflow: hidden;
+&#125;
+.jd .title1 &#123;
+    font-size: 3.5vw;
+    color: #333;
+    font-weight: bold;
+    text-align: center;
+    padding-bottom: 1.9%;
+    margin-bottom: 1.37%;
+    position: relative;
+&#125;
+.jd .title1:after &#123;
+    display: block;
+    content: &quot;&quot;;
+    width: 23px;
+    height: 2px;
+    background-color: #333;
+    position: absolute;
+    left: 50%;
+    margin-left: -12px;
+    bottom: 0;
+&#125;
+.jd .ani-box-wrap &#123;
+    width: 1200px;
+    height: 300px;
+    position: relative;
+    padding-top: 150px;
+    margin: 0 auto;
+&#125;
+.jd .ani-box &#123;
+    width: 183px;
+    height: 1200px;
+    transform-origin: 88px 88px;
+    transform: rotate(-90deg);
+&#125;
+.jd .tip &#123;
+    width: 46px;
+    height: 46px;
+    position: absolute;
+&#125;
+.jd .plus &#123;
+    width: 100%;
+    height: 100%;
+    line-height: 42px;
+    border: 2px solid #298dac;
+    border-radius: 50%;
+    font-size: 26px;
+    color: #333;
+    text-align: center;
+    cursor: pointer;
+    transition: all .3s;
+&#125;
+.jd .plus:hover &#123;
+    background-color: #298dac;
+    color: #fff;
+&#125;
+.jd .tip:hover .text &#123;
+    visibility: visible;
+    opacity: 1;
+&#125;
+.jd .text &#123;
+    width: 225px;
+    position: absolute;
+    left: -60px;
+    top: 60px;
+    visibility: hidden;
+    opacity: 0;
+    transition: all .3s;
+&#125;
+.jd .text .title &#123;
+    font-size: 20px;
+    color: #333;
+    line-height: 26px;
+    padding-bottom: 10px;
+    font-weight: bold;
+&#125;
+.jd .text .intro &#123;
+    font-size: 16px;
+    color: #333;
+    line-height: 26px;
+&#125;
+.jd .ani-th210 .tip1 &#123;
+    left: 10px;
+    top: 120px;
+&#125;
+.jd .ani-th210 .tip2 &#123;
+    left: 300px;
+    top: 300px;
+&#125;
+.jd .ani-th210 .tip3 &#123;
+    left: 590px;
+    top: 120px;
+&#125;
+.jd .ani-th210 .tip4 &#123;
+    left: 915px;
+    top: 120px;
+&#125;
+.jd .ani-th210 .tip5 &#123;
+    left: 1004px;
+    top: 300px;
+&#125;
+.jd .ani-th210 .tip6 &#123;
+    left: 1100px;
+    top: 110px;
+&#125;
+.jd .ani-th210 .tip1 .text &#123;
+    left: 60px;
+    bottom: 0;
+    top: auto;
+&#125;
+.jd .ani-th210 .tip2 .text &#123;
+    left: 60px;
+    top: -15px;
+&#125;
+.jd .ani-th210 .tip3 .text &#123;
+    left: 60px;
+    bottom: 0;
+    top: auto;
+&#125;
+.jd .ani-th210 .tip4 .text &#123;
+    left: -230px;
+    bottom: 0;
+    top: auto;
+&#125;
+.jd .ani-th210 .tip5 .text &#123;
+    left: -230px;
+    top: -30px;
+&#125;
+.jd .ani-th210 .tip6 .text &#123;
+    left: -140px;
+    bottom: 60px;
+    top: auto;
+&#125;
+.jd .ani-box-th210 &#123;
+    width: 183px;
+    height: 1200px;
+    transform-origin: 88px 88px;
+    transform: rotate(-90deg);
+&#125;
+@media(max-width: 1300px) &#123;
+    .jd .ani-box-wrap &#123;
+        width: 100%;
+        left: 0;
+        transform: scale(0.9);
+    &#125;
+&#125;</code></pre>
+<p>其中我们需要引入一些外部文件，由于这里需要用到jquery，所以我们需要引入这个文件，这部分已经在html代码里面有了，另外还有一个文件，这个文件存放的是实现这个动画的js。我们命名为：js.js，代码如下：</p>
+<pre><code>$(document).ready(function() &#123;
+    //产品分解效果，总帧数m，图宽度w，页面滚动到产品露出h像素后触发效果，k为运动的速度（值在1到100之间）
+    $.fn.dg = function(m,w,h,k)&#123;
+        var s=$(this),h = s.offset().top - $(window).height() + h*$(window).width()/1920,m = m,w = w,k=100/k,r=s.attr(&quot;reverse&quot;);
+        $(window).scroll(function()&#123;
+            var a = $(this).scrollTop();
+            if(a&gt;=h)&#123;
+                var n = parseInt((a-h)/k)+1;
+                if(n&lt;=m)&#123;
+                    var bp = -w*(n-1)/m +&quot;px center&quot;;
+                    s.css(&quot;background-position&quot;,bp);  
+                &#125;else if(n&gt;m &amp;&amp; n&lt;=m+4)&#123;
+                    var bp = -w*(m-1)/m +&quot;px center&quot;;
+                    s.css(&quot;background-position&quot;,bp);
+                &#125;
+                else if(n&gt;m+4 &amp;&amp; n&lt;2*m+4)&#123;
+                    if(r==&quot;true&quot;)&#123;
+                        n = m - (n-4)%m;
+                        var bp = -w*(n-1)/m +&quot;px center&quot;;
+                        s.css(&quot;background-position&quot;,bp);  
+                    &#125;
+                &#125;
+            &#125;
+        &#125;)
+    &#125;
+    //页面所有img加载完后再显示页面
+    var srcs = getImgSrc();
+    function showPage()&#123;
+        $(&quot;#preloader&quot;).removeClass(&quot;show&quot;);
+        //下面的这段得在图片加载完后再执行，不然动态效果会失效
+        $(&quot;[frame]&quot;).each(function()&#123;
+            var ele = $(this);
+            var m = parseInt(ele.attr(&quot;frame&quot;));
+            var w = parseInt(ele.attr(&quot;width&quot;));
+            var s = parseFloat(ele.attr(&quot;scale&quot;) || 1);
+            ele.css(&quot;width&quot;,w*s);
+            var tw = w*m*s;
+            var h = parseInt(ele.attr(&quot;showpx&quot;) || 100);
+            var k = parseInt(ele.attr(&quot;speed&quot;) || 3);
+            ele.css(&quot;backgroundSize&quot;,tw+&quot;px auto&quot;);
+            ele.dg(m,tw,h,k);
+        &#125;)
+    &#125;
+    afterImgLoad(srcs,showPage);
+    function getImgSrc()&#123;
+        var imgs = document.getElementsByTagName(&quot;img&quot;);
+        var imgsN = imgs.length;
+        var imgsArr = [];
+        for(var i=0;i&lt;imgsN;i++)&#123;
+            imgsArr[i] = imgs[i].src;
+        &#125;
+        return imgsArr;
+    &#125;
+    //srcs表示要加载的图片数组，ddd表示加载完成后要执行的函数
+    function afterImgLoad(srcArr,fn)&#123;
+        var srcArr = srcArr;
+        var srcN = srcArr.length;
+        var curN = 0;
+        var wbg = new Image();
+        loadOne(0);
+        function loadOne(curN)&#123;
+            if(curN&lt;srcN)&#123;
+                wbg.src = srcArr[curN];
+                var timer = setInterval(function()&#123;
+                    if(wbg.complete)&#123;
+                        clearInterval(timer);
+                        loadOne(curN+1);
+                    &#125;
+                &#125;,50)
+                wbg.onerror = function()&#123;
+                    clearInterval(timer);
+                    loadOne(curN+1);
+                &#125;
+            &#125;else&#123;
+                fn();
+            &#125;
+        &#125;
+    &#125;
+
+    //调整大小
+    $(window).resize(function()&#123;
+        var ww = $(window).width();
+        ww&lt;1200 &amp;&amp; (ww=1200);
+        ww&gt;1920 &amp;&amp; (ww=1920);
+        var k = ww/1920;
+        $(&quot;.shp&quot;).css(&quot;height&quot;,895*k);
+        $(&quot;.static-box&quot;).css(&#123;&quot;transform&quot;:&quot;scale(&quot;+k+&quot;)&quot;,&quot;height&quot;: 192*k&#125;);
+        $(&quot;.img-box-b07&quot;).css(&#123;&quot;transform&quot;:&quot;scale(&quot;+k+&quot;)&quot;&#125;);
+        $(&quot;.img-box-ba01&quot;).css(&#123;&quot;transform&quot;:&quot;scale(&quot;+k+&quot;)&quot;&#125;);
+        $(&quot;.img-box-th210&quot;).css(&#123;&quot;transform&quot;:&quot;scale(&quot;+k+&quot;)&quot;&#125;);
+        if($(&quot;.palm .right .title img&quot;).length)&#123;
+            $(&quot;.palm .right .title img&quot;).css(&quot;height&quot;,93*k);
+            $(&quot;.palm .right .title&quot;).css(&quot;fontSize&quot;,0);
+        &#125;
+        var q = k;
+        q&lt;0.73 &amp;&amp; (q=0.73);
+        $(&quot;.jd .ani-box-wrap&quot;).css(&#123;&quot;transform&quot;:&quot;scale(&quot;+q+&quot;)&quot;&#125;);
+
+    &#125;)
+    $(window).trigger(&quot;resize&quot;);
+
+&#125;);</code></pre>
+<p>另外就是需要解决一个浏览器兼容性的问题（这个文件可要可不要，不要也不会影响到这个效果），我们把这个代码写在另外一个文件里面，命名为：ifie8.js，代码如下：</p>
+<pre><code>$(function () &#123;
+    if(navigator.appName == &quot;Microsoft Internet Explorer&quot; &amp;&amp;(navigator.appVersion .split(&quot;;&quot;)[1].replace(/[ ]/g,&quot;&quot;)==&quot;MSIE6.0&quot;||navigator.appVersion .split(&quot;;&quot;)[1].replace(/[ ]/g,&quot;&quot;)==&quot;MSIE7.0&quot;||navigator.appVersion .split(&quot;;&quot;)[1].replace(/[ ]/g,&quot;&quot;)==&quot;MSIE8.0&quot;))
+    &#123;
+        $(&#39;body&#39;).css(&#123;&#39;background-color&#39;:&#39;#3cbbdc&#39;&#125;).html(&#39;&lt;div id=&quot;web-ietip&quot;&gt;&lt;a href=&quot;http://se.360.cn/&quot; target=&quot;_blank&quot; title=&quot;360浏览器&quot; style=&quot;width: 60px;&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://chrome.360.cn/&quot; target=&quot;_blank&quot; title=&quot;360极速浏览器&quot; style=&quot;width: 53px;&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://ie.sogou.com/&quot; target=&quot;_blank&quot; title=&quot;搜狗浏览器&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://browser.qq.com/&quot; target=&quot;_blank&quot; title=&quot;QQ浏览器&quot; style=&quot;width: 55px;&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://www.liebao.cn/&quot; target=&quot;_blank&quot; title=&quot;猎豹浏览器&quot; style=&quot;width: 55px;&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://www.google.cn/intl/zh-CN/chrome/browser/&quot; target=&quot;_blank&quot; title=&quot;谷歌浏览器&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://www.firefox.com.cn/&quot; target=&quot;_blank&quot; title=&quot;火狐浏览器&quot; style=&quot;width: 55px;&quot;&gt;&lt;/a&gt;&lt;a href=&quot;https://www.apple.com/cn/safari/&quot; target=&quot;_blank&quot; title=&quot;仅支持Mac系统&quot; style=&quot;width: 58px;&quot;&gt;&lt;/a&gt;&lt;a href=&quot;http://rj.baidu.com/search/index/?kw=IE11&quot; target=&quot;_blank&quot; style=&quot;width: 55px;&quot;&gt;&lt;/a&gt;&lt;/div&gt;&#39;)
+    &#125;
+&#125;);</code></pre>
+<p>好的，当我们完成这个以后，我们就可以把这个文件包放在服务器上进行访问了，最终效果如下：</p>
+<p><img src="https://i.imgur.com/BjEXK4A.png"></p>
+<p><img src="https://i.imgur.com/AMy3UEV.png"></p>
+<p>完整代码下载地址：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1HN3XzXtB5JYwR2jxrMylzg">https://pan.baidu.com/s/1HN3XzXtB5JYwR2jxrMylzg</a>，密码：a2op</p>
+<hr>
+<p>方案二：我们不采用jquery方案，尽可能的精简一下这个代码量，笔者的方案是：每一帧做一张png图片，然后通过鼠标滚动的方式切换图片的思路。</p>
+<p>笔者的思路是从这个教程来的：</p>
+<pre><code>&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot;
+&quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;
+&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
+&lt;title&gt;鼠标通过滚动滚轮切换图片&lt;/title&gt;
+&lt;style&gt;
+#picBox&#123;
+  width:800px;height:600px;
+  margin:70px auto;
+  &#125;
+&lt;/style&gt;
+&lt;script&gt;
+  var nowPic=1;
+  function MouseWheel(e)&#123;
+    var pic;
+    e=e||window.event;
+    for(i=1;i&lt;4;i++)&#123;
+      if(i==nowPic)&#123;
+          if(e.wheelDelta)&#123;//IE
+              pic=document.getElementById(&quot;pic&quot;+i);
+              pic.style.display=&quot;block&quot;;
+            &#125;else if(e.detail)&#123;//Firefox
+              pic=document.getElementById(&quot;pic&quot;+i);
+              pic.style.display=&quot;block&quot;;
+            &#125;
+        &#125;else&#123;
+          pic=document.getElementById(&quot;pic&quot;+i);
+          pic.style.display=&quot;none&quot;;
+        &#125;
+      &#125;
+      if(nowPic&gt;=3)&#123;
+        nowPic=1;
+      &#125;else&#123;
+        nowPic++;
+      &#125;
+    &#125;
+  /*Firefox注册事件*/
+  if(document.addEventListener)&#123;
+      document.addEventListener(&quot;DOMMouseScroll&quot;,MouseWheel,false);
+    &#125;
+  window.onmousewheel=document.onmousewheel=MouseWheel;//IE/Opera/Chrome
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h3 align=&quot;center&quot;&gt;鼠标通过滚动滚轮切换图片&lt;/h3&gt;
+  &lt;div id=&quot;picBox&quot;&gt;
+    &lt;img src=&quot;http://picm.bbzhi.com/dongwubizhi/dongwuheji/dongwuheji_69803_m.jpg&quot; width=&quot;800px&quot; height=&quot;600px&quot; id=&quot;pic1&quot;&gt;
+&lt;span style=&quot;white-space:pre&quot;&gt;   &lt;/span&gt;&lt;img src=&quot;http://pic1a.nipic.com/2008-12-22/2008122204359187_2.jpg&quot; width=&quot;800px&quot; height=&quot;600px&quot; id=&quot;pic2&quot; style=&quot;display:none;&quot;&gt;
+&lt;span style=&quot;white-space:pre&quot;&gt;   &lt;/span&gt;&lt;img src=&quot;http://imgphoto.gmw.cn/attachement/jpg/site2/20121221/002564a60ce4123e17614e.jpg&quot; width=&quot;800px&quot; height=&quot;600px&quot; id=&quot;pic3&quot; style=&quot;display:none;&quot;&gt;
+  &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>后来被笔者修改成如下，看代码：</p>
+<pre><code>&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot;
+&quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;
+&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+
+&lt;head&gt;
+    &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
+    &lt;title&gt;鼠标通过滚动滚轮切换图片&lt;/title&gt;
+    &lt;script&gt;
+      var nowPic = 1;
+      function MouseWheel(e) &#123;
+          var pic;
+          e = e || window.event;
+          for (i = 1; i &lt; 14; i++) &#123;
+              if (i == nowPic) &#123;
+                  if (e.wheelDelta) &#123; //IE
+                      pic = document.getElementById(&quot;pic&quot; + i);
+                      pic.style.display = &quot;block&quot;;
+                  &#125; else if (e.detail) &#123; //Firefox
+                      pic = document.getElementById(&quot;pic&quot; + i);
+                      pic.style.display = &quot;block&quot;;
+                  &#125;
+              &#125; else &#123;
+                  pic = document.getElementById(&quot;pic&quot; + i);
+                  pic.style.display = &quot;none&quot;;
+              &#125;
+          &#125;
+          if (nowPic &gt;= 13) &#123;
+              nowPic = 1;
+          &#125; else &#123;
+              nowPic++;
+          &#125;
+      &#125;
+      /*Firefox注册事件*/
+      if (document.addEventListener) &#123;
+          document.addEventListener(&quot;DOMMouseScroll&quot;, MouseWheel, false);
+      &#125;
+      window.onmousewheel = document.onmousewheel = MouseWheel; //IE/Opera/Chrome
+    &lt;/script&gt;
+
+    &lt;style&gt;
+      #picBox img&#123;
+        display: block;
+        margin:0 auto;
+        width: 100%;
+        max-width: 100px !important;
+      &#125;
+    &lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+    &lt;h3 align=&quot;center&quot;&gt;滚动测试---垂直&lt;/h3&gt;
+    &lt;div id=&quot;picBox&quot;&gt;
+        &lt;img src=&quot;src/images/c_01.png&quot; id=&quot;pic1&quot;&gt;
+        &lt;img src=&quot;src/images/c_02.png&quot; id=&quot;pic2&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/c_03.png&quot; id=&quot;pic3&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/c_04.png&quot; id=&quot;pic4&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/c_05.png&quot; id=&quot;pic5&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/c_06.png&quot; id=&quot;pic6&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/c_07.png&quot; id=&quot;pic7&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/c_08.png&quot; id=&quot;pic8&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/c_09.png&quot; id=&quot;pic9&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/c_10.png&quot; id=&quot;pic10&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/c_11.png&quot; id=&quot;pic11&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/c_12.png&quot; id=&quot;pic12&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/c_13.png&quot; id=&quot;pic13&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/c_14.png&quot; id=&quot;pic14&quot; style=&quot;display:none;&quot;&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>其中这里面的14张图片分别是这个动画完成的所有帧的某个快照，都是按照顺序进行的，通常第一张图片是整个动画播放的第一帧，最后一张图片是动画播放的最后一帧。</p>
+<p>我们可以想象一下，当我们把鼠标滚动到最后的时候，我们继续往下滚动的话，那么就会回到第一张，这个其实不是很好，个人觉得应该是滚动到最后一张的时候，继续滚动会往回滚，这个体验应该是比较好的。所以作为改进，我采用回文序列的方式。</p>
+<pre><code>&lt;div id=&quot;picBox2&quot;&gt;
+    &lt;img src=&quot;src/images/d_01.png&quot; id=&quot;pid1&quot;&gt;
+    &lt;img src=&quot;src/images/d_02.png&quot; id=&quot;pid2&quot; style=&quot;display:none;&quot;&gt;
+    &lt;img src=&quot;src/images/d_03.png&quot; id=&quot;pid3&quot; style=&quot;display:none;&quot;&gt;
+    &lt;img src=&quot;src/images/d_04.png&quot; id=&quot;pid4&quot; style=&quot;display:none;&quot;&gt;
+    &lt;img src=&quot;src/images/d_05.png&quot; id=&quot;pid5&quot; style=&quot;display:none;&quot;&gt;
+    &lt;img src=&quot;src/images/d_06.png&quot; id=&quot;pid6&quot; style=&quot;display:none;&quot;&gt;
+    &lt;img src=&quot;src/images/d_07.png&quot; id=&quot;pid7&quot; style=&quot;display:none;&quot;&gt;
+    &lt;img src=&quot;src/images/d_08.png&quot; id=&quot;pid8&quot; style=&quot;display:none;&quot;&gt;
+    &lt;img src=&quot;src/images/d_09.png&quot; id=&quot;pid9&quot; style=&quot;display:none;&quot;&gt;
+    &lt;img src=&quot;src/images/d_10.png&quot; id=&quot;pid10&quot; style=&quot;display:none;&quot;&gt;
+    &lt;img src=&quot;src/images/d_11.png&quot; id=&quot;pid11&quot; style=&quot;display:none;&quot;&gt;
+    &lt;img src=&quot;src/images/d_12.png&quot; id=&quot;pid12&quot; style=&quot;display:none;&quot;&gt;
+    &lt;img src=&quot;src/images/d_13.png&quot; id=&quot;pid13&quot; style=&quot;display:none;&quot;&gt;
+    &lt;img src=&quot;src/images/d_12.png&quot; id=&quot;pid14&quot; style=&quot;display:none;&quot;&gt;
+    &lt;img src=&quot;src/images/d_11.png&quot; id=&quot;pid15&quot; style=&quot;display:none;&quot;&gt;
+    &lt;img src=&quot;src/images/d_10.png&quot; id=&quot;pid16&quot; style=&quot;display:none;&quot;&gt;
+    &lt;img src=&quot;src/images/d_09.png&quot; id=&quot;pid17&quot; style=&quot;display:none;&quot;&gt;
+    &lt;img src=&quot;src/images/d_08.png&quot; id=&quot;pid18&quot; style=&quot;display:none;&quot;&gt;
+    &lt;img src=&quot;src/images/d_07.png&quot; id=&quot;pid19&quot; style=&quot;display:none;&quot;&gt;
+    &lt;img src=&quot;src/images/d_06.png&quot; id=&quot;pid20&quot; style=&quot;display:none;&quot;&gt;
+    &lt;img src=&quot;src/images/d_05.png&quot; id=&quot;pid21&quot; style=&quot;display:none;&quot;&gt;
+    &lt;img src=&quot;src/images/d_04.png&quot; id=&quot;pid22&quot; style=&quot;display:none;&quot;&gt;
+    &lt;img src=&quot;src/images/d_03.png&quot; id=&quot;pid23&quot; style=&quot;display:none;&quot;&gt;
+    &lt;img src=&quot;src/images/d_02.png&quot; id=&quot;pid24&quot; style=&quot;display:none;&quot;&gt;
+&lt;/div&gt;</code></pre>
+<p>这里最后不用添加第一张了，因为到了最后会自动回到第一张，这样就实现了一个循环。</p>
+<p>笔者最后想要扩展这个想法，把这个同时放多个，可是只有最后一个生效，意思就是不能实现多个，这是个遗憾，后面会继续探索。此文会更新，请持续关注。</p>
+<p>笔者添加了多个的文件代码如下：</p>
+<pre><code>&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot;
+&quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;
+&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+
+&lt;head&gt;
+    &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
+    &lt;title&gt;鼠标通过滚动滚轮切换图片&lt;/title&gt;
+    &lt;script&gt;
+      var nowPic = 1;
+      function MouseWheel(e) &#123;
+          var pic;
+          e = e || window.event;
+          for (i = 1; i &lt; 15; i++) &#123;
+              if (i == nowPic) &#123;
+                  if (e.wheelDelta) &#123; //IE
+                      pic = document.getElementById(&quot;pic&quot; + i);
+                      pic.style.display = &quot;block&quot;;
+                  &#125; else if (e.detail) &#123; //Firefox
+                      pic = document.getElementById(&quot;pic&quot; + i);
+                      pic.style.display = &quot;block&quot;;
+                  &#125;
+              &#125; else &#123;
+                  pic = document.getElementById(&quot;pic&quot; + i);
+                  pic.style.display = &quot;none&quot;;
+              &#125;
+          &#125;
+          if (nowPic &gt;= 14) &#123;
+              nowPic = 1;
+          &#125; else &#123;
+              nowPic++;
+          &#125;
+      &#125;
+      /*Firefox注册事件*/
+      if (document.addEventListener) &#123;
+          document.addEventListener(&quot;DOMMouseScroll&quot;, MouseWheel, false);
+      &#125;
+      window.onmousewheel = document.onmousewheel = MouseWheel; //IE/Opera/Chrome
+    &lt;/script&gt;
+
+    &lt;script&gt;
+      var nowPic2 = 1;
+      function MouseWheel2(e) &#123;
+          var pid;
+          e = e || window.event;
+          for (n = 1; n &lt; 25; n++) &#123;
+              if (n == nowPic2) &#123;
+                  if (e.wheelDelta) &#123;
+                      pid = document.getElementById(&quot;pid&quot; + n);
+                      pid.style.display = &quot;block&quot;;
+                  &#125; else if (e.detail) &#123;
+                      pid = document.getElementById(&quot;pid&quot; + n);
+                      pid.style.display = &quot;block&quot;;
+                  &#125;
+              &#125; else &#123;
+                  pid = document.getElementById(&quot;pid&quot; + n);
+                  pid.style.display = &quot;none&quot;;
+              &#125;
+          &#125;
+          if (nowPic2 &gt;= 24) &#123;
+              nowPic2 = 1;
+          &#125; else &#123;
+              nowPic2++;
+          &#125;
+      &#125;
+
+      if (document.addEventListener) &#123;
+          document.addEventListener(&quot;DOMMouseScroll2&quot;, MouseWheel2, false);
+      &#125;
+      window.onmousewheel = document.onmousewheel = MouseWheel2;
+    &lt;/script&gt;
+
+    &lt;script&gt;
+      var nowPic3 = 1;
+      function MouseWheel3(e) &#123;
+          var pig;
+          e = e || window.event;
+          for (j = 1; j &lt; 14; j++) &#123;
+              if (j == nowPic3) &#123;
+                  if (e.wheelDelta) &#123;
+                      pig = document.getElementById(&quot;pig&quot; + j);
+                      pig.style.display = &quot;block&quot;;
+                  &#125; else if (e.detail) &#123;
+                      pig = document.getElementById(&quot;pig&quot; + j);
+                      pig.style.display = &quot;block&quot;;
+                  &#125;
+              &#125; else &#123;
+                  pig = document.getElementById(&quot;pig&quot; + j);
+                  pig.style.display = &quot;none&quot;;
+              &#125;
+          &#125;
+          if (nowPic3 &gt;= 13) &#123;
+              nowPic3 = 1;
+          &#125; else &#123;
+              nowPic3++;
+          &#125;
+      &#125;
+
+      if (document.addEventListener) &#123;
+          document.addEventListener(&quot;DOMMouseScroll&quot;, MouseWheel3, false);
+      &#125;
+      window.onmousewheel = document.onmousewheel = MouseWheel3;
+    &lt;/script&gt;
+
+
+    &lt;style&gt;
+      #picBox img&#123;
+        display: block;
+        margin:0 auto;
+        width: 100%;
+        max-width: 100px !important;
+      &#125;
+      #picBox2 img&#123;
+        display: block;
+        margin:0 auto;
+        transform: rotate(-90deg);
+      &#125;
+      #picBox3 img&#123;
+        display: block;
+        margin:0 auto;
+        transform: rotate(-90deg);
+      &#125;
+    &lt;/style&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+    &lt;h3 align=&quot;center&quot;&gt;滚动测试---垂直&lt;/h3&gt;
+    &lt;div id=&quot;picBox&quot;&gt;
+        &lt;img src=&quot;src/images/c_01.png&quot; id=&quot;pic1&quot;&gt;
+        &lt;img src=&quot;src/images/c_02.png&quot; id=&quot;pic2&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/c_03.png&quot; id=&quot;pic3&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/c_04.png&quot; id=&quot;pic4&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/c_05.png&quot; id=&quot;pic5&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/c_06.png&quot; id=&quot;pic6&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/c_07.png&quot; id=&quot;pic7&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/c_08.png&quot; id=&quot;pic8&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/c_09.png&quot; id=&quot;pic9&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/c_10.png&quot; id=&quot;pic10&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/c_11.png&quot; id=&quot;pic11&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/c_12.png&quot; id=&quot;pic12&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/c_13.png&quot; id=&quot;pic13&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/c_14.png&quot; id=&quot;pic14&quot; style=&quot;display:none;&quot;&gt;
+    &lt;/div&gt;
+
+    &lt;h3 align=&quot;center&quot;&gt;滚动测试---回文序列&lt;/h3&gt;
+    &lt;div id=&quot;picBox2&quot;&gt;
+        &lt;img src=&quot;src/images/d_01.png&quot; id=&quot;pid1&quot;&gt;
+        &lt;img src=&quot;src/images/d_02.png&quot; id=&quot;pid2&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/d_03.png&quot; id=&quot;pid3&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/d_04.png&quot; id=&quot;pid4&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/d_05.png&quot; id=&quot;pid5&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/d_06.png&quot; id=&quot;pid6&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/d_07.png&quot; id=&quot;pid7&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/d_08.png&quot; id=&quot;pid8&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/d_09.png&quot; id=&quot;pid9&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/d_10.png&quot; id=&quot;pid10&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/d_11.png&quot; id=&quot;pid11&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/d_12.png&quot; id=&quot;pid12&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/d_13.png&quot; id=&quot;pid13&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/d_12.png&quot; id=&quot;pid14&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/d_11.png&quot; id=&quot;pid15&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/d_10.png&quot; id=&quot;pid16&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/d_09.png&quot; id=&quot;pid17&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/d_08.png&quot; id=&quot;pid18&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/d_07.png&quot; id=&quot;pid19&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/d_06.png&quot; id=&quot;pid20&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/d_05.png&quot; id=&quot;pid21&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/d_04.png&quot; id=&quot;pid22&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/d_03.png&quot; id=&quot;pid23&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/d_02.png&quot; id=&quot;pid24&quot; style=&quot;display:none;&quot;&gt;
+    &lt;/div&gt;
+
+    &lt;h3 align=&quot;center&quot;&gt;滚动测试---横向&lt;/h3&gt;
+    &lt;div id=&quot;picBox3&quot;&gt;
+        &lt;img src=&quot;src/images/d_01.png&quot; id=&quot;pig1&quot;&gt;
+        &lt;img src=&quot;src/images/d_02.png&quot; id=&quot;pig2&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/d_03.png&quot; id=&quot;pig3&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/d_04.png&quot; id=&quot;pig4&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/d_05.png&quot; id=&quot;pig5&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/d_06.png&quot; id=&quot;pig6&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/d_07.png&quot; id=&quot;pig7&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/d_08.png&quot; id=&quot;pig8&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/d_09.png&quot; id=&quot;pig9&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/d_10.png&quot; id=&quot;pig10&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/d_11.png&quot; id=&quot;pig11&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/d_12.png&quot; id=&quot;pig12&quot; style=&quot;display:none;&quot;&gt;
+        &lt;img src=&quot;src/images/d_13.png&quot; id=&quot;pig13&quot; style=&quot;display:none;&quot;&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+
+&lt;/html&gt;</code></pre>
+<p>最后提供一下源码包，下载地址：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1GaRywsIopNCKYV0swqwdww">https://pan.baidu.com/s/1GaRywsIopNCKYV0swqwdww</a>，密码：k3fw</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/background-position-jquery-%E9%BC%A0%E6%A0%87%E6%BB%9A%E5%8A%A8-%E5%8A%A8%E7%94%BB%E6%95%88%E6%9E%9C-js/" rel="tag"># background-position,jquery,鼠标滚动,动画效果,js</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/07/21/WordPress%E6%96%87%E7%AB%A0%E6%B7%BB%E5%8A%A0%E9%98%85%E8%AF%BB%E9%87%8F%E7%9A%84%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/" rel="prev" title="WordPress文章添加阅读量的方法总结">
+      <i class="fa fa-chevron-left"></i> WordPress文章添加阅读量的方法总结
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/07/25/%E8%BF%90%E7%94%A8JavaScript%E6%88%96%E8%80%85jquery-%E7%88%B6%E7%BA%A7-%E5%AD%90%E7%BA%A7-%E5%90%8C%E7%BA%A7-%E5%86%B2%E7%AA%81-%E8%A7%A3%E5%86%B3wordpress%E5%8A%A0%E5%AF%86%E9%A1%B5%E9%9D%A2%E7%9A%84%E5%AE%9A%E5%88%B6/" rel="next" title="运用JavaScript或者jquery(父级,子级,同级,冲突)解决wordpress加密页面的定制">
+      运用JavaScript或者jquery(父级,子级,同级,冲突)解决wordpress加密页面的定制 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

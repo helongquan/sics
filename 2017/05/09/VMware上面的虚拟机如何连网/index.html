@@ -1,37 +1,563 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="我们在前面的方法中，通过硬件虚拟化，然后分别用不同的操作系统新建了几个虚拟机，然后虚拟机也运行起来了，可是我们新建的虚拟机有的时候可能要安装一些外部的资源，这个时候通过命令安装的话，那么就没法访问了，这个时候我们想要虚拟机能够上网，这个时候该怎么办呢？  我们把客户端笔记本简称为B，VMware虚拟机平台简称为V，路由器简称为L，这个时候B用wifi连在路由器上（IP：192.168.1.102）">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VMware上面的虚拟机如何连网">
+<meta property="og:url" content="http://example.com/2017/05/09/VMware%E4%B8%8A%E9%9D%A2%E7%9A%84%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%A6%82%E4%BD%95%E8%BF%9E%E7%BD%91/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="我们在前面的方法中，通过硬件虚拟化，然后分别用不同的操作系统新建了几个虚拟机，然后虚拟机也运行起来了，可是我们新建的虚拟机有的时候可能要安装一些外部的资源，这个时候通过命令安装的话，那么就没法访问了，这个时候我们想要虚拟机能够上网，这个时候该怎么办呢？  我们把客户端笔记本简称为B，VMware虚拟机平台简称为V，路由器简称为L，这个时候B用wifi连在路由器上（IP：192.168.1.102）">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://i.imgur.com/KGtZtSh.jpg">
+<meta property="og:image" content="http://i.imgur.com/6vsWo2D.jpg">
+<meta property="og:image" content="http://i.imgur.com/FG8z9er.jpg">
+<meta property="og:image" content="http://i.imgur.com/HL5dK5W.jpg">
+<meta property="og:image" content="http://i.imgur.com/tLNTS5U.jpg">
+<meta property="og:image" content="http://i.imgur.com/T7O4U7O.jpg">
+<meta property="og:image" content="http://i.imgur.com/P2PjBJL.jpg">
+<meta property="og:image" content="http://i.imgur.com/QybYzU4.jpg">
+<meta property="og:image" content="http://i.imgur.com/aRWYoV3.jpg">
+<meta property="og:image" content="http://i.imgur.com/INEss3r.png">
+<meta property="og:image" content="http://i.imgur.com/1D6aKMi.png">
+<meta property="og:image" content="http://i.imgur.com/a1DIjkw.jpg">
+<meta property="og:image" content="http://i.imgur.com/CfZrRjR.jpg">
+<meta property="og:image" content="http://i.imgur.com/9fCnSFe.jpg">
+<meta property="og:image" content="http://i.imgur.com/F1LBZ3B.jpg">
+<meta property="og:image" content="http://i.imgur.com/U5UfiHT.jpg">
+<meta property="og:image" content="http://i.imgur.com/NWEwya8.jpg">
+<meta property="og:image" content="http://i.imgur.com/EHyahM9.jpg">
+<meta property="og:image" content="http://i.imgur.com/o2GYtl3.jpg">
+<meta property="og:image" content="http://i.imgur.com/W8xmG3X.jpg">
+<meta property="article:published_time" content="2017-05-09T09:37:04.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:53:16.878Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="虚拟机连外网的方法">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://i.imgur.com/KGtZtSh.jpg">
+
+<link rel="canonical" href="http://example.com/2017/05/09/VMware%E4%B8%8A%E9%9D%A2%E7%9A%84%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%A6%82%E4%BD%95%E8%BF%9E%E7%BD%91/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>VMware上面的虚拟机如何连网 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/05/09/VMware%E4%B8%8A%E9%9D%A2%E7%9A%84%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%A6%82%E4%BD%95%E8%BF%9E%E7%BD%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          VMware上面的虚拟机如何连网
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-05-09 17:37:04" itemprop="dateCreated datePublished" datetime="2017-05-09T17:37:04+08:00">2017-05-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:16" itemprop="dateModified" datetime="2020-10-11T11:53:16+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>我们在前面的方法中，通过硬件虚拟化，然后分别用不同的操作系统新建了几个虚拟机，然后虚拟机也运行起来了，可是我们新建的虚拟机有的时候可能要安装一些外部的资源，这个时候通过命令安装的话，那么就没法访问了，这个时候我们想要虚拟机能够上网，这个时候该怎么办呢？</p>
+<p><img src="http://i.imgur.com/KGtZtSh.jpg"></p>
+<p>我们把客户端笔记本简称为B，VMware虚拟机平台简称为V，路由器简称为L，这个时候B用wifi连在路由器上（IP：192.168.1.102），网关192.168.1.1，V的IP设置为192.168.1.150，网关192.168.1.1，这样相互ping，是可以相通的，但是虚拟机的ip跟V的ip没啥关系，所以，B跟V的关系和B跟虚拟机的关系没联系，所以只需B跟虚拟机在同一个网络，即可让虚拟机能够访问外网，所以我们需要设置虚拟机（比如Debian，我把虚拟机一命名为Debian）的IP为192.168.1.135（主机号（135）可以随便设置），网关192.168.1.1，最好让V的IP也跟B在同一个网络，以便能够相互ping得通此时V的ip为192.168.1.150，子网掩码：255.255.255.0，默认网关：192.168.1.1</p>
+<p>在虚拟机的控制台根目录下运行命令：</p>
+<p>这里需要说的是，我们用普通账号登录的话，可能运行一些命令会显示不出来，或者是乱码，这个时候需要提升权限：</p>
+<p>运行命令：</p>
+<pre><code>su</code></pre>
+<p>然后，输入命令</p>
+<pre><code>nano /etc/network/interfaces</code></pre>
+<p>编辑结果如下：</p>
+<pre><code># The primary network interface
+#allow-hotplug eth0
+auto eth0
+iface eth0 inet static
+        address 192.168.0.3
+        netmask 255.255.255.0
+        gateway 192.168.0.1
+        # dns-* options are implemented by the resolvconf package, if installed
+#       dns-nameservers 192.168.1.1 192.168.1.2 192.168.1.3
+#       dns-search debian.com</code></pre>
+<p>编辑完了，ctrl+x，保存退出。</p>
+<p>然后重启一下网卡</p>
+<pre><code>/etc/init.d/networking restart</code></pre>
+<p>重启一下虚拟机即可。</p>
+<p>这个时候我们可以测试一下看是否能够访问外网，我们只需ping一下外网，比如<a target="_blank" rel="noopener" href="http://www.baidu.com,这个时候linux跟windows不一样,会一直ping下去,按ctrl+c可以退出./">www.baidu.com，这个时候Linux跟windows不一样，会一直ping下去，按ctrl+c可以退出。</a></p>
+<p>这样就可以让虚拟机可以访问外网了。</p>
+<p>这个方法好是好，可是如果我们把两台机器带出们，需要让虚拟机也能够访问外部资源的话，而且只有B能够连上wifi，那么我们该采用另外一种连法。</p>
+<p><strong>方法二：直接把B跟V用一根网线连起来，B连上wifi</strong></p>
+<p>为了让虚拟机能够访问外部资源，这个时候我们需要让B充当路由器，设置如下：</p>
+<p><img src="http://i.imgur.com/6vsWo2D.jpg"></p>
+<p>整体图如下：</p>
+<p><img src="http://i.imgur.com/FG8z9er.jpg"></p>
+<p>大概就是把B的有线网卡设置为如下：</p>
+<pre><code>IP：192.168.0.1
+网关：不设置
+子网掩码：255.255.255.0</code></pre>
+<p>B无线网卡设置成静态IP，具体设置如下：</p>
+<pre><code>IP：192.168.1.110
+网关：192.168.1.1
+子网掩码：255.255.255.0</code></pre>
+<p>虚拟机的网卡设置如下：</p>
+<pre><code>IP：192.168.0.3
+默认网关：192.168.0.1
+子网掩码：255.255.255.0</code></pre>
+<p>interfaces里的设置</p>
+<pre><code># The primary network interface
+#allow-hotplug eth0
+auto eth0
+iface eth0 inet static
+        address 192.168.0.3
+        netmask 255.255.255.0
+        gateway 192.168.0.1
+        # dns-* options are implemented by the resolvconf package, if installed
+#       dns-nameservers 192.168.1.1 192.168.1.2 192.168.1.3
+#       dns-search debian.com</code></pre>
+<p>V的设置如下：</p>
+<pre><code>IP：192.168.0.5
+默认网关：192.168.0.1
+子网掩码：255.255.255.0</code></pre>
+<p>这个时候需要添加永久路由，这一步我添加了，后面又删除了。直接使用了一个默认的，如下：</p>
+<p><img src="http://i.imgur.com/HL5dK5W.jpg"></p>
+<p>这个时候很重要的一点就是把防火墙关了，windows的防火墙关了，如果安装了杀毒软件，把杀毒软件的防火墙也关了。杀毒软件的参数设置里面如果有些网络的控制，那就是防火墙了。杀毒软件有网络控制的关了就行。然后重启一下B。</p>
+<p>查看是否有永久路由，没有的话可以添加，具体的一些知识可以参考这个地址：</p>
+<p><a target="_blank" rel="noopener" href="http://jingyan.baidu.com/article/455a9950e9f2e3a167277872.html">http://jingyan.baidu.com/article/455a9950e9f2e3a167277872.html</a></p>
+<p><a target="_blank" rel="noopener" href="http://jingyan.baidu.com/article/77b8dc7fc611626174eab6cb.html">http://jingyan.baidu.com/article/77b8dc7fc611626174eab6cb.html</a></p>
+<p>以管理员身份运行cmd命令</p>
+<p>先检查一下路由，运行命令：</p>
+<pre><code>route print</code></pre>
+<p>然后添加永久路由，命令如下：</p>
+<pre><code>route add 192.168.0.0 mask 255.255.255.0 192.168.0.1 metric 1 -p
+
+route add 192.168.1.0 mask 255.255.255.0 192.168.1.1 metric 10 -p IF 14
+
+route add 192.168.0.0 mask 255.255.255.0 192.168.0.1 metric 10 -p IF 13</code></pre>
+<p>添加完后，运行命令：</p>
+<pre><code>route print</code></pre>
+<p><img src="http://i.imgur.com/tLNTS5U.jpg"></p>
+<p>说明添加永久路由成功。</p>
+<p>说明：route add 192.168.0.0 mask 255.255.255.0 192.168.0.1 metric 0 -p</p>
+<p>这句话的意思就是：</p>
+<blockquote>
+<p>到网络192.168.0.0/24这个网络的数据包，交给192.168.0.1这个网卡去处理，并且是永久路由，如果没有-p的话，那么添加的就是临时路由，重启电脑后就会消失。</p>
+</blockquote>
+<p>说明：route add 192.168.1.0 mask 255.255.255.0 192.168.1.1 metric 100 -p IF 14</p>
+<p>这句话中的14是网卡编号</p>
+<p>好的，然后用B来ping一下虚拟机，看是否通。</p>
+<p>后来发现有这么一个问题：</p>
+<p>我发现B的无线网卡启用静态IP的话，B不能上网，但是B的有线网卡可以连得上虚拟机。</p>
+<p>如果B的无线网卡启用了动态IP的话，B能够上网，却不能连上虚拟机了。</p>
+<p>后来的解决方案是这样的：</p>
+<p>B的无线网卡设置DNS为网关就行（192.168.1.1）</p>
+<p>后来用虚拟机ping B的无线网卡的网关（192.168.1.1）的时候，或者是ping <a target="_blank" rel="noopener" href="http://www.baidu.com的时候是不通的,而虚拟机ping/">www.baidu.com的时候是不通的，而虚拟机ping</a> B的有线网卡能够通，ping V也通，那是什么原因呢？现状变得很棘手，后来我们安装了X-Router，设置是这样的：</p>
+<p><img src="http://i.imgur.com/T7O4U7O.jpg"></p>
+<p><img src="http://i.imgur.com/P2PjBJL.jpg"></p>
+<p><img src="http://i.imgur.com/QybYzU4.jpg"></p>
+<p><img src="http://i.imgur.com/aRWYoV3.jpg"></p>
+<p>这个X-Router就是最基本的功能就是沟通B中所有网卡，当然还有丰富的网络管理功能。</p>
+<p>如果没有X-ROUTER，B有线接收到数据表后，发现不是自己的，就丢弃了，X-ROUTER就是在B有线接收到数据包后查看一下给谁的，重新分发下去。</p>
+<hr>
+<p>根据示意图：</p>
+<p>B的有线网卡拿到数据包后看到目标网络是192.168.1.0，则把数据包交给路由表中指定的网关 192.168.1.1</p>
+<p>192.168.1.1拿到数据包一看，哦，是给我的，打开一看，是192.168.0.3叫我，我要给它回话。</p>
+<p>192.168.1.1是你的路由器，他只认识192.168.1.*的人，不认识192.168.0.*的人，所以路由器把数据包交给它的默认网关，他的默认网关是电信给的公网IP，公网IP拿到这个数据包发现目标地址是192.168.0.3，不认识，继续交给它的网关，它的网关也不认识，继续交给它的网关…..</p>
+<p>之后这个数据包就在茫茫INTERNET中转手了255次后，被丢弃了。</p>
+<p>所以0.3收不到回信的原因在路由器那里，只要在路由器那里再加一条路由，把目标网络192.168.0.0/24的数据包交给192.168.1.102来处理即可，192.168.1.102拿到回信后，发现目标网络是192.168.0.0/24，根据B的路由表，直接把回信给192.168.0.1来处理，刚好192.168.0.1是认识192.168.0.3的，所以回信由192.168.0.1交给了0.3。</p>
+<p>the end！</p>
+<p>最后需要说明的是，在测试这两种连接方式的时候，由于网络会稍微延迟，可能不会马上能够ping得通，隔一会儿再试试，思路理清楚很重要。</p>
+<p><strong>相关经典问答</strong></p>
+<p>1、接口和网关是什么关系啊？以第1行为例：网上说“我们将该数据包通过125.220.241.96这个接口发送到125.220.240.1这个地址，这个地址是下一个路由器的接口”，这句话怎么解释？</p>
+<p>2、网关“在链路上”什么意思？</p>
+<p><img src="http://i.imgur.com/INEss3r.png"></p>
+<p>1、通俗点说就是：接口指硬件网卡上的网线口，网关是指数据从你接口出去先走哪里，比如就是你要出门，先要走你家大门一样，有些家庭不止一个大门的，所以要指定</p>
+<p>2、“在链路上”即指你电脑访问网络的链路中存在多个网关，VISTA以上的系统支持配置多个网关的多重网络</p>
+<p>问：是不是接口的ip是自己的ip，网关是下一个路由器的ip？</p>
+<p>答：是你拥有的IP，因为允许一个网卡设置多个IP，所以接口的IP是数据包出去时的IP，网关是数据包从接口出去后，第一个访问的地址，不一定是路由器的…有可能是电信的服务器、有可能是公司的代理服务器，主要是看这个网关地址是哪里才能初步判断是什么东西。</p>
+<p>问：您说一个网卡可以设置多个ip，是每个接口对应一个ip地址吗，是不是说一个网卡可以有多个接口啊？</p>
+<p>答：一个接口可以设置N个IP，市面上有不止一个接口的网卡，2口、4口都有，如图：</p>
+<p><img src="http://i.imgur.com/1D6aKMi.png"></p>
+<p><strong>三、双网卡路由配置实例</strong></p>
+<p>某公司有两个网络：一个是办公网络192.168.99.0/24，网关为：192.168.99.1；一个是用来访问internet的商务网络192.168.201.0/24，网关为：192.168.201.1。现在有一台电脑使用两块网卡，一块连接公司办公网络，IP地址为192.168.99.8；另一块连接商务网络，IP地址为192.168.201.254。现在需要这台电脑既能访问办公网络，也能访问商务网络。</p>
+<p>1 . 我们可以使用ipconfig /all命令来查看该电脑的网卡设置情况，如下图：</p>
+<p><img src="http://i.imgur.com/a1DIjkw.jpg"></p>
+<p>2 . 我们再用route print命令来查看该电脑的路由表信息，该路由表跟上面介绍的路由表是一样的，只是增加了几条网卡2的路由信息，如下图所示：</p>
+<p><img src="http://i.imgur.com/CfZrRjR.jpg"></p>
+<p>3 . 我们可以使用ping命令来测试网络连接情况，如下图：ping内网是通的，但是ping外网不通。也就是说现在该电脑只能访问办公网络，但是无法访问商务网络。</p>
+<p><img src="http://i.imgur.com/9fCnSFe.jpg"></p>
+<p>4 . 由上面的路由表可以看到，系统有两条缺省路由，这也是造成不能同时访问两个网络的主要原因，要解决这个问题，我们就需要修改路由表。<br>首先使用route delete 0.0.0.0这条命令删除缺省路由；<br>然后手动设置两条路由，如下图所示：</p>
+<p><img src="http://i.imgur.com/F1LBZ3B.jpg"></p>
+<p>5 . 我们再用route print来查看路由表信息，现在我们可以看到Persistent Routes下面多了两条静态固化路由，如下图所示：</p>
+<p><img src="http://i.imgur.com/U5UfiHT.jpg"></p>
+<p>6 . 我们再使用ping来测试一下网络连接情况，如下图，办公网络和商务网络都可以ping通了。该电脑现在可以正常访问办公网络和商务网络了。</p>
+<p><img src="http://i.imgur.com/NWEwya8.jpg"></p>
+<p>这里我们来补充一下DNS的知识，DNS是域名解析系统，用来进行域名解析的。</p>
+<p>当我们在一个局域中的时候，为了能够知道我们能否访问另外一台主机，我们通过ping的方式来进行测试，这个时候我们会用到IP，如果我们知道了IP我们就直接输入IP，很多时候，我们不容易记住IP，所以我们会记住域名就行了，这个时候如果把IP与域名进行关联起来的呢？这个时候就用到DNS了，先上几张图：</p>
+<p><img src="http://i.imgur.com/EHyahM9.jpg"></p>
+<p><a href="http://www.szu.edu.cn这个域名中，主机名是：www，域是：szu.edu.cn；也有可能碰到ftp.szu.edu.cn这样的地址，这个时候主机名是：ftp，域是：szu.edu.cn，不知道我们是否记得，我们在阿里云上购买了一个服务，然后把域名解析到对应的虚拟机上的时候，我们有个泛解析的问题，就是把www.xxx.com和xxx.com这样的访问效果一致，就是说可以不用输入www也可以访问到这个网站，这个就是*.xxx.com，就是说把所有是域为xxx.com这样的地址都解析到xxx.com来，主机名没限制。">www.szu.edu.cn这个域名中，主机名是：www，域是：szu.edu.cn；也有可能碰到ftp.szu.edu.cn这样的地址，这个时候主机名是：ftp，域是：szu.edu.cn，不知道我们是否记得，我们在阿里云上购买了一个服务，然后把域名解析到对应的虚拟机上的时候，我们有个泛解析的问题，就是把www.xxx.com和xxx.com这样的访问效果一致，就是说可以不用输入www也可以访问到这个网站，这个就是*.xxx.com，就是说把所有是域为xxx.com这样的地址都解析到xxx.com来，主机名没限制。</a></p>
+<p>打个比方，域名为<a href="http://www.szu.edu.cn对应的ip为210.33.22.44(对外，这个IP是电信提供的)，然后我们在这个域下面会有很多个主机名，比如zhangsan.szu.edu.cn这个对应zhangsan这个用户所对应的局域网的IP地址比如：192.168.1.110，就是说，在这个局域网中，李四（lishi）的ip是192.168.1.112，他所对应的域名是lishi.szu.edu.cn，那么李四如果想要访问张三的主机有两种方式，直接输入张三的ip(192.168.1.110)，另外一种方式是直接通过输入张三的域名（zhangsan.szu.edu.cn）访问，如果李四的主机没有设置DNS的话，那么是不能访问张三的主机的。">www.szu.edu.cn对应的ip为210.33.22.44(对外，这个IP是电信提供的)，然后我们在这个域下面会有很多个主机名，比如zhangsan.szu.edu.cn这个对应zhangsan这个用户所对应的局域网的IP地址比如：192.168.1.110，就是说，在这个局域网中，李四（lishi）的ip是192.168.1.112，他所对应的域名是lishi.szu.edu.cn，那么李四如果想要访问张三的主机有两种方式，直接输入张三的ip(192.168.1.110)，另外一种方式是直接通过输入张三的域名（zhangsan.szu.edu.cn）访问，如果李四的主机没有设置DNS的话，那么是不能访问张三的主机的。</a></p>
+<p>李四如何在自己主机上设置DNS呢？看截图：</p>
+<p><img src="http://i.imgur.com/o2GYtl3.jpg"></p>
+<p>这个DNS的地址设置为哪个才好呢？</p>
+<p>我们知道，如果DNS没法解析是没用的，即使李四输入对了域名也不行，原因是DNS里面没有张三的信息，这个时候我们需要知道的是，李四和张三都是在同一个域里面，就是都属于szu.edu.cn这个域下面，都由这个管理，那么szu.edu.cn这个服务器里有这么一个DNS，这个里面就存了张三的域名和IP的关联消息，所以我们要把这个DNS地址设置为szu.edu.cn这台服务器的ip。</p>
+<p>如果我们不知道的话，通过nslookup szu.edu.cn可以查看得到，或者是直接通过IP访问就不需要设置DNS了。</p>
+<p>好了，刚才说的是局域网内这这么一个情况，那么比如李四想要访问百度怎么办？首先李四的主机已经设置好了DNS，而且DNS是szu.edu.cn这个的DNS，李四的主机是lishi.szu.edu.cn这个地址，百度是<a target="_blank" rel="noopener" href="http://www.baidu.com,他们不再同一个网络,起码他们的域是不一样的,所以那么我们输入www.baidu.com的时候到底发生了什么情况./">www.baidu.com，他们不再同一个网络，起码他们的域是不一样的，所以那么我们输入www.baidu.com的时候到底发生了什么情况。</a></p>
+<p>首先李四的主机会访问所在的域（.szu.edu.cn）里面的DNS，发现里面没有一个叫做<a target="_blank" rel="noopener" href="http://www.baidu.com的东西,然后就访问上一层域/">www.baidu.com的东西，然后就访问上一层域</a> <em>.edu.cn，发现还是没有一个叫做<a target="_blank" rel="noopener" href="http://www.baidu.com的地址,很显然,一个是.cn,另外一个是.com,所以肯定不认识,好了,然后继续往上一层域索引/">www.baidu.com的地址，很显然，一个是.cn，另外一个是.com，所以肯定不认识，好了，然后继续往上一层域索引</a> .cn，这个时候还是没发现，于是继续走，来到了根目录</em>.，这个时候所有顶级域名都只有一个根目录，所以这个时候找到了<a target="_blank" rel="noopener" href="http://www.baidu.com,然后就把www.baidu.com对应的ip解析,然后把请求的服务返回给了李四./">www.baidu.com，然后就把www.baidu.com对应的IP解析，然后把请求的服务返回给了李四。</a></p>
+<p><img src="http://i.imgur.com/W8xmG3X.jpg"></p>
+<p>从本质上来看，我们访问<a target="_blank" rel="noopener" href="http://www.baidu.com,实际上还是访问的是163.177.151.109这个地址,只不过我们的dns把www.baidu.com跟163.177.151.109这个域名相关联起来了./">www.baidu.com，实际上还是访问的是163.177.151.109这个地址，只不过我们的DNS把www.baidu.com跟163.177.151.109这个域名相关联起来了。</a></p>
+<p>眼尖的读者可能会发现，这里有一个非权威应答，这个的意思就是这个不是来自官方的响应，而是其他服务器保存了一些知名网站的副本缓存在了主机地址所在域的DNS，也可能是李四主机能够访问得到的DNS的缓存，一般这个缓存会保留5分钟更新一次，所以这个返回的消息只是一个缓存的内容而不是实时的目标地址返回的地址，缓存的大多是全球知名的服务商，旨在减少索引的层次，如果每次请求都要索引顶级的DNS，那么将会是效率很低的。</p>
+<p>所以我们在能够上QQ而浏览器不能上网的话，很可能就是DNS出问题了找到一个能够访问的DNS设置在自己的主机即可。或者是我们直接输入访问的IP也可以上网。</p>
+<p>DNS一般是在交换机上面已经有了的，或者我们家中的路由器。其实我们家庭用的那种路由器也是一台电脑，只不过它是一台微型电脑而已，有多个网卡（Lan接口），一个DNS服务器，DHCP服务器，就这些，可能有的路由器厂商服务不一样配置有所差异而已。</p>
+<pre><code>根据这个道理，我们完全可以把自己的家庭用的笔记本当做一个路由器来用，在笔记本上安装一个X-Router设置一下出口地址和入口地址，把笔记本安装多个网卡，一般我们的笔记本就两张网卡，我们也可以通过USB接口外设多张网卡，这样我们就可以把笔记本当做一个路由器来用了。</code></pre>
+<p>好，让我们回到虚拟机和笔记本用网线连起来，而虚拟机没法访问外网的问题，在这里面，如果虚拟机debian想要能够ping得通<a href="http://www.baidu.com的话，我们可以根据前面的路线图看到，它需要经过B的有线网卡，B的无线网卡，通过路由器，然后才能去外网，而B是通过X-Router这个连起来的，就等于是把B打通了，那么虚拟机debian必须配置DNS，不然是没法ping通的，要么是直接ping百度对应的IP。总之一句话：想要通过域名来访问目标，本机必须要设置能够访问得到目标地址的DNS，如果没有设置DNS的话，本机只能通过IP去访问目标。">www.baidu.com的话，我们可以根据前面的路线图看到，它需要经过B的有线网卡，B的无线网卡，通过路由器，然后才能去外网，而B是通过X-Router这个连起来的，就等于是把B打通了，那么虚拟机debian必须配置DNS，不然是没法ping通的，要么是直接ping百度对应的IP。总之一句话：想要通过域名来访问目标，本机必须要设置能够访问得到目标地址的DNS，如果没有设置DNS的话，本机只能通过IP去访问目标。</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%99%9A%E6%8B%9F%E6%9C%BA%E8%BF%9E%E5%A4%96%E7%BD%91%E7%9A%84%E6%96%B9%E6%B3%95/" rel="tag"># 虚拟机连外网的方法</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/05/08/%E5%AE%A2%E6%88%B7%E6%9C%BA%E8%B7%9F%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E8%BF%9E%E6%8E%A5%E6%96%B9%E5%BC%8F/" rel="prev" title="客户机跟虚拟机的连接方式">
+      <i class="fa fa-chevron-left"></i> 客户机跟虚拟机的连接方式
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/05/10/%E8%B7%AF%E7%94%B1%E8%A1%A8%E8%AF%A6%E8%A7%A3/" rel="next" title="路由表详解">
+      路由表详解 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,37 +1,859 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="首先得去阿里云注册一个账号，你的芝麻信用分得达标，然后购买一个9.9元的oss的东西服务，然后就可以满足要求了，这些细节在这里就省略了。 为了让我们彻底的放心折腾这个服务器，我还是先说下如何初始化服务器，免得弄得乱七八糟的时候可以恢复到最原始状态， 首先我们进入到阿里云后台，看截图：  找到实例，停止实例，点击“停止服务”—找到“磁盘”—初始化所有磁盘，包括系统盘。 必须先停止服务后才能点击截图中">
+<meta property="og:type" content="article">
+<meta property="og:title" content="阿里云服务器centos7逐个安装环境的详细步骤">
+<meta property="og:url" content="http://example.com/2016/12/17/%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8centos7%E9%80%90%E4%B8%AA%E5%AE%89%E8%A3%85%E7%8E%AF%E5%A2%83%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="首先得去阿里云注册一个账号，你的芝麻信用分得达标，然后购买一个9.9元的oss的东西服务，然后就可以满足要求了，这些细节在这里就省略了。 为了让我们彻底的放心折腾这个服务器，我还是先说下如何初始化服务器，免得弄得乱七八糟的时候可以恢复到最原始状态， 首先我们进入到阿里云后台，看截图：  找到实例，停止实例，点击“停止服务”—找到“磁盘”—初始化所有磁盘，包括系统盘。 必须先停止服务后才能点击截图中">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://i.imgur.com/PRa4qe3.jpg">
+<meta property="og:image" content="http://i.imgur.com/g9eJcVA.jpg">
+<meta property="og:image" content="http://i.imgur.com/Nd7TOtE.png">
+<meta property="og:image" content="http://i.imgur.com/QHdHF8P.png">
+<meta property="og:image" content="http://i.imgur.com/PzrwRYI.png">
+<meta property="og:image" content="http://i.imgur.com/Jcbgx61.png">
+<meta property="og:image" content="http://i.imgur.com/LuqvSQZ.png">
+<meta property="og:image" content="http://i.imgur.com/W1Cp4Wm.png">
+<meta property="og:image" content="http://i.imgur.com/NDNw8EJ.png">
+<meta property="og:image" content="http://i.imgur.com/G1kytth.png">
+<meta property="og:image" content="http://i.imgur.com/W1Cp4Wm.png">
+<meta property="og:image" content="http://i.imgur.com/hNGIpmG.png">
+<meta property="og:image" content="http://i.imgur.com/fJsWVvD.png">
+<meta property="og:image" content="http://i.imgur.com/X6715Wk.png">
+<meta property="og:image" content="http://i.imgur.com/bgTfXPG.jpg">
+<meta property="article:published_time" content="2016-12-17T00:53:32.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:53:06.685Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="阿里云服务器,centos7,web环境配置">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://i.imgur.com/PRa4qe3.jpg">
+
+<link rel="canonical" href="http://example.com/2016/12/17/%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8centos7%E9%80%90%E4%B8%AA%E5%AE%89%E8%A3%85%E7%8E%AF%E5%A2%83%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>阿里云服务器centos7逐个安装环境的详细步骤 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/12/17/%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8centos7%E9%80%90%E4%B8%AA%E5%AE%89%E8%A3%85%E7%8E%AF%E5%A2%83%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          阿里云服务器centos7逐个安装环境的详细步骤
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-12-17 08:53:32" itemprop="dateCreated datePublished" datetime="2016-12-17T08:53:32+08:00">2016-12-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:06" itemprop="dateModified" datetime="2020-10-11T11:53:06+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>首先得去阿里云注册一个账号，你的芝麻信用分得达标，然后购买一个9.9元的oss的东西服务，然后就可以满足要求了，这些细节在这里就省略了。</p>
+<p>为了让我们彻底的放心折腾这个服务器，我还是先说下如何初始化服务器，免得弄得乱七八糟的时候可以恢复到最原始状态，</p>
+<p>首先我们进入到阿里云后台，看截图：</p>
+<p><img src="http://i.imgur.com/PRa4qe3.jpg"></p>
+<p>找到实例，停止实例，点击“停止服务”—找到“磁盘”—初始化所有磁盘，包括系统盘。</p>
+<p>必须先停止服务后才能点击截图中的红框内容</p>
+<p><img src="http://i.imgur.com/g9eJcVA.jpg"></p>
+<p>初始化完毕之后，重启就行了。</p>
+<p>这样就是完成服务器的初始化。</p>
+<p>这里作为一个小插曲。</p>
+<p>然后就是选择一些操作系统，由于开始不是很清楚linux的各个版本，所以就选择了centos，其实选择debian会更容易操作，好吧，我们继续。</p>
+<p>先下载好Xshell和Xftp这两个软件，简单的安装后，我们新建一个连接，输入账号和密码即可。</p>
+<p>先以root身份登录服务器XShell</p>
+<p>开始安装mysql数据库,运行命令</p>
+<pre><code>yum install mysql</code></pre>
+<p>提示错误，主要是说需要依赖mariadb，所以就又来了一遍，运行以下命令：</p>
+<pre><code>yum install mariadb *</code></pre>
+<p>安装后还是不成功，说是缺少repo源，经过搜索发现，CentOS7的yum源中默认好像是没有mysql的。为了解决这个问题，我们要先下载mysql的repo源。</p>
+<p>因此，貌似这个方法不管用，所以我们接下来真正的进入到安装的正式步骤。</p>
+<hr>
+<p>我们进入到数据库安装阶段</p>
+<p><strong>## centos7下使用yum安装mysql ##</strong></p>
+<p><strong>1. 下载mysql的repo源</strong></p>
+<pre><code>$ wget http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm</code></pre>
+<p><strong>2. 安装mysql-community-release-el7-5.noarch.rpm包</strong></p>
+<pre><code>$ sudo rpm -ivh mysql-community-release-el7-5.noarch.rpm</code></pre>
+<p>安装这个包后，会获得两个mysql的yum repo源：/etc/yum.repos.d/mysql-community.repo，/etc/yum.repos.d/mysql-community-source.repo。</p>
+<p><strong>3. 安装mysql</strong></p>
+<pre><code>$ sudo yum install mysql-server</code></pre>
+<p>根据步骤安装就可以了，不过安装完成后，没有密码，需要重置密码。</p>
+<p><strong>4. 重置密码</strong></p>
+<p>重置密码前，首先要登录</p>
+<pre><code>$ mysql -uroot -p</code></pre>
+<p>登录时有可能报这样的错：ERROR 2002 (HY000): Can‘t connect to local MySQL server through socket ‘/var/lib/mysql/mysql.sock‘ (2)，原因是/var/lib/mysql的访问权限问题。下面的命令把/var/lib/mysql的拥有者改为当前用户：</p>
+<pre><code>$ sudo chown -R openscanner:openscanner /var/lib/mysql</code></pre>
+<p>这句话中的openscanner可以是mysql,这里我没用过这句命令，这里我可以粘贴一下别人是怎么用的这句命令：</p>
+<p>然后，重启服务：</p>
+<pre><code>$ service mysqld restart</code></pre>
+<p>接下来登录重置密码：</p>
+<pre><code>$ mysql -u root
+mysql &gt; use mysql;
+mysql &gt; update user set password=password(‘123456‘) where user=‘root‘;
+mysql &gt; exit;</code></pre>
+<p><strong>5. 开放3306端口</strong></p>
+<pre><code>$ sudo vim /etc/sysconfig/iptables</code></pre>
+<p>添加以下内容：</p>
+<pre><code>-A INPUT -p tcp -m state --state NEW -m tcp --dport 3306 -j ACCEPT</code></pre>
+<p>保存后重启防火墙：</p>
+<pre><code>$ sudo service iptables restart</code></pre>
+<p>这样从其它客户机也可以连接上mysql服务了。</p>
+<p>安装完数据库就要测试一下</p>
+<p>我们可以通过以下命令管理mysql:</p>
+<pre><code>service mysqld start          //数据库开启
+service mysqld stop          //数据库停止
+service mysqld restart      //数据库重启</code></pre>
+<p>最开始mysql的密码是为空的，所以先设置密码：</p>
+<p>第一步：用帐号登录mysql，运行命令：</p>
+<pre><code>mysql -u root</code></pre>
+<p>第二步：改变用户数据库，进入数据库，运行命令：</p>
+<pre><code>mysql&gt; use mysql</code></pre>
+<p>第三步：修改密码，记得密码要用password()函数进行加密，一定不要忘记！</p>
+<pre><code>mysql&gt; update user set password=password(&#39;qwe123&#39;)</code></pre>
+<p>第四步：刷新权限表</p>
+<pre><code>mysql&gt; flush previleges;</code></pre>
+<p>第五步：退出mysql</p>
+<pre><code>mysql&gt; exit</code></pre>
+<p>第六步：对mysql进行重启</p>
+<pre><code>service mysqld restart;</code></pre>
+<p>连接数据库，看看是否修改好，运行命令：</p>
+<pre><code>mysql -uroot -p</code></pre>
+<p>这里我也遇到了不少问题，就是没法启动mysql的问题，解决方法如下：</p>
+<p>首先讲下MariaDB，MariaDB数据库管理系统是MySQL的一个分支，主要由开源社区在维护，采用GPL授权许可。开发这个分支的原因之一是：甲骨文公司收购了MySQL后，有将MySQL闭源的潜在风险，因此社区采用分支的方式来避开这个风险。[3]</p>
+<p>MariaDB的目的是完全兼容MySQL，包括API和命令行，使之能轻松成为MySQL的代替品。在存储引擎方面，10.0.9版起使用XtraDB（名称代号为Aria）来代替MySQL的InnoDB</p>
+<pre><code># yum install mysql -y
+# mysql
+ERROR 2002 (HY000): Can&#39;t connect to local MySQL server through socket &#39;/var/lib/mysql/mysql.sock&#39; (22)</code></pre>
+<p>试着去启动mysql服务，还是不行，代码如下：</p>
+<pre><code># systemctl start mysql
+Failed to issue method call: Unit mysql.service failed to load: No such file or directory.
+
+# systemctl start  mysql.service
+Failed to issue method call: Unit mysql.service failed to load: No such file or directory
+
+# systemctl enable mysql.service
+Failed to issue method call: Access denied</code></pre>
+<p>正确方法如下：</p>
+<pre><code># yum install mariadb-server -y
+# systemctl start mariadb.service
+# systemctl enable mariadb.service
+# mysql
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MariaDB connection id is 10
+Server version: 5.5.44-MariaDB MariaDB Server
+
+Copyright (c) 2000, 2015, Oracle, MariaDB Corporation Ab and others.
+
+Type &#39;help;&#39; or &#39;\h&#39; for help. Type &#39;\c&#39; to clear the current input statement.
+
+MariaDB [(none)]&gt; </code></pre>
+<blockquote>
+<p>高人指点</p>
+<p>阿里云给你一个服务，就像给你一台电脑，里面有两个磁盘分区，一个装系统，另外一个需要挂载到系统里存数据用。</p>
+<p>你装完系统的时候，数据盘是没挂载进来的</p>
+<p>如果你一直不挂载数据盘的话，那你所有的改动都只影响系统盘</p>
+</blockquote>
+<hr>
+<p><strong>## centos7下使用yum安装nginx ##</strong></p>
+<p><strong>CentOS7安装Nginx三部曲</strong></p>
+<p>Nginx就不多介绍了，下面是三部曲具体的操作。</p>
+<p><strong>1.安装EPTL源</strong></p>
+<pre><code>sudo yum install epel-release</code></pre>
+<p><strong>2.安装NGINX</strong></p>
+<pre><code>sudo yum install nginx</code></pre>
+<p><strong>3.配置NGINX</strong></p>
+<p>系统自动启动：</p>
+<pre><code>sudo systemctl enable nginx.service</code></pre>
+<p>立刻启动服务</p>
+<pre><code>sudo systemctl start nginx.service </code></pre>
+<p>防火墙配置</p>
+<pre><code>sudo firewall-cmd --permanent --zone=public --add-service=http 
+sudo firewall-cmd --permanent --zone=public --add-service=https
+sudo firewall-cmd --reload</code></pre>
+<p>Firewall启动和关闭</p>
+<pre><code>systemctl start firewalld
+systemctl stop firewalld</code></pre>
+<p>好了，大功完成</p>
+<p>我们也可以在安装完nginx后，我们可以直接输入命令：nginx<br>没动静就是好消息。</p>
+<p>这里我们可以通过以下命令管理nginx:</p>
+<pre><code>service nginx start
+service nginx stop
+service nginx restart
+service nginx reload
+
+/etc/init.d/nginx start
+/etc/init.d/nginx stop
+/etc/init.d/nginx restart
+/etc/init.d/nginx reload</code></pre>
+<p>这里也会遇到一些问题，有点时候输入命令</p>
+<pre><code>netstat -a -n</code></pre>
+<p>发现nginx的监听端口9000没有被监听,我们可以通过命令：</p>
+<pre><code>systemctl start php-fpm.service</code></pre>
+<p>来启动这个nginx，有的时候可能不成功，多试几次就好了。</p>
+<hr>
+<p><strong>## centos7下使用yum安装php和php-fpm ##</strong></p>
+<p><strong>安装php5和php5-fpm</strong></p>
+<p>先查看php版本，顺便也好知道系统中是否已经安装了php,运行命令：</p>
+<pre><code>rpm -qa | grep php</code></pre>
+<p>2.安装SCL</p>
+<pre><code>yum install centos-release-scl</code></pre>
+<p>3.安装php5</p>
+<pre><code>yum install php55 php55-php php55-php-gd php55-php-mbstring</code></pre>
+<p>安装完毕之后，测试一下php,运行命令：</p>
+<pre><code>rpm -qa | grep php</code></pre>
+<p><img src="http://i.imgur.com/Nd7TOtE.png"></p>
+<p>这样就算是成功安装php了。</p>
+<p>我们继续安装php-fpm，运行命令：</p>
+<pre><code>yum install php php-fpm</code></pre>
+<p>安装完毕之后，我们需要接着往下走</p>
+<p>运行命令：</p>
+<pre><code>netstat -a -n</code></pre>
+<p>查看端口号是否都被监听。</p>
+<p><img src="http://i.imgur.com/QHdHF8P.png"></p>
+<p>我们知道mysql —&gt;3306，nginx —&gt;80，php-fpm —&gt;9000，所以fpm没有被监听，所以我们需要在启动它。于是我们找php-fpm的配置文件php-fpm.conf(我打开的php-fpm的配置文件是在etc下面,因为我没有发现php/fpm这个路径,不同操作系统可能在不同的路径下，这个关系不大)</p>
+<p>添加语句：</p>
+<pre><code>listen = 127.0.0.1:9000</code></pre>
+<p><img src="http://i.imgur.com/PzrwRYI.png"></p>
+<p>不知道怎么搞得，我加了之后运行命令</p>
+<pre><code>netstat -a -n</code></pre>
+<p>还是没有出现9000,最后我重启了一下nginx，重新启动了一下服务器，又好了。</p>
+<p>这个时候我们需要重启一下php-fpm，可以使用以下命令管理php-fpm：</p>
+<pre><code>service php-fpm start          //开启php-fpm服务
+service php-fpm stop          //停止php-fpm服务
+service php-fpm restart      //重启php-fpm服务
+service php-fpm reload      //重载php-fpm服务
+
+/etc/init.d/php-fpm start
+/etc/init.d/php-fpm stop
+/etc/init.d/php-fpm restart
+/etc/init.d/php-fpm reload</code></pre>
+<p>如果不出现这个情况就不管了，出现了就添加一下listen = 127.0.0.1:9000，稍后就会出现：</p>
+<p><img src="http://i.imgur.com/Jcbgx61.png"></p>
+<p>接下来设置一下nginx，路径在/etc/nginx/的nginx.conf，下载后编辑</p>
+<p><img src="http://i.imgur.com/LuqvSQZ.png"></p>
+<p>添加内容从# pass the PHP 开始</p>
+<p>最后是：</p>
+<pre><code># For more information on configuration, see:
+#   * Official English Documentation: http://nginx.org/en/docs/
+#   * Official Russian Documentation: http://nginx.org/ru/docs/
+
+user nginx;
+worker_processes auto;
+error_log /var/log/nginx/error.log;
+pid /run/nginx.pid;
+
+# Load dynamic modules. See /usr/share/nginx/README.dynamic.
+include /usr/share/nginx/modules/*.conf;
+
+events &#123;
+    worker_connections 1024;
+&#125;
+
+http &#123;
+    log_format  main  &#39;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#39;
+                      &#39;$status $body_bytes_sent &quot;$http_referer&quot; &#39;
+                      &#39;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#39;;
+
+    access_log  /var/log/nginx/access.log  main;
+
+    sendfile            on;
+    tcp_nopush          on;
+    tcp_nodelay         on;
+    keepalive_timeout   65;
+    types_hash_max_size 2048;
+
+    include             /etc/nginx/mime.types;
+    default_type        application/octet-stream;
+
+    # Load modular configuration files from the /etc/nginx/conf.d directory.
+    # See http://nginx.org/en/docs/ngx_core_module.html#include
+    # for more information.
+    include /etc/nginx/conf.d/*.conf;
+
+    server &#123;
+        listen       80 default_server;
+        listen       [::]:80 default_server;
+        server_name  _;
+        root         /usr/share/nginx/html;
+
+        # Load configuration files for the default server block.
+        include /etc/nginx/default.d/*.conf;
+
+        location / &#123;
+        &#125;
+
+        # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+        #
+        location ~ \.php$ &#123;
+        # include snippets/fastcgi-php.conf;
+        #
+        # # With php5-cgi alone;
+          fastcgi_pass 127.0.0.1:9000;
+        # fastcgi_index index.php
+        # # With php5-fpm:
+          fastcgi_param SCRIPT_FILENAME /usr/share/nginx/html/$fastcgi_script_name;
+          include fastcgi_params;
+        &#125;
+
+        #deny access to .htaccess files, if Apache&#39;s document root
+        #concurs with nginx&#39;s one
+        #
+        #location ~ /\.ht &#123;
+        #deny all;
+        #&#125;
+
+        error_page 404 /404.html;
+            location = /40x.html &#123;
+        &#125;
+
+        error_page 500 502 503 504 /50x.html;
+            location = /50x.html &#123;
+        &#125;
+    &#125;
+
+# Settings for a TLS enabled server.
+#
+#    server &#123;
+#        listen       443 ssl http2 default_server;
+#        listen       [::]:443 ssl http2 default_server;
+#        server_name  _;
+#        root         /usr/share/nginx/html;
+#
+#        ssl_certificate &quot;/etc/pki/nginx/server.crt&quot;;
+#        ssl_certificate_key &quot;/etc/pki/nginx/private/server.key&quot;;
+#        ssl_session_cache shared:SSL:1m;
+#        ssl_session_timeout  10m;
+#        ssl_ciphers HIGH:!aNULL:!MD5;
+#        ssl_prefer_server_ciphers on;
+#
+#        # Load configuration files for the default server block.
+#        include /etc/nginx/default.d/*.conf;
+#
+#        location / &#123;
+#        &#125;
+#
+#        error_page 404 /404.html;
+#            location = /40x.html &#123;
+#        &#125;
+#
+#        error_page 500 502 503 504 /50x.html;
+#            location = /50x.html &#123;
+#        &#125;
+#    &#125;
+
+&#125;</code></pre>
+<p>这就是nginx.conf里的全部内容，其中：</p>
+<pre><code># pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+        #
+        location ~ \.php$ &#123;
+        # include snippets/fastcgi-php.conf;
+        #
+        # # With php5-cgi alone;
+          fastcgi_pass 127.0.0.1:9000;
+        # fastcgi_index index.php
+        # # With php5-fpm:
+          fastcgi_param SCRIPT_FILENAME /usr/share/nginx/html/$fastcgi_script_name;
+          include fastcgi_params;
+        &#125;
+
+        #deny access to .htaccess files, if Apache&#39;s document root
+        #concurs with nginx&#39;s one
+        #
+        #location ~ /\.ht &#123;
+        #deny all;
+        #&#125;</code></pre>
+<p>为新添加的内容。</p>
+<p>配置好了nginx后，我们需要测试一下我的网站，输入：<a target="_blank" rel="noopener" href="http://ip/test.php%E7%9C%8B%E4%B8%8B%E6%98%AF%E5%90%A6%E8%83%BD%E6%AD%A3%E5%B8%B8%E8%AE%BF%E9%97%AE%EF%BC%88test.php%E6%98%AF%E6%96%B0%E6%B7%BB%E5%8A%A0%E7%9A%84%E6%B5%8B%E8%AF%95%E6%96%87%E4%BB%B6%EF%BC%89">http://IP/test.php看下是否能正常访问（test.php是新添加的测试文件）</a></p>
+<p>输入地址后看到：</p>
+<p><img src="http://i.imgur.com/W1Cp4Wm.png"></p>
+<p>这个test.php的文件放在服务器根目录下（在/var/www/html下写一个test.php）。</p>
+<p>貌似这样还是不行，于是早高人指点下原来我的网站根目录是： /usr/share/nginx/html</p>
+<p>这样test.php就被放到了/usr/share/nginx/html下，这里我们还需要修改一个地方，继续回到nginx.conf里面，找到：</p>
+<pre><code>fastcgi_param SCRIPT_FILENAME /var/www/html/$fastcgi_script_name;</code></pre>
+<p>这个地方把/var/www/html改成我nginx的根目录,修改之后的样子是：</p>
+<pre><code>fastcgi_param SCRIPT_FILENAME /usr/share/nginx/html/$fastcgi_script_name;</code></pre>
+<p>重新启动一下nginx,运行命令：</p>
+<pre><code>nginx -s reload</code></pre>
+<p><img src="http://i.imgur.com/NDNw8EJ.png"></p>
+<p><img src="http://i.imgur.com/G1kytth.png"></p>
+<p>弄好了这里的时候再次输入：<a target="_blank" rel="noopener" href="http://ip/test.php,%E5%B0%B1%E6%88%90%E5%8A%9F%E4%BA%86">http://ip/test.php,就成功了</a></p>
+<p>环境都做好了，把网站程序放在/usr/share/nginx/html下面即可，这个时候我突然想的是，如果我想放多个网站改如何呢？这里我们以111.com和222.com为例、先把这两个域名解析一下，都解析到这个服务器下，解析过程就不多说了，很简单。</p>
+<p>这个时候分别输入：111.com和222.com的时候应该都是可以访问到：</p>
+<p><img src="http://i.imgur.com/W1Cp4Wm.png"></p>
+<p>说明解析成功了。</p>
+<p>但是两个程序改怎么放呢？这里我们需要配置nginx。</p>
+<p>把nginx主配置文件nginx.conf文件中 server{ … } 那一段拷出来。处理后111.conf如下：</p>
+<pre><code>server &#123;
+    listen 80;
+    server_name www.111.com;
+    root /usr/share/nginx/111.com;
+
+    location / &#123;
+    &#125;
+
+    location ~ \.php$ &#123;
+    fastcgi_pass 127.0.0.1:9000;
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    include fastcgi_params;
+    &#125;
+
+    error_page 404 /404.html;
+        location = /40x.html &#123;
+    &#125;
+
+    error_page 500 502 503 504 /50x.html;
+        location = /50x.html &#123;
+    &#125;
+&#125;</code></pre>
+<p>222.conf内容如下：</p>
+<pre><code>server &#123;
+    listen 80;
+    server_name www.222.com;
+    root /usr/share/nginx/222.com;
+
+    location / &#123;
+    &#125;
+
+    location ~ \.php$ &#123;
+    fastcgi_pass 127.0.0.1:9000;
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    include fastcgi_params;
+    &#125;
+
+    error_page 404 /404.html;
+        location = /40x.html &#123;
+    &#125;
+
+    error_page 500 502 503 504 /50x.html;
+        location = /50x.html &#123;
+    &#125;
+&#125;</code></pre>
+<p>这里为了管理，建两个目录 root/usr/share/nginx/域名1； root/usr/share/nginx/域名2，另外我们可在/etc/nginx/conf.d文件夹下新建这两个文件111.conf、222.conf。</p>
+<p><img src="http://i.imgur.com/hNGIpmG.png"></p>
+<p>在这个路径下存放111.conf和222.conf。</p>
+<p>既然修改了，两个配置文件也要修改：</p>
+<pre><code>fastcgi_param SCRIPT_FILENAME $document_root$</code></pre>
+<p>最后修改的样子是：</p>
+<p><img src="http://i.imgur.com/fJsWVvD.png"></p>
+<pre><code>server &#123;
+    listen 80;
+    server_name www.111.com;
+    root /usr/share/nginx/111.com;
+
+    location / &#123;
+    &#125;
+
+    location ~ \.php$ &#123;
+    fastcgi_pass 127.0.0.1:9000;
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    include fastcgi_params;
+    &#125;
+
+    error_page 404 /404.html;
+        location = /40x.html &#123;
+    &#125;
+
+    error_page 500 502 503 504 /50x.html;
+        location = /50x.html &#123;
+    &#125;
+&#125;</code></pre>
+<p>配置完成之后，我们分别访问一下两个域名。在111.com和222.com文件夹下新建两个php文件，可以测试一下能否正常显示。前提是这两个域名需要备案。</p>
+<p>最后就是分别把网站程序放在各自的文件夹下，</p>
+<p><img src="http://i.imgur.com/X6715Wk.png"></p>
+<p>进行安装就好了，这里我们以在国内知名度非常高的wordpress程序，先把wordpress程序上传到111.com(这里假设111.com已经备案了)，然后运行<a target="_blank" rel="noopener" href="http://111.com/wp-admin,%E5%B0%B1%E5%8F%AF%E4%BB%A5%E8%BF%9B%E8%A1%8C%E5%AE%89%E8%A3%85%E4%BA%86%E3%80%82">http://111.com/wp-admin,就可以进行安装了。</a></p>
+<p>不过我这里安装的时候出现这样一个问题：就是说缺少wordpress的mysql扩展，这个问题是一个比较老的问题了，解决方案如下：</p>
+<p>在php.ini文件中添加这下面这两端代码：</p>
+<pre><code>extension=mysql.so
+extension_dir =&quot;/usr/lib64/php/modules&quot;</code></pre>
+<p><img src="http://i.imgur.com/bgTfXPG.jpg"></p>
+<p>网络上的解决方案类似，这里贴出来分享下：</p>
+<pre><code>（1）对于windows服务器，找开PHP安装位置，找到php.ini,打开
+
+第一步：
+确认开启以下扩展
+extension=php_mysql.dll
+extension=php_mysqli.dll
+
+第二步：
+; On windows:
+; extension_dir = &quot;ext&quot; 扩展文件存放位置，确认以上丙个扩展文件已经存放在一个叫“ext&quot;的文件夹中，如没有，下载
+
+第三步，服务重启，问题解决
+
+(2)对于linux服务器，网络上解决方法如下
+第一步：先用SSH登录，打开PHP.ini
+#vi /etc/php.ini
+
+第二步：php.ini中 添加
+extension=mysql.so
+
+第三步：在PHP.ini 中找到如下
+extension_dir = &quot;XXXXXXX&quot;
+注：XXX指扩展安装目录，centos64位的主机一般安装在extension_dir = &quot;/usr/lib64/php/modules&quot;
+第四步：找到这个扩展安装目录，确认是否有mysql.so这个文件，如果没有，下载
+重启服务。</code></pre>
+<p>如果遇到权限不够的问题，这里需要对wordpress程序所在的文件设置一下权限，运行命令：</p>
+<pre><code>chmod -R 755 /usr/share/nginx/111.com</code></pre>
+<p>然后，安装php-mysql</p>
+<pre><code>sudo yum php-mysql</code></pre>
+<p>重启一下服务器，运行如下命令：</p>
+<pre><code>reboot</code></pre>
+<p>这样，基本没啥问题了。</p>
+<p>欢迎同行一起交流，解决新的问题，分享经验共同学习。我的QQ：791447771</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8-centos7-web%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/" rel="tag"># 阿里云服务器,centos7,web环境配置</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2016/12/04/%E5%A6%82%E4%BD%95%E4%B8%BA%E7%BD%91%E7%AB%99%E5%BB%BA%E7%AB%8B%E4%B8%80%E4%B8%AA%E6%89%8B%E6%9C%BA%E7%89%88%E6%95%99%E7%A8%8B/" rel="prev" title="如何为网站建立一个手机版教程">
+      <i class="fa fa-chevron-left"></i> 如何为网站建立一个手机版教程
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2016/12/19/%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%80%E9%94%AEweb%E7%8E%AF%E5%A2%83%E5%AE%89%E8%A3%85%E5%8C%85%E5%AE%8C%E6%AF%95%E5%90%8E%E7%9A%84%E9%82%A3%E4%BA%9B%E9%97%AE%E9%A2%98/" rel="next" title="阿里云服务器一键web环境安装包完毕后的那些问题">
+      阿里云服务器一键web环境安装包完毕后的那些问题 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

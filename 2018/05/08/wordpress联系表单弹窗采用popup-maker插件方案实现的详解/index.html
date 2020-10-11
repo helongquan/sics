@@ -1,37 +1,635 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="前一阵子，有个客户需要一个这样的需求，想让别人访问自己的下载中心或者是某个页面先发送电邮后才能访问资源或者是下载资源，并且再次访问后不能经常性的弹出窗口让填电邮。 笔者在这里分解了下这个问题：  弹窗 联系表单 会话控制（session或者是cookie） 支持全局控制和局部控制（可以访问网站的任意页面或者文章都会弹出窗口，也可以让指定的页面或者文章弹出窗口）。 必须要填写电邮才能访问，不填写的话">
+<meta property="og:type" content="article">
+<meta property="og:title" content="wordpress联系表单弹窗采用popup maker弹窗插件方案实现网站头部添加询价表单的弹出效果">
+<meta property="og:url" content="http://example.com/2018/05/08/wordpress%E8%81%94%E7%B3%BB%E8%A1%A8%E5%8D%95%E5%BC%B9%E7%AA%97%E9%87%87%E7%94%A8popup-maker%E6%8F%92%E4%BB%B6%E6%96%B9%E6%A1%88%E5%AE%9E%E7%8E%B0%E7%9A%84%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="前一阵子，有个客户需要一个这样的需求，想让别人访问自己的下载中心或者是某个页面先发送电邮后才能访问资源或者是下载资源，并且再次访问后不能经常性的弹出窗口让填电邮。 笔者在这里分解了下这个问题：  弹窗 联系表单 会话控制（session或者是cookie） 支持全局控制和局部控制（可以访问网站的任意页面或者文章都会弹出窗口，也可以让指定的页面或者文章弹出窗口）。 必须要填写电邮才能访问，不填写的话">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/OZv0Eb0.jpg">
+<meta property="og:image" content="https://i.imgur.com/yISvsli.jpg">
+<meta property="og:image" content="https://i.imgur.com/tbEeuQM.jpg">
+<meta property="og:image" content="https://i.imgur.com/3TTvB4I.jpg">
+<meta property="og:image" content="https://i.imgur.com/sF5uBGi.jpg">
+<meta property="og:image" content="https://i.imgur.com/1qqSz09.jpg">
+<meta property="og:image" content="https://i.imgur.com/oYgnmlJ.jpg">
+<meta property="og:image" content="https://i.imgur.com/CgdvaSX.jpg">
+<meta property="og:image" content="https://i.imgur.com/Vzi5G7N.jpg">
+<meta property="og:image" content="https://i.imgur.com/9rxxfbU.jpg">
+<meta property="og:image" content="https://i.imgur.com/t4Lu090.jpg">
+<meta property="og:image" content="https://i.imgur.com/4GEAw3x.jpg">
+<meta property="og:image" content="https://i.imgur.com/10WnAab.jpg">
+<meta property="og:image" content="https://i.imgur.com/sCcmfFg.jpg">
+<meta property="og:image" content="https://i.imgur.com/UDgGYrZ.jpg">
+<meta property="og:image" content="https://i.imgur.com/OHtaVQb.jpg">
+<meta property="og:image" content="https://i.imgur.com/oY8onBF.jpg">
+<meta property="og:image" content="https://i.imgur.com/zyPhKob.jpg">
+<meta property="og:image" content="https://i.imgur.com/gcIqzHX.jpg">
+<meta property="og:image" content="https://i.imgur.com/UUPdEKw.png">
+<meta property="og:image" content="https://i.imgur.com/P3fYlmJ.png">
+<meta property="og:image" content="https://i.imgur.com/iPdzkM6.png">
+<meta property="og:image" content="https://i.imgur.com/04ET0ZV.png">
+<meta property="og:image" content="https://i.imgur.com/S6e03fr.png">
+<meta property="og:image" content="https://i.imgur.com/Ryj79LI.png">
+<meta property="og:image" content="https://i.imgur.com/gsxEfgM.png">
+<meta property="og:image" content="https://i.imgur.com/BWI5Jsz.png">
+<meta property="og:image" content="https://i.imgur.com/aXgKssE.png">
+<meta property="og:image" content="https://i.imgur.com/MEPWAXL.png">
+<meta property="og:image" content="https://i.imgur.com/CRkZxy9.png">
+<meta property="og:image" content="https://i.imgur.com/56Y9X2k.png">
+<meta property="og:image" content="https://i.imgur.com/Bfubcko.png">
+<meta property="og:image" content="https://i.imgur.com/bqSK1UF.png">
+<meta property="og:image" content="https://i.imgur.com/VLXMbfa.png">
+<meta property="og:image" content="https://i.imgur.com/jWk591R.png">
+<meta property="og:image" content="https://i.imgur.com/fO9jdOt.png">
+<meta property="og:image" content="https://i.imgur.com/sILpREK.png">
+<meta property="og:image" content="https://i.imgur.com/BfDCJWd.jpg">
+<meta property="og:image" content="https://i.imgur.com/SX4ux3O.jpg">
+<meta property="og:image" content="https://i.imgur.com/uUxHsIF.jpg">
+<meta property="og:image" content="https://i.imgur.com/htw6Nzg.jpg">
+<meta property="og:image" content="https://i.imgur.com/a3jm70g.jpg">
+<meta property="og:image" content="https://i.imgur.com/BfDCJWd.jpg">
+<meta property="og:image" content="https://i.imgur.com/Cu0FjDP.jpg">
+<meta property="og:image" content="https://i.imgur.com/jKKaxoP.jpg">
+<meta property="og:image" content="https://i.imgur.com/9AQMHiu.jpg">
+<meta property="article:published_time" content="2018-05-08T08:07:00.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:03.485Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="wordpress,popup,popup maker,弹窗,联系表单">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/OZv0Eb0.jpg">
+
+<link rel="canonical" href="http://example.com/2018/05/08/wordpress%E8%81%94%E7%B3%BB%E8%A1%A8%E5%8D%95%E5%BC%B9%E7%AA%97%E9%87%87%E7%94%A8popup-maker%E6%8F%92%E4%BB%B6%E6%96%B9%E6%A1%88%E5%AE%9E%E7%8E%B0%E7%9A%84%E8%AF%A6%E8%A7%A3/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>wordpress联系表单弹窗采用popup maker弹窗插件方案实现网站头部添加询价表单的弹出效果 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/05/08/wordpress%E8%81%94%E7%B3%BB%E8%A1%A8%E5%8D%95%E5%BC%B9%E7%AA%97%E9%87%87%E7%94%A8popup-maker%E6%8F%92%E4%BB%B6%E6%96%B9%E6%A1%88%E5%AE%9E%E7%8E%B0%E7%9A%84%E8%AF%A6%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          wordpress联系表单弹窗采用popup maker弹窗插件方案实现网站头部添加询价表单的弹出效果
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-05-08 16:07:00" itemprop="dateCreated datePublished" datetime="2018-05-08T16:07:00+08:00">2018-05-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:03" itemprop="dateModified" datetime="2020-10-11T11:58:03+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/wordpress/" itemprop="url" rel="index"><span itemprop="name">wordpress</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>前一阵子，有个客户需要一个这样的需求，想让别人访问自己的下载中心或者是某个页面先发送电邮后才能访问资源或者是下载资源，并且再次访问后不能经常性的弹出窗口让填电邮。</p>
+<p>笔者在这里分解了下这个问题：</p>
+<ol>
+<li>弹窗</li>
+<li>联系表单</li>
+<li>会话控制（session或者是cookie）</li>
+<li>支持全局控制和局部控制（可以访问网站的任意页面或者文章都会弹出窗口，也可以让指定的页面或者文章弹出窗口）。</li>
+<li>必须要填写电邮才能访问，不填写的话打死都不让访问，而且刷新也没有，还得显示窗口。</li>
+<li>联系表单填写完毕后重定向到某个地方或者当前页面</li>
+</ol>
+<p>分解后，我想到的好几种方案都感觉不太合适，或者说是不够完美，因为下载中心有很多个资源，如果下载每个资源都弹出一个窗口的话，我估计用户会疯了的。</p>
+<p>然后采用wordpress的模板文件，笔者曾经采取的是新建一个模板文件，然后针对下载中心进行个性化开发。采用session，这个倒是没问题，联系表单这个问题也不大，可以采用脚本的形式，不需要经过数据库。至于弹窗嘛，也可以采用js的方式实现，但是要做到能够指定某些页面可以弹出窗口，或者全部窗口都弹出，这个工作量以及维护难度还是有的。</p>
+<p>还有就是，必须要填写电邮才能访问，不填写不能访问，这个也是一个棘手的问题，资深人士除外，因此，从成本的角度考虑，因为这个是个例，需求不普遍，实现起来没有太大的价值，因此摒弃了这种方式。</p>
+<p>下面我们进入重点，笔者这里采取的是插件的方式：popup maker</p>
+<p>通过对这个插件的了解，几乎是全是为这个需求量身定做的。先去安装吧，安装完成后，我们会看到：</p>
+<p><img src="https://i.imgur.com/OZv0Eb0.jpg"></p>
+<p>已经有了Popup Maker这个选项了，我们进入到里面，新建一个：</p>
+<p><img src="https://i.imgur.com/yISvsli.jpg"></p>
+<p>接着往下，我们会看到有个设置的地方，这个是针对我们新建的这个弹窗的一些行为和显示方式：</p>
+<p><img src="https://i.imgur.com/tbEeuQM.jpg"></p>
+<p>这个写得很清楚，左边有（triggers触发器，Targeting目标，Display显示方式，close弹窗关闭方式），右边就是相关的设置项。</p>
+<p>如果不想让弹窗每次都弹出，这个需要设置cookie，这个cookie是跟某个触发器结合的，以上截图的那个是点击打开的时候有cookie，比如以下这个：</p>
+<p><img src="https://i.imgur.com/3TTvB4I.jpg"></p>
+<p>这个是自动弹出窗口，比如我们在访问下载中心的时候，1000ms后弹出一个联系表单，不填写表单天王老子都不让访问，绑定的事件是下面的那个框中的，这个可以根据自己的需要进行设置。我做一个简单的解说，这里就是（弹窗关闭、表单发送成功或者表单已经提交过）后启用cookie，如果再次访问的时候，就不需要再次弹出窗口了。这里也有一个时效性性，这里默认是一个月，如果一个月以后再来访问，又会弹出一个窗口要你填写联系表单里的信息，当然这个可以根据自己的需求进行设定。</p>
+<p>好的，针对支持全局控制和局部控制（可以访问网站的任意页面或者文章都会弹出窗口，也可以让指定的页面或者文章弹出窗口）这个问题，直接在Display那里设定就好了。当我们完成这些设置后，我们如何运用呢？</p>
+<p>我们新建一个页面，然后来到添加文本那里：</p>
+<p><img src="https://i.imgur.com/sF5uBGi.jpg"></p>
+<p>这里就是添加一个文本编辑，然后我们看到：</p>
+<p><img src="https://i.imgur.com/1qqSz09.jpg"></p>
+<p>然后添加一个Subscription Form表单，这个就是所说的联系表单了。是这个插件内置的，貌似不能添加更多的字段。</p>
+<p><img src="https://i.imgur.com/oYgnmlJ.jpg"></p>
+<p>然后进入这里，对这个进行设定。这里里面可以进行一些设定包括电邮发送后的重定向和，表单的样式，以及弹窗等问题。</p>
+<p>如果是添加Popup Trigger的时候，这里就是添加我们新建的那些popup，或者是自定义的，来张截图吧：</p>
+<p><img src="https://i.imgur.com/CgdvaSX.jpg"></p>
+<p>看到了吧，这个就是说在新建的页面中我们，我们就可以调用新建的弹窗。至于弹窗的行为以及cookie不是在这里设置的，而是在创建弹窗的那里设置的。</p>
+<p>我们来个实际的问题吧，这里我的有个客户是这样的，他希望他的产品页面和商店（shop）页面都要有弹窗形式的联系表单，这个联系表单是在用户初次打开这个页面的时候要有弹窗，不能每次打开的时候都有弹窗，接着是必须先发送电邮，验证这个电邮是否有效后获取从网站管理员电邮发送的验证码，通过验证码才能下载已经加密的资源。</p>
+<p>好的，我们新建一个Popup，命名为third popup：</p>
+<p>第一步：</p>
+<p><img src="https://i.imgur.com/Vzi5G7N.jpg"></p>
+<p>第二步：让这个联系表单在页面打开的时候自动的弹出，或者是延时弹出：</p>
+<p>这里可以设置cookie，让这个弹窗不要每次都弹出：</p>
+<p><img src="https://i.imgur.com/9rxxfbU.jpg"></p>
+<p>添加好了之后的效果：</p>
+<p><img src="https://i.imgur.com/t4Lu090.jpg"></p>
+<p>第三步：设置这个联系表单弹窗在哪些页面弹出，默认是全部都弹出，我们可以通过自定义设置，让这个在指定的页面进行弹窗。</p>
+<p><img src="https://i.imgur.com/4GEAw3x.jpg"></p>
+<p>这里选择是所有的商品单页都要弹窗，或者是shop页面也要弹窗。</p>
+<p>笔者由于是调试阶段，因此，没有使用cookie，如果设置好了之后，只允许初次访问弹窗的话，那么就设置下cookie。</p>
+<p>第四步：我们设置一下弹窗的cookie</p>
+<p><img src="https://i.imgur.com/10WnAab.jpg"></p>
+<p>这个里面cookie的名称是：pum-9317</p>
+<p>然后我们需要去为这个触发器指定一个cookie的名字：</p>
+<p><img src="https://i.imgur.com/sCcmfFg.jpg"></p>
+<p>然后我们选择cookie的列表，我们找到上面的那个cookie的名字：</p>
+<p><img src="https://i.imgur.com/UDgGYrZ.jpg"></p>
+<p>这里我们回到触发器这里，我们选择Add New Cookie这个按钮，然后添加两个：Subscription Forms Successful和On Popup Close这两个事件，就是当联系表单成功订阅和关闭联系表单的时候，记录cookie值，当再次访问的时候，由于已经有了cookie值那么就不会再次弹出窗口了。</p>
+<p>第五步：我们去看效果，我们访问shop页面的时候：</p>
+<p><img src="https://i.imgur.com/OHtaVQb.jpg"></p>
+<p>我们再去访问一下产品单页，看下效果：</p>
+<p><img src="https://i.imgur.com/oY8onBF.jpg"></p>
+<p>好的，可能有的还有一个需求，就是当我们把联系表单提交成功后，需要来个重定向，这里笔者说下怎么设置：</p>
+<p>第六步：设置提交后的重定向，我们回到这个弹窗的联系表单那里，进行编辑</p>
+<p><img src="https://i.imgur.com/zyPhKob.jpg"></p>
+<p>设置重定向地址：</p>
+<p><img src="https://i.imgur.com/gcIqzHX.jpg"></p>
+<p>最后，笔者分享下如何让用户不得不发送电邮才能访问页面的强制性方法。</p>
+<p>我的做法是这样的：直接把联系表单的那个close的地方通过css的方式屏蔽，就是不让这个东西显示出来，这样用户就会老老实实的发送电邮了。</p>
+<p>这里有个局限的地方是，采用这个插件的默认联系表单的话，那么就只有两个输入框：名字和电邮，比如客户想要其他更多的字段，比如手机号，公司名等等。这个时候该怎么办呢？我们跟着往下走：</p>
+<p>我们可以在popup那里添加一个联系表单来取代popup默认的联系表单，看截图：</p>
+<p><img src="https://i.imgur.com/UUPdEKw.png"></p>
+<p>又或者我们可以安装一个联系表单插件：contact form 7，然后获取联系表单的短码放在弹窗的popup里面：</p>
+<p><img src="https://i.imgur.com/P3fYlmJ.png"></p>
+<p>接着继续设置下面的选项：</p>
+<p><img src="https://i.imgur.com/iPdzkM6.png"></p>
+<p>意思就是对这个popup进行一个设置：当页面加载完毕后，就弹出窗口。然后下面又设置了一个cookie来控制，就是弹窗关闭后记录cookie，记录一个月。</p>
+<p>好的，这个弹窗就算是做好了，我们应用到一个页面，看看如何应用。我们新建一个页面：</p>
+<p><img src="https://i.imgur.com/04ET0ZV.png"></p>
+<p>添加一个subscription form，然后把添加的popup加进来，看截图：</p>
+<p><img src="https://i.imgur.com/S6e03fr.png"></p>
+<p>添加完毕后，我们来到前台看效果：</p>
+<p><img src="https://i.imgur.com/Ryj79LI.png"></p>
+<p>这个时候我们就可以输入信息发送了，如果不让这个每一次都弹出，那么我们前面那个popup的设置cookie的那里就可以用得上了。</p>
+<p>正确的做法应该是要在这里把cookie的名字加上，不然这个弹窗到底响应那个cookie的name是不知道的，如下截图：</p>
+<p><img src="https://i.imgur.com/gsxEfgM.png"></p>
+<p>整体大致如下，我们可以在邮箱那边设置自动回复功能，这样就可以做到推动密码给用户了。</p>
+<blockquote>
+<p>经过实践发现，通过网站里面的联系表单发送到已经设置了自动回复的QQ邮箱，那么已经设置了自动回复的QQ邮箱是可以收到电邮的，可是提交电邮的地址却不能收到自动回复的密码。</p>
+</blockquote>
+<blockquote>
+<p>只有通过电邮客户端或者是在邮箱对邮箱发送的方式才能收到自动回复。</p>
+</blockquote>
+<p>具体的其他知识可以去官网了解。</p>
+<h2 id="文章更新"><a href="#文章更新" class="headerlink" title="文章更新"></a>文章更新</h2><p>笔者通过采用contact form 7 和popup做了一个实验：点击按钮弹出联系表单窗口，然后发送电邮，接着经过网站管理员回电邮来获取验证码，然后在被加密的部分内容的输入框中输入刚才获取的验证码，然后显示出被加密的内容，同时点击获取验证码的按钮文字发生改变。</p>
+<p>实现方式：</p>
+<ol>
+<li><p>安装popup插件</p>
+</li>
+<li><p>安装contact form 7插件</p>
+</li>
+<li><p>新建一个contact form 7联系表单</p>
+</li>
+<li><p>创建一个popup（命名为：mytest），在里面添加contact form 7短码。<br><img src="https://i.imgur.com/BWI5Jsz.png"></p>
+</li>
+<li><p>对mytest进行设置，由于这里是点击按钮才触发这个弹窗事件，所以这里在设置那里选择：<br><img src="https://i.imgur.com/aXgKssE.png"></p>
+</li>
+<li><p>由于发送电邮后，已经获取了验证码，第二次点击就应该不再弹出联系表单窗口了，所以这里设置一下cookie:<br><img src="https://i.imgur.com/MEPWAXL.png"></p>
+</li>
+<li><p>要想让这个cookie要跟第5步进行结合起来约束第二次点击，那么这里我们需要对第5步那里编辑一下：<br><img src="https://i.imgur.com/CRkZxy9.png"></p>
+</li>
+<li><p>然后指定这个弹窗要对哪个页面进行起作用，这里随便选择一个页面作为讲解，当我们选中页面的时候，那么这个弹窗只对指定的页面进行起作用，也可以全局设置，比如针对产品的，针对页面的，针对文章的，或者针对某些ID的等等。：<br><img src="https://i.imgur.com/56Y9X2k.png"></p>
+</li>
+<li><p>来到刚才指定的页面：<code>输入密码再访问</code>，创建一个触发器，截图如下：<br><img src="https://i.imgur.com/Bfubcko.png"><br><img src="https://i.imgur.com/bqSK1UF.png"></p>
+</li>
+<li><p>触发器已经做好了，我们就接着添加一个加密局部内容的功能。</p>
+</li>
+</ol>
+<p>在functions.php文件中添加代码：</p>
+<pre><code>function e_secret($atts, $content=null)&#123;
+ extract(shortcode_atts(array(&#39;key&#39;=&gt;null), $atts));
+ if(isset($_POST[&#39;e_secret_key&#39;]) &amp;&amp; $_POST[&#39;e_secret_key&#39;]==$key)&#123;
+ return &#39;
+&lt;div class=&quot;e-secret&quot;&gt;&#39;.$content.&#39;&lt;/div&gt;
+&#39;;
+ &#125;
+ else&#123;
+ return &#39;
+&lt;form class=&quot;e-secret&quot; action=&quot;&#39;.get_permalink().&#39;&quot; method=&quot;post&quot; name=&quot;e-secret&quot;&gt;&lt;label&gt;输入密码下载资源：&lt;/label&gt;&lt;input type=&quot;password&quot; name=&quot;e_secret_key&quot; class=&quot;euc-y-i&quot; maxlength=&quot;50&quot;&gt;&lt;input type=&quot;submit&quot; class=&quot;euc-y-s&quot; value=&quot;确定&quot;&gt;
+&lt;div class=&quot;euc-clear&quot;&gt;&lt;/div&gt;
+&lt;/form&gt;
+&#39;;
+ &#125;
+&#125;
+add_shortcode(&#39;secret&#39;,&#39;e_secret&#39;);</code></pre>
+<p>然后，在页面后天编辑中添加代码：</p>
+<pre><code>[secret key=&quot;123&quot;]
+&lt;div&gt;&lt;a href=&quot;#&quot;&gt;Architectural Lighting&lt;/a&gt;&lt;a href=&quot;#&quot;&gt;Entertainment Lighting&lt;/a&gt;&lt;a href=&quot;#&quot;&gt;LED Controller&lt;/a&gt;&lt;a href=&quot;#&quot;&gt;Download Catalogue&lt;/a&gt;&lt;/div&gt;
+[/secret]</code></pre>
+<p>这里是个简码：key里面的是密码，<code>[secret]...[/secret]</code>之间的内容是需要加密的内容。好的，确定好了这个之后，我们随便在这个页面添加点别的，然后保存，访问该页面的前台。</p>
+<p><img src="https://i.imgur.com/VLXMbfa.png"></p>
+<p>这个就是需要输入密码的输入框了，现在我们是不知道密码的，我们需要点击上面的按钮获取授权码，点击我们就会看到一个弹窗：</p>
+<p><img src="https://i.imgur.com/jWk591R.png"></p>
+<p>输入完毕后，发送，成功后，我们关闭这个弹窗，然后通过跟网站管理员联系获取授权码，然后我们就可以输入进入，成功后我们就可以看到我们想要看的资源了：</p>
+<p><img src="https://i.imgur.com/fO9jdOt.png"></p>
+<p>这个时候，我们再次点击获取授权码是不能弹出联系表单窗口的。这个是符合实际情况的。然后为了更的体验，我们需要进一步的完善一下这个按钮，当再次点击的时候，文字变成：<strong>你已经获取过验证码了</strong>。这个如何实现呢？很简单！在这个页面如下JavaScript代码：</p>
+<pre><code>&lt;script&gt;
+        var button = document.querySelector(&#39;.getlicense&#39;);
+        button.onclick = function () &#123;
+            this.textContent = &#39;你已经获取过授权码了&#39;;
+        &#125;
+&lt;/script&gt;</code></pre>
+<p>说明一下，这里的<code>getlicense</code>是前面我们截图中设置的那个class，当然我们也可以重浏览器的开发者工具中看到这个class。</p>
+<p>经过这样改造后是不是体验又更好了点？</p>
+<p><img src="https://i.imgur.com/sILpREK.png"></p>
+<p>当然，我们还可以进一步优化的，因为当我们刷新这个页面后，按钮文字又会变回<strong>获取授权码</strong>，比如这里我们可以像这个弹窗那样，设置cookie，在一段时间内都不能回到显示：<code>获取授权码</code>的那个按钮的文字。这个不在本文的讲解范围内。这个需要后端的配合才行。</p>
+<hr>
+<p>**更新：2019/2/20 18:28:19 **</p>
+<p>我们经常看到一个在wordpress网站的头部菜单那里显示一个询价按钮的，效果如下：</p>
+<p><img src="https://i.imgur.com/BfDCJWd.jpg"></p>
+<p>这个点击这个按钮后，弹出一个联系表单，然后发送电邮，在网站后台可以收到这个地方提交的内容。这个东西怎么实现呢？跟着笔者的节奏往下看。</p>
+<p>这里需要采用三个wordpress插件：</p>
+<ol>
+<li>popup maker</li>
+<li>contact form 7</li>
+<li>contact form 7 DB</li>
+</ol>
+<p>为什么需要这三个呢？</p>
+<p>第一个插件，前面也说了，这个主要的用途是弹窗的；第二个的用途是弹窗里面的联系表单，虽然第一个插件已经有了联系表单，但是不够灵活，而且字段很有限，因此需要用上这个插件；第三个插件是用来实现收集在前台提交的联系表单的内容到网站后台显示出来的，根据名字可以看出这个是要跟contact form 7这个插件配合使用的。</p>
+<p>我们把这三个都安装好了之后，第一件事是添加一个联系表单，然后自己设置字段，然后命名，这个是关于contact from 7的设置的问题，很简单，大家可以设置好就行了。笔者把这个联系表单命个名字：request a quote</p>
+<p>第二件事是添加一个弹窗触发器：</p>
+<p><img src="https://i.imgur.com/SX4ux3O.jpg"></p>
+<p>把第一步创建的联系表单的短码加进去。</p>
+<p>然后，我们设置一下这个弹窗触发器，设置如下：</p>
+<p><img src="https://i.imgur.com/uUxHsIF.jpg"></p>
+<p>意思就是点击弹出窗口，我们要的就是这种形式，当然另外一种是不点击，自动弹出窗口（这种我们不需要），点击这个进去：</p>
+<p><img src="https://i.imgur.com/htw6Nzg.jpg"></p>
+<p>其他的地方自己可以根据需要进行设置即可。</p>
+<p>设置完毕后保存。然后我们来到菜单那里添加一个自定义链接的内容，然后在这菜单项里面选择我们刚才创建的那个弹窗触发器：</p>
+<p><img src="https://i.imgur.com/a3jm70g.jpg"></p>
+<p>保存菜单即可。然后我们来到前台，然后通过css稍微美化一下就可以看到如下的效果：</p>
+<p><img src="https://i.imgur.com/BfDCJWd.jpg"></p>
+<p><img src="https://i.imgur.com/Cu0FjDP.jpg"></p>
+<p>为了想要在网站后台也可以看到，那么我们就可以安装一个contact form 7 DB，相信你已经安装了。通过这个插件就可以看到这个弹窗联系表单的留言信息。</p>
+<p>通常为了让弹窗联系表单填写完内容发送成功后自动关闭，我们可以在联系表单那里设置一下：</p>
+<p><img src="https://i.imgur.com/jKKaxoP.jpg"></p>
+<p>点击进去，选择close popup，delay那里设置1，就是电邮发送成功1s后，关闭弹窗。</p>
+<p><img src="https://i.imgur.com/9AQMHiu.jpg"></p>
+<p>这个就比较人性化。今天就是说道这里，敬请关注笔者的相关动态，获取更多关于网站建设方面的知识。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/wordpress-popup-popup-maker-%E5%BC%B9%E7%AA%97-%E8%81%94%E7%B3%BB%E8%A1%A8%E5%8D%95/" rel="tag"># wordpress,popup,popup maker,弹窗,联系表单</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/05/08/javascript%E7%89%B9%E6%95%88%E4%B9%8B%E9%BC%A0%E6%A0%87%E6%BB%9A%E5%8A%A8%E6%96%B9%E5%90%91%E4%BA%8B%E4%BB%B6%E8%A7%A6%E5%8F%91%E7%AC%94%E5%A4%B4%E5%92%8C%E7%AC%94%E8%BA%AB%E5%88%86%E5%90%88/" rel="prev" title="javascript特效之鼠标滚动方向事件触发笔头和笔身分合">
+      <i class="fa fa-chevron-left"></i> javascript特效之鼠标滚动方向事件触发笔头和笔身分合
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/05/09/javascript%E5%AE%9E%E7%8E%B0wordpress%E4%B8%AD%E7%9A%84woocommerce%E4%BA%A7%E5%93%81%E5%8D%95%E9%A1%B5%E5%B1%9E%E6%80%A7%E7%9A%84%E9%80%89%E6%8B%A9%E9%AB%98%E4%BA%AE%E6%96%B9%E6%A1%88/" rel="next" title="javascript实现wordpress中的woocommerce产品单页属性的选择高亮方案">
+      javascript实现wordpress中的woocommerce产品单页属性的选择高亮方案 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E7%AB%A0%E6%9B%B4%E6%96%B0"><span class="nav-number">1.</span> <span class="nav-text">文章更新</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,37 +1,478 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="笔者想要实现这样一个系列功能：有些内容，笔者需要先让用户登录后才能查看，没有登录的情况下显示的是一段文本：先登录。然后用户就需要点击登录链接进行登录，登录完毕后会自动跳转回到那个页面去，我想这个对用户体验是良好的。 实现方式如下： 找到目标比如我们对自己自定义模块的某个地方，为了方便说明，笔者这里就拿现成的一个自定义模块（Counter）来进行演示吧。 我们找到这个模块对应的模板文件：app&#x2F;de">
+<meta property="og:type" content="article">
+<meta property="og:title" content="magento模块开发之先登录才能查看内容，并且登录后跳回到当前页面，以及为页面添加联系表单功能">
+<meta property="og:url" content="http://example.com/2018/09/03/magento%E6%A8%A1%E5%9D%97%E5%BC%80%E5%8F%91%E4%B9%8B%E5%85%88%E7%99%BB%E5%BD%95%E6%89%8D%E8%83%BD%E6%9F%A5%E7%9C%8B%E5%86%85%E5%AE%B9%EF%BC%8C%E5%B9%B6%E4%B8%94%E7%99%BB%E5%BD%95%E5%90%8E%E8%B7%B3%E5%9B%9E%E5%88%B0%E5%BD%93%E5%89%8D%E9%A1%B5%E9%9D%A2%EF%BC%8C%E4%BB%A5%E5%8F%8A%E4%B8%BA%E9%A1%B5%E9%9D%A2%E6%B7%BB%E5%8A%A0%E8%81%94%E7%B3%BB%E8%A1%A8%E5%8D%95%E5%8A%9F%E8%83%BD/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="笔者想要实现这样一个系列功能：有些内容，笔者需要先让用户登录后才能查看，没有登录的情况下显示的是一段文本：先登录。然后用户就需要点击登录链接进行登录，登录完毕后会自动跳转回到那个页面去，我想这个对用户体验是良好的。 实现方式如下： 找到目标比如我们对自己自定义模块的某个地方，为了方便说明，笔者这里就拿现成的一个自定义模块（Counter）来进行演示吧。 我们找到这个模块对应的模板文件：app&#x2F;de">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/uZYZRK1.png">
+<meta property="og:image" content="https://i.imgur.com/EXBgip1.png">
+<meta property="og:image" content="https://i.imgur.com/QVxPLOn.png">
+<meta property="og:image" content="https://i.imgur.com/R5lITq4.png">
+<meta property="og:image" content="https://i.imgur.com/SHi9oBG.png">
+<meta property="article:published_time" content="2018-09-03T10:26:54.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:01.165Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="magento1,登录，跳转，当前页，首页url，联系表单">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/uZYZRK1.png">
+
+<link rel="canonical" href="http://example.com/2018/09/03/magento%E6%A8%A1%E5%9D%97%E5%BC%80%E5%8F%91%E4%B9%8B%E5%85%88%E7%99%BB%E5%BD%95%E6%89%8D%E8%83%BD%E6%9F%A5%E7%9C%8B%E5%86%85%E5%AE%B9%EF%BC%8C%E5%B9%B6%E4%B8%94%E7%99%BB%E5%BD%95%E5%90%8E%E8%B7%B3%E5%9B%9E%E5%88%B0%E5%BD%93%E5%89%8D%E9%A1%B5%E9%9D%A2%EF%BC%8C%E4%BB%A5%E5%8F%8A%E4%B8%BA%E9%A1%B5%E9%9D%A2%E6%B7%BB%E5%8A%A0%E8%81%94%E7%B3%BB%E8%A1%A8%E5%8D%95%E5%8A%9F%E8%83%BD/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>magento模块开发之先登录才能查看内容，并且登录后跳回到当前页面，以及为页面添加联系表单功能 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/09/03/magento%E6%A8%A1%E5%9D%97%E5%BC%80%E5%8F%91%E4%B9%8B%E5%85%88%E7%99%BB%E5%BD%95%E6%89%8D%E8%83%BD%E6%9F%A5%E7%9C%8B%E5%86%85%E5%AE%B9%EF%BC%8C%E5%B9%B6%E4%B8%94%E7%99%BB%E5%BD%95%E5%90%8E%E8%B7%B3%E5%9B%9E%E5%88%B0%E5%BD%93%E5%89%8D%E9%A1%B5%E9%9D%A2%EF%BC%8C%E4%BB%A5%E5%8F%8A%E4%B8%BA%E9%A1%B5%E9%9D%A2%E6%B7%BB%E5%8A%A0%E8%81%94%E7%B3%BB%E8%A1%A8%E5%8D%95%E5%8A%9F%E8%83%BD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          magento模块开发之先登录才能查看内容，并且登录后跳回到当前页面，以及为页面添加联系表单功能
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-09-03 18:26:54" itemprop="dateCreated datePublished" datetime="2018-09-03T18:26:54+08:00">2018-09-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:01" itemprop="dateModified" datetime="2020-10-11T11:58:01+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/magento1/" itemprop="url" rel="index"><span itemprop="name">magento1</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>笔者想要实现这样一个系列功能：有些内容，笔者需要先让用户登录后才能查看，没有登录的情况下显示的是一段文本：先登录。然后用户就需要点击登录链接进行登录，登录完毕后会自动跳转回到那个页面去，我想这个对用户体验是良好的。</p>
+<p>实现方式如下：</p>
+<h2 id="找到目标"><a href="#找到目标" class="headerlink" title="找到目标"></a>找到目标</h2><p>比如我们对自己自定义模块的某个地方，为了方便说明，笔者这里就拿现成的一个自定义模块（Counter）来进行演示吧。</p>
+<p>我们找到这个模块对应的模板文件：app/design/frontend/yourtheme/default/template/counter/counter.phtml，打开</p>
+<p>这里笔者添加之前是这样的：</p>
+<p><img src="https://i.imgur.com/uZYZRK1.png"></p>
+<p>就是一个计算器来的。</p>
+<p>我们在这个控制显示这个表单的地方的代码前面添加一个判断：如果没有登录，那么就显示一段含有引导用户登录的文本。</p>
+<pre><code>&lt;?php
+    // 登录后跳转回当前页代码
+    Mage::getSingleton(&#39;customer/session&#39;)-&gt;setBeforeAuthUrl(Mage::helper(&#39;core/url&#39;)-&gt;getCurrentUrl());
+    //获取magento首页地址，由于笔者这里用的是一个子目录，所以这样获取会更加靠谱
+    $home_url = Mage::helper(&#39;core/url&#39;)-&gt;getHomeUrl();
+    //添加一个判断，如果用户没有登录的话，就显示花括号里的内容，并且使用exit语句实现跳出。
+    if(!(Mage::getSingleton( &#39;customer/session&#39; )-&gt;isLoggedIn())) &#123;
+        echo &#39;&lt;div&gt;使用计算器先登录。点击 &lt;a href=&quot;&#39;.$home_url.&#39;customer/account/login/&quot; class=&quot;light-blue&quot;&gt;马上登录&lt;/a&gt;&lt;/div&gt;&#39;;
+        exit;
+    &#125;
+?&gt;
+
+&lt;form action=&quot;&lt;?php echo Mage::getUrl(&#39;counter&#39;) ?&gt;&quot; method=&quot;post&quot; id=&quot;orderreport-form&quot;&gt;
+&lt;fieldset&gt;
+    &lt;ul&gt;
+    ...
+&lt;/form&gt;</code></pre>
+<p>这里做个说明，里面的form里的内容就是笔者在添加这个功能之前的状态，实现这个功能的代码是前面的那部分：</p>
+<pre><code>&lt;?php
+    // 登录后跳转回当前页代码
+    Mage::getSingleton(&#39;customer/session&#39;)-&gt;setBeforeAuthUrl(Mage::helper(&#39;core/url&#39;)-&gt;getCurrentUrl());
+    //获取magento首页地址，由于笔者这里用的是一个子目录，所以这样获取会更加靠谱
+    $home_url = Mage::helper(&#39;core/url&#39;)-&gt;getHomeUrl();
+    //添加一个判断，如果用户没有登录的话，就显示花括号里的内容，并且使用exit语句实现跳出。
+    if(!(Mage::getSingleton( &#39;customer/session&#39; )-&gt;isLoggedIn())) &#123;
+        echo &#39;&lt;div&gt;使用计算器先登录。点击 &lt;a href=&quot;&#39;.$home_url.&#39;customer/account/login/&quot; class=&quot;light-blue&quot;&gt;马上登录&lt;/a&gt;&lt;/div&gt;&#39;;
+        exit;
+    &#125;
+?&gt;</code></pre>
+<p>里面已经做了注释，跳转回当前页的代码就是由如下代码控制：</p>
+<pre><code>Mage::getSingleton(&#39;customer/session&#39;)-&gt;setBeforeAuthUrl(Mage::helper(&#39;core/url&#39;)-&gt;getCurrentUrl());</code></pre>
+<p>由于笔者这里采用的是子目录：<a target="_blank" rel="noopener" href="http://www.mydomain.com/magento">http://www.mydomain.com/magento</a>.</p>
+<p>如果</p>
+<pre><code>&lt;div&gt;使用计算器先登录。点击 &lt;a href=&quot;&#39;.$home_url.&#39;customer/account/login/&quot; class=&quot;light-blue&quot;&gt;马上登录&lt;/a&gt;&lt;/div&gt;</code></pre>
+<p>这个里面的链接地址写成：</p>
+<pre><code>&lt;a href=&quot;/customer/account/login/&quot; class=&quot;light-blue&quot;&gt;马上登录&lt;/a&gt;</code></pre>
+<p>是不行的，这样的地址就会变成是：<a target="_blank" rel="noopener" href="http://www.mydomain.com/customer/account/login/%EF%BC%8C%E8%80%8C%E6%88%91%E4%BB%AC%E7%9C%9F%E6%AD%A3%E6%83%B3%E8%A6%81%E7%9A%84%E5%9C%B0%E5%9D%80%E6%98%AF%EF%BC%9Ahttp://www.mydomain.com/magento/customer/account/login/%E3%80%82">http://www.mydomain.com/customer/account/login/，而我们真正想要的地址是：http://www.mydomain.com/magento/customer/account/login/。</a></p>
+<p>因此，为了获取首页地址，那么我们就要给这个定义一个变量（<code>$home_url</code>）或者不用变量直接写也行。</p>
+<pre><code>$home_url = Mage::helper(&#39;core/url&#39;)-&gt;getHomeUrl();</code></pre>
+<p>接着就是弄一个判断，判断用户是否登录，代码如下：</p>
+<pre><code>Mage::getSingleton( &#39;customer/session&#39; )-&gt;isLoggedIn()</code></pre>
+<p>那么没有登录就是前面加一个<code>!</code>，加入到if语句中就是：</p>
+<pre><code>if(!(Mage::getSingleton( &#39;customer/session&#39; )-&gt;isLoggedIn())) &#123;
+    echo &#39;&lt;div&gt;使用计算器先登录。点击 &lt;a href=&quot;&#39;.$home_url.&#39;customer/account/login/&quot; class=&quot;light-blue&quot;&gt;马上登录&lt;/a&gt;&lt;/div&gt;&#39;;
+    exit;
+&#125;</code></pre>
+<p>如果你是一个很仔细的读者，那么一定会看到这个后面还有一个：</p>
+<pre><code>exit;</code></pre>
+<p>如果笔者不加这个会有什么后果，后果就是这个判断执行完了后，还会继续执行后面form里面的内容，效果如下：</p>
+<p><img src="https://i.imgur.com/EXBgip1.png"></p>
+<p>看到没，并存了。</p>
+<p>如果，我们添加了，那么如果用户没有登录的话，输入地址：<a target="_blank" rel="noopener" href="http://localhost:8080/sm_market/counter/inex/index%EF%BC%8C%E5%B0%B1%E4%BC%9A%E6%98%BE%E7%A4%BA%EF%BC%9A">http://localhost:8080/sm_market/counter/inex/index，就会显示：</a></p>
+<p><img src="https://i.imgur.com/QVxPLOn.png"></p>
+<p>好的，如果我们点击这个里面的<code>马上登录</code>链接，我们就会跳转到登录页面，当我们登录成功后，会回到我们登录后的结果：</p>
+<p><img src="https://i.imgur.com/R5lITq4.png"></p>
+<p>这样就便于控制，只针对登录用户提供的服务了。</p>
+<h2 id="在页面中添加联系表单"><a href="#在页面中添加联系表单" class="headerlink" title="在页面中添加联系表单"></a>在页面中添加联系表单</h2><p>作为补充讲解，笔者如果想要在一个静态页面中添加联系表单，有没有快捷的方法呢？答案是有的。</p>
+<p>我们在magento后台添加一个页面，然后在content那里，添加：</p>
+<pre><code>&#123;&#123;block type="core/template" name="contactForm" form_action="/contacts/index/post" template="contacts/form.phtml"&#125;&#125;</code></pre>
+<p>这个就是调用magento的联系表单的页面的代码。</p>
+<p>我们就可以在这个页面中看到内容了：</p>
+<p><img src="https://i.imgur.com/SHi9oBG.png"></p>
+<p>这样感觉是不是很方便，当然还有通过布局文件的方式添加联系表单，这里不在本文的讲解范围，请移步到笔者另外一篇文章。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/magento1-%E7%99%BB%E5%BD%95%EF%BC%8C%E8%B7%B3%E8%BD%AC%EF%BC%8C%E5%BD%93%E5%89%8D%E9%A1%B5%EF%BC%8C%E9%A6%96%E9%A1%B5url%EF%BC%8C%E8%81%94%E7%B3%BB%E8%A1%A8%E5%8D%95/" rel="tag"># magento1,登录，跳转，当前页，首页url，联系表单</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/09/01/magento%E6%A8%A1%E5%9D%97%E9%87%8D%E5%86%99%E4%B9%8B%E5%9C%A8%E7%94%A8%E6%88%B7%E4%B8%AA%E4%BA%BA%E4%B8%AD%E5%BF%83%E6%B7%BB%E5%8A%A0%E7%94%A8%E6%88%B7%E5%8F%96%E6%B6%88%E8%AE%A2%E5%8D%95%E5%8A%9F%E8%83%BD/" rel="prev" title="magento模块重写之在用户个人中心添加用户取消订单功能">
+      <i class="fa fa-chevron-left"></i> magento模块重写之在用户个人中心添加用户取消订单功能
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/09/04/%E5%9F%BA%E4%BA%8Ewordpress%E7%9A%84%E9%98%B2%E4%BC%AA%E7%A0%81%E6%9F%A5%E8%AF%A2%E5%A4%9A%E9%87%8D%E6%90%9C%E7%B4%A2%E8%BF%87%E6%BB%A4%E5%8A%9F%E8%83%BD%EF%BC%8C%E4%BB%A5%E5%8F%8A%E9%99%90%E5%88%B6%E8%BE%93%E5%85%A5%E6%A1%86%E7%9A%84%E8%BE%93%E5%85%A5%E5%AD%97%E7%AC%A6%E7%B1%BB%E5%9E%8B/" rel="next" title="基于wordpress的防伪码（序列码）查询多重搜索过滤功能升级，以及限制输入框的输入字符类型">
+      基于wordpress的防伪码（序列码）查询多重搜索过滤功能升级，以及限制输入框的输入字符类型 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%BE%E5%88%B0%E7%9B%AE%E6%A0%87"><span class="nav-number">1.</span> <span class="nav-text">找到目标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8%E9%A1%B5%E9%9D%A2%E4%B8%AD%E6%B7%BB%E5%8A%A0%E8%81%94%E7%B3%BB%E8%A1%A8%E5%8D%95"><span class="nav-number">2.</span> <span class="nav-text">在页面中添加联系表单</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

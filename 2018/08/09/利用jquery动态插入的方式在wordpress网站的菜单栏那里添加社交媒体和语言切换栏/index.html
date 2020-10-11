@@ -1,37 +1,483 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="笔者曾写过一篇充分运用jquery动态插入的方式添加微信icon到wordpress的顶部的方案，作为延伸，笔者继续发挥jquery在这方面独特的优势：利用jquery动态插入的方式在wordpress网站的菜单栏那里添加社交媒体和语言切换栏。 首先我们引入jquery这个库： &lt;script src&#x3D;&quot;https:&#x2F;&#x2F;cdn.bootcss.com&#x2F;jquery&#x2F;3.3.1&#x2F;jq">
+<meta property="og:type" content="article">
+<meta property="og:title" content="利用jquery动态插入的方式在wordpress网站的菜单栏那里添加社交媒体和语言切换栏">
+<meta property="og:url" content="http://example.com/2018/08/09/%E5%88%A9%E7%94%A8jquery%E5%8A%A8%E6%80%81%E6%8F%92%E5%85%A5%E7%9A%84%E6%96%B9%E5%BC%8F%E5%9C%A8wordpress%E7%BD%91%E7%AB%99%E7%9A%84%E8%8F%9C%E5%8D%95%E6%A0%8F%E9%82%A3%E9%87%8C%E6%B7%BB%E5%8A%A0%E7%A4%BE%E4%BA%A4%E5%AA%92%E4%BD%93%E5%92%8C%E8%AF%AD%E8%A8%80%E5%88%87%E6%8D%A2%E6%A0%8F/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="笔者曾写过一篇充分运用jquery动态插入的方式添加微信icon到wordpress的顶部的方案，作为延伸，笔者继续发挥jquery在这方面独特的优势：利用jquery动态插入的方式在wordpress网站的菜单栏那里添加社交媒体和语言切换栏。 首先我们引入jquery这个库： &lt;script src&#x3D;&quot;https:&#x2F;&#x2F;cdn.bootcss.com&#x2F;jquery&#x2F;3.3.1&#x2F;jq">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/AksirS7.png">
+<meta property="og:image" content="https://i.imgur.com/726MqkJ.png">
+<meta property="og:image" content="https://i.imgur.com/9qyTpqm.png">
+<meta property="og:image" content="https://i.imgur.com/XU1ohua.png">
+<meta property="article:published_time" content="2018-08-09T09:43:55.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:04.252Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="jquery,wordpress,菜单栏,社交媒体,语言切换">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/AksirS7.png">
+
+<link rel="canonical" href="http://example.com/2018/08/09/%E5%88%A9%E7%94%A8jquery%E5%8A%A8%E6%80%81%E6%8F%92%E5%85%A5%E7%9A%84%E6%96%B9%E5%BC%8F%E5%9C%A8wordpress%E7%BD%91%E7%AB%99%E7%9A%84%E8%8F%9C%E5%8D%95%E6%A0%8F%E9%82%A3%E9%87%8C%E6%B7%BB%E5%8A%A0%E7%A4%BE%E4%BA%A4%E5%AA%92%E4%BD%93%E5%92%8C%E8%AF%AD%E8%A8%80%E5%88%87%E6%8D%A2%E6%A0%8F/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>利用jquery动态插入的方式在wordpress网站的菜单栏那里添加社交媒体和语言切换栏 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/08/09/%E5%88%A9%E7%94%A8jquery%E5%8A%A8%E6%80%81%E6%8F%92%E5%85%A5%E7%9A%84%E6%96%B9%E5%BC%8F%E5%9C%A8wordpress%E7%BD%91%E7%AB%99%E7%9A%84%E8%8F%9C%E5%8D%95%E6%A0%8F%E9%82%A3%E9%87%8C%E6%B7%BB%E5%8A%A0%E7%A4%BE%E4%BA%A4%E5%AA%92%E4%BD%93%E5%92%8C%E8%AF%AD%E8%A8%80%E5%88%87%E6%8D%A2%E6%A0%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          利用jquery动态插入的方式在wordpress网站的菜单栏那里添加社交媒体和语言切换栏
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-08-09 17:43:55" itemprop="dateCreated datePublished" datetime="2018-08-09T17:43:55+08:00">2018-08-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:04" itemprop="dateModified" datetime="2020-10-11T11:58:04+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>笔者曾写过一篇充分运用jquery动态插入的方式添加微信icon到wordpress的顶部的方案，作为延伸，笔者继续发挥jquery在这方面独特的优势：利用jquery动态插入的方式在wordpress网站的菜单栏那里添加社交媒体和语言切换栏。</p>
+<p>首先我们引入jquery这个库：</p>
+<pre><code>&lt;script src=&quot;https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js&quot;&gt;&lt;/script&gt;</code></pre>
+<p>为了能够减少对第三方资源的请求，或者减少跨域请求以加快加载速度，笔者把这个放在主题的js文件下，然后引用：</p>
+<pre><code>&lt;script src=&quot;&lt;?php bloginfo(&#39;template_url&#39;); ?&gt;/js/jquery.min.js&quot;&gt;&lt;/script&gt;</code></pre>
+<p>由于这个社交媒体icon主题中引用不灵活，笔者还引入了一个<a target="_blank" rel="noopener" href="http://fontawesome.dashgame.com/">font awesome</a>这个字体图标库。于是下载了这个库的资源。</p>
+<p>然后在wordpress头部引用进来，</p>
+<pre><code>&lt;link href=&quot;&lt;?php bloginfo(&#39;template_url&#39;); ?&gt;/css/font-awesome.min.css&quot; rel=&quot;stylesheet&quot;&gt;</code></pre>
+<p>字体包里面有个fonts文件夹，这个需要放在主题目录下，有的话就把里面的内容上传，没有的话就新建一个fonts文件夹，然后把里面的字体包上传即可。</p>
+<p><img src="https://i.imgur.com/AksirS7.png"></p>
+<p>我们打开这个font-awesome.min.css不难发现</p>
+<pre><code>@font-face &#123;
+  font-family: &#39;FontAwesome&#39;;
+  src: url(&#39;../fonts/fontawesome-webfont.eot?v=4.7.0&#39;);
+  src: url(&#39;../fonts/fontawesome-webfont.eot?#iefix&amp;v=4.7.0&#39;) format(&#39;embedded-opentype&#39;), url(&#39;../fonts/fontawesome-webfont.woff2?v=4.7.0&#39;) format(&#39;woff2&#39;), url(&#39;../fonts/fontawesome-webfont.woff?v=4.7.0&#39;) format(&#39;woff&#39;), url(&#39;../fonts/fontawesome-webfont.ttf?v=4.7.0&#39;) format(&#39;truetype&#39;), url(&#39;../fonts/fontawesome-webfont.svg?v=4.7.0#fontawesomeregular&#39;) format(&#39;svg&#39;);
+  font-weight: normal;
+  font-style: normal;
+&#125;</code></pre>
+<p>它这里是引用了字体包里的内容的，所以，我们把font-awesome.min.css放入css文件夹（与fonts文件夹同级）里面。</p>
+<p>好的，这里字体图标已经上传好了，那么我们就把js写入footer.php里面，首先我们解决一下冲突先：</p>
+<pre><code>var jQuery_3_3_1 = $.noConflict(true);</code></pre>
+<p>因为，笔者刚才引入的是这个版本。经过笔者实践发现其实可以不用根据版本来命名这个变量的，写成jQuery照样没问题。</p>
+<p>好的，接下来会有点小技巧在里面，仔细看：</p>
+<p>我们想要在菜单栏目那里添加社交媒体icon，那么我们可以先添加一个菜单项，目的是获取这个菜单项的html代码，笔者这里添加通过开发者工具获取到了添加的这个菜单项的代码：</p>
+<p><img src="https://i.imgur.com/726MqkJ.png"></p>
+<p>这里可以看出我们把获取右边红色框中的html代码就是社交媒体的其中一个，这样理解是没有问题的。</p>
+<pre><code>&lt;li id=&quot;menu-item-656&quot; class=&quot;menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-top-level menu-item-top-level-1&quot;&gt;&lt;a href=&quot;#&quot; itemprop=&quot;url&quot;&gt;&lt;span class=&quot;avia-bullet&quot;&gt;&lt;/span&gt;&lt;span class=&quot;avia-menu-text&quot;&gt;Home&lt;/span&gt;&lt;span class=&quot;avia-menu-fx&quot;&gt;&lt;span class=&quot;avia-arrow-wrap&quot;&gt;&lt;span class=&quot;avia-arrow&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;</code></pre>
+<p>好的，我们把多余的代码去除掉，最后简化成如下：</p>
+<pre><code>&lt;li id=&quot;menu-item-656&quot; class=&quot;menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-top-level menu-item-top-level-1&quot;&gt;&lt;a href=&quot;#&quot; itemprop=&quot;url&quot;&gt;&lt;span class=&quot;avia-menu-text&quot;&gt;Home&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;</code></pre>
+<p>所以我们添加四个社交媒体链接对应的代码如下：</p>
+<pre><code>&lt;li id=&#39;menu-item-599&#39; class=&#39;menu-item menu-item-type-custom menu-item-object-custom menu-item-mega-parent menu-item-top-level menu-item-top-level-1&#39;&gt;&lt;a href=&#39;#&#39; itemprop=&#39;url&#39;&gt;&lt;span class=&#39;avia-menu-text&#39;&gt;&lt;i class=&#39;fa fa-facebook&#39;&gt;&lt;/i&gt;&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#39;menu-item-600&#39; class=&#39;menu-item menu-item-type-custom menu-item-object-custom menu-item-mega-parent menu-item-top-level menu-item-top-level-1&#39;&gt;&lt;a href=&#39;#&#39; itemprop=&#39;url&#39;&gt;&lt;span class=&#39;avia-menu-text&#39;&gt;&lt;i class=&#39;fa fa-amazon&#39;&gt;&lt;/i&gt;&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#39;menu-item-601&#39; class=&#39;menu-item menu-item-type-custom menu-item-object-custom menu-item-mega-parent menu-item-top-level menu-item-top-level-1&#39;&gt;&lt;a href=&#39;#&#39; itemprop=&#39;url&#39;&gt;&lt;span class=&#39;avia-menu-text&#39;&gt;&lt;i class=&#39;fa fa-skype&#39;&gt;&lt;/i&gt;&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li id=&#39;menu-item-602&#39; class=&#39;menu-item menu-item-type-custom menu-item-object-custom menu-item-mega-parent menu-item-top-level menu-item-top-level-1&#39;&gt;&lt;a href=&#39;#&#39; itemprop=&#39;url&#39;&gt;&lt;span class=&#39;avia-menu-text&#39;&gt;&lt;i class=&#39;fa fa-instagram&#39;&gt;&lt;/i&gt;&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;</code></pre>
+<p>这四个社交媒体链接就算添加完毕了，接下来我们在这四个社交媒体的后面添加语言切换的功能，那么为了确保风格样式一致，那么我们复制一个社交媒体的代码，然后添加语言切换的下拉框代码：</p>
+<pre><code>&lt;div class=&quot;country&quot;&gt;
+    &lt;select onchange=&quot;window.location=options[(this.selectedIndex)].value&quot;&gt;
+        &lt;option value=&quot;/#en&quot;&gt;EN&lt;/option&gt;
+        &lt;option value=&quot;/#cn&quot;&gt;CN&lt;/option&gt;
+        &lt;option value=&quot;/#fr&quot;&gt;FR&lt;/option&gt;
+    &lt;/select&gt;
+&lt;/div&gt;</code></pre>
+<p>这样添加之后就可以选中其中一个的时候就可以跳转到响应的地址。</p>
+<pre><code>&lt;li id=&#39;menu-item-603&#39; class=&#39;menu-item menu-item-type-custom menu-item-object-custom menu-item-mega-parent menu-item-top-level menu-item-top-level-1&#39;&gt;
+    &lt;a href=&#39;#&#39; itemprop=&#39;url&#39;&gt;
+        &lt;span class=&#39;avia-menu-text country&#39;&gt;
+            &lt;select onchange=&#39;window.location=options[(this.selectedIndex)].value&#39;&gt;
+                &lt;option value=&#39;/#en&#39;&gt;EN&lt;/option&gt;
+                &lt;option value=&#39;/#cn&#39;&gt;CN&lt;/option&gt;
+                &lt;option value=&#39;/#fr&#39;&gt;FR&lt;/option&gt;
+            &lt;/select&gt;
+        &lt;/span&gt;
+    &lt;/a&gt;
+&lt;/li&gt;</code></pre>
+<p>可是这个时候，由于我们外面有一个a标签包裹着，当选中的时候，会不发生挑战，因为这个时候，我们需要让a标签失去链接的作用，处理方式如下：</p>
+<pre><code>&lt;a href=&quot;#&quot; onclick = &quot;return false;&quot; &gt;dd&lt;/a&gt;</code></pre>
+<p>这里我们就可以成功阻止了。</p>
+<p>好的，综合以上的代码，最后添加的js代码如下：</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+    var jQuery_3_3_1 = $.noConflict(true);
+    var socialmedia = jQuery_3_3_1(&quot;&lt;li id=&#39;menu-item-599&#39; class=&#39;menu-item menu-item-type-custom menu-item-object-custom menu-item-mega-parent menu-item-top-level menu-item-top-level-1&#39;&gt;&lt;a href=&#39;#&#39; itemprop=&#39;url&#39;&gt;&lt;span class=&#39;avia-menu-text&#39;&gt;&lt;i class=&#39;fa fa-facebook&#39;&gt;&lt;/i&gt;&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;&lt;li id=&#39;menu-item-600&#39; class=&#39;menu-item menu-item-type-custom menu-item-object-custom menu-item-mega-parent menu-item-top-level menu-item-top-level-1&#39;&gt;&lt;a href=&#39;#&#39; itemprop=&#39;url&#39;&gt;&lt;span class=&#39;avia-menu-text&#39;&gt;&lt;i class=&#39;fa fa-amazon&#39;&gt;&lt;/i&gt;&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;&lt;li id=&#39;menu-item-601&#39; class=&#39;menu-item menu-item-type-custom menu-item-object-custom menu-item-mega-parent menu-item-top-level menu-item-top-level-1&#39;&gt;&lt;a href=&#39;#&#39; itemprop=&#39;url&#39;&gt;&lt;span class=&#39;avia-menu-text&#39;&gt;&lt;i class=&#39;fa fa-skype&#39;&gt;&lt;/i&gt;&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;&lt;li id=&#39;menu-item-602&#39; class=&#39;menu-item menu-item-type-custom menu-item-object-custom menu-item-mega-parent menu-item-top-level menu-item-top-level-1&#39;&gt;&lt;a href=&#39;#&#39; itemprop=&#39;url&#39;&gt;&lt;span class=&#39;avia-menu-text&#39;&gt;&lt;i class=&#39;fa fa-instagram&#39;&gt;&lt;/i&gt;&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;&lt;li id=&#39;menu-item-603&#39; class=&#39;menu-item menu-item-type-custom menu-item-object-custom menu-item-mega-parent menu-item-top-level menu-item-top-level-1&#39;&gt;&lt;a href=&#39;#&#39; onclick=&#39;return false;&#39; itemprop=&#39;url&#39;&gt;&lt;span class=&#39;avia-menu-text country&#39;&gt;&lt;select onchange=&#39;window.location=options[(this.selectedIndex)].value&#39;&gt;&lt;option value=&#39;/#en&#39;&gt;EN&lt;/option&gt;&lt;option value=&#39;/#cn&#39;&gt;CN&lt;/option&gt;&lt;option value=&#39;/#fr&#39;&gt;FR&lt;/option&gt;&lt;/select&gt;&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;&quot;);
+       jQuery_3_3_1(&quot;#menu-item-search&quot;).before(socialmedia);
+&lt;/script&gt;</code></pre>
+<p>这个时候我们经过少许的样式美化：</p>
+<pre><code>#avia-menu .fa&#123;
+    font-size: 15px !important;
+    background: #313131;
+    color: #fff;
+    padding: 8px 9.5px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+&#125;
+#avia-menu .fa-facebook&#123;
+  padding-left:12px; 
+&#125;
+#top .country&#123;
+   display:inline-block !important;
+&#125;
+#top .country select &#123;
+    width: 60px !important;
+    margin-bottom: 0px !important;
+&#125;</code></pre>
+<p>就可以达到如下测效果：</p>
+<p><img src="https://i.imgur.com/9qyTpqm.png"></p>
+<p>手机版：</p>
+<p><img src="https://i.imgur.com/XU1ohua.png"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/jquery-wordpress-%E8%8F%9C%E5%8D%95%E6%A0%8F-%E7%A4%BE%E4%BA%A4%E5%AA%92%E4%BD%93-%E8%AF%AD%E8%A8%80%E5%88%87%E6%8D%A2/" rel="tag"># jquery,wordpress,菜单栏,社交媒体,语言切换</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/08/07/magento%E8%A3%85%E4%B8%8Amemcached%E5%8A%A0%E9%80%9F-%E8%AE%BF%E9%97%AE%E9%80%9F%E5%BA%A6%E6%98%8E%E6%98%BE%E6%8F%90%E5%8D%87/" rel="prev" title="magento装上memcached加速,访问速度明显提升">
+      <i class="fa fa-chevron-left"></i> magento装上memcached加速,访问速度明显提升
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/08/13/%E4%B8%80%E4%B8%AAhtml%E6%8C%89%E9%92%AE%E7%9A%84%E5%A4%A7%E4%BA%8E%E5%8F%B7%E5%92%8C%E5%B0%8F%E4%BA%8E%E5%8F%B7%E5%BC%95%E5%8F%91%E5%AF%B9%E8%BD%AC%E4%B9%89%E7%9A%84%E6%80%9D%E8%80%83%E5%92%8C%E7%9B%B8%E5%85%B3%E8%B5%84%E6%96%99%E7%9A%84%E6%95%B4%E7%90%86/" rel="next" title="一个html按钮的大于号和小于号引发对转义的思考和相关资料的整理">
+      一个html按钮的大于号和小于号引发对转义的思考和相关资料的整理 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

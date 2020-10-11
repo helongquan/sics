@@ -1,37 +1,455 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="为了将页面链接添加到导航栏，您应该执行以下步骤: 第一步: 添加子目录 来到 Catalog -&gt; Manage Categories .  在左边选择 ‘Default Category’ , 然后点击 ‘Add Subcategory’ 按钮:     填写必要的字段:   Specify your link Name.  Set ‘Is Active’ to Yes.  In the">
+<meta property="og:type" content="article">
+<meta property="og:title" content="通过重写url的方式实现在magento菜单位置(导航栏)添加自定义链接">
+<meta property="og:url" content="http://example.com/2018/12/19/%E9%80%9A%E8%BF%87%E9%87%8D%E5%86%99url%E7%9A%84%E6%96%B9%E5%BC%8F%E5%AE%9E%E7%8E%B0%E5%9C%A8magento%E8%8F%9C%E5%8D%95%E4%BD%8D%E7%BD%AE%E6%B7%BB%E5%8A%A0%E8%87%AA%E5%AE%9A%E4%B9%89%E9%93%BE%E6%8E%A5/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="为了将页面链接添加到导航栏，您应该执行以下步骤: 第一步: 添加子目录 来到 Catalog -&gt; Manage Categories .  在左边选择 ‘Default Category’ , 然后点击 ‘Add Subcategory’ 按钮:     填写必要的字段:   Specify your link Name.  Set ‘Is Active’ to Yes.  In the">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/mJ3WdEZ.png">
+<meta property="og:image" content="https://i.imgur.com/t6amqn6.png">
+<meta property="og:image" content="https://i.imgur.com/5fTiGuK.png">
+<meta property="og:image" content="https://i.imgur.com/jtLds7g.png">
+<meta property="og:image" content="https://i.imgur.com/fxpmKd8.jpg">
+<meta property="og:image" content="https://i.imgur.com/HDqCt8C.png">
+<meta property="og:image" content="https://i.imgur.com/JHj5oKe.png">
+<meta property="article:published_time" content="2018-12-19T11:08:57.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:06.809Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="URL重写,菜单栏添加自定义链接,magento,菜单位置">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/mJ3WdEZ.png">
+
+<link rel="canonical" href="http://example.com/2018/12/19/%E9%80%9A%E8%BF%87%E9%87%8D%E5%86%99url%E7%9A%84%E6%96%B9%E5%BC%8F%E5%AE%9E%E7%8E%B0%E5%9C%A8magento%E8%8F%9C%E5%8D%95%E4%BD%8D%E7%BD%AE%E6%B7%BB%E5%8A%A0%E8%87%AA%E5%AE%9A%E4%B9%89%E9%93%BE%E6%8E%A5/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>通过重写url的方式实现在magento菜单位置(导航栏)添加自定义链接 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/12/19/%E9%80%9A%E8%BF%87%E9%87%8D%E5%86%99url%E7%9A%84%E6%96%B9%E5%BC%8F%E5%AE%9E%E7%8E%B0%E5%9C%A8magento%E8%8F%9C%E5%8D%95%E4%BD%8D%E7%BD%AE%E6%B7%BB%E5%8A%A0%E8%87%AA%E5%AE%9A%E4%B9%89%E9%93%BE%E6%8E%A5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          通过重写url的方式实现在magento菜单位置(导航栏)添加自定义链接
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-12-19 19:08:57" itemprop="dateCreated datePublished" datetime="2018-12-19T19:08:57+08:00">2018-12-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:06" itemprop="dateModified" datetime="2020-10-11T11:58:06+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/magento1/" itemprop="url" rel="index"><span itemprop="name">magento1</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>为了将页面链接添加到导航栏，您应该执行以下步骤:</p>
+<h3 id="第一步-添加子目录"><a href="#第一步-添加子目录" class="headerlink" title="第一步: 添加子目录"></a>第一步: 添加子目录</h3><ol>
+<li><p>来到 Catalog -&gt; Manage Categories .</p>
+</li>
+<li><p>在左边选择 ‘Default Category’ , 然后点击 ‘Add Subcategory’ 按钮:</p>
+</li>
+</ol>
+<p><img src="https://i.imgur.com/mJ3WdEZ.png"></p>
+<ol start="3">
+<li>填写必要的字段:</li>
+</ol>
+<ul>
+<li><p>Specify your link Name.</p>
+</li>
+<li><p>Set ‘Is Active’ to Yes.</p>
+</li>
+<li><p>In the URL Key field type the name of your page link in lowercase letters with hyphens instead of spaces (f.e.’About Us’ becomes about-us):</p>
+</li>
+</ul>
+<p>这样就算完成了一个子目录的创建，不同主题设置方式有所差异，自己根据需求进行填写即可。</p>
+<p><img src="https://i.imgur.com/t6amqn6.png"></p>
+<h3 id="第二步-找到第一步中创建的子目录所在的重写规则"><a href="#第二步-找到第一步中创建的子目录所在的重写规则" class="headerlink" title="第二步: 找到第一步中创建的子目录所在的重写规则"></a>第二步: 找到第一步中创建的子目录所在的重写规则</h3><p>我们先搜索刚才创建的那个子目录：比如刚才创建的是newpage这个目录，那么我们就在URL重写管理列表里面搜索，找到这个，</p>
+<p><img src="https://i.imgur.com/5fTiGuK.png"></p>
+<p>点击编辑，复制里面的两个东西到编辑器里面存着，等下会用到：</p>
+<p><img src="https://i.imgur.com/jtLds7g.png"></p>
+<pre><code>ID Path
+
+Request Path</code></pre>
+<p>把这两个字段的记录下来。如果这个子目录（newpage）创建了多语种，那么我们分别把跟这个子目录有关多个语种的重写都删除。根据截图，笔者这里创建了六个语种。</p>
+<p><img src="https://i.imgur.com/fxpmKd8.jpg"></p>
+<p>都把这些删除。</p>
+<h3 id="第三步-添加一个新的URL重写"><a href="#第三步-添加一个新的URL重写" class="headerlink" title="第三步: 添加一个新的URL重写"></a>第三步: 添加一个新的URL重写</h3><p>当我们把第二步里面的旧的url重写规则删除之后，我们就要创建自定义的url规则了。</p>
+<p>在后台目录：Catalog — URL Rewrite Management — Add URL Rewrite,新建一个重写的url.</p>
+<p><img src="https://i.imgur.com/HDqCt8C.png"></p>
+<p>在点击添加New URL Rewrite的那里的Create URL Rewrite，选择Custom，下面的位置就把第二部中的,</p>
+<pre><code>ID Path
+
+Request Path</code></pre>
+<p>的值填写进去，如果想要所有语言都重写，那么在Store那里就选择Store view，如果只是针对某一种语言，那么就选择某种语言即可。</p>
+<p>见名知意，我们在Target Path那里选择我们重定向的目标地址，比如笔者这里想要当用户点击newpage这个子目录的时候，跳转到关于我们页面，那么这里的Target Path就写成：</p>
+<pre><code>http://youdomain.com/index.php/about</code></pre>
+<p>接着后面的Redirect就选择 Permanent (301)，这个就是重定向。保存！</p>
+<h3 id="第四步-创建一个页面作为重定向的目标地址"><a href="#第四步-创建一个页面作为重定向的目标地址" class="headerlink" title="第四步: 创建一个页面作为重定向的目标地址"></a>第四步: 创建一个页面作为重定向的目标地址</h3><p>如果我们不想跳转到关于我们页面，也就是说我们跳转的目标地址还没有，那么我们就创建它。</p>
+<p><img src="https://i.imgur.com/JHj5oKe.png"></p>
+<p>这个就是一个页面的创建方法了，没有什么难度。然后里面添加自己想要的内容。</p>
+<h3 id="最后-清除缓存"><a href="#最后-清除缓存" class="headerlink" title="最后: 清除缓存"></a>最后: 清除缓存</h3><p>如果设置完了没有效果不要着急，很可能是没有清除缓存的原因，这个时候去后台清除一下缓存即可，也有可能不小心切换到一个还没有创建URL重写的语言版本下，这个只要注意基本没啥问题。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/URL%E9%87%8D%E5%86%99-%E8%8F%9C%E5%8D%95%E6%A0%8F%E6%B7%BB%E5%8A%A0%E8%87%AA%E5%AE%9A%E4%B9%89%E9%93%BE%E6%8E%A5-magento-%E8%8F%9C%E5%8D%95%E4%BD%8D%E7%BD%AE/" rel="tag"># URL重写,菜单栏添加自定义链接,magento,菜单位置</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/12/13/%E7%BB%99wordpress%E7%9A%84woocommerce%E4%BA%A7%E5%93%81%E8%AF%A6%E6%83%85%E9%A1%B5%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%B8%AA%E7%AB%8B%E5%8D%B3%E8%B4%AD%E4%B9%B0%E7%9A%84%E6%8C%89%E9%92%AE/" rel="prev" title="给wordpress的woocommerce产品详情页添加一个立即购买的按钮的两种方案">
+      <i class="fa fa-chevron-left"></i> 给wordpress的woocommerce产品详情页添加一个立即购买的按钮的两种方案
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/12/21/jquery%E6%96%B9%E5%BC%8F%E5%AE%9E%E7%8E%B0%E9%BC%A0%E6%A0%87%E6%BB%9A%E5%8A%A8%E6%9F%90%E4%B8%AA%E7%AA%97%E5%8F%A3%E4%BD%8D%E7%BD%AEdom%E8%8A%82%E7%82%B9%E5%9B%BA%E5%AE%9A%E4%B8%8D%E5%8A%A8%EF%BC%8C%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3js%E4%BB%A3%E7%A0%81%E6%94%BE%E5%9C%A8%E5%85%AC%E5%85%B1%E5%A4%B4%E9%83%A8%E6%88%96%E8%80%85%E5%B0%BE%E9%83%A8%E7%9A%84%E6%97%B6%E5%80%99%E5%BC%95%E8%B5%B7%E7%9A%84%E6%8A%A5%E9%94%99-Cannot-read-property-xxx-of-undefined/" rel="next" title="jquery方式实现鼠标滚动某个窗口位置dom节点固定不动，以及解决js代码放在公共头部或者尾部的时候引起的报错:Cannot read property 'xxx' of undefined">
+      jquery方式实现鼠标滚动某个窗口位置dom节点固定不动，以及解决js代码放在公共头部或者尾部的时候引起的报错:Cannot read property 'xxx' of undefined <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5-%E6%B7%BB%E5%8A%A0%E5%AD%90%E7%9B%AE%E5%BD%95"><span class="nav-number">1.</span> <span class="nav-text">第一步: 添加子目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5-%E6%89%BE%E5%88%B0%E7%AC%AC%E4%B8%80%E6%AD%A5%E4%B8%AD%E5%88%9B%E5%BB%BA%E7%9A%84%E5%AD%90%E7%9B%AE%E5%BD%95%E6%89%80%E5%9C%A8%E7%9A%84%E9%87%8D%E5%86%99%E8%A7%84%E5%88%99"><span class="nav-number">2.</span> <span class="nav-text">第二步: 找到第一步中创建的子目录所在的重写规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5-%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84URL%E9%87%8D%E5%86%99"><span class="nav-number">3.</span> <span class="nav-text">第三步: 添加一个新的URL重写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E6%AD%A5-%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E9%A1%B5%E9%9D%A2%E4%BD%9C%E4%B8%BA%E9%87%8D%E5%AE%9A%E5%90%91%E7%9A%84%E7%9B%AE%E6%A0%87%E5%9C%B0%E5%9D%80"><span class="nav-number">4.</span> <span class="nav-text">第四步: 创建一个页面作为重定向的目标地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%80%E5%90%8E-%E6%B8%85%E9%99%A4%E7%BC%93%E5%AD%98"><span class="nav-number">5.</span> <span class="nav-text">最后: 清除缓存</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

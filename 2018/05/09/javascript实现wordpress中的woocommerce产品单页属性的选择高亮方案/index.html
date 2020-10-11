@@ -1,37 +1,590 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="用户wooommcerce的人都知道，大概很多时候我们可能需要一个可变产品，然后通过选择属性，获取自己某个适合自己的产品。可是默认情况是这样的：  这个是个下拉框，当然我们可以从后台那里选择：  这里需要安装一个插件才能看到，插件的下载地址：WooCommerce Variation Swatches and Photos，密码：ra2w 好的，采用radio的形式，到前台查看是这样的效果：  但">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javascript实现wordpress中的woocommerce产品单页属性的选择高亮方案">
+<meta property="og:url" content="http://example.com/2018/05/09/javascript%E5%AE%9E%E7%8E%B0wordpress%E4%B8%AD%E7%9A%84woocommerce%E4%BA%A7%E5%93%81%E5%8D%95%E9%A1%B5%E5%B1%9E%E6%80%A7%E7%9A%84%E9%80%89%E6%8B%A9%E9%AB%98%E4%BA%AE%E6%96%B9%E6%A1%88/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="用户wooommcerce的人都知道，大概很多时候我们可能需要一个可变产品，然后通过选择属性，获取自己某个适合自己的产品。可是默认情况是这样的：  这个是个下拉框，当然我们可以从后台那里选择：  这里需要安装一个插件才能看到，插件的下载地址：WooCommerce Variation Swatches and Photos，密码：ra2w 好的，采用radio的形式，到前台查看是这样的效果：  但">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/mn4uPvs.png">
+<meta property="og:image" content="https://i.imgur.com/rd1X1wi.jpg">
+<meta property="og:image" content="https://i.imgur.com/7QWJZHs.jpg">
+<meta property="og:image" content="https://i.imgur.com/9Ak3LuX.jpg">
+<meta property="og:image" content="https://i.imgur.com/mkw5tzv.png">
+<meta property="og:image" content="https://i.imgur.com/5BVSjSD.png">
+<meta property="og:image" content="https://i.imgur.com/IHsFyxl.jpg">
+<meta property="og:image" content="https://i.imgur.com/nVZevWD.jpg">
+<meta property="og:image" content="https://i.imgur.com/nTusU3L.jpg">
+<meta property="article:published_time" content="2018-05-09T07:00:10.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:57:57.761Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="javascript,wordpress,woocommerce,产品单页,属性,checkbox,radio">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/mn4uPvs.png">
+
+<link rel="canonical" href="http://example.com/2018/05/09/javascript%E5%AE%9E%E7%8E%B0wordpress%E4%B8%AD%E7%9A%84woocommerce%E4%BA%A7%E5%93%81%E5%8D%95%E9%A1%B5%E5%B1%9E%E6%80%A7%E7%9A%84%E9%80%89%E6%8B%A9%E9%AB%98%E4%BA%AE%E6%96%B9%E6%A1%88/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>javascript实现wordpress中的woocommerce产品单页属性的选择高亮方案 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/05/09/javascript%E5%AE%9E%E7%8E%B0wordpress%E4%B8%AD%E7%9A%84woocommerce%E4%BA%A7%E5%93%81%E5%8D%95%E9%A1%B5%E5%B1%9E%E6%80%A7%E7%9A%84%E9%80%89%E6%8B%A9%E9%AB%98%E4%BA%AE%E6%96%B9%E6%A1%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          javascript实现wordpress中的woocommerce产品单页属性的选择高亮方案
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-05-09 15:00:10" itemprop="dateCreated datePublished" datetime="2018-05-09T15:00:10+08:00">2018-05-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:57" itemprop="dateModified" datetime="2020-10-11T11:57:57+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/wordpress/" itemprop="url" rel="index"><span itemprop="name">wordpress</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>用户wooommcerce的人都知道，大概很多时候我们可能需要一个可变产品，然后通过选择属性，获取自己某个适合自己的产品。可是默认情况是这样的：</p>
+<p><img src="https://i.imgur.com/mn4uPvs.png"></p>
+<p>这个是个下拉框，当然我们可以从后台那里选择：</p>
+<p><img src="https://i.imgur.com/rd1X1wi.jpg"></p>
+<p>这里需要安装一个插件才能看到，插件的下载地址：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1sOnTLlhn4bAEobAcQA7Q8g">WooCommerce Variation Swatches and Photos</a>，密码：ra2w</p>
+<p>好的，采用radio的形式，到前台查看是这样的效果：</p>
+<p><img src="https://i.imgur.com/7QWJZHs.jpg"></p>
+<p>但是，尽管如此，客户还是喜欢类似这样的效果：</p>
+<p><img src="https://i.imgur.com/9Ak3LuX.jpg"></p>
+<p>好的，这里笔者这里的方案是采用radio这种方式，但是需要通过javascript和css的配合。</p>
+<p>先浮动：</p>
+<p><img src="https://i.imgur.com/mkw5tzv.png"></p>
+<p>我们先把radio的按钮隐藏，代码如下，这个代码可能根据主题不一样也会不一样，笔者这里是采用enfold主题作为讲解，代码仅做参考：</p>
+<pre><code>.variations .radio-select ul li &#123;
+    float: left;
+    margin-right: 20px;
+&#125;
+.variations .radio-select ul li label &#123;
+    border: 1px solid #f7b557;
+    width: 50px !important;
+    text-align: center;
+    display:block !important;
+&#125;
+.swatch-control.radio-select li label &#123;
+    margin-left: 0px !important;
+&#125;
+.variations .radio-select ul li .radio-option&#123;
+   max-width:0px !important;
+   display:none;
+&#125;</code></pre>
+<p>通过css的美化，我们达到了类似的效果，<span style="color:red">这里提个醒</span> : 我之所以采用label，而不是li,那是因为lable是跟input是绑定在一起的，所以我们需要把label这个当做一个块级元素，以便这个border里面的所有区域对鼠标的点击事件进行响应。</p>
+<p><img src="https://i.imgur.com/5BVSjSD.png"></p>
+<p>已经很接近了，但是当我们点击的时候，颜色不会变化，这个时候我们就需要javascript的点击事件了，代码如下：</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+    $(function()&#123;
+    $(&quot;.variations .radio-select ul li&quot;).click(function()&#123;
+        if ($(this).hasClass(&#39;disabled&#39;)) &#123;
+            $(this).css(&quot;border&quot;,&quot;1px solid #eee&quot;);
+        &#125;else&#123;
+               $(this).css(&quot;border&quot;,&quot;1px solid red&quot;).siblings().css(&quot;border&quot;,&quot;1px solid #eee&quot;);
+        &#125;
+    &#125;);
+    &#125;)
+&lt;/script&gt;</code></pre>
+<p>说明：由于woocommerce的自带的功能，当我们的属性组合在后台设置了，才能被选中，打个比方，如果红色的尺寸没有XL，那么当我们选择红色的时候，再从Size的那里选择XL的时候，是不能被选择的，我们通过浏览器开发者工具可以看到这个：</p>
+<pre><code>&lt;ul id=&quot;radio_select_pa_size5af29bc9a06b4&quot; class=&quot;&quot; data-attribute_name=&quot;attribute_pa_size&quot;&gt;
+    &lt;li&gt;
+        &lt;input class=&quot;radio-option&quot; name=&quot;attribute_pa_size_5af29bc9a05e2&quot; id=&quot;radio_pa_size5af29bc9a06b4_37&quot; type=&quot;radio&quot; data-value=&quot;37&quot; value=&quot;37&quot;&gt;
+        &lt;label for=&quot;radio_pa_size5af29bc9a06b4_37&quot;&gt;37&lt;/label&gt;
+    &lt;/li&gt;
+    &lt;li class=&quot;disabled&quot;&gt;
+        &lt;input class=&quot;radio-option&quot; name=&quot;attribute_pa_size_5af29bc9a05e2&quot; id=&quot;radio_pa_size5af29bc9a06b4_38&quot; type=&quot;radio&quot; data-value=&quot;38&quot; value=&quot;38&quot; disabled=&quot;disabled&quot;&gt;
+        &lt;label for=&quot;radio_pa_size5af29bc9a06b4_38&quot;&gt;38&lt;/label&gt;
+    &lt;/li&gt;
+    &lt;li&gt;
+        &lt;input class=&quot;radio-option&quot; name=&quot;attribute_pa_size_5af29bc9a05e2&quot; id=&quot;radio_pa_size5af29bc9a06b4_39&quot; type=&quot;radio&quot; data-value=&quot;39&quot; value=&quot;39&quot; checked=&quot;checked&quot;&gt;
+        &lt;label for=&quot;radio_pa_size5af29bc9a06b4_39&quot;&gt;39&lt;/label&gt;
+    &lt;/li&gt;
+    &lt;li class=&quot;disabled&quot;&gt;
+        &lt;input class=&quot;radio-option&quot; name=&quot;attribute_pa_size_5af29bc9a05e2&quot; id=&quot;radio_pa_size5af29bc9a06b4_40&quot; type=&quot;radio&quot; data-value=&quot;40&quot; value=&quot;40&quot; disabled=&quot;disabled&quot;&gt;
+        &lt;label for=&quot;radio_pa_size5af29bc9a06b4_40&quot;&gt;40&lt;/label&gt;
+    &lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+<p>对应的是这样的：</p>
+<p><img src="https://i.imgur.com/IHsFyxl.jpg"></p>
+<p>好的，正因为这样，我们就可以对javascript代码进行分析了：</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+    $(function()&#123;
+    $(&quot;.variations .radio-select ul li&quot;).click(function()&#123;
+        if ($(this).hasClass(&#39;disabled&#39;)) &#123;
+            $(this).css(&quot;border&quot;,&quot;1px solid #eee&quot;);
+        &#125;else&#123;
+               $(this).css(&quot;border&quot;,&quot;1px solid red&quot;).siblings().css(&quot;border&quot;,&quot;1px solid #eee&quot;);
+        &#125;
+    &#125;);
+    &#125;)
+&lt;/script&gt;</code></pre>
+<p>这个里面有个判断，如果li标签里面有disabled这个class，那么就执行代码：</p>
+<pre><code>$(this).css(&quot;border&quot;,&quot;1px solid #eee&quot;);</code></pre>
+<p>否则，就执行代码：</p>
+<pre><code>$(this).css(&quot;border&quot;,&quot;1px solid red&quot;).siblings().css(&quot;border&quot;,&quot;1px solid #eee&quot;);</code></pre>
+<p>思路很清楚，这个为了达到看不出来的效果，那么所有li标签的边框默认的样式应该也是跟代码：</p>
+<pre><code>$(this).css(&quot;border&quot;,&quot;1px solid #eee&quot;);</code></pre>
+<p>里面控制的样式是一样的，因此：</p>
+<pre><code>.variations .radio-select ul li label &#123;
+    border: 1px solid #eee;
+&#125;</code></pre>
+<p>这个的border属性值就是<code>1px solid #eee</code></p>
+<p>好的，从上面的代码不难看出，这个是基于jquery的，所以先引用<strong>jquery</strong>，通常wordpress都引用了这个javascript库，所以我们就不用再次引用，如果没有的话，需要再次引用。</p>
+<h2 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h2><p>这里如果再次引入jquery的时候，可能会存在一个jquery冲突的问题，这个时候我们需要解决冲突，</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+    var jQuery_3_3_1 = $.noConflict(true);
+&lt;/script&gt;
+&lt;script src=&quot;https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js&quot;&gt;&lt;/script&gt;</code></pre>
+<p>在引入这个jquery的时候，添加一个冲突解决的代码。</p>
+<p>然后在以后写的jquery的<code>$</code>的时候，全部用<code>jQuery_3_3_1</code>代替即可。</p>
+<p>然后，我们把这个javascript代码放在wordpress里面的header.php里面的<code>&lt;/head&gt;</code>之前即可。</p>
+<h2 id="这里有个小问题："><a href="#这里有个小问题：" class="headerlink" title="这里有个小问题："></a>这里有个小问题：</h2><p>当我们选择红色的时候，，然后我们从size里面选择一个有这个组合的，我们选择：37，那么红色+37这个组合的价格是77元，可是我们接着在Size里面选择40的时候（这个组合我在后台没有加产品和价格），按理说这个价格不显示才对，可是一直还是显示选择上一个有效组合的价格（也就是37），虽然点击40的那里颜色确实没有高亮，但是为了避免误会，这个价格不变化还是不太好。</p>
+<p>为了解决这个问题，笔者采用一个巧妙的方法，就是只要是li标签里面有disabled的，我们都把它隐藏，这样当我们选红色的时候，根据上面的那个html代码可以看出：37和39是显示的，38和40隐藏的。</p>
+<p>同样的，当我们选择其他的颜色的时候，只有没有这个组合，那么这个就应该隐藏，以免用户误点，造成纠纷。</p>
+<p>所以这里只需要在css里面添加代码：</p>
+<pre><code>.variations .radio-select ul li.disabled&#123;
+   display:none;
+&#125;</code></pre>
+<p>这里提醒一下，这个class必须是这个区域的，如果其他区域也有的话，可能会莫名奇妙的被隐藏了，其实我们只需要把范围缩小基本就没啥问题的。</p>
+<p>好的我们再来看下效果：</p>
+<p><img src="https://i.imgur.com/nVZevWD.jpg"></p>
+<p>这个时候，我们点击红色的时候，那么跟红色有效组合的只有尺寸为37和39的这两个。其他不符合的都被隐藏。</p>
+<p>从可用性来讲，这两种方法都是可以的，笔者之所以这么啰嗦，仅仅是希望启发大家能够有个发散性思维，面对问题有更多的方案。</p>
+<p>更新：2018/12/6 9:53:59 </p>
+<p>这里笔者又有类似的需求，先安装woocommerce颜色切换插件（WooCommerce Variation Swatches and Photos），然后添加一个可变产品，添加东西，然后选择radio，添加属性…</p>
+<p>然后就是点击某个属性高亮，其他的同级变暗。</p>
+<p>js代码如下：</p>
+<pre><code>&lt;script src=&quot;http://code.jquery.com/jquery-2.1.4.min.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+var jQuery = $.noConflict(true);
+jQuery(document).ready(function()&#123;
+  jQuery(&quot;.return-to-shop a&quot;).attr(&quot;href&quot;,&quot;http://ro.vazpra.com/store/&quot;);
+  jQuery(&quot;.variations .swatch-control.radio-select li&quot;).click(function()&#123;
+        jQuery(this).addClass(&quot;actives&quot;).siblings().removeClass(&quot;actives&quot;);
+  &#125;);
+  jQuery(&quot;#picker_pa_color .select-option&quot;).click(function()&#123;
+        jQuery(this).addClass(&quot;actives&quot;).siblings().removeClass(&quot;actives&quot;);
+  &#125;);
+  jQuery(&quot;.woocommerce-Tabs-panel table td&quot;).removeAttr(&quot;style&quot;);
+  jQuery(&quot;.woocommerce-Tabs-panel table td&quot;).removeAttr(&quot;width&quot;);
+  jQuery(&quot;.woocommerce-Tabs-panel table&quot;).removeAttr(&quot;width&quot;);
+&#125;)
+&lt;/script&gt;</code></pre>
+<p>把这个代码添加到wordpress的footer.php底部。其中，</p>
+<pre><code>jQuery(&quot;.woocommerce-Tabs-panel table td&quot;).removeAttr(&quot;style&quot;);
+jQuery(&quot;.woocommerce-Tabs-panel table td&quot;).removeAttr(&quot;width&quot;);
+jQuery(&quot;.woocommerce-Tabs-panel table&quot;).removeAttr(&quot;width&quot;);</code></pre>
+<p>是为了去除掉从word里面复制的表格，而带进来的自有格式，这里可以忽略。真正作用的是这里，</p>
+<pre><code>jQuery(&quot;.variations .swatch-control.radio-select li&quot;).click(function()&#123;
+    jQuery(this).addClass(&quot;actives&quot;).siblings().removeClass(&quot;actives&quot;);
+&#125;);
+jQuery(&quot;#picker_pa_color .select-option&quot;).click(function()&#123;
+    jQuery(this).addClass(&quot;actives&quot;).siblings().removeClass(&quot;actives&quot;);
+&#125;);</code></pre>
+<p>css代码：</p>
+<pre><code>.variations .radio-select ul li &#123;
+    float: left;
+    margin-right: 10px;
+&#125;
+.variations .radio-select ul li label &#123;
+    width: 75px !important;
+    text-align: center;
+    display:block !important;
+&#125;
+.swatch-control.radio-select li label &#123;
+    margin-left: 0px !important;
+&#125;
+#top .variations td &#123;
+    text-align: left !important;
+    padding: 4px 10px 10px 5px;
+    vertical-align: middle !important;
+&#125;
+.swatch-wrapper &#123;
+    padding: 2px 6px 2px 0px;
+&#125;
+.variations .radio-select ul li .radio-option&#123;
+   max-width:0px !important;
+   display:none;
+&#125;
+.variations .swatch-control.radio-select li&#123;
+   border:1px solid #bbb;
+&#125;
+.actives&#123;
+   border:1px solid #f2ab20 !important;
+&#125;
+.variations .swatch-wrapper.selected &#123;
+    padding: 0px !important;
+&#125;
+.variations .swatch-wrapper &#123;
+    padding: 0px 0px 0px 0px !important;
+&#125;</code></pre>
+<p>完成。最终效果：</p>
+<p><img src="https://i.imgur.com/nTusU3L.jpg"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/javascript-wordpress-woocommerce-%E4%BA%A7%E5%93%81%E5%8D%95%E9%A1%B5-%E5%B1%9E%E6%80%A7-checkbox-radio/" rel="tag"># javascript,wordpress,woocommerce,产品单页,属性,checkbox,radio</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/05/08/wordpress%E8%81%94%E7%B3%BB%E8%A1%A8%E5%8D%95%E5%BC%B9%E7%AA%97%E9%87%87%E7%94%A8popup-maker%E6%8F%92%E4%BB%B6%E6%96%B9%E6%A1%88%E5%AE%9E%E7%8E%B0%E7%9A%84%E8%AF%A6%E8%A7%A3/" rel="prev" title="wordpress联系表单弹窗采用popup maker弹窗插件方案实现网站头部添加询价表单的弹出效果">
+      <i class="fa fa-chevron-left"></i> wordpress联系表单弹窗采用popup maker弹窗插件方案实现网站头部添加询价表单的弹出效果
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/05/10/javascript%E5%AE%9E%E7%8E%B0%E7%BD%91%E9%A1%B5%E7%9A%84%E6%89%80%E6%9C%89%E9%93%BE%E6%8E%A5%E4%B8%8D%E8%83%BD%E7%82%B9%E5%87%BB%E4%BB%A5%E5%8F%8A%E7%A6%81%E7%94%A8/" rel="next" title="javascript实现网页的所有链接不能点击以及禁用">
+      javascript实现网页的所有链接不能点击以及禁用 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F"><span class="nav-number">1.</span> <span class="nav-text">注意</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%99%E9%87%8C%E6%9C%89%E4%B8%AA%E5%B0%8F%E9%97%AE%E9%A2%98%EF%BC%9A"><span class="nav-number">2.</span> <span class="nav-text">这里有个小问题：</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

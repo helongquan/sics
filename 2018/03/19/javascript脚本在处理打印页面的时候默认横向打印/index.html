@@ -1,37 +1,449 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="根据客户的需求，页面的打印功能是通过javascript实现的，这个时候，我们在默认的情况下，打印是纵向打印的，但是由于个别原因，我们在打印具有很多列的时候，纵向打印是显示不全的，这个时候如果我们不设置成横向打印，那么客户体验很差，那么针对这个问题，我们应该如何实现呢？ 这里我们只需要在样式中添加以下代码即可设置成打印的方式为横向打印： @media print &amp;#123;     .nopri">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javascript脚本在处理打印页面的时候默认横向打印">
+<meta property="og:url" content="http://example.com/2018/03/19/javascript%E8%84%9A%E6%9C%AC%E5%9C%A8%E5%A4%84%E7%90%86%E6%89%93%E5%8D%B0%E9%A1%B5%E9%9D%A2%E7%9A%84%E6%97%B6%E5%80%99%E9%BB%98%E8%AE%A4%E6%A8%AA%E5%90%91%E6%89%93%E5%8D%B0/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="根据客户的需求，页面的打印功能是通过javascript实现的，这个时候，我们在默认的情况下，打印是纵向打印的，但是由于个别原因，我们在打印具有很多列的时候，纵向打印是显示不全的，这个时候如果我们不设置成横向打印，那么客户体验很差，那么针对这个问题，我们应该如何实现呢？ 这里我们只需要在样式中添加以下代码即可设置成打印的方式为横向打印： @media print &amp;#123;     .nopri">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/Z19j2jj.png">
+<meta property="og:image" content="https://i.imgur.com/1kmeEc2.png">
+<meta property="og:image" content="https://i.imgur.com/K7aC2xV.jpg">
+<meta property="og:image" content="https://i.imgur.com/cOKd0Sd.jpg">
+<meta property="article:published_time" content="2018-03-19T09:48:31.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:53:32.534Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="javascript,打印,横向打印">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/Z19j2jj.png">
+
+<link rel="canonical" href="http://example.com/2018/03/19/javascript%E8%84%9A%E6%9C%AC%E5%9C%A8%E5%A4%84%E7%90%86%E6%89%93%E5%8D%B0%E9%A1%B5%E9%9D%A2%E7%9A%84%E6%97%B6%E5%80%99%E9%BB%98%E8%AE%A4%E6%A8%AA%E5%90%91%E6%89%93%E5%8D%B0/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>javascript脚本在处理打印页面的时候默认横向打印 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/03/19/javascript%E8%84%9A%E6%9C%AC%E5%9C%A8%E5%A4%84%E7%90%86%E6%89%93%E5%8D%B0%E9%A1%B5%E9%9D%A2%E7%9A%84%E6%97%B6%E5%80%99%E9%BB%98%E8%AE%A4%E6%A8%AA%E5%90%91%E6%89%93%E5%8D%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          javascript脚本在处理打印页面的时候默认横向打印
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-03-19 17:48:31" itemprop="dateCreated datePublished" datetime="2018-03-19T17:48:31+08:00">2018-03-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:32" itemprop="dateModified" datetime="2020-10-11T11:53:32+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>根据客户的需求，页面的打印功能是通过javascript实现的，这个时候，我们在默认的情况下，打印是纵向打印的，但是由于个别原因，我们在打印具有很多列的时候，纵向打印是显示不全的，这个时候如果我们不设置成横向打印，那么客户体验很差，那么针对这个问题，我们应该如何实现呢？</p>
+<p>这里我们只需要在样式中添加以下代码即可设置成打印的方式为横向打印：</p>
+<pre><code>@media print &#123;
+    .noprint&#123;
+        display: none;
+    &#125;
+    @page &#123; size: landscape;&#125;
+&#125;</code></pre>
+<p>这里有两条语句：</p>
+<p>.noprint这个是控制某些区域不能打印，只要这个区块有这个class，在打印的时候，就不会被打印出来，第二条：</p>
+<pre><code>@page &#123; size: landscape;&#125;</code></pre>
+<p>这个是用来设置成默认为横向打印的，笔者在试验中成功了，大家可以一试，这里说个题外话，因为笔者在处理wordpress网站的时候，有个woocommerce的插件，那么我们在安装后，会在菜单栏的右边会有一个购物车的icon，我们在打印结算页面的时候，会连同这个也打印进去了，那么我们怎么隐藏呢，这个时候我们只需要找到控制这个icon显示的class那里，然后追加一个noprint就行了，这里以enfold主题作为讲解。</p>
+<p>首先，我们先在开发者工具那里找到控制icon显示的class，为<code>cart_dropdown_first</code>。然后，我们通过在主题中进行全部代码搜索<code>cart_dropdown_first</code>，大概能够找到这个文件在：<code>enfold/config-woocommerce/config.php</code></p>
+<p>然后找到这个地方：</p>
+<p><img src="https://i.imgur.com/Z19j2jj.png"></p>
+<p>添加进去即可。其他的类似操作。还有一个问题，就是我们在打印的时候，总是会显示页面的页眉和页码，这些页眉和页码，看起来很多余。如何去掉呢？在当前页加上以下代码：</p>
+<pre><code>&lt;script language=&quot;JavaScript&quot;&gt;
+    var hkey_root,hkey_path,hkey_key
+    hkey_root=&quot;HKEY_CURRENT_USER&quot;
+    hkey_path=&quot;SoftwareMicrosoftInternet ExplorerPageSetup&quot;
+    //设置网页打印的页眉页脚为空
+    function pagesetup_null()&#123;
+    try&#123;
+    var RegWsh = new ActiveXObject(&quot;WScript.Shell&quot;)
+    hkey_key=&quot;header&quot; 
+    RegWsh.RegWrite(hkey_root+hkey_path+hkey_key,&quot;&quot;)
+    hkey_key=&quot;footer&quot;
+    RegWsh.RegWrite(hkey_root+hkey_path+hkey_key,&quot;&quot;)
+    &#125;catch(e)&#123;&#125;
+    &#125;
+    //设置网页打印的页眉页脚为默认值
+    function pagesetup_default()&#123;
+    try&#123;
+    var RegWsh = new ActiveXObject(&quot;WScript.Shell&quot;)
+    hkey_key=&quot;header&quot; 
+    RegWsh.RegWrite(hkey_root+hkey_path+hkey_key,&quot;&amp;w&amp;b页码，&amp;p/&amp;P&quot;)
+    hkey_key=&quot;footer&quot;
+    RegWsh.RegWrite(hkey_root+hkey_path+hkey_key,&quot;&amp;u&amp;b&amp;d&quot;)
+    &#125;catch(e)&#123;&#125;
+    &#125;
+&lt;/script&gt;
+&lt;input type=&quot;button&quot; value=&quot;清空页码&quot; onclick=pagesetup_null()&gt;
+&lt;input type=&quot;button&quot; value=&quot;恢复页码&quot; onclick=pagesetup_default()&gt;</code></pre>
+<p>貌似好像也没啥用，最简单粗暴的方法就是直接在打印的那个页面，在更多设置里面设置成：</p>
+<p><img src="https://i.imgur.com/1kmeEc2.png"></p>
+<p>只要把这个取消勾选，就可以把页脚和页眉去掉。</p>
+<p>最后，发现在打印的时候，如果打印的页面中有链接的时候，比如在wordpress的结算页面有所购买的产品列表，会显示链接的url地址，这个看起来特别的不美观，这个时候在前端我们可以定位到这个</p>
+<p><img src="https://i.imgur.com/K7aC2xV.jpg"></p>
+<p>然后把里面的产品的链接去掉，这样打印的时候，就OK了。行了，我们开始行动。</p>
+<p>找到这个对应的文件地址：<code>enfold/woocommerce/order/order-details-item.php</code>，打开，然后找到这里：</p>
+<p><img src="https://i.imgur.com/cOKd0Sd.jpg"></p>
+<p>把原来的注释掉，然后复制一份，把 <code>get_permalink($item)</code> 改成 <code>$item</code>，也就是直接把链接去掉。</p>
+<p>这样，再次打印的时候，就显示了纯文本而不会出现链接了。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/javascript-%E6%89%93%E5%8D%B0-%E6%A8%AA%E5%90%91%E6%89%93%E5%8D%B0/" rel="tag"># javascript,打印,横向打印</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/03/19/%E5%9C%A8wordpress%E7%BD%91%E7%AB%99%E4%B8%8A%E5%AE%9E%E7%8E%B0%E5%B7%A6%E8%BE%B9%E5%9B%BE%E7%89%87%EF%BC%8C%E5%8F%B3%E8%BE%B9%E6%96%87%E5%AD%97%E7%82%B9%E5%87%BB%E5%88%87%E6%8D%A2%E8%BD%AE%E6%92%AD%E7%9A%84%E6%95%88%E6%9E%9C/" rel="prev" title="在wordpress网站上实现左边图片，右边文字点击切换轮播的效果">
+      <i class="fa fa-chevron-left"></i> 在wordpress网站上实现左边图片，右边文字点击切换轮播的效果
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/03/21/wordpress%E7%BD%91%E7%AB%99%E5%9F%BA%E4%BA%8Ecookie%E6%B7%BB%E5%8A%A0%E5%8F%AA%E5%BC%B9%E5%87%BA%E4%B8%80%E6%AC%A1%E7%9A%84%E5%BC%B9%E7%AA%97%E5%8A%9F%E8%83%BD/" rel="next" title="wordpress网站基于cookie添加只弹出一次的弹窗功能">
+      wordpress网站基于cookie添加只弹出一次的弹窗功能 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

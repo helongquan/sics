@@ -1,37 +1,1187 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="在wordpress的开发中，我们可能会需要做这样一件事：对用户的浏览信息进行统计分析，以便网站广告的投放，那么势必会对用户的浏览信息进行存储，然后进行数据的统计分析，作为网钻管理员肯定希望这个分析结果显示在网站的后台而不是前台，那么这个如何实现呢？ 我们分几个阶段来完成这个需求：  创建数据表来存储用户的浏览信息或者是点击信息。 创建一个页面，明确收集信息的dom节点。 新建一个保存用户浏览信息">
+<meta property="og:type" content="article">
+<meta property="og:title" content="wordpress后台获取数据库表中的数据并显示在网站后台，以实现对前台用户浏览行为的分析统计以可视化的方式显示在后台">
+<meta property="og:url" content="http://example.com/2019/01/22/wordpress%E5%90%8E%E5%8F%B0%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E5%B9%B6%E6%98%BE%E7%A4%BA%E5%9C%A8%E7%BD%91%E7%AB%99%E5%90%8E%E5%8F%B0%EF%BC%8C%E4%BB%A5%E5%AE%9E%E7%8E%B0%E5%AF%B9%E5%89%8D%E5%8F%B0%E7%94%A8%E6%88%B7%E6%B5%8F%E8%A7%88%E8%A1%8C%E4%B8%BA%E7%9A%84%E5%88%86%E6%9E%90%E7%BB%9F%E8%AE%A1/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="在wordpress的开发中，我们可能会需要做这样一件事：对用户的浏览信息进行统计分析，以便网站广告的投放，那么势必会对用户的浏览信息进行存储，然后进行数据的统计分析，作为网钻管理员肯定希望这个分析结果显示在网站的后台而不是前台，那么这个如何实现呢？ 我们分几个阶段来完成这个需求：  创建数据表来存储用户的浏览信息或者是点击信息。 创建一个页面，明确收集信息的dom节点。 新建一个保存用户浏览信息">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/QdcWpzU.png">
+<meta property="og:image" content="https://i.imgur.com/kBT3GfW.jpg">
+<meta property="og:image" content="https://i.imgur.com/ow4SAum.jpg">
+<meta property="og:image" content="https://i.imgur.com/BzUTz8C.jpg">
+<meta property="og:image" content="https://i.imgur.com/p6qHwNX.jpg">
+<meta property="og:image" content="https://i.imgur.com/LhfY8bo.jpg">
+<meta property="article:published_time" content="2019-01-22T13:35:50.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:03.076Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="wordpress,后台选项,数据库,数据表,网站后台,用户浏览信息,可视化">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/QdcWpzU.png">
+
+<link rel="canonical" href="http://example.com/2019/01/22/wordpress%E5%90%8E%E5%8F%B0%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E5%B9%B6%E6%98%BE%E7%A4%BA%E5%9C%A8%E7%BD%91%E7%AB%99%E5%90%8E%E5%8F%B0%EF%BC%8C%E4%BB%A5%E5%AE%9E%E7%8E%B0%E5%AF%B9%E5%89%8D%E5%8F%B0%E7%94%A8%E6%88%B7%E6%B5%8F%E8%A7%88%E8%A1%8C%E4%B8%BA%E7%9A%84%E5%88%86%E6%9E%90%E7%BB%9F%E8%AE%A1/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>wordpress后台获取数据库表中的数据并显示在网站后台，以实现对前台用户浏览行为的分析统计以可视化的方式显示在后台 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/01/22/wordpress%E5%90%8E%E5%8F%B0%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E5%B9%B6%E6%98%BE%E7%A4%BA%E5%9C%A8%E7%BD%91%E7%AB%99%E5%90%8E%E5%8F%B0%EF%BC%8C%E4%BB%A5%E5%AE%9E%E7%8E%B0%E5%AF%B9%E5%89%8D%E5%8F%B0%E7%94%A8%E6%88%B7%E6%B5%8F%E8%A7%88%E8%A1%8C%E4%B8%BA%E7%9A%84%E5%88%86%E6%9E%90%E7%BB%9F%E8%AE%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          wordpress后台获取数据库表中的数据并显示在网站后台，以实现对前台用户浏览行为的分析统计以可视化的方式显示在后台
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-01-22 21:35:50" itemprop="dateCreated datePublished" datetime="2019-01-22T21:35:50+08:00">2019-01-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:03" itemprop="dateModified" datetime="2020-10-11T11:58:03+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/wordpress/" itemprop="url" rel="index"><span itemprop="name">wordpress</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>在wordpress的开发中，我们可能会需要做这样一件事：对用户的浏览信息进行统计分析，以便网站广告的投放，那么势必会对用户的浏览信息进行存储，然后进行数据的统计分析，作为网钻管理员肯定希望这个分析结果显示在网站的后台而不是前台，那么这个如何实现呢？</p>
+<p>我们分几个阶段来完成这个需求：</p>
+<ol>
+<li>创建数据表来存储用户的浏览信息或者是点击信息。</li>
+<li>创建一个页面，明确收集信息的dom节点。</li>
+<li>新建一个保存用户浏览信息的后端文件，把用户的信息保存到数据去。</li>
+<li>新建一个获取数据库表的数据的后端文件，把用户的浏览信息读取出来。</li>
+<li>新建一个js文件，专门存放点击图片时发出的ajax请求的js代码。</li>
+<li>在WordPress中获取数据库字段内容和添加主题设置菜单</li>
+</ol>
+<h2 id="第一步：创建数据表"><a href="#第一步：创建数据表" class="headerlink" title="第一步：创建数据表"></a>第一步：创建数据表</h2><p>笔者只收集某张图片到底有多少人点击了，以及来自哪个IP和点击的时间，所以对应的数据表的sql代码如下：</p>
+<pre><code>DROP TABLE IF EXISTS `user_click`;
+CREATE TABLE `user_click` (
+  `url` varchar(255) DEFAULT NULL,
+  `ip` varchar(255) DEFAULT NULL,
+  `created_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of user_click
+-- ----------------------------
+INSERT INTO `user_click` VALUES (&#39;http://localhost:8080/wordpress/wp-content/uploads/2018/12/he.jpg&#39;, &#39;::1&#39;, &#39;2018-12-06 21:47:19&#39;);
+INSERT INTO `user_click` VALUES (&#39;http://localhost:8080/wordpress/wp-content/uploads/2018/12/51911.jpg&#39;, &#39;::1&#39;, &#39;2018-12-06 22:05:33&#39;);
+INSERT INTO `user_click` VALUES (&#39;http://localhost/wordpress/wp-content/uploads/2019/01/he.jpg&#39;, &#39;::1&#39;, &#39;2019-01-22 09:46:20&#39;);</code></pre>
+<p>数据库表名称：user_click</p>
+<h2 id="第二步：创建一个页面，明确收集信息的dom节点"><a href="#第二步：创建一个页面，明确收集信息的dom节点" class="headerlink" title="第二步：创建一个页面，明确收集信息的dom节点"></a>第二步：创建一个页面，明确收集信息的dom节点</h2><p>由于要收集某张图片被点击的次数有多少，所以我们新建一个测试页面。</p>
+<p><strong>HTML代码：</strong></p>
+<pre><code>&lt;div id=&quot;contact&quot;&gt;
+    &lt;img src=&quot;1.jpg&quot; alt=&quot;&quot;&gt;
+&lt;/div&gt;</code></pre>
+<p>ID名随便取。</p>
+<h2 id="第三步：新建一个保存用户浏览信息的后端文件，把用户的信息保存到数据去"><a href="#第三步：新建一个保存用户浏览信息的后端文件，把用户的信息保存到数据去" class="headerlink" title="第三步：新建一个保存用户浏览信息的后端文件，把用户的信息保存到数据去"></a>第三步：新建一个保存用户浏览信息的后端文件，把用户的信息保存到数据去</h2><p>这个文件的目的就是用来把点击之后这个信息保存到数据表中去，我们创建它，为了方便管理，我们在主题目录下创建文件夹：user_click，然后在这个文件夹下创建文件：save_click_info.php，代码如下：</p>
+<pre><code>&lt;?php
+//字符编码设置，以及处理跨域的问题
+header(&quot;Content-type:text/html;charset=utf-8;Access-Control-Allow-Origin:*;Access-Control-Allow-Methods:GET,POST&quot;);
+//获取当前文件所在目录
+$gen=$_SERVER[&#39;DOCUMENT_ROOT&#39;];
+//由于笔者是在本地服务器下测试的，wordpress网站存放在wordpress目录下，所以这里的配置文件目录地址是：$gen/wordpress/wp-config.php
+require_once(&quot;$gen/wordpress/wp-config.php&quot;);
+
+//链接mysql服务器 开始
+$con = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD);
+mysqli_select_db($con, DB_NAME);
+
+//不同环境下获取真实的IP
+// $ip = $_SERVER[&quot;REMOTE_ADDR&quot;];
+$user_IP = ($_SERVER[&quot;HTTP_VIA&quot;]) ? $_SERVER[&quot;HTTP_X_FORWARDED_FOR&quot;] : $_SERVER[&quot;REMOTE_ADDR&quot;];
+$ip = ($user_IP) ? $user_IP : $_SERVER[&quot;REMOTE_ADDR&quot;];
+$url = $_GET[&#39;urls&#39;];
+$created_time = date(&quot;Y-m-d H:i:s&quot;);
+
+$getold = mysqli_query($con,&quot;SELECT * FROM user_click WHERE url = &#39;$url&#39; and ip = &#39;$ip&#39;&quot;);
+
+if (mysqli_num_rows($getold) &lt; 1) &#123;
+    $sql = &quot;INSERT INTO user_click (url,ip,created_time) VALUES (&#39;$url&#39;,&#39;$ip&#39;,&#39;$created_time&#39;)&quot;;
+&#125;else&#123;
+    $sql = &quot;UPDATE user_click SET created_time = &#39;$created_time&#39; WHERE url = &#39;$url&#39; and ip = &#39;$ip&#39;&quot;;
+    exit();
+&#125;
+
+$result = mysqli_query($con,$sql);
+if (!$result) &#123;
+    printf(&quot;Error: %s\n&quot;, mysqli_error($con));
+    exit();
+&#125;
+$jarr = array();
+while ($rows=mysqli_fetch_array($result,MYSQLI_BOTH))&#123;
+    $count=count($rows);  
+    for($i=0;$i&lt;$count;$i++)&#123;
+        unset($rows[$i]);  
+    &#125;
+    array_push($jarr,$rows);
+&#125;
+//查看数组
+// print_r($jarr);
+echo $str=json_encode($jarr,JSON_UNESCAPED_UNICODE);//将数组进行json编码，并且解决中文乱码的问题
+mysqli_close($con);
+?&gt;</code></pre>
+<p><strong>这里需要说明的地方是</strong>：<code>mysqli_fetch_array($result,MYSQLI_BOTH)</code>这个，笔者最开始不是这样引用的，而是采用的是：</p>
+<pre><code>mysqli_fetch_array($result,MYSQL_ASSOC)</code></pre>
+<p>结果报错了，就是这个地方报错，却不知道到底什么报错了，报错如下：</p>
+<blockquote>
+<p>Warning: mysqli_fetch_array() expects parameter 2 to be integer, string given……</p>
+</blockquote>
+<p>后来查了下，发现把<code>MYSQLI_ASSOC</code> 换成 <code>MYSQLI_NUM</code>，即修复该问题，但是偏偏这个法子还是不能解决笔者的问题，后来就查了下这个函数的手册，发现这个函数有个说明文档：</p>
+<p><a target="_blank" rel="noopener" href="http://www.w3school.com.cn/php/func_mysql_fetch_array.asp">http://www.w3school.com.cn/php/func_mysql_fetch_array.asp</a></p>
+<table class="dataintable"><tbody><tr><th>参数</th><th>描述</th></tr><tr><td><i>data</i></td><td>可选。规定要使用的数据指针。该数据指针是 mysql_query() 函数产生的结果。</td></tr><tr><td><i>array_type</i></td><td><p>可选。规定返回哪种结果。可能的值：</p><ul class="listintable"><li>mysql_assoc - 关联数组</li><li>mysql_num - 数字数组</li><li>mysql_both - 默认。同时产生关联和数字数组</li></ul></td></tr></tbody></table>
+
+<p>看了这个以后得到了启发，于是把<code>MYSQLI_ASSOC</code> 换成 <code>MYSQLI_BOTH</code>，问题搞定。</p>
+<p>顺便，我们说明下这个文件的基本思路，解决跨域文件—连接wordpress的数据库信息—确保数据库信息不暴露—收集前端那边收集来的字段信息—去重—查询</p>
+<h2 id="第四步：新建一个获取数据库表的数据的后端文件，把用户的浏览信息读取出来"><a href="#第四步：新建一个获取数据库表的数据的后端文件，把用户的浏览信息读取出来" class="headerlink" title="第四步：新建一个获取数据库表的数据的后端文件，把用户的浏览信息读取出来"></a>第四步：新建一个获取数据库表的数据的后端文件，把用户的浏览信息读取出来</h2><p>当我们完成数据保存后，我们就要接着创建获取数据库表中数据的文件，同样的在user_click文件夹下创建文件：get_click_info.php，代码如下：</p>
+<pre><code>&lt;?php
+header(&quot;Content-type:text/html;charset=utf-8;Access-Control-Allow-Origin:*;Access-Control-Allow-Methods:GET,POST&quot;);//字符编码设置
+
+//获取当前文件所在目录
+$gen=$_SERVER[&#39;DOCUMENT_ROOT&#39;];
+require_once(&quot;$gen/wordpress/wp-config.php&quot;);
+
+//链接mysql服务器 开始
+$con = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD);
+mysqli_select_db($con, DB_NAME);
+
+// 检测连接
+$sql = &quot;SELECT * FROM user_click&quot;;
+$result = mysqli_query($con,$sql);
+if (!$result) &#123;
+    printf(&quot;Error: %s\n&quot;, mysqli_error($con));
+    exit();
+&#125;
+
+$jarr = array();
+while ($rows=mysqli_fetch_array($result,MYSQLI_BOTH))&#123;
+    $count=count($rows);//不能在循环语句中，由于每次删除 row数组长度都减小  
+    for($i=0;$i&lt;$count;$i++)&#123;
+        unset($rows[$i]);//删除冗余数据  
+    &#125;
+    array_push($jarr,$rows);
+&#125;
+//查看数组
+// print_r($jarr);
+echo $str=json_encode($jarr,JSON_UNESCAPED_UNICODE);//将数组进行json编码，并且解决中文乱码的问题
+mysqli_close($con);
+?&gt;</code></pre>
+<p>这里就不重复说明了，很简单，也很容易理解。</p>
+<h2 id="第五步：新建一个js文件，专门存放点击图片时发出的ajax请求的js代码"><a href="#第五步：新建一个js文件，专门存放点击图片时发出的ajax请求的js代码" class="headerlink" title="第五步：新建一个js文件，专门存放点击图片时发出的ajax请求的js代码"></a>第五步：新建一个js文件，专门存放点击图片时发出的ajax请求的js代码</h2><p>这个过程中离不开ajax的作用，因为ajax的特性，可以静默的把点击的这个事件向后端发出请求，把dom的节点信息提交到后端的文件中去。在user_click的文件夹下创建文件：js.js，代码如下：</p>
+<pre><code>$(document).ready(function()&#123;
+    var host = window.location.host;
+    var protocol = window.location.protocol;
+    $roots = protocol+&quot;//&quot;+host;
+
+    // 获取保存在数据库表中的信息
+    htmlob= $.ajax(&#123;
+        url: $roots+&quot;/wordpress/wp-content/themes/nocti/user_click/get_click_info.php&quot;,
+        type: &quot;get&quot;,
+        dataType: &quot;json&quot;,
+        contentType: &quot;application/json&quot;,
+        success: function (res) &#123;
+            console.log(res);
+        &#125;,
+        error: function (xhr, err, exception) &#123;
+            console.log(err);
+        &#125;
+    &#125;);
+
+    // 保存点击图片的时候的相关信息
+    $(&quot;#contact&quot;).on(&quot;click&quot;,&quot;img&quot;,function()&#123;
+        var ss =new Object();
+        ss.urls = $(&quot;#contact img&quot;).attr(&quot;src&quot;);
+        // console.log(ss.urls);
+
+        $.ajax(&#123;
+            url: $roots+&quot;/wordpress/wp-content/themes/nocti/user_click/save_click_info.php&quot;,
+            type: &quot;get&quot;,
+            dataType: &quot;json&quot;,
+            data: ss,
+            contentType: &quot;application/json&quot;,
+            success: function (res) &#123;
+                console.log(res);
+            &#125;,
+            error: function (xhr, err, exception) &#123;
+                console.log(err);
+            &#125;
+        &#125;);
+    &#125;);
+&#125;);</code></pre>
+<p>完成了这些内容之后，我们就实现了获取用户在网站前台点击图片的信息，并且收集这些信息保存到数据库中去，那么接下来我们就要实现把数据库中保存的信息显示到网站的后台去。</p>
+<h2 id="第六步：在WordPress中获取数据库字段内容和添加主题设置菜单"><a href="#第六步：在WordPress中获取数据库字段内容和添加主题设置菜单" class="headerlink" title="第六步：在WordPress中获取数据库字段内容和添加主题设置菜单"></a>第六步：在WordPress中获取数据库字段内容和添加主题设置菜单</h2><p>可以参考这个链接：<a target="_blank" rel="noopener" href="https://www.jb51.net/article/77852.htm">https://www.jb51.net/article/77852.htm</a></p>
+<p>核心的地方在这里，实例代码如下：</p>
+<pre><code>function xz_theme_options_add_page() &#123;
+ $theme_page = add_theme_page(
+ &#39;主题设置&#39;, //页面Titlee
+ &#39;主题设置&#39;, // 在后台菜单中显示的名字
+ &#39;edit_theme_options&#39;,   // 选项放置的位置
+ &#39;theme_options&#39;,    // 别名,也就是get传送的参数
+ &#39;xz_theme_op_page&#39; //调用显示内容调用的函数
+ );
+&#125;
+function xz_theme_op_page ()&#123;//内容显示函数
+ echo &quot;我是主题编辑页面&quot;;
+&#125;
+add_action( &#39;admin_menu&#39;, &#39;xz_theme_options_add_page&#39; );</code></pre>
+<p>把这个代码添加到functions.php中。打开wordpress的后台效果如下：</p>
+<p><img src="https://i.imgur.com/QdcWpzU.png"></p>
+<p>好的，这个实现了，那么我么就把获取的数据库表中的数据显示在内容区即可。</p>
+<p>也就是我们把get_click_info.php这个文件中的代码放到xz_theme_op_page() 即可，所以最后加入到functions.php中的代码如下：</p>
+<pre><code>function xz_theme_options_add_page() &#123;
+    $theme_page = add_theme_page(
+    &#39;用户行为统计&#39;,
+    &#39;用户行为统计&#39;,
+    &#39;edit_theme_options&#39;,
+    &#39;theme_options&#39;,
+    &#39;xz_theme_op_page&#39;
+    );
+&#125;
+
+function xz_theme_op_page ()&#123;
+
+    echo &quot;&lt;div class=&#39;tongji&#39; style=&#39;padding:20px;background:#23282d;color:#fff;margin:15px&#39;&gt;&quot;;
+    echo &quot;&lt;table border=&#39;1&#39; style=&#39;color:#fff;margin:15px 0px&#39;&gt;&quot;;
+    echo &quot;&lt;tr&gt;&lt;th style=&#39;padding:5px&#39;&gt;被点击的链接&lt;/th&gt;&lt;th style=&#39;padding:5px&#39;&gt;用户IP&lt;/th&gt;&lt;th style=&#39;padding:5px&#39;&gt;点击时间&lt;/th&gt;&lt;/tr&gt;&quot;;
+    echo &quot;这是用户访问统计页面&quot;;
+
+    $gen=$_SERVER[&#39;DOCUMENT_ROOT&#39;];
+    require_once(&quot;$gen/wordpress/wp-config.php&quot;);
+    $con = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD);
+    mysqli_select_db($con, DB_NAME);
+    $sql = &quot;SELECT * FROM user_click&quot;;
+    $result = mysqli_query($con,$sql);
+    if (!$result) &#123;
+        printf(&quot;Error: %s\n&quot;, mysqli_error($con));
+        exit();
+    &#125;
+
+    $jarr = array();
+    while ($rows=mysqli_fetch_array($result,MYSQLI_BOTH))&#123;
+        $count=count($rows);
+        for($i=0;$i&lt;$count;$i++)&#123;
+            unset($rows[$i]);
+        &#125;
+        array_push($jarr,$rows);
+    &#125;
+
+    $str=json_encode($jarr,JSON_UNESCAPED_UNICODE);
+    // echo $str;
+
+    foreach (json_decode($str) as $v)
+    &#123;
+        echo &quot;&lt;tr&gt;&lt;td style=&#39;padding:5px&#39;&gt;&#123;$v-&gt;url&#125;&lt;/td&gt;&lt;td style=&#39;padding:5px&#39;&gt;&#123;$v-&gt;ip&#125;&lt;/td&gt;&lt;td style=&#39;padding:5px&#39;&gt;&#123;$v-&gt;created_time&#125;&lt;/td&gt;&lt;/tr&gt;&quot;;
+    &#125;
+
+    echo &quot;&lt;/table&gt;&quot;;
+    echo &quot;&lt;/div&gt;&quot;;
+    mysqli_close($con);
+&#125;
+
+add_action( &#39;admin_menu&#39;, &#39;xz_theme_options_add_page&#39; );</code></pre>
+<p>最后的效果：</p>
+<p><img src="https://i.imgur.com/kBT3GfW.jpg"></p>
+<p><strong>这里说明下add_theme_page()这个函数</strong>：</p>
+<pre><code>&lt;?php 
+add_theme_page( $page_title, $menu_title, $capability, $menu_slug, $function); 
+//page_titile-title标签的内容 
+//menu_title-显示在后台左边菜单的标题 
+//capability-访问这个页面需要的权限 
+//menu_slug-别名，需要独一无二哦 
+//function-执行的函数 
+?&gt;</code></pre>
+<h2 id="最后：引入必要文件"><a href="#最后：引入必要文件" class="headerlink" title="最后：引入必要文件"></a>最后：引入必要文件</h2><p>由于这个需要依赖jquery，所以需要引用jquery，添加方式就是在header.php文件的<code>&lt;/head&gt;</code>的前面添加如下代码：</p>
+<pre><code>&lt;script src=&quot;&lt;?php bloginfo(&#39;template_url&#39;) ?&gt;/js/jquery-3.3.1.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;&lt;?php bloginfo(&#39;template_url&#39;); ?&gt;/user_click/js.js&quot;&gt;&lt;/script&gt;</code></pre>
+<p>扩展一下：根据这个设想，我们可以在网站后台实现更多的统计分析工作，甚至实现数据可视化。本文会持续更新，大家敬请关注。</p>
+<hr>
+<p>**更新：2019/1/23 18:13:40 **</p>
+<p>我们继续来深化一下这个案例，笔者现在想要改造的是以下几点：</p>
+<ol>
+<li>在wordpress后台引入外部样式表和js文件，以解决wordpress后台开发的需要。</li>
+<li>通过functions.php的方式引入外部样式表和js文件以取代在公共头部和公共尾部引入样式表和js文件。</li>
+<li>数据可视化，把从数据库读取来的数据做成数据图表展示到网站后台。</li>
+<li>在这个过程中遇到的相关问题以及相应的解决方案。</li>
+</ol>
+<h2 id="在wordpress后台引入外部样式表和js文件，以解决wordpress后台开发的需要"><a href="#在wordpress后台引入外部样式表和js文件，以解决wordpress后台开发的需要" class="headerlink" title="在wordpress后台引入外部样式表和js文件，以解决wordpress后台开发的需要"></a>在wordpress后台引入外部样式表和js文件，以解决wordpress后台开发的需要</h2><p>由于后台的样式写在php文件中显得很杂乱，看起来很不美观，而且js代码也是，如果全部写在里面会导致代码高耦合，不方便管理。那么我们而可以把这些控制网站后台的自定义代码写在一个文件中，像在前台页面那样引用即可。现在我们来看下是如何做的。</p>
+<p>在functions.php文件中添加如下代码：</p>
+<pre><code>function admin_mycss() &#123;
+    wp_register_style( &#39;user_click_css&#39;, get_template_directory_uri() . &#39;/user_click/style.css&#39; );
+    wp_enqueue_style(&#39;user_click_css&#39;);
+&#125;
+add_action(&#39;admin_menu&#39;, &#39;admin_mycss&#39;);</code></pre>
+<p><strong>说明：</strong>这里就是笔者在主题目录下创建的user_click文件夹中新建一个样式文件，命名为：style.css，然后在钩子为<code>admin_menu</code>的这个地方引入它，这是对样式表的引入方式。更多可以参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/csnewdn/article/details/54021234">https://blog.csdn.net/csnewdn/article/details/54021234</a></p>
+<p>接着，我们来看下对外部js文件的引入方式，在functions.php文件中添加如下代码：</p>
+<pre><code>function admin_echarts_scripts_bd() &#123;
+    wp_register_script( &#39;echarts&#39;, get_template_directory_uri() . &#39;/user_click/echart/echarts.min.js&#39;, false, &#39;1.0&#39;, false );
+    wp_enqueue_script( &#39;echarts&#39; );
+&#125;
+add_action( &#39;admin_init&#39;, &#39;admin_echarts_scripts_bd&#39;);</code></pre>
+<p>函数参数如下：<code>wp_register_script( string $handle, string $src, array $deps = array(), string|bool|null $ver = false, bool $in_footer = false )</code></p>
+<p>更多可以参考这个链接：<a target="_blank" rel="noopener" href="https://developer.wordpress.org/reference/functions/wp_register_script/">https://developer.wordpress.org/reference/functions/wp_register_script/</a>。</p>
+<p><strong>说明：</strong>这里就是笔者在主题目录下创建的user_click文件夹中新建一个echart文件夹存放数据可视化的库文件echarts.min.js，先注册这个脚本文件，然后就是载入这个脚本文件的句柄，最后就是运用wordpress的钩子来设定这个脚本文件的引入是在什么阶段，这里是在<code>admin_init</code>（后台初始化）阶段就载入的，大家都知道js的引用顺序是有讲究的，不然就不生效，在数据可视化的demo中已经很明确的说明了这个库文件要在开始ide售后就引入，因此必须要在初始化阶段就引入。</p>
+<h2 id="通过functions-php的方式引入外部样式表和js文件以取代在公共头部和公共尾部引入样式表和js文件"><a href="#通过functions-php的方式引入外部样式表和js文件以取代在公共头部和公共尾部引入样式表和js文件" class="headerlink" title="通过functions.php的方式引入外部样式表和js文件以取代在公共头部和公共尾部引入样式表和js文件"></a>通过functions.php的方式引入外部样式表和js文件以取代在公共头部和公共尾部引入样式表和js文件</h2><p>这个问题很常见，比如我们经常会在公共头部（header.php）和公共尾部（footer.php）添加一些代码，比如追踪类的代码，广告代码等等，那么如果我们不想把外部的样式文件和js文件在公共头部和公共尾部引入，怎么办呢？</p>
+<p>这里我们可以通过functions.php文件引入进来，在functions.php文件中添加如下代码：</p>
+<pre><code>function my_enqueue_scripts_for_user_cilck() &#123;
+    if( !is_admin ) &#123;
+        wp_deregister_script( &#39;jquery&#39; );
+        wp_register_script( &#39;jquery&#39;, get_template_directory_uri() . &#39;/js/jquery-3.3.1.min.js&#39;, false, &#39;3.3.1&#39;, false );
+        wp_register_script( &#39;user_click_js&#39;, get_template_directory_uri() . &#39;/user_click/js.js&#39;, false, &#39;1.0&#39;, false );
+        wp_enqueue_script( &#39;jquery&#39; );
+        wp_enqueue_script( &#39;user_click_js&#39; );
+    &#125;
+&#125; 
+add_action( &#39;init&#39;, &#39;my_enqueue_scripts_for_user_cilck&#39; );</code></pre>
+<p><strong>说明：</strong>这个是在网站前端引入的，不用于网站后台那边的样式，更多信息可以参考这个链接：<a target="_blank" rel="noopener" href="https://yusi123.com/3086.html">https://yusi123.com/3086.html</a>，这里引入了jquery和笔者在主题目录下新建的文件夹user_click中的js.js这个文件，先注册后载入，最后在网站前台初始化的时候，加载这两个文件，这里笔者作为演示而用，根据笔者的实践发现这种方式引入跟在公共头部或者公共尾部引入没有任何多大的区别，而且发现对后台的功能有影响，感觉后台响应很慢。如果在生产环境中引入控制前台样式的脚本文件和样式文件的时候，还是建议选择在公共部分引入，弊端就是每个页面都要加载一边，影响性能。</p>
+<h2 id="数据可视化，把从数据库读取来的数据做成数据图表展示到网站后台"><a href="#数据可视化，把从数据库读取来的数据做成数据图表展示到网站后台" class="headerlink" title="数据可视化，把从数据库读取来的数据做成数据图表展示到网站后台"></a>数据可视化，把从数据库读取来的数据做成数据图表展示到网站后台</h2><p>这里升级一下从数据库读取过来的数据，进行可视化处理，笔者这里采用的是百度的<a target="_blank" rel="noopener" href="https://www.echartsjs.com/examples/">echarts</a>，根据前面的信息，我们知道数据表我们已经有了一个了，数据已经在数据库中了，所以我们只需要把这个数据获取出来，然后符合echarts的渲染方式，那么调用就可以完成数据可视化了。那我们开始把。</p>
+<p>为了方便测试，我们在user_click文件夹下创建一个文件夹echart，去echart官网下载库文件：<a target="_blank" rel="noopener" href="https://www.echartsjs.com/download.html">echarts.min.js</a>，或者直接调用在线资源：</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot; src=&quot;http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js&quot;&gt;&lt;/script&gt;</code></pre>
+<p>我们不妨去他们的官网下载一个简单的实例看下：</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html style=&quot;height: 100%&quot;&gt;
+   &lt;head&gt;
+       &lt;meta charset=&quot;utf-8&quot;&gt;
+   &lt;/head&gt;
+   &lt;body style=&quot;height: 100%; margin: 0&quot;&gt;
+       &lt;div id=&quot;container&quot; style=&quot;height: 100%&quot;&gt;&lt;/div&gt;
+       &lt;script type=&quot;text/javascript&quot; src=&quot;http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js&quot;&gt;&lt;/script&gt;
+       &lt;script type=&quot;text/javascript&quot;&gt;
+        var dom = document.getElementById(&quot;container&quot;);
+        var myChart = echarts.init(dom);
+        var app = &#123;&#125;;
+        option = null;
+        option = &#123;
+            xAxis: &#123;
+                type: &#39;category&#39;,
+                data: [&#39;Mon&#39;, &#39;Tue&#39;, &#39;Wed&#39;, &#39;Thu&#39;, &#39;Fri&#39;, &#39;Sat&#39;, &#39;Sun&#39;]
+            &#125;,
+            yAxis: &#123;
+                type: &#39;value&#39;
+            &#125;,
+            series: [&#123;
+                data: [820, 932, 901, 934, 1290, 1330, 1320],
+                type: &#39;line&#39;
+            &#125;]
+        &#125;;
+        ;
+        if (option &amp;&amp; typeof option === &quot;object&quot;) &#123;
+            myChart.setOption(option, true);
+        &#125;
+       &lt;/script&gt;
+   &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>很简单，这里先引入库文件，然后把自定义代码在后面写，html代码在最前面：</p>
+<pre><code>&lt;div id=&quot;container&quot; style=&quot;height: 100%&quot;&gt;&lt;/div&gt;</code></pre>
+<p>所以这个顺序不能反了，道理很简单，js里面对dom的id进行了引用，如果js写在最前面，那么就会报错。</p>
+<p>前面已经演示了在wordpress后台对外部js文件的引入，所以对echart的库文件的引入已经得到解决，接着就是dom，在dom后面就是自定义js代码了，我们把如下代码加入到functions.php里面：</p>
+<pre><code>echo &quot;&lt;div id=&#39;container&#39; style=&#39;height: 450px&#39;&gt;&lt;/div&gt;&quot;;
+echo &quot;&lt;script type=&#39;text/javascript&#39;&gt;var dom = document.getElementById(&#39;container&#39;); var myChart = echarts.init(dom); var app = &#123;&#125;; option = null; option = &#123;xAxis: &#123;type: &#39;category&#39;, data: [&#39;Mon&#39;, &#39;Tue&#39;, &#39;Wed&#39;, &#39;Thu&#39;, &#39;Fri&#39;, &#39;Sat&#39;, &#39;Sun&#39;] &#125;, yAxis: &#123;type: &#39;value&#39;&#125;, series: [&#123;data: [820, 932, 901, 934, 1290, 1330, 1320], type: &#39;line&#39;&#125;] &#125;; if (option &amp;&amp; typeof option === &#39;object&#39;) &#123;myChart.setOption(option, true); &#125;&lt;/script&gt;&quot;;</code></pre>
+<p>这些代码还是跟前面的代码一样，添加到函数<code>function xz_theme_op_page ()&#123;&#125;</code>中的合适位置即可，这样我们就完成了第一阶段，数据可视化：</p>
+<p><img src="https://i.imgur.com/ow4SAum.jpg"></p>
+<p>同理，我们可以用其他形式来展示数据，但是现在这些数据都是写死的，不是从数据库那边获取过来，然后渲染出来的，那么现在就要解决这个问题。为了方便测试，笔者再导入一个数据表的数据到wordpress数据库中，相应的mysql脚本文件如下：</p>
+<pre><code>DROP TABLE IF EXISTS `job`;
+CREATE TABLE `job` (
+  `id` int(8) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) DEFAULT NULL,
+  `category` varchar(255) DEFAULT NULL,
+  `city` varchar(64) DEFAULT NULL,
+  `pay` int(64) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `detail` text,
+  `created_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of job
+-- ----------------------------
+INSERT INTO `job` VALUES (&#39;1&#39;, &#39;Windows application operations engineer&#39;, &#39;Research&#39;, &#39;Shenzhen&#39;, &#39;60000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;2&#39;, &#39;Linux application operation and maintenance engineer&#39;, &#39;Research&#39;, &#39;Shenzhen&#39;, &#39;15000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;3&#39;, &#39;GNSS baseband algorithm engineer&#39;, &#39;Research&#39;, &#39;Shenzhen&#39;, &#39;7000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;4&#39;, &#39;Senior operation specialist (e-commerce)&#39;, &#39;Marketing&#39;, &#39;Shenzhen&#39;, &#39;15000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;5&#39;, &#39;Operation specialist of flagship store&#39;, &#39;Marketing&#39;, &#39;Shenzhen&#39;, &#39;15000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;6&#39;, &#39;Senior sales executive (Arabic)&#39;, &#39;Marketing&#39;, &#39;Beijing&#39;, &#39;8000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;7&#39;, &#39;Marketing specialist (channel marketing)&#39;, &#39;Marketing&#39;, &#39;Shenzhen&#39;, &#39;7000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;8&#39;, &#39;3D rendering engineer&#39;, &#39;Marketing&#39;, &#39;Shenzhen&#39;, &#39;9000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;9&#39;, &#39;Senior information security engineer&#39;, &#39;Information Security&#39;, &#39;Shenzhen&#39;, &#39;15000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;10&#39;, &#39;Information security engineer (Python)&#39;, &#39;Information Security&#39;, &#39;Beijing&#39;, &#39;8000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;11&#39;, &#39;Information security architect&#39;, &#39;Information Security&#39;, &#39;Shenzhen&#39;, &#39;15000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;12&#39;, &#39;Cross-platform development engineer (C++)&#39;, &#39;Web Enginner&#39;, &#39;Beijing&#39;, &#39;35000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;13&#39;, &#39;Front-end engineer&#39;, &#39;Web Enginner&#39;, &#39;Shenzhen&#39;, &#39;32000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;14&#39;, &#39;Golang development engineer&#39;, &#39;Web Enginner&#39;, &#39;Beijing&#39;, &#39;15000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;15&#39;, &#39;Safety development engineer&#39;, &#39;Web Enginner&#39;, &#39;Shenzhen&#39;, &#39;15000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;16&#39;, &#39;Senior demand analyst (administrative)&#39;, &#39;Web Enginner&#39;, &#39;Shenzhen&#39;, &#39;9000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;17&#39;, &#39;The project manager&#39;, &#39;Web Enginner&#39;, &#39;Shenzhen&#39;, &#39;15000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;18&#39;, &#39;Senior background development engineer (.net)&#39;, &#39;Web Enginner&#39;, &#39;Shenzhen&#39;, &#39;11000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;19&#39;, &#39;IOS development engineer (19th edition)&#39;, &#39;Web Enginner&#39;, &#39;Shenzhen&#39;, &#39;15000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;20&#39;, &#39;Industry sales specialist (overseas)&#39;, &#39;Application&#39;, &#39;Shanghai&#39;, &#39;18000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;21&#39;, &#39;销售助理&#39;, &#39;Application&#39;, &#39;Shenzhen&#39;, &#39;15000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-31 18:19:57&#39;);
+INSERT INTO `job` VALUES (&#39;22&#39;, &#39;Industry sales specialist (security direction)&#39;, &#39;Application&#39;, &#39;Beijing&#39;, &#39;23000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-30 07:22:17&#39;);
+INSERT INTO `job` VALUES (&#39;23&#39;, &#39;Industry product operation specialist&#39;, &#39;Application&#39;, &#39;Shenzhen&#39;, &#39;25000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;24&#39;, &#39;Industry solution engineer&#39;, &#39;Application&#39;, &#39;Shanghai&#39;, &#39;12000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;25&#39;, &#39;Senior marketing officer&#39;, &#39;Application&#39;, &#39;Shenzhen&#39;, &#39;19000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;26&#39;, &#39;Procurement intern (MRO)&#39;, &#39;Manager&#39;, &#39;Beijing&#39;, &#39;13000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;27&#39;, &#39;Source manager - production material direction&#39;, &#39;Manager&#39;, &#39;Shenzhen&#39;, &#39;7000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-30 07:22:30&#39;);
+INSERT INTO `job` VALUES (&#39;28&#39;, &#39;Project procurement - production material direction&#39;, &#39;Manager&#39;, &#39;Shanghai&#39;, &#39;11000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;29&#39;, &#39;Customs manager/supervisor&#39;, &#39;Manager&#39;, &#39;Shenzhen&#39;, &#39;15000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;30&#39;, &#39;Supplier management - electronic materials/structural parts&#39;, &#39;Manager&#39;, &#39;Shenzhen&#39;, &#39;15000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;31&#39;, &#39;The commissioner of customs affairs&#39;, &#39;Manager&#39;, &#39;Zhuhai&#39;, &#39;42000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-30 07:22:39&#39;);
+INSERT INTO `job` VALUES (&#39;32&#39;, &#39;Order execution specialist&#39;, &#39;Manager&#39;, &#39;Shenzhen&#39;, &#39;15000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;33&#39;, &#39;Purchasing assistant&#39;, &#39;Manager&#39;, &#39;Shenzhen&#39;, &#39;30000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;34&#39;, &#39;Supply chain management trainee&#39;, &#39;Manager&#39;, &#39;Guangzhou&#39;, &#39;25000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;35&#39;, &#39;Resource development manager&#39;, &#39;Manager&#39;, &#39;Shenzhen&#39;, &#39;43000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-30 07:22:44&#39;);
+INSERT INTO `job` VALUES (&#39;36&#39;, &#39;General ledger accounting&#39;, &#39;Insurance&#39;, &#39;Shenzhen&#39;, &#39;15000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;37&#39;, &#39;Cost accounting&#39;, &#39;Insurance&#39;, &#39;Guangzhou&#39;, &#39;25000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;38&#39;, &#39;(senior) financial analyst&#39;, &#39;Insurance&#39;, &#39;Shenzhen&#39;, &#39;15000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;39&#39;, &#39;Money commissioner&#39;, &#39;Insurance&#39;, &#39;Shanghai&#39;, &#39;15000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;40&#39;, &#39;Senior fund officer&#39;, &#39;Insurance&#39;, &#39;Shenzhen&#39;, &#39;35000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;41&#39;, &#39;Video editing (intern)&#39;, &#39;Design&#39;, &#39;Shenzhen&#39;, &#39;43000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-30 07:22:54&#39;);
+INSERT INTO `job` VALUES (&#39;42&#39;, &#39;(advanced) visual designers&#39;, &#39;Design&#39;, &#39;Shenzhen&#39;, &#39;30000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;43&#39;, &#39;(senior) landscape architect&#39;, &#39;Design&#39;, &#39;Shanghai&#39;, &#39;15000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;44&#39;, &#39;(senior) packaging designer&#39;, &#39;Design&#39;, &#39;Shenzhen&#39;, &#39;25000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;45&#39;, &#39;Peripheral product designers&#39;, &#39;Design&#39;, &#39;Shenzhen&#39;, &#39;42000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-30 07:23:03&#39;);
+INSERT INTO `job` VALUES (&#39;46&#39;, &#39;Interaction designer&#39;, &#39;Design&#39;, &#39;Shenzhen&#39;, &#39;10000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;47&#39;, &#39;Technical document specialist&#39;, &#39;Functional&#39;, &#39;Beijing&#39;, &#39;15000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;48&#39;, &#39;Administrative reception&#39;, &#39;Functional&#39;, &#39;Shenzhen&#39;, &#39;55000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;49&#39;, &#39;HRBP&#39;, &#39;Functional&#39;, &#39;Shenzhen&#39;, &#39;11000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;50&#39;, &#39;Administrative assistant (xi an)&#39;, &#39;Functional&#39;, &#39;Xian&#39;, &#39;15000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;51&#39;, &#39;Hr intern&#39;, &#39;Functional&#39;, &#39;Shenzhen&#39;, &#39;15000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;52&#39;, &#39;General manager trainee&#39;, &#39;Functional&#39;, &#39;Shenzhen&#39;, &#39;6000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;53&#39;, &#39;Senior marketing specialist (product release direction)&#39;, &#39;Functional&#39;, &#39;Shenzhen&#39;, &#39;28000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;54&#39;, &#39;(senior) tax officer&#39;, &#39;Functional&#39;, &#39;Shenzhen&#39;, &#39;15000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;55&#39;, &#39;Technical support specialist/assistant (Portuguese)&#39;, &#39;Functional&#39;, &#39;Xian&#39;, &#39;15000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;56&#39;, &#39;Technical support specialist (Work Force direction)&#39;, &#39;Functional&#39;, &#39;Xian&#39;, &#39;16000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;57&#39;, &#39;Spare parts management specialist&#39;, &#39;Service&#39;, &#39;Shenzhen&#39;, &#39;15000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;58&#39;, &#39;Operation support specialist (call center)&#39;, &#39;Service&#39;, &#39;Guangzhou&#39;, &#39;7000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;59&#39;, &#39;Operation support specialist (system support)&#39;, &#39;Service&#39;, &#39;Shenzhen&#39;, &#39;15000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;60&#39;, &#39;Technical support supervisor&#39;, &#39;Service&#39;, &#39;Xian&#39;, &#39;7000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;61&#39;, &#39;Senior data analyst (user modeling direction)&#39;, &#39;Service&#39;, &#39;Shenzhen&#39;, &#39;15000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;62&#39;, &#39;Senior data analyst (data mining)&#39;, &#39;Service&#39;, &#39;Xian&#39;, &#39;8000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;63&#39;, &#39;Senior flagship store service supervisor&#39;, &#39;Service&#39;, &#39;Shenzhen&#39;, &#39;7500&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;64&#39;, &#39;Social Media Specialist&#39;, &#39;Service&#39;, &#39;Shenzhen&#39;, &#39;15000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;65&#39;, &#39;Customer service specialist/assistant&#39;, &#39;Service&#39;, &#39;Xian&#39;, &#39;8000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;66&#39;, &#39;Customer service executive/assistant&#39;, &#39;Service&#39;, &#39;Xian&#39;, &#39;15000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;67&#39;, &#39;Deputy project manager&#39;, &#39;Others&#39;, &#39;Shenzhen&#39;, &#39;12000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;68&#39;, &#39;hon&#39;, &#39;Others&#39;, &#39;Shenzhen&#39;, &#39;18000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;69&#39;, &#39;Decoration project manager&#39;, &#39;Others&#39;, &#39;Shenzhen&#39;, &#39;12000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;70&#39;, &#39;The builder&#39;, &#39;Others&#39;, &#39;Shenzhen&#39;, &#39;15000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;71&#39;, &#39;Technical engineer of the project&#39;, &#39;Others&#39;, &#39;Xian&#39;, &#39;16000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;72&#39;, &#39;QE engineer&#39;, &#39;Others&#39;, &#39;Shenzhen&#39;, &#39;15000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;73&#39;, &#39;The budget commissioner,&#39;, &#39;Others&#39;, &#39;Shenzhen&#39;, &#39;17000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;74&#39;, &#39;IE engineer&#39;, &#39;Others&#39;, &#39;Shenzhen&#39;, &#39;15000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;75&#39;, &#39;Product process engineer&#39;, &#39;Others&#39;, &#39;Shanghai&#39;, &#39;13800&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;76&#39;, &#39;Assistant manager for approval and construction&#39;, &#39;Others&#39;, &#39;Shenzhen&#39;, &#39;22000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;77&#39;, &#39;Studio technology (intern)&#39;, &#39;Others&#39;, &#39;Shenzhen&#39;, &#39;15000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;78&#39;, &#39;Match assistant (intern)&#39;, &#39;Others&#39;, &#39;Guangzhou&#39;, &#39;20000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;79&#39;, &#39;Education course engineer&#39;, &#39;Others&#39;, &#39;Shenzhen&#39;, &#39;15000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;80&#39;, &#39;STEAM course engineer&#39;, &#39;Others&#39;, &#39;Shenzhen&#39;, &#39;26000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;81&#39;, &#39;Operation intern&#39;, &#39;Others&#39;, &#39;Shenzhen&#39;, &#39;10000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;82&#39;, &#39;QC engineer&#39;, &#39;Others&#39;, &#39;Guangzhou&#39;, &#39;15000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);
+INSERT INTO `job` VALUES (&#39;83&#39;, &#39;Tournament director (intern)&#39;, &#39;Others&#39;, &#39;Shenzhen&#39;, &#39;15000&#39;, &#39;detail.html&#39;, &#39;test info&#39;, &#39;2018-10-29 23:18:49&#39;);</code></pre>
+<p>好的，现在我们的数据库中就有了两个自定义数据表（user_click和job）了。现在要做的工作全部在functions.php这个文件中，其他的都不需要做任何修改。比如对job这个数据表想要统计一下在各个城市的招聘数量的分布，那么就需要获取城市这个字段的聚合数据。这里就涉及到数据库的SQL查询了。现在有好多个城市，那么就需要以城市作为分组，然后对每个城市进行聚合查询。且看对应的SQL代码：</p>
+<pre><code>$job = &quot;SELECT count(city) AS value,city AS name FROM job GROUP BY city&quot;;</code></pre>
+<p>那么这个查询结果就是：</p>
+<p><img src="https://i.imgur.com/BzUTz8C.jpg"></p>
+<p>更多分组查询，大家可以网上搜索下，也可以参考这个链接：<a target="_blank" rel="noopener" href="http://www.w3school.com.cn/sql/sql_groupby.asp">http://www.w3school.com.cn/sql/sql_groupby.asp</a></p>
+<p>我们现在采用饼图来展示这个数据试试，我们先找到饼图的demo代码：</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html style=&quot;height: 100%&quot;&gt;
+   &lt;head&gt;
+       &lt;meta charset=&quot;utf-8&quot;&gt;
+   &lt;/head&gt;
+   &lt;body style=&quot;height: 100%; margin: 0&quot;&gt;
+       &lt;div id=&quot;container&quot; style=&quot;height: 100%&quot;&gt;&lt;/div&gt;
+       &lt;script type=&quot;text/javascript&quot; src=&quot;http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js&quot;&gt;&lt;/script&gt;
+       &lt;script type=&quot;text/javascript&quot;&gt;
+            var dom = document.getElementById(&quot;container&quot;);
+            var myChart = echarts.init(dom);
+            var app = &#123;&#125;;
+            option = null;
+            app.title = &#39;环形图&#39;;
+            option = &#123;
+                tooltip: &#123;
+                    trigger: &#39;item&#39;,
+                    formatter: &quot;&#123;a&#125; &lt;br/&gt;&#123;b&#125;: &#123;c&#125; (&#123;d&#125;%)&quot;
+                &#125;,
+                series: [
+                    &#123;
+                        name:&#39;访问来源&#39;,
+                        type:&#39;pie&#39;,
+                        radius: [&#39;50%&#39;, &#39;70%&#39;],
+                        avoidLabelOverlap: false,
+                        label: &#123;
+                            normal: &#123;
+                                show: false,
+                                position: &#39;center&#39;
+                            &#125;,
+                            emphasis: &#123;
+                                show: true,
+                                textStyle: &#123;
+                                    fontSize: &#39;30&#39;,
+                                    fontWeight: &#39;bold&#39;
+                                &#125;
+                            &#125;
+                        &#125;,
+                        labelLine: &#123;
+                            normal: &#123;
+                                show: false
+                            &#125;
+                        &#125;,
+                        data:[
+                            &#123;value:335, name:&#39;直接访问&#39;&#125;,
+                            &#123;value:310, name:&#39;邮件营销&#39;&#125;,
+                            &#123;value:234, name:&#39;联盟广告&#39;&#125;,
+                            &#123;value:135, name:&#39;视频广告&#39;&#125;,
+                            &#123;value:1548, name:&#39;搜索引擎&#39;&#125;
+                        ]
+                    &#125;
+                ]
+            &#125;;
+            ;
+            if (option &amp;&amp; typeof option === &quot;object&quot;) &#123;
+                myChart.setOption(option, true);
+            &#125;
+       &lt;/script&gt;
+   &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>看到这里，我们就发现这个数据格式需要是json数据格式，那么我们就需要对从数据库查询出来的数据变成json格式的，代码如下：</p>
+<pre><code>$gen=$_SERVER[&#39;DOCUMENT_ROOT&#39;];
+require_once(&quot;$gen/wordpress/wp-config.php&quot;);
+$con = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD);
+mysqli_select_db($con, DB_NAME);
+$job = &quot;SELECT count(city) AS value,city AS name FROM job GROUP BY city&quot;;
+$job_result = mysqli_query($con,$job);
+if (!$job_result) &#123;
+    printf(&quot;Error: %s\n&quot;, mysqli_error($con));
+    exit();
+&#125;
+$jarr_job = array();
+while ($rows_job=mysqli_fetch_array($job_result,MYSQLI_BOTH))&#123;
+    $count_job=count($rows_job);
+    for($i=0;$i&lt;$count_job;$i++)&#123;
+        unset($rows_job[$i]);
+    &#125;
+    array_push($jarr_job,$rows_job);
+&#125;
+$str_job=json_encode($jarr_job,JSON_UNESCAPED_UNICODE);
+// echo $str_job;
+
+echo &quot;&lt;div id=&#39;container_b&#39; style=&#39;height: 450px&#39;&gt;&lt;/div&gt;&quot;;
+echo &quot;&lt;script type=&#39;text/javascript&#39;&gt;var dom = document.getElementById(&#39;container_b&#39;); var myChart = echarts.init(dom); var app = &#123;&#125;; option = null; app.title = &#39;环形图&#39;; option = &#123;tooltip: &#123;trigger: &#39;item&#39;, formatter: &#39;&#123;a&#125; &lt;br/&gt;&#123;b&#125;: &#123;c&#125; (&#123;d&#125;%)&#39;&#125;, series: [&#123;city:&#39;访问来源&#39;, type:&#39;pie&#39;, radius: [&#39;50%&#39;, &#39;70%&#39;], avoidLabelOverlap: false, label: &#123;normal: &#123;show: false, position: &#39;center&#39;&#125;, emphasis: &#123;show: true, textStyle: &#123;fontSize: &#39;30&#39;, fontWeight: &#39;bold&#39;&#125; &#125; &#125;, labelLine: &#123;normal: &#123;show: false &#125; &#125;, data:&quot;.$str_job.&quot; &#125; ] &#125;; ; if (option &amp;&amp; typeof option === &#39;object&#39;) &#123;myChart.setOption(option, true); &#125;&lt;/script&gt;&quot;;</code></pre>
+<p>这个就是对job这个数据库表查询数据出来，然后把查询结果变成json格式的数据，以符合echart的数据渲染规则，然后显示出来。细心的读者会发现这个就是前面笔者说的那个以表格的形式展示数据的方式，笔者查询数据的方式是一模一样的，只是把数据展示到可视化这边来了而已，大家可以细细体会：</p>
+<pre><code>[
+  &#123;value:335, name:&#39;直接访问&#39;&#125;,
+  &#123;value:310, name:&#39;邮件营销&#39;&#125;,
+  &#123;value:234, name:&#39;联盟广告&#39;&#125;,
+  &#123;value:135, name:&#39;视频广告&#39;&#125;,
+  &#123;value:1548, name:&#39;搜索引擎&#39;&#125;
+]</code></pre>
+<p>跟变量$str_job是一样的规则。</p>
+<p>好的，我们再换一种形式，我们用条形图来展示下user_click这个数据表的数据。条形图的示例代码：</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html style=&quot;height: 100%&quot;&gt;
+   &lt;head&gt;
+       &lt;meta charset=&quot;utf-8&quot;&gt;
+   &lt;/head&gt;
+   &lt;body style=&quot;height: 100%; margin: 0&quot;&gt;
+       &lt;div id=&quot;container&quot; style=&quot;height: 100%&quot;&gt;&lt;/div&gt;
+       &lt;script type=&quot;text/javascript&quot; src=&quot;http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js&quot;&gt;&lt;/script&gt;
+       &lt;script type=&quot;text/javascript&quot;&gt;
+          var dom = document.getElementById(&quot;container&quot;);
+          var myChart = echarts.init(dom);
+          var app = &#123;&#125;;
+          option = null;
+          app.title = &#39;坐标轴刻度与标签对齐&#39;;
+
+          option = &#123;
+              color: [&#39;#3398DB&#39;],
+              tooltip : &#123;
+                  trigger: &#39;axis&#39;,
+                  axisPointer : &#123;            // 坐标轴指示器，坐标轴触发有效
+                      type : &#39;shadow&#39;        // 默认为直线，可选为：&#39;line&#39; | &#39;shadow&#39;
+                  &#125;
+              &#125;,
+              grid: &#123;
+                  left: &#39;3%&#39;,
+                  right: &#39;4%&#39;,
+                  bottom: &#39;3%&#39;,
+                  containLabel: true
+              &#125;,
+              xAxis : [
+                  &#123;
+                      type : &#39;category&#39;,
+                      data : [&#39;Mon&#39;, &#39;Tue&#39;, &#39;Wed&#39;, &#39;Thu&#39;, &#39;Fri&#39;, &#39;Sat&#39;, &#39;Sun&#39;],
+                      axisTick: &#123;
+                          alignWithLabel: true
+                      &#125;
+                  &#125;
+              ],
+              yAxis : [
+                  &#123;
+                      type : &#39;value&#39;
+                  &#125;
+              ],
+              series : [
+                  &#123;
+                      name:&#39;直接访问&#39;,
+                      type:&#39;bar&#39;,
+                      barWidth: &#39;60%&#39;,
+                      data:[10, 52, 200, 334, 390, 330, 220]
+                  &#125;
+              ]
+          &#125;;
+          if (option &amp;&amp; typeof option === &quot;object&quot;) &#123;
+              myChart.setOption(option, true);
+          &#125;
+       &lt;/script&gt;
+   &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>这个地方我们就可以看到，这个数据源的格式是数组来的，那么我们要从数据库那边获取来的数据就要变成数组才行，我们看下应该如何处理，代码如下：</p>
+<pre><code>$gen=$_SERVER[&#39;DOCUMENT_ROOT&#39;];
+require_once(&quot;$gen/wordpress/wp-config.php&quot;);
+$con = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD);
+mysqli_select_db($con, DB_NAME);
+$sql = &quot;SELECT count(url) AS value,url AS name FROM user_click GROUP BY url&quot;;
+$result = mysqli_query($con,$sql);
+if (!$result) &#123;
+    printf(&quot;Error: %s\n&quot;, mysqli_error($con));
+    exit();
+&#125;
+
+$jarr = array();
+
+while ($rows=mysqli_fetch_array($result,MYSQLI_BOTH))&#123;
+    $count=count($rows);
+    for($i=0;$i&lt;$count;$i++)&#123;
+        unset($rows[$i]);
+    &#125;
+    array_push($jarr,$rows);
+&#125;
+
+$bb = array();
+$cc = array();
+$str=json_encode($jarr,JSON_UNESCAPED_UNICODE);
+
+foreach (json_decode($str) as $v)
+&#123;
+    array_push($bb,$v-&gt;value);
+    array_push($cc,$v-&gt;name);
+&#125;
+
+// var_dump($bb);
+// var_dump($cc);
+$bbb=json_encode($bb,JSON_UNESCAPED_UNICODE);
+$ccc=json_encode($cc,JSON_UNESCAPED_UNICODE);
+
+echo &quot;&lt;div id=&#39;container_a&#39; style=&#39;height: 450px&#39;&gt;&lt;/div&gt;&quot;;
+echo &quot;&lt;script type=&#39;text/javascript&#39;&gt;var dom = document.getElementById(&#39;container_a&#39;); var myChart = echarts.init(dom); var app = &#123;&#125;; option = null; app.title = &#39;坐标轴刻度与标签对齐&#39;; option = &#123;color: [&#39;#3398DB&#39;], tooltip : &#123;trigger: &#39;axis&#39;, axisPointer : &#123;type : &#39;shadow&#39;&#125; &#125;, grid: &#123;left: &#39;3%&#39;, right: &#39;4%&#39;, bottom: &#39;3%&#39;, containLabel: true &#125;, xAxis : [&#123;type : &#39;category&#39;, data : &quot;.$ccc.&quot;, axisTick: &#123;alignWithLabel: true &#125; &#125; ], yAxis : [&#123;type : &#39;value&#39;&#125; ], series : [&#123;name:&#39;直接访问&#39;, type:&#39;bar&#39;, barWidth: &#39;60%&#39;, data:&quot;.$bbb.&quot; &#125; ] &#125;; if (option &amp;&amp; typeof option === &#39;object&#39;) &#123;myChart.setOption(option, true); &#125;&lt;/script&gt;&quot;;</code></pre>
+<p>这个就是把查询的数据分成两组一组是值，一组是名称，以数组的形式保存在变量中，这里采用了php的一个方法：<code>array_push($cc,$v-&gt;name);</code>，大家可以参考这个链接：<a target="_blank" rel="noopener" href="http://www.w3school.com.cn/php/func_array_push.asp">http://www.w3school.com.cn/php/func_array_push.asp</a>，把某个字段的值先聚合再push到数组中，然后调用这个数组的数据。</p>
+<p>这样就完成了数组的数据渲染，好的，在functions.php中添加的完整的代码如下：</p>
+<pre><code>function xz_theme_options_add_page() &#123;
+    $theme_page = add_theme_page(
+    &#39;用户行为统计&#39;,
+    &#39;用户行为统计&#39;,
+    &#39;edit_theme_options&#39;,
+    &#39;theme_options&#39;,
+    &#39;xz_theme_op_page&#39;
+    );
+&#125;
+
+
+function xz_theme_op_page ()&#123;
+
+    echo &quot;&lt;div class=&#39;tongji&#39;&gt;&quot;;
+    echo &quot;&lt;table&gt;&quot;;
+    echo &quot;&lt;tr&gt;&lt;th&gt;被点击的链接&lt;/th&gt;&lt;th&gt;用户IP&lt;/th&gt;&lt;th&gt;点击时间&lt;/th&gt;&lt;/tr&gt;&quot;;
+    echo &quot;&lt;h2&gt;这是用户访问统计页面&lt;/h2&gt;&quot;;
+
+
+    $gen=$_SERVER[&#39;DOCUMENT_ROOT&#39;];
+    require_once(&quot;$gen/wordpress/wp-config.php&quot;);
+    $con = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD);
+    mysqli_select_db($con, DB_NAME);
+    // $sql = &quot;SELECT * FROM user_click&quot;;
+    $sql = &quot;SELECT count(url) AS value,url AS name FROM user_click GROUP BY url&quot;;
+    $job = &quot;SELECT count(city) AS value,city AS name FROM job GROUP BY city&quot;;
+    $job_result = mysqli_query($con,$job);
+    $result = mysqli_query($con,$sql);
+    if (!$result) &#123;
+        printf(&quot;Error: %s\n&quot;, mysqli_error($con));
+        exit();
+    &#125;
+
+    if (!$job_result) &#123;
+        printf(&quot;Error: %s\n&quot;, mysqli_error($con));
+        exit();
+    &#125;
+
+    $jarr = array();
+    $jarr_job = array();
+
+    while ($rows=mysqli_fetch_array($result,MYSQLI_BOTH))&#123;
+        $count=count($rows);
+        for($i=0;$i&lt;$count;$i++)&#123;
+            unset($rows[$i]);
+        &#125;
+        array_push($jarr,$rows);
+    &#125;
+
+    while ($rows_job=mysqli_fetch_array($job_result,MYSQLI_BOTH))&#123;
+        $count_job=count($rows_job);
+        for($i=0;$i&lt;$count_job;$i++)&#123;
+            unset($rows_job[$i]);
+        &#125;
+        array_push($jarr_job,$rows_job);
+    &#125;
+
+    $bb = array();
+    $cc = array();
+    $str=json_encode($jarr,JSON_UNESCAPED_UNICODE);
+    $str_job=json_encode($jarr_job,JSON_UNESCAPED_UNICODE);
+    echo $str_job;
+
+    foreach (json_decode($str) as $v)
+    &#123;
+        // echo &quot;&lt;tr&gt;&lt;td&gt;&#123;$v-&gt;url&#125;&lt;/td&gt;&lt;td&gt;&#123;$v-&gt;ip&#125;&lt;/td&gt;&lt;td&gt;&#123;$v-&gt;created_time&#125;&lt;/td&gt;&lt;/tr&gt;&quot;;
+        array_push($bb,$v-&gt;value);
+        array_push($cc,$v-&gt;name);
+    &#125;
+    echo &quot;&lt;/table&gt;&quot;;
+
+    var_dump($bb);
+    var_dump($cc);
+    $bbb=json_encode($bb,JSON_UNESCAPED_UNICODE);
+    $ccc=json_encode($cc,JSON_UNESCAPED_UNICODE);
+
+    echo &quot;&lt;table&gt;&quot;;
+    echo &quot;&lt;tr&gt;&lt;th&gt;城市&lt;/th&gt;&lt;th&gt;招聘职位数&lt;/th&gt;&lt;/tr&gt;&quot;;
+    echo &quot;&lt;h2&gt;这是工作统计信息&lt;/h2&gt;&quot;;
+
+    foreach (json_decode($str_job) as $m)
+    &#123;
+        echo &quot;&lt;tr&gt;&lt;td&gt;&#123;$m-&gt;name&#125;&lt;/td&gt;&lt;td&gt;&#123;$m-&gt;value&#125;&lt;/td&gt;&lt;/tr&gt;&quot;;
+    &#125;
+
+    echo &quot;&lt;/table&gt;&quot;;
+    echo &quot;&lt;div id=&#39;container_a&#39; style=&#39;height: 450px&#39;&gt;&lt;/div&gt;&quot;;
+    echo &quot;&lt;script type=&#39;text/javascript&#39;&gt;var dom = document.getElementById(&#39;container_a&#39;); var myChart = echarts.init(dom); var app = &#123;&#125;; option = null; app.title = &#39;坐标轴刻度与标签对齐&#39;; option = &#123;color: [&#39;#3398DB&#39;], tooltip : &#123;trigger: &#39;axis&#39;, axisPointer : &#123;type : &#39;shadow&#39;&#125; &#125;, grid: &#123;left: &#39;3%&#39;, right: &#39;4%&#39;, bottom: &#39;3%&#39;, containLabel: true &#125;, xAxis : [&#123;type : &#39;category&#39;, data : &quot;.$ccc.&quot;, axisTick: &#123;alignWithLabel: true &#125; &#125; ], yAxis : [&#123;type : &#39;value&#39;&#125; ], series : [&#123;name:&#39;直接访问&#39;, type:&#39;bar&#39;, barWidth: &#39;60%&#39;, data:&quot;.$bbb.&quot; &#125; ] &#125;; if (option &amp;&amp; typeof option === &#39;object&#39;) &#123;myChart.setOption(option, true); &#125;&lt;/script&gt;&quot;;
+
+    echo &quot;&lt;div id=&#39;container_c&#39; style=&#39;height: 450px&#39;&gt;&lt;/div&gt;&quot;;
+    echo &quot;&lt;script type=&#39;text/javascript&#39;&gt;var dom = document.getElementById(&#39;container_c&#39;); var myChart = echarts.init(dom); var app = &#123;&#125;; option = null; app.title = &#39;网站前台图片点击情况 - 条形图&#39;; option = &#123;title: &#123;text: &#39;网站前台图片点击情况&#39;, subtext: &#39;数据来自网络&#39;&#125;, tooltip: &#123;trigger: &#39;axis&#39;, axisPointer: &#123;type: &#39;shadow&#39;&#125; &#125;, grid: &#123;left: &#39;3%&#39;, right: &#39;4%&#39;, bottom: &#39;3%&#39;, containLabel: true &#125;, xAxis: &#123;type: &#39;value&#39;, boundaryGap: [0, 0.01] &#125;, yAxis: &#123;type: &#39;category&#39;, data: &quot;.$ccc.&quot; &#125;, series: [&#123;name: &#39;点击累计次数&#39;, type: &#39;bar&#39;, data: &quot;.$bbb.&quot; &#125; ] &#125;; ; if (option &amp;&amp; typeof option === &#39;object&#39;) &#123;myChart.setOption(option, true); &#125;&lt;/script&gt;&quot;;
+
+    echo &quot;&lt;div id=&#39;container_b&#39; style=&#39;height: 450px&#39;&gt;&lt;/div&gt;&quot;;
+    echo &quot;&lt;script type=&#39;text/javascript&#39;&gt;var dom = document.getElementById(&#39;container_b&#39;); var myChart = echarts.init(dom); var app = &#123;&#125;; option = null; app.title = &#39;环形图&#39;; option = &#123;tooltip: &#123;trigger: &#39;item&#39;, formatter: &#39;&#123;a&#125; &lt;br/&gt;&#123;b&#125;: &#123;c&#125; (&#123;d&#125;%)&#39;&#125;, series: [&#123;city:&#39;访问来源&#39;, type:&#39;pie&#39;, radius: [&#39;50%&#39;, &#39;70%&#39;], avoidLabelOverlap: false, label: &#123;normal: &#123;show: false, position: &#39;center&#39;&#125;, emphasis: &#123;show: true, textStyle: &#123;fontSize: &#39;30&#39;, fontWeight: &#39;bold&#39;&#125; &#125; &#125;, labelLine: &#123;normal: &#123;show: false &#125; &#125;, data:&quot;.$str_job.&quot; &#125; ] &#125;; ; if (option &amp;&amp; typeof option === &#39;object&#39;) &#123;myChart.setOption(option, true); &#125;&lt;/script&gt;&quot;;
+    echo &quot;&lt;/div&gt;&quot;;
+    mysqli_close($con);
+&#125;
+
+
+add_action( &#39;admin_menu&#39;, &#39;xz_theme_options_add_page&#39; );
+
+
+function admin_mycss() &#123;
+    wp_register_style( &#39;user_click_css&#39;, get_template_directory_uri() . &#39;/user_click/style.css&#39; );
+    wp_enqueue_style(&#39;user_click_css&#39;);
+&#125;
+add_action(&#39;admin_menu&#39;, &#39;admin_mycss&#39;);
+
+
+function admin_echarts_scripts_bd() &#123;
+    wp_register_script( &#39;echarts&#39;, get_template_directory_uri() . &#39;/user_click/echart/echarts.min.js&#39;, false, &#39;1.0&#39;, false );
+    wp_enqueue_script( &#39;echarts&#39; );
+&#125;
+add_action( &#39;admin_init&#39;, &#39;admin_echarts_scripts_bd&#39;);</code></pre>
+<p>在footer.php最后的</body>前面添加代码：</p>
+<pre><code>&lt;script src=&quot;&lt;?php bloginfo(&#39;template_url&#39;) ?&gt;/js/jquery-3.3.1.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;&lt;?php bloginfo(&#39;template_url&#39;) ?&gt;/user_click/js.js&quot;&gt;&lt;/script&gt;</code></pre>
+<p>另外，user_click/style.css中的代码如下：</p>
+<pre><code>.tongji&#123;
+    background-color: #dcdcdc;
+    padding: 20px;
+    margin: 15px 0px;
+&#125;
+.tongji table&#123;
+    border-collapse: collapse;
+    border:1px solid #f2f2f2;
+    width:100%;
+    margin:15px 0px;
+&#125;
+.tongji table tr th,.tongji table tr td&#123;
+    padding: 8px 8px;
+    text-align: left;
+    border: 1px solid #848484;
+    color: #484848;
+&#125;
+.tongji h2&#123;
+    font-size: 24px;
+    color:red;
+&#125;</code></pre>
+<p>最后，wordpress后台的效果如下：</p>
+<p><img src="https://i.imgur.com/p6qHwNX.jpg"></p>
+<p><img src="https://i.imgur.com/LhfY8bo.jpg"></p>
+<h2 id="此更新总结"><a href="#此更新总结" class="headerlink" title="此更新总结"></a>此更新总结</h2><p>这过程中遇到了些问题，比如：</p>
+<p>php中的push跟javascript中的push的差异；SQL中的查询的分组；wordpress中的<a target="_blank" rel="noopener" href="https://blog.csdn.net/biggbang/article/details/81024542">钩子</a>的概念深入了解；wordpress后台引入css和js的方法和wordpress前台引入css和js的方法之间的差异；<strong>wordpress选择性加载某个js和css这个问题会在下一次更新中得到实践和解决</strong></p>
+<p>本文会持续更新，敬请关注。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/wordpress-%E5%90%8E%E5%8F%B0%E9%80%89%E9%A1%B9-%E6%95%B0%E6%8D%AE%E5%BA%93-%E6%95%B0%E6%8D%AE%E8%A1%A8-%E7%BD%91%E7%AB%99%E5%90%8E%E5%8F%B0-%E7%94%A8%E6%88%B7%E6%B5%8F%E8%A7%88%E4%BF%A1%E6%81%AF-%E5%8F%AF%E8%A7%86%E5%8C%96/" rel="tag"># wordpress,后台选项,数据库,数据表,网站后台,用户浏览信息,可视化</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/01/21/magento2%E6%B7%BB%E5%8A%A0%E8%AF%AD%E8%A8%80%E5%8C%85%EF%BC%8C%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%B7%BB%E5%8A%A0%E8%AF%AD%E8%A8%80%E5%8C%85%E7%9A%84%E8%BF%87%E7%A8%8B%E4%B8%AD%E5%90%8E%E5%8F%B0%E9%93%BE%E6%8E%A5%E4%B8%8D%E8%83%BD%E7%82%B9%E5%87%BB%E7%9A%84%E9%97%AE%E9%A2%98%EF%BC%8C%E4%B8%8D%E5%90%8C%E7%AE%A1%E7%90%86%E5%91%98%E9%87%87%E7%94%A8%E4%B8%8D%E5%90%8C%E7%9A%84%E8%AF%AD%E8%A8%80%E7%95%8C%E9%9D%A2/" rel="prev" title="magento2添加语言包，以及解决添加语言包的过程中后台链接不能点击的问题，不同管理员采用不同的语言界面">
+      <i class="fa fa-chevron-left"></i> magento2添加语言包，以及解决添加语言包的过程中后台链接不能点击的问题，不同管理员采用不同的语言界面
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/01/25/magento2%E7%BD%91%E7%AB%99%E7%9A%84%E6%90%AC%E8%BF%81%E5%92%8C%E4%B8%BB%E9%A2%98%E5%AE%89%E8%A3%85%E7%9A%84%E6%96%B9%E6%B3%95%E4%BB%A5%E5%8F%8A%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/" rel="next" title="magento2网站的搬迁和主题安装的方法以及注意事项">
+      magento2网站的搬迁和主题安装的方法以及注意事项 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5%EF%BC%9A%E5%88%9B%E5%BB%BA%E6%95%B0%E6%8D%AE%E8%A1%A8"><span class="nav-number">1.</span> <span class="nav-text">第一步：创建数据表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E9%A1%B5%E9%9D%A2%EF%BC%8C%E6%98%8E%E7%A1%AE%E6%94%B6%E9%9B%86%E4%BF%A1%E6%81%AF%E7%9A%84dom%E8%8A%82%E7%82%B9"><span class="nav-number">2.</span> <span class="nav-text">第二步：创建一个页面，明确收集信息的dom节点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5%EF%BC%9A%E6%96%B0%E5%BB%BA%E4%B8%80%E4%B8%AA%E4%BF%9D%E5%AD%98%E7%94%A8%E6%88%B7%E6%B5%8F%E8%A7%88%E4%BF%A1%E6%81%AF%E7%9A%84%E5%90%8E%E7%AB%AF%E6%96%87%E4%BB%B6%EF%BC%8C%E6%8A%8A%E7%94%A8%E6%88%B7%E7%9A%84%E4%BF%A1%E6%81%AF%E4%BF%9D%E5%AD%98%E5%88%B0%E6%95%B0%E6%8D%AE%E5%8E%BB"><span class="nav-number">3.</span> <span class="nav-text">第三步：新建一个保存用户浏览信息的后端文件，把用户的信息保存到数据去</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%9B%9B%E6%AD%A5%EF%BC%9A%E6%96%B0%E5%BB%BA%E4%B8%80%E4%B8%AA%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E7%9A%84%E6%95%B0%E6%8D%AE%E7%9A%84%E5%90%8E%E7%AB%AF%E6%96%87%E4%BB%B6%EF%BC%8C%E6%8A%8A%E7%94%A8%E6%88%B7%E7%9A%84%E6%B5%8F%E8%A7%88%E4%BF%A1%E6%81%AF%E8%AF%BB%E5%8F%96%E5%87%BA%E6%9D%A5"><span class="nav-number">4.</span> <span class="nav-text">第四步：新建一个获取数据库表的数据的后端文件，把用户的浏览信息读取出来</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%94%E6%AD%A5%EF%BC%9A%E6%96%B0%E5%BB%BA%E4%B8%80%E4%B8%AAjs%E6%96%87%E4%BB%B6%EF%BC%8C%E4%B8%93%E9%97%A8%E5%AD%98%E6%94%BE%E7%82%B9%E5%87%BB%E5%9B%BE%E7%89%87%E6%97%B6%E5%8F%91%E5%87%BA%E7%9A%84ajax%E8%AF%B7%E6%B1%82%E7%9A%84js%E4%BB%A3%E7%A0%81"><span class="nav-number">5.</span> <span class="nav-text">第五步：新建一个js文件，专门存放点击图片时发出的ajax请求的js代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E5%85%AD%E6%AD%A5%EF%BC%9A%E5%9C%A8WordPress%E4%B8%AD%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AD%97%E6%AE%B5%E5%86%85%E5%AE%B9%E5%92%8C%E6%B7%BB%E5%8A%A0%E4%B8%BB%E9%A2%98%E8%AE%BE%E7%BD%AE%E8%8F%9C%E5%8D%95"><span class="nav-number">6.</span> <span class="nav-text">第六步：在WordPress中获取数据库字段内容和添加主题设置菜单</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%80%E5%90%8E%EF%BC%9A%E5%BC%95%E5%85%A5%E5%BF%85%E8%A6%81%E6%96%87%E4%BB%B6"><span class="nav-number">7.</span> <span class="nav-text">最后：引入必要文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8wordpress%E5%90%8E%E5%8F%B0%E5%BC%95%E5%85%A5%E5%A4%96%E9%83%A8%E6%A0%B7%E5%BC%8F%E8%A1%A8%E5%92%8Cjs%E6%96%87%E4%BB%B6%EF%BC%8C%E4%BB%A5%E8%A7%A3%E5%86%B3wordpress%E5%90%8E%E5%8F%B0%E5%BC%80%E5%8F%91%E7%9A%84%E9%9C%80%E8%A6%81"><span class="nav-number">8.</span> <span class="nav-text">在wordpress后台引入外部样式表和js文件，以解决wordpress后台开发的需要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%9A%E8%BF%87functions-php%E7%9A%84%E6%96%B9%E5%BC%8F%E5%BC%95%E5%85%A5%E5%A4%96%E9%83%A8%E6%A0%B7%E5%BC%8F%E8%A1%A8%E5%92%8Cjs%E6%96%87%E4%BB%B6%E4%BB%A5%E5%8F%96%E4%BB%A3%E5%9C%A8%E5%85%AC%E5%85%B1%E5%A4%B4%E9%83%A8%E5%92%8C%E5%85%AC%E5%85%B1%E5%B0%BE%E9%83%A8%E5%BC%95%E5%85%A5%E6%A0%B7%E5%BC%8F%E8%A1%A8%E5%92%8Cjs%E6%96%87%E4%BB%B6"><span class="nav-number">9.</span> <span class="nav-text">通过functions.php的方式引入外部样式表和js文件以取代在公共头部和公共尾部引入样式表和js文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%8F%AF%E8%A7%86%E5%8C%96%EF%BC%8C%E6%8A%8A%E4%BB%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E8%AF%BB%E5%8F%96%E6%9D%A5%E7%9A%84%E6%95%B0%E6%8D%AE%E5%81%9A%E6%88%90%E6%95%B0%E6%8D%AE%E5%9B%BE%E8%A1%A8%E5%B1%95%E7%A4%BA%E5%88%B0%E7%BD%91%E7%AB%99%E5%90%8E%E5%8F%B0"><span class="nav-number">10.</span> <span class="nav-text">数据可视化，把从数据库读取来的数据做成数据图表展示到网站后台</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A4%E6%9B%B4%E6%96%B0%E6%80%BB%E7%BB%93"><span class="nav-number">11.</span> <span class="nav-text">此更新总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

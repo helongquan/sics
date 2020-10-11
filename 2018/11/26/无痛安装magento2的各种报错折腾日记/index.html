@@ -1,37 +1,655 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="对于安装过无数次失败的我来说，对magento2是多么的恨，可是又不能放弃这个方案，因为它确实引起了我的好奇和进一步对它的探索。 现在就分享下笔者在本地电脑的xampp安装magento2的经历。由于前面失败过多次，这次终于静下心来思考了一番。 先去magento官网里面的系统需求那里确定了php版本，地址如下： https:&#x2F;&#x2F;devdocs.magento.com&#x2F;system-require">
+<meta property="og:type" content="article">
+<meta property="og:title" content="无痛安装magento2的各种报错折腾日记">
+<meta property="og:url" content="http://example.com/2018/11/26/%E6%97%A0%E7%97%9B%E5%AE%89%E8%A3%85magento2%E7%9A%84%E5%90%84%E7%A7%8D%E6%8A%A5%E9%94%99%E6%8A%98%E8%85%BE%E6%97%A5%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="对于安装过无数次失败的我来说，对magento2是多么的恨，可是又不能放弃这个方案，因为它确实引起了我的好奇和进一步对它的探索。 现在就分享下笔者在本地电脑的xampp安装magento2的经历。由于前面失败过多次，这次终于静下心来思考了一番。 先去magento官网里面的系统需求那里确定了php版本，地址如下： https:&#x2F;&#x2F;devdocs.magento.com&#x2F;system-require">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/N90Xh7A.jpg">
+<meta property="og:image" content="https://i.imgur.com/MLARhmL.png">
+<meta property="og:image" content="https://i.imgur.com/Kk3rzf1.png">
+<meta property="og:image" content="https://i.imgur.com/0WFDo1B.png">
+<meta property="og:image" content="https://i.imgur.com/3zbdfjo.png">
+<meta property="og:image" content="https://i.imgur.com/mkxjdsO.jpg">
+<meta property="og:image" content="https://i.imgur.com/hhs1KQw.jpg">
+<meta property="og:image" content="https://i.imgur.com/JZy8XHi.jpg">
+<meta property="og:image" content="https://i.imgur.com/rD5A2qO.jpg">
+<meta property="article:published_time" content="2018-11-26T09:41:09.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:05.542Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="magento2,报错">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/N90Xh7A.jpg">
+
+<link rel="canonical" href="http://example.com/2018/11/26/%E6%97%A0%E7%97%9B%E5%AE%89%E8%A3%85magento2%E7%9A%84%E5%90%84%E7%A7%8D%E6%8A%A5%E9%94%99%E6%8A%98%E8%85%BE%E6%97%A5%E8%AE%B0/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>无痛安装magento2的各种报错折腾日记 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/11/26/%E6%97%A0%E7%97%9B%E5%AE%89%E8%A3%85magento2%E7%9A%84%E5%90%84%E7%A7%8D%E6%8A%A5%E9%94%99%E6%8A%98%E8%85%BE%E6%97%A5%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          无痛安装magento2的各种报错折腾日记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-11-26 17:41:09" itemprop="dateCreated datePublished" datetime="2018-11-26T17:41:09+08:00">2018-11-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:05" itemprop="dateModified" datetime="2020-10-11T11:58:05+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/magento2/" itemprop="url" rel="index"><span itemprop="name">magento2</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>对于安装过无数次失败的我来说，对magento2是多么的恨，可是又不能放弃这个方案，因为它确实引起了我的好奇和进一步对它的探索。</p>
+<p>现在就分享下笔者在本地电脑的xampp安装magento2的经历。由于前面失败过多次，这次终于静下心来思考了一番。</p>
+<p>先去magento官网里面的系统需求那里确定了php版本，地址如下：</p>
+<p><a target="_blank" rel="noopener" href="https://devdocs.magento.com/system-requirements.html">https://devdocs.magento.com/system-requirements.html</a></p>
+<p>为了达到更好兼容性，笔者把magento2.0.x，magento2.1.x，magento2.2.x，magento2.3.x的系统环境要求都看了一遍。</p>
+<blockquote>
+<ul>
+<li>Magento 2.3.x system requirements</li>
+<li>Magento 2.2.x system requirements</li>
+<li>Magento 2.1.x system requirements</li>
+<li>Magento 2.0.x system requirements</li>
+</ul>
+</blockquote>
+<p>把这四个的需求都看完之后，然后确定了php版本(php 7.0.x)，然后来到xampp官网，选择版本：</p>
+<blockquote>
+<p>7.0.32 / PHP 7.0.32</p>
+</blockquote>
+<p>下载安装。</p>
+<p>然后，听说magento2在magento2.2之后才算bug少点，所以就选择了magento2.2.6的含有sample data的文件包。下载地址：<a target="_blank" rel="noopener" href="https://magento.com/tech-resources/download">https://magento.com/tech-resources/download</a></p>
+<p>然后在服务器根目录下创建文件夹放magento，好的，到此为止我们已经完成了环境的安装版本的选择。</p>
+<hr>
+<p>安装magento2之前我们要做些准备，这个准备是笔者在多次失败后的失败的经验总结出来的。如果不做些准备工作，你可能碰到如下的问题。</p>
+<ol>
+<li>可能安装不成功。</li>
+<li>可能安装成功后，后台icon丢失，以及后台的链接点击不了。</li>
+<li>可能前台样式错乱。</li>
+</ol>
+<p>我们要做哪些准备工作呢？</p>
+<p><strong>第一</strong>，我们来到xampp那里，在php.ini文件中开启xampp的一些magento必备扩展，比如xsl,intl,soap等，如果这些必备的扩展没有开启就会没法进行下一步的安装，当然php版本必须符合。然后就是设置一些值，比如</p>
+<pre><code>memory_limit=1280M          //默认是128M
+max_execution_time=600   //默认是60
+max_input_time=600         //默认是60
+post_max_size=128M        //默认是2M
+upload_max_filesize=64M   //默认是2M</code></pre>
+<p>修改下my.ini的配置，比如：</p>
+<pre><code>max_allowed_packet = 256M    //默认是16M
+myisam_sort_buffer_size = 256M     //默认是8M
+等等...</code></pre>
+<p>httpd.conf里面也可以根据的一些需求进行修改，这里就不多说，具体的大家谷歌一下。</p>
+<p><strong>第二</strong>，碰到很多问题的可能是安装完magento2后，来到后台里面icon显示不出来，也就是字体图标没了，另外一个问题就是点击后台的那些菜单没反应，这个是最要命的。为了解决这个问题，笔者找了很多方案，这里必须提醒，这种问题一定要去google，而不是百度，百度里面基本很难找到关于magento的解决方案，果然笔者在google找到了很多方案。</p>
+<p>为什么会发生icon显示不出来的问题呢？原因是如果您的magento安装在中间发生故障，然后重试安装，则会出现此问题。</p>
+<p>网上通常的做法如下：</p>
+<pre><code>php /bin/magento setup:static-content:deploy
+php /bin/magento indexer:reindex
+php /bin/magento cache:clean
+php /bin/magento cache:flush</code></pre>
+<p>可是经常有盆友遇到，deploy了无数遍,但是页面还是没样式，原来大多都是用的apache（xampp里面就是用的apache），一般都是缺少.htaccess的原因。</p>
+<p>1,先检查下项目根目录/pub/static/.htaccess 是否可用。<br>如果是在windows下,（隐藏文件 - 按cntrl + H查看文件）。</p>
+<p>2,如果没这个文件的话，就创建.htaccess<br>该.htaccess的代码为:</p>
+<pre><code>&lt;IfModule mod_php5.c&gt;
+php_flag engine 0
+&lt;/IfModule&gt;
+&lt;IfModule mod_php7.c&gt;
+php_flag engine 0
+&lt;/IfModule&gt;
+# To avoid situation when web server automatically adds extension to path
+Options -MultiViews
+&lt;IfModule mod_rewrite.c&gt;
+    RewriteEngine On
+    ## you can put here your pub/static folder path relative to web root
+    #RewriteBase /magento/pub/static/
+    # Remove signature of the static files that is used to overcome the browser cache
+    RewriteRule ^version.+?/(.+)$ $1 [L]
+    RewriteCond %&#123;REQUEST_FILENAME&#125; !-f
+    RewriteCond %&#123;REQUEST_FILENAME&#125; !-l
+    RewriteRule .* ../static.php?resource=$0 [L]
+&lt;/IfModule&gt;
+############################################
+## setting MIME types
+# JavaScript
+AddType application/javascript js jsonp
+AddType application/json json
+# HTML
+AddType text/html html
+# CSS
+AddType text/css css
+# Images and icons
+AddType image/x-icon ico
+AddType image/gif gif
+AddType image/png png
+AddType image/jpeg jpg
+AddType image/jpeg jpeg
+# SVG
+AddType image/svg+xml svg
+# Fonts
+AddType application/vnd.ms-fontobject eot
+AddType application/x-font-ttf ttf
+AddType application/x-font-otf otf
+AddType application/x-font-woff woff
+AddType application/font-woff2 woff2
+# Flash
+AddType application/x-shockwave-flash swf
+# Archives and exports
+AddType application/zip gzip
+AddType application/x-gzip gz gzip
+AddType application/x-bzip2 bz2
+AddType text/csv csv
+AddType application/xml xml
+&lt;IfModule mod_headers.c&gt;
+    &lt;FilesMatch .*\.(ico|jpg|jpeg|png|gif|svg|js|css|swf|eot|ttf|otf|woff|woff2)$&gt;
+        Header append Cache-Control public
+    &lt;/FilesMatch&gt;
+    &lt;FilesMatch .*\.(zip|gz|gzip|bz2|csv|xml)$&gt;
+        Header append Cache-Control no-store
+    &lt;/FilesMatch&gt;
+&lt;/IfModule&gt;
+&lt;IfModule mod_expires.c&gt;
+############################################
+## Add default Expires header
+## http://developer.yahoo.com/performance/rules.html#expires
+    ExpiresActive On
+    # Data
+    &lt;FilesMatch \.(zip|gz|gzip|bz2|csv|xml)$&gt;
+        ExpiresDefault &quot;access plus 0 seconds&quot;
+    &lt;/FilesMatch&gt;
+    ExpiresByType text/xml &quot;access plus 0 seconds&quot;
+    ExpiresByType text/csv &quot;access plus 0 seconds&quot;
+    ExpiresByType application/json &quot;access plus 0 seconds&quot;
+    ExpiresByType application/zip &quot;access plus 0 seconds&quot;
+    ExpiresByType application/x-gzip &quot;access plus 0 seconds&quot;
+    ExpiresByType application/x-bzip2 &quot;access plus 0 seconds&quot;
+    # CSS, JavaScript, html
+    &lt;FilesMatch \.(css|js|html)$&gt;
+        ExpiresDefault &quot;access plus 1 year&quot;
+    &lt;/FilesMatch&gt;
+    ExpiresByType text/css &quot;access plus 1 year&quot;
+    ExpiresByType text/html &quot;access plus 1 year&quot;
+    ExpiresByType application/javascript &quot;access plus 1 year&quot;
+    # Favicon, images, flash
+    &lt;FilesMatch \.(ico|gif|png|jpg|jpeg|swf|svg)$&gt;
+        ExpiresDefault &quot;access plus 1 year&quot;
+    &lt;/FilesMatch&gt;
+    ExpiresByType image/gif &quot;access plus 1 year&quot;
+    ExpiresByType image/png &quot;access plus 1 year&quot;
+    ExpiresByType image/jpg &quot;access plus 1 year&quot;
+    ExpiresByType image/jpeg &quot;access plus 1 year&quot;
+    ExpiresByType image/svg+xml &quot;access plus 1 year&quot;
+    # Fonts
+    &lt;FilesMatch \.(eot|ttf|otf|svg|woff|woff2)$&gt;
+        ExpiresDefault &quot;access plus 1 year&quot;
+    &lt;/FilesMatch&gt;
+    ExpiresByType application/vnd.ms-fontobject &quot;access plus 1 year&quot;
+    ExpiresByType application/x-font-ttf &quot;access plus 1 year&quot;
+    ExpiresByType application/x-font-otf &quot;access plus 1 year&quot;
+    ExpiresByType application/x-font-woff &quot;access plus 1 year&quot;
+    ExpiresByType application/font-woff2 &quot;access plus 1 year&quot;
+&lt;/IfModule&gt;</code></pre>
+<p>确保这个问题搞定后，我们在来到/app/etc/di.xml，打开文件，搜索找到，</p>
+<pre><code>Magento\Framework\App\View\Asset\MaterializationStrategy\Symlink</code></pre>
+<p>替换为，</p>
+<pre><code>Magento\Framework\App\View\Asset\MaterializationStrategy\Copy</code></pre>
+<p>记得是替换为，因为笔者搜索的时候，确实搜索到了这个，可是就在隔壁就有了一个，</p>
+<pre><code>Magento\Framework\App\View\Asset\MaterializationStrategy\Copy</code></pre>
+<p>当时就是觉得直接把，</p>
+<pre><code>Magento\Framework\App\View\Asset\MaterializationStrategy\Symlink</code></pre>
+<p>这个注释掉即可，后来发现这两个的标签的属性是不一样的。笔者粘贴一下：</p>
+<pre><code>&lt;argument name=&quot;strategiesList&quot; xsi:type=&quot;array&quot;&gt;
+    &lt;item name=&quot;view_preprocessed&quot; xsi:type=&quot;object&quot;&gt;Magento\Framework\App\View\Asset\MaterializationStrategy\Symlink&lt;/item&gt;
+    &lt;item name=&quot;default&quot; xsi:type=&quot;object&quot;&gt;Magento\Framework\App\View\Asset\MaterializationStrategy\Copy&lt;/item&gt;
+&lt;/argument&gt;</code></pre>
+<p>所以，正确的做法是替换掉Magento\Framework\App\View\Asset\MaterializationStrategy\Symlink</p>
+<p>完成这些之后，我们就开始安装从magento官网下载下来的magento2.2.6:</p>
+<p><img src="https://i.imgur.com/N90Xh7A.jpg"></p>
+<p>有图有真相。好的我们先去phpmyadmin那边新建一个magento的数据库，命名为magento2，名字随便取。</p>
+<p>然后，就是在浏览器上输入magento的目录地址：<a target="_blank" rel="noopener" href="http://localhost/magento2%EF%BC%8C%E8%BF%99%E6%A0%B7%E5%B0%B1%E4%BC%9A%E8%87%AA%E5%8A%A8%E8%BF%9B%E5%85%A5%E5%88%B0%E5%AE%89%E8%A3%85%E5%BC%95%E5%AF%BC%E7%95%8C%E9%9D%A2%EF%BC%8C%E7%84%B6%E5%90%8E%E8%B7%9F%E7%9D%80%E7%95%8C%E9%9D%A2%E5%BC%95%E5%AF%BC%E8%B5%B0%E5%B0%B1%E5%8F%AF%E4%BB%A5%E5%AE%8C%E6%88%90%E5%AE%89%E8%A3%85%E4%BA%86%E3%80%82">http://localhost/magento2，这样就会自动进入到安装引导界面，然后跟着界面引导走就可以完成安装了。</a></p>
+<p><strong>第三</strong>：前台样式错乱，这个也是有发生的几率的，这个时候通常是样式文件丢失，或者是网络问题，通常的做法就是刷新一下浏览器，就OK了，如果还是不行可以运行命令，清除一下缓存，在magento根目录下运行命令：</p>
+<pre><code>php bin/magento cache:clean
+php bin/magento cache:flush</code></pre>
+<hr>
+<p>接着就是笔者想要汉化版的，怎么汉化呢？跟着节奏走。</p>
+<p>先去下载汉化的文件：</p>
+<p>下载地址：<a target="_blank" rel="noopener" href="https://www.mageoo.com/wp-content/uploads/2016/11/zh_Hans_CN.zip">magento2中文语言包</a>，或者来笔者百度云盘分享的地址：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/12j_sZiNV-IIvX7IH6jQEkg">https://pan.baidu.com/s/12j_sZiNV-IIvX7IH6jQEkg</a>，密码：0dyz</p>
+<p><strong>安装</strong></p>
+<p>magento1.x的话上传到mage1.store/app/i18n/Magento/zh_Hans_CN文件夹 </p>
+<p>magento2.x的话上传到/vendor/magento/language-zh_hans_cn文件夹中，然后运行脚本命令：</p>
+<pre><code>php bin/magento setup:static-content:deploy zh_Hans_CN</code></pre>
+<p>如果这个命令不行就运行命令：</p>
+<pre><code>php bin/magento setup:static-content:deploy -f zh_Hans_CN</code></pre>
+<p>使用</p>
+<p><strong>后台显示中文界面</strong></p>
+<p>编辑后台用户账号，把Interface Locale 设为中文。如下图： </p>
+<p><img src="https://i.imgur.com/MLARhmL.png"></p>
+<p><img src="https://i.imgur.com/Kk3rzf1.png"></p>
+<p><strong>前台使用中文</strong></p>
+<p>修改店铺配置，把Locale Options 下面的locale 设为中文，如下图：</p>
+<p><img src="https://i.imgur.com/0WFDo1B.png"></p>
+<p><img src="https://i.imgur.com/3zbdfjo.png"></p>
+<p>本文会持续更新，敬请关注。</p>
+<p>**更新：2019/1/17 14:16:05 **</p>
+<p>一段时间没有折腾magento2了以后，笔者继续折腾magento2，开始重新安装magento2的时候，笔者连了VPN，发现在连了VPN的情况下，没有报错，也就是在最后一步的时候，没有卡着，最后安装是成功的，打开后台也很顺利，没有报各种错误，可能是因为在安装期间需要调用国外的某些资源，如果没有连PN，或者在网络环境不是很好的情况下会出现些意想不到的问题，总结：如果情况允许，建议在VPN的环境下安装magento2.</p>
+<p>本文会持续更新，敬请关注。</p>
+<hr>
+<p>**更新：2019/3/4 15:49:20 **</p>
+<p>笔者在安装magento2的时候，在bluehost上面，当我把magento放在web服务器根目录下的时候，运行安装，发现有这样一个报错：</p>
+<blockquote>
+<p>Unexpected character in input: ‘&#39; (ASCII=92) state=1</p>
+</blockquote>
+<p>我就感到纳闷儿了，为哈我的子域名安装得好好的，这个子域名对应的源码是在web服务器根目录下的一个文件夹里面，我就在想既然那个可以为啥这个不可以？</p>
+<p>后来谷歌了下，发现这个是PHP版本的问题，PHP版本低于3.0的话，会报错，于是我写了一个探针看了下这个web服务器的php版本居然是php2.27，太低了。于是修改了php版本，bluehost就有个好处，可以自己选择php版本，于是我选中的是：</p>
+<p><img src="https://i.imgur.com/mkxjdsO.jpg"></p>
+<p><img src="https://i.imgur.com/hhs1KQw.jpg"></p>
+<p>magento2嘛，肯定要这个版本才行，低于这个版本不行，所以当我选择这个的时候还是不行，我就纳闷儿了，为啥子域名可以主域名不可以？后来回来再看了下，发现了端倪，是笔者的错，跳跃式阅读让我很没面子，于是发现了，这个红色框框里面说的：</p>
+<blockquote>
+<p>Same as PHP 7.0, but all subdirectories will use ~/public_html/php.ini</p>
+</blockquote>
+<p>这里明确说了，所有子域名用这个，那么就是主域名依然是那个php2.27版本的。于是果断的选择了如下的这个：</p>
+<p><img src="https://i.imgur.com/JZy8XHi.jpg"></p>
+<p>然后问题解决，报错消失。</p>
+<hr>
+<p>**更新：2019/3/5 16:36:44 **</p>
+<p>笔者在折腾magento2后台的时候，遇到这样一个奇怪的现象，当我把某个分类勾选更多的产品划分到这个分类或者把该分类去掉一些产品的时候，又或者我要修改某个分类的名字的时候，报了一个错误：</p>
+<blockquote>
+<p>URL key for specified store already exists</p>
+</blockquote>
+<p>后来笔者新建一个分类也是报这个错误，我觉得很奇怪，根据字面意思那么就是这个url已经存在，可是后面自己把名字更换了还是报错，后来查了下资料发现这个是一个重写的问题，根据提示笔者来到magento的数据库，把重写规则删除了。</p>
+<p>首先登录数据库，然后：</p>
+<pre><code>select * from url_rewrite;</code></pre>
+<p>看下这个里面有哪些东西，发现里面有很多重写的。由于笔者的magento的数据都是导入的demo数据，所以不用担心，基本可以全部删除了。为了谨慎起见，笔者先把这个表备份了，然后删除某个有问题的，比如笔者修改分类为pen的这个报错了，那么可以把这个有关的都删除了。运行命令：</p>
+<pre><code>DELETE FROM url_rewrite WHERE request_path LIKE &#39;%pen%&#39;;</code></pre>
+<p>抽象一下就是：</p>
+<pre><code>DELETE FROM url_rewrite WHERE request_path LIKE &#39;%category-name%&#39;;     //把分类名作为关键词删除即可</code></pre>
+<p>笔者后来经过尝试发现删除分类名貌似没有起到立竿见影的作用，于是就用了粗暴的方法：</p>
+<pre><code>DELETE FROM url_rewrite WHERE request_path LIKE &#39;%a%&#39;;
+DELETE FROM url_rewrite WHERE request_path LIKE &#39;%b%&#39;;
+DELETE FROM url_rewrite WHERE request_path LIKE &#39;%c%&#39;;
+...</code></pre>
+<p>这些，逐级删除，后来感觉删得差不多了就把缓存清除一下，后面就OK了。</p>
+<blockquote>
+<p>提示：这个毕竟是直接操作数据库，以防万一，先备份，后操作。</p>
+</blockquote>
+<p>有的人说造成这个问题的原因还有另外一种解释，就是说有相同的分类名在不同的根分类下，原文：</p>
+<pre><code>Same category names under different root categories</code></pre>
+<p>参考链接：<a target="_blank" rel="noopener" href="https://github.com/magento/magento2/issues/8304">https://github.com/magento/magento2/issues/8304</a></p>
+<hr>
+<p>**更新：2019/3/26 18:04:57 **</p>
+<blockquote>
+<p>Magento 2，无法登录后台，循环登录问题解决方法</p>
+</blockquote>
+<p>就是当magento2安装完毕后，前台可是可以访问的，可是登录后台的时候，无论输入多少次都始终在登录界面：</p>
+<p><img src="https://i.imgur.com/rD5A2qO.jpg"></p>
+<p>进入一个循环登录界面。解决方案如下：</p>
+<p>cd到magento2/vendor/magento/framework/Session目录，编辑SessionManager.php文件，搜索函数：<code>expireSessionCookie()</code>，注释如下代码：</p>
+<pre><code>$metadata-&gt;setHttpOnly($this-&gt;sessionConfig-&gt;getCookieHttpOnly()); </code></pre>
+<p>然后在chrome浏览器里面登录貌似不行，在火狐浏览器（firefox）里可以登录。原因其实就是笔者用一个magento2安装成功后，然后复制了这个网站作为子域名进行安装，而这个子域名的网站的源码和数据跟主域名的源码和数据一模一样，而笔者在安装完子域名之前就在chrome浏览器登录了主域名，自然就保存了主域名的cookie信息，而当安装完毕子域名这个magento2后，那么还是在chrome登录的时候，可能就存在cookie的冲突的问题，所以当笔者换成了一个重来没有登录过主域名的这个mageno网站的火狐浏览器登录子域名的magento后，自然就不会存在cookie冲突的问题，登录就不会失败。</p>
+<p>当然，如果你很喜欢用chrome登录子域名的magento网站，<strong>那么最简单的方法就是删除chrome的所有cookie信息</strong>，或者是早chrome的<strong>无痕模式</strong>下登录子域名的magento的网站。笔者试过了，是成功的。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/magento2-%E6%8A%A5%E9%94%99/" rel="tag"># magento2,报错</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/11/21/%E5%9F%BA%E4%BA%8Ewordpress%E7%BB%93%E5%90%88postman%E5%AE%9E%E7%8E%B0woocommerce%E7%9A%84rest-api%E8%8E%B7%E5%8F%96%E4%BA%A7%E5%93%81%E5%92%8C%E8%AE%A2%E5%8D%95%E7%AD%89%E6%95%B0%E6%8D%AE%E7%9A%84%E6%96%B9%E6%B3%95/" rel="prev" title="基于wordpress结合postman实现woocommerce的rest api获取产品，编辑产品，删除产品，创建产品和订单等数据的方法，以及把这些功能整合到用户个人中心">
+      <i class="fa fa-chevron-left"></i> 基于wordpress结合postman实现woocommerce的rest api获取产品，编辑产品，删除产品，创建产品和订单等数据的方法，以及把这些功能整合到用户个人中心
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/11/27/ubuntu%E6%A1%8C%E9%9D%A2%E7%89%88%E7%8B%AC%E7%AB%8B%E5%AE%89%E8%A3%85php-apache-mysql%E7%AD%89%EF%BC%8C%E4%B8%BAmagento2%E6%90%AD%E5%BB%BA%E6%89%80%E9%9C%80%E7%9A%84%E7%8E%AF%E5%A2%83%E7%A2%B0%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E4%BB%A5%E5%8F%8A%E7%9B%B8%E5%85%B3%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" rel="next" title="ubuntu桌面版独立安装php,apache,mysql等，为magento2搭建所需的环境碰到的问题以及相关的解决方案">
+      ubuntu桌面版独立安装php,apache,mysql等，为magento2搭建所需的环境碰到的问题以及相关的解决方案 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

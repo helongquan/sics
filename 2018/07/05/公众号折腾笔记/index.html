@@ -1,37 +1,2539 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="项目汇总目录：  前端 后端 审计端 服务器（操作系统） 云平台 数据库   1、前端  采用的架构：bootstrap+html5+jquery+layer  前端功能集合  jquery-autocomplete  用来解决输入框的联想功能  jQuery Validate  由于采用的不是表单进行提交，所以不能用表单的必填属性进行提交验证，因此这个用来解决验证输入框的内容  Bootstra">
+<meta property="og:type" content="article">
+<meta property="og:title" content="公众号折腾笔记">
+<meta property="og:url" content="http://example.com/2018/07/05/%E5%85%AC%E4%BC%97%E5%8F%B7%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="项目汇总目录：  前端 后端 审计端 服务器（操作系统） 云平台 数据库   1、前端  采用的架构：bootstrap+html5+jquery+layer  前端功能集合  jquery-autocomplete  用来解决输入框的联想功能  jQuery Validate  由于采用的不是表单进行提交，所以不能用表单的必填属性进行提交验证，因此这个用来解决验证输入框的内容  Bootstra">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/bAIlQ12.jpg">
+<meta property="og:image" content="https://i.imgur.com/aYt6Yug.jpg">
+<meta property="og:image" content="https://i.imgur.com/Ud5Ud0N.png">
+<meta property="og:image" content="https://i.imgur.com/sGEcmmn.jpg">
+<meta property="og:image" content="https://i.imgur.com/rCjwMZA.jpg">
+<meta property="og:image" content="https://i.imgur.com/tJ3chdr.jpg">
+<meta property="og:image" content="https://i.imgur.com/ClWZFFN.jpg">
+<meta property="og:image" content="https://i.imgur.com/P7FLzTW.jpg">
+<meta property="og:image" content="https://i.imgur.com/UC5Dv01.jpg">
+<meta property="og:image" content="https://i.imgur.com/v1jRbKo.png">
+<meta property="og:image" content="https://i.imgur.com/naB1B0m.png">
+<meta property="og:image" content="https://i.imgur.com/gsbdj1C.jpg">
+<meta property="og:image" content="https://i.imgur.com/8FmtGIk.jpg">
+<meta property="og:image" content="https://i.imgur.com/kLkduy4.jpg">
+<meta property="og:image" content="https://i.imgur.com/EQ8gJJb.jpg">
+<meta property="og:image" content="https://i.imgur.com/m9G73Eq.jpg">
+<meta property="og:image" content="https://i.imgur.com/5pEJsgT.png">
+<meta property="og:image" content="https://i.imgur.com/sIC2xNo.jpg">
+<meta property="og:image" content="https://i.imgur.com/6TwuFRu.jpg">
+<meta property="og:image" content="https://i.imgur.com/ssDQmIU.png">
+<meta property="article:published_time" content="2018-07-05T08:58:53.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:04.104Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="微信公众号,公众号">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/bAIlQ12.jpg">
+
+<link rel="canonical" href="http://example.com/2018/07/05/%E5%85%AC%E4%BC%97%E5%8F%B7%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>公众号折腾笔记 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/07/05/%E5%85%AC%E4%BC%97%E5%8F%B7%E6%8A%98%E8%85%BE%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          公众号折腾笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-07-05 16:58:53" itemprop="dateCreated datePublished" datetime="2018-07-05T16:58:53+08:00">2018-07-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:04" itemprop="dateModified" datetime="2020-10-11T11:58:04+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>项目汇总目录：</strong></p>
+<ol>
+<li>前端</li>
+<li>后端</li>
+<li>审计端</li>
+<li>服务器（操作系统）</li>
+<li>云平台</li>
+<li>数据库</li>
+</ol>
+<hr>
+<p><strong>1、前端</strong></p>
+<blockquote>
+<p>采用的架构：bootstrap+html5+jquery+layer</p>
+</blockquote>
+<p><strong>前端功能集合</strong></p>
+<ol>
+<li><p>jquery-autocomplete</p>
+<p> 用来解决输入框的联想功能</p>
+</li>
+<li><p>jQuery Validate</p>
+<p> 由于采用的不是表单进行提交，所以不能用表单的必填属性进行提交验证，因此这个用来解决验证输入框的内容</p>
+</li>
+<li><p>Bootstrap-select</p>
+<p> 采用这个bootstrap插件是用来解决下拉框的多选功能和搜索</p>
+</li>
+<li><p>js数据压缩和加密</p>
+<p> 用来解决js脚本的压缩和混合加密，确保代码的安全，保护知识产权。<br> 参考网址：<a target="_blank" rel="noopener" href="https://www.sojson.com/jsobfuscator.html">https://www.sojson.com/jsobfuscator.html</a></p>
+</li>
+<li><p>输入框内容的过滤（正则表达式）</p>
+<p> 用来过滤符合规则的字符</p>
+</li>
+<li><p>其他功能（作为补充）</p>
+</li>
+</ol>
+<hr>
+<p><strong>1. jquery-autocomplete 使用方法</strong></p>
+<p>demo下载地址：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1lwgYqLUcx5pi5f3BxVmaLg">https://pan.baidu.com/s/1lwgYqLUcx5pi5f3BxVmaLg</a>，密码：xuzh</p>
+<p>使用方法：</p>
+<p>首先、头部引入必要的文件：</p>
+<pre><code>&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;jquery-ui.css&quot;&gt;
+&lt;script src=&quot;https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;jquery-autocomplete-1-12-1.js&quot;&gt;&lt;/script&gt;</code></pre>
+<p>HTML内容：</p>
+<pre><code>&lt;input type=&quot;text&quot; name=&quot;zymc&quot; id=&quot;zymc&quot;&gt;</code></pre>
+<p>js代码如下：</p>
+<pre><code>&lt;script&gt;
+    $( &quot;#zymc&quot; ).autocomplete(&#123;
+      source: [ &quot;c++&quot;, &quot;java&quot;, &quot;php&quot;, &quot;coldfusion&quot;, &quot;javascript&quot;, &quot;asp&quot;, &quot;ruby&quot; ]
+    &#125;);
+&lt;/script&gt;</code></pre>
+<p>因此，这个source是来自数据库的查询结果，通常我们是这样写的：</p>
+<pre><code>&lt;script&gt;
+$(document).ready(function () &#123;
+    htmlobj = $.ajax(&#123;
+        url: &quot;data.json&quot;,
+        type: &quot;get&quot;,
+        dataType: &quot;json&quot;,
+        contentType: &quot;application/json&quot;,
+        success: function (res) &#123;
+            if (typeof res === &#39;string&#39;) &#123;
+                res = JSON.parse(res);
+            &#125;
+
+            $(&quot;#zymc&quot;).autocomplete(&#123;
+                source: res
+            &#125;);
+
+        &#125;,
+        error: function (xhr, err, exception) &#123;
+            console.log(err);
+            //$(&quot;#msg&quot;).html(err);
+        &#125;
+    &#125;);
+&#125;)
+&lt;/script&gt;</code></pre>
+<p>这样就算完成了一个输入框的联想功能，如果有多个输入框，那么直接在后面追加就行了。比如：</p>
+<pre><code>&lt;script&gt;
+    $(document).ready(function () &#123;
+        htmlobj = $.ajax(&#123;
+            url: &quot;data.json&quot;,
+            type: &quot;get&quot;,
+            dataType: &quot;json&quot;,
+            contentType: &quot;application/json&quot;,
+            success: function (res) &#123;
+                if (typeof res === &#39;string&#39;) &#123;
+                    res = JSON.parse(res);
+                &#125;
+
+                $(&quot;#schoolName&quot;).autocomplete(&#123;
+                    source: res
+                &#125;);
+
+            &#125;,
+            error: function (xhr, err, exception) &#123;
+                console.log(err);
+                //$(&quot;#msg&quot;).html(err);
+            &#125;
+        &#125;);
+
+        htmlobj = $.ajax(&#123;
+            url: &quot;data2.json&quot;,
+            type: &quot;get&quot;,
+            dataType: &quot;json&quot;,
+            delay: 500,
+            scrollHeight: 300,
+            matchSubset: false,
+            width: &quot;30%&quot;,
+            contentType: &quot;application/json&quot;,
+            success: function (res) &#123;
+                if (typeof res === &#39;string&#39;) &#123;
+                    res = JSON.parse(res);
+                &#125;
+
+                $(&quot;#school_yz_xxmc&quot;).autocomplete(&#123;
+                    source: res
+                &#125;);
+
+            &#125;,
+            error: function (xhr, err, exception) &#123;
+                console.log(err);
+                //$(&quot;#msg&quot;).html(err);
+            &#125;
+        &#125;);
+    &#125;)
+&lt;/script&gt;</code></pre>
+<hr>
+<p><strong>2. jQuery Validate</strong></p>
+<p>下载地址：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1pYfTiZx-8nEnb4HUQgcElA">https://pan.baidu.com/s/1pYfTiZx-8nEnb4HUQgcElA</a>，密码：g16e</p>
+<p>使用方法：</p>
+<p>首选、引入必要的文件：</p>
+<pre><code>&lt;script src=&quot;http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;http://static.runoob.com/assets/jquery-validation-1.14.0/dist/localization/messages_zh.js&quot;&gt;&lt;/script&gt;</code></pre>
+<p>其中，messages_zh.js这个不是必需的，这个只是一个提示翻译包。可以不引用，不引入不影响功能。</p>
+<p>HTML代码如下：</p>
+<pre><code>&lt;form class=&quot;cmxform&quot; id=&quot;commentForm&quot; method=&quot;get&quot; action=&quot;&quot;&gt;
+  &lt;fieldset&gt;
+    &lt;legend&gt;输入您的名字，邮箱，URL&lt;/legend&gt;
+    &lt;p&gt;
+      &lt;label for=&quot;cname&quot;&gt;Name (必需, 最小两个字母)&lt;/label&gt;
+      &lt;input id=&quot;cname&quot; name=&quot;name&quot; minlength=&quot;2&quot; type=&quot;text&quot; required&gt;
+    &lt;/p&gt;
+    &lt;p&gt;
+      &lt;label for=&quot;cemail&quot;&gt;E-Mail (必需)&lt;/label&gt;
+      &lt;input id=&quot;cemail&quot; type=&quot;email&quot; name=&quot;email&quot; required&gt;
+    &lt;/p&gt;
+    &lt;p&gt;
+      &lt;label for=&quot;curl&quot;&gt;URL (可选)&lt;/label&gt;
+      &lt;input id=&quot;curl&quot; type=&quot;url&quot; name=&quot;url&quot;&gt;
+    &lt;/p&gt;
+    &lt;p&gt;
+      &lt;input class=&quot;submit&quot; type=&quot;submit&quot; value=&quot;Submit&quot;&gt;
+    &lt;/p&gt;
+  &lt;/fieldset&gt;
+&lt;/form&gt;</code></pre>
+<p>js代码如下：</p>
+<pre><code>&lt;script&gt;
+$.validator.setDefaults(&#123;
+    submitHandler: function() &#123;
+      alert(&quot;提交事件!&quot;);
+    &#125;
+&#125;);
+$().ready(function() &#123;
+    $(&quot;#commentForm&quot;).validate();
+&#125;);
+&lt;/script&gt;</code></pre>
+<p>在本项目中，我们采用的是方式如下：</p>
+<p>HTML代码如下：</p>
+<pre><code>&lt;form class=&quot;form-horizontal&quot; id=&quot;searchBySchoolNameForm&quot;&gt;
+    &lt;div class=&quot;form-group&quot;&gt;
+        &lt;label class=&quot;col-xs-3 col-sm-2 control-label&quot;&gt;高校名称&lt;/label&gt;
+        &lt;div class=&quot;col-xs-9 col-sm-10&quot;&gt;
+            &lt;input type=&quot;text&quot; name=&quot;schoolName&quot; id=&quot;schoolName&quot; class=&quot;form-control&quot; placeholder=&quot;院校名称&quot; autofocus&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;form-group&quot;&gt;
+        &lt;div class=&quot;col-sm-offset-2 col-sm-10&quot;&gt;
+            &lt;input type=&quot;button&quot; class=&quot;btn btn-lg btn-primary btn-block&quot; id=&quot;searchBySchoolNameButton&quot; name=&quot;searchBySchoolNameButton&quot;
+                value=&quot;查询&quot;&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/form&gt;</code></pre>
+<p>js代码如下：</p>
+<pre><code>&lt;script&gt;
+$(document).ready(function () &#123;
+    function tab1_validform() &#123;
+        return $(&quot;#searchBySchoolNameForm&quot;).validate(&#123;
+            rules: &#123;
+                schoolName: &quot;required&quot;
+            &#125;,
+            messages: &#123;
+                schoolName: &quot;请输入院校名称&quot;
+            &#125;
+        &#125;);
+    &#125;
+
+    //注册表单验证
+    $(tab1_validform());
+    $(&quot;#searchBySchoolNameButton&quot;).click(function () &#123;
+        if (tab1_validform().form()) &#123;
+            var searchKey = new Object();
+            searchKey.schoolName = $(&quot;#schoolName&quot;).val();
+            url = &quot;data.json&quot;;
+            getSearchData(url, searchKey, &quot;#sn_no_result&quot;, &quot;#sn_result&quot;, &quot;#sn_detail_table&quot;, &quot;searchBySchoolName&quot;);
+        &#125;
+    &#125;);
+&#125;)
+&lt;/script&gt;</code></pre>
+<p>更多规则，参考这个地址：<a target="_blank" rel="noopener" href="http://www.runoob.com/jquery/jquery-plugin-validate.html">http://www.runoob.com/jquery/jquery-plugin-validate.html</a></p>
+<hr>
+<p><strong>3. Bootstrap-select</strong></p>
+<p>下载地址：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1KajPRFeXjykTK0WvpszGZA">https://pan.baidu.com/s/1KajPRFeXjykTK0WvpszGZA</a>，密码：ghkv</p>
+<p>使用方法：</p>
+<p>首先，引入必要的依赖文件：</p>
+<pre><code>&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;css/bootstrap.min.css&quot; /&gt;
+&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;css/bootstrap-select.css&quot; /&gt;
+&lt;script src=&quot;js/jquery-3.2.1.min.js&quot; type=&quot;text/javascript&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;js/bootstrap.min.js&quot; type=&quot;text/javascript&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;js/bootstrap-select.js&quot; type=&quot;text/javascript&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;</code></pre>
+<p>这些文件都是需要引入的，如果不引入bootstrap.min.js这个，那么下拉框的就不起作用，以前为了减少不必要的依赖就把这个删除了。后来发现在bootstrap table这个插件的时候，点击分页的下拉框的时候，不出来下拉的内容就是这个原因。</p>
+<p>接着，就是HTML的内容：</p>
+<pre><code>&lt;div class=&quot;form-group&quot;&gt;
+    &lt;label class=&quot;col-sm-3 control-label&quot;&gt;客资类型：&lt;/label&gt;
+    &lt;div class=&quot;col-sm-4&quot;&gt;
+        &lt;select id=&quot;usertype&quot; name=&quot;usertype&quot; class=&quot;selectpicker show-tick form-control&quot; multiple data-max-options=&quot;15&quot; data-live-search=&quot;true&quot;&gt;
+            &lt;option value=&quot;0&quot; style=&quot;background: #5cb85c; color: #fff;&quot;&gt;苹果&lt;/option&gt;
+            &lt;option value=&quot;1&quot; data-icon=&quot;glyphicon-heart&quot;&gt;菠萝&lt;/option&gt;
+            &lt;option value=&quot;2&quot; data-content=&quot;&lt;span class=&#39;label label-success&#39;&gt;香蕉&lt;/span&gt;&quot;&gt;香蕉&lt;/option&gt;
+            &lt;option value=&quot;3&quot; data-content=&quot;&lt;span class=&#39;label label-success&#39;&gt;火龙果&lt;/span&gt;&quot;&gt;火龙果&lt;/option&gt;
+            &lt;option value=&quot;4&quot; data-content=&quot;&lt;span class=&#39;label label-success&#39;&gt;梨子&lt;/span&gt;&quot;&gt;梨子&lt;/option&gt;
+            &lt;option value=&quot;5&quot;&gt;草莓&lt;/option&gt;
+            &lt;option value=&quot;6&quot;&gt;哈密瓜&lt;/option&gt;
+            &lt;option value=&quot;7&quot;&gt;椰子&lt;/option&gt;
+            &lt;option value=&quot;8&quot;&gt;猕猴桃&lt;/option&gt;
+            &lt;option value=&quot;9&quot;&gt;桃子&lt;/option&gt;
+            &lt;optgroup label=&quot;Picnic&quot;&gt;
+                &lt;option&gt;Mustard&lt;/option&gt;
+                &lt;option&gt;Ketchup&lt;/option&gt;
+                &lt;option&gt;Relish&lt;/option&gt;
+            &lt;/optgroup&gt;
+            &lt;optgroup label=&quot;Camping&quot;&gt;
+                &lt;option&gt;Tent&lt;/option&gt;
+                &lt;option&gt;Flashlight&lt;/option&gt;
+                &lt;option&gt;Toilet Paper&lt;/option&gt;
+            &lt;/optgroup&gt;
+        &lt;/select&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<p>js代码如下：</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+    $(function() &#123;
+        $(&quot;.selectpicker&quot;).selectpicker(&#123;
+            noneSelectedText: &#39;请选择&#39;,
+            countSelectedText: function()&#123;&#125;
+        &#125;);
+    &#125;);
+   function selectValue() &#123;
+   //获取选择的值
+        alert($(&#39;#usertype&#39;).selectpicker(&#39;val&#39;));
+   &#125;
+&lt;/script&gt;</code></pre>
+<p>更多的方式可以参考网址：<a target="_blank" rel="noopener" href="http://silviomoreto.github.io/bootstrap-select/">http://silviomoreto.github.io/bootstrap-select/</a></p>
+<p>本项目中用的是bootstrap-multiselect这个插件，因此在本项目中的使用方法如下：</p>
+<p>首先引入必要的文件：</p>
+<pre><code>&lt;!-- Include Twitter Bootstrap and jQuery: --&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;css/bootstrap.min.css&quot; type=&quot;text/css&quot;/&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;js/jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;js/bootstrap.min.js&quot;&gt;&lt;/script&gt;
+
+&lt;!-- Include the plugin&#39;s CSS and JS: --&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;js/bootstrap-multiselect.js&quot;&gt;&lt;/script&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;css/bootstrap-multiselect.css&quot; type=&quot;text/css&quot;/&gt;</code></pre>
+<p>HTML代码如下：</p>
+<pre><code>&lt;select class=&quot;multiselect&quot; multiple=&quot;multiple&quot;&gt;
+  &lt;option value=&quot;cheese&quot;&gt;Cheese&lt;/option&gt;
+  &lt;option value=&quot;tomatoes&quot;&gt;Tomatoes&lt;/option&gt;
+  &lt;option value=&quot;mozarella&quot;&gt;Mozzarella&lt;/option&gt;
+  &lt;option value=&quot;mushrooms&quot;&gt;Mushrooms&lt;/option&gt;
+  &lt;option value=&quot;pepperoni&quot;&gt;Pepperoni&lt;/option&gt;
+  &lt;option value=&quot;onions&quot;&gt;Onions&lt;/option&gt;
+&lt;/select&gt;</code></pre>
+<p>由于是采用后端的ajax请求，因此不能写死，所以这里写成如下：</p>
+<pre><code>&lt;select id=&quot;scoreSelectDiqu&quot; multiple=&quot;multiple&quot; class=&quot;form-control&quot; name=&quot;xuexiaodiqiconfirm&quot;&gt;
+    &lt;option value=&quot;guangdongsheng&quot;&gt;广东&lt;/option&gt;
+&lt;/select&gt;
+
+&lt;select id=&quot;rankingSelectDiqu&quot; multiple=&quot;multiple&quot; class=&quot;form-control&quot;&gt;
+    &lt;option value=&quot;gd&quot;&gt;广东&lt;/option&gt;
+&lt;/select&gt;</code></pre>
+<p>js代码如下：</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+  $(document).ready(function() &#123;
+    $(&#39;.multiselect&#39;).multiselect();
+  &#125;);
+&lt;/script&gt;</code></pre>
+<p>本项目中由于需要请求后端的api，因此js写法如下：</p>
+<pre><code>&lt;script&gt;
+    $(document).ready(function () &#123;
+        htmlobj = $.ajax(&#123;
+            url: &quot;data.json&quot;,
+            type: &quot;get&quot;,
+            dataType: &quot;json&quot;,
+            contentType: &quot;application/json&quot;,
+            success: function (res) &#123;
+                if (typeof res === &#39;string&#39;) &#123;
+                    res = JSON.parse(res);
+                &#125;
+                var diqus = &quot;&quot;;
+                for (var i = 0; i &lt; res.length; i++) &#123;
+                    var diqu = &#39;&lt;option value=&quot;&#39; + res[i].szss + &#39;&quot;&gt;&#39; + res[i].szss + &#39;&lt;/option&gt;&#39;;
+                    diqus = diqus + diqu;
+                &#125;
+                $(&quot;#scoreSelectDiqu&quot;).html(diqus);
+                $(&quot;#rankingSelectDiqu&quot;).html(diqus);
+                $(&#39;#scoreSelectDiqu&#39;).multiselect();
+                $(&#39;#rankingSelectDiqu&#39;).multiselect();
+            &#125;,
+            error: function (xhr, err, exception) &#123;
+                console.log(err);
+                //$(&quot;#msg&quot;).html(err);
+            &#125;
+        &#125;);
+    &#125;)
+&lt;/script&gt;</code></pre>
+<p>更多的bootstrap-multiselect内容可以参考网址：<a target="_blank" rel="noopener" href="http://www.kuitao8.com/demo/20140224/1/bootstrap-multiselect-master/index.html#examples">http://www.kuitao8.com/demo/20140224/1/bootstrap-multiselect-master/index.html#examples</a></p>
+<hr>
+<p><strong>4. js数据压缩和加密</strong></p>
+<p>这个主要是为了在生产环境下使用的，通常的测试中，不需要对js加密或者压缩，当上线后，为了降低js的大小以提升加载速度，以及为了保护知识产权，我们对js进行一个加密，提高被侵权的门槛。</p>
+<p>这里就需要推荐这个工具，里面有各种方式，这里主要说一下使用方法，方法如下：</p>
+<p><img src="https://i.imgur.com/bAIlQ12.jpg"></p>
+<p>非常简单，比如这里选择js加密，然后把自己要编写的js文件里的内容全选—复制—粘贴到这里面，然后点击JS混淆加密，一会儿就会出现如下：</p>
+<p><img src="https://i.imgur.com/aYt6Yug.jpg"></p>
+<p>这样会压缩，然后混淆加密。</p>
+<p>然后，把加密后的代码全选—复制—粘贴到一个新的文件中，然后在生产环境中引用这个加密后的js来取代没有加密的那个js即可。</p>
+<p>当然，在这个工具网站中还有其他的功能，可以体验一下，给自己带来方便。</p>
+<hr>
+<p><strong>5. 输入框内容的过滤（正则表达式）</strong></p>
+<p>为了减少用户输入一些不合理的，或者是通过前端的方式过滤用户输入特殊字符实施SQL攻击，我们进行一个输入框的内容过滤机制，这里采用正则表达式：</p>
+<p>这里比如用户输入分数的输入框，大家都知道分数是一个整数，那么如果用户输入一个中文或者是一个字符，那么很明显是不合理的，又或者是高考分数是0-750之间的，如果用户能够输入1000，那么也是不合理的，又或者是首字符不能是0，这个也是很合理的，如果089，这个通常被理解成是一个字符而不是一个整数等等，各种情况都是需要考虑的，否则精明的用户会觉得我们的设计是不合理的。</p>
+<p>好的，我们的做法如下：</p>
+<p>1.使用正则表达式限制输入框只能输入数字：</p>
+<pre><code>&lt;input type=&quot;text&quot; onkeyup=&quot;this.value=this.value.replace(/[^\d]/g,&#39;&#39;) &quot; onafterpaste=&quot;this.value=this.value.replace(/[^\d]/g,&#39;&#39;) &quot; value=&quot;1&quot;/&gt;</code></pre>
+<p>其中，onafterpaste防止用户从其它地方copy内容粘贴到输入框。</p>
+<p>如何用onkeyup验证input框只能输入开头不为零的正整数呢？</p>
+<p>网友经典回答：</p>
+<blockquote>
+<p>首先纠正点东西</p>
+</blockquote>
+<blockquote>
+<p>replace() 方法用于在字符串中用一些字符替换另一些字符，或替换一个与正则表达式匹配的子串。</p>
+</blockquote>
+<blockquote>
+<p>也就是说在使用空字符串去替换符合[0-9]的数字，</p>
+</blockquote>
+<blockquote>
+<p>其次，一般^都是这样写的/^[0-9]/。</p>
+</blockquote>
+<blockquote>
+<p>如果是按照题意去匹配开头不为零的正整数建议使用match方法</p>
+</blockquote>
+<hr>
+<pre><code>/^[1-9]&#123;1&#125;[0-9]*$/  //这样的正则就可以满足。</code></pre>
+<p>写法如下：</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;body&gt;
+&lt;input type=&quot;number&quot; id=&quot;myInput&quot;&gt;
+&lt;script&gt;
+    const myInput = document.getElementById(&#39;myInput&#39;)
+    myInput.onkeyup=function () &#123;
+        this.value=this.value.match(/^[1-9]&#123;1&#125;[0-9]*$/)
+    &#125;
+&lt;/script&gt;
+&lt;/body&gt;</code></pre>
+<p>在本项目中的写法如下：</p>
+<pre><code>&lt;input type=&quot;text&quot; name=&quot;ranking&quot; id=&quot;ranking&quot; class=&quot;form-control&quot; placeholder=&quot;输入分数&quot; onkeyup=&quot;this.value=this.value.match(/^[1-9]&#123;1&#125;[0-9]*$/)&quot; onafterpaste=&quot;this.value=this.value.match(/^[1-9]&#123;1&#125;[0-9]*$/)&quot;&gt;</code></pre>
+<p>这样的话，输入框就只能输入首字符不能是0的整数，也不能输入字符。</p>
+<hr>
+<p><strong>6.弹窗方案</strong><br>随着项目的发展，用户数量比较多，平时发布一些公告，为了能够让用户及时了解到，通常我们会选择使用弹窗的方式，可以是很多时候，用户都比较烦弹窗，特别是每次访问都有弹窗的问题，因此我们如何实现只让弹窗发生一次，或者是在规定的时间内发生一次，这个时候我们就需要一个cookie的东西，然后结合弹窗方案：layer。</p>
+<p>好的，那么我们开始吧：</p>
+<p>首先，我们引入layer的必要文件：</p>
+<pre><code>&lt;script src=&quot;http://cdn.bootcss.com/jquery/1.12.3/jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;layer/layer.js&quot;&gt;&lt;/script&gt;</code></pre>
+<p>然后js脚本代码如下：</p>
+<pre><code>&lt;script&gt;
+    ;!function()&#123;
+    //页面一打开就执行
+    layer.ready(function()&#123; 
+      layer.open(&#123;
+        content: &#39;注意：系统已经更新，内容更丰富，大家可以体验了。&#39;
+        ,style: &#39;background-color:#09C1FF; color:#fff; border:none;&#39;
+        ,time: 3000
+      &#125;);
+    &#125;);
+
+    &#125;();
+&lt;/script&gt;</code></pre>
+<p>好的，弹窗效果就出来了，截图如下：</p>
+<p><img src="https://i.imgur.com/Ud5Ud0N.png"></p>
+<p>好的，为了能够不要每次都弹出，我们需要添加一个cookie，代码如下：</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+    window.onload=function () &#123;
+        $(function () &#123;
+            getCookie(&#39;gq_pop&#39;);
+        &#125;);
+        //读Cookie
+        function getCookie(objName) &#123;//获取指定名称的cookie的值
+            if (document.cookie.indexOf(objName) == -1) &#123;
+                setCookie(&#39;gq_pop&#39;, &#39;1&#39;, 365);
+                alert(&quot;这一段文字测试的一段文字&quot;);
+            &#125;
+
+        &#125;;
+        //设置cookie的值
+        function setCookie(cname, cvalue, exdays) &#123;
+            var d = new Date();
+            console.log(cname + &#39;/&#39; + cvalue + &#39;/&#39; + exdays)
+            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+            var expires = &quot;expires=&quot; + d.toGMTString();
+            document.cookie = cname + &quot;=&quot; + escape(cvalue) + &quot;; &quot; + expires;
+            console.log(document.cookie);
+        &#125;
+    &#125;
+&lt;/script&gt;</code></pre>
+<p>好的，我们只需要在这个里面把弹窗的功能加进去即可。添加后的完整代码如下：</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+    window.onload=function () &#123;
+        $(function () &#123;
+            getCookie(&#39;gq_pop&#39;);
+        &#125;);
+        //读Cookie
+        function getCookie(objName) &#123;//获取指定名称的cookie的值
+            if (document.cookie.indexOf(objName) == -1) &#123;
+                setCookie(&#39;gq_pop&#39;, &#39;1&#39;, 365);
+
+                ;!function()&#123;
+                layer.ready(function()&#123; 
+                  layer.open(&#123;
+                    content: &#39;注意：系统已经更新，内容更丰富，大家可以体验了。&#39;
+                    ,style: &#39;background-color:#09C1FF; color:#fff; border:none;&#39;
+                    ,time: 3000
+                  &#125;);
+                &#125;);
+
+                &#125;();
+            &#125;
+
+        &#125;;
+        //设置cookie的值
+        function setCookie(cname, cvalue, exdays) &#123;
+            var d = new Date();
+            console.log(cname + &#39;/&#39; + cvalue + &#39;/&#39; + exdays)
+            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+            var expires = &quot;expires=&quot; + d.toGMTString();
+            document.cookie = cname + &quot;=&quot; + escape(cvalue) + &quot;; &quot; + expires;
+            console.log(document.cookie);
+        &#125;
+    &#125;
+&lt;/script&gt;</code></pre>
+<p>可能你会问，这个为啥不用浏览器自带的弹窗呢？引入两个弹窗会不会影响性能，可是浏览器自带的弹窗的界面实在太丑，所以就用了layer的弹窗。</p>
+<p><strong>7. 其他功能</strong></p>
+<p>这个地方作为补充，如果有新的内容将会在这里进行添加。</p>
+<hr>
+<p><strong>二、审计端功能集合</strong></p>
+<p>采用百度的<a target="_blank" rel="noopener" href="http://echarts.baidu.com/examples/">echarts</a></p>
+<p>这里主要是解决一个数据统计的问题，方便查看数据库中的数据。</p>
+<p>我们这里用的得最多的是柱形图、饼图、条形图、散点图、曲线等。好的这里我们逐一讲解。</p>
+<p>1.条形图：</p>
+<p><img src="https://i.imgur.com/sGEcmmn.jpg"></p>
+<p>这种图可以统计数量比较少的那种，数量很多的情况下，这个图表会被拉得很长。demo的话我们可以去<a target="_blank" rel="noopener" href="http://echarts.baidu.com/examples/editor.html?c=bar-y-category">官网下载</a>，当然也可以在这里下载，地址：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1mLN8I0gaXMrGwJ2bKuN14w">https://pan.baidu.com/s/1mLN8I0gaXMrGwJ2bKuN14w</a> ，密码：1862</p>
+<p>这个代码也是相当的简单：</p>
+<pre><code>&lt;script&gt;
+app.title = &#39;世界人口总量 - 条形图&#39;;
+option = &#123;
+    title: &#123;
+        text: &#39;世界人口总量&#39;,
+        subtext: &#39;数据来自网络&#39;
+    &#125;,
+    tooltip: &#123;
+        trigger: &#39;axis&#39;,
+        axisPointer: &#123;
+            type: &#39;shadow&#39;
+        &#125;
+    &#125;,
+    legend: &#123;
+        data: [&#39;2011年&#39;, &#39;2012年&#39;]
+    &#125;,
+    grid: &#123;
+        left: &#39;3%&#39;,
+        right: &#39;4%&#39;,
+        bottom: &#39;3%&#39;,
+        containLabel: true
+    &#125;,
+    xAxis: &#123;
+        type: &#39;value&#39;,
+        boundaryGap: [0, 0.01]
+    &#125;,
+    yAxis: &#123;
+        type: &#39;category&#39;,
+        data: [&#39;巴西&#39;,&#39;印尼&#39;,&#39;美国&#39;,&#39;印度&#39;,&#39;中国&#39;,&#39;世界人口(万)&#39;]
+    &#125;,
+    series: [
+        &#123;
+            name: &#39;2011年&#39;,
+            type: &#39;bar&#39;,
+            data: [18203, 23489, 29034, 104970, 131744, 630230]
+        &#125;,
+        &#123;
+            name: &#39;2012年&#39;,
+            type: &#39;bar&#39;,
+            data: [19325, 23438, 31000, 121594, 134141, 681807]
+        &#125;
+    ]
+&#125;;
+&lt;/script&gt;</code></pre>
+<p>好的，在本项目中，的方法如下：</p>
+<p>首先，在头部引入必要的代码：</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot; src=&quot;js/jquery-3.2.1.min.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;js/echarts.min.js&quot;&gt;&lt;/script&gt;</code></pre>
+<p>HTML代码如下：</p>
+<pre><code>&lt;div id=&quot;usersaccesslist&quot; style=&quot;width: 100%;min-height: 400px;&quot;&gt;&lt;/div&gt;</code></pre>
+<p>js代码如下：</p>
+<pre><code>&lt;script&gt;
+    $(document).ready(function () &#123;
+
+    htmlobj = $.ajax(&#123;
+            url: &quot;data.json&quot;,
+            type: &quot;get&quot;,
+            dataType: &quot;json&quot;,
+            contentType: &quot;application/json&quot;,
+            success: function (res) &#123;
+                if (typeof res === &#39;string&#39;) &#123;
+                    res = JSON.parse(res);
+                &#125;
+
+                var yData = new Array();
+                var xData = new Array();
+                for(var i=0; i&lt;res.length; i++ )&#123;
+                    if (res[i].nickname.length &gt; 4) &#123;
+                        if (res[i].city ==&quot;&quot;) &#123;
+                            res[i].city =&quot;其他&quot;;
+                            yData.push(res[i].city+&quot;/&quot;+res[i].nickname.substring(0,4)+&#39;...&#39;);
+                        &#125;else&#123;
+                            yData.push(res[i].city+&quot;/&quot;+res[i].nickname.substring(0,4)+&#39;...&#39;);
+                        &#125;
+                    &#125;else&#123;
+                        if (res[i].city ==&quot;&quot;) &#123;
+                            res[i].city =&quot;其他&quot;;
+                            yData.push(res[i].city+&quot;/&quot;+res[i].nickname);
+                        &#125;else&#123;
+                            yData.push(res[i].city+&quot;/&quot;+res[i].nickname);
+                        &#125;
+                    &#125;
+                    xData.push(res[i].count_openid);
+                &#125;
+                // 随着用户数量的增多而动态增加盒子高度
+                $(&quot;#usersaccesslist&quot;).css(&quot;height&quot;,res.length*20);
+
+                var myChart = echarts.init(document.getElementById(&#39;usersaccesslist&#39;));
+                var seriesLabel = &#123;
+                    normal: &#123;
+                        show: true,
+                        position: &#39;right&#39;,
+                        textBorderColor: &#39;#666&#39;,
+                        textBorderWidth: 1
+                    &#125;
+                &#125;
+
+                var option = &#123;
+                    title: &#123;
+                        text: &#39;用户访问次数&#39;,
+                        subtext: &#39;&#39;
+                    &#125;,
+                    tooltip: &#123;
+                        trigger: &#39;axis&#39;,
+                        axisPointer: &#123;
+                            type: &#39;shadow&#39;
+                        &#125;
+                    &#125;,
+                    legend: &#123;
+                        data: [&#39;用户访问次数统计&#39;]
+                    &#125;,
+                    grid: &#123;
+                        left: &#39;5px&#39;,
+                        right: &#39;5%&#39;,
+                        bottom: &#39;1%&#39;,
+                        containLabel: true
+                    &#125;,
+                    xAxis: &#123;
+                        type: &#39;value&#39;,
+                        boundaryGap: [0, 0.01]
+                    &#125;,
+                    yAxis: &#123;
+                        type: &#39;category&#39;,
+                        data: yData
+                    &#125;,
+                    series: [&#123;
+                        itemStyle:&#123;
+                            normal:&#123;
+                                color:function(params) &#123;
+                                    var colorList = [
+                                      &#39;#C25552&#39;,&#39;#51616D&#39;,&#39;#77A8AD&#39;,&#39;#C25552&#39;,&#39;#51616D&#39;,
+                                       &#39;#77A8AD&#39;,&#39;#C25552&#39;,&#39;#51616D&#39;,&#39;#77A8AD&#39;,&#39;#C25552&#39;,
+                                       &#39;#51616D&#39;,&#39;#77A8AD&#39;,&#39;#C25552&#39;,&#39;#51616D&#39;,&#39;#77A8AD&#39;
+                                    ];
+                                    return colorList[params.dataIndex]
+                                &#125;,
+                            &#125;
+                        &#125;,
+                        label: seriesLabel,
+                        name: &#39;访问次数&#39;,
+                        type: &#39;bar&#39;,
+                        data: xData
+                    &#125;]
+                &#125;;
+                myChart.setOption(option);
+            &#125;,
+            error: function (xhr, err, exception) &#123;
+                console.log(err);
+            &#125;
+    &#125;);
+
+    &#125;)
+&lt;/script&gt;</code></pre>
+<p>相对应的后端的控制器（tp5）代码如下：</p>
+<pre><code>class AbcController extends Controller
+&#123;
+    // KEY
+    private $KEY = &quot;12345678&quot;;
+
+    //login
+    public function login()
+    &#123;
+        $key = input(&#39;get.key/s&#39;);
+        if ($key == $this-&gt;KEY) &#123;
+            Session::set(&#39;key&#39;, $this-&gt;KEY);
+            return json(0);
+        &#125;
+        return json(1);
+    &#125;
+
+    public function idSelectCount()
+    &#123;
+
+        Log::init([
+            &#39;type&#39; =&gt; &#39;File&#39;,
+            &#39;path&#39; =&gt; APP_PATH . &#39;../runtime/logs/&#39;,
+        ]);
+
+        $key = Session::get(&#39;key&#39;);
+
+        //Log::write(&#39;1111322&#39;, &#39;1111322&#39;);
+
+        $id_count = Db::table(&#39;tablename&#39;)
+            -&gt;field(&#39;id,city,username,count(id) as count_id&#39;)
+            -&gt;group(&#39;id,city,username&#39;)
+            -&gt;order(&#39;city,count_id&#39;)
+            -&gt;select();
+
+        //返回结果
+        if ($key == $this-&gt;KEY) &#123;
+            return json($id_count);
+        &#125;
+        return json(0);
+    &#125;
+&#125;</code></pre>
+<p>data.json数据格式如下：</p>
+<pre><code>[&#123;
+    &quot;id&quot;: &quot;8765&quot;,
+    &quot;city&quot;: &quot;深圳&quot;,
+    &quot;username&quot;: &quot;jick&quot;,
+    &quot;count_id&quot;: 10
+&#125;, &#123;
+    &quot;id&quot;: &quot;2245&quot;,
+    &quot;city&quot;: &quot;广州&quot;,
+    &quot;username&quot;: &quot;lin&quot;,
+    &quot;count_id&quot;: 61
+&#125;, &#123;
+    &quot;id&quot;: &quot;65443&quot;,
+    &quot;city&quot;: &quot;上海&quot;,
+    &quot;username&quot;: &quot;tom&quot;,
+    &quot;count_id&quot;: 34
+&#125;, &#123;
+    &quot;id&quot;: &quot;77654&quot;,
+    &quot;city&quot;: &quot;北京&quot;,
+    &quot;username&quot;: &quot;jam&quot;,
+    &quot;count_id&quot;: 89
+&#125;]</code></pre>
+<p>由于，在这个里面有很多的用户，所以高度会远远大于高度400px，这儿时候为了解决这个问题，那该怎么办呢？这里就采用了一个方法，就是每增加一个用户，那么高度就动态增加一条数据的高度，这里设置为20px，以哪个作为参考呢？以后端获取的用户的数据条数，条数就是这个res.</p>
+<p>所以这个js代码就是：</p>
+<pre><code>$(&quot;#usersaccesslist&quot;).css(&quot;height&quot;,res.length*20);</code></pre>
+<p>意思就是，或者目标ID，然后对这个目标的高度设定为跟res相关联。这样就做到了一个随着查询的用户的增加，这儿条形图而动态的增加。</p>
+<p>根据实践发现，这个横向条形图不适合统计条数很多的情况，后来我们采用了bootstrap table这个方案，具体的后面会详细说明。</p>
+<hr>
+<p>2.饼图</p>
+<p><img src="https://i.imgur.com/rCjwMZA.jpg"></p>
+<p>饼图适合统计分类，同样的，随着分类增多会撑爆了这个画布，所以，如果根据业务的情况采用这个方案。</p>
+<p>本项目中我们的做法如下：</p>
+<p>首先，在头部引入必要的代码：</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot; src=&quot;js/jquery-3.2.1.min.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;js/echarts.min.js&quot;&gt;&lt;/script&gt;</code></pre>
+<p>HTML代码如下：</p>
+<pre><code>&lt;div id=&quot;userstongji&quot; style=&quot;width: 100%;min-height: 400px;&quot;&gt;&lt;/div&gt;</code></pre>
+<p>js代码如下：</p>
+<pre><code>&lt;script&gt;
+    $(document).ready(function () &#123;
+        htmlobj2 = $.ajax(&#123;
+                url: &quot;data.json&quot;,
+                type: &quot;get&quot;,
+                dataType: &quot;json&quot;,
+                contentType: &quot;application/json&quot;,
+                success: function (res) &#123;
+                    if (typeof res === &#39;string&#39;) &#123;
+                        res = JSON.parse(res);
+                    &#125;
+
+                    var access_user = res[&#39;acc_usertotal&#39;][0].usertotal;
+                    var pay_user = res[&#39;vip_usertotal&#39;][0].usertotal;
+                    var userlocation = echarts.init(document.getElementById(&#39;userstongji&#39;));
+                    option = &#123;
+                        title : &#123;
+                            text: &#39;查询用户分布比例&#39;,
+                            subtext: &#39;&#39;,
+                            x:&#39;center&#39;
+                        &#125;,
+                        tooltip : &#123;
+                            trigger: &#39;item&#39;,
+                            formatter: &quot;&#123;a&#125; &lt;br/&gt;&#123;b&#125; : &#123;c&#125; (&#123;d&#125;%)&quot;
+                        &#125;,
+                        legend: &#123;
+                            orient: &#39;vertical&#39;,
+                            left: &#39;left&#39;,
+                            data: [&#39;普通用户&#39;,&#39;VIP用户&#39;],
+                        &#125;,
+                        series : [
+                            &#123;
+                                name: &#39;用户分类&#39;,
+                                type: &#39;pie&#39;,
+                                radius : &#39;55%&#39;,
+                                center: [&#39;50%&#39;, &#39;60%&#39;],
+                                data:[
+                                    &#123;value:pay_user, name:&#39;VIP用户&#39;&#125;,
+                                    &#123;value:access_user, name:&#39;普通用户&#39;&#125;
+                                ],
+                                itemStyle: &#123;
+                                    emphasis: &#123;
+                                        shadowBlur: 10,
+                                        shadowOffsetX: 0,
+                                        shadowColor: &#39;rgba(0, 0, 0, 0.5)&#39;
+                                    &#125;
+                                &#125;
+                            &#125;
+                        ]
+                    &#125;;
+                    userlocation.setOption(option);
+                &#125;,
+            &#125;);
+    &#125;)
+&lt;/script&gt;</code></pre>
+<p>相对应的后端的控制器（tp5）代码如下：</p>
+<pre><code>class AbcController extends Controller
+&#123;
+    // KEY
+    private $KEY = &quot;12345678&quot;;
+
+    //login
+    public function login()
+    &#123;
+        $key = input(&#39;get.key/s&#39;);
+        if ($key == $this-&gt;KEY) &#123;
+            Session::set(&#39;key&#39;, $this-&gt;KEY);
+            return json(0);
+        &#125;
+        return json(1);
+    &#125;
+
+    public function Tongjss()
+    &#123;
+        Log::init([
+            &#39;type&#39; =&gt; &#39;File&#39;,
+            &#39;path&#39; =&gt; APP_PATH . &#39;../runtime/logs/&#39;,
+        ]);
+        $key = Session::get(&#39;key&#39;);
+        $AccessUsercount = Db::query(&quot;SELECT COUNT(DISTINCT(openid)) as usertotal FROM tablename2&quot;);
+        $pay_usercount = Db::query(&quot;SELECT COUNT(DISTINCT(openid)) as usertotal FROM tablename3 where money&gt;0&quot;);
+        if ($key == $this-&gt;KEY) &#123;
+            $data = array(&#39;acc_usertotal&#39; =&gt; $AccessUsercount,&#39;vip_usertotal&#39; =&gt; $pay_usercount);
+            return json($data);
+        &#125;
+        return json(0);
+    &#125;
+&#125;</code></pre>
+<p>这里data.json的数据结构如下：</p>
+<pre><code>&#123;&quot;acc_usertotal&quot;:[&#123;&quot;usertotal&quot;:199988&#125;],&quot;vip_usertotal&quot;:[&#123;&quot;usertotal&quot;:5544&#125;]&#125;</code></pre>
+<p>demo下载地址：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1wRM3xVEtQbEBalM8PsXxuw">https://pan.baidu.com/s/1wRM3xVEtQbEBalM8PsXxuw</a>，密码：2j5s</p>
+<p>官网下载地址：<a target="_blank" rel="noopener" href="http://echarts.baidu.com/examples/editor.html?c=pie-legend">http://echarts.baidu.com/examples/editor.html?c=pie-legend</a></p>
+<hr>
+<p>3.曲线图</p>
+<p><img src="https://i.imgur.com/tJ3chdr.jpg"></p>
+<p>这种适合统计一些随着时间的推移，数据逐渐变化的情况，比如一个月、一星期、一天24小时的一些数据变化。</p>
+<p>使用方法：</p>
+<p>引入必要的文件，跟前面一样的，这里就不再赘述了。</p>
+<p>HTML代码如下：</p>
+<pre><code>&lt;div id=&quot;usersearchdate&quot; style=&quot;width: 100%;min-height: 400px;&quot;&gt;&lt;/div&gt;</code></pre>
+<p>js代码如下：</p>
+<pre><code>&lt;script&gt;
+    $(document).ready(function () &#123;
+
+        htmlobj4 = $.ajax(&#123;
+            url: &quot;data.json&quot;,
+            type: &quot;get&quot;,
+            dataType: &quot;json&quot;,
+            contentType: &quot;application/json&quot;,
+            success: function (res) &#123;
+                if (typeof res === &#39;string&#39;) &#123;
+                    res = JSON.parse(res);
+                &#125;
+
+                var usersearchtime = new Array();
+                var usersearchscorecount = new Array();
+                for (var i = 0; i &lt; res.length; i++) &#123;
+                    usersearchtime.push(res[i].accesstimeport);
+                    usersearchscorecount.push(res[i].accesstimeportcount);
+                &#125;
+
+                var customersearchdates = echarts.init(document.getElementById(&#39;usersearchdate&#39;));
+                option = &#123;
+                    title: &#123;
+                        text: &#39;一天当中的查询分布报告&#39;,
+                        subtext: &#39;&#39;
+                    &#125;,
+                    tooltip: &#123;
+                        trigger: &#39;axis&#39;,
+                        axisPointer: &#123;
+                            type: &#39;cross&#39;
+                        &#125;
+                    &#125;,
+                    grid: &#123;
+                        left: &#39;3%&#39;,
+                        right: &#39;5%&#39;,
+                        bottom: &#39;3%&#39;,
+                        containLabel: true
+                    &#125;,
+                    toolbox: &#123;
+                        show: true,
+                        feature: &#123;
+                            saveAsImage: &#123;&#125;
+                        &#125;
+                    &#125;,
+                    xAxis: &#123;
+                        type: &#39;category&#39;,
+                        boundaryGap: false,
+                        data: usersearchtime
+                    &#125;,
+                    yAxis: &#123;
+                        type: &#39;value&#39;,
+                        axisLabel: &#123;
+                            formatter: &#39;&#123;value&#125; 次&#39;
+                        &#125;,
+                        axisPointer: &#123;
+                            snap: true
+                        &#125;
+                    &#125;,
+                    visualMap: &#123;
+                        show: false,
+                        dimension: 0,
+                        pieces: [&#123;
+                            lte: 6,
+                            color: &#39;green&#39;
+                        &#125;, &#123;
+                            gt: 6,
+                            lte: 8,
+                            color: &#39;red&#39;
+                        &#125;, &#123;
+                            gt: 8,
+                            lte: 14,
+                            color: &#39;green&#39;
+                        &#125;, &#123;
+                            gt: 14,
+                            lte: 17,
+                            color: &#39;red&#39;
+                        &#125;, &#123;
+                            gt: 17,
+                            color: &#39;green&#39;
+                        &#125;]
+                    &#125;,
+                    series: [&#123;
+                        name: &#39;查询次数&#39;,
+                        type: &#39;line&#39;,
+                        smooth: true,
+                        data: usersearchscorecount
+                    &#125;]
+                &#125;;
+                customersearchdates.setOption(option);
+            &#125;,
+        &#125;);
+
+    &#125;)
+&lt;/script&gt;</code></pre>
+<p>相对应的后端的控制器（tp5）代码如下：</p>
+<pre><code>class AbcController extends Controller
+&#123;
+    // KEY
+    private $KEY = &quot;12345678&quot;;
+
+    //login
+    public function login()
+    &#123;
+        $key = input(&#39;get.key/s&#39;);
+        if ($key == $this-&gt;KEY) &#123;
+            Session::set(&#39;key&#39;, $this-&gt;KEY);
+            return json(0);
+        &#125;
+        return json(1);
+    &#125;
+
+    public function Searchdate()
+    &#123;
+        Log::init([
+            &#39;type&#39; =&gt; &#39;File&#39;,
+            &#39;path&#39; =&gt; APP_PATH . &#39;../runtime/logs/&#39;,
+        ]);
+
+        $key = Session::get(&#39;key&#39;);
+
+        $accesstime = Db::query(&quot;select date_format(time, &#39;%H&#39;) as accesstimeport,count(date_format(time, &#39;%H&#39;)) as accesstimeportcount from tablename group by date_format(time, &#39;%H&#39;)&quot;);
+        if ($key == $this-&gt;KEY) &#123;
+            return json($accesstime);
+        &#125;
+        return json(0);
+    &#125;
+&#125;</code></pre>
+<p>data.json的数据结构如下：</p>
+<pre><code>[&#123;
+    &quot;accesstimeport&quot;: &quot;00&quot;,
+    &quot;accesstimeportcount&quot;: 1691
+&#125;, &#123;
+    &quot;accesstimeport&quot;: &quot;01&quot;,
+    &quot;accesstimeportcount&quot;: 513
+&#125;, &#123;
+    &quot;accesstimeport&quot;: &quot;02&quot;,
+    &quot;accesstimeportcount&quot;: 1650
+&#125;, &#123;
+    &quot;accesstimeport&quot;: &quot;03&quot;,
+    &quot;accesstimeportcount&quot;: 713
+&#125;, &#123;
+    &quot;accesstimeport&quot;: &quot;04&quot;,
+    &quot;accesstimeportcount&quot;: 427
+&#125;, &#123;
+    &quot;accesstimeport&quot;: &quot;05&quot;,
+    &quot;accesstimeportcount&quot;: 945
+&#125;, &#123;
+    &quot;accesstimeport&quot;: &quot;06&quot;,
+    &quot;accesstimeportcount&quot;: 3075
+&#125;, &#123;
+    &quot;accesstimeport&quot;: &quot;07&quot;,
+    &quot;accesstimeportcount&quot;: 560
+&#125;, &#123;
+    &quot;accesstimeport&quot;: &quot;08&quot;,
+    &quot;accesstimeportcount&quot;: 723
+&#125;, &#123;
+    &quot;accesstimeport&quot;: &quot;09&quot;,
+    &quot;accesstimeportcount&quot;: 1138
+&#125;, &#123;
+    &quot;accesstimeport&quot;: &quot;10&quot;,
+    &quot;accesstimeportcount&quot;: 1842
+&#125;, &#123;
+    &quot;accesstimeport&quot;: &quot;11&quot;,
+    &quot;accesstimeportcount&quot;: 8889
+&#125;, &#123;
+    &quot;accesstimeport&quot;: &quot;12&quot;,
+    &quot;accesstimeportcount&quot;: 649
+&#125;, &#123;
+    &quot;accesstimeport&quot;: &quot;13&quot;,
+    &quot;accesstimeportcount&quot;: 752
+&#125;, &#123;
+    &quot;accesstimeport&quot;: &quot;14&quot;,
+    &quot;accesstimeportcount&quot;: 1764
+&#125;, &#123;
+    &quot;accesstimeport&quot;: &quot;15&quot;,
+    &quot;accesstimeportcount&quot;: 2131
+&#125;, &#123;
+    &quot;accesstimeport&quot;: &quot;16&quot;,
+    &quot;accesstimeportcount&quot;: 2305
+&#125;, &#123;
+    &quot;accesstimeport&quot;: &quot;17&quot;,
+    &quot;accesstimeportcount&quot;: 1960
+&#125;, &#123;
+    &quot;accesstimeport&quot;: &quot;18&quot;,
+    &quot;accesstimeportcount&quot;: 1778
+&#125;, &#123;
+    &quot;accesstimeport&quot;: &quot;19&quot;,
+    &quot;accesstimeportcount&quot;: 7520
+&#125;, &#123;
+    &quot;accesstimeport&quot;: &quot;20&quot;,
+    &quot;accesstimeportcount&quot;: 2470
+&#125;, &#123;
+    &quot;accesstimeport&quot;: &quot;21&quot;,
+    &quot;accesstimeportcount&quot;: 7172
+&#125;, &#123;
+    &quot;accesstimeport&quot;: &quot;22&quot;,
+    &quot;accesstimeportcount&quot;: 2837
+&#125;, &#123;
+    &quot;accesstimeport&quot;: &quot;23&quot;,
+    &quot;accesstimeportcount&quot;: 2297
+&#125;]</code></pre>
+<p>demo下载地址：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1K5xvtI80OpPHMAH206Q5ow">https://pan.baidu.com/s/1K5xvtI80OpPHMAH206Q5ow</a>，密码：n4d2</p>
+<hr>
+<p>4.双曲线图</p>
+<p><img src="https://i.imgur.com/ClWZFFN.jpg"></p>
+<p>这种适合两种统计对象对比，这种方式也是一样的，首先引入必要的文件。</p>
+<p>HTML代码如下：</p>
+<pre><code>&lt;div id=&quot;dongtaiduibi&quot; style=&quot;width:100%;min-height:400px&quot;&gt;&lt;/div&gt;</code></pre>
+<p>js代码如下：</p>
+<pre><code>&lt;script&gt;
+    $(document).ready(function () &#123;
+
+        htmlobj = $.ajax(&#123;
+            url: &quot;data.json&quot;,
+            type: &quot;get&quot;,
+            dataType: &quot;json&quot;,
+            contentType: &quot;application/json&quot;,
+            success: function (res) &#123;
+                if (typeof res === &#39;string&#39;) &#123;
+                    res = JSON.parse(res);
+                &#125;
+                // console.log(res);
+                var accesuser = res[&#39;date&#39;];
+                var pauser = res[&#39;usertotal&#39;];
+                var totaluser = res[&#39;count&#39;];
+                // console.log(accesuser);
+                // console.log(pauser);
+                // console.log(totaluser);
+
+                var dom = document.getElementById(&quot;dongtaiduibi&quot;);
+                var myChart = echarts.init(dom);
+                option = &#123;
+                    title: &#123;
+                        text: &#39;用户分布图&#39;
+                    &#125;,
+                    tooltip: &#123;
+                        trigger: &#39;axis&#39;
+                    &#125;,
+                    legend: &#123;
+                        data:[&#39;总人数&#39;,&#39;VIP人数&#39;]
+                    &#125;,
+                    grid: &#123;
+                        left: &#39;3%&#39;,
+                        right: &#39;4%&#39;,
+                        bottom: &#39;3%&#39;,
+                        containLabel: true
+                    &#125;,
+                    toolbox: &#123;
+                        feature: &#123;
+                            saveAsImage: &#123;&#125;
+                        &#125;
+                    &#125;,
+                    xAxis: &#123;
+                        type: &#39;category&#39;,
+                        boundaryGap: false,
+                        data: accesuser
+                    &#125;,
+                    yAxis: &#123;
+                        type: &#39;value&#39;
+                    &#125;,
+                    series: [
+                        &#123;
+                            name:&#39;VIP人数&#39;,
+                            type:&#39;line&#39;,
+                            stack: &#39;总量&#39;,
+                            data: pauser
+                        &#125;,
+                        &#123;
+                            name:&#39;总人数&#39;,
+                            type:&#39;line&#39;,
+                            stack: &#39;总量&#39;,
+                            data: totaluser
+                        &#125;
+                    ]
+                &#125;;
+                myChart.setOption(option);
+            &#125;,
+        &#125;);
+
+    &#125;)
+&lt;/script&gt;</code></pre>
+<p>相对应的后端的控制器（tp5）代码如下：</p>
+<pre><code>class AbcController extends Controller
+&#123;
+    // KEY
+    private $KEY = &quot;12345678&quot;;
+
+    //login
+    public function login()
+    &#123;
+        $key = input(&#39;get.key/s&#39;);
+        if ($key == $this-&gt;KEY) &#123;
+            Session::set(&#39;key&#39;, $this-&gt;KEY);
+            return json(0);
+        &#125;
+        return json(1);
+    &#125;
+
+    public function TesView()
+    &#123;
+        Log::init([
+            &#39;type&#39; =&gt; &#39;File&#39;,
+            &#39;path&#39; =&gt; APP_PATH . &#39;../runtime/logs/&#39;,
+        ]);
+
+        $session_key = Session::get(&#39;key&#39;);
+        $tt = array();
+        $pp = array();
+        $vivi = array();
+        $view_date = Db::query(&quot;select date_format(access_time,&#39;%Y%m%d&#39;) as accesstime,count(date_format(access_time, &#39;%Y%m%d&#39;)) as accesstimecount from tablename group by date_format(access_time,&#39;%Y%m%d&#39;)&quot;);
+        $view_riqi = Db::query(&quot;select date_format(access_time,&#39;%Y%m%d&#39;) as accesstime from tablename group by date_format(access_time, &#39;%Y%m%d&#39;)&quot;);
+
+        for ($i=0; $i &lt; count($view_date); $i++) &#123;
+            array_push($vivi,$view_riqi[$i][&quot;accesstime&quot;]);
+        &#125;
+
+        foreach ($view_date as $oneday) &#123;
+            $user_count = Db::query(&quot;select count(distinct id) as user_counts from viewname where oneday &lt; &#39;&quot;.$oneday[&#39;accesstime&#39;].&quot;&#39;&quot;);
+            foreach ($user_count as $key =&gt; $value) &#123;
+                array_push($tt, (string) $value[&#39;user_counts&#39;]);
+            &#125;
+            Log::write($tt, &#39;2113431&#39;);
+        &#125;
+
+        foreach ($view_date as $oneday) &#123;
+            $pay_user_count = Db::query(&quot;select count(distinct id) as pay_user_counts from vip_viewname where oneday &lt; &#39;&quot;.$oneday[&#39;accesstime&#39;].&quot;&#39;&quot;);
+            foreach ($pay_user_count as $key =&gt; $value) &#123;
+                array_push($pp,(string) $value[&#39;pay_user_counts&#39;]);
+            &#125;
+            Log::write($pp, &#39;20160304&#39;);
+        &#125;
+
+        //返回结果
+        if ($session_key == $this-&gt;KEY) &#123;
+            $data = array(&#39;date&#39; =&gt; $vivi,&#39;count&#39; =&gt; $tt,&#39;usertotal&#39; =&gt; $pp);
+            return json($data);
+        &#125;
+        return json(0);
+    &#125;
+&#125;</code></pre>
+<p>data.json的数据结构如下：</p>
+<pre><code>&#123;
+    &quot;date&quot;: [&quot;20160116&quot;, &quot;20160117&quot;, &quot;20160118&quot;, &quot;20160119&quot;, &quot;20160120&quot;, &quot;20160121&quot;, &quot;20160122&quot;, &quot;20160123&quot;, &quot;20160124&quot;, &quot;20160125&quot;, &quot;20160126&quot;, &quot;20160127&quot;, &quot;20160128&quot;, &quot;20160129&quot;, &quot;20160130&quot;, &quot;20160301&quot;, &quot;20160302&quot;, &quot;20160303&quot;, &quot;20160304&quot;, &quot;20160305&quot;],
+    &quot;count&quot;: [&quot;0&quot;, &quot;6&quot;, &quot;9&quot;, &quot;17&quot;, &quot;62&quot;, &quot;107&quot;, &quot;536&quot;, &quot;881&quot;, &quot;1053&quot;, &quot;1193&quot;, &quot;2094&quot;, &quot;3532&quot;, &quot;4227&quot;, &quot;5001&quot;, &quot;5352&quot;, &quot;5584&quot;, &quot;5726&quot;, &quot;5780&quot;, &quot;5790&quot;, &quot;5792&quot;],
+    &quot;usertotal&quot;: [&quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;0&quot;, &quot;3&quot;, &quot;5&quot;, &quot;14&quot;, &quot;25&quot;, &quot;77&quot;, &quot;143&quot;, &quot;174&quot;, &quot;214&quot;, &quot;230&quot;, &quot;238&quot;, &quot;243&quot;, &quot;243&quot;, &quot;243&quot;, &quot;243&quot;]
+&#125;</code></pre>
+<p>这个数据的意思就是，逐步积累，最后一天是前面所有数据之和。这个不是菲波那切数列，注意区分。</p>
+<p>好的，当我们完成这几个示例之后，相信我们已经大概能够理解了echart数据渲染的方式了。</p>
+<p><strong>值得提醒的是：data.json的数据结构要跟采用的什么图表来确定，建议先确定用哪种图表，然后去官网看下这个示例的数据结构是怎么样的，然后再处理后端api的数据接口，从而进一步确定控制器那边要查询什么数据字段，生成什么数据结构</strong></p>
+<p>下载地址：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1KzTfD3MnPE7Oh4QmNM0ptw">https://pan.baidu.com/s/1KzTfD3MnPE7Oh4QmNM0ptw</a>，密码：0lfu</p>
+<hr>
+<p>5.数据表格</p>
+<p>这种方式适合统计大量数据的呈现，唯一的缺点就是不够直观，现在我们来看下这个是如何实现的。</p>
+<p>首先，引入必要的文件：</p>
+<pre><code>&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;css/bootstrap.min.css&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;css/bootstrap-table.min.css&quot;&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;js/jquery-3.2.1.min.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;js/bootstrap.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;js/bootstrap-table.js&quot;&gt;&lt;/script&gt;</code></pre>
+<p>HTML代码如下：</p>
+<pre><code>&lt;table data-toggle=&quot;table&quot; data-url=&quot;data.json&quot; data-height=&quot;500&quot; data-sort-name=&quot;name&quot; data-sort-order=&quot;desc&quot; data-pagination=&quot;true&quot;&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th data-field=&quot;city&quot; data-align=&quot;right&quot;&gt;城市&lt;/th&gt;
+            &lt;th data-field=&quot;username&quot; data-align=&quot;center&quot;&gt;用户名&lt;/th&gt;
+            &lt;th data-field=&quot;count_id&quot; data-sortable=&quot;true&quot; data-align=&quot;center&quot;&gt;浏览次数&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+&lt;/table&gt;</code></pre>
+<p>相对应的后端的控制器（tp5）代码如下：</p>
+<pre><code>class AbcController extends Controller
+&#123;
+    // KEY
+    private $KEY = &quot;12345678&quot;;
+
+    //login
+    public function login()
+    &#123;
+        $key = input(&#39;get.key/s&#39;);
+        if ($key == $this-&gt;KEY) &#123;
+            Session::set(&#39;key&#39;, $this-&gt;KEY);
+            return json(0);
+        &#125;
+        return json(1);
+    &#125;
+
+    public function idSelectCount()
+    &#123;
+
+        Log::init([
+            &#39;type&#39; =&gt; &#39;File&#39;,
+            &#39;path&#39; =&gt; APP_PATH . &#39;../runtime/logs/&#39;,
+        ]);
+
+        $key = Session::get(&#39;key&#39;);
+
+        //Log::write(&#39;1111322&#39;, &#39;1111322&#39;);
+
+        $id_count = Db::table(&#39;tablename&#39;)
+            -&gt;field(&#39;id,city,username,count(id) as count_id&#39;)
+            -&gt;group(&#39;id,city,username&#39;)
+            -&gt;order(&#39;city,count_id&#39;)
+            -&gt;select();
+
+        //返回结果
+        if ($key == $this-&gt;KEY) &#123;
+            return json($id_count);
+        &#125;
+        return json(0);
+    &#125;
+&#125;</code></pre>
+<p>data.json的数据结构如下：</p>
+<pre><code>[&#123;
+    &quot;id&quot;: &quot;8765&quot;,
+    &quot;city&quot;: &quot;深圳&quot;,
+    &quot;username&quot;: &quot;jick&quot;,
+    &quot;count_id&quot;: 10
+&#125;, &#123;
+    &quot;id&quot;: &quot;2245&quot;,
+    &quot;city&quot;: &quot;广州&quot;,
+    &quot;username&quot;: &quot;lin&quot;,
+    &quot;count_id&quot;: 61
+&#125;, &#123;
+    &quot;id&quot;: &quot;65443&quot;,
+    &quot;city&quot;: &quot;上海&quot;,
+    &quot;username&quot;: &quot;tom&quot;,
+    &quot;count_id&quot;: 34
+&#125;, &#123;
+    &quot;id&quot;: &quot;77654&quot;,
+    &quot;city&quot;: &quot;北京&quot;,
+    &quot;username&quot;: &quot;jam&quot;,
+    &quot;count_id&quot;: 89
+&#125;]</code></pre>
+<p>好的，这里作为补充在说下这个，上面的那个HTML是实现表格统计最简单的方式，因为我们现在的数据结构是比较简单的，如果我们的json数据变得比较复杂的话，比如有二级，三级…很多级的时候，这个时候，用简单的：</p>
+<pre><code>&lt;table data-toggle=&quot;table&quot; data-url=&quot;data.json&quot; data-height=&quot;500&quot; data-sort-name=&quot;name&quot; data-sort-order=&quot;desc&quot; data-pagination=&quot;true&quot;&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th data-field=&quot;city&quot; data-align=&quot;right&quot;&gt;城市&lt;/th&gt;
+            &lt;th data-field=&quot;username&quot; data-align=&quot;center&quot;&gt;用户名&lt;/th&gt;
+            &lt;th data-field=&quot;count_id&quot; data-sortable=&quot;true&quot; data-align=&quot;center&quot;&gt;浏览次数&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+&lt;/table&gt;</code></pre>
+<p>就变得不灵活了，当然最简单的就是这个方式了，只需要把这个代码放在一个合适的位置，然后把data-url这个api地址改成相应的api的地址即可。然后就是输出字段的内容。</p>
+<p>这个虽然简单，但是也有一些限制，比如有些json数据有好几层的内容，因此这样写会有一些小小的限制。</p>
+<p>这个时候，通常我们的做法如下，这里以wordpress提供的数据接口为例：</p>
+<p>方案二：在网页代码最下面插入js脚本</p>
+<p>html代码还是一样的，只有一句：</p>
+<pre><code>&lt;table id=&quot;table&quot;&gt;&lt;/table&gt;</code></pre>
+<p>js代码如下：</p>
+<pre><code>$(&quot;#table&quot;).bootstrapTable(&#123; // 对应table标签的id
+      url: &quot;&lt;%=request.getContextPath()%&gt;/api/getDataList.do&quot;, // 获取表格数据的url
+      cache: false, // 设置为 false 禁用 AJAX 数据缓存， 默认为true
+      striped: true,  //表格显示条纹，默认为false
+      pagination: true, // 在表格底部显示分页组件，默认false
+      pageList: [10, 20], // 设置页面可以显示的数据条数
+      pageSize: 10, // 页面数据条数
+      pageNumber: 1, // 首页页码
+      sidePagination: &#39;server&#39;, // 设置为服务器端分页
+      queryParams: function (params) &#123; // 请求服务器数据时发送的参数，可以在这里添加额外的查询参数，返回false则终止请求
+
+          return &#123;
+              pageSize: params.limit, // 每页要显示的数据条数
+              offset: params.offset, // 每页显示数据的开始行号
+              sort: params.sort, // 要排序的字段
+              sortOrder: params.order, // 排序规则
+              dataId: $(&quot;#dataId&quot;).val() // 额外添加的参数
+          &#125;
+      &#125;,
+      sortName: &#39;id&#39;, // 要排序的字段
+      sortOrder: &#39;desc&#39;, // 排序规则
+      columns: [
+          &#123;
+              checkbox: true, // 显示一个勾选框
+              align: &#39;center&#39; // 居中显示
+          &#125;, &#123;
+              field: &#39;code&#39;, // 返回json数据中的name
+              title: &#39;编号&#39;, // 表格表头显示文字
+              align: &#39;center&#39;, // 左右居中
+              valign: &#39;middle&#39; // 上下居中
+          &#125;, &#123;
+              field: &#39;name&#39;,
+              title: &#39;名称&#39;,
+              align: &#39;center&#39;,
+              valign: &#39;middle&#39;
+          &#125;, &#123;
+              field: &#39;calcMode&#39;,
+              title: &#39;计算方式&#39;,
+              align: &#39;center&#39;,
+              valign: &#39;middle&#39;,
+              formatter: function (value, row, index)&#123; // 单元格格式化函数
+                  var text = &#39;-&#39;;
+                  if (value == 1) &#123;
+                      text = &quot;方式一&quot;;
+                  &#125; else if (value == 2) &#123;
+                      text = &quot;方式二&quot;;
+                  &#125; else if (value == 3) &#123;
+                      text = &quot;方式三&quot;;
+                  &#125; else if (value == 4) &#123;
+                      text = &quot;方式四&quot;;
+                  &#125;
+                  return text;
+              &#125;
+          &#125;, &#123;
+              title: &quot;操作&quot;,
+              align: &#39;center&#39;,
+              valign: &#39;middle&#39;,
+              width: 160, // 定义列的宽度，单位为像素px
+              formatter: function (value, row, index) &#123;
+                  return &#39;&lt;button class=&quot;btn btn-primary btn-sm&quot; onclick=&quot;del(\&#39;&#39; + row.stdId + &#39;\&#39;)&quot;&gt;删除&lt;/button&gt;&#39;;
+              &#125;
+          &#125;
+      ],
+      onLoadSuccess: function()&#123;  //加载成功时执行
+            console.info(&quot;加载成功&quot;);
+      &#125;,
+      onLoadError: function()&#123;  //加载失败时执行
+            console.info(&quot;加载数据失败&quot;);
+      &#125;
+
+&#125;)</code></pre>
+<p>可能，这样照搬不一定会成功，上面是一些说明，方便我们知道哪些参数是用来干嘛的。</p>
+<p>好的，我通常用的也比较少，无非就是，搜索、排序、分页、过滤等几个常用的功能。所以我们的写法如下：</p>
+<p>针对具体每一列展示的设置参数，最常用的为 title 和 field， 它们分别设置了表头显示文字和对应要显示的每项数据</p>
+<p>示例代码：</p>
+<pre><code>&lt;script&gt;
+
+$(&#39;#table&#39;).bootstrapTable(&#123;
+    url: &#39;/wp-json/wp/v2/posts?per_page=100&#39;,
+    striped: true,  //表格显示条纹，默认为false
+    pagination: true, // 在表格底部显示分页组件，默认false
+    pageList: [10, 20], // 设置页面可以显示的数据条数
+    pageSize: 3, // 页面数据条数
+    pageNumber: 1, // 首页页码
+    search: true,
+    sortName: &#39;id&#39;,
+    columns: [
+    &#123;
+        checkbox: true, // 显示一个勾选框
+        align: &#39;center&#39; // 居中显示
+    &#125;,&#123;
+        field: &#39;id&#39;,
+        title: &#39;Item ID&#39;
+    &#125;, &#123;
+        field: &#39;type&#39;,
+        title: &#39;Item type&#39;
+    &#125;, &#123;
+        field: &#39;slug&#39;,
+        title: &#39;别名&#39;
+    &#125;,&#123;
+        field: &#39;title.rendered&#39;,
+        title: &#39;内容&#39;
+    &#125;, ],
+    onLoadSuccess: function()&#123;  //加载成功时执行
+        console.info(&quot;加载成功&quot;);
+    &#125;,
+    onLoadError: function()&#123;  //加载失败时执行
+        console.info(&quot;加载数据失败&quot;);
+    &#125;
+&#125;);
+
+&lt;/script&gt;</code></pre>
+<p>由于我们从wordpress里面获取的json是比较复杂的，有一级、二级、三级等等。</p>
+<p>比如这里想要显示二级的一个title内容怎么办，笔者是这样写的：</p>
+<pre><code>&#123;
+    field: &#39;title.rendered&#39;,
+    title: &#39;内容&#39;
+&#125;</code></pre>
+<p>看截图：</p>
+<p><img src="https://i.imgur.com/P7FLzTW.jpg"></p>
+<p>这里的字段id跟红色框中的字段是不在一个级别的，后者是第二级的，因此，我们需要这样写：<code>title.rendered</code></p>
+<p>确保写得没有问题后，最后的效果就是：</p>
+<p><img src="https://i.imgur.com/UC5Dv01.jpg"></p>
+<p>当然，如果有更多的需求，还可以进一步扩展。</p>
+<p>好的，作为总结，前端和审计端那边的相关的功能和实现已经做了一个相对详细而啰嗦的讲解了。</p>
+<p>还有关于查询的实现方式，会继续更新，今日到此：2018/7/5 21:43:01 </p>
+<hr>
+<p><strong>三、服务器端相关的折腾记录</strong></p>
+<p><strong>1.微信握手的相关问题以及解决方案。</strong></p>
+<p>假设我们已经成功的把服务号申请到了，我们登录到微信公众号的后台去，第一步应该是到 “开发” 那里，做一个基本配置：</p>
+<p><img src="https://i.imgur.com/v1jRbKo.png"></p>
+<p>这个怎么填呢？</p>
+<p>服务器地址就是我们放网站后台跟微信打交道的路径，这里我在新浪SAE中申请购买了一个云服务器，进行了测试，根据教程走了一遍，当然我们不一定要用新浪的SAE云服务器，不过笔者觉得它很实惠，作为开发解决的调试还是很不错的了。</p>
+<p>这个路径中的文件，我们需要充微信下载示例文件，下载地址：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/12fEvugms-oTXZJT0H13hQQ">https://pan.baidu.com/s/12fEvugms-oTXZJT0H13hQQ</a>  密码：skaf</p>
+<p>里面有教程以及如何使用的。但是我们需要了解这个本质，其实参考这篇文章就很有价值：<a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/article/0013900476318564121d01facf844cba508396f95d9bb82000">https://www.liaoxuefeng.com/article/0013900476318564121d01facf844cba508396f95d9bb82000</a></p>
+<p>这四个参数：signature，timestamp，nonce，echostr</p>
+<p>如果我们解决好这个问题后，那么我们我们这个服务器配置就搞定了，因为笔者在配置这里的时候，经常报错：提示token请求超时</p>
+<p>类似这样的问题，如果我们随便写一个路径是不行的，必须要有一个路径中的某个文件能够接收来自微信传递的四个参数，只有四个参数被成功接收后，然后服务器做出响应才能不报错，知道这个之后我们就不能任性的乱填写一个在服务器端的文件了。意识到这个问题很重要。</p>
+<p>接着我们可以去申请一个微信公众平台接口测试帐号，这样我们就可以进行测试了，当然也可以用自己的本身的，在基本配置那里有。</p>
+<p>完成这个之后，我们就可以根据开发者文档进行相应的开发和操作了，具体想要做成什么样，可以去学习相关的开发教程，或者阅读微信公众平台的操作文档。</p>
+<p>说说我遇到的一个问题，就是我在自定义的菜单的时候，在使用微信公众平台接口调试工具的时候，报错了，当我通过接口类型的基础支持的时候，通过填写appid和secret，获取得到access_token的值，然后复制，然后把接口类型切换到：自定义菜单</p>
+<p>填写access_token的值后，在body中填写了示例的代码：</p>
+<pre><code> &#123;
+     &quot;button&quot;:[
+     &#123;    
+          &quot;type&quot;:&quot;click&quot;,
+          &quot;name&quot;:&quot;今日歌曲&quot;,
+          &quot;key&quot;:&quot;V1001_TODAY_MUSIC&quot;
+      &#125;,
+      &#123;
+           &quot;name&quot;:&quot;菜单&quot;,
+           &quot;sub_button&quot;:[
+           &#123;    
+               &quot;type&quot;:&quot;view&quot;,
+               &quot;name&quot;:&quot;搜索&quot;,
+               &quot;url&quot;:&quot;http://www.soso.com/&quot;
+            &#125;,
+            &#123;
+                 &quot;type&quot;:&quot;miniprogram&quot;,
+                 &quot;name&quot;:&quot;wxa&quot;,
+                 &quot;url&quot;:&quot;http://mp.weixin.qq.com&quot;,
+                 &quot;appid&quot;:&quot;wx286b93c14bbf93aa&quot;,
+                 &quot;pagepath&quot;:&quot;pages/lunar/index&quot;
+             &#125;,
+            &#123;
+               &quot;type&quot;:&quot;click&quot;,
+               &quot;name&quot;:&quot;赞一下我们&quot;,
+               &quot;key&quot;:&quot;V1001_GOOD&quot;
+            &#125;]
+       &#125;]
+ &#125;</code></pre>
+<p>这个时候，又报错了，看了下发现：</p>
+<pre><code>Connection: keep-alive
+Date: Thu, 15 Mar 2018 13:34:26 GMT
+Content-Type: application/json; encoding=utf-8
+Content-Length: 72
+&#123;
+    &quot;errcode&quot;: 85005, 
+    &quot;errmsg&quot;: &quot;appid not bind weapp hint: [lFyJKA0866vr18]&quot;
+&#125;</code></pre>
+<p>这个说明也很清楚，就是示例代码里面有不匹配的东西，然后我把不是自己的东西删除了：</p>
+<pre><code>&#123;
+    &quot;button&quot;: [
+        &#123;
+                    &quot;type&quot;: &quot;view&quot;, 
+                    &quot;name&quot;: &quot;美食查询&quot;, 
+                    &quot;url&quot;: &quot;http://mydomain.com&quot;
+        &#125;
+    ]
+&#125;</code></pre>
+<p>再次检查的时候，正常了：</p>
+<pre><code>Connection: keep-alive
+Date: Thu, 15 Mar 2018 13:36:46 GMT
+Content-Type: application/json; encoding=utf-8
+Content-Length: 27
+&#123;
+    &quot;errcode&quot;: 0, 
+    &quot;errmsg&quot;: &quot;ok&quot;
+&#125;</code></pre>
+<p>说道这里的时候，我们还有个地方忘了，就是开始的时候我在用微信公众平台接口调试工具的时候</p>
+<p><img src="https://i.imgur.com/naB1B0m.png"></p>
+<p>这个地方居然也报错了，报错原因是微信服务器IP没有加入白名单，这里我就纳闷了，到底加哪个IP啊，我估摸着，只有两种情况了，我服务器那边的IP，因为我在填写服务器地址(URL)的时候不是有一个地址吗，然后赶紧ping了一下，把IP找出来，然后填进去，还是不行。</p>
+<p>然后就想着，估计是本地的电信的IP，然后又填写进去，还是不行，这可急坏了，可是上帝保佑，下面其实已经提醒了，在报错的那里就有一个IP地址，然后我就死马当活马医了，把前面加的白名单里的那些IP全删了，再把这个IP加进去，果然可以了，也不报错了。很开心。</p>
+<p>这里我们以本项目作为讲解：</p>
+<p>我们采用tp5来写这个握手。</p>
+<p>路由地址我们可以根据需要进行规定，这里为：</p>
+<pre><code>https://domain.com/api/wx/index</code></pre>
+<p>好的，那么控制器就是在wx模块中控制器为Index.php中的方法为Index的里面：</p>
+<pre><code>&lt;?php
+namespace app\wx\controller;
+use think\Controller;
+use think\Loader;
+use think\Request;
+
+class Index extends Controller&#123;
+
+    public function Index()&#123;
+
+        $wechatObj = new wechatCallbackapiTest();
+        if (!isset($_GET[&#39;echostr&#39;])) &#123;
+            $wechatObj-&gt;responseMsg();
+        &#125;else&#123;
+            $wechatObj-&gt;valid();
+        &#125;
+
+    &#125;
+
+&#125;
+
+class wechatCallbackapiTest extends Controller&#123;
+    //验证消息
+    public function valid()
+    &#123;
+        $echoStr = $_GET[&quot;echostr&quot;];
+        if($this-&gt;checkSignature())&#123;
+            ob_clean();
+            echo $echoStr;
+            exit;
+        &#125;
+    &#125;
+    ...</code></pre>
+<p>完整的代码可以在这里下载，地址：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1fV23HHv32q9EIwf5IT5iiA">https://pan.baidu.com/s/1fV23HHv32q9EIwf5IT5iiA</a>，密码：mr88</p>
+<p>方案二地址：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1ZJJJInE6W0JaHx10h8VizQ">https://pan.baidu.com/s/1ZJJJInE6W0JaHx10h8VizQ</a>，密码：zfgs</p>
+<p>握手的问题到此结束，事实上，我们在弄这个微信公众号握手的问题花了很多时间，这里我们需要明白一个本质的东西，理解了微信握手的原理，以后无论以什么方式写都应该没问题的</p>
+<hr>
+<p><strong>2.云平台的折腾</strong></p>
+<p>前一段时间，实践了下关于云平台的分布式集群方案，需求是这样的：想要一创建一个web环境，通常我们直接购买一个服务器，然后通过安装环境和配置包括：php、mysql、apache、nginx、tp5(这里笔者根据自己的需求进行的选择)等等，把所有需要的东西都放在一个云服务器里面。</p>
+<p>但是，客户不想要这样，客户想把彼此都分开，客户提供的是一个IP为（104.111.23.76）的云平台，想让不同的虚拟机提供不同的服务，这样就可以减少虚拟机的负担。</p>
+<p><strong>针对这个需求，我们进行了如下的尝试：</strong></p>
+<p>先创建四台虚拟机，假设虚拟机都安装好了，内网IP分别如下：</p>
+<p>nginx的ip:15.1.1.3</p>
+<p>tp5的ip:15.1.1.4</p>
+<p>mysql的ip:15.1.1.5</p>
+<p>html的ip:15.1.1.6</p>
+<p>好了，这里我们的策略是：</p>
+<p>先设置出口规则，确保这四台虚拟机都可以访问外部的资源，因此设置如下：</p>
+<p><img src="https://i.imgur.com/gsbdj1C.jpg"></p>
+<p>这里的意思就是内网中的网络为C网，所有的IP都可以访问外部。</p>
+<p>好的，设置如下后，我们再来看下防火墙的设置：</p>
+<p>防火墙的设置就是为了让外部访问受到一定的制约，只有在允许的端口范围下才能访问，所以这里的设置如下：</p>
+<p><img src="https://i.imgur.com/8FmtGIk.jpg"></p>
+<p>这里的意思就是外部想要访问内部的资源，只能通过104.111.23.76：1000x的方式进行访问，端口不在这个区间的都不能访问，为了能够通过https的方式访问因此这里把443端口也开着。</p>
+<p>好的，这里的访问端口这里设置好了后，我们再进行一个端口转发的设置，设置如下：</p>
+<p><img src="https://i.imgur.com/kLkduy4.jpg"></p>
+<p><img src="https://i.imgur.com/EQ8gJJb.jpg"></p>
+<p>这里的意思，笔者这里做个介绍：</p>
+<p>这里进行一个端口转发的分配，ssl的请求，直接转发到内网的443端口，如果是外部的1000x端口的请求，都转发到内网22端口，不同的服务对应不同的端口，这里从上面的图片就可以看到。</p>
+<p>我们可以这样理解，把这四个虚拟主机当做在家里局域网中的四台电脑，连接的都是内网，别人是没法通过互联网的方式访问这4台电脑的，而这四个内网的IP就相当于本地电脑的192.168.1.x，端口就是别人从外部访问的时候，根据不同端口映射到不同的服务。这样应该够清楚的了。而至于为什么需要设置这个端口，前面已经说了，为了暴露在某个区间的端口可以被访问，而且端口不能取得太小，以防与默认的一些端口发生冲突。</p>
+<p>这里分配如下：</p>
+<ul>
+<li><p>数据库单独作为一个服务器（mysql）提供数据存储服务。</p>
+</li>
+<li><p>后端作为一个服务为前台提供一个api的服务，也单独放在一个服务器上（tp5）</p>
+</li>
+<li><p>用一个nginx作为反向代理，作为一个总枢纽，所有访问的，都通过这个代理服务器进行转发，这里用（nginx）命名。</p>
+</li>
+<li><p>前端的静态资源放在单独的虚拟机上，这里命名为（html）。</p>
+</li>
+</ul>
+<p>好的，整个思路是很清楚的，接下来我们就要用远程登录工具进行登录Xshell，当然你还可以用别的，不一定非得跟着我用这个客户端。</p>
+<p>我们获取这个云平台的账号和密码后，我们进行登录：</p>
+<p><img src="https://i.imgur.com/m9G73Eq.jpg"></p>
+<p>这里我把其中一台的虚拟机mysql先连起来，名称随便命名，根据端口号，我们可以看到，这里是连接mysql的虚拟机。</p>
+<p>然后输入账号信息，就可以登录成功了。</p>
+<p>好的解决这个以后，我们就可以像登录我们购买的阿里云服务器那样管理我们的虚拟机了。用同样的方法，只是端口不同，我们登录另外的三台虚拟机。然后针对不同的服务，安装不同的环境。</p>
+<p><strong>安装各自虚拟机的环境</strong></p>
+<p>mysql服务器，我这里就安装mysql，和一些必要的依赖。</p>
+<p>nginx的话，就直接安装nginx，然后做一个配置，这个配置我接下来再说。</p>
+<p>html这个静态的资源，这里我选择nginx作为服务器，因为nginx毕竟适合静态的资源。而apache适合动态的资源，例如php。</p>
+<p>tp5的话，这里笔者不采用它自带的后端服务，选择安装php和apache作为解决方案。</p>
+<hr>
+<p>环境配置好了后，我们先确保我们在本地能够访问本地的资源，比如html这个虚拟机，先确保本地能够访问，当我们安装好nginx后，我们运行代码：</p>
+<pre><code>links http://15.1.1.3</code></pre>
+<p>如果服务已经启动或者是安装没问题的话，应该是有欢迎界面的。如果没有的话，就自己再配置下，或者重装一下。</p>
+<p>这里说一下，当我们修改了nginx的配置后，要重启下服务，运行代码：</p>
+<pre><code>sudo /etc/init.d/nginx restart</code></pre>
+<p>好的，html这台虚拟机没问题后，这里我们再把其他的虚拟机也配置好，确保本地能够访问。</p>
+<p>假设，你已经都能让这四台虚拟机都能本地访问没问题的话，我们进行下一步。</p>
+<p><strong>重点来了！</strong></p>
+<p>还记得前面说的那个nginx的虚拟机吗？我们需要对这个做一下配置，做个反向代理。</p>
+<p>我们去/etc/nginx/conf.d/里面创建一个自定义的配置文件，命名为mynginx.conf，里面的代码如下：</p>
+<pre><code>server&#123;
+        listen 443;
+        charset utf-8;
+        #把ssl证书加入进来
+        ssl on;
+        ssl_certificate   cert/214551314040845.pem;
+        ssl_certificate_key  cert/214551314040845.key;
+        ssl_session_timeout 5m;
+        ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4;
+        ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+        ssl_prefer_server_ciphers on;
+
+        server_name www.youdomain.com;
+        # server_name localhost;  #如果没有进行域名解析的话，那么就直接用localhost，而不是IP地址
+
+        location ^~/api/ &#123;
+
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header REMOTE-HOST $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                #禁用缓存
+                proxy_buffering off;
+
+                proxy_pass http://15.1.1.4/api/;   #后端tp5服务
+        &#125;
+        location / &#123;
+
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header REMOTE-HOST $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                #禁用缓存
+                proxy_buffering off;
+
+                proxy_pass http://15.1.1.6/;  #前端的html服务
+
+        &#125;
+        location /phpmyadmin/ &#123;
+
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header REMOTE-HOST $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                #禁用缓存
+                proxy_buffering off;
+
+               proxy_pass http://15.1.1.5/;  #数据库服务
+
+        &#125;
+&#125;</code></pre>
+<p>上面的配置，这里进行一个解释，443端口开启，这里实现一个https的访问。</p>
+<p>然后把ssl证书放进来，具体的方法，笔者写了一篇文章专门说如何为网站配置ssl的证书服务，如果没有证书的话，可以去网上找一些免费的证书，比如阿里云，西部数码等都有免费的证书。</p>
+<p><strong>值得提醒：我们在采用西部数码的ssl证书的时候，总是出错，问题在哪里呢？一个是文件验证，另外一个是DNS验证，最开始觉得文件验证比较方便，就采用了文件验证，后来各种失败，找那边的客服都不知道找了多少次了，还是不行，后来换成了DNS验证，一次性成功</strong></p>
+<p>然后，接下来有三个location，分别代理到不同的地方去，大家可要看清楚哦，这里都是内网地址，这里就是为什么当初要确保内网能够访问的原因。</p>
+<p>这样我们就做到了只需要一个nginx的端口开启，通过域名的解析，我们就可以访问域名达到访问内部的html的资源的目的了。</p>
+<p>好的，如果你顺利的话应该可以访问你的静态资源了，然后就是通过转发的方式，我们也可以获取内网中的其他两个服务，一个是mysql，另外一个是tp5提供的api服务。</p>
+<p>接下来，我记录的是在日常问题中的解决思路。</p>
+<p>linux里面的四台虚拟机，为了让彼此能够通信，我们可以通过ping他们内部的IP地址来确认，他们之间是不是可以连得通的。这是实现内部虚拟机之间通信的第一步。</p>
+<p><strong>问题一：</strong></p>
+<p>假设四个虚拟机（tp5、msyql、nginx、html）都跑起来了，不同虚拟机扮演不同的角色，这个时候发现没法连到mysql虚拟机上的数据库，这个是怎么办呢？</p>
+<p>首先，我们先确定mysql的服务是否已经开启，先进入mysql的虚拟机把mysql的服务启动起来，命令：</p>
+<pre><code>sudo /etc/init.d/mysql restart</code></pre>
+<p>好的，我们再接着下一步，就是本地查看3306端口是否已经开启，在mysql虚拟机下运行命令：</p>
+<pre><code>netstat -an | grep 3306</code></pre>
+<p>如果已经开启了这个端口会出现：</p>
+<pre><code>tcp6       0      0 :::3306                 :::*                    LISTEN</code></pre>
+<p>好的，既然本地能够开启了，那么我们需要在本地登陆下mysql，这个命令如下：</p>
+<pre><code>mysql -u root -p</code></pre>
+<p>如果可以登陆成功，那么说明本地的mysql服务器是没有问题的，可是由于linunx中的mysql为了安全，是不支持远程连接的，那么如何让mysql支持远程连接呢，我们可以网上搜索一下关于让mysql支持远程连接的问题，这里我也为大家准备了方案，进入mysql（用root账号登陆）：</p>
+<p>如果我们不想要root账号的话，我们需要先创建一个mysql账号，这里命名为zhangsan，先运行命令：</p>
+<pre><code>mysql&gt; use mysql;
+
+mysql&gt; select Host,User from user;   //查看mysql数据库中有哪些用户
+
+mysql&gt; create user zhangsan identified by &#39;123456&#39;;  //创建用户名为zhangsan的用户，并且分配密码
+
+mysql&gt;use databasename;     //选择自己开放授权远程的访问的数据库
+
+mysql&gt;grant all privileges on *.* to zhangsan@&quot;%&quot; identified by &#39;password&#39; with grant option   //这里把
+
+mysql&gt;flush privileges;</code></pre>
+<p>我以为就此收工了，等等，程序怎么还是连不上去，还是 access deny ;</p>
+<p>难道端口不是3306吗，打开 mysql配置文件，这里需要注意的是 bind-address这个东西，这个配置文件我们可能会因为不同的版本或者是不同的系统，会有点不一样，我这里用的是ubuntu16.04的，我的配置文件并不是跟网上别人说的 <code>/etc/mysql/my.cnf</code> 这个路径，在  <code>/etc/mysql/</code>  下是找不到 <code>my.cnf</code> 的，那么我们就没法改bind-address了，其实这个bind-address在 <code>/etc/mysql/mysql.conf.d/mysqld.cnf</code> 这个文件里面。我们需要把这个注释掉</p>
+<pre><code>bind-address           = 127.0.0.1</code></pre>
+<p>改成</p>
+<pre><code># bind-address           = 127.0.0.1</code></pre>
+<p>原因就是这里mysql默认绑定了本地ip，不接受其他来源；只需要注释掉，重启mysql ，就好了！</p>
+<p>还有两个常用操作；</p>
+<p>修改指定用户密码命令：</p>
+<pre><code>update mysql.user set password=password(&#39;新密码&#39;) where User=&quot;zhangsan&quot; and Host=&quot;localhost&quot;;</code></pre>
+<p>删除用户，比如我们想删除上面创建的zhangsan这个账户，就可以像如下这样运行命令：</p>
+<pre><code>delete from user where User=&#39;zhangsan&#39; and Host=&#39;localhost&#39;;</code></pre>
+<p><strong>忘记root密码</strong></p>
+<p>设置不用密码登录</p>
+<pre><code>[mysqld]
+skip-grant-tables=1</code></pre>
+<p>修改完密码后，记得删除该配置行</p>
+<p>好的，我们已经完成了mysql虚拟机这边的服务的开启、本地登陆，远程访问授权三个。</p>
+<p><strong>问题二：</strong></p>
+<p>通过tp5虚拟机远程登陆mysql虚拟机连不上怎么办？</p>
+<p>解决思路：</p>
+<p>第一，因为前面我们已经测试好了mysql那边是没有问题的，现在我们就相当于在局域网中连其他电脑那样，好的，我们先测试下通过远程查看下mysql的3306是否开启，在tp5虚拟机里面运行命令：</p>
+<pre><code>telnet 13.1.1.10 3306   //13.1.1.10是mysql虚拟机的IP地址</code></pre>
+<p>如果成功，那么会出现类似这样的画面：</p>
+<pre><code>Trying 13.1.1.10...
+Connected to 13.1.1.10.
+Escape character is &#39;^]&#39;.
+[
+5.7.21-0ubuntu0.16.04.1
+                       )01uSnnkPB~dN2mysql_native_passwordXshell</code></pre>
+<p>如果不成功，那么就是直接报错。</p>
+<p>好的，我们假设已经成功连接了，事实上也应该成功了。这个就说明可以远程访问了，那么我们再进一步的测试，运行以下命令：</p>
+<pre><code>mysql -h 13.1.1.10 -u zhangsan -p databasename   //这个就是从tp5这台虚拟机上远程连接mysql虚拟机，通过zhangsan这个账号登录到授权访问的数据库</code></pre>
+<p>然后输入密码，如果密码成功，那么就可以成功的从tp5这边远程的登录到mysql服务器那边的数据库了。</p>
+<p><strong>问题三</strong></p>
+<p>当我们完成了第一步和第二步的时候，我们可以通过在tp5里面发起api的请求了，假设我这里的api地址是：</p>
+<pre><code>/api/school/details</code></pre>
+<p>那么我们可以现在tp5里面进行一个本地的请求，请求地址：</p>
+<pre><code>links http://13.1.1.12/api/school/details   //这个13.1.1.12是tp5的本地地址，后面的路由地址是获取学校详情的api</code></pre>
+<p>如果成功，那么就会输出请求的数据，如果不成功，说明请求本身是有问题的，这个就需要排查，因为这个跟tp5和mysql两边息息相关，这个需要两边逐个排查。根据笔者经历，可能出现的错误是mysql的授权问题，报错吗1449，类似如下的报错：</p>
+<blockquote>
+<p>1449 The user specified as a definer (‘root’@’%’) does not exist</p>
+</blockquote>
+<p><strong>错误原因</strong></p>
+<p>这是权限问题，授权给root的所有的SQL语句，解决办法，在mysql虚拟机中登录mysql，然后运行如下命令：</p>
+<pre><code>mysql&gt; use databasename;
+
+mysql&gt; GRANT ALL PRIVILEGES ON *.* TO root@&quot;%&quot; IDENTIFIED BY &quot;.&quot;;
+
+FLUSH PRIVILEGES;</code></pre>
+<p>通常，进行这样的操作后，我们已经解决了这个问题了，我们接着往下走。</p>
+<p><strong>问题四</strong></p>
+<p>如果前面三步都完成了，我们接下来的时候是需要做的是通过nginx这个进行一个转发来实现通过浏览器的输入域名的方式来访问后端的api数据，然后渲染到前端去。这个也是我们的终极目标。</p>
+<p>那么我们需要解决tp5的api请求在本地是可以成功的，假设已经成功了，那么我们需要对nginx进行一个转发规则的设置，这个就是在nginx虚拟机上进行设置了，这个我们打开这个目录：<code>/etc/nginx/conf.d</code></p>
+<p>有的可能不是这个目录，直接在 <code>/etc/nginx/sites-available</code> ，笔者是为了方便管理，自定义了一个配置文件，这个也是大家常用的方式。</p>
+<p>好的，我们的配置文件规则如下：</p>
+<pre><code>server&#123;
+        listen 443;
+        charset utf-8;
+        #把ssl证书加入进来
+        ssl on;
+        ssl_certificate   cert/214551314040845.pem;
+        ssl_certificate_key  cert/214551314040845.key;
+        ssl_session_timeout 5m;
+        ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4;
+        ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+        ssl_prefer_server_ciphers on;
+
+        server_name www.yourdomain.com;
+        # server_name localhost;  #如果没有进行域名解析的话，那么就直接用localhost，而不是IP地址
+
+        location ^~/api/ &#123;
+
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header REMOTE-HOST $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                #禁用缓存
+                proxy_buffering off;
+
+                proxy_pass http://13.1.1.12/api/;   #后端tp5服务，这里记得api后面要有“/”斜杆，这个表示在api这个目录下找index.html,或者index.php，不然的话，就找api.html或者是api.php
+        &#125;
+        location / &#123;
+
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header REMOTE-HOST $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                #禁用缓存
+                proxy_buffering off;
+
+                proxy_pass http://13.1.1.9/;  #前端的html服务
+
+        &#125;
+        location /phpmyadmin/ &#123;
+
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header REMOTE-HOST $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                #禁用缓存
+                proxy_buffering off;
+
+               proxy_pass http://13.1.1.10/;  #数据库服务
+
+        &#125;
+&#125;</code></pre>
+<p>经过配置后，发现通过在浏览器访问地址：</p>
+<p>最开始笔者是通过这个linux的服务器IP进行访问的，如下：</p>
+<pre><code>https://121.55.23.113/api/school/details    //假设linux云服务器的IP地址是121.55.23.113</code></pre>
+<p>后来一个高人说要用域名访问，因为nginx是按域名匹配的。于是乎就改成了如下的方式访问，当输入</p>
+<pre><code>https://www.youdomain.com/api/school/details</code></pre>
+<p>的时候，我们看到了梦寐以求的结果。好的，这里笔者以一张图来说明下总体的思路和做法：</p>
+<p><img src="https://i.imgur.com/5pEJsgT.png"></p>
+<p>好的，如果有更好地办法，欢迎补充。</p>
+<hr>
+<p>3.数据库文件配置，这里仍然以tp5作为讲解，目录地址：application/database.php</p>
+<pre><code>&lt;?php
+// +----------------------------------------------------------------------
+// | ThinkPHP [ WE CAN DO IT JUST THINK ]
+// +----------------------------------------------------------------------
+// | Copyright (c) 2006~2016 http://thinkphp.cn All rights reserved.
+// +----------------------------------------------------------------------
+// | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
+// +----------------------------------------------------------------------
+// | Author: liu21st &lt;liu21st@gmail.com&gt;
+// +----------------------------------------------------------------------
+
+return [
+    // 数据库类型
+    &#39;type&#39;            =&gt; &#39;mysql&#39;,
+    // 服务器地址
+    &#39;hostname&#39;        =&gt; &#39;localhost&#39;,
+    // 数据库名
+    &#39;database&#39;        =&gt; &#39;databasename&#39;,
+    // 用户名
+    &#39;username&#39;        =&gt; &#39;root&#39;,
+    // 密码
+    &#39;password&#39;        =&gt; &#39;password&#39;,
+    // 端口
+    &#39;hostport&#39;        =&gt; &#39;3306&#39;,
+    // 连接dsn
+    &#39;dsn&#39;             =&gt; &#39;&#39;,
+    // 数据库连接参数
+    &#39;params&#39;          =&gt; [],
+    // 数据库编码默认采用utf8
+    &#39;charset&#39;         =&gt; &#39;utf8&#39;,
+    // 数据库表前缀
+    &#39;prefix&#39;          =&gt; &#39;&#39;,
+    // 数据库调试模式
+    &#39;debug&#39;           =&gt; true,
+    // 数据库部署方式:0 集中式(单一服务器),1 分布式(主从服务器)
+    &#39;deploy&#39;          =&gt; 0,
+    // 数据库读写是否分离 主从式有效
+    &#39;rw_separate&#39;     =&gt; false,
+    // 读写分离后 主服务器数量
+    &#39;master_num&#39;      =&gt; 1,
+    // 指定从服务器序号
+    &#39;slave_no&#39;        =&gt; &#39;&#39;,
+    // 是否严格检查字段是否存在
+    &#39;fields_strict&#39;   =&gt; true,
+    // 数据集返回类型
+    &#39;resultset_type&#39;  =&gt; &#39;array&#39;,
+    // 自动写入时间戳字段
+    &#39;auto_timestamp&#39;  =&gt; false,
+    // 时间字段取出后的默认时间格式
+    &#39;datetime_format&#39; =&gt; &#39;Y-m-d H:i:s&#39;,
+    // 是否需要进行SQL性能分析
+    &#39;sql_explain&#39;     =&gt; false,
+];</code></pre>
+<p>这个地方没有什么特别需要说明的地方，清楚这个文件目录，填写对正确的账号信息和端口即可，其他的设置已经有相关的注释了。</p>
+<hr>
+<p><strong>4.api编写</strong></p>
+<p>这里作为扫盲，我们过一遍，通常我们可以在目录：application/route.php，打开这个文件，编写第一个api路由：</p>
+<pre><code>&lt;?php
+// +----------------------------------------------------------------------
+// | ThinkPHP [ WE CAN DO IT JUST THINK ]
+// +----------------------------------------------------------------------
+// | Copyright (c) 2006~2016 http://thinkphp.cn All rights reserved.
+// +----------------------------------------------------------------------
+// | Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
+// +----------------------------------------------------------------------
+// | Author: liu21st &lt;liu21st@gmail.com&gt;
+// +----------------------------------------------------------------------
+use think\Route;
+
+Route::rule(&#39;/api/wx/search&#39;,&#39;wx/WxController/search&#39;,&#39;GET|POST&#39;);
+...
+
+return [
+    // &#39;__pattern__&#39; =&gt; [
+    //     &#39;name&#39; =&gt; &#39;\w+&#39;,
+    // ],
+    // &#39;[hello]&#39;     =&gt; [
+    //     &#39;:id&#39;   =&gt; [&#39;index/hello&#39;, [&#39;method&#39; =&gt; &#39;get&#39;], [&#39;id&#39; =&gt; &#39;\d+&#39;]],
+    //     &#39;:name&#39; =&gt; [&#39;index/hello&#39;, [&#39;method&#39; =&gt; &#39;post&#39;]],
+    // ],
+];</code></pre>
+<p>这里的api地址为：/api/wx/search，是直接通过浏览器可以访问的，比如<a target="_blank" rel="noopener" href="http://www.domain.com/api/wx/search">http://www.domain.com/api/wx/search</a></p>
+<p>至于会出现什么东西呢，这个取决于这个api里面的方法search.</p>
+<p>上面那句api的意思是在wx这个模块下的这个控制器为Wxcontroller里面的方法为search的返回值，举例：</p>
+<pre><code>&lt;?php
+namespace app\wx\controller;
+
+use think\Controller;
+use think\Db;
+use think\Log;
+use think\Request;
+use think\Session;
+
+class WxController extends Controller
+&#123;
+
+    public function index()&#123;
+        $zhuan = Db::table(&#39;tablename&#39;)-&gt;Distinct(true)-&gt;column(&#39;username&#39;);
+        return json($zhuan);
+    &#125;
+
+    public function search()&#123;
+        $aa = Db::table(&#39;tablename&#39;)-&gt;Distinct(true)-&gt;column(&#39;count_id&#39;);
+        return json($aa);
+    &#125;
+
+&#125;</code></pre>
+<p>这里的返回数据的格式为json.</p>
+<p>因此，当我们在浏览器访问地址：<a target="_blank" rel="noopener" href="http://www.domain.com/api/wx/search%E7%9A%84%E6%97%B6%E5%80%99%EF%BC%8C%E5%B0%B1%E8%BF%94%E5%9B%9E%E4%B8%80%E4%B8%AA%E6%95%B0%E6%8D%AE%E6%A0%BC%E5%BC%8F%E4%B8%BAjson%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93%E6%9F%A5%E8%AF%A2%E4%B8%BAcount_id%E7%9A%84%E5%86%85%E5%AE%B9%E9%9B%86%E5%90%88%E3%80%82%E5%BD%93%E7%84%B6%E9%9A%8F%E7%9D%80%E4%B8%9A%E5%8A%A1%E7%9A%84%E5%A4%8D%E6%9D%82%EF%BC%8C%E8%BF%99%E4%B8%AAsearch%E9%87%8C%E9%9D%A2%E7%9A%84%E9%80%BB%E8%BE%91%E4%BC%9A%E5%8F%98%E5%BE%97%E5%A4%8D%E6%9D%82%EF%BC%8C%E4%BD%86%E6%98%AF%E4%B8%87%E5%8F%98%E4%B8%8D%E7%A6%BB%E5%85%B6%E5%AE%97%E3%80%82">http://www.domain.com/api/wx/search的时候，就返回一个数据格式为json的数据库查询为count_id的内容集合。当然随着业务的复杂，这个search里面的逻辑会变得复杂，但是万变不离其宗。</a></p>
+<p><strong>作为提醒：为了能够更好的规范代码，容易理解，这个api的命名应该在设计之初就应该约定好的，以便更好的协作</strong></p>
+<hr>
+<p><strong>5.后端的配置（tp5为例）</strong></p>
+<p>这里我们过一遍，关于后端的配置，配置文件目录：application/config.php，这个是整个应用的配置文件，当然还有针对某个模块的配置，比如模块wx的配置目录：application/wx/config.php，前者是全局配置，后者是局部配置，局部配置会覆盖全局配置。</p>
+<p>这里根据项目的经历，这里主要说的配置文件里面的</p>
+<pre><code>// 应用命名空间
+&#39;app_namespace&#39;          =&gt; &#39;app&#39;,
+// 应用调试模式
+&#39;app_debug&#39;              =&gt; false,</code></pre>
+<p>这两个，一个是应用的命名空间，这里是app，也就是我们前面看到的控制器里面，第一行代码：</p>
+<pre><code>namespace app\wx\controller;</code></pre>
+<p>这个app就是来自配置文件app_namespace指定的名字，如果这个名字改成application，那么在控制器中就写成：</p>
+<pre><code>namespace application\wx\controller;</code></pre>
+<p>另外一个就是应用调试模式，这个在处理微信握手那里的时候，在微信公众号后台做服务器配置的时候，总是提醒token获取超时。这个时候可以考虑把这个设置为false，也就是关闭这个调试模式，通常会解决这个问题，当然可能也不是由这个原因引起的，有的时候甚至是需要重新手写一遍握手的那个代码就可以解决后台配置服务器地址的失败的问题。</p>
+<p>此外，这个很重要的地方是在于，我们在开发阶段为了更好的定位错误的位置，一般是要把这个设置成true的。</p>
+<hr>
+<p><strong>6.控制器代码的编写规范以及命名规范</strong></p>
+<p>这里主要说一点，就是控制器命名要规范，通常是模块名+Controller，而且这个地方的模块名首字母尽量用大写。举例说明，以微信模块下的控制器作为讲解：</p>
+<p>比如我们新建一个模块，运行命令：</p>
+<p>进入到应用根目录（也就是这个项目的根目录，不要误以为是application这个目录下）并执行如下指令：</p>
+<pre><code>php think build --module demo</code></pre>
+<p>看截图，框框中的就是应用根目录：</p>
+<p><img src="https://i.imgur.com/sIC2xNo.jpg"></p>
+<pre><code>Administrator@2013-20160611MQ MINGW64 /n/git/xiangyuecai
+ls
+application/  composer.json  LICENSE.txt  phpunit.xml  README.md  tests/  thinkphp/  vendor/
+build.php  extend/  phpinfo.php  public/  runtime/   think* </code></pre>
+<p>看到了吧，xiangyuecai下面的就是应用根目录，而不是xiangyuecai里面的application下面的。这个说明已经不能再简单了。</p>
+<p>顺便科普一下：</p>
+<p>运行环境</p>
+<p>我们进入命令行（如果是在linux环境下忽略这个称呼），进入tp5/public目录后，输入如下命令：</p>
+<pre><code>php -S localhost:8888 router.php</code></pre>
+<p>这样就可以开启tp5自带的后端服务，这样的话，就不需要单独为后端再安装服务器了。</p>
+<hr>
+<p><strong>操作系统的折腾记录</strong></p>
+<p>很多时候，我们在项目中为了项目的数据安全，会采用一些备份策略，这里就记录下笔者采用的分布式备份的方法。</p>
+<p>预先申明：</p>
+<ol>
+<li>mysql服务器，命名为M，IP地址：192.168.0.11</li>
+<li>后端服务器，命名为H，IP地址：192.168.0.13</li>
+<li>后端的测试服务器，命名为T，IP地址：192.168.0.15</li>
+</ol>
+<p>什么是cron呢？</p>
+<p>cron是Unix/Linux系统下一个自动执行指定任务的程序。</p>
+<p>cron默认是开机启动的 * Linux系统中，存放在 /etc/init.d/crond</p>
+<p><strong>常用命令</strong></p>
+<pre><code>#列出用户目前的crontab  
+crontab [-u user] -l
+
+默认的方式就是：crontab -l
+
+#编辑用户目前的crontab  
+crontab [-u user] -e
+
+默认的方式就是：crontab -e
+
+#删除某个用户的crontab，就删除了所有的定时任务(需要特别小心)  
+crontab [-u user] -r     
+
+#编辑root用户的crontab  
+sudo crontab -u root -e</code></pre>
+<p>整个项目的数据都放在M，因此，我们需要先对M进行一个定时的备份。步骤如下：</p>
+<p>1.通常linux都已经安装了cron这个服务，所以我们需要添加一个cron的规则。</p>
+<p>在任何目录下运行命令：</p>
+<pre><code>crontab -e</code></pre>
+<p>这样就可以打开一个文件，然后把自己的定时备份规则加上：</p>
+<pre><code>00 3 * * * /home/你自己的用户目录名/cron/backup.sh</code></pre>
+<p><img src="https://i.imgur.com/6TwuFRu.jpg"></p>
+<p>添加完毕内容后保存。</p>
+<p>这句话的意思就是，在凌晨3点整，运行在目录为/home/xxx/cron/backup.sh的脚本。</p>
+<p>这个目录是由自己定义的。根据自己的要求定义，笔者这里是在自己的主目录下新建了一个cron文件夹，里面有一个backup.sh的脚本。</p>
+<p>好的，目前，我们已经完成了每天凌晨3点运行一个脚本的目的。</p>
+<p>这里可能不是很明白这个代码的意思，这里给大家科目一下：</p>
+<pre><code>#Use the hash sign to prefix a comment
+# +—————- minute (0 - 59)
+# |  +————- hour (0 - 23)
+# |  |  +———- day of month (1 - 31)
+# |  |  |  +——- month (1 - 12)
+# |  |  |  |  +—- day of week (0 - 7) (Sunday=0 or 7)
+# |  |  |  |  |
+  f1 f2 f3 f4 f5 user command
+  分　时　日　月　周　用户 命令</code></pre>
+<ul>
+<li>command — 表示要执行的任务(可以使运行linux系统命令,也可以是执行你自行编写的linux脚本命令。)</li>
+<li>user 是执行command的用户身份</li>
+</ul>
+<p>通常，这里的用户名不用写，笔者加上去后发现导致这个定时备份的代码不起作用。</p>
+<p>这个是没问题的写法</p>
+<pre><code>00 3 * * * /home/zhangsan/cron/backup.sh</code></pre>
+<p>这个是有问题的写法：</p>
+<pre><code>00 3 * * * zhangsan /home/zhangsan/cron/backup.sh</code></pre>
+<p>好的，接下来我们就编写backup.sh这个脚本文件的内容，里面的具体意思笔者会在下面进行一个解释：</p>
+<pre><code>#!/bin/bash
+# Name:bakmysql.sh
+# This is a ShellScript For Auto DB Backup
+#
+backupdir=&quot;/home/zhangsan/database-backup&quot;
+password=&quot;mypassword&quot;
+time=`date &quot;+%Y-%m-%d-%H:%M:%S&quot;`
+# backup database file to local
+mysqldump -u databaseusername -p$password databasename | gzip &gt; $backupdir/database_backup_$time.sql.gz
+# rsync backup file to tp5-test
+rsync -r /home/zhangsan/database-backup/ root@101.10.1.22:/root/database-backup/
+# rsync backup file to tp5-prod
+rsync -r /home/zhangsan/database-backup/ root@101.10.1.30:/root/database-backup/</code></pre>
+<p>保存。</p>
+<p>然后对这个脚本添加一个执行的权限：</p>
+<pre><code>chmod +x backup.sh</code></pre>
+<p>到此，我们可以验证一下，这个脚本到底是否起作用，这个时候，我们就直接运行一下这个脚本。</p>
+<p>通常，这样就可以完成一个备份了。这里有个重点就是需要对这个脚本分配一个执行的权限，不然会报错的。</p>
+<p><strong>如有碰到需要输入密码的问题，笔者这里引用一下网友的解决方案，如下：</strong></p>
+<hr>
+<p>mysql5.7以后，官方推荐用mysqlpump代替mysqldump，虽然只有一字之差，但是备份时间能缩短一半啊。<br>执行以下命令，即可备份数据库：</p>
+<pre><code>root@localhost# mysqlpump -uroot -p mydatabase &gt; bak.sql</code></pre>
+<p>会要求输入mysql密码，平常使用没什么，如果用crontab和shell让服务器自动备份，这时候输入密码的过程就讨厌了，根本执行不下去（在命令行直接明文写密码已经不允许），既然是自动，那么输入密码能否也自动完成呢，答案是肯定的，使用login-path选项可以实现：</p>
+<p><strong>mysqlpump免密码备份</strong></p>
+<pre><code>root@localhost# mysqlpump --login-path=zhangsan mydatabase &gt; bak.sql</code></pre>
+<p>执行上面的代码，直接就备份了，不用输入密码，这个“zhangsan”相当于一个秘钥，下面我们来创建它：</p>
+<pre><code>root@localhost# mysql_config_editor set --login-path=zhangsan --host=localhost --user=root --password</code></pre>
+<p>输入一次密码，这样，在用户目录就生成了一个隐藏的秘钥文件，进去查看一下：</p>
+<pre><code>root@localhost# cd ~
+root@localhost# ls -l -a</code></pre>
+<p><img src="https://i.imgur.com/ssDQmIU.png"></p>
+<p>这个.mylogin.cnf保存的就是登录用户和密码，内容已经加密。</p>
+<hr>
+<p>好的，这里基本算是完成了不用输入密码就可以在M上面进行定时备份了。</p>
+<p>任务还没完成，我们的目标是要把在M备份的数据库文件分发到H和T上面的指定的目录下，以实现一个分布式数据备份的策略。</p>
+<p>现在就差一个如何在服务器之间如何进行一个文件在多台服务器之间同步的问题了。</p>
+<p><strong>以下很重要：</strong></p>
+<p>笔者的方案是直接在M这台机器下面运行命令：</p>
+<pre><code>rsync -r /home/zhangsan/database-backup/ root@101.10.1.22:/root/database-backup/</code></pre>
+<p>这里需要说明的是，M需要安装了rsync这个服务，由于M使用的是ubuntu，ubuntu默认已安装rsync，rsync服务默认不是启动的。我们需要启动它，命令：</p>
+<pre><code>sudo vi /etc/default/rsync</code></pre>
+<p>然后修改这个</p>
+<pre><code>RSYNC_ENABLE=true   #false改true</code></pre>
+<p>通常可以不用做任何配置，然后启动这个服务，命令：</p>
+<pre><code>sudo /etc/init.d/rsync start</code></pre>
+<p>然后进去开启，然后启动即可。</p>
+<p>这样就可以把M的下面的database-backup的备份文件同步到了IP为101.10.1.22的目录/root/database-backup/下面。</p>
+<p>笔者在处理这里的时候，开始不成功，报错。于是进行了这样的一个尝试，先对M本身进行一个同步，于是笔者在用户根目录下创建了另外一个文件夹：test</p>
+<p>然后运行命令：</p>
+<pre><code>rsync -r /home/zhangsan/database-backup/ zhangsan@localhost:/home/zhangsan/test/</code></pre>
+<p>这样是成功的。</p>
+<p>这个说明这条命令本身是没有什么问题的。于是排查远程那边的问题，后来发现T和H那边都需要安装rsync这个服务。于是分别对这两个虚拟机安装了这个同步的服务。</p>
+<p>笔者一个是用Ubuntu的操作系统，另外一个是用的free BSD。安装方式不一样。</p>
+<p>ubuntu默认已安装rsync，rsync服务默认不是启动的。</p>
+<p>现在我们要去启动它，命令：</p>
+<pre><code>sudo vi /etc/default/rsync</code></pre>
+<p>然后修改这个</p>
+<pre><code>RSYNC_ENABLE=true   #false改true</code></pre>
+<p>通常可以不用做任何配置，然后启动这个服务，命令：</p>
+<pre><code>sudo /etc/init.d/rsync start</code></pre>
+<p>然后进去开启，然后启动即可。</p>
+<hr>
+<p>接着我们来说一下另外一个，这个是用的free BSD，这个操作系统有点不一样，所以操作方式也会不一样。</p>
+<p>要想了解更多可以访问这里：<a target="_blank" rel="noopener" href="https://wiki.vbig.org/doku.php?id=ports">https://wiki.vbig.org/doku.php?id=ports</a></p>
+<p>方法如下：</p>
+<pre><code>cd /usr/ports/net/rsync</code></pre>
+<p>然后运行命令：</p>
+<pre><code>make install</code></pre>
+<p>这个过程会弹出窗口，保持默认即可，按enter键，继续执行。</p>
+<p>接着，我们开启这个服务，命令：</p>
+<pre><code>vi /usr/local/etc/rsyncd.conf</code></pre>
+<p>还是一样的，我们开启这个服务：</p>
+<pre><code>RSYNC_ENABLE=true   #false改true，如果是no，就改成yes</code></pre>
+<p>保存，关闭。</p>
+<p>然后运行命令启动这个服务，命令：</p>
+<pre><code>/usr/local/etc/rc.d/rsyncd start</code></pre>
+<p>这个时候可能会提示，说这个start已经改成onestart，我们直接把上面的命令改成：</p>
+<pre><code>/usr/local/etc/rc.d/rsyncd onestart</code></pre>
+<p>即可。</p>
+<p>这里还有一个问题，如果是让M与H的同步，以及M与T的同步，需要把M的公钥分别添加到H和T的.ssh里面的authorized_keys，否则需要输入密码，这样的话就达不到自动备份和分发的目的了，如果没有公钥的话，就创建一个ssh key.</p>
+<p>好的完成这些事情后，基本可以成功的进行M的定时备份，然后把备份好的文件同时分发到另外两台服务器上，实现一个分布式备份策略。</p>
+<p>如果有问题，可以及时勘误。</p>
+<p>如果想要了解更多，可以参考这两篇文章：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/zpf336/article/details/51659666">https://blog.csdn.net/zpf336/article/details/51659666</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/u013471169/article/details/78710208">https://blog.csdn.net/u013471169/article/details/78710208</a></p>
+<p><strong>好的，这里在添加我的一些记录：</strong></p>
+<p>我在处理一个linux服务器定时备份的时候，为了方便,将其加入到了crontab中,设定为每日3点15分执行。奇怪的事情就发生了,每次看到的备份文件都是大小为0字节的sql文件，后面就手动运行了一下脚本，发现报错了：</p>
+<pre><code>[root@iZwz91cugo68lstwlb5up ~]# ./cron/backup_for_fast.sh 
+./cron/backup_for_fast.sh: line 11: mysqldump: command not found
+[root@iZwz91cugo68lstwlb5up ~]# ./cron/backup_for_wp.sh 
+./cron/backup_for_wp.sh: line 11: mysqldump: command not found</code></pre>
+<p>这个就有点纳闷了，由于笔者这里采用的是xampp的linux版。这里怀疑是mysql这个命令没有添加到环境变量里面去。</p>
+<p>首先得知道mysql命令或mysqldump命令的完整路径，可以使用find命令查找。</p>
+<p>除非你知道mysql安装路径可以略过这一步。</p>
+<pre><code>find / -name mysql -print</code></pre>
+<p>例如，我的mysql的路径是：/usr/local/mysql/bin/mysql,然后映射一个链接到/usr/bin目录下，相当于建立一个链接文件</p>
+<pre><code>ln -fs /usr/local/mysql/bin/mysql /usr/bin</code></pre>
+<p>mysqldump同理 其中/usr/local/mysql/是mysql的安装路径。</p>
+<p>执行这个方法后发现，还是不行，后来在这里获得启发。</p>
+<p>笔者在运行命令：</p>
+<pre><code>find / -name mysql -print</code></pre>
+<p>的时候，打印出：</p>
+<pre><code>/opt/lampp/lib/mysql
+/opt/lampp/mysql
+/opt/lampp/bin/mysql
+/opt/lampp/include/mysql
+/opt/lampp/var/mysql
+/opt/lampp/var/mysql/mysql
+/opt/lampp/share/mysql</code></pre>
+<p>然后笔者采用更加省事的办法：</p>
+<p>直接将/opt/lampp/bin/目录添加到环境变量中，这样就可以直接使用mysql命令了。步骤如下：</p>
+<p>打开 ~/.bashrc 文件</p>
+<p>在最后一行加入</p>
+<pre><code># PATH
+export PATH=/opt/lampp/bin:$PATH</code></pre>
+<p>保存退出执行该文件中的命令</p>
+<pre><code>source ~/.bashrc</code></pre>
+<p>重启一下服务器或者是重启一下xampp即可。</p>
+<p>好的这个环境变量的问题搞定后，还是不行，这个笔者把问题定位到了脚本的运行权限上面。</p>
+<p>因为笔者的定时备份脚本目录是：</p>
+<pre><code>/root/cron/backup_for_wp.sh</code></pre>
+<p>所以，笔者为脚本添加可执行权限：</p>
+<pre><code>cd /root/cron/
+chmod u+x backup_for_wp.sh</code></pre>
+<p>添加完毕之后</p>
+<p>验证一下这个脚本是否工作，于是运行命令：</p>
+<pre><code>./backup_for_wp.sh</code></pre>
+<p>发现是没有问题的，文件大小再也不是0KB了。</p>
+<p>可是，当我们在运行cron这个定时备份的时候，就出问题了，还是0KB。</p>
+<p>于是，笔者运行了命令查看了一下：</p>
+<pre><code>crontab -e
+15 3 * * * /root/cron/backup_for_wp.sh</code></pre>
+<p>这个里面是一个绝对路径，所以笔者怀疑是目录没有可执行权限，于是给cron这个目录分配了一个可执行权限：</p>
+<pre><code>chmod u+x cron</code></pre>
+<p>完成后，再次执行这个定时备份任务。这次不是手动，而是通过linux自动执行的那种，直接把脚本放入crontab中自动执行，这个时候还是显示备份的文件为0KB。这个时候，经过热心网友的解答，是因为：</p>
+<blockquote>
+<p>因为环境变量导致的。mysqldump 在脚本中请用绝对路径执行，不能写成变量的格式。</p>
+<p>如：<br>/usr/local/mysql/bin/mysqldump -uroot -p123456 shuju &gt; shuju.sql;</p>
+</blockquote>
+<p>根据这个网友的建议，笔者这里的写法如下：</p>
+<pre><code>/opt/lampp/bin/mysqldump -u$databaseuser -p$password $databasename3 &gt; $backupdir/database_backup_wp_$time.sql</code></pre>
+<p>注：其他的写成变量可以，但是mysqldump这个不能写成变量。</p>
+<p>然后就是记得要重启一下crontab，相关的命令如下：</p>
+<p><strong>可以分为两种情况：</strong></p>
+<p>1.在系统中有service这个命令时：</p>
+<p>这个命令在red hat当中常用,有的linux发行版本中没有这个命令.</p>
+<pre><code>$ service crond start //启动服务
+$ service crond stop //关闭服务
+$ service crond restart //重启服务</code></pre>
+<p>2.linux发行版本没有service这个命令时：</p>
+<pre><code>/etc/init.d/cron stop
+/etc/init.d/cron start</code></pre>
+<p><strong>最后：测试任务是否执行</strong></p>
+<p>很简单，我们就执行几次 “ls” 命令，看看一分钟过后文件有没有被创建就可以了！</p>
+<p>如果任务执行失败了，可以通过以下命令查看任务日志：</p>
+<pre><code>tail -f /var/log/cron</code></pre>
+<p>笔者把定时任务时间修改了一下，执行两个脚本分别执行时间是：18:05,18:06</p>
+<p>输出类似如下：</p>
+<pre><code>Jul  4 18:03:27 iZwz91cugo68lstwlb5up1Z crontab[2080]: (root) END EDIT (root)
+Jul  4 18:03:56 iZwz91cugo68lstwlb5up1Z crontab[2101]: (root) BEGIN EDIT (root)
+Jul  4 18:04:22 iZwz91cugo68lstwlb5up1Z crontab[2101]: (root) REPLACE (root)
+Jul  4 18:04:22 iZwz91cugo68lstwlb5up1Z crontab[2101]: (root) END EDIT (root)
+Jul  4 18:05:01 iZwz91cugo68lstwlb5up1Z crond[1534]: (root) RELOAD (/var/spool/cron/root)
+Jul  4 18:05:01 iZwz91cugo68lstwlb5up1Z CROND[2107]: (root) CMD (/root/cron/backup_for_fast.sh)
+Jul  4 18:06:01 iZwz91cugo68lstwlb5up1Z CROND[2127]: (root) CMD (/root/cron/backup_for_wp.sh)</code></pre>
+<p>说明这个是成功的，看最后两条日志信息。</p>
+<p>知识点回顾：</p>
+<blockquote>
+<p>查找命令、正确地添加环境变量、记得为整个目录添加可执行权限、记得本地手动验证、mysqldump的路径要用绝对路径、充分利用服务器日志来解决问题。</p>
+</blockquote>
+<hr>
+<p>2.关于采用free BSD实现共享session的问题以及解决方案，这里作为保留，后面继续跟进和完善。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7-%E5%85%AC%E4%BC%97%E5%8F%B7/" rel="tag"># 微信公众号,公众号</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/07/04/%E8%A7%A3%E5%86%B3linux%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AE%9A%E6%97%B6%E5%A4%87%E4%BB%BD%E6%95%B0%E6%8D%AE%E7%9A%84cron%E4%B9%8Bmysql-command-not-found%E6%8A%A5%E9%94%99%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/" rel="prev" title="解决linux服务器定时备份数据的cron之mysql command not found报错相关问题的解决办法">
+      <i class="fa fa-chevron-left"></i> 解决linux服务器定时备份数据的cron之mysql command not found报错相关问题的解决办法
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/07/10/wordpress%E9%A1%B6%E9%83%A8%E6%B7%BB%E5%8A%A0%E5%BE%AE%E4%BF%A1icon%EF%BC%8C%E9%80%9A%E8%BF%87jquery%E5%8A%A8%E6%80%81%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%B8%AA%E5%BE%AE%E4%BF%A1icon%E5%88%B0%E7%A4%BE%E4%BA%A4%E5%AA%92%E4%BD%93%E5%90%8E%E9%9D%A2%EF%BC%8C%E7%84%B6%E5%90%8E%E7%82%B9%E5%87%BB%E5%9B%BE%E7%89%87%E5%BC%B9%E5%87%BA%E6%A8%A1%E6%80%81%E6%A1%86%E4%BB%A5%E5%8F%8A%E5%A4%84%E7%90%86%E5%A4%9A%E4%B8%AAjquery%E5%8A%A0%E8%BD%BD%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" rel="next" title="wordpress顶部添加微信icon，通过jquery动态添加一个微信icon到社交媒体后面，然后点击图片弹出模态框以及处理多个jquery加载冲突的解决方案">
+      wordpress顶部添加微信icon，通过jquery动态添加一个微信icon到社交媒体后面，然后点击图片弹出模态框以及处理多个jquery加载冲突的解决方案 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

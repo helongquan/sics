@@ -1,37 +1,493 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="1、产品页面 修改文件：app\code\local\Mage\Catalog\Block\Product\View.php在_prepareLayout方法前面添加方法： protected function _construct()   &amp;#123;       $this-&gt;addData(array(          &#39;cache_lifetime&#39; &#x3D;&gt; 8">
+<meta property="og:type" content="article">
+<meta property="og:title" content="给Magento常用的Block添加缓存">
+<meta property="og:url" content="http://example.com/2018/07/30/%E7%BB%99Magento%E5%B8%B8%E7%94%A8%E7%9A%84Block%E6%B7%BB%E5%8A%A0%E7%BC%93%E5%AD%98/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="1、产品页面 修改文件：app\code\local\Mage\Catalog\Block\Product\View.php在_prepareLayout方法前面添加方法： protected function _construct()   &amp;#123;       $this-&gt;addData(array(          &#39;cache_lifetime&#39; &#x3D;&gt; 8">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/H1E2dnO.jpg">
+<meta property="article:published_time" content="2018-07-30T12:24:09.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:05.949Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="magento,缓存,cache,block">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/H1E2dnO.jpg">
+
+<link rel="canonical" href="http://example.com/2018/07/30/%E7%BB%99Magento%E5%B8%B8%E7%94%A8%E7%9A%84Block%E6%B7%BB%E5%8A%A0%E7%BC%93%E5%AD%98/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>给Magento常用的Block添加缓存 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/07/30/%E7%BB%99Magento%E5%B8%B8%E7%94%A8%E7%9A%84Block%E6%B7%BB%E5%8A%A0%E7%BC%93%E5%AD%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          给Magento常用的Block添加缓存
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-07-30 20:24:09" itemprop="dateCreated datePublished" datetime="2018-07-30T20:24:09+08:00">2018-07-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:05" itemprop="dateModified" datetime="2020-10-11T11:58:05+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>1、产品页面</strong></p>
+<p>修改文件：app\code\local\Mage\Catalog\Block\Product\View.php<br>在_prepareLayout方法前面添加方法：</p>
+<pre><code>protected function _construct()  
+&#123;  
+    $this-&gt;addData(array(  
+       &#39;cache_lifetime&#39; =&gt; 86400,   
+       &#39;cache_tags&#39; =&gt; array(Mage_Catalog_Model_Product::CACHE_TAG . &quot;_&quot; . $this-&gt;getProduct()-&gt;getId()),  
+       &#39;cache_key&#39; =&gt; $this-&gt;getProduct()-&gt;getId(),  
+    ));  
+&#125;</code></pre>
+<p>这里使用catalog_product_productid使用cache_tags</p>
+<p><strong>2、分类页面</strong></p>
+<p>修改文件：app\code\local\Mage\Catalog\Block\Category\View.php<br>在_prepareLayout方法前面添加方法：</p>
+<pre><code>protected function _construct()  
+&#123;  
+        $this-&gt;addData(array(  
+              &#39;cache_lifetime&#39; =&gt; 86400,  
+              &#39;cache_tags&#39; =&gt; array($this-&gt;getCacheKeyInfo()),  
+              &#39;cache_key&#39; =&gt; $this-&gt;getCacheKeyInfo(),   
+        ));  
+&#125;  
+public function getCacheKeyInfo()&#123;  
+        $paging = &#39;&#39;;  
+        $limit = &#39;&#39;;  
+        $mode = &#39;&#39;;  
+        $order = &#39;&#39;;  
+        $productListBlock = $this-&gt;getChild(&#39;product_list&#39;);  
+        if ($productListBlock)&#123;  
+               $toolbarBlock = $productListBlock-&gt;getChild(&#39;product_list_toolbar&#39;);  
+               if($toolbarBlock)&#123;  
+                     $paging = $toolbarBlock-&gt;getCurrentPage();  
+                     $limit = $toolbarBlock-&gt;getLimit();  
+                     $mode = $toolbarBlock-&gt;getCurrentMode();  
+                     $order = $toolbarBlock-&gt;getCurrentOrder();  
+               &#125;  
+        &#125;  
+        return array(  
+               &#39;CATEGORY_VIEW&#39;,  
+               Mage::app()-&gt;getStore()-&gt;getId(),  
+               Mage::getDesign()-&gt;getPackageName(),  
+               Mage::getDesign()-&gt;getTheme(&#39;template&#39;),  
+               $this-&gt;getCurrentCategory()-&gt;getId(),  
+               &#39;template&#39; =&gt; $this-&gt;getTemplate(),  
+               $paging,  
+               $limit,  
+               $mode,  
+               $order  
+        );  
+&#125;</code></pre>
+<p><strong>3、cms/page页面</strong></p>
+<p>修改文件：app\code\local\Mage\Cms\Block\Page.php<br>在_prepareLayout方法前面添加方法：</p>
+<pre><code>const CACHE_KEY = &#39;cms_page&#39;;   
+protected function _construct()  
+&#123;  
+    $this-&gt;addData(array(  
+        &#39;cache_lifetime&#39; =&gt; 86400,  
+        &#39;cache_tags&#39; =&gt; array(&#39;cms-&#39;.$this-&gt;getPage()-&gt;getIdentifier()),  
+        &#39;cache_key&#39; =&gt; $this-&gt;getCacheKey(),   
+    ));  
+ &#125;  
+public function getCacheKey()   
+&#123;  
+    $storeId = $this-&gt;getStoreId();  
+    $currencyCode = Mage::app()-&gt;getStore()-&gt;getCurrentCurrencyCode();  
+    $uri = $this-&gt;getRequest()-&gt;getRequestUri() . self::CACHE_KEY;  
+    return $storeId.$uri.$currencyCode;  
+&#125;</code></pre>
+<p>这里使用cms-pageidentifier作为cache_tags</p>
+<hr>
+<p>我们以一个例子进行讲解一下：</p>
+<p><img src="https://i.imgur.com/H1E2dnO.jpg"></p>
+<p>这个截图是我某个项目使用aw_blog插件的实例，使用AW_Blog_Block_Blog这个block文件在首页输出某个新闻类别下的新闻列表，aw_blog插件本身是没给输出内容做过缓存处理的，也就是说，即便你一天或几天才更新一次新闻，页面每次载入时依然要从数据库里把这些数据取一遍，这个是比较没必要的。</p>
+<p>下面来给这个Block加上缓存，Magento本身已经提供了一套给Block添加缓存的写法，只需要简单的加几句代码就可以</p>
+<pre><code>protected function _construct()  
+    &#123;  
+        $this-&gt;addData(array(  
+            &#39;cache_lifetime&#39;=&gt; 86400,  
+            &#39;cache_tags&#39;    =&gt; array(AW_Blog_Model_Post::CACHE_TAG)  
+        ));  
+&#125;</code></pre>
+<p>其中<code>cache_lifetime</code>指缓存周期，这里我设置的是86400秒，也就是一天，cache_tags指给该缓存设定的标签，这里我设置的是post这个model的一个常量。做完这一步，这个block文件的缓存就好了，页面载入时，这块内容不会再每次去数据库取数据，而是直接载入缓存好的html，减少了页面载入所消耗的时间。</p>
+<p>到这一步，整个工作才完成了一半，为什么这么说呢？这里可以做个实验，在加完以上的代码并刷新过一次页面后，数据已经写进缓存文件里了，这时候去后台新增或修改一篇新闻，你会发现前台页面的内容并没有跟着改变，而是维持之前的内容。那么什么时候才会变成新的内容呢，一天之后，因为之前给缓存设置的有效时间是一天，一天之内的有效期内，页面都会去读取缓存文件而不是数据库。这时候你可以这样处理，在后台修改过内容后，手动刷新后台的缓存，让效果实时可见，或者用更好的方案，通过程序控制，在每次新闻内容新增或修改时自动刷新对应的缓存。</p>
+<p>打开AW_Blog_Model_Post这个文件，在头部定义一个常量</p>
+<pre><code>const CACHE_TAG = &#39;aw_blog&#39;;</code></pre>
+<p>在底部添加如下代码</p>
+<pre><code>public function cleanCache()  
+   &#123;  
+       Mage::app()-&gt;cleanCache(self::CACHE_TAG);  
+       return $this;  
+   &#125;
+
+public function _beforeSave()&#123;  
+     $this-&gt;cleanCache();  
+     return parent::_beforeSave();  
+&#125;</code></pre>
+<p>该常量即是之前给Blog添加的缓存的cache_tags，_beforeSave函数是所有Model类继承自父类的方法，可以在该Model对应的对象实体保存数据时触发，这里重写_beforeSave，去调用一个cleanCache函数，cleanCache函数里只有一句重要的代码，就是</p>
+<pre><code>Mage::app()-&gt;cleanCache(self::CACHE_TAG)</code></pre>
+<p>这个方法可以清除指定标签（tag）的缓存，比如这里，它只会清除tag为aw_blog的缓存，而不是全部系统缓存。</p>
+<p>从完整的流程来说，首先前台页面第一次载入时，该Block会将内容缓存进缓存文件，然后当后台保存新闻时，通过cleanCache会清除指定Tag的缓存，这之后再次载入页面时就会生成新的缓存文件。这样就做到了缓存新闻内容以提高速度的同时，依然可以在后台做出数据改变时在页面实时显示新的数据。</p>
+<p>新闻数据在页面上一般所占空间不大，即使缓存起来可能也不会对加载速度有很明显的提升，这里只是以此为例子展示下Magento所提供的Block缓存机制。这个例子很简单，如果要对其他东西做缓存可能会有各种更复杂的流程，这里不再探讨。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/magento-%E7%BC%93%E5%AD%98-cache-block/" rel="tag"># magento,缓存,cache,block</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/07/30/%E7%94%A8magento%E5%B8%83%E5%B1%80%E7%BB%99%E7%89%B9%E5%AE%9ACMS%E9%A1%B5%E9%9D%A2%E6%B7%BB%E5%8A%A0%E9%9D%99%E6%80%81%E5%9D%97-%E6%88%96%E8%80%85%E6%98%AF%E8%AF%B4%E9%80%9A%E8%BF%87%E9%9D%99%E6%80%81%E6%A8%A1%E5%9D%97%E5%B5%8C%E5%85%A5%E5%88%B0%E9%A1%B5%E9%9D%A2%E4%B8%AD%E5%8E%BB/" rel="prev" title="用magento布局给特定CMS页面添加静态块,或者是说通过静态模块嵌入到页面中去">
+      <i class="fa fa-chevron-left"></i> 用magento布局给特定CMS页面添加静态块,或者是说通过静态模块嵌入到页面中去
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/07/30/magento%E8%BE%B9%E6%A0%8F%E8%B0%83%E7%94%A8%E7%83%AD%E9%97%A8%E6%90%9C%E7%B4%A2%E5%85%B3%E9%94%AE%E5%AD%97%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90/" rel="next" title="magento侧边栏调用热门搜索关键字自动生成，热搜词，关键词，top search">
+      magento侧边栏调用热门搜索关键字自动生成，热搜词，关键词，top search <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

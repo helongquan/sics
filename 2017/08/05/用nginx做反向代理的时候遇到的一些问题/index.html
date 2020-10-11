@@ -1,37 +1,430 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="我在做一个用nginx做反向代理的时候，出现了一些问题，根据文章http:&#x2F;&#x2F;www.habotalk.com&#x2F;server&#x2F;1399.html开展的时候，本地安装这两个服务器的时候，没什么大问题，在安装nginx服务的时候，当我把nginx下载到本地，在nginx所在的目录下，然后运行 start nginx 这个时候成功，然后打开浏览器，输入127.0.0.1的时候并没有显示预期的，这个时候我">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用nginx做反向代理的时候遇到的一些问题">
+<meta property="og:url" content="http://example.com/2017/08/05/%E7%94%A8nginx%E5%81%9A%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E7%9A%84%E6%97%B6%E5%80%99%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="我在做一个用nginx做反向代理的时候，出现了一些问题，根据文章http:&#x2F;&#x2F;www.habotalk.com&#x2F;server&#x2F;1399.html开展的时候，本地安装这两个服务器的时候，没什么大问题，在安装nginx服务的时候，当我把nginx下载到本地，在nginx所在的目录下，然后运行 start nginx 这个时候成功，然后打开浏览器，输入127.0.0.1的时候并没有显示预期的，这个时候我">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-08-05T14:47:08.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:52:52.065Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="semanage,nginx,反向代理">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2017/08/05/%E7%94%A8nginx%E5%81%9A%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E7%9A%84%E6%97%B6%E5%80%99%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>用nginx做反向代理的时候遇到的一些问题 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/08/05/%E7%94%A8nginx%E5%81%9A%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E7%9A%84%E6%97%B6%E5%80%99%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          用nginx做反向代理的时候遇到的一些问题
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-08-05 22:47:08" itemprop="dateCreated datePublished" datetime="2017-08-05T22:47:08+08:00">2017-08-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:52:52" itemprop="dateModified" datetime="2020-10-11T11:52:52+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>我在做一个用nginx做反向代理的时候，出现了一些问题，根据文章<a target="_blank" rel="noopener" href="http://www.habotalk.com/server/1399.html%E5%BC%80%E5%B1%95%E7%9A%84%E6%97%B6%E5%80%99%EF%BC%8C%E6%9C%AC%E5%9C%B0%E5%AE%89%E8%A3%85%E8%BF%99%E4%B8%A4%E4%B8%AA%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84%E6%97%B6%E5%80%99%EF%BC%8C%E6%B2%A1%E4%BB%80%E4%B9%88%E5%A4%A7%E9%97%AE%E9%A2%98%EF%BC%8C%E5%9C%A8%E5%AE%89%E8%A3%85nginx%E6%9C%8D%E5%8A%A1%E7%9A%84%E6%97%B6%E5%80%99%EF%BC%8C%E5%BD%93%E6%88%91%E6%8A%8Anginx%E4%B8%8B%E8%BD%BD%E5%88%B0%E6%9C%AC%E5%9C%B0%EF%BC%8C%E5%9C%A8nginx%E6%89%80%E5%9C%A8%E7%9A%84%E7%9B%AE%E5%BD%95%E4%B8%8B%EF%BC%8C%E7%84%B6%E5%90%8E%E8%BF%90%E8%A1%8C">http://www.habotalk.com/server/1399.html开展的时候，本地安装这两个服务器的时候，没什么大问题，在安装nginx服务的时候，当我把nginx下载到本地，在nginx所在的目录下，然后运行</a></p>
+<pre><code>start nginx</code></pre>
+<p>这个时候成功，然后打开浏览器，输入127.0.0.1的时候并没有显示预期的，这个时候我看了下，是因为80端口被占用，然后就修改，找到conf文件夹下的nginx.conf，进去编辑了下，把端口号改成了8088，然后重启服务器，然后访问127.0.0.1:8088然后就对了。</p>
+<p>apache的话，我是通过XAMPP这个一起安装的，所以端口我改成了80，以便经常性的使用。</p>
+<p>好了本地的两个服务器都搭建好了，服务也开启了，现在我就要开启虚拟机中的apache了，先运行</p>
+<pre><code>service httpd start</code></pre>
+<p>居然报错，启动失败，然后我又把端口修改成了8001,还是不行，报错信息为：</p>
+<pre><code>Starting httpd: (98)Address already in use: make_sock: could not bind to address [::]:80
+(98)Address already in use: make_sock: could not bind to address 0.0.0.0:80
+no listening sockets available, shutting down
+Unable to open logs</code></pre>
+<p>查看selinux状态：</p>
+<pre><code>[root@guest-4-205 httpd]# sestatus
+SELinux status:                 enabled
+SELinuxfs mount:                /selinux
+Current mode:                   permissive
+Mode from config file:          enforcing
+Policy version:                     24
+Policy from config file:        targeted</code></pre>
+<p>解决方案：</p>
+<p>增加selinux中http的端口</p>
+<pre><code>semanage port -l|grep http #查看SELinux下http相关端口
+
+semanage port -a -t http_port_t -p tcp 8001 #增加这个非标准端口即可</code></pre>
+<p>可是我在运行这个命令的时候报错了，说是没有这么一条命令，什么鬼？</p>
+<p>报错命令：</p>
+<pre><code>Command Not Found</code></pre>
+<p>说明这个东西没有安装，该怎么办呢？运行如下命令：</p>
+<pre><code>yum provides /usr/sbin/semanage </code></pre>
+<p>然后接着运行如下命令：</p>
+<pre><code>yum -y install policycoreutils-python</code></pre>
+<p>安装完毕后，再运行下命令：</p>
+<pre><code>semanage port -l|grep http #查看SELinux下http相关端口
+
+semanage port -a -t http_port_t -p tcp 8001 #增加这个非标准端口即可</code></pre>
+<p>就不会报错了，注意的是8001这个是根据你自己为apache设置的端口而定的，因为我这里的apache端口我改成了8001，我这里就写8001，如果是其他的端口号，一一对应就行了。</p>
+<p>然后，我再次运行：</p>
+<pre><code>service httpd start</code></pre>
+<p>的时候就正常了。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/semanage-nginx-%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86/" rel="tag"># semanage,nginx,反向代理</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/08/05/woocommerce%E5%AE%9A%E5%88%B6/" rel="prev" title="woocommerce定制">
+      <i class="fa fa-chevron-left"></i> woocommerce定制
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/08/11/%E5%9C%A8%E5%AE%89%E8%A3%85magento%E5%AE%98%E7%BD%91%E7%BA%AF%E5%87%80%E7%89%88%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/" rel="next" title="在安装magento官网纯净版遇到的一些问题">
+      在安装magento官网纯净版遇到的一些问题 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

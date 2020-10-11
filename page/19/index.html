@@ -1,23 +1,1418 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-{% block title %}{{ config.title }}{% if theme.index_with_subtitle and config.subtitle %} - {{config.subtitle }}{% endif %}{% endblock %}
+<link rel="stylesheet" href="/css/main.css">
 
-{% block page_class %}
-  {% if is_home() %}page-home{% endif -%}
-{% endblock %}
 
-{% block content %}
-  <section id="posts" class="posts-expand">
-    {% for post in page.posts %}
-      {{ post_template.render(post, true) }}
-    {% endfor %}
-  </section>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-  {% include '_partials/pagination.swig' %}
-{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
 
-{% block sidebar %}
-  {{ sidebar_template.render(false) }}
-{% endblock %}
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/page/19/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/page/19/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
+            
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/05/30/%E9%80%9A%E8%BF%87jquery%E8%AE%A9%E6%B2%A1%E6%9C%89%E9%93%BE%E6%8E%A5%E7%9A%84a%E6%A0%87%E7%AD%BE%E4%B8%8D%E8%83%BD%E8%A2%AB%E7%82%B9%E5%87%BB%E7%9A%84%E5%A4%9A%E7%A7%8D%E6%96%B9%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/05/30/%E9%80%9A%E8%BF%87jquery%E8%AE%A9%E6%B2%A1%E6%9C%89%E9%93%BE%E6%8E%A5%E7%9A%84a%E6%A0%87%E7%AD%BE%E4%B8%8D%E8%83%BD%E8%A2%AB%E7%82%B9%E5%87%BB%E7%9A%84%E5%A4%9A%E7%A7%8D%E6%96%B9%E6%B3%95/" class="post-title-link" itemprop="url">通过jquery让没有链接的a标签不能被点击的多种方法</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-05-30 12:20:20" itemprop="dateCreated datePublished" datetime="2018-05-30T12:20:20+08:00">2018-05-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:06" itemprop="dateModified" datetime="2020-10-11T11:58:06+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>通过jquery让没有链接的a标签不能被点击的多种方法</p>
+<p>比如：</p>
+<p><img src="https://i.imgur.com/MCCRwAb.jpg"></p>
+<p>这个东西，有很多文件可以点击下载，可是如果其中有个别的是空的链接，就是没有链接的资源的a标签，比如<code>href=&quot;#&quot;</code>这种情况，如何高亮出来呢？然后又如何不让别人可以点击呢？</p>
+<p>好的，这里我们采用jquery的方式解决这个问题。</p>
+<p>第一，我们确保wordpress网站，或者是当前文件是引入了jquery这个库的。</p>
+<p>然后，我们就是找到这个表格所在的a标签，由于这里笔者采用的是tablepress这个插件，所以通过开发者工具，我们定位到这个代码，然后添加jquery代码：</p>
+<pre><code>&lt;script&gt;
+
+    $(function()&#123;
+    $(&quot;.tablepress tr td a[href=&#39;#&#39;]&quot;).addClass(&quot;disabled&quot;); //添加a标签新的属性disabled
+    $(&quot;.tablepress tr td a[href=&#39;#&#39;]&quot;).removeAttr(&#39;href&#39;);//去掉a标签中的href属性
+    $(&quot;.tablepress tr td a[href=&#39;#&#39;]&quot;).removeAttr(&#39;onclick&#39;);//去掉a标签中的onclick事件
+    &#125;);
+
+&lt;/script&gt;</code></pre>
+<p>以上的这句话的意思就是：我们找到这个表格中链接为#的a标签，动态添加一个class属性为：disabled。然后就是移除href这个属性。再然后移除onclick这个属性（这里防止a标签有这个属性，这个属性是可以调用javascript函数的），好的确保这两个被删除之后，链接就没法被点击了。</p>
+<p>那么，事情还没完，我们还要高亮，这个就不得不说到这个动态添加的class这里了，好的对应的样式如下：</p>
+<pre><code>&lt;style&gt;
+.tablepress tr td a.disabled .fa&#123;
+    color:#f39a00 !important;
+&#125;
+&lt;/style&gt;</code></pre>
+<p>这个就是a的class为disabled的下面的.fa的元素颜色为：<code>#f39a00</code></p>
+<p>好的，这样我们来到前台就可以看到效果了：</p>
+<p><img src="https://i.imgur.com/R4G2V6x.jpg"></p>
+<p><img src="https://i.imgur.com/r4QkOHW.jpg"></p>
+<p>当我们鼠标飘到这个橘色的icon上面的时候，是不能点击的。大功告成！</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/05/29/magento%E7%9A%84%E7%BC%93%E5%AD%98%E6%8F%92%E4%BB%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/05/29/magento%E7%9A%84%E7%BC%93%E5%AD%98%E6%8F%92%E4%BB%B6/" class="post-title-link" itemprop="url">magento的缓存插件</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-05-29 21:01:11" itemprop="dateCreated datePublished" datetime="2018-05-29T21:01:11+08:00">2018-05-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:01" itemprop="dateModified" datetime="2020-10-11T11:58:01+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><strong>缓存插件一</strong></p>
+<p>magento1.x版 varnish插件</p>
+<p>下载地址：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1HALmq9KC287pYoM_ebiVJg">https://pan.baidu.com/s/1HALmq9KC287pYoM_ebiVJg</a>   密码：x2e3</p>
+<p><strong>magento图片优化插件</strong></p>
+<p>这个插件安全前要看必读文件，很重要！</p>
+<p>这个不是通过magento connect那里安装的。</p>
+<p>这个插件不能通过magento connect进行安装，会报错的。</p>
+<p>正确的安装方式是：解压这个插件包—把所有的代码复制—在magento的根目录下粘贴—覆盖所有的</p>
+<blockquote>
+<p>值得提醒的是：为了安全起见，建议先把magento的源码备份一下，万一出错了可以恢复</p>
+</blockquote>
+<p>下载地址：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/154aj3wYLoUf4osu39wXVxw">https://pan.baidu.com/s/154aj3wYLoUf4osu39wXVxw</a>   密码：5k7u</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/05/29/magento%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%EF%BC%8C%E7%BD%91%E7%AB%99%E5%8A%A0%E9%80%9F%E7%A8%8B%E5%BA%8F%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4%E7%9B%91%E6%B5%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/05/29/magento%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%EF%BC%8C%E7%BD%91%E7%AB%99%E5%8A%A0%E9%80%9F%E7%A8%8B%E5%BA%8F%E8%BF%90%E8%A1%8C%E6%97%B6%E9%97%B4%E7%9B%91%E6%B5%8B/" class="post-title-link" itemprop="url">magento性能优化，网站加速程序运行时间监测</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-05-29 20:38:33" itemprop="dateCreated datePublished" datetime="2018-05-29T20:38:33+08:00">2018-05-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:01" itemprop="dateModified" datetime="2020-10-11T11:58:01+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>在网站的优化过程中，通常需要查看程序的运行时间，mangento为我们提供了查看的方法。</p>
+<p>这里用到的magento核心类是Varien_Profiler</p>
+<p>用Varien_Profiler来监测程序运行时间的使用方法如下:</p>
+<pre><code>Varien_Profiler::start(&#39;self::app::init&#39;);    
+self::$_app-&gt;init($code, $type, $options);//初始化APP  
+Varien_Profiler::stop(&#39;self::app::init&#39;);  </code></pre>
+<p>start和stop函数的参数是监测这段程序的名字，名字可以随便起，只要保证全局唯一就ok了.</p>
+<p>这样在程序中写上代码后，监测的结果并不能直接显示，要显示结果需要有两个条件：</p>
+<p>1、修改seystem/config/developer/调试(Debug)/配置器(Profiler)  为Yes</p>
+<p>2、在index.php中去掉下面这段程序的注释</p>
+<pre><code>Varien_Profiler::enable();//启用Varien_Profiler</code></pre>
+<p>当上面这些都配置好后，刷新网页会在网页的底部显示如下的一个表格：</p>
+<p><img src="https://i.imgur.com/uGq9hu1.jpg"></p>
+<p>这样的表格是如何显示出来的呢，这里用到一个Block类/app/code/core/Mage/Core/Block/Profiler.php</p>
+<pre><code>class Mage_Core_Block_Profiler extends Mage_Core_Block_Abstract  
+&#123;  
+    protected function _toHtml()  
+    &#123;  
+        if (!$this-&gt;_beforeToHtml()  
+            || !Mage::getStoreConfig(&#39;dev/debug/profiler&#39;)  
+            || !Mage::helper(&#39;core&#39;)-&gt;isDevAllowed()) &#123;  
+            return &#39;&#39;;  
+        &#125;  
+
+        $timers = Varien_Profiler::getTimers();  
+
+        #$out = &#39;&lt;div style=&quot;position:fixed;bottom:5px;right:5px;opacity:.1;background:white&quot; onmouseover=&quot;this.style.opacity=1&quot; onmouseout=&quot;this.style.opacity=.1&quot;&gt;&#39;;  
+        #$out = &#39;&lt;div style=&quot;opacity:.1&quot; onmouseover=&quot;this.style.opacity=1&quot; onmouseout=&quot;this.style.opacity=.1&quot;&gt;&#39;;  
+        $out = &quot;&lt;a href=\&quot;javascript:void(0)\&quot; onclick=\&quot;$(&#39;profiler_section&#39;).style.display=$(&#39;profiler_section&#39;).style.display==&#39;&#39;?&#39;none&#39;:&#39;&#39;\&quot;&gt;[profiler]&lt;/a&gt;&quot;;  
+        $out .= &#39;&lt;div id=&quot;profiler_section&quot; style=&quot;background:white; display:block&quot;&gt;&#39;;  
+        $out .= &#39;&lt;pre&gt;Memory usage: real: &#39;.memory_get_usage(true).&#39;, emalloc: &#39;.memory_get_usage().&#39;&lt;/pre&gt;&#39;;  
+        $out .= &#39;&lt;table border=&quot;1&quot; cellspacing=&quot;0&quot; cellpadding=&quot;2&quot; style=&quot;width:auto&quot;&gt;&#39;;  
+        $out .= &#39;&lt;tr&gt;&lt;th&gt;Code Profiler&lt;/th&gt;&lt;th&gt;Time&lt;/th&gt;&lt;th&gt;Cnt&lt;/th&gt;&lt;th&gt;Emalloc&lt;/th&gt;&lt;th&gt;RealMem&lt;/th&gt;&lt;/tr&gt;&#39;;  
+        foreach ($timers as $name=&gt;$timer) &#123;  
+            $sum = Varien_Profiler::fetch($name,&#39;sum&#39;);  
+            $count = Varien_Profiler::fetch($name,&#39;count&#39;);  
+            $realmem = Varien_Profiler::fetch($name,&#39;realmem&#39;);  
+            $emalloc = Varien_Profiler::fetch($name,&#39;emalloc&#39;);  
+            if ($sum&lt;.0010 &amp;&amp; $count&lt;10 &amp;&amp; $emalloc&lt;10000) &#123;  
+                continue;  
+            &#125;  
+            $out .= &#39;&lt;tr&gt;&#39;  
+                .&#39;&lt;td align=&quot;left&quot;&gt;&#39;.$name.&#39;&lt;/td&gt;&#39;  
+                .&#39;&lt;td&gt;&#39;.number_format($sum,4).&#39;&lt;/td&gt;&#39;  
+                .&#39;&lt;td align=&quot;right&quot;&gt;&#39;.$count.&#39;&lt;/td&gt;&#39;  
+                .&#39;&lt;td align=&quot;right&quot;&gt;&#39;.number_format($emalloc).&#39;&lt;/td&gt;&#39;  
+                .&#39;&lt;td align=&quot;right&quot;&gt;&#39;.number_format($realmem).&#39;&lt;/td&gt;&#39;  
+                .&#39;&lt;/tr&gt;&#39;  
+            ;  
+        &#125;  
+        $out .= &#39;&lt;/table&gt;&#39;;  
+        $out .= &#39;&lt;pre&gt;&#39;;  
+        $out .= print_r(Varien_Profiler::getSqlProfiler(Mage::getSingleton(&#39;core/resource&#39;)-&gt;getConnection(&#39;core_write&#39;)), 1);  
+        $out .= &#39;&lt;/pre&gt;&#39;;  
+        $out .= &#39;&lt;/div&gt;&#39;;  
+
+        return $out;  
+    &#125;  
+&#125;</code></pre>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/05/29/wordpress%E8%BF%90%E7%94%A8jquery%E7%9A%84%E5%85%A8%E5%B1%8F%E6%BB%9A%E5%8A%A8%E6%8F%92%E4%BB%B6fullpage%E5%AE%9E%E7%8E%B0%E9%BC%A0%E6%A0%87%E6%BB%9A%E5%8A%A8%E4%B8%80%E6%AC%A1%E6%BB%91%E5%8A%A8%E4%B8%80%E5%B1%8F%E7%9A%84%E6%95%88%E6%9E%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/05/29/wordpress%E8%BF%90%E7%94%A8jquery%E7%9A%84%E5%85%A8%E5%B1%8F%E6%BB%9A%E5%8A%A8%E6%8F%92%E4%BB%B6fullpage%E5%AE%9E%E7%8E%B0%E9%BC%A0%E6%A0%87%E6%BB%9A%E5%8A%A8%E4%B8%80%E6%AC%A1%E6%BB%91%E5%8A%A8%E4%B8%80%E5%B1%8F%E7%9A%84%E6%95%88%E6%9E%9C/" class="post-title-link" itemprop="url">wordpress运用jquery的全屏滚动插件fullpage实现鼠标滚动一次滑动一屏的效果</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-05-29 14:05:17" itemprop="dateCreated datePublished" datetime="2018-05-29T14:05:17+08:00">2018-05-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:03" itemprop="dateModified" datetime="2020-10-11T11:58:03+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>前一阵子，客户一直问，能够让wordpress实现一个鼠标滚动一次，页面滑动一屏，而不是一点点那种，就是全屏切换一下，还要确保菜单栏不被覆盖。</p>
+<p>网上搜索了下，有这个效果，可是很多跟wordpress兼容起来不是很理想，也有类似插件，这里推荐一个：WP FullPage，但是这个插件有个不好的地方是，全屏可以实现了，但是网站的菜单栏没有了。</p>
+<p><strong>方案二：Scrollify</strong></p>
+<p>采用jquery的scrollify这个插件。</p>
+<p>和fullPage.js 一样，Scrollify 也是一款基于 jQuery 的全屏滚动插件。跟 fullPage.js 相比，Scrollify 更加小巧，压缩后不足 4KB。但功能上不如 fullPage.js 强大，对移动设备的支持也不如 fullPage.js。不过对于一般的情况，Scrollify 是完全可以胜任的，它支持自定义锚链接、设置过度效果、偏移、是否显示滚动条、回调函数以及 fullPage.js 没有的局部滚动。</p>
+<p>使用方法如下：</p>
+<p>jQuery Scrollify</p>
+<p>1、引入文件</p>
+<pre><code>&lt;script src=&quot;js/jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;js/jquery.scrollify.min.js&quot;&gt;&lt;/script&gt;</code></pre>
+<p>2、HTML</p>
+<pre><code>&lt;div class=&quot;panel&quot;&gt;&lt;/div&gt;
+&lt;div class=&quot;panel&quot;&gt;&lt;/div&gt;
+&lt;div class=&quot;panel&quot;&gt;&lt;/div&gt;
+&lt;div class=&quot;panel&quot;&gt;&lt;/div&gt;</code></pre>
+<p>3、JavaScript</p>
+<pre><code>$(function() &#123;
+    $(&#39;.panel&#39;).css(&#123;&#39;height&#39;: $(window).height()&#125;);
+    $.scrollify(&#123;
+        section: &#39;.panel&#39;
+    &#125;);
+&#125;);</code></pre>
+<p>笔者整理了一个方案：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1_6fDFW8hU5HWx0MGSfyz7g">点击下载</a>，密码：6i8c</p>
+<hr>
+<p><strong>方案三：fullPage.js</strong></p>
+<p>描述：fullPage.js 是一个基于 jQuery 的插件，它能够很方便、很轻松的制作出全屏网站。</p>
+<p><strong>使用方法</strong></p>
+<p>1、引入文件</p>
+<pre><code>&lt;link rel=&quot;stylesheet&quot; href=&quot;css/jquery.fullPage.css&quot;&gt;
+&lt;script src=&quot;js/jquery.min.js&quot;&gt;&lt;/script&gt;
+
+&lt;!-- jquery.easings.min.js 是必须的，用于 easing 参数，也可以使用完整的 jQuery UI 代替 --&gt;
+&lt;script src=&quot;js/jquery.easings.min.js&quot;&gt;&lt;/script&gt;
+
+&lt;!-- 如果 scrollOverflow 设置为 true，则需要引入 jquery.slimscroll.min.js，一般情况下不需要 --&gt;
+&lt;script src=&quot;js/jquery.slimscroll.min.js&quot;&gt;&lt;/script&gt;
+
+&lt;script src=&quot;js/jquery.fullPage.js&quot;&gt;&lt;/script&gt;</code></pre>
+<p>2、HTML</p>
+<pre><code>&lt;div id=&quot;fullpage&quot;&gt;
+    &lt;div class=&quot;section&quot;&gt;第一屏&lt;/div&gt;
+    &lt;div class=&quot;section&quot;&gt;第二屏&lt;/div&gt;
+    &lt;div class=&quot;section&quot;&gt;
+        &lt;div class=&quot;slide&quot;&gt;第三屏的第一屏&lt;/div&gt;
+        &lt;div class=&quot;slide&quot;&gt;第三屏的第二屏&lt;/div&gt;
+        &lt;div class=&quot;slide&quot;&gt;第三屏的第三屏&lt;/div&gt;
+        &lt;div class=&quot;slide&quot;&gt;第三屏的第四屏&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;section&quot;&gt;第四屏&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<p>3、JavaScript</p>
+<pre><code>$(function()&#123;
+    $(&#39;#fullpage&#39;).fullpage();
+&#125;);</code></pre>
+<p><strong>配置</strong></p>
+<p>1、选项</p>
+<table><colgroup><col width="NaN%"><col width="NaN%"><col width="NaN%"><col width="NaN%"></colgroup><tbody><tr><td>verticalCentered</td><td>字符串</td><td>true</td><td>内容是否垂直居中</td></tr><tr><td>resize</td><td>布尔值</td><td>false</td><td>字体是否随着窗口缩放而缩放</td></tr><tr><td>slidesColor</td><td>函数</td><td>无</td><td>设置背景颜色</td></tr><tr><td>anchors</td><td>数组</td><td>无</td><td>定义锚链接</td></tr><tr><td>scrollingSpeed</td><td>整数</td><td>700</td><td>滚动速度，单位为毫秒</td></tr><tr><td>easing</td><td>字符串</td><td>easeInQuart</td><td>滚动动画方式</td></tr><tr><td>menu</td><td>布尔值</td><td>false</td><td>绑定菜单，设定的相关属性与 anchors 的值对应后，菜单可以控制滚动</td></tr><tr><td>navigation</td><td>布尔值</td><td>false</td><td>是否显示项目导航</td></tr><tr><td>navigationPosition</td><td>字符串</td><td>right</td><td>项目导航的位置，可选 left 或 right</td></tr><tr><td>navigationColor</td><td>字符串</td><td>#000</td><td>项目导航的颜色</td></tr><tr><td>navigationTooltips</td><td>数组</td><td>空</td><td>项目导航的 tip</td></tr><tr><td>slidesNavigation</td><td>布尔值</td><td>false</td><td>是否显示左右滑块的项目导航</td></tr><tr><td>slidesNavPosition</td><td>字符串</td><td>bottom</td><td>左右滑块的项目导航的位置，可选 top 或 bottom</td></tr><tr><td>controlArrowColor</td><td>字符串</td><td>#fff</td><td>左右滑块的箭头的背景颜色</td></tr><tr><td>loopBottom</td><td>布尔值</td><td>false</td><td>滚动到最底部后是否滚回顶部</td></tr><tr><td>loopTop</td><td>布尔值</td><td>false</td><td>滚动到最顶部后是否滚底部</td></tr><tr><td>loopHorizontal</td><td>布尔值</td><td>true</td><td>左右滑块是否循环滑动</td></tr><tr><td>autoScrolling</td><td>布尔值</td><td>true</td><td>是否使用插件的滚动方式，如果选择 false，则会出现浏览器自带的滚动条</td></tr><tr><td>scrollOverflow</td><td>布尔值</td><td>false</td><td>内容超过满屏后是否显示滚动条</td></tr><tr><td>css3</td><td>布尔值</td><td>false</td><td>是否使用 CSS3 transforms 滚动</td></tr><tr><td>paddingTop</td><td>字符串</td><td>0</td><td>与顶部的距离</td></tr><tr><td>paddingBottom</td><td>字符串</td><td>0</td><td>与底部距离</td></tr><tr><td>fixedElements</td><td>字符串</td><td>无</td><td></td></tr><tr><td>normalScrollElements</td><td></td><td>无</td><td></td></tr><tr><td>keyboardScrolling</td><td>布尔值</td><td>true</td><td>是否使用键盘方向键导航</td></tr><tr><td>touchSensitivity</td><td>整数</td><td>5</td><td></td></tr><tr><td>continuousVertical</td><td>布尔值</td><td>false</td><td>是否循环滚动，与 loopTop 及 loopBottom 不兼容</td></tr><tr><td>animateAnchor</td><td>布尔值</td><td>true</td><td></td></tr><tr><td>normalScrollElementTouchThreshold</td><td>整数</td><td>5</td><td></td></tr></tbody></table>
+
+<p>2、方法</p>
+<table><colgroup><col width="NaN%"><col width="NaN%"></colgroup><tbody><tr><td>moveSectionUp()</td><td>向上滚动</td></tr><tr><td>moveSectionDown()</td><td>向下滚动</td></tr><tr><td>moveTo(section, slide)</td><td>滚动到</td></tr><tr><td>moveSlideRight()</td><td>slide 向右滚动</td></tr><tr><td>moveSlideLeft()</td><td>slide 向左滚动</td></tr><tr><td>setAutoScrolling()</td><td>设置页面滚动方式，设置为 true 时自动滚动</td></tr><tr><td>setAllowScrolling()</td><td>添加或删除鼠标滚轮/触控板控制</td></tr><tr><td>setKeyboardScrolling()</td><td>添加或删除键盘方向键控制</td></tr><tr><td>setScrollingSpeed()</td><td>定义以毫秒为单位的滚动速度</td></tr></tbody></table>
+
+<p>3、回调函数</p>
+<table><colgroup><col width="NaN%"><col width="NaN%"></colgroup><tbody><tr><td>afterLoad</td><td>滚动到某一屏后的回调函数，接收 anchorLink 和 index 两个参数，anchorLink 是锚链接的名称，index 是序号，从1开始计算</td></tr><tr><td>onLeave</td><td>滚动前的回调函数，接收 index、nextIndex 和 direction 3个参数：<p>index 是离开的“页面”的序号，从1开始计算；</p><p>nextIndex 是滚动到的“页面”的序号，从1开始计算；</p><p>direction 判断往上滚动还是往下滚动，值是 up 或 down。</p></td></tr><tr><td>afterRender</td><td>页面结构生成后的回调函数，或者说页面初始化完成后的回调函数</td></tr><tr><td>afterSlideLoad</td><td>滚动到某一水平滑块后的回调函数，与 afterLoad 类似，接收 anchorLink、index、slideIndex、direction 4个参数</td></tr><tr><td>onSlideLeave</td><td>某一水平滑块滚动前的回调函数，与 onLeave 类似，接收 anchorLink、index、slideIndex、direction 4个参数<br><br></td></tr></tbody></table>
+
+<p>笔者整理了一下，<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/15CV9TBA9SHAK6rpdpyLJcQ">点击这里下载</a>，密码：enl4</p>
+<p>这里有个美中不足的地方，这个毕竟是一个静态的东西，如果移植到wordpress里面保证没有兼容性的问题不可打包票，自己可以根据需求进行修改。</p>
+<p><strong>缺点</strong></p>
+<p>由于wordpress很多的可视化编辑器都是动态调用的，所以会动态调用一些slider,动态调用产品的展示，以及别的一些东西，因为这些东西是实时更新变化的，写死在代码里面是不可取的，但是笔者尝试过运用简码的形式，把这些动态调用的东西，在wordpress里面封装成简码，然后调用。所以这个是没法用可视化的工具进行排版的，只能通过code的形式进行手动编码。不过稍微了解点前端三件套的人，应该没问题。</p>
+<p><strong>对自适应的挑战</strong></p>
+<p>可能是全屏滚动这种很大的一个原因是运用height:100vh，这个高度是屏幕全部高度，如果每一屏里面的东西很多，自适应的时候，内容难免会换行导致撑出一屏的高度，可能需要在手机上两屏才能显示完电脑端一屏的内容，这个时候就不行，因此想要做全屏滚动这种，内容尽量不要太多，特别是不要在里面放很多图片，如果你能够保证手机版也能显示没问题的话。</p>
+<p><strong>来自笔者的建议：</strong></p>
+<p>全屏滚动这种东西尽量放一个标题文字，一个说明，配合一个icon，然后来个按钮什么的即可。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/05/26/magento%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84js%E5%86%B2%E7%AA%81%EF%BC%8C%E6%AF%94%E5%A6%82jquery%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/05/26/magento%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84js%E5%86%B2%E7%AA%81%EF%BC%8C%E6%AF%94%E5%A6%82jquery%E5%86%B2%E7%AA%81%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/" class="post-title-link" itemprop="url">magento中常见的js冲突，比如jquery冲突的解决办法</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-05-26 21:18:20" itemprop="dateCreated datePublished" datetime="2018-05-26T21:18:20+08:00">2018-05-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:59" itemprop="dateModified" datetime="2020-10-11T11:57:59+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Magento内置使用的Prototype库，和jQuery的使用有一定的冲突，解决起来还是相当简单的。在网上有很多文章介绍这个东西，详细到说明了jquery和prototype库的引入前后顺序，最开始看的时候让我头晕而且很难记得，每次写的时候还要翻下文章。当然不是说那些文章不够好，只是个人感觉有点啰嗦。</p>
+<p>这里记录下在Magento中使用jquery的具体方式。这种方式对于jquery与prototype库的先后引入关系没有限制。如下代码所示。可以看到，首先引入jquery库，接着引入需要的Jquery插件，然后就可以手写代码咯。首先调用jQuery.noConflict()更改jquery的命名空间，这样就可以使用jQuery替代$了。</p>
+<pre><code>&lt;script src=”http://www.template.dev/js/jquery/jquery-1.7.1.min.js” type=”text/javascript”&gt;&lt;/script&gt;
+&lt;script src=”http://www.template.dev/js/jquery/nivo/jquery.nivo.slider.pack.js” type=”text/javascript”&gt;&lt;/script&gt;
+&lt;script type=”text/javascript”&gt;
+//&lt;![CDATA[
+jQuery.noConflict();
+jQuery(window).load(function() &#123;
+jQuery(‘#slider’).nivoSlider();
+&#125;);
+//]]&gt;
+&lt;/script&gt;</code></pre>
+<p>这里使用jQuery作为$的替代，稍微有点长了，如果使用$a,$b,$c的形式是不是更好呢？还有一种方式就是可以指定jQuery库的标识，和上面差不多，如下代码。</p>
+<pre><code>&lt;script src=”http://www.template.dev/js/jquery/jquery-1.7.1.min.js” type=”text/javascript”&gt;&lt;/script&gt;
+&lt;script src=”http://www.template.dev/js/jquery/nivo/jquery.nivo.slider.pack.js” type=”text/javascript”&gt;&lt;/script&gt;
+&lt;script type=”text/javascript”&gt;
+//&lt;![CDATA[
+$j = jQuery.noConflict();
+$j(window).load(function() &#123;
+$j(‘#slider’).nivoSlider();
+&#125;);
+//]]&gt;
+&lt;/script&gt;</code></pre>
+<blockquote>
+<p>PS：最后，一个好消息是，Magento2的计划中，jquery已经成为了标准库，放弃了prototype</p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/05/26/magento%E4%B8%AD%E8%B0%83%E7%94%A8js%E6%96%87%E4%BB%B6%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/05/26/magento%E4%B8%AD%E8%B0%83%E7%94%A8js%E6%96%87%E4%BB%B6%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E6%B3%95/" class="post-title-link" itemprop="url">magento中调用js文件的几种方法</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-05-26 21:06:58" itemprop="dateCreated datePublished" datetime="2018-05-26T21:06:58+08:00">2018-05-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:59" itemprop="dateModified" datetime="2020-10-11T11:57:59+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><strong>一、全局调用方法：</strong></p>
+<p>通过该方法每个页面都会引用这个JS文件，除非是类似jQuery这样的系统文件，不然不推荐这种方法。</p>
+<p>文件路径：/app/design/frontend/default/Your_Template/layout/page.xml</p>
+<p>你会看到很多类似于addJS这样的XML代码，这是magento的优势之一，通过XML来配置文件很方便灵活。<br>如下：</p>
+<pre><code>&lt;action method=&quot;addJs&quot;&gt;&lt;script&gt;varien/js.js&lt;/script&gt;&lt;/action&gt;  
+&lt;action method=&quot;addJs&quot;&gt;&lt;script&gt;varien/form.js&lt;/script&gt;&lt;/action&gt;  
+&lt;action method=&quot;addJs&quot;&gt;&lt;script&gt;varien/menu.js&lt;/script&gt;&lt;/action&gt;  
+&lt;action method=&quot;addJs&quot;&gt;&lt;script&gt;mage/translate.js&lt;/script&gt;&lt;/action&gt;  
+&lt;action method=&quot;addJs&quot;&gt;&lt;script&gt;mage/cookies.js&lt;/script&gt;&lt;/action&gt; </code></pre>
+<p><strong>二、你也可以在phtml页面通过Magento自带的帮助函数来引用JS ，例如：</strong></p>
+<pre><code>&lt;?php echo $this-&gt;helper(&#39;core/js&#39;)-&gt;includeScript(&#39;varien/js.js&#39;) ?&gt;</code></pre>
+<p>该方法主要用来在某些特定页面包含额外的js文件。而这些文件在其他页面中却不常使用。</p>
+<p><strong>三、包含特定Theme包下的js文件：</strong></p>
+<p>再方便点，下面的方法很眼熟吧</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot; src=&quot;&lt;?php echo $this-&gt;getSkinUrl(&#39;js/slider.js&#39;) ?&gt;&quot;&gt;&lt;/script&gt;</code></pre>
+<p>它引用的是模板目录下js文件夹里面的js文件，我喜欢用这种方法。</p>
+<p><strong>四、在对应的block类中调用JS</strong></p>
+<pre><code>protected function_prepareLayout()&#123;  
+$this-&gt;getLayout()-&gt;getBlock(&#39;head&#39;)-&gt;addJs(&#39;mage/adminhtml/sales.js&#39;);  
+…..  
+returnparent::_prepareLayout();  
+&#125;</code></pre>
+<p>这个方法我个人是很少用到的。</p>
+<p><strong>五、直接将JavaScript代码写在head头部里：</strong></p>
+<p>打开app/design/frontend/default/Your_Template/template/page/html/head.phtml </p>
+<p>JS代码写在</p>
+<pre><code>&lt;?php echo $this-&gt;helper(&#39;core/js&#39;)-&gt;getTranslatorScript() ?&gt; </code></pre>
+<p>这行下面</p>
+<p>此方法适合添加Google分析跟踪代码或者其它JS代码。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/05/26/%E4%B8%BAMagento%E5%8A%A0%E9%80%9F%E5%86%8D%E5%81%9A%E4%B8%80%E7%82%B9%E6%94%B9%E8%BF%9B%E4%B9%8B%E7%A7%BB%E9%99%A4%E4%B8%8D%E9%9C%80%E8%A6%81%E7%9A%84js%E6%96%87%E4%BB%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/05/26/%E4%B8%BAMagento%E5%8A%A0%E9%80%9F%E5%86%8D%E5%81%9A%E4%B8%80%E7%82%B9%E6%94%B9%E8%BF%9B%E4%B9%8B%E7%A7%BB%E9%99%A4%E4%B8%8D%E9%9C%80%E8%A6%81%E7%9A%84js%E6%96%87%E4%BB%B6/" class="post-title-link" itemprop="url">为Magento加速再做一点改进之移除不需要的js文件</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-05-26 20:44:12" itemprop="dateCreated datePublished" datetime="2018-05-26T20:44:12+08:00">2018-05-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:03" itemprop="dateModified" datetime="2020-10-11T11:58:03+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Magento的速度一直是个让人头疼的问题，加大硬件投入是效果最明显的，当然程序层面还是要努力的优化。常见的优化方式就不多说了，不外乎开启gzip，关闭不需要的模块，装php加速器等等，网上有一篇已经被转载了无数遍的文章专门有讲到。今天讲到的是一些小手段，有多少效果还未知，不过至少不会变慢。</p>
+<p>有些人可能会注意到，新安装的Magento项目，本身页面就载入了很多外置JS，这里以1.4.1.0为例，通过Firebug可以看到，在没有修改任何文件和添加任何数据的情况下，Magento首页就要载入13个外置JS，总计300K出头（不算Gzip压缩），可是Magento真的需要那么多JS吗，就算需要，那退一步讲，首页能用到的JS能有几个。首页的载入速度是网站速度中很重要的一环，一方面是因为这是用户看到的第一个页面，另一方面访问其他页面时，浏览器可以大量使用已经从首页读来的数据缓存，而不必重新完全载入，所以会比访问首页快得多。</p>
+<p>所以我的方式就是想办法在首页去掉那些首页用不到的外置JS，减少请求数。经过不完全测试，针对我自己在做的项目，slider.js，dragdrop.js，builder.js和ccard.js对首页是无效的，移除后没有任何影响，同时据估计，如果首页用不到表单验证，validation.js应该也是没有用的（这个是大头，有34KB）。我并没有测试所有的JS，而且不同的项目有不同的首页，可能需求的JS也不同，只是提供一种思路，对页面无用的JS是没必要载入的。</p>
+<p>如何只在首页不载入某些特定的JS，这里提供一种方式。我们知道，通用的JS文件是在layout目录下的page.xml中载入的，载入的方式如下:</p>
+<pre><code>&lt;block type=&quot;page/html_head&quot; name=&quot;head&quot; as=&quot;head&quot;&gt;  
+                &lt;action method=&quot;addJs&quot;&gt;&lt;mce:script type=&quot;text/javascript&quot;&gt;&lt;!--  
+prototype/prototype.js  
+// --&gt;&lt;/mce:script&gt;&lt;/action&gt;  
+                &lt;action method=&quot;addJs&quot; ifconfig=&quot;dev/js/deprecation&quot;&gt;&lt;mce:script type=&quot;text/javascript&quot;&gt;&lt;!--  
+prototype/deprecation.js  
+// --&gt;&lt;/mce:script&gt;&lt;/action&gt;  
+                &lt;action method=&quot;addJs&quot;&gt;&lt;mce:script type=&quot;text/javascript&quot;&gt;&lt;!--  
+lib/ccard.js  
+// --&gt;&lt;/mce:script&gt;&lt;/action&gt;</code></pre>
+<p>在head这个block中用<action method="addJs">的方式载入外部的JS文件，相对应的，我们同样可以用写xml的方式移除这些JS文件，方法如下</p>
+<pre><code>&lt;reference name=&quot;head&quot;&gt;
+&lt;action method=&quot;removeItem&quot;&gt;&lt;type&gt;js&lt;/type&gt;&lt;name&gt;scriptaculous/builder.js&lt;/name&gt;&lt;/action&gt;
+&lt;action method=&quot;removeItem&quot;&gt;&lt;type&gt;js&lt;/type&gt;&lt;name&gt;scriptaculous/dragdrop.js&lt;/name&gt;&lt;/action&gt;</code></pre>
+<p>因为只是在首页移除这些JS，其他页面还是要用的，所以把这段xml写在后台首页的CMS里。点击进入后台首页的CMS，点击左边的Design，把移除JS的代码写在Layout Update XML里面，保存后就可以看到效果，首页已经不会再载入你移除掉的JS，而其它页面依然存在。</p>
+<p><img src="https://i.imgur.com/jIY0C3D.png"></p>
+<p>同样的方式除了首页其他页面也可以使用，如果有足够的耐心的话，至少内容少了，访问速度总是会有所提升，不管效果明不明显。</p>
+<p>PS：因为Magento的核心库prototype.js有127KB之巨，而绝大多数人应该是不会去动核心库的代码的，所以可以把prototype.js压缩，然后替换掉原来的，类似于jquery会提供一个jquery.min.js。自己去压缩一下prototype.js，通常是prototype.min.js</p>
+<p>把prototype.min.js放置到js/prototype目录下，同时修改文件/app/design/frontend/default/yourtheme/layout/page.xml,<br>用</p>
+<pre><code>&lt;action method=&quot;addJs&quot;&gt;&lt;script&gt;prototype/prototype.min.js&lt;/script&gt;&lt;/action&gt;</code></pre>
+<p>替换</p>
+<pre><code>&lt;action method=&quot;addJs&quot;&gt;&lt;script&gt;prototype/prototype.js&lt;/script&gt;&lt;/action&gt;</code></pre>
+<p>大概可以为页面节省80KB的大小.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/05/26/css3%E7%9A%84keyframes%E5%A6%82%E4%BD%95%E8%AE%A9%E5%8A%A8%E7%94%BB%E5%8F%AA%E6%89%A7%E8%A1%8C%E4%B8%80%E6%AC%A1%E5%B0%B1%E5%81%9C%E4%B8%8B%E6%9D%A5%EF%BC%8C%E5%88%86%E5%88%AB%E9%87%87%E7%94%A8jquery%E5%92%8C%E9%BC%A0%E6%A0%87%E6%82%AC%E6%B5%AE%E7%9A%84%E6%96%B9%E5%BC%8F%E5%A4%84%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/05/26/css3%E7%9A%84keyframes%E5%A6%82%E4%BD%95%E8%AE%A9%E5%8A%A8%E7%94%BB%E5%8F%AA%E6%89%A7%E8%A1%8C%E4%B8%80%E6%AC%A1%E5%B0%B1%E5%81%9C%E4%B8%8B%E6%9D%A5%EF%BC%8C%E5%88%86%E5%88%AB%E9%87%87%E7%94%A8jquery%E5%92%8C%E9%BC%A0%E6%A0%87%E6%82%AC%E6%B5%AE%E7%9A%84%E6%96%B9%E5%BC%8F%E5%A4%84%E7%90%86/" class="post-title-link" itemprop="url">css3的keyframes如何让动画只执行一次就停下来，分别采用jquery和鼠标悬浮的方式处理</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-05-26 19:02:46" itemprop="dateCreated datePublished" datetime="2018-05-26T19:02:46+08:00">2018-05-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:57" itemprop="dateModified" datetime="2020-10-11T11:57:57+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>通常，我们在使用css3的动画特效，比如笔者最近就在帮助客户添加一个动画，左右摇摆的动画，动画加上去了，可是鼠标悬浮上去，或者鼠标不悬浮都一直在那里摇摆，看起来不太好，久了眩晕。</p>
+<pre><code>@-webkit-keyframes zy&#123;
+  10% &#123;
+    transform: rotate(15deg);
+  &#125;
+  20% &#123;
+    transform: rotate(-10deg);
+  &#125;
+  30% &#123;
+    transform: rotate(5deg);
+  &#125;
+  40% &#123;
+    transform: rotate(-5deg);
+  &#125;
+  50%,100% &#123;
+    transform: rotate(0deg);
+  &#125;
+&#125;
+@-moz-keyframes zy&#123;
+  10% &#123;
+    transform: rotate(15deg);
+  &#125;
+  20% &#123;
+    transform: rotate(-10deg);
+  &#125;
+  30% &#123;
+    transform: rotate(5deg);
+  &#125;
+  40% &#123;
+    transform: rotate(-5deg);
+  &#125;
+  50%,100% &#123;
+    transform: rotate(0deg);
+  &#125;
+&#125;
+@-o-keyframes zy&#123;
+  10% &#123;
+    transform: rotate(15deg);
+  &#125;
+  20% &#123;
+    transform: rotate(-10deg);
+  &#125;
+  30% &#123;
+    transform: rotate(5deg);
+  &#125;
+  40% &#123;
+    transform: rotate(-5deg);
+  &#125;
+  50%,100% &#123;
+    transform: rotate(0deg);
+  &#125;
+&#125;
+@keyframes zy&#123;
+  10% &#123;
+    transform: rotate(15deg);
+  &#125;
+  20% &#123;
+    transform: rotate(-10deg);
+  &#125;
+  30% &#123;
+    transform: rotate(5deg);
+  &#125;
+  40% &#123;
+    transform: rotate(-5deg);
+  &#125;
+  50%,100% &#123;
+    transform: rotate(0deg);
+  &#125;
+
+&#125;</code></pre>
+<p>这个是左右摇摆的动画，于是我们确定某个区块(class=”goalelement”)运用它：</p>
+<pre><code>.goalelement&#123;
+  animation: zy 2.5s .15s linear infinite;
+  -moz-animation: zy 2.5s .15s linear infinite; /* Firefox */
+  -webkit-animation: zy 2.5s .15s linear infinite; /* Safari and Chrome */
+  -o-animation: zy 2.5s .15s linear infinite; /* Opera */
+&#125;</code></pre>
+<p>这个一放上去就没完没了了，一直摇摆。</p>
+<p>于是采用鼠标悬浮：</p>
+<pre><code>.goalelement:hover&#123;
+  animation: zy 2.5s .15s linear infinite;
+  -moz-animation: zy 2.5s .15s linear infinite; /* Firefox */
+  -webkit-animation: zy 2.5s .15s linear infinite; /* Safari and Chrome */
+  -o-animation: zy 2.5s .15s linear infinite; /* Opera */
+&#125;</code></pre>
+<p>这样确实不会一直摇摆，可是当鼠标悬浮到这个区域的时候，还是一直摇摆，根本停不下来。</p>
+<p>这个时候，我们需要采用一个新的东西（forwards），于是改成如下：</p>
+<pre><code>    animation: zy 3.5s .15s linear forwards;
+    -moz-animation: zy 3.5s .15s linear forwards; /* Firefox */
+    -webkit-animation: zy 3.5s .15s linear forwards; /* Safari and Chrome */
+    -o-animation: zy 3.5s .15s linear forwards; /* Opera */</code></pre>
+<p>终于停下来了，这个需要给大家科普下：</p>
+<blockquote>
+<p>zy是自己定义的动画帧，3.5s是整个动画的秒数，infinite是永久循环，如果只循环一次则采用：forwards，linear是线性变化</p>
+</blockquote>
+<p>forwards：当动画完成后，保持最后一个属性值（在最后一个关键帧中定义）。</p>
+<p>最后还有一个animation-direction 属性（alternate）定义是否应该轮流反向播放动画，默认情况下是normal。具体的可以参考<a target="_blank" rel="noopener" href="http://www.w3school.com.cn/cssref/pr_animation-direction.asp">W3C</a>。</p>
+<p>好的，这样的话，就算是停下来了。如果想要更加灵活点的话，我们笔者尝试着采用jquery动态添加样式。</p>
+<pre><code>&lt;html&gt;
+&lt;head&gt;
+&lt;script src=&quot;http://libs.baidu.com/jquery/1.9.1/jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;style type=&quot;text/css&quot;&gt;
+    .zy&#123;
+        background:red !important;
+        height: 200px !important;
+        width:200px !important;
+    &#125;
+&lt;/style&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+$(document).ready(function()
+  &#123;
+  $(&quot;.noctiht-move&quot;).mouseover(function()&#123;
+    $(this).addClass(&quot;zy&quot;);
+  &#125;);    
+  $(&quot;.noctiht-move&quot;).mouseout(function()&#123;
+    $(this).removeClass(&quot;zy&quot;);
+  &#125;);
+&#125;);
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div class=&quot;noctiht-move&quot; style=&quot;background:#98bf21;height:100px;width:100px;margin:6px;&quot;&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>这样就可以把样式添加进去，覆盖掉原来的样式。同样的我们可以把动画写进预先准备好的class中，然后通过鼠标悬浮事件进行动态添加样式，然后根据鼠标离开这个区域额时候，动态的删除样式。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/05/26/magento%E7%BD%91%E7%AB%99%E5%8F%AA%E6%9C%89%E7%99%BB%E5%BD%95%E7%9A%84%E7%94%A8%E6%88%B7%E6%89%8D%E8%83%BD%E7%9C%8B%E5%88%B0%E7%BD%91%E7%AB%99%E7%9A%84%E9%A1%B5%E9%9D%A2%EF%BC%8C%E6%9C%AA%E7%99%BB%E5%BD%95%E7%9A%84%E7%94%A8%E6%88%B7%E4%B8%80%E5%BE%8B%E8%B7%B3%E8%BD%AC%E5%88%B0%E7%99%BB%E5%BD%95%E9%A1%B5%E9%9D%A2%EF%BC%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/05/26/magento%E7%BD%91%E7%AB%99%E5%8F%AA%E6%9C%89%E7%99%BB%E5%BD%95%E7%9A%84%E7%94%A8%E6%88%B7%E6%89%8D%E8%83%BD%E7%9C%8B%E5%88%B0%E7%BD%91%E7%AB%99%E7%9A%84%E9%A1%B5%E9%9D%A2%EF%BC%8C%E6%9C%AA%E7%99%BB%E5%BD%95%E7%9A%84%E7%94%A8%E6%88%B7%E4%B8%80%E5%BE%8B%E8%B7%B3%E8%BD%AC%E5%88%B0%E7%99%BB%E5%BD%95%E9%A1%B5%E9%9D%A2%EF%BC%81/" class="post-title-link" itemprop="url">magento网站只有登录的用户才能看到网站的页面，未登录的用户一律跳转到登录页面！</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-05-26 10:48:27" itemprop="dateCreated datePublished" datetime="2018-05-26T10:48:27+08:00">2018-05-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:01" itemprop="dateModified" datetime="2020-10-11T11:58:01+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>我们经常看到很多网站每次访问的时候，都会重定向到网站的登录注册页面，这个时候，有些客户也有这个需求，只有登录的用户才能看到网站的页面，未登录的用户一律跳转到登录页面。</p>
+<p>下面把自己做的步骤写下来和大家分享一下:</p>
+<p><strong>第一步：</strong></p>
+<p>在目录 /template/page/html 下新建一个文件，命令为：redirect.phtml</p>
+<p>redirect.phtml的内容为：</p>
+<pre><code>&lt;?php
+Mage::getSingleton(&#39;customer/session&#39;)-&gt;setBeforeAuthUrl($this-&gt;getRequest()-&gt;getRequestUri());  //save requested URL for later redirection
+if(!Mage::getSingleton(&#39;customer/session&#39;)-&gt;isLoggedIn()) &#123;  // if not logged in
+    header(&quot;Status: 301&quot;);
+  // header(&#39;Location: &#39;.Mage::helper(&#39;core/url&#39;)-&gt;getHomeUrl(customer/account/login)) ;  // send to the login page
+    header(&#39;Location:&#39;.Mage::getBaseUrl(&#39;web&#39;).&#39;customer/account/login/&#39;) ;
+    exit;
+&#125;
+
+?&gt;</code></pre>
+<p>笔者采用的模板目录：app/design/frontend/smartwave/porto/template/page/html/，这个大家根据自己模板（smartwave）目录自己寻找，porto是这个模板的主题名称。明确了这个之后，我们继续阅读。</p>
+<p><strong>第二步：</strong></p>
+<p>在page.xml写入代码，这个的目录在：app/design/frontend/smartwave/porto/layout/，打开page.xml文件</p>
+<p>在文件page.xml中的</p>
+<pre><code>&lt;default translate=&quot;label&quot; module=&quot;page&quot;&gt;
+    &lt;label&gt;All Pages&lt;/label&gt;
+    &lt;block type=&quot;page/html&quot; name=&quot;root&quot; output=&quot;toHtml&quot; template=&quot;page/3columns.phtml&quot;&gt;</code></pre>
+<p>的后面加上代码：</p>
+<pre><code>&lt;block type=&quot;page/html&quot; name=&quot;auth-redirect&quot; as=&quot;auth-redirect&quot; template=&quot;page/html/redirect.phtml&quot;/&gt;</code></pre>
+<p>上面这个是引用了我们前面新建的那个文件：redirect.phtml，并且给这个命了一个名字：auth-redirect</p>
+<p><strong>第三步：</strong></p>
+<p>在templatge/page的目录下（app/design/frontend/smartwave/porto/template/page）</p>
+<blockquote>
+<p>1column.phtml</p>
+</blockquote>
+<blockquote>
+<p>2columns-left.phtml</p>
+</blockquote>
+<blockquote>
+<p>2columns-right.phtml</p>
+</blockquote>
+<blockquote>
+<p>3columns.phtml</p>
+</blockquote>
+<p>的这几个文件中的最前面加入代码</p>
+<pre><code>&lt;?php
+echo $this-&gt;getChildHtml(&#39;auth-redirect&#39;);
+?&gt;</code></pre>
+<p>好的，这个时候我们如果就开始访问的话，那么将会陷入一个死循环中，为啥昵？道理很简单，就是所有页面都是重定向，包括了用户的登录页面。这样引起的直接后果就是网站打不开，直至奔溃。</p>
+<p>这个时候，我们还需要进行下一步。</p>
+<p><strong>第四步：</strong></p>
+<p>现在是所有的页面都做跳转，但是登录和注册页面是不需要跳转的，所以要去掉。</p>
+<p>在layout文件下的customer.xml中，事实上笔者在目录app/design/frontend/smartwave/porto/layout下是找不到customer.xml这个文件的。后来笔者找到magento的默认模板的路径，然后在默认模板的布局目录（layout）下找到了，具体目录：app/design/frontend/base/default/layout/customer.xml，找到之后，我们打开这个文件并找到标签</p>
+<pre><code>&lt;customer_account_login&gt;和&lt;customer_account_create&gt;</code></pre>
+<p>分别在这两个标签中添加代码：</p>
+<pre><code>&lt;remove name=&quot;auth-redirect&quot; /&gt;</code></pre>
+<p>笔者添加如下：</p>
+<p><img src="https://i.imgur.com/mobzZvh.jpg"></p>
+<p><img src="https://i.imgur.com/kkysBVn.jpg"></p>
+<p>好的，事情止为此也达到了我们的目标了。如果我们仅仅是想展示首页给用户浏览，其他页面，如果用户没有登录的情况下一律重定向到用户的登录页面怎么办？</p>
+<p>那么我们就进行最后一步：</p>
+<p>如果想首页可以访问，那么我们找到cms.xml这个文件，目录：app/design/frontend/base/default/layout/cms.xml，打开</p>
+<p>在<cms_index_index>这个标签里加入代码</p>
+<pre><code>&lt;remove name=&quot;auth-redirect&quot; /&gt;</code></pre>
+<p>就可以了！</p>
+<p>笔者添加如下：</p>
+<p><img src="https://i.imgur.com/AQY9ORT.jpg"></p>
+<p>以上可以让每一个来访的用户都注册，缺点是阻碍了浏览器的抓取，不用seo推广的站才能用这种方式！</p>
+<p>好的，今日分享到此结束，如果有更多的magento的开发心得，欢迎一起交换学习。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/05/26/magento%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84url%E5%92%8C%E5%AF%B9url%E5%88%A4%E6%96%AD%E5%A4%84%E7%90%86%EF%BC%8C%E6%A0%B9%E6%8D%AE%E4%B8%8D%E5%90%8C%E7%9A%84%E5%88%86%E7%B1%BB%E7%9B%AE%E5%BD%95%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%90%8C%E7%9A%84%E5%86%85%E5%AE%B9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/05/26/magento%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8D%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84url%E5%92%8C%E5%AF%B9url%E5%88%A4%E6%96%AD%E5%A4%84%E7%90%86%EF%BC%8C%E6%A0%B9%E6%8D%AE%E4%B8%8D%E5%90%8C%E7%9A%84%E5%88%86%E7%B1%BB%E7%9B%AE%E5%BD%95%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%90%8C%E7%9A%84%E5%86%85%E5%AE%B9/" class="post-title-link" itemprop="url">magento获取当前浏览器的url和对url判断处理，根据不同的分类目录显示不同的内容</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-05-26 09:56:35" itemprop="dateCreated datePublished" datetime="2018-05-26T09:56:35+08:00">2018-05-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:02" itemprop="dateModified" datetime="2020-10-11T11:58:02+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>1.获取magento当前浏览器的url</p>
+<pre><code>$currentUrl = $this-&gt;helper(&#39;core/url&#39;)-&gt;getCurrentUrl();</code></pre>
+<p>2.获取magento当前域名</p>
+<pre><code>$this-&gt;getUrl();</code></pre>
+<p>对url判断来显示不同的图片</p>
+<pre><code>&lt;?php if(strpos($currentUrl,&#39;fashion&#39;)):?&gt;
+&lt;img src=&quot;&lt;?php echo $this-&gt;getSkinUrl(&#39;images/newsletter_popup_bg.jpg&#39;);?&gt;&quot;/&gt;
+&lt;div&gt;分类&lt;/div&gt;
+&lt;?php else:?&gt;
+&lt;img src=&quot;&lt;?php echo $this-&gt;getSkinUrl(&#39;images/newsletter_popup_bg_rtl.jpg&#39;);?&gt;&quot;/&gt;
+&lt;div&gt;分类&lt;/div&gt;
+&lt;?php endif;?&gt;</code></pre>
+<p><span style="color:red">注意</span>：上面的那个fashion是这个目录名称，这个根据自己的网站自己设置。</p>
+<p>比如笔者这里就是这样的：</p>
+<p><img src="https://i.imgur.com/UM197gK.jpg"></p>
+<p>看到没，以上的截图中显示我当前所在的目录是fashion，那么将会显示<code>top_bottom/sefenlei.png</code>这张图片，否则，将会显示<code>newsletter_popup_bg_rtl.jpg</code>这张图。为了验证，我们不妨把fashion改成我们网站没有的目录zhangsan：</p>
+<pre><code>&lt;?php if(strpos($currentUrl,&#39;zhangsan&#39;)):?&gt;
+&lt;img src=&quot;&lt;?php echo $this-&gt;getSkinUrl(&#39;images/newsletter_popup_bg.jpg&#39;);?&gt;&quot;/&gt;
+&lt;div&gt;分类&lt;/div&gt;
+&lt;?php else:?&gt;
+&lt;img src=&quot;&lt;?php echo $this-&gt;getSkinUrl(&#39;images/newsletter_popup_bg_rtl.jpg&#39;);?&gt;&quot;/&gt;
+&lt;div&gt;分类&lt;/div&gt;
+&lt;?php endif;?&gt;</code></pre>
+<p>这个时候我们再看下：</p>
+<p><img src="https://i.imgur.com/SWFQUqo.jpg"></p>
+<p>好的，让我们大胆的发挥我们的想象，我们不妨可以这样设计，当我们在投放一个广告的时候，只允许某个目录下有这个广告，其他目录没有的时候，或者说当我们想要侧边栏中，只有某个目录下才有特定的内容的时候，我们就可以进行这样的个性化设置了。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/18/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><span class="page-number current">19</span><a class="page-number" href="/page/20/">20</a><span class="space">&hellip;</span><a class="page-number" href="/page/43/">43</a><a class="extend next" rel="next" href="/page/20/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

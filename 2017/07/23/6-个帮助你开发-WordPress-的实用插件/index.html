@@ -1,37 +1,464 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="在开发 WordPress 主题或者插件的时候，对代码进行调试是很麻烦的工作。尤其是在功能需求比较深入之后，代码会越来越复杂，联动的模块也比较多，如果不谨慎的一步步调试，等到最终出 BUG 之后再想发现是哪里不对，是非常浪费时间的。 之前我一直使用 var_dump() 打印变量加上 die() 结束程序，简单粗暴的获取我想要的信息，但是这样效率真的非常低，因为经常需要到 WordPress 核心">
+<meta property="og:type" content="article">
+<meta property="og:title" content="6 个帮助你开发 WordPress 的实用插件">
+<meta property="og:url" content="http://example.com/2017/07/23/6-%E4%B8%AA%E5%B8%AE%E5%8A%A9%E4%BD%A0%E5%BC%80%E5%8F%91-WordPress-%E7%9A%84%E5%AE%9E%E7%94%A8%E6%8F%92%E4%BB%B6/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="在开发 WordPress 主题或者插件的时候，对代码进行调试是很麻烦的工作。尤其是在功能需求比较深入之后，代码会越来越复杂，联动的模块也比较多，如果不谨慎的一步步调试，等到最终出 BUG 之后再想发现是哪里不对，是非常浪费时间的。 之前我一直使用 var_dump() 打印变量加上 die() 结束程序，简单粗暴的获取我想要的信息，但是这样效率真的非常低，因为经常需要到 WordPress 核心">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://i.imgur.com/aNYtKnk.jpg">
+<meta property="og:image" content="http://i.imgur.com/zQTCGC2.png">
+<meta property="og:image" content="http://i.imgur.com/ghTVflV.jpg">
+<meta property="og:image" content="http://i.imgur.com/Igr4o6D.jpg">
+<meta property="og:image" content="http://i.imgur.com/pPN5czC.png">
+<meta property="og:image" content="http://i.imgur.com/bDLNV9f.png">
+<meta property="og:image" content="http://i.imgur.com/vBsP58E.png">
+<meta property="og:image" content="http://i.imgur.com/NL43t06.png">
+<meta property="og:image" content="http://i.imgur.com/rHzk4as.png">
+<meta property="og:image" content="http://i.imgur.com/5RSd0Bd.png">
+<meta property="og:image" content="http://i.imgur.com/Yt5j4PA.png">
+<meta property="article:published_time" content="2017-07-23T07:40:00.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:53:36.531Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="wordpress,开发辅助插件,插件开发,主题开发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://i.imgur.com/aNYtKnk.jpg">
+
+<link rel="canonical" href="http://example.com/2017/07/23/6-%E4%B8%AA%E5%B8%AE%E5%8A%A9%E4%BD%A0%E5%BC%80%E5%8F%91-WordPress-%E7%9A%84%E5%AE%9E%E7%94%A8%E6%8F%92%E4%BB%B6/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>6 个帮助你开发 WordPress 的实用插件 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/07/23/6-%E4%B8%AA%E5%B8%AE%E5%8A%A9%E4%BD%A0%E5%BC%80%E5%8F%91-WordPress-%E7%9A%84%E5%AE%9E%E7%94%A8%E6%8F%92%E4%BB%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          6 个帮助你开发 WordPress 的实用插件
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-07-23 15:40:00" itemprop="dateCreated datePublished" datetime="2017-07-23T15:40:00+08:00">2017-07-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:36" itemprop="dateModified" datetime="2020-10-11T11:53:36+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>在开发 WordPress 主题或者插件的时候，对代码进行调试是很麻烦的工作。尤其是在功能需求比较深入之后，代码会越来越复杂，联动的模块也比较多，如果不谨慎的一步步调试，等到最终出 BUG 之后再想发现是哪里不对，是非常浪费时间的。</p>
+<p>之前我一直使用 var_dump() 打印变量加上 die() 结束程序，简单粗暴的获取我想要的信息，但是这样效率真的非常低，因为经常需要到 WordPress 核心中去寻找相关文件，添加调试代码。在需要修改数据来调试的时候，更是得反复添加各种临时写的代码，来回在编辑器切换文件和光标，有时候打开的东西实在太多，都忘了一开始想要干什么……</p>
+<p>后来，我发现了一些非常好用的调试工具，可以帮我更轻松的完成这些复杂的调试工作，除了 PHP 本身的调试工具之外，本文我将主要介绍专为辅助开发而设计的 WordPress 插件，全部都是曾经帮助过我解决问题的精品插件。</p>
+<p>在正式开始之前，我先把即将介绍的插件统一进行一个大致的归类，单独介绍每个插件的时候，都会提到它拥有的一个或多个分类，方便大家找到自己想要的插件。</p>
+<p>「信息获取」：即时获取有用的开发信息，并且通过清晰的方式呈现出来，有些会额外提供一些方便浏览的小功能，比自己直接打印变量友好的多。<br>「数据分析」：通过对一些数据或文件进行分析，找出程序存在的问题，比如性能问题和安全问题，帮助你优化改进和修复 BUG。<br>「调试操作」：创造调试程序的环境，解决手忙脚乱改东改西的困扰；很多这种插件对普通用户也有一定的使用价值，线上网站中也能用得到。<br>「错误记录」：记录在程序运行中出现的一些错误，并且生成日志，在人工不能及时发现问题的时候，记录下程序存在的隐患。<br>另外，如果大家正在使用文章中没有提到的，并且是开发调试相关的好插件，可以在留言中分享出来，方便更多的人！</p>
+<p><strong>Query Monitor</strong></p>
+<p>这是一个非常典型的「信息获取」类插件，可以在程序运行过程中记录下数据库查询、钩子、脚本和 HTTP 请求等信息，然后在页面下方生成清晰的表格，让我们可以方便、快速的获取这些信息，无论前台还是后台。</p>
+<p>安装之后，它会在管理工具栏上生成导航，显示页面生成时间、内存用量、数据库查询时间和数据库查询次数；鼠标悬浮后，点击下边对应的按钮，就能定位到自己想要的信息。</p>
+<p><img src="http://i.imgur.com/aNYtKnk.jpg"></p>
+<p>在插件生成的表格中，会把数据库查询、在钩子上挂载函数、和设置临时选项等操作记录全部显示出来，并且会提示这件事是核心、主题还是哪个插件干的，以及对应的文件和行数，方便你找到它。</p>
+<p>此外，这个插件还有简单的「数据分析」功能。举几个例子，它可以帮你找出非常耗费时间的，或是重复的数据库查询，然后就可以针对此来优化代码，使其更加高效；还有，能分两方面综合分析出数据库查询的来源，点击对应的来源就可以看到该来源发出的所有查询请求。</p>
+<p><img src="http://i.imgur.com/zQTCGC2.png"></p>
+<p>总之，Query Monitor 是我这篇文章介绍的所有插件中，功能最强大的，也是最推荐安装的，它解决了我很多开发调试的困难，也节省了我大量的时间，现在是我本地环境的必备插件，相信你也可以用得到。</p>
+<p>另外，与此插件功能类似的还有一个叫做 Debug Objects 的插件，但是我下载之后发现并没有比 Query Monitor 多出什么特别的好功能，而且 UI 排版设计的不太好，像一个半成品，就专门不推荐给大家了，有兴趣的同学可以自己去下载看一看。</p>
+<p><strong>Debug Bar</strong></p>
+<p>相比于上边介绍的 Query Monitor 插件，Debug Bar 在「信息获取」类插件中，或许显得有些简陋：同样需要在管理工具栏上点击「Debug」按钮打开，但它只能显示出基本的数据库查询、缓存、错误信息和服务器软件版本等信息。</p>
+<p><img src="http://i.imgur.com/ghTVflV.jpg"></p>
+<p>所以，我真正推荐它的原因在于另一个插件：Debug Bar Console，使用之后可以扩展出「调试操作」功能。当你安装了 Debug Bar 之后再安装 Debug Bar Console 插件，在插件的界面中会出现一个控制台，你可以直接在上边运行 PHP 代码或者使用 SQL 操作数据库，支持代码高亮。</p>
+<p>比如我这里更新一个选项或者查询数据库：</p>
+<p><img src="http://i.imgur.com/Igr4o6D.jpg"></p>
+<p>我就会经常在编写一个功能的时候，想要修改某些数据来调试我的代码，或者想找个地方测试函数的返回值是否正确。有了这个插件之后，就可以不用在编辑器中切换文件和光标来添加测试代码，而是直接在控制台中完成。</p>
+<p><strong>Log Deprecated Notices</strong></p>
+<p>这个插件用来记录过时组件的使用情况，是一个典型的「错误记录」类插件。如果有人使用了过时的函数、文件和函数参数，插件就会把它记录下来，并且同时记录下调用的地点和时间，并且在查看的时候给出代替方法，方便你去修改。</p>
+<p>安装插件之后，可以在后台菜单「工具」下的「Deprecated Calls」进入日志，页面中的列表显示了记录下来的日志，并且在列表上方提供了筛选日志类型，以及可以选择哪个版本过时的日志。</p>
+<p><img src="http://i.imgur.com/pPN5czC.png"></p>
+<p>在开发中，我强烈建议不要使用已经过时的组件。虽然它们有很多还可以正常的工作，但是随着被标记为过时（Deprecated），说明它们已经被 WordPress 官方所抛弃，不会再被继续更新，也不如规范的方法高效；而且，如果以后想要继续扩展功能，使用大量的过时组件更会变的一团糟。</p>
+<p>所以，在开发环境中安装 Log Deprecated Notices 插件，并且时常去看看吧！顺便说一句，以上的三个插件均是在 WordPress 的官方文档中提到过的，推荐安装尝试一下。</p>
+<p><strong>WP Crontrol</strong></p>
+<p>如果你曾经开发过需要借助定时任务完成的功能，很可能会和我产生一样的困扰，那就是：调试起来非常困难。首先，要测试好能否在各种情况下成功添加一条定时任务进入队列，还要确保定时执行的函数能够顺利完成它的任务，也得反复思考和测试各种参数是否合理，以及由此引起的性能问题。最重要的是，这些信息都不是直接摆在你面前的，需要手动翻看数据库里的各种信息，反复添加删除来测试，麻烦的让人头疼。</p>
+<p>直到我发现了 WP Crontrol 插件，它是一个集「信息获取」和「调试操作」为一体的定时任务调试插件，完美的解决了上边提到的问题，能帮助我们节省大量时间，轻松调试定时任务。</p>
+<p>插件的功能分两部分，分别用来管理定时任务队列和频率时间表。第一个在后台菜单「工具」下的「Cron Events」页面，可以创建、编辑和删除定时任务。</p>
+<p><img src="http://i.imgur.com/bDLNV9f.png"></p>
+<p>在上边插件生成的表格中，可以清楚的查看到所有现存的定时任务，我们可以直接在可视化界面编辑、立即运行或者删除掉一条任务，在开发相关功能的时候非常实用。</p>
+<p>在同页面下方，可以快速创建定时任务；插件还提供了直接在网页中编写 PHP 代码，并且定时执行的功能，可以说无论是开发调试还是日常应用都是非常方便的。</p>
+<p><img src="http://i.imgur.com/vBsP58E.png"></p>
+<p>在后台菜单「设置」里的「Cron Schedules」页面中，可以管理定时任务的频率时间表。在这里可以查看到所有设定的频率，也能添加新的，或者一键把自定义的频率删除。</p>
+<blockquote>
+<p>截止文章发布时，插件的最新版本 1.3 有一个小 BUG：使用立即运行定时任务功能时，如果该定时任务本身的下次运行时间在 10 分钟之内，就不会立即运行该定时任务。</p>
+</blockquote>
+<blockquote>
+<p>BUG 产生的原理在于：插件实现立即运行的机制是创建一个同样的定时任务，然后下次运行时间设置为当前，这样的话，如果原有定时任务和新建的定时任务相差不超过 10 分钟，WordPress 就会触发保护机制，不会重复添加时间过于相近的相同的定时任务，导致运行失败。</p>
+</blockquote>
+<p><strong>Plugin Toggle</strong></p>
+<p>经常会有一些同学找到我，说自己的网站出现了一些不知道怎么产生的故障，这时我一般会建议他们切换回默认的主题、停用所有插件，来排查问题出在谁身上。</p>
+<p>最终，大多数情况都是某些插件出现了 BUG 或者和别的什么产生了冲突，这时候只能逐一的启用插件，找出罪魁祸首。一般需要在插件列表页启用一个插件，然后再切换到出故障的页面刷新，接着再切换回插件列表页，反复循环。如果你安装的插件很多，或者网站速度比较慢，这个排查过程会非常耗时。</p>
+<p>这个时候，你就需要具有「调试操作」功能的 Plugin Toggle 插件了。在安装了它之后，管理工具栏上会出现叫做「Plugins」的按钮，鼠标放上去就会弹出网站的插件列表，灰色为关闭的插件，白色是启用了的。</p>
+<p><img src="http://i.imgur.com/NL43t06.png"></p>
+<p>点击插件的名字，它就会自动切换开关状态，并且立即刷新页面，减少排查故障的步骤，从而节省出大量时间。</p>
+<p><strong>User Switching</strong></p>
+<p>在开发和用户相关的功能时，经常需要切换不同的用户来测试功能，比如功能权限是否正常，以及用户之间能否完成互动等等。来回切换不同的用户非常麻烦，需要反复的注销、登录，这时候就可以使用具有「调试操作」功能的 User Switching 插件来帮助我们。</p>
+<p>在安装之后，进入后台用户列表，鼠标悬浮在要切换的用户上，点击「切换用户」就可以立即进入它的视角。</p>
+<p><img src="http://i.imgur.com/rHzk4as.png"></p>
+<p>测试完成之后，也可以一键切换回原来的账号。插件不仅仅可以进行用户直接的切换，还能模拟注销状态，然后在测试完成后一键登录回来。</p>
+<p><img src="http://i.imgur.com/5RSd0Bd.png"></p>
+<p><strong>Monster Widget</strong></p>
+<p>在开发主题的小工具功能时，需要针对每个小工具写大量的 CSS 样式，我以前会花费很多时间，在后台把它们一个一个的拖动到侧边栏上并设置好，然后才能开始样式代码的编写。</p>
+<p>直到我发现了 Monster Widget 插件，只要你安装了它，在后台的小工具页面就会出现一个叫做「Monster」的工具。</p>
+<p><img src="http://i.imgur.com/Yt5j4PA.png"></p>
+<p>把它拖动到页面，所有的小工具就都会自动出现在前台侧边栏里啦！非常方便吧，不仅不用再像一个小白一样重复做简单的拖动操作，连设置都免了，因为插件本身就自带了一套常用的设置。</p>
+<p>接下来，我们就可以专心为这些工具们一个一个的编写样式了，再也不用把时间浪费在一些毫无意义的事情上，而拥有这一切，只需要安装一个叫做 Monster Widget 的插件。</p>
+<p>唯一遗憾的是，插件只能帮我们把核心自带的小工具展示出来，而主题和其它插件注册的自定义小工具还需要我们手动添加和设置。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/wordpress-%E5%BC%80%E5%8F%91%E8%BE%85%E5%8A%A9%E6%8F%92%E4%BB%B6-%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91-%E4%B8%BB%E9%A2%98%E5%BC%80%E5%8F%91/" rel="tag"># wordpress,开发辅助插件,插件开发,主题开发</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/07/23/GitHub-Pages-Hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/" rel="prev" title="GitHub Pages + Hexo搭建博客">
+      <i class="fa fa-chevron-left"></i> GitHub Pages + Hexo搭建博客
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/07/23/WordPress-%E4%B8%B4%E6%97%B6%E9%80%89%E9%A1%B9%EF%BC%88Transients-API%EF%BC%89/" rel="next" title="WordPress 临时选项（Transients API）">
+      WordPress 临时选项（Transients API） <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

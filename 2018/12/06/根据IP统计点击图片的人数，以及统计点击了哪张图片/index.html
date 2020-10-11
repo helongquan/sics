@@ -1,37 +1,577 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="客户新要求，希望统计某张图片有多少人点击了。 方案： 在wordpress上我们的做法如下： 在wordpress主题目录里面创建一个文件夹（user_click）用来存放这个需求的相关代码，首先创建一个添加用户信息的php文件（save_click_info.php）,代码如下： &lt;?php &#x2F;&#x2F;字符编码设置，以及处理跨域的问题 header(&quot;Content-type:text">
+<meta property="og:type" content="article">
+<meta property="og:title" content="根据IP统计点击图片的人数，以及统计点击了哪张图片">
+<meta property="og:url" content="http://example.com/2018/12/06/%E6%A0%B9%E6%8D%AEIP%E7%BB%9F%E8%AE%A1%E7%82%B9%E5%87%BB%E5%9B%BE%E7%89%87%E7%9A%84%E4%BA%BA%E6%95%B0%EF%BC%8C%E4%BB%A5%E5%8F%8A%E7%BB%9F%E8%AE%A1%E7%82%B9%E5%87%BB%E4%BA%86%E5%93%AA%E5%BC%A0%E5%9B%BE%E7%89%87/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="客户新要求，希望统计某张图片有多少人点击了。 方案： 在wordpress上我们的做法如下： 在wordpress主题目录里面创建一个文件夹（user_click）用来存放这个需求的相关代码，首先创建一个添加用户信息的php文件（save_click_info.php）,代码如下： &lt;?php &#x2F;&#x2F;字符编码设置，以及处理跨域的问题 header(&quot;Content-type:text">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/WaJw9hs.jpg">
+<meta property="article:published_time" content="2018-12-06T09:09:39.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:05.692Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="统计点击图片,图片点击,多少人点击了图片">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/WaJw9hs.jpg">
+
+<link rel="canonical" href="http://example.com/2018/12/06/%E6%A0%B9%E6%8D%AEIP%E7%BB%9F%E8%AE%A1%E7%82%B9%E5%87%BB%E5%9B%BE%E7%89%87%E7%9A%84%E4%BA%BA%E6%95%B0%EF%BC%8C%E4%BB%A5%E5%8F%8A%E7%BB%9F%E8%AE%A1%E7%82%B9%E5%87%BB%E4%BA%86%E5%93%AA%E5%BC%A0%E5%9B%BE%E7%89%87/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>根据IP统计点击图片的人数，以及统计点击了哪张图片 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/12/06/%E6%A0%B9%E6%8D%AEIP%E7%BB%9F%E8%AE%A1%E7%82%B9%E5%87%BB%E5%9B%BE%E7%89%87%E7%9A%84%E4%BA%BA%E6%95%B0%EF%BC%8C%E4%BB%A5%E5%8F%8A%E7%BB%9F%E8%AE%A1%E7%82%B9%E5%87%BB%E4%BA%86%E5%93%AA%E5%BC%A0%E5%9B%BE%E7%89%87/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          根据IP统计点击图片的人数，以及统计点击了哪张图片
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-12-06 17:09:39" itemprop="dateCreated datePublished" datetime="2018-12-06T17:09:39+08:00">2018-12-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:05" itemprop="dateModified" datetime="2020-10-11T11:58:05+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/wordpress/" itemprop="url" rel="index"><span itemprop="name">wordpress</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>客户新要求，希望统计某张图片有多少人点击了。</p>
+<p><strong>方案：</strong></p>
+<p>在wordpress上我们的做法如下：</p>
+<p>在wordpress主题目录里面创建一个文件夹（user_click）用来存放这个需求的相关代码，首先创建一个添加用户信息的php文件（save_click_info.php）,代码如下：</p>
+<pre><code>&lt;?php
+//字符编码设置，以及处理跨域的问题
+header(&quot;Content-type:text/html;charset=utf-8;Access-Control-Allow-Origin:*;Access-Control-Allow-Methods:GET,POST&quot;);
+//获取当前文件所在目录
+$gen=$_SERVER[&#39;DOCUMENT_ROOT&#39;];
+require_once(&quot;$gen/wordpress/wp-config.php&quot;);
+
+//链接mysql服务器 开始
+$con = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD);
+mysqli_select_db($con, DB_NAME);
+
+//不同环境下获取真实的IP
+// $ip = $_SERVER[&quot;REMOTE_ADDR&quot;];
+$user_IP = ($_SERVER[&quot;HTTP_VIA&quot;]) ? $_SERVER[&quot;HTTP_X_FORWARDED_FOR&quot;] : $_SERVER[&quot;REMOTE_ADDR&quot;];
+$ip = ($user_IP) ? $user_IP : $_SERVER[&quot;REMOTE_ADDR&quot;];
+$url = $_GET[&#39;urls&#39;];
+$created_time = date(&quot;Y-m-d H:i:s&quot;);
+
+$getold = mysqli_query($con,&quot;SELECT * FROM user_click WHERE url = &#39;$url&#39; and ip = &#39;$ip&#39;&quot;);
+
+if (mysqli_num_rows($getold) &lt; 1) &#123;
+    $sql = &quot;INSERT INTO user_click (url,ip,created_time) VALUES (&#39;$url&#39;,&#39;$ip&#39;,&#39;$created_time&#39;)&quot;;
+&#125;else&#123;
+    $sql = &quot;UPDATE user_click SET created_time = &#39;$created_time&#39; WHERE url = &#39;$url&#39; and ip = &#39;$ip&#39;&quot;;
+&#125;
+
+$result = mysqli_query($con,$sql);
+if (!$result) &#123;
+    printf(&quot;Error: %s\n&quot;, mysqli_error($con));
+    exit();
+&#125;
+$jarr = array();
+while ($rows=mysqli_fetch_array($result,MYSQL_ASSOC))&#123;
+    $count=count($rows);  
+    for($i=0;$i&lt;$count;$i++)&#123;
+        unset($rows[$i]);  
+    &#125;
+    array_push($jarr,$rows);
+&#125;
+//查看数组
+echo $str=json_encode($jarr,JSON_UNESCAPED_UNICODE);//将数组进行json编码，并且解决中文乱码的问题
+mysqli_close($con);
+?&gt;</code></pre>
+<p>由于笔者在本地测试，wordpress网站在服务器的目录是www/wordpress，所以这里写成：</p>
+<pre><code>require_once(&quot;$gen/wordpress/wp-config.php&quot;);</code></pre>
+<p>如果是单纯的放在本地服务器的根目录下，那么就写成：</p>
+<pre><code>require_once(&quot;$gen/wp-config.php&quot;);</code></pre>
+<p>这里调用了wordpress配置文件的信息，里面有数据库账号信息，这样就实现了获取网站的数据库信息，以便保存数据到数据库的表中。</p>
+<p>数据表：user_click，相关的sql代码：</p>
+<pre><code>SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for user_click
+-- ----------------------------
+DROP TABLE IF EXISTS `user_click`;
+CREATE TABLE `user_click` (
+  `url` varchar(255) DEFAULT NULL,
+  `ip` varchar(255) DEFAULT NULL,
+  `created_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of user_click
+-- ----------------------------
+INSERT INTO `user_click` VALUES (&#39;http://www.baidu.com&#39;, &#39;23.112.105.114&#39;, &#39;2018-12-06 06:45:59&#39;);
+INSERT INTO `user_click` VALUES (&#39;http://www.alibaba.com&#39;, &#39;110.201.8.88&#39;, &#39;2018-12-06 06:45:59&#39;);</code></pre>
+<p>然后就是创建一个获取用户点击图片信息的php文件（get_click_info.php），代码如下：</p>
+<pre><code>&lt;?php
+header(&quot;Content-type:text/html;charset=utf-8;Access-Control-Allow-Origin:*;Access-Control-Allow-Methods:GET,POST&quot;);//字符编码设置
+
+//获取当前文件所在目录
+$gen=$_SERVER[&#39;DOCUMENT_ROOT&#39;];
+require_once(&quot;$gen/wordpress/wp-config.php&quot;);
+
+//链接mysql服务器 开始
+$con = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD);
+mysqli_select_db($con, DB_NAME);
+
+// 检测连接
+$sql = &quot;SELECT * FROM user_click&quot;;
+$result = mysqli_query($con,$sql);
+if (!$result) &#123;
+    printf(&quot;Error: %s\n&quot;, mysqli_error($con));
+    exit();
+&#125;
+
+$jarr = array();
+while ($rows=mysqli_fetch_array($result,MYSQL_ASSOC))&#123;
+    $count=count($rows);//不能在循环语句中，由于每次删除 row数组长度都减小  
+    for($i=0;$i&lt;$count;$i++)&#123;
+        unset($rows[$i]);//删除冗余数据  
+    &#125;
+    array_push($jarr,$rows);
+&#125;
+//查看数组
+// print_r($jarr);
+echo $str=json_encode($jarr,JSON_UNESCAPED_UNICODE);//将数组进行json编码，并且解决中文乱码的问题
+mysqli_close($con);
+?&gt;</code></pre>
+<p>剩下的就是一个js文件了，我们在user_click文件夹中创建它（js.js）,代码如下：</p>
+<pre><code>$(document).ready(function()&#123;
+    $roots = &quot;http://localhost:8080/wordpress/wp-content/themes/nocti/user_click&quot;;
+
+    htmlob= $.ajax(&#123;
+        url: $roots+&quot;/get_click_info.php&quot;,
+        type: &quot;get&quot;,
+        dataType: &quot;json&quot;,
+        contentType: &quot;application/json&quot;,
+        success: function (res) &#123;
+            console.log(res);
+        &#125;,
+        error: function (xhr, err, exception) &#123;
+            console.log(err);
+        &#125;
+    &#125;);
+
+    $(&quot;#renus&quot;).on(&quot;click&quot;,&quot;img&quot;,function()&#123;
+        var ss =new Object();
+        ss.urls = $(this).attr(&quot;src&quot;);
+        console.log(ss.urls);
+
+        $.ajax(&#123;
+            url: $roots+&quot;/save_click_info.php&quot;,
+            type: &quot;get&quot;,
+            dataType: &quot;json&quot;,
+            data: ss,
+            contentType: &quot;application/json&quot;,
+            success: function (res) &#123;
+                console.log(res);
+            &#125;,
+            error: function (xhr, err, exception) &#123;
+                console.log(err);
+            &#125;
+        &#125;);
+    &#125;);
+
+    $(&quot;#contact&quot;).on(&quot;click&quot;,&quot;img&quot;,function()&#123;
+        var ss =new Object();
+        ss.urls = $(this).attr(&quot;src&quot;);
+        console.log(ss.urls);
+
+        $.ajax(&#123;
+            url: $roots+&quot;/save_click_info.php&quot;,
+            type: &quot;get&quot;,
+            dataType: &quot;json&quot;,
+            data: ss,
+            contentType: &quot;application/json&quot;,
+            success: function (res) &#123;
+                console.log(res);
+            &#125;,
+            error: function (xhr, err, exception) &#123;
+                console.log(err);
+            &#125;
+        &#125;);
+    &#125;);
+&#125;);</code></pre>
+<p>这个里面很简单，就是处理了几个ajax请求，我们在页面中添加两个图片，分别为这个图片添加两个ID，</p>
+<pre><code>&lt;div class=&quot;avia_textblock&quot; id=&quot;renus&quot;&gt;
+   &lt;img src=&quot;http://localhost:8080/wordpress/wp-content/uploads/2018/12/he.jpg&quot; alt=&quot;&quot; width=&quot;100%&quot;&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;avia_textblock&quot; id=&quot;contact&quot;&gt;
+   &lt;img src=&quot;http://localhost:8080/wordpress/wp-content/uploads/2018/12/51911.jpg&quot; alt=&quot;&quot; width=&quot;100%&quot;&gt;
+&lt;/div&gt;</code></pre>
+<p>然后，就是点击图片发起ajax请求，把获取的信息保存的数据中。</p>
+<p>最后，我只需要在公共头部或者公共底部添加对这个js文件的引用了。笔者这里采用header.php，在</head>前面添加：</p>
+<pre><code>&lt;script src=&quot;&lt;?php bloginfo(&#39;template_url&#39;); ?&gt;/js/jquery-3.2.1.min.js&quot;&gt;&lt;/script&gt;   //依赖了jquery，因此这里需要引入这个库
+&lt;script src=&quot;&lt;?php bloginfo(&#39;template_url&#39;); ?&gt;/user_click/js.js&quot;&gt;&lt;/script&gt;</code></pre>
+<p>好的，完成这个之后，我们就可以在前台点击上面这两种图片，我们就可以在数据表中收集到信息了。</p>
+<p>本文旨在抛砖引玉，真正用到生产环境中，需要优化一下,最后的效果：</p>
+<p><img src="https://i.imgur.com/WaJw9hs.jpg"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BB%9F%E8%AE%A1%E7%82%B9%E5%87%BB%E5%9B%BE%E7%89%87-%E5%9B%BE%E7%89%87%E7%82%B9%E5%87%BB-%E5%A4%9A%E5%B0%91%E4%BA%BA%E7%82%B9%E5%87%BB%E4%BA%86%E5%9B%BE%E7%89%87/" rel="tag"># 统计点击图片,图片点击,多少人点击了图片</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/11/30/%E9%87%8D%E7%BD%AEmagento1-x%E7%AE%A1%E7%90%86%E5%91%98%E5%AF%86%E7%A0%81/" rel="prev" title="重置magento1.x管理员密码">
+      <i class="fa fa-chevron-left"></i> 重置magento1.x管理员密码
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/12/08/%E8%AE%BE%E8%AE%A1%E5%B8%88%E7%9A%84%E4%BF%AE%E4%B8%BA/" rel="next" title="设计师的修为">
+      设计师的修为 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

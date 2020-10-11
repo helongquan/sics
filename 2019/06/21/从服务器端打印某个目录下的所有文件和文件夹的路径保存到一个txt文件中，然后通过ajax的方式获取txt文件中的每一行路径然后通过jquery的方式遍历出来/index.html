@@ -1,37 +1,553 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="本文大纲：  打印某个目录下的所有文件和文件夹的路径 把运行结果保存到某个文件中 定时更新某个目录下的文件名和文件夹的路径 通过jquery的方式获取txt文件的内容，并且一行一个遍历出来  打印某个目录下的所有文件和文件夹的路径在linux中打印某个目录下的所有文件和文件夹的路径，用什么命令呢？用如下命令： cd  你需要的目录 find . -print 这样就可以打印出来了。 效果类似如下：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从服务器端打印某个目录下的所有文件和文件夹的路径保存到一个txt文件中，然后通过ajax的方式获取txt文件中的每一行路径然后通过jquery的方式遍历出来">
+<meta property="og:url" content="http://example.com/2019/06/21/%E4%BB%8E%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%89%93%E5%8D%B0%E6%9F%90%E4%B8%AA%E7%9B%AE%E5%BD%95%E4%B8%8B%E7%9A%84%E6%89%80%E6%9C%89%E6%96%87%E4%BB%B6%E5%92%8C%E6%96%87%E4%BB%B6%E5%A4%B9%E7%9A%84%E8%B7%AF%E5%BE%84%E4%BF%9D%E5%AD%98%E5%88%B0%E4%B8%80%E4%B8%AAtxt%E6%96%87%E4%BB%B6%E4%B8%AD%EF%BC%8C%E7%84%B6%E5%90%8E%E9%80%9A%E8%BF%87ajax%E7%9A%84%E6%96%B9%E5%BC%8F%E8%8E%B7%E5%8F%96txt%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E6%AF%8F%E4%B8%80%E8%A1%8C%E8%B7%AF%E5%BE%84%E7%84%B6%E5%90%8E%E9%80%9A%E8%BF%87jquery%E7%9A%84%E6%96%B9%E5%BC%8F%E9%81%8D%E5%8E%86%E5%87%BA%E6%9D%A5/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="本文大纲：  打印某个目录下的所有文件和文件夹的路径 把运行结果保存到某个文件中 定时更新某个目录下的文件名和文件夹的路径 通过jquery的方式获取txt文件的内容，并且一行一个遍历出来  打印某个目录下的所有文件和文件夹的路径在linux中打印某个目录下的所有文件和文件夹的路径，用什么命令呢？用如下命令： cd  你需要的目录 find . -print 这样就可以打印出来了。 效果类似如下：">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/ACDBGcH.jpg">
+<meta property="article:published_time" content="2019-06-21T13:48:17.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:03.917Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="linux,print,txt,jquery,ajax,">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/ACDBGcH.jpg">
+
+<link rel="canonical" href="http://example.com/2019/06/21/%E4%BB%8E%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%89%93%E5%8D%B0%E6%9F%90%E4%B8%AA%E7%9B%AE%E5%BD%95%E4%B8%8B%E7%9A%84%E6%89%80%E6%9C%89%E6%96%87%E4%BB%B6%E5%92%8C%E6%96%87%E4%BB%B6%E5%A4%B9%E7%9A%84%E8%B7%AF%E5%BE%84%E4%BF%9D%E5%AD%98%E5%88%B0%E4%B8%80%E4%B8%AAtxt%E6%96%87%E4%BB%B6%E4%B8%AD%EF%BC%8C%E7%84%B6%E5%90%8E%E9%80%9A%E8%BF%87ajax%E7%9A%84%E6%96%B9%E5%BC%8F%E8%8E%B7%E5%8F%96txt%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E6%AF%8F%E4%B8%80%E8%A1%8C%E8%B7%AF%E5%BE%84%E7%84%B6%E5%90%8E%E9%80%9A%E8%BF%87jquery%E7%9A%84%E6%96%B9%E5%BC%8F%E9%81%8D%E5%8E%86%E5%87%BA%E6%9D%A5/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>从服务器端打印某个目录下的所有文件和文件夹的路径保存到一个txt文件中，然后通过ajax的方式获取txt文件中的每一行路径然后通过jquery的方式遍历出来 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/06/21/%E4%BB%8E%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%89%93%E5%8D%B0%E6%9F%90%E4%B8%AA%E7%9B%AE%E5%BD%95%E4%B8%8B%E7%9A%84%E6%89%80%E6%9C%89%E6%96%87%E4%BB%B6%E5%92%8C%E6%96%87%E4%BB%B6%E5%A4%B9%E7%9A%84%E8%B7%AF%E5%BE%84%E4%BF%9D%E5%AD%98%E5%88%B0%E4%B8%80%E4%B8%AAtxt%E6%96%87%E4%BB%B6%E4%B8%AD%EF%BC%8C%E7%84%B6%E5%90%8E%E9%80%9A%E8%BF%87ajax%E7%9A%84%E6%96%B9%E5%BC%8F%E8%8E%B7%E5%8F%96txt%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E6%AF%8F%E4%B8%80%E8%A1%8C%E8%B7%AF%E5%BE%84%E7%84%B6%E5%90%8E%E9%80%9A%E8%BF%87jquery%E7%9A%84%E6%96%B9%E5%BC%8F%E9%81%8D%E5%8E%86%E5%87%BA%E6%9D%A5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          从服务器端打印某个目录下的所有文件和文件夹的路径保存到一个txt文件中，然后通过ajax的方式获取txt文件中的每一行路径然后通过jquery的方式遍历出来
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-06-21 21:48:17" itemprop="dateCreated datePublished" datetime="2019-06-21T21:48:17+08:00">2019-06-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:03" itemprop="dateModified" datetime="2020-10-11T11:58:03+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/jquery/" itemprop="url" rel="index"><span itemprop="name">jquery</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>本文大纲：</strong></p>
+<ol>
+<li>打印某个目录下的所有文件和文件夹的路径</li>
+<li>把运行结果保存到某个文件中</li>
+<li>定时更新某个目录下的文件名和文件夹的路径</li>
+<li>通过jquery的方式获取txt文件的内容，并且一行一个遍历出来</li>
+</ol>
+<h2 id="打印某个目录下的所有文件和文件夹的路径"><a href="#打印某个目录下的所有文件和文件夹的路径" class="headerlink" title="打印某个目录下的所有文件和文件夹的路径"></a>打印某个目录下的所有文件和文件夹的路径</h2><p>在linux中打印某个目录下的所有文件和文件夹的路径，用什么命令呢？用如下命令：</p>
+<pre><code>cd  你需要的目录
+find . -print</code></pre>
+<p>这样就可以打印出来了。</p>
+<p>效果类似如下：</p>
+<pre><code>./Video
+./PC Software
+./PC Software/M Series
+./PC Software/M Series/3-Superpassword.zip
+./PC Software/M Series/1-AEeye_for_Windows.zip
+./PC Software/M Series/2-Upgrade_ovfs.zip
+./PC Software/L Series
+./PC Software/L Series/3-ProductTools（For Reseting Factory）.zip
+./PC Software/L Series/2-MonitorClient_en.zip
+./PC Software/L Series/4-Control IPCameraSetup.zip
+./PC Software/L Series/1-IPCSearch.zip
+./PC Software/HX Series
+...</code></pre>
+<h2 id="把运行结果保存到某个文件中"><a href="#把运行结果保存到某个文件中" class="headerlink" title="把运行结果保存到某个文件中"></a>把运行结果保存到某个文件中</h2><p>如果我想把这些东西都保存起来呢？这个时候运行如下命令：</p>
+<pre><code>find . - print &gt;&gt; file.txt</code></pre>
+<p>这样就在命令运行所在的目录下有个file.txt文件，里面的内容就是<code>find . -print</code>的运行结果。</p>
+<h2 id="定时更新某个目录下的文件名和文件夹的路径"><a href="#定时更新某个目录下的文件名和文件夹的路径" class="headerlink" title="定时更新某个目录下的文件名和文件夹的路径"></a>定时更新某个目录下的文件名和文件夹的路径</h2><p>为了能够让那个文件里面的内容定时更新，需要定时的运行打印路径的命令，这个时候我们就需要编写一个定时任务来解决这个问题，怎么写呢？</p>
+<p>先在自己适合的目录下建一个保存shell的命令的脚本，只要你喜欢你可以在任何目录下创建这个脚本，笔者就在主目录下创建一个文件夹保存这个脚本，命令如下：</p>
+<pre><code>cd ~
+mkdir mycron
+chmod -R 755 mycron
+vi auto_build_dir.sh
+chmod +x auto_build_dir.sh</code></pre>
+<p>这样就完成了脚本的的创建，然后我们对这个脚本进行编写：auto_build_dir.sh</p>
+<pre><code>#!/bin/bash
+# This is a ShellScript
+cd /opt/lampp/htdocs/download.sw.com
+rm -f source_total.txt
+find ../ -print &gt;&gt; /opt/lampp/htdocs/download.sw.com/source_total.txt</code></pre>
+<p>这个脚本的意思就是，先来到要打印文件夹或者文件所在的目录下，笔者这里的目录名就是：download.sw.com。</p>
+<p>然后先把旧的文件删除，<code>rm -f source_total.txt</code>。然后就是运行打印目录，以及保存打印结果到文件source_total.txt中。</p>
+<p>好的，脚本已经写好，接着就是写定时任务了。</p>
+<p>在任何目录下运行命令：</p>
+<pre><code>crontab -e</code></pre>
+<p>然后在最后面追加如下内容：</p>
+<pre><code>*/10 * * * * /root/mycron/auto_build_dir.sh</code></pre>
+<p>这个的意思就是每隔10分钟，运行一次脚本，后面的那个路径就是笔者前面新建的那个脚本的目录所在。</p>
+<p>隔10分钟后看下/opt/lampp/htdocs/download.sw.com/这个目录下是否有文件生成，如果有说明这个定时任务是正常工作的。</p>
+<h2 id="通过jquery的方式获取txt文件的内容，并且一行一个遍历出来"><a href="#通过jquery的方式获取txt文件的内容，并且一行一个遍历出来" class="headerlink" title="通过jquery的方式获取txt文件的内容，并且一行一个遍历出来"></a>通过jquery的方式获取txt文件的内容，并且一行一个遍历出来</h2><p>为了测试方便，笔者在txt所在目录下新建一个index.html文件，并且分配好权限，然后这个文件的代码如下：</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Document&lt;/title&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no&quot;&gt;
+    &lt;link href=&quot;https://cdn.bootcss.com/twitter-bootstrap/4.3.1/css/bootstrap.min.css&quot; rel=&quot;stylesheet&quot;&gt;
+    &lt;script src=&quot;https://code.jquery.com/jquery-3.2.1.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://cdn.bootcss.com/twitter-bootstrap/4.3.1/js/bootstrap.min.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class=&quot;container&quot;&gt;
+        &lt;div class=&quot;alert alert-success&quot; role=&quot;alert&quot;&gt;
+            &lt;h4&gt;download center&lt;/h4&gt;
+        &lt;/div&gt;
+        &lt;div id=&quot;app&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;    
+    &lt;script&gt;
+        $(document).ready(function()&#123;
+
+            htmlobj=$.ajax(&#123;url:&quot;source_total.txt&quot;,async:false&#125;); //通过ajax读取source_total.txt文本文件。
+            var arr = htmlobj.responseText.split(&#39;\n&#39;);
+            var html = &#39;&lt;ul class=&quot;list-group&quot;&gt;&#39;;
+            for (var i = 0; i &lt; arr.length; i++) &#123;
+
+                var items = arr[i].substring(3);
+
+                if (items.indexOf(&quot;.pdf&quot;) &gt;= 0 || items.indexOf(&quot;.zip&quot;) &gt;= 0) &#123;
+                    html += &#39;&lt;li class=&quot;list-group-item&quot;&gt;&#39;;
+                    html += &#39;&lt;a href=&quot;http://&#39;+items+&#39;&quot; download&gt;&#39;+items+&#39;&lt;/a&gt;&#39;;
+                    html += &#39;&lt;/li&gt;&#39;;
+                &#125;else if(items.indexOf(&quot;.txt&quot;) &gt;= 0)&#123;
+                    html += &#39;&lt;li style=&quot;display:none&quot;&gt;&#39;;
+                    html += items;
+                    html += &#39;&lt;/li&gt;&#39;;
+                &#125;else if(items.indexOf(&quot;.html&quot;) &gt;= 0)&#123;
+                    html += &#39;&lt;li style=&quot;display:none&quot;&gt;&#39;;
+                    html += items;
+                    html += &#39;&lt;/li&gt;&#39;;
+                &#125;else if(items.indexOf(&quot;www.sv3c.com&quot;) &gt;= 0)&#123;
+                    html += &#39;&lt;li style=&quot;display:none&quot;&gt;&#39;;
+                    html += items;
+                    html += &#39;&lt;/li&gt;&#39;;
+                &#125;else if(items == null || items == &quot;&quot;)&#123;
+                    html += &#39;&lt;li style=&quot;display:none&quot;&gt;&#39;;
+                    html += items;
+                    html += &#39;&lt;/li&gt;&#39;;
+                &#125;else if(items.indexOf(&quot;download.sv3c.com/cd/&quot;) &gt;= 0)&#123;
+                    html += &#39;&lt;li style=&quot;display:none&quot;&gt;&#39;;
+                    html += items;
+                    html += &#39;&lt;/li&gt;&#39;;
+                &#125;else&#123;
+                    html += &#39;&lt;h4 style=&quot;padding:10px 0px&quot;&gt;&#39;;
+                    html += items;
+                    html += &#39;&lt;/h4&gt;&#39;;
+                &#125;
+
+            &#125;
+            html += &#39;&lt;/ul&gt;&#39;;
+            $(&quot;#app&quot;).html(html);
+
+        &#125;);
+    &lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>这里说明一下。</p>
+<p>为了测试方便和界面的美观，笔者就引用了一个框架和一个jquery的cdn作为外部资源。</p>
+<p>然后就是获取同目录下的txt文件：</p>
+<pre><code>htmlobj=$.ajax(&#123;url:&quot;source_total.txt&quot;,async:false&#125;);</code></pre>
+<p>把获取的结果保存在一个对象中。</p>
+<p>此时我们获取的这个文件的内容都是一行，完全没法使用，所以我们要把每一行都获取出来。</p>
+<pre><code>var arr = htmlobj.responseText.split(&#39;\n&#39;);</code></pre>
+<p>这个时候arr就是一个数组，保存了所有的行。</p>
+<p>然后就是遍历了，用for语句遍历出来。里面的那些条件判断语句完全是笔者为了个人需要写的，比如笔者对有<code>.pdf</code>和<code>.zip</code>这些字符串的当做一个资源路径，然后判断为一个可以下载的链接，于是加上链接。</p>
+<pre><code>if (items.indexOf(&quot;.pdf&quot;) &gt;= 0 || items.indexOf(&quot;.zip&quot;) &gt;= 0) &#123;
+    html += &#39;&lt;li class=&quot;list-group-item&quot;&gt;&#39;;
+    html += &#39;&lt;a href=&quot;http://&#39;+items+&#39;&quot; download&gt;&#39;+items+&#39;&lt;/a&gt;&#39;;
+    html += &#39;&lt;/li&gt;&#39;;
+&#125;</code></pre>
+<p>为了剪切到多余的头头尾尾，笔者用这个函数在for循环里面处理了下：</p>
+<pre><code>var items = arr[i].substring(3);</code></pre>
+<p>意思就是把前面三个字符串切掉，更多用法可以网上搜索jquery剪切字符串。</p>
+<p>当把这些字符串剪切成我们想要的样子后就是遍历，判断，然后进进一步的处理了，这些根据我们的业务和对js的掌握程度。</p>
+<p>比如说笔者先要屏蔽有<code>.txt</code>这个字符串的行数，以及想要屏蔽有<code>.html</code>这个字符串的行数。</p>
+<pre><code>if(items.indexOf(&quot;.txt&quot;) &gt;= 0)&#123;
+    html += &#39;&lt;li style=&quot;display:none&quot;&gt;&#39;;
+    html += items;
+    html += &#39;&lt;/li&gt;&#39;;
+&#125;else if(items.indexOf(&quot;.html&quot;) &gt;= 0)&#123;
+    html += &#39;&lt;li style=&quot;display:none&quot;&gt;&#39;;
+    html += items;
+    html += &#39;&lt;/li&gt;&#39;;
+&#125;</code></pre>
+<p>最后把遍历的结果插入到dom的id为app的div中。</p>
+<pre><code>$(&quot;#app&quot;).html(html);</code></pre>
+<p>当然更多的用法，希望大家脑洞大开。此文仅做启发之用。</p>
+<p>最后的效果如下：</p>
+<p><img src="https://i.imgur.com/ACDBGcH.jpg"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/linux-print-txt-jquery-ajax/" rel="tag"># linux,print,txt,jquery,ajax,</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/05/15/%E8%BF%90%E7%94%A8gulp%E6%89%93%E5%8C%85%E9%A1%B9%E7%9B%AE%E7%9A%84%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95-%E5%90%84%E7%A7%8D%E6%8A%A5%E9%94%99%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" rel="prev" title="运用gulp打包项目的折腾记录(各种报错的解决方案)">
+      <i class="fa fa-chevron-left"></i> 运用gulp打包项目的折腾记录(各种报错的解决方案)
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/06/27/jquery%E4%B8%8Eajax%E7%9B%B8%E7%BB%93%E5%90%88%E5%9C%A8%E8%A1%A8%E5%8D%95%E6%9F%A5%E8%AF%A2%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8%EF%BC%8C%E4%BB%A5%E5%8F%8Aajax%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0%E5%9C%A8%E6%95%B4%E4%B8%AA%E6%9F%A5%E8%AF%A2%E8%BF%87%E7%A8%8B%E4%B8%AD%E7%9A%84%E4%BD%93%E7%8E%B0/" rel="next" title="jquery与ajax相结合在表单查询中的应用，以及ajax回调函数在整个查询过程中的体现，比如内容的过滤等。">
+      jquery与ajax相结合在表单查询中的应用，以及ajax回调函数在整个查询过程中的体现，比如内容的过滤等。 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%93%E5%8D%B0%E6%9F%90%E4%B8%AA%E7%9B%AE%E5%BD%95%E4%B8%8B%E7%9A%84%E6%89%80%E6%9C%89%E6%96%87%E4%BB%B6%E5%92%8C%E6%96%87%E4%BB%B6%E5%A4%B9%E7%9A%84%E8%B7%AF%E5%BE%84"><span class="nav-number">1.</span> <span class="nav-text">打印某个目录下的所有文件和文件夹的路径</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%8A%E8%BF%90%E8%A1%8C%E7%BB%93%E6%9E%9C%E4%BF%9D%E5%AD%98%E5%88%B0%E6%9F%90%E4%B8%AA%E6%96%87%E4%BB%B6%E4%B8%AD"><span class="nav-number">2.</span> <span class="nav-text">把运行结果保存到某个文件中</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9A%E6%97%B6%E6%9B%B4%E6%96%B0%E6%9F%90%E4%B8%AA%E7%9B%AE%E5%BD%95%E4%B8%8B%E7%9A%84%E6%96%87%E4%BB%B6%E5%90%8D%E5%92%8C%E6%96%87%E4%BB%B6%E5%A4%B9%E7%9A%84%E8%B7%AF%E5%BE%84"><span class="nav-number">3.</span> <span class="nav-text">定时更新某个目录下的文件名和文件夹的路径</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%9A%E8%BF%87jquery%E7%9A%84%E6%96%B9%E5%BC%8F%E8%8E%B7%E5%8F%96txt%E6%96%87%E4%BB%B6%E7%9A%84%E5%86%85%E5%AE%B9%EF%BC%8C%E5%B9%B6%E4%B8%94%E4%B8%80%E8%A1%8C%E4%B8%80%E4%B8%AA%E9%81%8D%E5%8E%86%E5%87%BA%E6%9D%A5"><span class="nav-number">4.</span> <span class="nav-text">通过jquery的方式获取txt文件的内容，并且一行一个遍历出来</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,37 +1,537 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="笔者在折腾magento的时候，发现这个主题都是四列的，看截图：  这个情况是在没有侧边栏的还好，就是整个页面1 column的情况是OK的，可是比如，笔者想要新建一个页面，页面里面想要放一些文本，图片，甚至还想在这个里面添加一些分类产品（某个分类下的产品），比如：  这个就是由侧边栏（左边是侧边栏，右边是内容区），这个时候如果仍然保持四列的话就不好看，显得比较拥挤。如果改成三列就相对来说很好看，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="magento的market主题实现页面中的产品分类3列和4列显示">
+<meta property="og:url" content="http://example.com/2018/09/12/magento%E7%9A%84market%E4%B8%BB%E9%A2%98%E5%AE%9E%E7%8E%B0%E4%BA%A7%E5%93%81%E5%88%86%E7%B1%BB3%E5%88%97%E5%92%8C4%E5%88%97%E6%98%BE%E7%A4%BA/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="笔者在折腾magento的时候，发现这个主题都是四列的，看截图：  这个情况是在没有侧边栏的还好，就是整个页面1 column的情况是OK的，可是比如，笔者想要新建一个页面，页面里面想要放一些文本，图片，甚至还想在这个里面添加一些分类产品（某个分类下的产品），比如：  这个就是由侧边栏（左边是侧边栏，右边是内容区），这个时候如果仍然保持四列的话就不好看，显得比较拥挤。如果改成三列就相对来说很好看，">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/7PMpKZF.png">
+<meta property="og:image" content="https://i.imgur.com/pZQvjPV.png">
+<meta property="og:image" content="https://i.imgur.com/0s79AjE.png">
+<meta property="og:image" content="https://i.imgur.com/JVji67z.png">
+<meta property="og:image" content="https://i.imgur.com/7PMpKZF.png">
+<meta property="og:image" content="https://i.imgur.com/G9PAMuU.png">
+<meta property="og:image" content="https://i.imgur.com/8Gd22oT.png">
+<meta property="og:image" content="https://i.imgur.com/svXLMKj.png">
+<meta property="og:image" content="https://i.imgur.com/Z78s4wk.png">
+<meta property="og:image" content="https://i.imgur.com/GJPmlhI.png">
+<meta property="og:image" content="https://i.imgur.com/7JPTd4J.png">
+<meta property="og:image" content="https://i.imgur.com/kHemCbN.png">
+<meta property="og:image" content="https://i.imgur.com/7uOcW5p.png">
+<meta property="og:image" content="https://i.imgur.com/gHxkxwS.png">
+<meta property="article:published_time" content="2018-09-12T08:56:02.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:01.500Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="magento,market,产品分类,3列,4列,tab">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/7PMpKZF.png">
+
+<link rel="canonical" href="http://example.com/2018/09/12/magento%E7%9A%84market%E4%B8%BB%E9%A2%98%E5%AE%9E%E7%8E%B0%E4%BA%A7%E5%93%81%E5%88%86%E7%B1%BB3%E5%88%97%E5%92%8C4%E5%88%97%E6%98%BE%E7%A4%BA/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>magento的market主题实现页面中的产品分类3列和4列显示 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/09/12/magento%E7%9A%84market%E4%B8%BB%E9%A2%98%E5%AE%9E%E7%8E%B0%E4%BA%A7%E5%93%81%E5%88%86%E7%B1%BB3%E5%88%97%E5%92%8C4%E5%88%97%E6%98%BE%E7%A4%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          magento的market主题实现页面中的产品分类3列和4列显示
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-09-12 16:56:02" itemprop="dateCreated datePublished" datetime="2018-09-12T16:56:02+08:00">2018-09-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:01" itemprop="dateModified" datetime="2020-10-11T11:58:01+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/magento1/" itemprop="url" rel="index"><span itemprop="name">magento1</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>笔者在折腾magento的时候，发现这个主题都是四列的，看截图：</p>
+<p><img src="https://i.imgur.com/7PMpKZF.png"></p>
+<p>这个情况是在没有侧边栏的还好，就是整个页面1 column的情况是OK的，可是比如，笔者想要新建一个页面，页面里面想要放一些文本，图片，甚至还想在这个里面添加一些分类产品（某个分类下的产品），比如：</p>
+<p><img src="https://i.imgur.com/pZQvjPV.png"></p>
+<p>这个就是由侧边栏（左边是侧边栏，右边是内容区），这个时候如果仍然保持四列的话就不好看，显得比较拥挤。如果改成三列就相对来说很好看，截图：</p>
+<p><img src="https://i.imgur.com/0s79AjE.png"></p>
+<p>那这个是如何实现的呢，这里笔者吐个槽，发现magento的个性化产品分类的列数还是相当不容易的，反正自己是折腾了好久。</p>
+<p>笔者通过首页找到控制显示产品分类的布局代码：</p>
+<p><img src="https://i.imgur.com/JVji67z.png"></p>
+<p>前台对应的就是：</p>
+<p><img src="https://i.imgur.com/7PMpKZF.png"></p>
+<p>所以，笔者顺腾摸瓜，找这个文件：app/design/frontend/yourtheme/default/template/sm/tablisting/default.phtml</p>
+<p>后来，笔者在这个目录下找到了其他的模板文件：</p>
+<p><img src="https://i.imgur.com/G9PAMuU.png"></p>
+<p>比如：<code>default_v6.phtml</code>;<code>default_v8.phtml</code>;经过笔者实践发现<code>default_v6.phtml</code>这个是三列的。笔者新建了一个页面，命名为：test page one，然后在首页那里复制里面的布局（Design）代码，去掉不必要的部分，然后把里面的<code>default.phtml</code>改成<code>default_v6.phtml</code>，最后如下：</p>
+<pre><code>&lt;reference name=&quot;content&quot;&gt;
+     &lt;block type=&quot;tablisting/list&quot; name=&quot;tablisting1&quot; template=&quot;sm/tablisting/default_v6_custom.phtml&quot;&gt;
+     &lt;/block&gt;
+     &lt;block type=&quot;tablisting/list&quot; name=&quot;tablisting3&quot; template=&quot;sm/tablisting/default_v6.phtml&quot;&gt;
+        &lt;action method=&quot;setConfig&quot;&gt;
+                     &lt;values&gt;
+                        &lt;title&gt;分类：139,51和72&lt;/title&gt;
+                        &lt;type_tab_display&gt;category&lt;/type_tab_display&gt;
+                        &lt;product_category&gt;139,72,51&lt;/product_category&gt;
+                        &lt;product_order_by&gt;created_at&lt;/product_order_by&gt;
+                        &lt;product_order_dir&gt;desc&lt;/product_order_dir&gt;
+                     &lt;/values&gt;
+        &lt;/action&gt;
+     &lt;/block&gt;
+&lt;/reference&gt;</code></pre>
+<p>从这个代码里面，我们看到我们引用的是<code>default_v6.phtml</code>这个模板文件，而且第一个那里为了对比，笔者还复制了这个文件然后重新命名为：<code>default_v6_custom.phtml</code>，目的是为了<code>default_v6.phtml</code>这个文件在其他地方的引用不受影响，然后打开文件<code>default_v6_custom.phtml</code>，我们通过开发者工具定位，并且确定了一个位置，添加了一个class，当然这个可以根据需要自己选择合适的位置即可，笔者找到以下代码：</p>
+<pre><code>&lt;div class=&quot;respl-items &lt;?php echo $cls; ?&gt;  &lt;?php echo $cls_device; ?&gt;&quot; &gt;</code></pre>
+<p>改成：</p>
+<pre><code>&lt;div class=&quot;respl-items &lt;?php echo $cls; ?&gt;  &lt;?php echo $cls_device; ?&gt; my_three_column&quot; &gt;</code></pre>
+<p><img src="https://i.imgur.com/8Gd22oT.png"></p>
+<p>这样前台界面如下：</p>
+<p><img src="https://i.imgur.com/svXLMKj.png"></p>
+<p>其实这样是不好看的，必须要通过css来让这个全宽100%显示。所以，我们在css中添加代码：</p>
+<pre><code>@media (min-width: 1600px)&#123;
+.yt-tab-listing .my_three_column .respl-item &#123;
+    width: calc(100%/3);
+&#125;
+&#125;</code></pre>
+<p>这个是在开发者工具确定的，相信样式问题不是很大，可能有的读者就会问了，为什么不直接在默认的四列的里面通过css的方式，让他变成三列的？这里做个说明：因为前面笔者也是尝试通过样式直接来修改default.phtml的文件，问题是虽然能够改成三列，但是也显示4个产品每页，这样会显示成：</p>
+<p><img src="https://i.imgur.com/Z78s4wk.png"></p>
+<p>所以，这样做是行不通的。</p>
+<p>好的，我们在这个页面添加了代码后。然后在css样式文件中添加了样式代码之后，到前台看下效果：</p>
+<p><img src="https://i.imgur.com/GJPmlhI.png"></p>
+<p><img src="https://i.imgur.com/7JPTd4J.png"></p>
+<p>我们对比一下，第一张是，笔者进行了自定义的class的模板文件，第二张还是保留了<code>default_v6.phtml</code>默认的，从截图可以看出，每页显示3张。如果想要更多的基于<code>default_v6.phtml</code>这个模板文件的个性化，我们就可以在这个模板文件的基础上复制一份，然后重命名，然后在布局里面引用即可。</p>
+<p>好的，关于采用三列的产品形式已经说明完毕，大家可能注意到这里笔者使用的布局代码：</p>
+<pre><code>&lt;values&gt;
+  &lt;title&gt;分类：139,51和72&lt;/title&gt;
+  &lt;type_tab_display&gt;category&lt;/type_tab_display&gt;
+  &lt;product_category&gt;139,72,51&lt;/product_category&gt;
+  &lt;product_order_by&gt;created_at&lt;/product_order_by&gt;
+  &lt;product_order_dir&gt;desc&lt;/product_order_dir&gt;
+&lt;/values&gt;</code></pre>
+<p>比如以上这个，这个就是可以自定义这个地方显示哪个分类的产品，根据上面这个我们可以看出，这里引用的是产品分类ID为：139,72,51这三个分类的产品，当然还有其他的参数，大家可以进入到这个模块的配置文件里面进行详细的了解，路径：app/code/local/Sm/Tablisting/etc/config.xml</p>
+<pre><code>&lt;tablisting_cfg&gt;
+      &lt;general&gt;
+          &lt;isenabled&gt;1&lt;/isenabled&gt;
+          &lt;title&gt;Best sellers&lt;/title&gt;
+      &lt;/general&gt;
+&lt;module_setting&gt;
+    &lt;nb_column0&gt;4&lt;/nb_column0&gt;
+    &lt;nb_column1&gt;4&lt;/nb_column1&gt;
+    &lt;nb_column2&gt;4&lt;/nb_column2&gt;
+    &lt;nb_column3&gt;2&lt;/nb_column3&gt;
+    &lt;nb_column4&gt;1&lt;/nb_column4&gt;
+    &lt;product_links_target&gt;_self&lt;/product_links_target&gt;
+    &lt;count_readmore_display&gt;1&lt;/count_readmore_display&gt;
+&lt;/module_setting&gt;            
+      &lt;product_selection&gt;
+          &lt;type_tab_display&gt;category&lt;/type_tab_display&gt;
+          &lt;order_tab&gt;&lt;/order_tab&gt;
+          &lt;product_category&gt;&lt;/product_category&gt;
+          &lt;product_order_by&gt;best_sales&lt;/product_order_by&gt;
+          &lt;product_order_dir&gt;desc&lt;/product_order_dir&gt;
+          &lt;product_limitation&gt;20&lt;/product_limitation&gt;
+      &lt;/product_selection&gt;
+&lt;product_display_setting&gt;
+    &lt;item_image_width&gt;300&lt;/item_image_width&gt;
+    &lt;item_image_height&gt;300&lt;/item_image_height&gt;
+    &lt;item_title_display&gt;1&lt;/item_title_display&gt;
+    &lt;item_title_max_characs&gt;20&lt;/item_title_max_characs&gt;
+    &lt;item_desc_display&gt;0&lt;/item_desc_display&gt;
+    &lt;item_desc_max_characs&gt;150&lt;/item_desc_max_characs&gt;
+          &lt;item_description_striptags&gt;1&lt;/item_description_striptags&gt;
+          &lt;item_description_keeptags&gt;&lt;/item_description_keeptags&gt;
+    &lt;item_price_disp&gt;1&lt;/item_price_disp&gt;
+          &lt;item_review_disp&gt;1&lt;/item_review_disp&gt;
+    &lt;item_cart_disp&gt;1&lt;/item_cart_disp&gt;
+    &lt;item_wishlist_disp&gt;1&lt;/item_wishlist_disp&gt;
+    &lt;item_compare_disp&gt;1&lt;/item_compare_disp&gt;
+&lt;/product_display_setting&gt;
+      &lt;advanced&gt;
+          &lt;include_jquery&gt;0&lt;/include_jquery&gt;
+          &lt;pretext&gt;&lt;/pretext&gt;
+          &lt;posttext&gt;&lt;/posttext&gt;
+      &lt;/advanced&gt;
+&lt;/tablisting_cfg&gt;</code></pre>
+<p>从这个里面，相信你已经明白上面的那个其实就是对这个里面的一个重写而已。这里多说一点，对于获取产品分类ID，我们可以在magento的网站后台，来到产品的分类那里，随便选择其中一个分类，点击进入详情，</p>
+<p><img src="https://i.imgur.com/kHemCbN.png"></p>
+<p>这里就是产品的分类ID，这个很有用。</p>
+<p>鉴于笔者对这个列数的问题，已经折腾了很久，一直纳闷这个<code>default_v6.phtml</code>为何这么轻易的就解决了笔者的烦恼，相比于<code>default.phtml</code>来说，这个文件又有什么玄机，笔者忍不住的进入到<code>default_v6.phtml</code>这个文件中，与<code>default.phtml</code>对比了下，其实没有什么大的区别，区别就在于</p>
+<blockquote>
+<p><code>default_v6.phtml</code>里面引用的是<code>default_items_v6.phtml</code></p>
+<p><code>default.phtml</code>里面引用的是<code>default_item.phtml</code></p>
+</blockquote>
+<p>所以造成这两个文件有本质的列数上的区别就应该在他们各自的引用的文件里可以找到答案了。当笔者迫不及待的打开<code>default_items_v6.phtml</code>和<code>default_items.phtml</code>这两个文件进行对比的时候发现<code>default_items_v6.phtml</code>文件里面有个：</p>
+<pre><code>$column = 3; </code></pre>
+<p><img src="https://i.imgur.com/7uOcW5p.png"></p>
+<p>而<code>default_items.phtml</code>里面没有发现，而是一些判断：</p>
+<p><img src="https://i.imgur.com/gHxkxwS.png"></p>
+<p>这里最后默认的有个，</p>
+<pre><code>$column = 4; </code></pre>
+<p>大致的意思就是，当其他的条件不符合的时候，就是4列。所以笔者大胆的想象了一下，如果哪天有个客户需求想要某个页面5列，那么笔者就可以充分运用<code>default_items_v6.phtml</code>这个文件，复制这个文件，然后重命名一下，然后把里面的，</p>
+<pre><code>$column = 3; </code></pre>
+<p>改成：</p>
+<pre><code>$column = 5; </code></pre>
+<p>这个猜测笔者没有时间实践，大家可以去实践一下。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/magento-market-%E4%BA%A7%E5%93%81%E5%88%86%E7%B1%BB-3%E5%88%97-4%E5%88%97-tab/" rel="tag"># magento,market,产品分类,3列,4列,tab</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/09/11/%E7%BB%99Magento%E6%96%B0%E5%93%81widget%E6%B7%BB%E5%8A%A0%E5%88%86%E7%B1%BB%E7%AD%9B%E9%80%89%E4%BA%A7%E5%93%81%E5%8A%9F%E8%83%BD/" rel="prev" title="给Magento的后台页面的文本编辑器那里调用widget的方式添加添加产品时实现添加分类筛选产品功能">
+      <i class="fa fa-chevron-left"></i> 给Magento的后台页面的文本编辑器那里调用widget的方式添加添加产品时实现添加分类筛选产品功能
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/09/13/%E9%80%9A%E8%BF%87contact-form-7%E5%92%8CAdvanced-Contact-form-7-DB%E7%BB%93%E5%90%88%E5%AE%9E%E7%8E%B0wordpress%E7%BD%91%E7%AB%99%E5%89%8D%E5%8F%B0%E5%8F%91%E9%80%81%E8%81%94%E7%B3%BB%E8%A1%A8%E5%8D%95%E5%90%8E%E5%8F%B0%E6%94%B6%E5%88%B0%E7%95%99%E8%A8%80%E4%BF%A1%E6%81%AF/" rel="next" title="通过contact form 7和Advanced Contact form 7 DB结合实现wordpress网站前台发送联系表单后台收到留言信息">
+      通过contact form 7和Advanced Contact form 7 DB结合实现wordpress网站前台发送联系表单后台收到留言信息 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

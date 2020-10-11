@@ -1,37 +1,500 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="如何在magento1.x版的产品分类页（这里说明一下，笔者采用的是porto主题）中显示更多的产品自定义属性，比如model,brand,sku,partNo这些不是magento自带的特有属性值，这个源自客户的一个需求，想要显示更多的自定义属性，以便让客户一目了然，不用进入详情页去购买了。 先来一张图吧，最开始是这样的：  客户要求是这样的：  当然，这里仅仅是演示，可能客户需求还会更多，需要">
+<meta property="og:type" content="article">
+<meta property="og:title" content="magento1.x产品分类页中的产品列表显示自定义属性名，比如model,brand,sku,partNo等">
+<meta property="og:url" content="http://example.com/2018/12/22/magento1-x%E4%BA%A7%E5%93%81%E5%88%86%E7%B1%BB%E9%A1%B5%E4%B8%AD%E7%9A%84%E4%BA%A7%E5%93%81%E5%88%97%E8%A1%A8%E6%98%BE%E7%A4%BA%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B1%9E%E6%80%A7%E5%90%8D%EF%BC%8C%E6%AF%94%E5%A6%82model-brand-sku-partNo%E7%AD%89/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="如何在magento1.x版的产品分类页（这里说明一下，笔者采用的是porto主题）中显示更多的产品自定义属性，比如model,brand,sku,partNo这些不是magento自带的特有属性值，这个源自客户的一个需求，想要显示更多的自定义属性，以便让客户一目了然，不用进入详情页去购买了。 先来一张图吧，最开始是这样的：  客户要求是这样的：  当然，这里仅仅是演示，可能客户需求还会更多，需要">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/FLrFb8n.jpg">
+<meta property="og:image" content="https://i.imgur.com/CuxsBOH.jpg">
+<meta property="og:image" content="https://i.imgur.com/N7TpZe3.jpg">
+<meta property="article:published_time" content="2018-12-22T03:01:44.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:57:58.609Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="magento1.x,自定义属性,产品分类页,产品列表">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/FLrFb8n.jpg">
+
+<link rel="canonical" href="http://example.com/2018/12/22/magento1-x%E4%BA%A7%E5%93%81%E5%88%86%E7%B1%BB%E9%A1%B5%E4%B8%AD%E7%9A%84%E4%BA%A7%E5%93%81%E5%88%97%E8%A1%A8%E6%98%BE%E7%A4%BA%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B1%9E%E6%80%A7%E5%90%8D%EF%BC%8C%E6%AF%94%E5%A6%82model-brand-sku-partNo%E7%AD%89/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>magento1.x产品分类页中的产品列表显示自定义属性名，比如model,brand,sku,partNo等 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/12/22/magento1-x%E4%BA%A7%E5%93%81%E5%88%86%E7%B1%BB%E9%A1%B5%E4%B8%AD%E7%9A%84%E4%BA%A7%E5%93%81%E5%88%97%E8%A1%A8%E6%98%BE%E7%A4%BA%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B1%9E%E6%80%A7%E5%90%8D%EF%BC%8C%E6%AF%94%E5%A6%82model-brand-sku-partNo%E7%AD%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          magento1.x产品分类页中的产品列表显示自定义属性名，比如model,brand,sku,partNo等
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-12-22 11:01:44" itemprop="dateCreated datePublished" datetime="2018-12-22T11:01:44+08:00">2018-12-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:58" itemprop="dateModified" datetime="2020-10-11T11:57:58+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/magento1/" itemprop="url" rel="index"><span itemprop="name">magento1</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>如何在magento1.x版的产品分类页（这里说明一下，笔者采用的是porto主题）中显示更多的产品自定义属性，比如model,brand,sku,partNo这些不是magento自带的特有属性值，这个源自客户的一个需求，想要显示更多的自定义属性，以便让客户一目了然，不用进入详情页去购买了。</p>
+<p>先来一张图吧，最开始是这样的：</p>
+<p><img src="https://i.imgur.com/FLrFb8n.jpg"></p>
+<p>客户要求是这样的：</p>
+<p><img src="https://i.imgur.com/CuxsBOH.jpg"></p>
+<p>当然，这里仅仅是演示，可能客户需求还会更多，需要显示更多的内容，那么这个是怎么做的？</p>
+<p>通过开发者工具，我们找到产品分类页的模板文件，这里就以笔者的主题为例吧，这里有好几个地方，有些是过滤类的分类模板文件，有些是自带的分类页模板，比如笔者从首页的后台编辑那里看到，获取产品列表的对应代码如下：</p>
+<pre><code>&#123;&#123;block type="filterproducts/latest_home_list" name="featured_list" category_id="10" product_count="10" column_count="5" template="filterproducts/flex_grid.phtml"&#125;&#125;</code></pre>
+<p>那么这个的模板文件就是，</p>
+<pre><code>/app/design/frontend/smartwave/porto/template/filterproducts/flex_grid.phtml</code></pre>
+<p>然后，我们逐个了解下的其他产品分类获取的对应模板文件，比如有些是，</p>
+<pre><code>&#123;&#123;block type="filterproducts/latest_home_list" name="featured_list" category_id="10" product_count="10" column_count="5" template="filterproducts/grid.phtml"&#125;&#125;</code></pre>
+<p>那么这个对应的模板文件就是，</p>
+<pre><code>/app/design/frontend/smartwave/porto/template/filterproducts/grid.phtml</code></pre>
+<p>而有些是，</p>
+<pre><code>&#123;&#123;block type="filterproducts/latest_home_list" name="featured_list" category_id="10" product_count="10" column_count="5" template="filterproducts/listing.phtml"&#125;&#125;</code></pre>
+<p>那么，对应的模板文件就是，</p>
+<pre><code>/app/design/frontend/smartwave/porto/template/filterproducts/listing.phtml</code></pre>
+<p>当然，仅仅通过这个估计还有些地方会漏掉，那么我们可以来到源码的目录，</p>
+<pre><code>/app/design/frontend/smartwave/porto/template/catalog/product/</code></pre>
+<p>这个里面，这里是存放的是关于目录下的产品有关的模板文件，如果想要修改分类之类的模板文件那么可以在目录，</p>
+<pre><code>/app/design/frontend/smartwave/porto/template/catalog/category/</code></pre>
+<p>这个下面进行修改，当然这不是绝对的，不同主题，位置会有所不同，希望这样解释能够对大家定制这个模板文件有所启发。</p>
+<p>好的，当我们找到对应的模板文件后，剩下的就两件事，</p>
+<p><strong>第一：</strong></p>
+<p>在后台创建我们需要的这些自定义属性，并且让这些属性显示在前台，属性设置那里有选择的，设置完毕后，我们就可以在后台产品编辑那里看到我们添加的自定义属性，然后就是添加对应的值。</p>
+<p><strong>第二：</strong></p>
+<p>调用后台添加的自定义属性显示到前台，在产品分类页的产品列表那里显示出来，方法如下：</p>
+<pre><code>&lt;p&gt;Brand：
+    &lt;?php
+        $attributes = $_product-&gt;getAttributes();  
+        echo $attributes[&#39;brand&#39;]-&gt;getFrontend()-&gt;getValue($_product);  
+    ?&gt;
+&lt;/p&gt;</code></pre>
+<p>解释一下：这里的brand是我们在创建这个自定义属性那里的code值，</p>
+<p><img src="https://i.imgur.com/N7TpZe3.jpg"></p>
+<p>如果想要了解详细点可以阅读笔者的另外一篇文章：<a href="/2018/05/12/magento%E4%BA%A7%E5%93%81%E5%88%97%E8%A1%A8%E4%B8%AD%E6%98%BE%E7%A4%BA%E5%85%8D%E8%BF%90%E8%B4%B9%E5%92%8C%E5%90%8E%E5%8F%B0%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B1%9E%E6%80%A7%E6%98%BE%E7%A4%BA%E5%88%B0%E5%89%8D%E5%8F%B0%E4%BA%A7%E5%93%81%E4%BB%B7%E6%A0%BC%E5%8C%BA%E5%9F%9F/">magento产品列表中显示免运费和后台自定义属性显示到前台产品价格区域</a></p>
+<p>为了更好点笔者稍微完善了一下，最后如下：</p>
+<pre><code>&lt;p class=&quot;nocti_custom_attributes&quot;&gt;
+    &lt;span class=&quot;nocti_model&quot;&gt;
+        &lt;?php
+        $attributes = $_product-&gt;getAttributes();
+        if ($attributes[&#39;model&#39;]-&gt;getFrontend()-&gt;getValue($_product)) &#123;
+            $attributes = $_product-&gt;getAttributes();  
+            echo &quot;&lt;i&gt;Model:&lt;/i&gt;&quot;.$attributes[&#39;model&#39;]-&gt;getFrontend()-&gt;getValue($_product);  
+        &#125;
+        ?&gt;
+    &lt;/span&gt;
+    &lt;span class=&quot;nocti_brand&quot;&gt;
+        &lt;?php
+        if ($attributes[&#39;brand&#39;]-&gt;getFrontend()-&gt;getValue($_product)) &#123;
+            $attributes = $_product-&gt;getAttributes();   
+            echo &quot;&lt;i&gt;Brand:&lt;/i&gt;&quot;.$attributes[&#39;brand&#39;]-&gt;getFrontend()-&gt;getValue($_product);  
+        &#125;
+        ?&gt;
+    &lt;/span&gt;
+    &lt;span class=&quot;nocti_sku&quot;&gt;
+        &lt;?php
+        if ($attributes[&#39;sku&#39;]-&gt;getFrontend()-&gt;getValue($_product)) &#123;  
+            echo &quot;&lt;i&gt;SKU:&lt;/i&gt;&quot;.$attributes[&#39;sku&#39;]-&gt;getFrontend()-&gt;getValue($_product);  
+        &#125;
+        ?&gt;
+    &lt;/span&gt;
+&lt;/p&gt;</code></pre>
+<p>这里笔者调用了两个自定义属性，另外一个：sku是magento系统自带的，这里由于这两个自定义属性没有设置必填，所以有可能是没有填写东西的，比如brand，有些产品是没有brand的，那么这个时候我们做个判断，如果有这个值就显示，没有就不显示，这个会更符合常理。</p>
+<p>然后，把这个代码让在我们想要的位置即可。笔者通过开发者工具定位到产品的名字：<code>product-name</code>，</p>
+<pre><code>&lt;h2 class=&quot;product-name&quot;&gt;&lt;a href=&quot;&lt;?php echo $_product-&gt;getProductUrl() ?&gt;&quot; title=&quot;&lt;?php echo $this-&gt;stripTags($_product-&gt;getName(), null, true) ?&gt;&quot;&gt;&lt;?php echo $_helper-&gt;productAttribute($_product, $_product-&gt;getName(), &#39;name&#39;) ?&gt;&lt;/a&gt;&lt;/h2&gt;</code></pre>
+<p>然后就可以在这个后面添加代码，添加之后的结果：</p>
+<pre><code>&lt;h2 class=&quot;product-name&quot;&gt;&lt;a href=&quot;&lt;?php echo $_product-&gt;getProductUrl() ?&gt;&quot; title=&quot;&lt;?php echo $this-&gt;stripTags($_product-&gt;getName(), null, true) ?&gt;&quot;&gt;&lt;?php echo $_helper-&gt;productAttribute($_product, $_product-&gt;getName(), &#39;name&#39;) ?&gt;&lt;/a&gt;&lt;/h2&gt;
+&lt;p class=&quot;nocti_custom_attributes&quot;&gt;
+    &lt;span class=&quot;nocti_model&quot;&gt;
+        &lt;?php
+        $attributes = $_product-&gt;getAttributes();
+        if ($attributes[&#39;model&#39;]-&gt;getFrontend()-&gt;getValue($_product)) &#123;
+            $attributes = $_product-&gt;getAttributes();  
+            echo &quot;&lt;i&gt;Model:&lt;/i&gt;&quot;.$attributes[&#39;model&#39;]-&gt;getFrontend()-&gt;getValue($_product);  
+        &#125;
+        ?&gt;
+    &lt;/span&gt;
+    &lt;span class=&quot;nocti_brand&quot;&gt;
+        &lt;?php
+        if ($attributes[&#39;brand&#39;]-&gt;getFrontend()-&gt;getValue($_product)) &#123;
+            $attributes = $_product-&gt;getAttributes();   
+            echo &quot;&lt;i&gt;Brand:&lt;/i&gt;&quot;.$attributes[&#39;brand&#39;]-&gt;getFrontend()-&gt;getValue($_product);  
+        &#125;
+        ?&gt;
+    &lt;/span&gt;
+    &lt;span class=&quot;nocti_sku&quot;&gt;
+        &lt;?php
+        if ($attributes[&#39;sku&#39;]-&gt;getFrontend()-&gt;getValue($_product)) &#123;  
+            echo &quot;&lt;i&gt;SKU:&lt;/i&gt;&quot;.$attributes[&#39;sku&#39;]-&gt;getFrontend()-&gt;getValue($_product);  
+        &#125;
+        ?&gt;
+    &lt;/span&gt;
+&lt;/p&gt;</code></pre>
+<p>搞定！</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/magento1-x-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B1%9E%E6%80%A7-%E4%BA%A7%E5%93%81%E5%88%86%E7%B1%BB%E9%A1%B5-%E4%BA%A7%E5%93%81%E5%88%97%E8%A1%A8/" rel="tag"># magento1.x,自定义属性,产品分类页,产品列表</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/12/21/jquery%E6%96%B9%E5%BC%8F%E5%AE%9E%E7%8E%B0%E9%BC%A0%E6%A0%87%E6%BB%9A%E5%8A%A8%E6%9F%90%E4%B8%AA%E7%AA%97%E5%8F%A3%E4%BD%8D%E7%BD%AEdom%E8%8A%82%E7%82%B9%E5%9B%BA%E5%AE%9A%E4%B8%8D%E5%8A%A8%EF%BC%8C%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3js%E4%BB%A3%E7%A0%81%E6%94%BE%E5%9C%A8%E5%85%AC%E5%85%B1%E5%A4%B4%E9%83%A8%E6%88%96%E8%80%85%E5%B0%BE%E9%83%A8%E7%9A%84%E6%97%B6%E5%80%99%E5%BC%95%E8%B5%B7%E7%9A%84%E6%8A%A5%E9%94%99-Cannot-read-property-xxx-of-undefined/" rel="prev" title="jquery方式实现鼠标滚动某个窗口位置dom节点固定不动，以及解决js代码放在公共头部或者尾部的时候引起的报错:Cannot read property 'xxx' of undefined">
+      <i class="fa fa-chevron-left"></i> jquery方式实现鼠标滚动某个窗口位置dom节点固定不动，以及解决js代码放在公共头部或者尾部的时候引起的报错:Cannot read property 'xxx' of undefined
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/12/24/wordpress%E4%BE%A7%E8%BE%B9%E6%A0%8F%E8%8F%9C%E5%8D%95%E9%BB%98%E8%AE%A4%E6%8A%98%E5%8F%A0%E6%8F%92%E4%BB%B6%E7%9A%84%E5%BA%94%E7%94%A8%E5%8F%8A%E7%BE%8E%E5%8C%96%E6%96%B9%E6%A1%88/" rel="next" title="wordpress侧边栏菜单默认折叠插件的应用及wordpress的enfold主题的手机版美化方案">
+      wordpress侧边栏菜单默认折叠插件的应用及wordpress的enfold主题的手机版美化方案 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

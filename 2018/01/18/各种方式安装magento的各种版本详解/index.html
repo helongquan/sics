@@ -1,37 +1,496 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="今天来跟大家分享下如何安装magento，这个东西在中国用户比较少，国外比较多，但是对于那些想要搭建商城的用户来说，是一个好的选择方案，但是使用成本会很高。 我要分享的有如下： magneto的安装方式  命令方式安装 源码方式安装 在线方式安装（暂且这样说）  版本：magento1.x和magento2.x 分别介绍这两种版本的不同安装方式。 环境：Ubuntu 16.04 首先，我们来说明用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="各种方式安装magento的各种版本详解">
+<meta property="og:url" content="http://example.com/2018/01/18/%E5%90%84%E7%A7%8D%E6%96%B9%E5%BC%8F%E5%AE%89%E8%A3%85magento%E7%9A%84%E5%90%84%E7%A7%8D%E7%89%88%E6%9C%AC%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="今天来跟大家分享下如何安装magento，这个东西在中国用户比较少，国外比较多，但是对于那些想要搭建商城的用户来说，是一个好的选择方案，但是使用成本会很高。 我要分享的有如下： magneto的安装方式  命令方式安装 源码方式安装 在线方式安装（暂且这样说）  版本：magento1.x和magento2.x 分别介绍这两种版本的不同安装方式。 环境：Ubuntu 16.04 首先，我们来说明用">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/Xe16qO2.png">
+<meta property="og:image" content="https://i.imgur.com/jxRfXiV.png">
+<meta property="og:image" content="https://i.imgur.com/MJkyRIy.png">
+<meta property="article:published_time" content="2018-01-18T06:11:33.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:53:03.672Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="magento,magento1.x,magento2.x,magnento2,magento1">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/Xe16qO2.png">
+
+<link rel="canonical" href="http://example.com/2018/01/18/%E5%90%84%E7%A7%8D%E6%96%B9%E5%BC%8F%E5%AE%89%E8%A3%85magento%E7%9A%84%E5%90%84%E7%A7%8D%E7%89%88%E6%9C%AC%E8%AF%A6%E8%A7%A3/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>各种方式安装magento的各种版本详解 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/01/18/%E5%90%84%E7%A7%8D%E6%96%B9%E5%BC%8F%E5%AE%89%E8%A3%85magento%E7%9A%84%E5%90%84%E7%A7%8D%E7%89%88%E6%9C%AC%E8%AF%A6%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          各种方式安装magento的各种版本详解
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-01-18 14:11:33" itemprop="dateCreated datePublished" datetime="2018-01-18T14:11:33+08:00">2018-01-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:03" itemprop="dateModified" datetime="2020-10-11T11:53:03+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>今天来跟大家分享下如何安装magento，这个东西在中国用户比较少，国外比较多，但是对于那些想要搭建商城的用户来说，是一个好的选择方案，但是使用成本会很高。</p>
+<p>我要分享的有如下：</p>
+<p><strong>magneto的安装方式</strong></p>
+<ol>
+<li>命令方式安装</li>
+<li>源码方式安装</li>
+<li>在线方式安装（暂且这样说）</li>
+</ol>
+<p><strong>版本：magento1.x和magento2.x</strong></p>
+<p>分别介绍这两种版本的不同安装方式。</p>
+<p>环境：Ubuntu 16.04</p>
+<p>首先，我们来说明用命令方式安装magnento的方法。</p>
+<p><strong>Installation &amp; Update</strong></p>
+<hr>
+<p>Magento Installation</p>
+<p>Install from archive file</p>
+<p>First and easiest way is to download it from Magento download page, <a target="_blank" rel="noopener" href="https://www.magentocommerce.com/download">https://www.magentocommerce.com/download</a>.</p>
+<p>You can choose from few different archive types (zip, tar.gz, tar.bz2) , with and without sample data.</p>
+<p>Magento was kind enough to pack with all composer dependencies in the archive, so you don’t have to run Composer.</p>
+<p>In this installation Magento core code is stored under /vendor directory and updating is possible through Magento admin.</p>
+<p>So next steps are easy, just visit <a target="_blank" rel="noopener" href="http://m2.loc/2.07/magento-website/">http://m2.loc/2.07/magento-website/</a> (in my case) and follow Setup Wizard.</p>
+<p>Install via Composer</p>
+<p>Second, but not the last, is installing Magento via composer. Composer is a tool for dependency management in PHP. To learn more visit this link, <a target="_blank" rel="noopener" href="https://getcomposer.org/doc/00-intro.md">https://getcomposer.org/doc/00-intro.md</a>.</p>
+<p>In this installation, Magento core code is also stored under /vendor directory and updating is possible through Magento admin.</p>
+<p>First you need authentication keys which can be obtained here, and you will need Magento account to login.</p>
+<p>Once logged in, go to “My Access Keys”, enter some descriptive “Name” and generate new set of keys. Magento uses this approach because, in future, extensions you buy from marketplace, will be available to you, through Magento admin interface.</p>
+<p>Enter this command in terminal:</p>
+<pre><code>composer create-project --repository-url=https://repo.magento.com/ magento/project-community-edition</code></pre>
+<p>When prompted, your public key is username, and private key is password.</p>
+<p>After that, Magento is ready for installation. Go through Setup Wizard and install it.</p>
+<p>This was without sample data. So to install sample data, navigate to your Magento 2 root directory through terminal, and run the following command:</p>
+<pre><code>php bin/magento sampledata:deploy
+php bin/magento setup:upgrade</code></pre>
+<p>These two commands will update your composer.json file and install sample data. If you get this message, after installing sample data – Please re-run Magento compile command, enter the following in terminal:</p>
+<pre><code>php bin/magento setup:di:compile</code></pre>
+<p>This command will take some time to complete.</p>
+<p><strong>Install via GitHub</strong></p>
+<p>Third, and the last one, is cloning or downloading release from GitHub repository.<br>In this installation, I will show you how to avoid setup wizard and install Magento through terminal. But, it is important to mention that in this installation Magento core code is stored under app/code not in vendor/ like in previous two examples.<br>When you try to update Magento through Admin interface, you will get error that this is a GitHub version and it’s not possible to update. GitHub releases are intended to be used by contributors/developers.</p>
+<p>First we must clone Magento repo from here: <a target="_blank" rel="noopener" href="https://github.com/magento/magento2">https://github.com/magento/magento2</a> or you can download releases on <a target="_blank" rel="noopener" href="https://github.com/magento/magento2/releases">https://github.com/magento/magento2/releases</a></p>
+<p>Create empty directory and run:</p>
+<pre><code>git clone git@github.com:magento/magento2.git . </code></pre>
+<p>After deploying has been finished, run:</p>
+<pre><code>composer install</code></pre>
+<p>Now it’s time to install Magento 2. My setup looks like this:</p>
+<pre><code>php -f bin/magento setup:install –base-url=http://m2.loc/2.07/github/ --backend-frontname=admin --db-host=localhost --db-name=m2git --db-user=root --db-password=inchoo --admin-firstname=Magento --admin-lastname=User --admin-email=ivan.veres@inchoo.net --admin-user=admin --admin-password=magento123 --language=en_US --currency=USD --timezone=America/Chicago –use-rewrites=1</code></pre>
+<p>Change your base-url, db-name, db-password, admin-email, admin-password to match your local setup.<br>If your visit you local link through browser (<a target="_blank" rel="noopener" href="http://m2.loc/2.07/github/">http://m2.loc/2.07/github/</a>), Magento 2 should be installed.</p>
+<p>If you need sample data, follow along.<br>In your web root (not magento2) run:</p>
+<pre><code>git clone git@github.com:magento/magento2-sample-data.git</code></pre>
+<p>Navigate into cloned directory and execute:</p>
+<pre><code>php -f dev/tools/build-sample-data.php -- --ce-source=&quot;your Magento CE install dir&quot;</code></pre>
+<p>This will create symlinks to your Magento 2 installation.<br>Set ownership and permissions if you are on Linux machine:</p>
+<pre><code>chown -R :your web server group name
+find . -type d -exec chmod g+ws &#123;&#125; \;</code></pre>
+<p>Then you need to clear static files (cache).<br>Navigate to Magento 2 var/ folder and enter following:</p>
+<pre><code>rm -rf cache/* page_cache/* generation/*</code></pre>
+<p>In Magento 2 documentation there are no further instructions. However you need to install sample data.</p>
+<pre><code>php bin/magento setup:upgrade
+php bin/magento setup:di:compile</code></pre>
+<p>After that you should have sample data installed.</p>
+<p>If you have some problems reference at: <a target="_blank" rel="noopener" href="http://devdocs.magento.com/guides/v2.0/install-gde/bk-install-guide.html">http://devdocs.magento.com/guides/v2.0/install-gde/bk-install-guide.html</a>.</p>
+<p><strong>Theme Installation</strong></p>
+<p>Prepare Installation</p>
+<p>We recommend you to duplicate your live store on a development store and try installation on it in advance.</p>
+<p>Backup magento files and the store database.</p>
+<p><strong>Important!</strong></p>
+<p>It’s very important to backup all of themes and extensions in Magento before installation, especially when you are working on a live server. We strongly recommend you to do not omit this step.</p>
+<p>Disable all cache related section that you have in your magento.</p>
+<p><strong>Theme Installation</strong></p>
+<ol>
+<li><p>Theme Files Upload</p>
+<ul>
+<li>Upload via FTP<br>Log into your hosting space via a FTP software. ie, FileZilla.</li>
+</ul>
+</li>
+</ol>
+<p>Unzip Theme Package &gt; Theme Files &gt; Magento 2.x &gt; Porto Theme.zip and upload all directories(There are 2 directories - app, pub) to magento 2 root directory.</p>
+<p>If your magento version is 2.0.x, you should patch the theme with Porto Theme(Magento 2.0.x Patch).zip.</p>
+<p>If your magento version is 2.1.x, you should patch the theme with Porto Theme(Magento 2.1.x Patch).zip </p>
+<p>If your magento version is 2.1.6, you should patch the theme with Porto Theme(Magento 2.1.x Patch).zip and Porto theme (Magento 2.1.6 Patch).zip.</p>
+<ul>
+<li>Upload via CPanel<br>Log into your CPanel(Control Panel) by your hosting account or cpanel user information.</li>
+</ul>
+<p>Upload Theme Package &gt; Theme Files &gt; Magento 2.x &gt; Porto Theme.zip to your magento root directory and unzip its content.</p>
+<p>If your magento version is 2.0.x, you should patch the theme with Porto Theme(Magento 2.0.x Patch).zip.</p>
+<p>If your magento version is 2.1.x, you should patch the theme with Porto Theme(Magento 2.1.x Patch).zip. </p>
+<p>If your magento version is 2.1.6, you should patch the theme with Porto Theme(Magento 2.1.x Patch).zip and Porto theme (Magento 2.1.6 Patch).zip</p>
+<ol start="2">
+<li>Active SW Extensions, open command line in folder root of magento and run commands via ssh using putty or others, php bin/magento setup:upgrade.</li>
+</ol>
+<p><img src="https://i.imgur.com/Xe16qO2.png"></p>
+<p>这里说明的是：我在使用Porto这个主题的时候，有两个版本，一个是针对magento1.9的Quickstart文件，这个就是直接相当于magento1.9的所有源码，把这所有的复制放在magento1.9根目录下，然后运行安装程序，跟着安装步骤走即可。由于magento1.9这个版本对PHP的要求是php5.6或者以下，因此不能使用在php7的集成环境中，否则会报错。</p>
+<p>接着是版本二的是magento2的，这个打开后只有app和pub这两个文件夹，所以，我们会觉得奇怪，这个不是所有源码，怎么办。这个是只包含主题文件夹的内容，需要在已经安装了magento2.x的基础上，进行覆盖的，如何覆盖呢？很简单！就是把app和pub这两个文件夹复制，然后在magento2这个根目录下粘贴，这样这个magento2里面的两个app和pub会被覆盖，当初我为了安全起见，只是把magento2里面的app和pub这两个文件夹重命名，然后把porto的magento2.x版本的主题拷贝到magento2的根目录中，这样是不行的。切记！</p>
+<p>说明：magento2目录截图：</p>
+<p><img src="https://i.imgur.com/jxRfXiV.png"><br>图一</p>
+<p>porto的magento2.x版本主题目录截图：</p>
+<p><img src="https://i.imgur.com/MJkyRIy.png"><br>图二</p>
+<p>上面说了那么多，就是把图二中的所有文件复制到图一中去，覆盖里面的两个相同的文件夹，这样不会把图一中的文件彻底覆盖，只是把默认的部分保留，然后把主题的内容叠加进去，这样总算理解了吧！</p>
+<p>根据多次的实验失败，个人觉得安装magento2的时候，最好去官网下在安装文件，然后通过FTP上传到服务器上去，然后解压，然后进行安装，这样报错的几率小很多。通过github下载下来的东西或多或少都会存在一点问题。</p>
+<p>同时，以前我也采用composer去安装magento2，但是magento2比较大，中间在安装的时候可能会出现一些小问题。</p>
+<p>当然，上面说的这两点是对于顺利安装的一些小建议，并不是说就不能采用github的方式进行源码的下载或者是composer的方式。</p>
+<p>这篇文章，后面还会继续更新…</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/magento-magento1-x-magento2-x-magnento2-magento1/" rel="tag"># magento,magento1.x,magento2.x,magnento2,magento1</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/01/16/%E8%BD%AC%EF%BC%9AWordPress%E7%89%88%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91%E7%B3%BB%E5%88%97-%E4%B8%80-%EF%BC%9AWordPress-REST-API/" rel="prev" title="转：WordPress版微信小程序开发系列(一)：WordPress REST API">
+      <i class="fa fa-chevron-left"></i> 转：WordPress版微信小程序开发系列(一)：WordPress REST API
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/02/03/magento1-9-market-connect%E6%8F%92%E4%BB%B6%E9%93%BE%E6%8E%A5%E5%A4%A7%E5%85%A8/" rel="next" title="magento1.9 market connect插件链接大全">
+      magento1.9 market connect插件链接大全 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

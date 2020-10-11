@@ -1,37 +1,465 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="简单写一下： 如果把cms中的自定义的静态模块全局使用在网站中，比如头部，底部，或者任何其他全局的地方，也就是任何页面都会出现的地方，那么我们可以采用全局的形式。比如我们在网站头部添加一个广告区块，方法如下： 1.先新建一个静态模块在后台。  在后台创建一个top ad banner静态块 Block Title : top ad banner Identifier : top_ad_banner">
+<meta property="og:type" content="article">
+<meta property="og:title" content="magento中cms静态模块的全局使用和局部使用的技巧">
+<meta property="og:url" content="http://example.com/2018/08/15/magento%E4%B8%ADcms%E9%9D%99%E6%80%81%E6%A8%A1%E5%9D%97%E7%9A%84%E5%85%A8%E5%B1%80%E4%BD%BF%E7%94%A8%E5%92%8C%E5%B1%80%E9%83%A8%E4%BD%BF%E7%94%A8%E7%9A%84%E6%8A%80%E5%B7%A7/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="简单写一下： 如果把cms中的自定义的静态模块全局使用在网站中，比如头部，底部，或者任何其他全局的地方，也就是任何页面都会出现的地方，那么我们可以采用全局的形式。比如我们在网站头部添加一个广告区块，方法如下： 1.先新建一个静态模块在后台。  在后台创建一个top ad banner静态块 Block Title : top ad banner Identifier : top_ad_banner">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/CXFTdJB.png">
+<meta property="og:image" content="https://i.imgur.com/nLpWeK8.png">
+<meta property="og:image" content="https://i.imgur.com/W4CNQ87.png">
+<meta property="article:published_time" content="2018-08-15T02:26:37.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:57:59.640Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="magento,cms,静态模块,全局,局部">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/CXFTdJB.png">
+
+<link rel="canonical" href="http://example.com/2018/08/15/magento%E4%B8%ADcms%E9%9D%99%E6%80%81%E6%A8%A1%E5%9D%97%E7%9A%84%E5%85%A8%E5%B1%80%E4%BD%BF%E7%94%A8%E5%92%8C%E5%B1%80%E9%83%A8%E4%BD%BF%E7%94%A8%E7%9A%84%E6%8A%80%E5%B7%A7/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>magento中cms静态模块的全局使用和局部使用的技巧 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/08/15/magento%E4%B8%ADcms%E9%9D%99%E6%80%81%E6%A8%A1%E5%9D%97%E7%9A%84%E5%85%A8%E5%B1%80%E4%BD%BF%E7%94%A8%E5%92%8C%E5%B1%80%E9%83%A8%E4%BD%BF%E7%94%A8%E7%9A%84%E6%8A%80%E5%B7%A7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          magento中cms静态模块的全局使用和局部使用的技巧
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-08-15 10:26:37" itemprop="dateCreated datePublished" datetime="2018-08-15T10:26:37+08:00">2018-08-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:59" itemprop="dateModified" datetime="2020-10-11T11:57:59+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>简单写一下：</p>
+<p>如果把cms中的自定义的静态模块全局使用在网站中，比如头部，底部，或者任何其他全局的地方，也就是任何页面都会出现的地方，那么我们可以采用全局的形式。比如我们在网站头部添加一个广告区块，方法如下：</p>
+<p>1.先新建一个静态模块在后台。</p>
+<blockquote>
+<p>在后台创建一个top ad banner静态块</p>
+<p>Block Title : top ad banner</p>
+<p>Identifier : top_ad_banner</p>
+<p>Status :Enabled</p>
+<p>Content :自定义内容</p>
+</blockquote>
+<p>2.找到magento网站的头部模板文件，笔者这里使用的是header1.phtml这个作为头部模板文件的，所以我们在最前面添加代码：</p>
+<pre><code>&lt;?php echo $this-&gt;getLayout()-&gt;createBlock(&#39;cms/block&#39;)-&gt;setBlockId(&#39;top_ad_banner&#39;)-&gt;toHtml() ?&gt;</code></pre>
+<p>然后就完事了。</p>
+<p>top ad banner这个里面的内容是：</p>
+<pre><code>&lt;div class=&quot;customer_custom&quot;&gt;
+    &lt;img src=&quot;&#123;&#123;media url="wysiwyg/1920x80.jpg"&#125;&#125;&quot; alt=&quot;&quot; style=&quot;width:100%;&quot;&gt;
+&lt;/div&gt;</code></pre>
+<p>最后的效果：</p>
+<p><img src="https://i.imgur.com/CXFTdJB.png"></p>
+<p>这样，打开每一个页面我们都会在头部看到这个广告栏了。</p>
+<hr>
+<p><strong>如果我们想要局部显示这个广告内容，怎么处理呢？</strong></p>
+<p>比如我们想要只在首页显示我们自定义的cms的静态模块的内容，方法如下：</p>
+<p>1.同样的我们需要新建一个自定义的静态模块。</p>
+<blockquote>
+<p>在后台创建一个custom contact info静态块</p>
+<p>Block Title : custom contact info</p>
+<p>Identifier : custom_contact_info</p>
+<p>Status :Enabled</p>
+<p>Content :自定义内容</p>
+</blockquote>
+<p>2.我们来到首页的后台编辑页面，来到Design这个地方：</p>
+<p><img src="https://i.imgur.com/nLpWeK8.png"></p>
+<pre><code>&lt;reference name=&quot;root&quot;&gt;
+      &lt;block type=&quot;cms/block&quot; name=&quot;myelement3&quot; before=&quot;-&quot;&gt;
+          &lt;action method=&quot;setBlockId&quot;&gt;&lt;block_id&gt;custom_contact_info&lt;/block_id&gt;&lt;/action&gt;
+      &lt;/block&gt;
+&lt;/reference&gt;</code></pre>
+<p>3.我们需要来到需要显示这个静态模块的文件，从上面的截图我们看到了，这个首页我们用的是1 column布局，所以我们来到这个布局的模板文件(1column.phtml)。打开，在合适的地方添加如下代码：</p>
+<pre><code>&lt;!-- add new custom block start--&gt;
+&lt;div class=&quot;page&quot;&gt;
+    &lt;?php
+     echo $this-&gt;getChildHtml(&#39;myelement3&#39;) 
+     ?&gt;
+     &lt;?php
+     echo $this-&gt;getChildHtml(&#39;myelement2&#39;) 
+     ?&gt;
+&lt;/div&gt;
+&lt;!-- add new custom block end--&gt;</code></pre>
+<p>这里我们可以添加多个，也可以根据自己需要添加，笔者这里添加了两个，第一个（myelement3）是就是要显示的内容所对应的那个name。第二个是笔者为了讲解添加的，可以忽略，目的就是为了说明：如果没有静态模块被引用是不会报错的，只是没有内容显示而已。</p>
+<p>好的，这里笔者把这个静态模块的内容粘贴一下：</p>
+<pre><code>&lt;div class=&quot;element-green container&quot;&gt;
+&lt;p&gt;联系地址：深圳市福田区会展中心和平一路&lt;/p&gt;
+&lt;p&gt;联系电话：13829440537&lt;/p&gt;
+&lt;p&gt;联系人：张三&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;style&gt;
+  .element-green&#123;
+    background:#009688;
+    padding:15px;
+    margin:10px auto;
+    display:block;
+    color:#fff;
+&#125;
+&lt;/style&gt;</code></pre>
+<p>最后的效果：</p>
+<p><img src="https://i.imgur.com/W4CNQ87.png"></p>
+<p>在其他一列布局的页面是不会显示的，除非在Design那里添加了对这个静态模块的引用。</p>
+<p>总结：这两种方式可以满足我们不同的需求，静态模块的调用，今天就讲到这里。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/magento-cms-%E9%9D%99%E6%80%81%E6%A8%A1%E5%9D%97-%E5%85%A8%E5%B1%80-%E5%B1%80%E9%83%A8/" rel="tag"># magento,cms,静态模块,全局,局部</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/08/13/%E4%B8%80%E4%B8%AAhtml%E6%8C%89%E9%92%AE%E7%9A%84%E5%A4%A7%E4%BA%8E%E5%8F%B7%E5%92%8C%E5%B0%8F%E4%BA%8E%E5%8F%B7%E5%BC%95%E5%8F%91%E5%AF%B9%E8%BD%AC%E4%B9%89%E7%9A%84%E6%80%9D%E8%80%83%E5%92%8C%E7%9B%B8%E5%85%B3%E8%B5%84%E6%96%99%E7%9A%84%E6%95%B4%E7%90%86/" rel="prev" title="一个html按钮的大于号和小于号引发对转义的思考和相关资料的整理">
+      <i class="fa fa-chevron-left"></i> 一个html按钮的大于号和小于号引发对转义的思考和相关资料的整理
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/08/15/%E5%AF%B9%E4%B8%80%E4%BB%B6%E4%BA%8B%E6%83%85%E7%9A%84%E6%B7%B1%E5%85%A5%E7%9A%84%E8%AE%A4%E8%AF%86%E6%96%B9%E6%B3%95%E5%92%8C%E8%AF%84%E4%BC%B0%E4%B8%80%E6%9C%AC%E4%B9%A6%E7%9A%84%E4%BB%B7%E5%80%BC/" rel="next" title="对一件事情的深入的认识方法和评估一本书的价值">
+      对一件事情的深入的认识方法和评估一本书的价值 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

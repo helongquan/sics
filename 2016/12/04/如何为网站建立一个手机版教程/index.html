@@ -1,37 +1,489 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="根据项目需要，为网站弄一个手机版，第一次的时候不知道怎么弄，网上搜了很多讲不清楚，相信很多新手也不知道怎么弄，好吧，我就来献丑了。 首先得确定自己的主机是否支持二级域名，这个直接咨询空间商就行了。 然后，去自己域名解析那里找到添加解析，我这里解析如下：  记录值就是网站域名的IP，跟你的PC版域名一样IP号。 然后去空间里面，新建一个子站点，教程地址：http:&#x2F;&#x2F;www.zhujimiao.co">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何为网站建立一个手机版教程">
+<meta property="og:url" content="http://example.com/2016/12/04/%E5%A6%82%E4%BD%95%E4%B8%BA%E7%BD%91%E7%AB%99%E5%BB%BA%E7%AB%8B%E4%B8%80%E4%B8%AA%E6%89%8B%E6%9C%BA%E7%89%88%E6%95%99%E7%A8%8B/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="根据项目需要，为网站弄一个手机版，第一次的时候不知道怎么弄，网上搜了很多讲不清楚，相信很多新手也不知道怎么弄，好吧，我就来献丑了。 首先得确定自己的主机是否支持二级域名，这个直接咨询空间商就行了。 然后，去自己域名解析那里找到添加解析，我这里解析如下：  记录值就是网站域名的IP，跟你的PC版域名一样IP号。 然后去空间里面，新建一个子站点，教程地址：http:&#x2F;&#x2F;www.zhujimiao.co">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://i.imgur.com/0nk4NnS.jpg">
+<meta property="og:image" content="http://i.imgur.com/ZTNuZ4Y.jpg">
+<meta property="og:image" content="http://i.imgur.com/jQrbVg9.jpg">
+<meta property="og:image" content="http://i.imgur.com/KuFa4zj.jpg">
+<meta property="og:image" content="http://i.imgur.com/EftvCzS.jpg">
+<meta property="article:published_time" content="2016-12-04T11:01:50.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:52:57.681Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="手机版,二级域名,子域名">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://i.imgur.com/0nk4NnS.jpg">
+
+<link rel="canonical" href="http://example.com/2016/12/04/%E5%A6%82%E4%BD%95%E4%B8%BA%E7%BD%91%E7%AB%99%E5%BB%BA%E7%AB%8B%E4%B8%80%E4%B8%AA%E6%89%8B%E6%9C%BA%E7%89%88%E6%95%99%E7%A8%8B/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>如何为网站建立一个手机版教程 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/12/04/%E5%A6%82%E4%BD%95%E4%B8%BA%E7%BD%91%E7%AB%99%E5%BB%BA%E7%AB%8B%E4%B8%80%E4%B8%AA%E6%89%8B%E6%9C%BA%E7%89%88%E6%95%99%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          如何为网站建立一个手机版教程
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-12-04 19:01:50" itemprop="dateCreated datePublished" datetime="2016-12-04T19:01:50+08:00">2016-12-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:52:57" itemprop="dateModified" datetime="2020-10-11T11:52:57+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>根据项目需要，为网站弄一个手机版，第一次的时候不知道怎么弄，网上搜了很多讲不清楚，相信很多新手也不知道怎么弄，好吧，我就来献丑了。</p>
+<p>首先得确定自己的主机是否支持二级域名，这个直接咨询空间商就行了。</p>
+<p>然后，去自己域名解析那里找到添加解析，我这里解析如下：</p>
+<p><img src="http://i.imgur.com/0nk4NnS.jpg"></p>
+<p>记录值就是网站域名的IP，跟你的PC版域名一样IP号。</p>
+<p>然后去空间里面，新建一个子站点，教程地址：<a target="_blank" rel="noopener" href="http://www.zhujimiao.com/knowledgebase.php?action=displayarticle&amp;id=17%EF%BC%8C%E6%88%AA%E5%9B%BE%E5%A6%82%E4%B8%8B%EF%BC%9A">http://www.zhujimiao.com/knowledgebase.php?action=displayarticle&amp;id=17，截图如下：</a></p>
+<p><img src="http://i.imgur.com/ZTNuZ4Y.jpg"></p>
+<p><img src="http://i.imgur.com/jQrbVg9.jpg"></p>
+<p>然后，来到ftp,通过FTP我们在我们的网站根目录，就是www或者是htdocs下的文件中会生成一个m的文件夹，看截图：</p>
+<p><img src="http://i.imgur.com/KuFa4zj.jpg"></p>
+<p>打开里面啥也没有，或者是一些提示什么的，都可以把里面的东西删除的，然后我们在m文件夹中存放手机版的网站程序，我们可以随便写点东西作为测试（index.html），然后我们访问我们的手机版网站：这里以<a target="_blank" rel="noopener" href="http://www.xxx.com作为我的网站,输入m.xxx.com就可以看到我们的写在m文件夹中的内容了,这样基本算是完成了一个手机版的设置,可是很不智能,就是不会自动识别我们用的是手机打开我们的www.xxx.com还是pc,所以这里我们需要给它做一个跳转,好!/">www.xxx.com作为我的网站，输入m.xxx.com就可以看到我们的写在m文件夹中的内容了，这样基本算是完成了一个手机版的设置，可是很不智能，就是不会自动识别我们用的是手机打开我们的www.xxx.com还是PC，所以这里我们需要给它做一个跳转，好！</a></p>
+<p>我们继续往下看：</p>
+<p>这里我们需要在我们PC版的源码首页中存放一些代码让它做个跳转，我们需要在PC版网站根目录的index文件中添加跳转代码，</p>
+<p><img src="http://i.imgur.com/EftvCzS.jpg"></p>
+<p>这段javascript代码大意思就是匹配设备，如果匹配到iphone/ipad等移动终端的话，将会跳转到指定的地址，这是<a target="_blank" rel="noopener" href="http://m.xxx.com,这样就让我们的网站变得更智能了./">http://m.xxx.com，这样就让我们的网站变得更智能了。</a></p>
+<p>大功告成！这里的跳转参考了这篇文章的内容，引来参考下：</p>
+<p>代码如下：</p>
+<p>将以下代码放在首页区</p>
+<pre><code>&lt;SCRIPT LANGUAGE=&quot;JavaScript&quot;&gt;
+ function mobile_device_detect(url)
+ &#123;
+        var thisOS=navigator.platform;
+        var os=new Array(&quot;iPhone&quot;,&quot;iPod&quot;,&quot;iPad&quot;,&quot;android&quot;,&quot;Nokia&quot;,&quot;SymbianOS&quot;,&quot;Symbian&quot;,&quot;Windows Phone&quot;,&quot;Phone&quot;,&quot;Linux armv71&quot;,&quot;MAUI&quot;,&quot;UNTRUSTED/1.0&quot;,&quot;Windows CE&quot;,&quot;BlackBerry&quot;,&quot;IEMobile&quot;);
+ for(var i=0;i&lt;os.length;i++)
+        &#123;
+ if(thisOS.match(os[i]))
+        &#123;  
+  window.location=url;
+ &#125;
+
+ &#125;
+ //因为相当部分的手机系统不知道信息,这里是做临时性特殊辨认
+ if(navigator.platform.indexOf(&#39;iPad&#39;) != -1)
+        &#123;
+  window.location=url;
+ &#125;
+ //做这一部分是因为Android手机的内核也是Linux
+ //但是navigator.platform显示信息不尽相同情况繁多,因此从浏览器下手，即用navigator.appVersion信息做判断
+  var check = navigator.appVersion;
+  if( check.match(/linux/i) )
+          &#123;
+   //X11是UC浏览器的平台 ，如果有其他特殊浏览器也可以附加上条件
+   if(check.match(/mobile/i) || check.match(/X11/i))
+                 &#123;
+   window.location=url;
+   &#125; 
+ &#125;
+ //类in_array函数
+ Array.prototype.in_array = function(e)
+ &#123;
+  for(i=0;i&lt;this.length;i++)
+  &#123;
+   if(this[i] == e)
+   return true;
+  &#125;
+  return false;
+ &#125;
+ &#125;
+mobile_device_detect(&quot;http://m.xxx.com&quot;);
+&lt;/SCRIPT&gt;</code></pre>
+<p>这是第一种方法，倒数第二行中的 <a target="_blank" rel="noopener" href="http://m.xxx.com/">http://m.xxx.com</a> 就是要跳转到的手机版网址</p>
+<p>方法二，这是用较简单的JS代码，亲测可用：</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+try &#123;
+var urlhash = window.location.hash;
+if (!urlhash.match(&quot;fromapp&quot;))
+&#123;
+if ((navigator.userAgent.match(/(iPhone|iPod|Android|ios|iPad)/i)))
+&#123;
+window.location=&quot;http://m.xxx.com/&quot;;
+&#125;
+&#125;
+&#125;
+catch(err)
+&#123;
+&#125;
+&lt;/script&gt;</code></pre>
+<p>方法三，借用一下作者的第三种方法：</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+// JavaScript Document
+function urlredirect() &#123;
+    var sUserAgent = navigator.userAgent.toLowerCase(); 
+    if ((sUserAgent.match(/(ipod|iphone os|midp|ucweb|android|windows ce|windows mobile)/i))) &#123;
+        // PC跳转移动端
+        var thisUrl = window.location.href;
+        window.location.href = thisUrl.substr(0,thisUrl.lastIndexOf(&#39;/&#39;)+1)+&#39;m/&#39;;
+
+    &#125;
+&#125;
+urlredirect();
+&lt;/script&gt;</code></pre>
+<p>大功告成！！！</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%89%8B%E6%9C%BA%E7%89%88-%E4%BA%8C%E7%BA%A7%E5%9F%9F%E5%90%8D-%E5%AD%90%E5%9F%9F%E5%90%8D/" rel="tag"># 手机版,二级域名,子域名</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2016/11/13/%E8%A7%A3%E5%86%B3Access-denied-for-user-localhost-to-database-mysql/" rel="prev" title="解决Access denied for user ''@'localhost' to database 'mysql">
+      <i class="fa fa-chevron-left"></i> 解决Access denied for user ''@'localhost' to database 'mysql
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2016/12/17/%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8centos7%E9%80%90%E4%B8%AA%E5%AE%89%E8%A3%85%E7%8E%AF%E5%A2%83%E7%9A%84%E8%AF%A6%E7%BB%86%E6%AD%A5%E9%AA%A4/" rel="next" title="阿里云服务器centos7逐个安装环境的详细步骤">
+      阿里云服务器centos7逐个安装环境的详细步骤 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

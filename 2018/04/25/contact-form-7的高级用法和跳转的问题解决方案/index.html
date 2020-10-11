@@ -1,37 +1,575 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="1，邮件发送接收功能 当读者填写好信息点击提交后,你就可以收到一封邮件，我们在消息正文中输入如下代码,就可以显示相应信息： 读者名字:[your-name] 电子邮件:[your-email] 来信主题: [your-subject] 备注信息:[your-message] 下面是如何实现收邮件：首先，你要保证你的博客所在虚拟主机支持mail()函数，不支持的请安装Cimy Swift SMTP插">
+<meta property="og:type" content="article">
+<meta property="og:title" content="contact form 7的高级用法和跳转的问题解决方案">
+<meta property="og:url" content="http://example.com/2018/04/25/contact-form-7%E7%9A%84%E9%AB%98%E7%BA%A7%E7%94%A8%E6%B3%95%E5%92%8C%E8%B7%B3%E8%BD%AC%E7%9A%84%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="1，邮件发送接收功能 当读者填写好信息点击提交后,你就可以收到一封邮件，我们在消息正文中输入如下代码,就可以显示相应信息： 读者名字:[your-name] 电子邮件:[your-email] 来信主题: [your-subject] 备注信息:[your-message] 下面是如何实现收邮件：首先，你要保证你的博客所在虚拟主机支持mail()函数，不支持的请安装Cimy Swift SMTP插">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-04-25T10:18:12.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:53:35.225Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="wordpress,contact form 7,联系表单,跳转,url">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2018/04/25/contact-form-7%E7%9A%84%E9%AB%98%E7%BA%A7%E7%94%A8%E6%B3%95%E5%92%8C%E8%B7%B3%E8%BD%AC%E7%9A%84%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>contact form 7的高级用法和跳转的问题解决方案 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/04/25/contact-form-7%E7%9A%84%E9%AB%98%E7%BA%A7%E7%94%A8%E6%B3%95%E5%92%8C%E8%B7%B3%E8%BD%AC%E7%9A%84%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          contact form 7的高级用法和跳转的问题解决方案
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-04-25 18:18:12" itemprop="dateCreated datePublished" datetime="2018-04-25T18:18:12+08:00">2018-04-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:35" itemprop="dateModified" datetime="2020-10-11T11:53:35+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>1，邮件发送接收功能</p>
+<p>当读者填写好信息点击提交后,你就可以收到一封邮件，我们在消息正文中输入如下代码,就可以显示相应信息：</p>
+<pre><code>读者名字:[your-name]
+电子邮件:[your-email]
+来信主题: [your-subject]
+备注信息:[your-message]</code></pre>
+<p>下面是如何实现收邮件：<br>首先，你要保证你的博客所在虚拟主机支持mail()函数，不支持的请安装Cimy Swift SMTP插件。<br>在收件人中填写好收件人的邮箱，这里填我们自己的就行。<br>还要添加好寄件人<a href="mailto:&#97;&#100;&#x6d;&#x69;&#110;&#64;&#x77;&#97;&#105;&#x73;&#x69;&#114;&#46;&#x63;&#111;&#x6d;">&#97;&#100;&#x6d;&#x69;&#110;&#64;&#x77;&#97;&#105;&#x73;&#x69;&#114;&#46;&#x63;&#111;&#x6d;</a>,注意,在使用Cimy Swift SMTP插件辅助发信的朋友尖括号里面和外面都要写Cimy Swift SMTP中配置的邮箱，不然无法发信。<br>这样你就可以收到按你的格式的邮件了。</p>
+<p>紧接着下面分别是邮件2</p>
+<p>可以设置多个收件箱,比如还需要给读者发送感谢信之类的</p>
+<p>紧接着下面分别是消息</p>
+<p>可以自定义显示提示消息,一般不作修改,随意.</p>
+<p>紧接着下面分别是附加设定</p>
+<p>附加设定可以添加附加的设定，比如我们想要提交后跳转到指定页面,可以输入如下内容：</p>
+<pre><code>&lt;script type=”text/javascript”&gt;
+$(document).ready(function() &#123;
+if ($(‘.wpcf7-form.sent’).length) &#123;
+$(location).attr(‘href’, ‘http://www.habotalk.com’); // Redirect to OK page
+alert(‘Thank you for your message. It has been sent.’); // Alert Info
+&#125;
+&#125;);
+&lt;/script&gt;</code></pre>
+<p>这种方法貌似不行，还得依赖jquery，不建议使用，笔者貌似采纳的时候，不成功。</p>
+<p>或在 扩展设置里，添加下面的代码：</p>
+<pre><code>on_sent_ok: “location = ‘http://www.habotalk.com’;”   //这个已经被这个插件给抛弃了，不能使用</code></pre>
+<p>根据联系表单提交成功后，跳转的问题这里给出官方，而且经过笔者实践成功的代码，这里由于客户需要不同的表单提交成功后跳转到不同的地址，这里直接采用ID的形式，进行判断，我们先去contact form 7里面新建的联系表单列表那里，找到每个表单的ID，接着实现的纯javascript代码如下，把这个代码放在header.php里面或者footer.php里面都行：</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+document.addEventListener( &#39;wpcf7mailsent&#39;, function( event ) &#123;
+if ( &#39;9253&#39; == event.detail.contactFormId ) &#123;
+alert(&quot;send email success !&quot;);
+location = &#39;http://www.163.com/&#39;;
+&#125;else if( &#39;9504&#39; == event.detail.contactFormId )&#123;
+alert(&quot;send email success !&quot;);
+location = &#39;http://www.baidu.com/&#39;;
+&#125;else if( &#39;9503&#39; == event.detail.contactFormId )&#123;
+alert(&quot;send email success !&quot;);
+location = &#39;http://www.taobao.com/&#39;;
+&#125;
+&#125;, false );
+&lt;/script&gt;</code></pre>
+<p>后来客户又说什么GA的东西，查了后发现这个是谷歌的一个统计分析的东西。根据contact form 7的官网的方案，说明如下，也可以把以下的代码放在functions.php中，不过，经过实践发现这个报错：ga这个东西没有定义。看来还是得先去定义下ga.</p>
+<p>原因在于，ga没有定义是因为我们没有添加谷歌代码，参考链接：<a target="_blank" rel="noopener" href="https://contactform7.com/tracking-form-submissions-with-google-analytics/">https://contactform7.com/tracking-form-submissions-with-google-analytics/</a></p>
+<p>所以需要添加谷歌分析代码：</p>
+<pre><code>&lt;!-- Google Analytics --&gt;
+&lt;script&gt;
+(function(i,s,o,g,r,a,m)&#123;i[&#39;GoogleAnalyticsObject&#39;]=r;i[r]=i[r]||function()&#123;
+(i[r].q=i[r].q||[]).push(arguments)&#125;,i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+&#125;)(window,document,&#39;script&#39;,&#39;//www.google-analytics.com/analytics.js&#39;,&#39;ga&#39;);
+
+ga(&#39;create&#39;, &#39;UA-XXXXX-Y&#39;, &#39;auto&#39;);
+ga(&#39;send&#39;, &#39;pageview&#39;);
+&lt;/script&gt;
+&lt;!-- End Google Analytics --&gt;</code></pre>
+<p>在这里面我们就可以看到ga创建了一个ID：UA-XXXXX-Y，但是这个只是示例，这个ID号，需要去谷歌账号里面自己根据自己域名进行生成。这样，我们的解决方案就是：</p>
+<pre><code>&lt;!-- Google Analytics --&gt;
+&lt;script&gt;
+(function(i,s,o,g,r,a,m)&#123;i[&#39;GoogleAnalyticsObject&#39;]=r;i[r]=i[r]||function()&#123;
+(i[r].q=i[r].q||[]).push(arguments)&#125;,i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+&#125;)(window,document,&#39;script&#39;,&#39;//www.google-analytics.com/analytics.js&#39;,&#39;ga&#39;);
+
+ga(&#39;create&#39;, &#39;UA-XXXXX-Y&#39;, &#39;auto&#39;);
+ga(&#39;send&#39;, &#39;pageview&#39;);
+&lt;/script&gt;
+&lt;!-- End Google Analytics --&gt;
+
+&lt;script type=&quot;text/javascript&quot;&gt;
+document.addEventListener( &#39;wpcf7mailsent&#39;, function( event ) &#123;
+if ( &#39;9253&#39; == event.detail.contactFormId ) &#123;
+ga( &#39;send&#39;, &#39;event&#39;, &#39;Contact Form&#39;, &#39;submit&#39; );
+alert(&quot;send email success !&quot;);
+location = &#39;http://www.163.com/&#39;;
+&#125;else if( &#39;9504&#39; == event.detail.contactFormId )&#123;
+ga( &#39;send&#39;, &#39;event&#39;, &#39;Contact Form&#39;, &#39;submit&#39; );
+alert(&quot;send email success !&quot;);
+location = &#39;http://www.baidu.com/&#39;;
+&#125;else if( &#39;9503&#39; == event.detail.contactFormId )&#123;
+ga( &#39;send&#39;, &#39;event&#39;, &#39;Contact Form&#39;, &#39;submit&#39; );
+alert(&quot;send email success !&quot;);
+location = &#39;http://www.taobao.com/&#39;;
+&#125;
+&#125;, false );
+&lt;/script&gt;</code></pre>
+<p>然后把ID改成自己的谷歌分析代码ID即可。这样当提交contact form 7表单后就会被谷歌分析工具收集。</p>
+<p>Targeting a Specific Contact Form<br>If you have several contact forms and want to run the function only for a specific contact form, check the ID of the contact form like the following:</p>
+<pre><code>add_action( &#39;wp_footer&#39;, &#39;mycustom_wp_footer&#39; );
+function mycustom_wp_footer() &#123;
+?&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+document.addEventListener( &#39;wpcf7mailsent&#39;, function( event ) &#123;
+    if ( &#39;123&#39; == event.detail.contactFormId ) &#123;
+        ga( &#39;send&#39;, &#39;event&#39;, &#39;Contact Form&#39;, &#39;submit&#39; );
+    &#125;
+&#125;, false );
+&lt;/script&gt;
+&lt;?php
+&#125;</code></pre>
+<p>In this case, the ga() function will be executed only if the ID of the contact form (event.detail.contactFormId) is “123”.</p>
+<p>如果想要方便的话，针对电邮成功发送后要跳转，还有采用插件的方式，安装插件：contact form 7 redirection，然后进入到contact form 7里面设置一下就行了。</p>
+<p>2，什么是Cc和Bcc</p>
+<blockquote>
+<p>CC 英文全称是 Carbon Copy(抄送);BCC英文全称是 Blind CarbonCopy(暗抄送)。 两者的区别在于在BCC栏中的收件人可以看到所有的收件人名(TO,CC,BCC)，而在TO 和CC栏中的收件人看不到BBC的收件人名。</p>
+</blockquote>
+<p>3，Contact Form 7如何添加抄送和暗送<br>在 邮件栏 – 另外的标头( Additional headers )下填写如下格式代码即可</p>
+<pre><code>Cc:test001@waisir.com
+Bcc:test002@waisir.com</code></pre>
+<p>4，Contact Form CheckBox多选标签如何将选择框放在后面<br>添加label_first 这个tag即可<br>选框在前：</p>
+<pre><code>[checkbox your-cb “Option 1” “Option 2” “Option 3”]</code></pre>
+<p>选框在后：</p>
+<pre><code>[checkbox your-cb label_first “Option 1” “Option 2” “Option 3”]</code></pre>
+<p>5，如何CheckBox多选标签竖着排列<br>在主题CSS层叠样式表中添加如下代码即可</p>
+<pre><code>span.wpcf7-list-item &#123; display: block; &#125;</code></pre>
+<p>6，Contact Form如何调整提示信息栏的位置<br>当点击提交后,默认情况下在表单最下方会看到恭喜,提交成功类似文字.<br>我们可以随意改变提示信息的位置,使用[response]标签即可,如：</p>
+<pre><code>[response]
+Your Name (required)
+[text* your-name]
+Subject
+[text your-subject]
+Your Message
+[textarea your-message]
+[response]
+[submit “Send”]</code></pre>
+<p>7，Contact Form解决关于SEO邮件暴露问题<br>如,你需要一个下拉框让读者选择给谁发送邮件,不如可以选择(站长,销售员,客服),一般情况下,我们这样写就行</p>
+<pre><code>[select your-recipient “ceo@example.com”
+“sales@example.com”
+“support@example.com”]</code></pre>
+<p>再将自定义的[your-recipient]字段填写到收件人即可.这样就可以将邮件发送到选择的邮箱中<br>毋庸置疑,这样会暴露邮箱地址, 而带来垃圾邮件,而且对于用户来说也不方便.<br>做如下处理即可</p>
+<pre><code>[select your-recipient “CEO|ceo@example.com”
+“Sales|sales@example.com”
+“Support|support@example.com”]</code></pre>
+<p>相当于为每个邮件地址设置了一个用于显示的别名</p>
+<p>8，Contact Form如何返回表单所在POST的url和文章名称/用户IP等参数<br>通过引用以下这些tag就可以实现了</p>
+<blockquote>
+<p>[_remote_ip]访者IP</p>
+<p>[_url]返回页面url</p>
+<p>[_date]返回日期</p>
+<p>[_time]返回时间</p>
+<p>[_post_id]返回postID</p>
+<p>[_post_title]返回文章名称</p>
+<p>[_post_url]返回文章URL</p>
+<p>[_post_author]返回文章作者</p>
+<p>[_post_author_email]返回文章作者邮件</p>
+</blockquote>
+<p>9，Contact Form如何让用户上传附件并发送附件<br>和添加其他文本域便签一样,添加一个[file]标签,如：</p>
+<pre><code>[file file-torrent limit:1000000 filetypes:torrent]</code></pre>
+<p>然后在邮件栏-附件下填写[file-torrent]即可<br>有多个附件时并列填写即可[file-torrent1][file-torrent2]</p>
+<p>10，怎么将contact form 7直接插入到主题中<br>需要注意的是不能用短代码,用do_shortcode()函数调用：</p>
+<pre><code>&lt;?php echo do_shortcode( ‘[contact-form-7 id=”1234″ title=”Contact form 1″]’ ); ?&gt;</code></pre>
+<p>11，Contact Form验证码CAPTCHA无法输入,这个应该在火狐下才会出现,应该的位置没放正确<br>这是正确的写法</p>
+<pre><code>[captchac your-captcha]
+&lt;label&gt;Enter the code: [captchar your-captcha]&lt;/label&gt;</code></pre>
+<p>这是不好的写好</p>
+<pre><code>&lt;label&gt;[captchac your-captcha]
+Enter the code: [captchar your-captcha]&lt;/label&gt;</code></pre>
+<p>12, 更多 Contact Form 7 参数：</p>
+<p>提交询盘时间：[_date] [_time]</p>
+<p>客户访问IP：&lt;a href=”<a target="_blank" rel="noopener" href="http://www.ip138.com/ips138.asp?ip=%5B_remote_ip%5D%E2%80%9D&gt;%5B_remote_ip%5D">http://www.ip138.com/ips138.asp?ip=[_remote_ip]”&gt;[_remote_ip]</a></a> （点击打开可看到ip所属国家）</p>
+<p>客户访问产品：[_url]</p>
+<p>客户访问日期：[_date]</p>
+<p>客户访问者有没有facebook：&lt;a href=”<a target="_blank" rel="noopener" href="https://www.facebook.com/search/top/?q=%5Byour-email%5D%E2%80%9D&gt;%5Byour-email%5D">https://www.facebook.com/search/top/?q=[your-email]”&gt;[your-email]</a></a></p>
+<hr>
+<p>**更新：2019/4/25 16:47:16 **</p>
+<p>笔者在一个网站中安装了contact form 7，然后在contact form 7的联系表单中点击留言发送后，不显示发送成功或者发送失败的提示信息，默认情况应该是有提示的，比如发送成功后就提示：</p>
+<blockquote>
+<p>Thank you for your message. It has been sent.</p>
+</blockquote>
+<p>如果还有东西没有填写就发送的话就提示如下信息：</p>
+<blockquote>
+<p>One or more fields have an error. Please check and try again.</p>
+</blockquote>
+<p>当初笔者怀疑是吧提示信息用css隐藏了，经过排查发现并没有隐藏，后台设置也没有隐藏这个信息，那么如何解决这个问题呢？</p>
+<blockquote>
+<p>我的思路：放弃contact form 7原本自带的提示信息，用弹窗来取而代之。</p>
+</blockquote>
+<p><strong>不用jquery</strong>,用javascript，这个是笔者第一个需要提示的，原因前面已经说了，代码如下：</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+    document.addEventListener( &#39;wpcf7mailsent&#39;, function( event ) &#123;
+        if ( &#39;13514&#39; == event.detail.contactFormId ) &#123;
+            alert(&quot;send email success !&quot;);
+        &#125;
+    &#125;, false );
+&lt;/script&gt;</code></pre>
+<p>说明：13514是contact form 7联系表单的id号，每个联系表单都有一个唯一的id号，意思就是说，当发送成功后（wpcf7mailsent），如果联系表单的id为13514，那么弹出发送成功的提示窗口。</p>
+<p>这样就可以解决发送成功后的提示信息了，至于发送不成功为何不加呢？那是因为发送不成联系表单本身有提示。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/wordpress-contact-form-7-%E8%81%94%E7%B3%BB%E8%A1%A8%E5%8D%95-%E8%B7%B3%E8%BD%AC-url/" rel="tag"># wordpress,contact form 7,联系表单,跳转,url</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/04/19/WordPress%E6%96%87%E7%AB%A0%E5%86%85%E5%AE%B9%E5%8A%A0%E5%AF%86%E8%BE%93%E5%85%A5%E5%AF%86%E7%A0%81%E5%8F%AF%E8%A7%81/" rel="prev" title="WordPress文章内容加密输入密码可见">
+      <i class="fa fa-chevron-left"></i> WordPress文章内容加密输入密码可见
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/04/25/%E4%BA%91%E5%B9%B3%E5%8F%B0%E5%88%86%E5%B8%83%E5%BC%8F%E9%9B%86%E7%BE%A4%E7%9A%84%E6%96%B9%E6%A1%88%E5%AE%9E%E8%B7%B5%E7%AC%94%E8%AE%B0/" rel="next" title="云平台分布式集群的方案实践笔记">
+      云平台分布式集群的方案实践笔记 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

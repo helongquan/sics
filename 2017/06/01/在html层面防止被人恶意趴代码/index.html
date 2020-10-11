@@ -1,37 +1,492 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="如何禁止网页右键、复制、另存为、查看源文件等功能来实现网页源代码保护呢，总结出如下几种方法实现对网页的简单保护，具体代码如下： 1、禁止右键菜 &lt;script type&#x3D;&quot;text&#x2F;javascrpt&quot; language&#x3D;&quot;javascript&quot;&gt;  &#x2F;&#x2F;方法一  function noMenuOne()  &amp;#123;  alert(&#39;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在html层面防止被人恶意趴代码">
+<meta property="og:url" content="http://example.com/2017/06/01/%E5%9C%A8html%E5%B1%82%E9%9D%A2%E9%98%B2%E6%AD%A2%E8%A2%AB%E4%BA%BA%E6%81%B6%E6%84%8F%E8%B6%B4%E4%BB%A3%E7%A0%81/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="如何禁止网页右键、复制、另存为、查看源文件等功能来实现网页源代码保护呢，总结出如下几种方法实现对网页的简单保护，具体代码如下： 1、禁止右键菜 &lt;script type&#x3D;&quot;text&#x2F;javascrpt&quot; language&#x3D;&quot;javascript&quot;&gt;  &#x2F;&#x2F;方法一  function noMenuOne()  &amp;#123;  alert(&#39;">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-06-01T01:49:58.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:52:50.396Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="javascript, 脚本,禁止F12,禁止右键,禁止查看源代码">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2017/06/01/%E5%9C%A8html%E5%B1%82%E9%9D%A2%E9%98%B2%E6%AD%A2%E8%A2%AB%E4%BA%BA%E6%81%B6%E6%84%8F%E8%B6%B4%E4%BB%A3%E7%A0%81/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>在html层面防止被人恶意趴代码 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/06/01/%E5%9C%A8html%E5%B1%82%E9%9D%A2%E9%98%B2%E6%AD%A2%E8%A2%AB%E4%BA%BA%E6%81%B6%E6%84%8F%E8%B6%B4%E4%BB%A3%E7%A0%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          在html层面防止被人恶意趴代码
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-06-01 09:49:58" itemprop="dateCreated datePublished" datetime="2017-06-01T09:49:58+08:00">2017-06-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:52:50" itemprop="dateModified" datetime="2020-10-11T11:52:50+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>如何禁止网页右键、复制、另存为、查看源文件等功能来实现网页源代码保护呢，总结出如下几种方法实现对网页的简单保护，具体代码如下：</p>
+<p>1、禁止右键菜</p>
+<pre><code>&lt;script type=&quot;text/javascrpt&quot; language=&quot;javascript&quot;&gt; 
+//方法一 
+function noMenuOne() 
+&#123; 
+alert(&#39;禁止右键菜单!&#39;); 
+return false; 
+&#125; 
+document.oncontextmenu = noMenuOne; 
+//方法二 
+function noMenuTwo() 
+&#123; 
+if(event.button == 2) 
+&#123; 
+alert(&#39;禁止右键菜单!&#39;); 
+return false; 
+&#125; 
+&#125; 
+document.onmousedown = noMenuTwo; 
+&lt;/script&gt;</code></pre>
+<p>2、禁止复制(Ctrl+C)</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot; language=&quot;javascript&quot;&gt; 
+function noCopy() 
+&#123; 
+alert(&quot;禁止使用Ctrl+C进行复制操作!&quot;); 
+event.returnValue = false; 
+&#125; 
+&lt;/script&gt; 
+//&lt;body oncopy = &quot;noCopy()&quot;&gt;</code></pre>
+<p>3、禁止另存为</p>
+<pre><code>&lt;!--在&lt;body&gt;&lt;/body&gt;之间加入代码 --&gt;
+&lt;noscript&gt;&lt;iframe src=&#39;*.htm&#39;&gt;&lt;/iframe&gt;&lt;/noscript&gt;</code></pre>
+<p>4、禁止缓存<br>禁止缓存 在页面中使用如下HTML标记:</p>
+<pre><code>&lt;head&gt; 
+&lt;meta http-equiv=Pragma content=no-cache&gt; 
+&lt;meta http-equiv=Cache-Control content=no-cache&gt; 
+&lt;meta http-equiv=Expires content=0&gt;
+&lt;/head&gt;</code></pre>
+<p>根据我的实践，我用的如下：</p>
+<p>在html网页的首页的头部放如下代码</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+    &lt;!-- 
+    document.oncontextmenu=function(e)&#123;return false;&#125; 
+    // --&gt;
+&lt;/script&gt;
+&lt;style&gt;
+    &lt;!-- 
+    body &#123; 
+    -moz-user-select:none; 
+    &#125; 
+    --&gt;
+&lt;/style&gt;</code></pre>
+<p>在body标签中添加如下代码</p>
+<pre><code>onselectstart=&quot;return false&quot;</code></pre>
+<p>使用如下：</p>
+<pre><code>&lt;body onselectstart=&quot;return false&quot;&gt;</code></pre>
+<p>在<body>和</body>标签之间添加如下代码：</p>
+<pre><code>&lt;noscript&gt;&lt;iframe src=*&gt;&lt;/iframe&gt;&lt;/noscript&gt;</code></pre>
+<p>这个主要是为了防止把网页另存为的作用。</p>
+<p>很多时候谷歌，IE，火狐等主流浏览器对F12的响应并不一样，所以下面这段代码是用来在谷歌浏览器上禁止F12的，加在html页面的底部</p>
+<pre><code>&lt;script&gt;
+    document.onkeydown=function (e)&#123;
+        var currKey=0,evt=e||window.event;
+        currKey=evt.keyCode||evt.which||evt.charCode;
+        if (currKey == 123) &#123;
+            window.event.cancelBubble = true;
+            window.event.returnValue = false;
+        &#125;
+    &#125;
+&lt;/script&gt;</code></pre>
+<p>为了针对火狐浏览器，我们要添加如下代码在底部</p>
+<pre><code>&lt;script&gt;
+    function fuckyou()&#123;
+     window.close(); //关闭当前窗口(防抽)
+     window.location=&quot;about:blank&quot;; //将当前窗口跳转置空白页
+&#125;
+  function ck() &#123;
+    console.profile();
+    console.profileEnd();
+    //我们判断一下profiles里面有没有东西，如果有，肯定有人按F12了，没错！！
+    if(console.clear) &#123; console.clear() &#125;;
+                        if (typeof console.profiles ==&quot;object&quot;)&#123;
+    return console.profiles.length &gt; 0;
+                        &#125;
+&#125;
+function hehe()&#123;
+if( (window.console &amp;&amp; (console.firebug || console.table &amp;&amp; /firebug/i.test(console.table()) )) || (typeof opera == &#39;object&#39; &amp;&amp; typeof opera.postError == &#39;function&#39; &amp;&amp; console.profile.length &gt; 0))&#123;
+  fuckyou();
+&#125;
+if(typeof console.profiles ==&quot;object&quot;&amp;&amp;console.profiles.length &gt; 0)&#123;
+fuckyou();
+&#125;
+&#125;
+hehe();
+window.onresize = function()&#123;
+if((window.outerHeight-window.innerHeight)&gt;100)
+//判断当前窗口内页高度和窗口高度，如果差值大于200，那么呵呵
+   fuckyou();
+&#125;
+&lt;/script&gt;</code></pre>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/javascript-%E8%84%9A%E6%9C%AC-%E7%A6%81%E6%AD%A2F12-%E7%A6%81%E6%AD%A2%E5%8F%B3%E9%94%AE-%E7%A6%81%E6%AD%A2%E6%9F%A5%E7%9C%8B%E6%BA%90%E4%BB%A3%E7%A0%81/" rel="tag"># javascript, 脚本,禁止F12,禁止右键,禁止查看源代码</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/05/27/%E8%A7%A3%E5%86%B3python3-UnicodeEncodeError/" rel="prev" title="解决python3 UnicodeEncodeError">
+      <i class="fa fa-chevron-left"></i> 解决python3 UnicodeEncodeError
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/06/09/sublimeT3%E4%BC%98%E7%A7%80%E6%8F%92%E4%BB%B6%E5%A4%A7%E5%85%A8/" rel="next" title="sublimeT3优秀插件大全">
+      sublimeT3优秀插件大全 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

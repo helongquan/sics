@@ -1,37 +1,785 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="本文纲领：  把tp5搭建在xampp上运行 用tp5中的三层分离模式中的视图层来渲染控制器中的查询结果 为该项目建立前后台，分别采用不同的UI框架 编写api，运用api到前后台的逻辑操作中 隐藏public和index.php tp5中文件上传或图片上传的功能   把tp5搭建在xampp上运行我们直接在网上搜索一下xampp这个集成环境，然后根据自己的操作系统来选择对应的版本，本文主要是为了">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在本地xampp集成环境下开发部署tp5.1项目">
+<meta property="og:url" content="http://example.com/2019/08/14/%E5%9C%A8%E6%9C%AC%E5%9C%B0xampp%E9%9B%86%E6%88%90%E7%8E%AF%E5%A2%83%E4%B8%8B%E5%BC%80%E5%8F%91%E9%83%A8%E7%BD%B2tp5-1%E9%A1%B9%E7%9B%AE/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="本文纲领：  把tp5搭建在xampp上运行 用tp5中的三层分离模式中的视图层来渲染控制器中的查询结果 为该项目建立前后台，分别采用不同的UI框架 编写api，运用api到前后台的逻辑操作中 隐藏public和index.php tp5中文件上传或图片上传的功能   把tp5搭建在xampp上运行我们直接在网上搜索一下xampp这个集成环境，然后根据自己的操作系统来选择对应的版本，本文主要是为了">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/5SZ9mwq.png">
+<meta property="article:published_time" content="2019-08-14T07:14:47.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:04.796Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="tp5,xampp,本地开发环境,uploads,文件上传,图片上传,增删改查,api,隐藏public目录">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/5SZ9mwq.png">
+
+<link rel="canonical" href="http://example.com/2019/08/14/%E5%9C%A8%E6%9C%AC%E5%9C%B0xampp%E9%9B%86%E6%88%90%E7%8E%AF%E5%A2%83%E4%B8%8B%E5%BC%80%E5%8F%91%E9%83%A8%E7%BD%B2tp5-1%E9%A1%B9%E7%9B%AE/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>在本地xampp集成环境下开发部署tp5.1项目 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/08/14/%E5%9C%A8%E6%9C%AC%E5%9C%B0xampp%E9%9B%86%E6%88%90%E7%8E%AF%E5%A2%83%E4%B8%8B%E5%BC%80%E5%8F%91%E9%83%A8%E7%BD%B2tp5-1%E9%A1%B9%E7%9B%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          在本地xampp集成环境下开发部署tp5.1项目
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-08-14 15:14:47" itemprop="dateCreated datePublished" datetime="2019-08-14T15:14:47+08:00">2019-08-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:04" itemprop="dateModified" datetime="2020-10-11T11:58:04+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/tp5/" itemprop="url" rel="index"><span itemprop="name">tp5</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>本文纲领：</p>
+<ol>
+<li>把tp5搭建在xampp上运行</li>
+<li>用tp5中的三层分离模式中的视图层来渲染控制器中的查询结果</li>
+<li>为该项目建立前后台，分别采用不同的UI框架</li>
+<li>编写api，运用api到前后台的逻辑操作中</li>
+<li>隐藏public和index.php</li>
+<li>tp5中文件上传或图片上传的功能</li>
+</ol>
+<hr>
+<h2 id="把tp5搭建在xampp上运行"><a href="#把tp5搭建在xampp上运行" class="headerlink" title="把tp5搭建在xampp上运行"></a>把tp5搭建在xampp上运行</h2><p>我们直接在网上搜索一下xampp这个集成环境，然后根据自己的操作系统来选择对应的版本，本文主要是为了运行tp5，所以xampp中的php，mysql版本必须符合TP5的最低要求。</p>
+<p><code>ThinkPHP5.1</code>的环境要求如下：</p>
+<pre><code>PHP &gt;= 5.6.0
+PDO PHP Extension
+MBstring PHP Extension</code></pre>
+<p>为了避免乱码产生，以及必要的扩展，需要去php.ini和mysql.ini这两个文件中进行相应的修改即可，然后重启服务器。</p>
+<p>由于TP5.1是需要通过composer来安装的，官网已经取消了源码下载安装的方式，这个大家可以在TP5的<a target="_blank" rel="noopener" href="https://www.kancloud.cn/manual/thinkphp5_1/353948">文档</a>中了解。</p>
+<blockquote>
+<p>5.1版本开始，官网不再提供下载版本，请使用Composer或者git方式安装和更新。</p>
+</blockquote>
+<p>笔者在这个地方遇到了问题：</p>
+<p>根据tp5教程，我用git的方式下载了tp5的源码，访问<a target="_blank" rel="noopener" href="http://localhost/thinkphp5/public/%E5%8F%91%E7%8E%B0%E9%81%87%E5%88%B0%E5%A6%82%E4%B8%8B%E7%9A%84%E9%97%AE%E9%A2%98%E3%80%82">http://localhost/thinkphp5/public/发现遇到如下的问题。</a></p>
+<p>报错如下：</p>
+<pre><code>Warning: require(D:\xampp\htdocs\thinkphp5\public/../vendor/autoload.php): failed to open stream: No such file or directory in D:\xampp\htdocs\thinkphp5\public\index.php on line 15Fatal error: require(): Failed opening required &#39;D:\xampp\htdocs\thinkphp5\public/../vendor/autoload.php&#39; (include_path=&#39;D:\xampp\php\PEAR&#39;) in D:\xampp\htdocs\thinkphp5\public\index.php on line 15</code></pre>
+<p>后来在找到了最终的解决方案：</p>
+<blockquote>
+<p>答案一：你composer都没装</p>
+<p>答案二：5.1不支持下载安装的 只能用composer安装</p>
+</blockquote>
+<p>后来重新采用composer方式进行TP5的部署，报错搞定！</p>
+<h2 id="用tp5中的三层分离模式中的视图层来渲染控制器中的查询结果"><a href="#用tp5中的三层分离模式中的视图层来渲染控制器中的查询结果" class="headerlink" title="用tp5中的三层分离模式中的视图层来渲染控制器中的查询结果"></a>用tp5中的三层分离模式中的视图层来渲染控制器中的查询结果</h2><p>笔者曾经采用过tp5单纯地作为后端来提供api服务，前端没有采用tp5的视图层来提供解决方案。</p>
+<p>这次，笔者想通过视图层来渲染控制器的返回结果。</p>
+<p>在采用视图层遇到的问题的解决方案：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/milli236/article/details/86360444">https://blog.csdn.net/milli236/article/details/86360444</a></p>
+<p><a target="_blank" rel="noopener" href="https://segmentfault.com/q/1010000011454909/a-1020000011455818">https://segmentfault.com/q/1010000011454909/a-1020000011455818</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/6a0ee69b047b">https://www.jianshu.com/p/6a0ee69b047b</a></p>
+<p>来个最简单的示例：</p>
+<p>控制器我们就用默认的Index.php</p>
+<pre><code>&lt;?php
+namespace app\index\controller;
+
+use think\View;
+
+class Index
+&#123;
+    public function index()
+    &#123;
+        return view(&#39;index&#39;);
+    &#125;
+
+&#125;</code></pre>
+<p>这个就是一个很简单的控制器，这个里面返回的就是一个视图，我们首先需要引入视图这个类。</p>
+<pre><code>use think\View</code></pre>
+<p>然后，我们通过路由访问控制器中的index这个函数的时候，会被index模块中的view下的Index文件夹中的index.html来显示。</p>
+<p>我们扩展一下，如果我们在Index控制器中写了另外一个函数，比如：</p>
+<pre><code>public function student()
+&#123;
+    return view(&#39;student&#39;);
+&#125;</code></pre>
+<p>那么，我们访问student这个函数的时候，负责显示结果的是index模块中的view文件夹中的index文件中的student.html。如果我们没有事先新建这个文件，那么就会报错，说找不到这个文件，新建即可。</p>
+<p>我们继续扩展，比如如果我们再index这个模块中新建了另外一个控制器叫做Student.php，里面的代码如下：</p>
+<pre><code>&lt;?php
+namespace app\index\controller;
+use think\View;
+
+class Student
+&#123;
+    public function index()
+    &#123;
+        return view(&#39;student&#39;);
+    &#125;
+&#125;</code></pre>
+<p>当我们访问Student.php这个控制器中的index函数的时候，负责在前台显示的是index模块下的view文件夹下的student文件夹下的student.html，如果我们没有事先创建这个文件或者文件夹，就会报错：</p>
+<pre><code>模板文件不存在:H:\xampp\htdocs\tp5\application\index\view\student\student.html</code></pre>
+<p>这样应该就很明白了吧，是一个很严格的对应，我们现在修改上面那个函数：</p>
+<pre><code>public function index()
+&#123;
+    return view(&#39;index&#39;);
+&#125;</code></pre>
+<p>当我们访问Student.php这个控制器中的index函数的时候，负责在前台显示的是index模块下的view文件夹下的student文件夹下的index.html，如果我们没有事先创建这个文件或者文件夹，就会报错：</p>
+<pre><code>模板文件不存在:H:\xampp\htdocs\tp5\application\index\view\student\index.html</code></pre>
+<p>好的，我们经过这么一个折腾，关于控制器中的返回结果由视图的哪个文件显示已经非常清楚了。</p>
+<h2 id="编写api，运用api到前后台的逻辑操作中"><a href="#编写api，运用api到前后台的逻辑操作中" class="headerlink" title="编写api，运用api到前后台的逻辑操作中"></a>编写api，运用api到前后台的逻辑操作中</h2><p>前面说了当我们访问控制器中的某个方法，如何访问呢？路由是怎么进行的？</p>
+<p>这个我们不妨去看下TP5中的说明：</p>
+<p><a target="_blank" rel="noopener" href="https://www.kancloud.cn/manual/thinkphp5_1/353962">https://www.kancloud.cn/manual/thinkphp5_1/353962</a></p>
+<p>这个路由的设置规则就是我们常说的api了，我们把控制器的每一个函数跟我们配置好的路由一一对应起来，我们就可以在浏览器的地址栏中访问这个了。比如：</p>
+<pre><code>...
+Route::rule(&#39;index&#39;,&#39;index/Index/index&#39;,&#39;GET|POST&#39;);
+Route::rule(&#39;student&#39;,&#39;index/Student/index&#39;,&#39;GET|POST&#39;);
+Route::rule(&#39;frontpage/student&#39;,&#39;index/Index/student&#39;,&#39;GET|POST&#39;);
+
+Route::get(&#39;demo/showInfo&#39;, &#39;demo/Index/showInfo&#39;);
+
+Route::get(&#39;think&#39;, function () &#123;
+    return &#39;hello,ThinkPHP5!&#39;;
+&#125;);
+...</code></pre>
+<p>这些代码是写在route文件夹下的route.php文件中。当然还可以写在其他文件中，可以自己定义，具体的参考TP5<a target="_blank" rel="noopener" href="https://www.kancloud.cn/manual/thinkphp5_1/353962">相应的文档</a>。</p>
+<p>通常会写很多个规则，假设我们想要访问index模块中的Student控制器中的index()函数的内容，那么我们只需要在浏览器中输入：</p>
+<pre><code>http://localhost/tp5/public/student</code></pre>
+<p>就可以访问了。</p>
+<p>大家可以留意下路由配置的各种写法。</p>
+<h2 id="为该项目建立前后台，分别采用不同的UI框架，以及引入外部文件的方法"><a href="#为该项目建立前后台，分别采用不同的UI框架，以及引入外部文件的方法" class="headerlink" title="为该项目建立前后台，分别采用不同的UI框架，以及引入外部文件的方法"></a>为该项目建立前后台，分别采用不同的UI框架，以及引入外部文件的方法</h2><p>为了更认真地做这个测试项目，笔者在application下建立两个文件夹，名字自己随便取：</p>
+<pre><code>admin文件夹
+index模块</code></pre>
+<p>当然，也可以通过命令来快速新建一个模块：</p>
+<p><strong>模块生成</strong></p>
+<p>切换到命令行模式下，进入到应用根目录，也就是tp5这个文件夹下，并执行如下指令：</p>
+<pre><code>php think build --module admin
+php think build --module index</code></pre>
+<p>然后，就可以把路由规则分别写好，访问前台的路由，访问后台的路由等等。</p>
+<p>这样就可以把前后台的各种逻辑操作隔离开来了。</p>
+<p>模块分开了之后，我们还要处理前后台的UI的问题，为了快速而便捷地搭建界面笔者采用引入第三方的框架，根据项目需求和业务规则大家自行采用即可。比如bootsrap,layui等。</p>
+<p>而这些第三方框架放在哪个目录呢？<strong>放在tp5/public/static中</strong>，然后如何引用呢？这个取决于项目的路径，假设我们的项目不是在web服务器的二级目录下，是在生产环境中，我们在视图文件中的引入如下：</p>
+<pre><code>&lt;link rel=&quot;stylesheet&quot; href=&quot;./public/static/css/bootstrap.min.css&quot;/&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;./public/static/css/amazeui.min.css&quot;/&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;./public/static/css/style.css&quot;/&gt;
+&lt;script src=&quot;./public/static/js/jquery-3.3.1.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;./public/static/js/amazeui.min.js&quot;&gt;&lt;/script&gt;</code></pre>
+<p>其实跟普通的引入差不多，当然我这样写是基于笔者当前测试项目路径而言的，也是跟配置有关的，如果大家发现路径有问题，稍作修改即可，就可以正确引入外部的js和css文件了。</p>
+<h2 id="隐藏public和index-php"><a href="#隐藏public和index-php" class="headerlink" title="隐藏public和index.php"></a>隐藏public和index.php</h2><p>由于笔者是在本地环境进行测试的，那么老是访问的时候有个public在url中，那么如何取消public呢，这样就可以直接通过：</p>
+<pre><code>http://localhost/tp5/student</code></pre>
+<p>访问，而不用通过：</p>
+<pre><code>http://localhost/tp5/public/student</code></pre>
+<p>这样也显得简短。有的时候，我们在用tp5来访问的时候，需要</p>
+<pre><code>http://localhost/tp5/index.php/public/student</code></pre>
+<p>才能正确访问，这个中间多了一个index.php，显得很累赘，那么如何取消index.php和隐藏public呢？请往下看：</p>
+<p>参考这个教程：<a target="_blank" rel="noopener" href="https://blog.csdn.net/fangkang7/article/details/83068645">https://blog.csdn.net/fangkang7/article/details/83068645</a></p>
+<p>步骤写一下吧：</p>
+<p>1.将public下的index.php和.htaccess文件移到根目录下</p>
+<p>2.修改index.php文件</p>
+<p>注意这里，需要修改，把原来的：</p>
+<pre><code>require __DIR__ . &#39;/../thinkphp/base.php&#39;;</code></pre>
+<p>改成如下：</p>
+<pre><code>require __DIR__ . &#39;/thinkphp/base.php&#39;;</code></pre>
+<p>3.修改.htaccess文件</p>
+<p>把原来的</p>
+<pre><code>&lt;IfModule mod_rewrite.c&gt;
+  Options +FollowSymlinks -Multiviews
+  RewriteEngine On
+
+  RewriteCond %&#123;REQUEST_FILENAME&#125; !-d
+  RewriteCond %&#123;REQUEST_FILENAME&#125; !-f
+  RewriteRule ^(.*)$ index.php/$1 [QSA,PT,L]
+&lt;/IfModule&gt;</code></pre>
+<p>改成如下：</p>
+<pre><code>&lt;IfModule mod_rewrite.c&gt;
+  Options +FollowSymlinks -Multiviews
+  RewriteEngine On
+
+  RewriteCond %&#123;REQUEST_FILENAME&#125; !-d
+  RewriteCond %&#123;REQUEST_FILENAME&#125; !-f
+  RewriteRule ^(.*)$ index.php?s=$1 [QSA,PT,L]
+&lt;/IfModule&gt;</code></pre>
+<p>然后重启以下服务器，就可以直接用</p>
+<pre><code>http://localhost/tp5</code></pre>
+<p>访问项目了。</p>
+<h2 id="项目的增删改查等操作的功能编写"><a href="#项目的增删改查等操作的功能编写" class="headerlink" title="项目的增删改查等操作的功能编写"></a>项目的增删改查等操作的功能编写</h2><p>一个web项目无非就是一些增加内容，删除内容，更新内容，查询内容等操作，而这些操作都是有前后端相互配合的，后端把增删改查等逻辑api写好，是否接受参数等，把使用方法写成文档是规范的做法，为了测试我们就不写文档了，然后前端就根据api的用法像后端传递必要的参数，比如要查询某个学生的信息，那么后端的api需要接受来自前端传递一个学生号，那么前端在采用ajax发起http请求的时候，就要携带这个参数，具体写法，大家可以网上搜索下，关于ajax请求的写法很丰富。</p>
+<p>通过前端向后端发起请求，获取响应结果，然后渲染出来，这个就是前端需要完成的。渲染在哪里呢？正是本文前面探讨过的，要显示在视图文件中，方法前面已经说了。访问不同的路由用不同的视图文件渲染。</p>
+<p>关于TP5的数据操作是很重要的，这个可以说是他们的核心了，大家可以参考链接：<a target="_blank" rel="noopener" href="https://www.kancloud.cn/manual/thinkphp5_1/353997">https://www.kancloud.cn/manual/thinkphp5_1/353997</a></p>
+<p>比如，</p>
+<p><strong>要查询表的结果</strong>：</p>
+<pre><code>public function getStudent()
+&#123;
+    $data = Db::table(&#39;student&#39;)
+        -&gt;select();
+    return json($data);
+&#125;</code></pre>
+<p>把这个写成一个api，前端就可以发起ajax请求了。</p>
+<p><strong>删除表的某条记录</strong>：</p>
+<pre><code>public function deleteStudent()
+&#123;
+    $student_id = input(&#39;get.id/d&#39;);
+    Db::table(&#39;student&#39;)-&gt;where(&#39;id&#39;,$student_id)-&gt;delete();
+    $result = array(&#39;code&#39; =&gt; 1, &#39;msg&#39; =&gt; &quot;OK&quot;);
+    return json($result);
+&#125;</code></pre>
+<p>说明：删除记录，需要从前端传递参数到后端，这里就是根据前端穿度的一个id作为参数来让数据表进行删除操作。</p>
+<p><strong>更新表的某条记录</strong>：</p>
+<pre><code>public function updateStudent()
+&#123;
+    $student_name = input(&#39;get.name/s&#39;);
+    $student_grade = input(&#39;get.grade/d&#39;);
+    $student_mobile = input(&#39;get.mobile/s&#39;);
+    $student_address = input(&#39;get.address/s&#39;);
+    $student_age = input(&#39;get.age/d&#39;);
+    $student_id = input(&#39;get.id/d&#39;);
+    $data = [
+        &#39;name&#39; =&gt; $student_name,
+        &#39;grade&#39; =&gt; $student_grade,
+        &#39;mobile&#39; =&gt; $student_mobile,
+        &#39;address&#39; =&gt; $student_address,
+        &#39;age&#39; =&gt; $student_age
+    ];
+    Db::name(&#39;student&#39;)-&gt;where(&#39;id&#39;,$student_id)-&gt;update($data);
+    $result = array(&#39;code&#39; =&gt; 1, &#39;msg&#39; =&gt; &quot;OK&quot;);
+    return json($result);
+&#125;</code></pre>
+<p>说明：更新那么就意味着需要传递参数到后端去，所以前面的这些：</p>
+<pre><code>$student_name = input(&#39;get.name/s&#39;);
+$student_grade = input(&#39;get.grade/d&#39;);
+$student_mobile = input(&#39;get.mobile/s&#39;);
+$student_address = input(&#39;get.address/s&#39;);
+$student_age = input(&#39;get.age/d&#39;);
+$student_id = input(&#39;get.id/d&#39;);</code></pre>
+<p>都是从前端传递过来的，通过get或者post都可以，具体用法可以参考<a target="_blank" rel="noopener" href="https://www.kancloud.cn/manual/thinkphp5_1/353987">TP5的文档</a>，写法很丰富。</p>
+<p><strong>添加表的记录</strong>：</p>
+<pre><code>public function addStudent()
+&#123;
+    $student_name = input(&#39;get.name/s&#39;);
+    $student_grade = input(&#39;get.grade/d&#39;);
+    $student_mobile = input(&#39;get.mobile/s&#39;);
+    $student_address = input(&#39;get.address/s&#39;);
+    $student_age = input(&#39;get.age/d&#39;);
+    $data = [
+        &#39;name&#39; =&gt; $student_name,
+        &#39;grade&#39; =&gt; $student_grade,
+        &#39;mobile&#39; =&gt; $student_mobile,
+        &#39;address&#39; =&gt; $student_address,
+        &#39;age&#39; =&gt; $student_age
+    ];
+    Db::name(&#39;student&#39;)-&gt;insert($data);
+    $result = array(&#39;code&#39; =&gt; 1, &#39;msg&#39; =&gt; &quot;OK&quot;);
+    return json($result);
+&#125;</code></pre>
+<p>说明，同上，也是传递参数，这些参数会被保存到数据表中。然后返回添加结果，以便让前端开发人员知道发起的ajax请求后的反馈结果，是成功了还是失败了。</p>
+<p>当然，这个是最简单的写法，随着业务的复杂，这些函数会变得异常的复杂，但是万变不离其宗，复杂的逻辑都是由一个个简单的基础的逻辑组合起来的。</p>
+<p>完成了这个之后，笔者粘贴一张在后台查询学生信息的效果图：</p>
+<p><img src="https://i.imgur.com/5SZ9mwq.png"></p>
+<p>这一个表里面就包含了典型的增删改查四个要点了。</p>
+<p>事实上，tp5后台也是一个前端，只不过对用户的访问进行了一个控制，所以前端怎么跟后端打交道呢？来一个典型的前端的ajax请求吧。</p>
+<pre><code>function addUser()&#123;
+    var student = new Object();
+    student.name = $(&#39;#myModal input[name=&quot;user_name&quot;]&#39;).val();
+    student.address = $(&#39;#myModal input[name=&quot;user_address&quot;]&#39;).val();
+    student.mobile = $(&#39;#myModal input[name=&quot;user_mobile&quot;]&#39;).val();
+    student.grade = $(&#39;#myModal input[name=&quot;user_grade&quot;]&#39;).val();
+    student.age = $(&#39;#myModal input[name=&quot;user_age&quot;]&#39;).val();
+
+    $.ajax(&#123;
+        url:&quot;./api/student/addStudent&quot;,
+        type: &quot;get&quot;,
+        data: student,
+        dataType: &quot;json&quot;,
+        contentType: &quot;application/json&quot;,
+        success: function(res)&#123;
+            console.log(res);
+        &#125;,
+        error: function(xhr, err, exception)&#123;
+            console.log(err);
+        &#125;
+    &#125;)
+&#125;</code></pre>
+<p>这个是一个典型的添加用户信息的js写法，实例化一个对象，然后发起ajax请求，把对象传递到后端去，如果传递成功能后，在控制台打印后端的处理结果。</p>
+<h2 id="tp5中文件上传或图片上传的功能"><a href="#tp5中文件上传或图片上传的功能" class="headerlink" title="tp5中文件上传或图片上传的功能"></a>tp5中文件上传或图片上传的功能</h2><p>在本地测试的过程中，这里很常见的一个就是图片或者文件的上传，比如某个用户注册了，然后进到用户个人中心后，更新或者上传自己的个人头像，这个该如何实现呢？</p>
+<p>笔者在解决这个问题的时候也是折腾了一些时间，深感不易，这里做个记录，以后就不用动脑子了，</p>
+<p>视图文件中的代码：</p>
+<pre><code>&lt;form action=&quot;./api/user/uploadFile&quot; enctype=&quot;multipart/form-data&quot; method=&quot;post&quot; id=&quot;user_avatar_form&quot;&gt;
+  &lt;input type=&quot;file&quot; name=&quot;file&quot; id=&quot;pic&quot;&gt;
+  &lt;input type=&quot;hidden&quot; name=&quot;username&quot; value=&quot;&quot;&gt;
+  &lt;input type=&quot;submit&quot; class=&quot;layui-btn layui-btn-sm&quot; value=&quot;提交&quot;&gt;
+&lt;/form&gt;</code></pre>
+<p>说明：如果大家出现了上传图片之后图片没有在public目录的uploads文件夹被存下来，或者出现</p>
+<pre><code>Call to a member function move() on null</code></pre>
+<p>这种情况的时候，其实是下方后端中的<code>$file</code>变量是空的，其实是表单中不记得写</p>
+<pre><code>enctype=&quot;multipart/form-data&quot;</code></pre>
+<p>这个属性了，加在form标签中即可（上方已经加了）。里面包含了后端的api，</p>
+<pre><code>api/user/uploadFile</code></pre>
+<p>这里用表单的方式，目前笔者只有用表单实现得最顺手，当然应该也有不用表单的实现方法的。</p>
+<p>然后控制器中的完整的代码：</p>
+<pre><code>&lt;?php
+namespace app\admin\controller;
+
+use think\Controller;
+use think\Request;
+use think\Response;
+use think\DB;
+use think\View;
+use think\facade\App;
+
+class Index extends controller
+&#123;
+
+    public function uploadFile()&#123;
+
+        $rootPath = App::getRootPath();
+        if(!defined(&#39;DS&#39;)) define(&#39;DS&#39;, DIRECTORY_SEPARATOR);
+
+         // 获取表单上传文件 例如上传了001.jpg
+        $file = request()-&gt;file(&#39;file&#39;);
+        // 移动到框架应用根目录/public/uploads/ 目录下
+        $info = $file-&gt;validate([&#39;ext&#39;=&gt;&#39;jpg,png,gif&#39;])-&gt;move($rootPath . &#39;public&#39; . DS . &#39;uploads&#39;);
+        if($info)&#123;
+            $filePath = &#39;public&#39; . DS . &#39;uploads/&#39;.$info-&gt;getSaveName();
+            $user_name = $_POST[&#39;username&#39;];
+            $getInfo = $info-&gt;getInfo();
+            //获取图片的原名称
+            $name = $getInfo[&#39;name&#39;];
+            //整理数据,写入数据库
+            $data = [
+                &#39;path&#39; =&gt; $filePath,
+                &#39;user&#39; =&gt; $user_name,
+                &#39;name&#39; =&gt; $name,
+                &#39;create_time&#39; =&gt; date(&#39;Y-m-d H:i:s&#39;)
+            ];
+
+            $result = Db::name(&#39;user_image&#39;)-&gt;where(&#39;user&#39;,$user_name)-&gt;find();
+
+            if ($result == null) &#123;
+                Db::name(&#39;user_image&#39;)-&gt;insert($data);
+            &#125;else&#123;
+                Db::name(&#39;user_image&#39;)-&gt;where(&#39;user&#39;,$user_name)-&gt;update($data);
+            &#125;
+        &#125;else&#123;
+            // 上传失败获取错误信息
+            echo $file-&gt;getError();
+        &#125;
+
+        // 更新或者添加操作完成后重定向到指定的路由
+        $this-&gt;redirect(&#39;/tp5/admin&#39;);
+    &#125;
+
+ &#125;    </code></pre>
+<p>说明：这个就是用来处理文件或者图片上传的后端代码，需要引入必要的依赖，在头部那里都写了，然后呢就是：</p>
+<pre><code>$rootPath = App::getRootPath();
+if(!defined(&#39;DS&#39;)) define(&#39;DS&#39;, DIRECTORY_SEPARATOR);</code></pre>
+<p>说到这两条代码，最开始笔者在参考<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/baf92d85da68">这篇文章</a>的时候，发现是这样写的：</p>
+<pre><code>$info = $file-&gt;validate([&#39;ext&#39;=&gt;&#39;jpg,png,gif&#39;])-&gt;move(ROOT_PATH . &#39;public&#39; . DS . &#39;uploads&#39;);</code></pre>
+<p>如果这样用点击提交的时候，就会报错：</p>
+<pre><code>Use of undefined constant ROOT_PATH - assumed &#39;ROOT_PATH&#39;</code></pre>
+<p>一看报错就去查了下TP5.1中的ROOT_PATH，这个说未定义常量根路径。然后网上找了下，说要这样用：</p>
+<pre><code>// 引入依赖
+use think\facade\App;
+
+$rootPath = App::getRootPath();</code></pre>
+<p>然后，当我改成：</p>
+<pre><code>$info = $file-&gt;validate([&#39;ext&#39;=&gt;&#39;jpg,png,gif&#39;])-&gt;move($rootPath . &#39;public&#39; . DS . &#39;uploads&#39;);</code></pre>
+<p>的时候，再次尝试添加图片和文件的时候，还是报错，报的错误如下：</p>
+<pre><code>Use of undefined constant DS - assumed &#39;DS&#39;</code></pre>
+<p>还是跟前面的那个报错一样的，要解决下DS这个的问题，<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/18503023/joomla-3-0-ds-does-not-workuse-of-undefined-constant-ds">网上</a>找了下，说添加如下代码即可：</p>
+<pre><code>if(!defined(&#39;DS&#39;)) define(&#39;DS&#39;, DIRECTORY_SEPARATOR);</code></pre>
+<p>添加完了之后，就不会出现报错了，然后我们就在数据库建一个表，用来存放上传和添加的图片信息。</p>
+<pre><code>SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for user_image
+-- ----------------------------
+DROP TABLE IF EXISTS `user_image`;
+CREATE TABLE `user_image` (
+  `path` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `name` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `create_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `user` varchar(255) CHARACTER SET utf8 DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;</code></pre>
+<p>默认情况下TP5.1下的public文件夹没有uploads这个文件夹，需要手动创建。</p>
+<p>接着继续讲，如果想要调用上传照片时候的限制的话这样写：</p>
+<pre><code>$info = $file-&gt;validate([&#39;size&#39;=&gt;5242880,&#39;ext&#39;=&gt;&#39;jpg,png,gif&#39;])-&gt;move(ROOT_PATH.&#39;public&#39;.DS.&#39;uploads&#39;);</code></pre>
+<p>其中参数size代表上传的照片最大大小，ext代表支持上传的类型。</p>
+<p>然后就是获取前端传递过来的参数，然后就可以进行插入或者更新操作了。</p>
+<p>里面的逻辑已经很清晰了，先判断一下这个用户是否有头像，如有，那么就执行更新操作，如果没有就执行添加操作。</p>
+<pre><code>$result = Db::name(&#39;user_image&#39;)-&gt;where(&#39;user&#39;,$user_name)-&gt;find();
+
+if ($result == null) &#123;
+    Db::name(&#39;user_image&#39;)-&gt;insert($data);
+&#125;else&#123;
+    Db::name(&#39;user_image&#39;)-&gt;where(&#39;user&#39;,$user_name)-&gt;update($data);
+&#125;</code></pre>
+<p>好的，接着我们需要明白这样一个问题：</p>
+<blockquote>
+<p>前端采用form表单提交的话，会导致直接跳转到form里面的action的路径去，这个时候，我们需要跳回来才行，笔者尝试过前端的方式进行跳转，甚至尝试着用ajax的方式来解决表单提交，这些相信都是可以解决的，后来用了最省事的方法，直接在后端那边处理跳转的问题。</p>
+</blockquote>
+<p>解决form表单提交后跳回来，我们只需要对action对应的api进行修改，我们查阅TP5.1的重定向或者采用php原生的跳转都是可以的，这里就用TP5.1的redirect方法进行跳转。</p>
+<p>在uploadFile()函数中的最后添加如下代码：</p>
+<pre><code>$this-&gt;redirect(&#39;/tp5/admin&#39;);</code></pre>
+<p>这个就是跳转到<code>http://www.yourdomain.com/tp5/admin</code>，由于笔者用的是二级目录（localhost/tp5）做的测试，所以就换成了<code>/tp5/admin</code>，如果真正用到生产环境的时候，不以二级目录的方式的话，那么这样写即可：</p>
+<pre><code>$this-&gt;redirect(&#39;/admin&#39;);</code></pre>
+<p>当我加完之后呢，前台尝试了下还是不行，点击提交居然不跳转，后来<a target="_blank" rel="noopener" href="https://blog.csdn.net/amberom/article/details/79006145">查阅资料</a>发现，原来缺少这两个东西：</p>
+<pre><code>use think\Controller;
+class Index extends controller</code></pre>
+<p>于是加上去，然后再试一下就可以完美的跳转了，事实上TP5.1的跳转还有别的用法，比如延迟跳转等等，可以自行网站<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/9b9d9d68e1aa">查阅</a>。</p>
+<p>解释完毕，当然这里仅仅是把做常规的操作实现了，当然如果想要更加严格的逻辑控制，自己可以添加一些进去。</p>
+<p>本文会持续更新，敬请关注。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/tp5-xampp-%E6%9C%AC%E5%9C%B0%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83-uploads-%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0-%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0-%E5%A2%9E%E5%88%A0%E6%94%B9%E6%9F%A5-api-%E9%9A%90%E8%97%8Fpublic%E7%9B%AE%E5%BD%95/" rel="tag"># tp5,xampp,本地开发环境,uploads,文件上传,图片上传,增删改查,api,隐藏public目录</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/08/10/%E5%85%B3%E4%BA%8E%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90%E5%92%8C%E7%BD%91%E7%AB%99%E4%BB%8E%E6%B5%8B%E8%AF%95%E7%89%88%E5%88%B0%E4%B8%8A%E7%BA%BF%E7%9A%84%E4%B8%A4%E7%A7%8D%E6%96%B9%E6%A1%88%E7%AC%94%E8%AE%B0/" rel="prev" title="关于域名解析和网站从测试版到上线的两种方案笔记">
+      <i class="fa fa-chevron-left"></i> 关于域名解析和网站从测试版到上线的两种方案笔记
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/08/16/tp5%E8%B0%83%E8%AF%95%E8%AE%B0%E5%BD%95%E4%B9%8B%E6%A8%A1%E6%9D%BF%E7%9A%84%E8%BF%90%E7%94%A8%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/" rel="next" title="tp5调试记录之模板的运用注意事项">
+      tp5调试记录之模板的运用注意事项 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%8Atp5%E6%90%AD%E5%BB%BA%E5%9C%A8xampp%E4%B8%8A%E8%BF%90%E8%A1%8C"><span class="nav-number">1.</span> <span class="nav-text">把tp5搭建在xampp上运行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8tp5%E4%B8%AD%E7%9A%84%E4%B8%89%E5%B1%82%E5%88%86%E7%A6%BB%E6%A8%A1%E5%BC%8F%E4%B8%AD%E7%9A%84%E8%A7%86%E5%9B%BE%E5%B1%82%E6%9D%A5%E6%B8%B2%E6%9F%93%E6%8E%A7%E5%88%B6%E5%99%A8%E4%B8%AD%E7%9A%84%E6%9F%A5%E8%AF%A2%E7%BB%93%E6%9E%9C"><span class="nav-number">2.</span> <span class="nav-text">用tp5中的三层分离模式中的视图层来渲染控制器中的查询结果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BC%96%E5%86%99api%EF%BC%8C%E8%BF%90%E7%94%A8api%E5%88%B0%E5%89%8D%E5%90%8E%E5%8F%B0%E7%9A%84%E9%80%BB%E8%BE%91%E6%93%8D%E4%BD%9C%E4%B8%AD"><span class="nav-number">3.</span> <span class="nav-text">编写api，运用api到前后台的逻辑操作中</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E8%AF%A5%E9%A1%B9%E7%9B%AE%E5%BB%BA%E7%AB%8B%E5%89%8D%E5%90%8E%E5%8F%B0%EF%BC%8C%E5%88%86%E5%88%AB%E9%87%87%E7%94%A8%E4%B8%8D%E5%90%8C%E7%9A%84UI%E6%A1%86%E6%9E%B6%EF%BC%8C%E4%BB%A5%E5%8F%8A%E5%BC%95%E5%85%A5%E5%A4%96%E9%83%A8%E6%96%87%E4%BB%B6%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">4.</span> <span class="nav-text">为该项目建立前后台，分别采用不同的UI框架，以及引入外部文件的方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9A%90%E8%97%8Fpublic%E5%92%8Cindex-php"><span class="nav-number">5.</span> <span class="nav-text">隐藏public和index.php</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E7%9A%84%E5%A2%9E%E5%88%A0%E6%94%B9%E6%9F%A5%E7%AD%89%E6%93%8D%E4%BD%9C%E7%9A%84%E5%8A%9F%E8%83%BD%E7%BC%96%E5%86%99"><span class="nav-number">6.</span> <span class="nav-text">项目的增删改查等操作的功能编写</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tp5%E4%B8%AD%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%88%96%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="nav-number">7.</span> <span class="nav-text">tp5中文件上传或图片上传的功能</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

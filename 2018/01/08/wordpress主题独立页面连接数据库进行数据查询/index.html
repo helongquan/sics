@@ -1,37 +1,634 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="一直以来很想挑战一下，实现wordpress自定义数据库表和对自定义数据表内容进行查询，今天居然做到了，wordpress确实给我们带来了很多惊喜。 准备材料：数据库，数据表（wp_fanweima），其中数据表的字段如下： CREATE TABLE &#96;wp_fanweima&#96; (   &#96;id&#96; int not null primary key auto_increment,   &#96;name&#96; c">
+<meta property="og:type" content="article">
+<meta property="og:title" content="wordpress主题独立页面连接数据库进行数据查询">
+<meta property="og:url" content="http://example.com/2018/01/08/wordpress%E4%B8%BB%E9%A2%98%E7%8B%AC%E7%AB%8B%E9%A1%B5%E9%9D%A2%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9B%E8%A1%8C%E6%95%B0%E6%8D%AE%E6%9F%A5%E8%AF%A2/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="一直以来很想挑战一下，实现wordpress自定义数据库表和对自定义数据表内容进行查询，今天居然做到了，wordpress确实给我们带来了很多惊喜。 准备材料：数据库，数据表（wp_fanweima），其中数据表的字段如下： CREATE TABLE &#96;wp_fanweima&#96; (   &#96;id&#96; int not null primary key auto_increment,   &#96;name&#96; c">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/bzGAXaQ.jpg">
+<meta property="og:image" content="https://i.imgur.com/JowbQRG.jpg">
+<meta property="og:image" content="https://i.imgur.com/kAMh41L.jpg">
+<meta property="article:published_time" content="2018-01-08T10:04:58.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:53:08.802Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="wordpress,数据库,主题,独立页面">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/bzGAXaQ.jpg">
+
+<link rel="canonical" href="http://example.com/2018/01/08/wordpress%E4%B8%BB%E9%A2%98%E7%8B%AC%E7%AB%8B%E9%A1%B5%E9%9D%A2%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9B%E8%A1%8C%E6%95%B0%E6%8D%AE%E6%9F%A5%E8%AF%A2/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>wordpress主题独立页面连接数据库进行数据查询 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/01/08/wordpress%E4%B8%BB%E9%A2%98%E7%8B%AC%E7%AB%8B%E9%A1%B5%E9%9D%A2%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9B%E8%A1%8C%E6%95%B0%E6%8D%AE%E6%9F%A5%E8%AF%A2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          wordpress主题独立页面连接数据库进行数据查询
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-01-08 18:04:58" itemprop="dateCreated datePublished" datetime="2018-01-08T18:04:58+08:00">2018-01-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:08" itemprop="dateModified" datetime="2020-10-11T11:53:08+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>一直以来很想挑战一下，实现wordpress自定义数据库表和对自定义数据表内容进行查询，今天居然做到了，wordpress确实给我们带来了很多惊喜。</p>
+<p>准备材料：数据库，数据表（wp_fanweima），其中数据表的字段如下：</p>
+<pre><code>CREATE TABLE `wp_fanweima` (
+  `id` int not null primary key auto_increment,
+  `name` char(20) COLLATE utf8_unicode_ci NOT NULL,
+  `add_time` timestamp default current_timestamp,
+  `brand` varchar(300) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;</code></pre>
+<p>数据填充：</p>
+<pre><code>INSERT INTO `wp_fanweima` (`id`, `name`, `add_time`, `brand`) VALUES
+(1, &#39;112233&#39;, &#39;2017-12-21 00:00:00&#39;, &#39;yonghe&#39;),
+(2, &#39;112234&#39;, &#39;2017-12-21 10:00:00&#39;, &#39;bisheng&#39;),
+(3, &#39;112235&#39;, &#39;2017-12-21 10:23:00&#39;, &#39;bisheng&#39;),
+(4, &#39;112236&#39;, &#39;2017-12-20 08:29:13&#39;, &#39;yongsheng&#39;),
+(5, &#39;112237&#39;, &#39;2017-12-19 09:19:21&#39;, &#39;chaman&#39;),
+(6, &#39;112238&#39;, &#39;2017-12-21 01:20:10&#39;, &#39;yonghe&#39;),
+(7, &#39;112239&#39;, &#39;2017-12-21 13:10:00&#39;, &#39;bisheng&#39;),
+(8, &#39;112240&#39;, &#39;2017-12-21 14:03:00&#39;, &#39;bisheng&#39;),
+(9, &#39;112234&#39;, &#39;2017-12-20 16:09:13&#39;, &#39;yongsheng&#39;),
+(10, &#39;112242&#39;, &#39;2017-12-19 09:19:21&#39;, &#39;chaman&#39;);</code></pre>
+<p>好的，准备工作完成后，我们进入正题。</p>
+<p>这个我以wordpress默认的主题tweentyfifteen为例，我在主题根目录下新建一个模板文件，命名为：防伪码查询，文件名为page-fanweima.php</p>
+<p>首先，我们必须让主题中的模板文件能够连上wordpress数据库，好的。往下看：</p>
+<p>情况一：知道数据库信息的情况下</p>
+<hr>
+<p>如果你知道网站的数据库信息，如：数据库服务器路径、数据库名、数据库用户名、数据库密码，这时，你可以直接在php文件中添加数据库链接。比方说：</p>
+<pre><code>数据库服务器路径： http://localhost
+数据库名：user
+数据库用户名：user
+数据库密码：345463</code></pre>
+<p>这时，我们直接在这个独立的php文件中添加如下代码：</p>
+<pre><code>define(&quot;DB_HOST&quot;,&quot;localhost&quot;);
+define(&quot;DB_USER&quot;,&quot;user&quot;);
+define(&quot;DB_PWD&quot;,&quot;345463&quot;);
+define(&quot;DB_NAME&quot;,&quot;user&quot;);
+$conn = @mysql_connect(DB_HOST,DB_USER,DB_PWD) or die(&quot;连接服务器出错：&quot;.mysql_error());
+@mysql_select_db(DB_NAME) or die(&quot;连接数据库出错：&quot;.mysql_error());
+@mysql_query(&#39;SET NAMES UTF8&#39;);
+//然后可以对数据库数据操作</code></pre>
+<p>情况二：不知道数据库信息的情况下</p>
+<hr>
+<p>当然，对自己的网站那是肯定知道数据库信息的，如果你是wordpress主题开发者，而这些新开发的主题你又想让更多的人使用，甚至想买卖这些wordpress主题，这时，我们就不知道用户们的网站的数据库信息了。这时，我们就不能通过上面的方法来链接数据库了。</p>
+<p>其实，wordpress程序自身就有链接数据库的文件，就是wordpress根目录下的wp_config.php文件，这个文件中就有数据库信息，我们只需要引用这个文件，就可以直接使用这些数据库信息了。但是，我们又不能使用固定的绝对路径来引用这个文件，因为不同的网站，绝对路径是不一样的。这时，我们就必须通过php方法来动态获取到这个绝对路径。代码如下：</p>
+<pre><code>//获取当前文件所在目录
+define(&quot;__S__&quot;,str_replace(&quot;\\&quot;,&quot;/&quot;,dirname(__FILE__)));
+/*获取wordpress所在目录,这里要位移取决于最后面的那个数字，现在调整为33,为了说的更清楚，举例：s.substr(a,b);的意思是从字符串s下标为a开始去字符中取出b个字符！
+*这里就是以根目录下标为0，开始去字符取出33个字符，如果我把33改成0，那么得出的路径是“/wp-config.php”，如果我多取33个那么就变成“/wwwroot/webroot/www.kelin601.com/wp-config.php”，不同的路径长度可能不一样，需要调整这个值
+*/
+define(&quot;__ROOT__&quot;,substr(__S__,0,33));
+//引用wp-config.php文件，获取数据库信息
+require(__ROOT__.&quot;/wp-config.php&quot;);</code></pre>
+<p>当然，这个我已经在我的另外一篇文章里面解释了这种方法的弊端，作为改进，我采用以下方式连接wp-config.php，代码如下：</p>
+<pre><code>$wordpressroot=$_SERVER[&#39;DOCUMENT_ROOT&#39;];
+require_once(&quot;$wordpressroot/wp-config.php&quot;);</code></pre>
+<p>即可引用到，不过这个代码是直接引用的根目录，如果你的目录形式是使用子目录的 ，如在本地常见的<a target="_blank" rel="noopener" href="http://localhost/wordpress/%EF%BC%8C%E5%B0%B1%E9%9C%80%E8%A6%81%E5%9C%A8%E5%BC%95%E7%94%A8%E7%9A%84%E5%9C%B0%E6%96%B9%E5%8A%A0%E4%B8%8A%E4%BD%A0%E7%9A%84%E5%AD%90%E7%9B%AE%E5%BD%95%EF%BC%9A">http://localhost/wordpress/，就需要在引用的地方加上你的子目录：</a></p>
+<pre><code>$wordpressroot=$_SERVER[&#39;DOCUMENT_ROOT&#39;].&#39;/wordpress&#39;;
+require_once(&quot;$wordpressroot/wp-config.php&quot;);</code></pre>
+<p>好的，这个时候，我们已经解决了连接配置文件的问题了。</p>
+<p>接下来我们要连上数据库，在文件中继续添加代码：</p>
+<pre><code>//链接mysql服务器 开始
+$connection = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD);
+mysqli_select_db($connection, DB_NAME);
+//链接mysql服务器 结束</code></pre>
+<p>这种方式就是不需要输入数据库的账号密码，相对来说是比较安全的，所以情况一，我们不到万不得已不采纳。</p>
+<p>如果不报错的话，我们已经连上数据库了。接下来我们要写一个表单，用来发情http请求，获取数据库表中的数据，添加表单代码如下:</p>
+<pre><code>&lt;form action=&quot;#&quot; method=&quot;post&quot; class=&quot;form-control&quot;&gt;
+    &lt;input type=&quot;text&quot; name=&quot;fanweima&quot;&gt;
+    &lt;input type=&quot;submit&quot; name=&quot;submit&quot; value=&quot;查询&quot;&gt;
+&lt;/form&gt;</code></pre>
+<p>因为我要在当前页面显示出来，所以form这里的action我就不写文件名，而是以#取代。</p>
+<p>好的表单已经解决了，我们接下来就发送请求到数据库，然后显示出来，继续添加代码如下：</p>
+<pre><code>&lt;?php
+$localtime=date(&#39;Y-m-d H:i:s&#39;,time());  //这里说明下，如果y是小写的话，时间格式不太好看，这个顺带说下，改成大写的y
+$fanweima=$_POST[&quot;fanweima&quot;];   //这里是表单的数据发出的请求
+$query_Recordset1 = &quot;SELECT * FROM `wp_fanweima` where name =$fanweima&quot;;   //查询输入的防伪码
+$Recordset1 = mysqli_query($connection, $query_Recordset1 ) or die(mysqli_error($connection));
+$row_Recordset1 = mysqli_fetch_assoc($Recordset1);     //这个返回一个数组格式的对象
+$totalRows_Recordset1 = mysqli_num_rows($Recordset1);   //查询的条数
+if ($totalRows_Recordset1 &lt;= 0) &#123;
+    echo &quot;请注意！这个不是正品&lt;br&gt;&quot;;
+&#125;
+else&#123;
+    echo &quot;您的防伪码为：&quot;.$_POST[&quot;fanweima&quot;].&quot;&lt;/br&gt;&quot;;
+    echo &quot;您的防伪码数量为：&quot;.$totalRows_Recordset1.&quot;&lt;/br&gt;&quot;;
+    echo &quot;你搜索的防伪码的品牌商是：&quot;.$row_Recordset1[brand].&quot;&lt;br&gt;&quot;;
+    echo &quot;防伪码添加时间：&quot;.$row_Recordset1[add_time].&quot;&lt;br&gt;&quot;;
+    echo &quot;防伪码查询时间：&quot;.$localtime.&quot;&lt;br&gt;&quot;;
+&#125;
+
+?&gt;</code></pre>
+<p>好的，最后这个模板文件如下：</p>
+<pre><code>&lt;?php
+/**
+ *
+    Template Name: 防伪码查询
+ *
+ * This is the template that displays all pages by default.
+ * Please note that this is the WordPress construct of pages and that
+ * other &quot;pages&quot; on your WordPress site will use a different template.
+ *
+ * @package WordPress
+ * @subpackage Twenty_Fifteen
+ * @since Twenty Fifteen 1.0
+ */
+
+get_header(); ?&gt;
+
+&lt;!-- 添加数据库连接信息 开始 --&gt;
+&lt;?php
+//引入wordpress网站根目录的配置文件
+$wordpressroot=$_SERVER[&#39;DOCUMENT_ROOT&#39;];
+require_once(&quot;$wordpressroot/wp-config.php&quot;);
+
+//链接mysql服务器 开始
+$connection = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD);
+mysqli_select_db($connection, DB_NAME);
+//链接mysql服务器 结束
+?&gt;
+&lt;!-- 添加数据库连接信息 结束 --&gt;
+
+    &lt;div id=&quot;primary&quot; class=&quot;content-area&quot;&gt;
+        &lt;main id=&quot;main&quot; class=&quot;site-main&quot; role=&quot;main&quot;&gt;
+        &lt;?php
+        // Start the loop.
+        while ( have_posts() ) : the_post();
+            // Include the page content template.
+            get_template_part( &#39;content&#39;, &#39;page&#39; );
+            // If comments are open or we have at least one comment, load up the comment template.
+            if ( comments_open() || get_comments_number() ) :
+                comments_template();
+            endif;
+        // End the loop.
+        endwhile;
+        ?&gt;
+
+&lt;!-- 添加自定义 开始 --&gt;
+&lt;div class=&quot;entry-content&quot;&gt;
+&lt;br&gt;
+&lt;form action=&quot;#&quot; method=&quot;post&quot; class=&quot;form-control&quot;&gt;
+    &lt;input type=&quot;text&quot; name=&quot;fanweima&quot;&gt;
+    &lt;input type=&quot;submit&quot; name=&quot;submit&quot; value=&quot;查询&quot;&gt;
+&lt;/form&gt;
+
+&lt;?php
+$localtime=date(&#39;Y-m-d H:i:s&#39;,time());
+$fanweima=$_POST[&quot;fanweima&quot;];
+$query_Recordset1 = &quot;SELECT * FROM `wp_fanweima` where name =$fanweima&quot;;
+$Recordset1 = mysqli_query($connection, $query_Recordset1 ) or die(mysqli_error($connection));
+$row_Recordset1 = mysqli_fetch_assoc($Recordset1);
+$totalRows_Recordset1 = mysqli_num_rows($Recordset1);
+if ($totalRows_Recordset1 &lt;= 0) &#123;
+    echo &quot;请注意！这个不是正品&lt;br&gt;&quot;;
+&#125;
+else&#123;
+    echo &quot;您的防伪码为：&quot;.$_POST[&quot;fanweima&quot;].&quot;&lt;/br&gt;&quot;;
+    echo &quot;您的防伪码数量为：&quot;.$totalRows_Recordset1.&quot;&lt;/br&gt;&quot;;
+    echo &quot;你搜索的防伪码的品牌商是：&quot;.$row_Recordset1[brand].&quot;&lt;br&gt;&quot;;
+    echo &quot;防伪码添加时间：&quot;.$row_Recordset1[add_time].&quot;&lt;br&gt;&quot;;
+    echo &quot;防伪码查询时间：&quot;.$localtime.&quot;&lt;br&gt;&quot;;
+&#125;
+?&gt;
+
+&lt;/div&gt;
+&lt;!-- 自定义代码 结束 --&gt;
+        &lt;/main&gt;&lt;!-- .site-main --&gt;
+    &lt;/div&gt;&lt;!-- .content-area --&gt;
+
+&lt;?php get_footer(); ?&gt;</code></pre>
+<p>把这个模板文件上传到wordpress主题的目录下，然后在wordpress的后台新建一个页面，在右边模板那里选择—防伪码查询，保存，在前端查看效果，这个时候出现一个输入框和一个查询按钮，这个时候，根据前面说的数据准备中的，我们输入：112233，显示如下：</p>
+<p><img src="https://i.imgur.com/bzGAXaQ.jpg"></p>
+<p>输入一个不符合的防伪码试试，比如：123，显示的结果如下：</p>
+<p><img src="https://i.imgur.com/JowbQRG.jpg"></p>
+<p>说明达到了预期目标。</p>
+<p>经过实践发现这个有个小问题，因为我这里没有经过判断，会产生这样一个报错，截图如下：</p>
+<pre><code>&lt;?php
+//进行一个判断，如果提交内容非空，则运行如下内容，否则，运行else里面的内容
+if (@$_POST[&#39;fanweima&#39;] !== null) &#123;
+
+    $localtime=date(&#39;Y-m-d H:i:s&#39;,time());
+    $fanweima=$_POST[&quot;fanweima&quot;];
+    $brand=$_POST[&quot;brand&quot;];
+    $query_Recordset1 = &quot;SELECT * FROM `wp_fanweima` where name =$fanweima&quot;;
+    $Recordset1 = mysqli_query($connection, $query_Recordset1 ) or die(mysqli_error($connection));
+    $row_Recordset1 = mysqli_fetch_assoc($Recordset1);
+    $totalRows_Recordset1 = mysqli_num_rows($Recordset1);
+    if ($totalRows_Recordset1 &lt;= 0) &#123;
+        echo &quot;请注意！这个不是正品&lt;br&gt;&quot;;
+    &#125;
+    else&#123;
+        echo &quot;您的防伪码为：&quot;.$_POST[&quot;fanweima&quot;].&quot;&lt;/br&gt;&quot;;
+        echo &quot;您的防伪码数量为：&quot;.$totalRows_Recordset1.&quot;&lt;/br&gt;&quot;;
+        echo &quot;你搜索的防伪码的品牌商是：&quot;.$row_Recordset1[brand].&quot;&lt;br&gt;&quot;;
+        echo &quot;你输入的防伪码的品牌商是：&quot;.$_POST[&quot;brand&quot;].&quot;&lt;br&gt;&quot;;
+        echo &quot;防伪码添加时间：&quot;.$row_Recordset1[add_time].&quot;&lt;br&gt;&quot;;
+        echo &quot;防伪码查询时间：&quot;.$localtime.&quot;&lt;br&gt;&quot;;
+    &#125;
+    mysqli_close($connection); //关闭数据库
+&#125;
+else&#123;
+    return &#39;&#39;;
+&#125;
+?&gt;</code></pre>
+<p>经过这样处理，就不会报错了，对比一下，其实就是进行了一个判断，把这个包起来。如果提交内容非空，则运行查询，否则，运行else里面的内容，就是返回空值。</p>
+<p>这里我作为补充：我们可以进行多个字段进行搜索，比如我要进行防伪码和品牌商这两个进行搜索，该如何呢？我们对搜索表单进行一个修改，修改后如下：</p>
+<pre><code>&lt;form action=&quot;#&quot; method=&quot;post&quot; class=&quot;form-control&quot;&gt;
+    &lt;input type=&quot;text&quot; name=&quot;fanweima&quot;&gt;
+    &lt;div class=&quot;form-group&quot;&gt;
+        &lt;select class=&quot;form-control&quot; name=&quot;brand&quot;&gt;
+            &lt;?php
+                $query_Recordset3 = &quot;SELECT distinct(brand) FROM `wp_fanweima`&quot;;
+                $Recordset3 = mysqli_query($connection, $query_Recordset3 ) or die(mysqli_error($connection));
+                $row_Recordset3 = mysqli_fetch_assoc($Recordset3);
+                while ($row=mysqli_fetch_array($Recordset3)) &#123;
+                ?&gt;
+                &lt;option value=&quot;&lt;?php echo $row[&#39;brand&#39;];?&gt;&quot;&gt;&lt;?php echo $row[&#39;brand&#39;];?&gt;&lt;/option&gt;
+                &lt;?php
+                &#125;
+                ?&gt;
+        &lt;/select&gt;
+    &lt;/div&gt;
+    &lt;input type=&quot;submit&quot; name=&quot;submit&quot; value=&quot;查询&quot;&gt;
+&lt;/form&gt;</code></pre>
+<p>由于多了一个参数brand，所以后面需要添加一条：</p>
+<pre><code>&lt;?php
+$localtime=date(&#39;Y-m-d H:i:s&#39;,time());
+$fanweima=$_POST[&quot;fanweima&quot;];
+$brand=$_POST[&quot;brand&quot;];   //新添加
+--more--</code></pre>
+<p>前台效果如下：</p>
+<p><img src="https://i.imgur.com/kAMh41L.jpg"></p>
+<hr>
+<p>好的，现在总结下：这个地方很重要的三个地方：</p>
+<ol>
+<li>引入网站的配置文件</li>
+<li>连接数据库</li>
+<li>显示查询后的数据</li>
+</ol>
+<p>由于mysql_connect()方法由于php版本原因，已经不支持了，所以改成mysqli_connect(),其他的地方都要改成mysqli的方式。</p>
+<p>当然，我们可以进行多方面的扩展，这个查询不仅仅局限于自定义的数据表，还有wordpress的默认表，都可以进行查询，只是wordpress对数据数的查询已经有了另外一种查询方式，就是使用wpdb这个变量，具体方式我已近在另外一篇文章里说明了，有什么疑问和有进一步补充的欢迎一起探讨和学习，我的QQ：791447771，本文笔者原创，请尊重我的创作，转载需说明来源。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/wordpress-%E6%95%B0%E6%8D%AE%E5%BA%93-%E4%B8%BB%E9%A2%98-%E7%8B%AC%E7%AB%8B%E9%A1%B5%E9%9D%A2/" rel="tag"># wordpress,数据库,主题,独立页面</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/01/08/%E5%9C%A8%E6%9B%B4%E6%96%B0WordPress%E4%B8%BB%E9%A2%98%E6%97%B6%E5%A6%82%E4%BD%95%E4%BF%9D%E7%95%99functions-php%E9%87%8C%E7%9A%84%E8%87%AA%E5%AE%9A%E4%B9%89%E4%BB%A3%E7%A0%81/" rel="prev" title="在更新WordPress主题时如何保留functions.php里的自定义代码">
+      <i class="fa fa-chevron-left"></i> 在更新WordPress主题时如何保留functions.php里的自定义代码
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/01/09/%E4%B8%BAwordpress%E7%BD%91%E7%AB%99%E5%BC%80%E5%8F%91ajax%E5%8A%A0%E8%BD%BD%E6%9B%B4%E5%A4%9A%E7%9A%84%E5%8A%9F%E8%83%BD/" rel="next" title="为wordpress网站开发ajax加载更多的功能">
+      为wordpress网站开发ajax加载更多的功能 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

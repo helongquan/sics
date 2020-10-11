@@ -1,37 +1,743 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="这篇文章主要是为了解决以前我开发的一个插件，本来呢，在本地服务器上测试是没问题的，但是放在线上的网站测试就有问题，每次激活插件的时候，就提示“有133个异常输出，xxx”,看着就特别着急。于是我开始了一系列的修复工作，打开数据库发现异常的字段，是由于我引入外部样式或者是外部的js文件的时候，采用的是这样方式： echo &#39;&lt;link rel&#x3D;&quot;stylesheet&amp;quot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="wordpress插件开发中的外部js和css样式文件的引入问题">
+<meta property="og:url" content="http://example.com/2017/07/21/wordpress%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84%E5%A4%96%E9%83%A8js%E5%92%8Ccss%E6%A0%B7%E5%BC%8F%E6%96%87%E4%BB%B6%E7%9A%84%E5%BC%95%E5%85%A5%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="这篇文章主要是为了解决以前我开发的一个插件，本来呢，在本地服务器上测试是没问题的，但是放在线上的网站测试就有问题，每次激活插件的时候，就提示“有133个异常输出，xxx”,看着就特别着急。于是我开始了一系列的修复工作，打开数据库发现异常的字段，是由于我引入外部样式或者是外部的js文件的时候，采用的是这样方式： echo &#39;&lt;link rel&#x3D;&quot;stylesheet&amp;quot">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://i.imgur.com/ns5Mf7e.png">
+<meta property="article:published_time" content="2017-07-21T02:46:37.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:53:14.198Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="wordpress,插件开发,外部js和css样式文件,引入问题,javascript">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://i.imgur.com/ns5Mf7e.png">
+
+<link rel="canonical" href="http://example.com/2017/07/21/wordpress%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84%E5%A4%96%E9%83%A8js%E5%92%8Ccss%E6%A0%B7%E5%BC%8F%E6%96%87%E4%BB%B6%E7%9A%84%E5%BC%95%E5%85%A5%E9%97%AE%E9%A2%98/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>wordpress插件开发中的外部js和css样式文件的引入问题 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/07/21/wordpress%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84%E5%A4%96%E9%83%A8js%E5%92%8Ccss%E6%A0%B7%E5%BC%8F%E6%96%87%E4%BB%B6%E7%9A%84%E5%BC%95%E5%85%A5%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          wordpress插件开发中的外部js和css样式文件的引入问题
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-07-21 10:46:37" itemprop="dateCreated datePublished" datetime="2017-07-21T10:46:37+08:00">2017-07-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:14" itemprop="dateModified" datetime="2020-10-11T11:53:14+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这篇文章主要是为了解决以前我开发的一个插件，本来呢，在本地服务器上测试是没问题的，但是放在线上的网站测试就有问题，每次激活插件的时候，就提示“有133个异常输出，xxx”,看着就特别着急。于是我开始了一系列的修复工作，打开数据库发现异常的字段，是由于我引入外部样式或者是外部的js文件的时候，采用的是这样方式：</p>
+<pre><code>echo &#39;&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;&#39;.$url.&#39;wp-content/plugins/helgqu_totop/custom.css&quot; /&gt;&#39;;</code></pre>
+<p>这样导致异常输出。事实上引入外部样式也有这样另外的方式，就是使用 <code>wp_head</code> 函数。<code>wp_head</code> 函数用来输出一些自定义或者系统定义的内容，我们有时候会使用下面代码引用文件：</p>
+<pre><code>&lt;?php
+    add_action(&#39;wp_head&#39;, &#39;wpjam_normal_script&#39;);
+    function wpjam_normal_script() &#123;
+    echo &#39;资源文件的链接&#39;;
+    &#125;
+?&gt;</code></pre>
+<p>将上面代码复制到 functions.php 文件中，即可引用对应的文件。这种方法没错，但是存在潜在的风险。</p>
+<p><strong>WordPress 的排队引用（Enqueue Scripts）资源机制</strong></p>
+<hr>
+<p>这是重点要说的方法，在 WordPress 中引用资源，应该使用 <code>wp_enqueue_script</code> 这个函数，函数名中有个单词 enqueue 是排队或者排序的意思。众所周知，WordPress 有很多的插件，几乎每个插件都会引用一些资源文件，难免会有两个插件引用的资源发生冲突等，这样会变得不稳定而且可能会影响效率。</p>
+<p>使用这种方式引用，和对应文件以及核心代码分离的，如果用户想要禁用某个资源，直接删除、修改、注释掉即可，而不需要从核心代码中修改。</p>
+<p>此外，WordPress 中内置了一些常用的库（例如 jQuery、jQuery UI 等），我们可以使用 <code>wp_enqueue_script</code> 这个函数直接调用内置库，可以节约代码量，更加清晰规范。内置的已经定义库的列表和标识符（handle）请点击<a target="_blank" rel="noopener" href="http://codex.wordpress.org/Function_Reference/wp_register_script#Handles_and_Their_Script_Paths_Registered_by_WordPress">这里查看</a>。</p>
+<p>如果使用这个函数来引用自己的 JS 和 CSS 文件，首先需要使用 <code>wp_register_script</code> 这个函数注册一个标识（handle），然后使用 <code>wp_enqueue_script</code> 函数调取这个标志对应的资源。</p>
+<p><strong>WordPress 合理引入 JS 和 CSS 的方法</strong></p>
+<hr>
+<p>可以使用下面代码为你的插件引入 plugin.css 文件。</p>
+<pre><code>&lt;?php
+// 添加外部样式
+function wpjam_add_styles_2() &#123;
+  wp_register_style(&#39;plugin_stylesheet_2&#39;, plugins_url(&#39;css/bootstrap.min.css&#39;, __FILE__));
+  wp_enqueue_style(&#39;plugin_stylesheet_2&#39;);
+&#125;
+add_action( &#39;wp_enqueue_scripts&#39;, &#39;wpjam_add_styles_2&#39; );   
+?&gt;</code></pre>
+<p>如果是多个的话，就像这样添加：</p>
+<pre><code>&lt;?php
+// 添加外部样式
+function wpjam_add_styles_2() &#123;
+  wp_register_style(&#39;plugin_stylesheet_2&#39;, plugins_url(&#39;css/bootstrap.min.css&#39;, __FILE__));
+  wp_enqueue_style(&#39;plugin_stylesheet_2&#39;);
+&#125;
+add_action( &#39;wp_enqueue_scripts&#39;, &#39;wpjam_add_styles_2&#39; ); 
+
+function wpjam_add_styles_3() &#123;
+  wp_register_style(&#39;plugin_stylesheet_3&#39;, plugins_url(&#39;css/jumbotron-narrow.css&#39;, __FILE__));
+  wp_enqueue_style(&#39;plugin_stylesheet_3&#39;);
+&#125;
+add_action( &#39;wp_enqueue_scripts&#39;, &#39;wpjam_add_styles_3&#39; );
+?&gt;</code></pre>
+<p>这样就被正确的引入了样式表文件，这里我先说下插件的文件结构如下：</p>
+<p><img src="http://i.imgur.com/ns5Mf7e.png"></p>
+<p>上面先用 <code>wp_register_style</code> 函数创建了一个标识符为 plugin_stylesheet 的资源，随后将其排队请求添加到 <code>wp_enqueue_style action</code> 中。</p>
+<p>很显然 <code>wp_register_script</code> 函数它可以有五个参数：</p>
+<ul>
+<li>$handle：资源标识符，供 wp_enqueue_script 调用。</li>
+<li>$src：资源的位置。相对地址或者绝对地址或者使用 WordPress 内置的函数获取地址等。常用定位函数有 plugins_url、get_template_directory_uri 等。</li>
+<li>$deps：依赖关系。如果引用的是 jQuery 插件，需要依赖 jQuery 组建，那么就需要填写上 jQuery。注意，以数组的形式传递。</li>
+<li>$ver：资源版本，可选的。</li>
+<li>$in_footer：是否放在底部。一般来说，JS 文件要放在页面的底部，就可以设置这个参数为 True，留空或者 False 会输出到顶部。</li>
+</ul>
+<p><strong>下面看一个引用 JavaScript 文件的比较完整的例子：</strong></p>
+<pre><code>&lt;?php
+function wpjam_add_scripts_5() &#123;
+  wp_register_script(&#39;nocti_plugin_script_5&#39;, plugins_url(&#39;js/anchor.js&#39;, __FILE__), array(&#39;jquery&#39;),&#39;1.1&#39;, true);
+  wp_enqueue_script(&#39;nocti_plugin_script_5&#39;);
+&#125;
+add_action( &#39;wp_enqueue_scripts&#39;, &#39;wpjam_add_scripts_5&#39; );
+?&gt;</code></pre>
+<p>如果想要引用多个javascript，那么直接这样引入：</p>
+<pre><code>&lt;?php
+function wpjam_add_scripts_5() &#123;
+  wp_register_script(&#39;nocti_plugin_script_5&#39;, plugins_url(&#39;js/anchor.js&#39;, __FILE__), array(&#39;jquery&#39;),&#39;1.1&#39;, true);
+  wp_enqueue_script(&#39;nocti_plugin_script_5&#39;);
+&#125;
+add_action( &#39;wp_enqueue_scripts&#39;, &#39;wpjam_add_scripts_5&#39; ); 
+
+function wpjam_add_scripts_6() &#123;
+  wp_register_script(&#39;nocti_plugin_script_6&#39;, plugins_url(&#39;js/jquery.full-search.js&#39;, __FILE__));
+  wp_enqueue_script(&#39;nocti_plugin_script_6&#39;);
+&#125;
+add_action( &#39;wp_enqueue_scripts&#39;, &#39;wpjam_add_scripts_6&#39; );
+?&gt;</code></pre>
+<p><strong>在 WordPress 主题开发中使用 wp_enqueue_script 引入资源</strong></p>
+<p>上面的例子都是以插件开发引用资源为例，在主题中引用的方法相似，主要的区别就在于使用对应的函数获取主题目录从而得到主题下面的资源文件地址。</p>
+<p>可以使用 <a target="_blank" rel="noopener" href="http://codex.wordpress.org/Function_Reference/get_template_directory_uri">get_template_directory_uri</a> 这个函数来获取当前主题的目录，如果你使用的是子主题，那么需要使用 <a target="_blank" rel="noopener" href="http://codex.wordpress.org/Function_Reference/get_stylesheet_directory_uri">get_stylesheet_directory_uri</a> 这个函数来获取父主题的目录从而得到对应资源。</p>
+<p>这个问题就是我目前要解决的两个插件开发过程中引入外部文件的方法，旨在修正过去低级粗糙的开发方式。</p>
+<p>我这里给出一个案例：为wordpress的某个页面添加一个插件并且对这个页面进行单页搜索，当然如果你直接用浏览器的ctrl+f我绝对支持你这么做，因为这个插件没有这种方式人性化，但它是我迈出新的一步，后面会继续改善。</p>
+<p>页面的html代码：</p>
+<pre><code>&lt;div class=&quot;container&quot;&gt;
+        &lt;div class=&quot;row marketing&quot;&gt;
+            &lt;div class=&quot;col-lg-12&quot; id=&quot;result-list&quot;&gt;
+                &lt;h4 id=&quot;a&quot;&gt;javascript前言&lt;/h4&gt;
+                &lt;p&gt;一直在学习javascript，也有看过《犀利开发Jquery内核详解与实践》，对这本书的评价只有两个字犀利，可能是对javascript理解的还不够透彻异或是自己太笨，更多的是自己不擅于思考懒得思考以至于里面说的一些精髓都没有太深入的理解。 鉴于想让自己有一个提升，进不了一个更加广阔的天地，总得找一个属于自己的居所好好生存，所以平时会有意无意的去积累一些使用jQuerry的常用知识，特别是对于性能要求这一块，总是会想是不是有更好的方式来实现。 下面是我总结的一些小技巧，仅供参考。(我先会说一个总标题，然后用一小段话来说明这个意思 再最后用一个demo来简单言明)
+                &lt;/p&gt;
+                &lt;h4 id=&quot;b&quot;&gt;避免全局查找&lt;/h4&gt;
+                &lt;p&gt;在一个函数中会用到全局对象存储为局部变量来减少全局查找，因为访问局部变量的速度要比访问全局变量的速度更快些
+                    &lt;pre&gt;
+                            function search() &#123;
+                                //当我要使用当前页面地址和主机域名
+                                alert(window.location.href + window.location.host);
+                            &#125;
+                            //最好的方式是如下这样  先用一个简单变量保存起来
+                            function search() &#123;
+                                var location = window.location;
+                                alert(location.href + location.host);
+                            &#125;
+                    &lt;/pre&gt;
+                &lt;/p&gt;
+                &lt;h4 id=&quot;c&quot;&gt;定时器&lt;/h4&gt;
+                &lt;p&gt;
+                    如果针对的是不断运行的代码，不应该使用setTimeout，而应该是用setInterval，因为setTimeout每一次都会初始化一个定时器，而setInterval只会在开始的时候初始化一个定时器
+                    &lt;pre&gt;
+                      var timeoutTimes = 0;
+                         function timeout() &#123;
+                             timeoutTimes++;
+                             if (timeoutTimes &lt; 10) &#123;
+                                 setTimeout(timeout, 10);
+                             &#125;
+                         &#125;
+                         timeout();
+                         //可以替换为：
+                         var intervalTimes = 0;
+                         function interval() &#123;
+                             intervalTimes++;
+                             if (intervalTimes &gt;= 10) &#123;
+                                 clearInterval(interv);
+                             &#125;
+                         &#125;
+                         var interv = setInterval(interval, 10);
+                    &lt;/pre&gt;
+                &lt;/p&gt;
+                &lt;h4 id=&quot;e&quot;&gt;字符串连接&lt;/h4&gt;
+                &lt;p&gt;
+                    如果要连接多个字符串，应该少使用+=，如 s+=a; s+=b; s+=c; 应该写成s+=a + b + c； 而如果是收集字符串，比如多次对同一个字符串进行+=操作的话，最好使用一个缓存，使用JavaScript数组来收集，最后使用join方法连接起来
+                    &lt;pre&gt;
+                      var buf = [];
+                          for (var i = 0; i &lt; 100; i++) &#123;
+                              buf.push(i.toString());
+                          &#125;
+                          var all = buf.join(&quot;&quot;);
+                    &lt;/pre&gt;
+                &lt;/p&gt;
+                &lt;h4&gt;避免with语句&lt;/h4&gt;
+                &lt;p&gt;和函数类似 ，with语句会创建自己的作用域，因此会增加其中执行的代码的作用域链的长度，由于额外的作用域链的查找，在with语句中执行的代码肯定会比外面执行的代码要慢，在能不使用with语句的时候尽量不要使用with语句。
+                    &lt;pre&gt;
+                      with (a.b.c.d) &#123;
+                                property1 = 1;
+                                property2 = 2;
+                            &#125;
+                            //可以替换为：
+                            var obj = a.b.c.d;
+                            obj.property1 = 1;
+                            obj.property2 = 2;
+                    &lt;/pre&gt;
+                &lt;/p&gt;
+                &lt;h4 id=&quot;f&quot;&gt;各种类型转换&lt;/h4&gt;
+                &lt;p&gt;
+                &lt;pre&gt;
+                  var myVar = &quot;3.14159&quot;,
+                  str = &quot;&quot; + myVar, //  to string
+                  i_int = ~ ~myVar,  //  to integer
+                  f_float = 1 * myVar,  //  to float
+                  b_bool = !!myVar,  /*  to boolean - any string with length
+                                          and any number except 0 are true */
+                  array = [myVar];  //  to array
+                  &lt;/pre&gt;
+                &lt;/p&gt;
+                &lt;h4 id=&quot;g&quot;&gt;多个类型声明&lt;/h4&gt;
+                &lt;p&gt;在JavaScript中所有变量都可以使用单个var语句来声明，这样就是组合在一起的语句，以减少整个脚本的执行时间，就如上面代码一样，上面代码格式也挺规范，让人一看就明了。
+                &lt;/p&gt;
+                &lt;div id=&quot;h&quot;&gt;
+                    &lt;p&gt;
+                        博客从最初的域名购买，到上线已经有四年的时间了，这四年的时间，有笑过，有怨过，有悔过，有执着过，也有放弃过…但最后还是坚持了下来，时间如此匆匆，等再回过头已来不及去弥补… 其实蛮遗憾的，话说这四年，并不是很专注于它，起初的建立是因为“面子”，一个网页设计师怎能没有一个属于自己的博客网站，域名几番斟酌选了yangqq(唯一用心的选了域名)，选好后，草草的用了两天时间，设计了一个简单的博客模板，接下来用了漏洞百出的asp程序(自己瞎改)，从网上copy了很多文章，放到网站上，就这样，我满心欢喜…博客从此也就搁置了。就像玩拼图，趁着三分热度和新奇，一鼓作气完成了，就随意的丢在犄角旮旯了，再也没有兴趣…
+                    &lt;/p&gt;
+                &lt;/div&gt;
+                &lt;div id=&quot;i&quot;&gt;
+                    &lt;p&gt;
+                        直到我要利用它，博客搭建半年的时间，更新一两次，但是文章都乱七八糟，不是原创，偶尔会写写心情。从内容上来说，还是可以了。就这样，我骄傲的自以为是，拿着这样一个博客网站还有曾经做过的企业政府网站案例去朋友推荐的大公司应聘，最后我被无情的拒绝了，好在他们的技术人员也认真看了我的博客，告知我应该多注重div，css…其实我也有点儿不服气，甚至有点儿恼羞成怒，对他们说，“我诚心加入，既然你们不需要，那这就是你们的损失！”
+                    &lt;/p&gt;
+                &lt;/div&gt;
+                &lt;div id=&quot;j&quot;&gt;
+                    &lt;p&gt;
+                        那一次应聘，给了我狠狠的一击，也就这样，我删掉了曾经被我copy过来的文章，重新开始…不再那么自以为是，认认真真的研究，做好每一次的案例。两年的时间，博客也有些起色和人气…
+                    &lt;/p&gt;
+                &lt;/div&gt;
+                &lt;div id=&quot;k&quot;&gt;
+                    &lt;p&gt;
+                        虽说我这博客起初搭建一分钱没花，但这么长时间了，渐渐有了想再利用它赚钱的想法，放了一些联盟广告，因为访问量不高，收入非常可怜，甚至是没有点击量！干脆就撤了广告，再后来，注重优化，目的还是拉广告，效果也很好，收到了好多email，5块钱一个广告文字链接，一个月的广告收入不到60块钱，自诩有人看得上也不错了，可是再怎么审核的链接，跟博客类型不一样，同样属于垃圾链接，就这样的恶性循环，我的网站被百度降权，整整一个月都没有排名...
+                    &lt;/p&gt;
+                &lt;/div&gt;
+                &lt;div id=&quot;l&quot;&gt;
+                    &lt;p&gt;
+                        找到这个问题，广告链接到期后就没有再续，又一次重新开始。不仅仅是换模板，程序也换。总结了很多程序，最终选择了当初我认为最难拿捏的帝国cms。asp虽然熟悉好控制，但是漏洞太多，经常被挂彩！wordpress也用过，但是加载的插件确实太多，响应时间慢，关键是百度只收录首页！！之所以说用帝国也是被逼的，是因为起初我也就是怕难，总是找各种各样的理由，不去研究，后来老老实实花了几天时间认真看教程后，才觉得其实并不难，难得就是不突破自己那一关去学习，去接受！
+                    &lt;/p&gt;
+                &lt;/div&gt;
+                &lt;div id=&quot;m&quot;&gt;
+                    &lt;p&gt;
+                        现在也又很多新手不知道怎么使用模板，也不知道用什么程序。每一次问到我用什么程序的时候，其实蛮纠结的，我想推荐你们使用帝国吧，但是10个人里面有9个人都说难，而且以为装了帝国，套上模板组就可以使用了，于是问题就一个接一个来了，其实只要认真看教程，没有那么多问题....“认真看教程！”同样的话，我也不知道说了多少遍了，听进去的人也是少数，又想用，又怕难，又不学，唉，着实着急啊....通常你如果还这样的话，我劝你放弃使用帝国吧！
+                    &lt;/p&gt;
+                &lt;/div&gt;
+                &lt;div id=&quot;n&quot;&gt;
+                    &lt;p&gt;
+                        话题又扯远了，博客使用帝国cms后，因为全静态页面，百度收录很快，首页“个人博客”关键词排名也上来了，第一页有时候能搜索出来，就这样，二三页的徘徊，我就开始琢磨怎么样排到前三名。仔细研究排前三位的博客代码，还有关键字词。他们的首页结构都没有我做得好，甚至还用最原始的table布局。但是它的首页关键词优化的不错，于是仿着他们的title和关键词，做了首页的修改。仍然没有起色，反而降了，又怎么办呢？得找吸引人的地方，个人博客如果不是想自己个人欣赏，那最好学会分享，哪有人会天天来关注你这些琐碎的生活片段…
+                    &lt;/p&gt;
+                &lt;/div&gt;
+                &lt;div id=&quot;o&quot;&gt;
+                    &lt;p&gt;
+                        于是我的博客多了个栏目，把自己擅长做得，喜欢的模板分享出来。没想到效果很明显，就连2000人的QQ群都不够用了…就这样坚持到现在，偶尔更新文章和分享模板，博客的权重，访问量都在一点一点增长，有人说我的博客不怎么更新，为什么权重还那么高？我说“文章贵在精，而不在多”。曾经我天天更新文章，但都是伪原创，自认为付出了那么多，肯定得有回报，其实不然。每天一篇伪原创还不及我一个月一篇原创文章效果好，因“站”而异吧。如果你每天都有自己的原创文章，那值得提倡，像我这种绞尽脑汁都出不了一个主题的，还是规矩的定时更新就行啦…
+                    &lt;/p&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;</code></pre>
+<p>大家可能不知道，它的原始样本是这样的：</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;zh&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge,chrome=1&quot;&gt; 
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+  &lt;title&gt;单页面文字搜索定位&lt;/title&gt;
+  &lt;link href=&quot;css/bootstrap.min.css&quot;  type=&quot;text/css&quot; rel=&quot;stylesheet&quot;&gt;
+  &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;css/htmleaf-demo.css&quot;&gt;
+  &lt;link href=&quot;css/jumbotron-narrow.css&quot; rel=&quot;stylesheet&quot;&gt;
+  &lt;!--[if IE]&gt;
+    &lt;script src=&quot;http://libs.useso.com/js/html5shiv/3.7/html5shiv.min.js&quot;&gt;&lt;/script&gt;
+  &lt;![endif]--&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class=&quot;container&quot;&gt;
+    &lt;div class=&quot;header clearfix&quot;&gt;
+      &lt;h3 class=&quot;text-muted&quot;&gt;Full text search&lt;/h3&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;jumbotron&quot;&gt;
+      &lt;form&gt;
+        &lt;div class=&quot;form-group form-group-search&quot;&gt;
+          &lt;h1&gt;&lt;label for=&quot;exampleInputEmail1&quot;&gt;搜索内容&lt;/label&gt;&lt;/h1&gt;
+          &lt;input type=&quot;search&quot; class=&quot;form-control&quot; id=&quot;search&quot; placeholder=&quot;请输入本页面内容&quot;&gt;
+          &lt;div class=&quot;search-result&quot; style=&quot;display:none&quot;&gt;
+            &lt;h4&gt;标题&lt;/h4&gt;
+            &lt;ul class=&quot;result-section&quot;&gt;
+              &lt;li&gt;&lt;a href=&quot;&quot;&gt;dsfsdfsdf&lt;/a&gt;&lt;/li&gt;
+              &lt;li&gt;&lt;a href=&quot;&quot;&gt;sdfsdf&lt;/a&gt;&lt;/li&gt;
+            &lt;/ul&gt;
+            &lt;h4&gt;内容&lt;/h4&gt;
+            &lt;ul class=&quot;result-content&quot;&gt;
+              &lt;li&gt;&lt;a href=&quot;&quot;&gt;sdfsdf&lt;/a&gt;&lt;/li&gt;
+              &lt;li&gt;&lt;a href=&quot;&quot;&gt;sdfsd&lt;/a&gt;&lt;/li&gt;
+            &lt;/ul&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/form&gt;
+      &lt;p class=&quot;lead&quot;&gt;单页面全文搜索插件，支持瞄点跳转，依赖Jquery、bootstrap。&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;row marketing&quot;&gt;
+      &lt;div class=&quot;col-lg-12&quot; id=&quot;result-list&quot;&gt;
+        &lt;h4 id=&quot;a&quot;&gt;javascript前言&lt;/h4&gt;
+        &lt;p&gt;一直在学习javascript，也有看过《犀利开发Jquery内核详解与实践》，对这本书的评价只有两个字犀利，可能是对javascript理解的还不够透彻异或是自己太笨，更多的是自己不擅于思考懒得思考以至于里面说的一些精髓都没有太深入的理解。 鉴于想让自己有一个提升，进不了一个更加广阔的天地，总得找一个属于自己的居所好好生存，所以平时会有意无意的去积累一些使用jQuerry的常用知识，特别是对于性能要求这一块，总是会想是不是有更好的方式来实现。 下面是我总结的一些小技巧，仅供参考。(我先会说一个总标题，然后用一小段话来说明这个意思
+          再最后用一个demo来简单言明)
+        &lt;/p&gt;
+        &lt;h4 id=&quot;b&quot;&gt;避免全局查找&lt;/h4&gt;
+        &lt;p&gt;在一个函数中会用到全局对象存储为局部变量来减少全局查找，因为访问局部变量的速度要比访问全局变量的速度更快些
+          &lt;pre&gt;
+        function search() &#123;
+            //当我要使用当前页面地址和主机域名
+            alert(window.location.href + window.location.host);
+        &#125;
+        //最好的方式是如下这样  先用一个简单变量保存起来
+        function search() &#123;
+            var location = window.location;
+            alert(location.href + location.host);
+        &#125;
+&lt;/pre&gt;
+        &lt;/p&gt;
+        &lt;h4 id=&quot;c&quot;&gt;定时器&lt;/h4&gt;
+        &lt;p&gt;
+          如果针对的是不断运行的代码，不应该使用setTimeout，而应该是用setInterval，因为setTimeout每一次都会初始化一个定时器，而setInterval只会在开始的时候初始化一个定时器
+          &lt;pre&gt;
+  var timeoutTimes = 0;
+     function timeout() &#123;
+         timeoutTimes++;
+         if (timeoutTimes &lt; 10) &#123;
+             setTimeout(timeout, 10);
+         &#125;
+     &#125;
+     timeout();
+     //可以替换为：
+     var intervalTimes = 0;
+     function interval() &#123;
+         intervalTimes++;
+         if (intervalTimes &gt;= 10) &#123;
+             clearInterval(interv);
+         &#125;
+     &#125;
+     var interv = setInterval(interval, 10);
+&lt;/pre&gt;
+        &lt;/p&gt;
+        &lt;h4 id=&quot;e&quot;&gt;字符串连接&lt;/h4&gt;
+        &lt;p&gt;
+          如果要连接多个字符串，应该少使用+=，如 s+=a; s+=b; s+=c; 应该写成s+=a + b + c； 而如果是收集字符串，比如多次对同一个字符串进行+=操作的话，最好使用一个缓存，使用JavaScript数组来收集，最后使用join方法连接起来
+          &lt;pre&gt;
+  var buf = [];
+      for (var i = 0; i &lt; 100; i++) &#123;
+          buf.push(i.toString());
+      &#125;
+      var all = buf.join(&quot;&quot;);
+&lt;/pre&gt;
+        &lt;/p&gt;
+        &lt;h4&gt;避免with语句&lt;/h4&gt;
+        &lt;p&gt;和函数类似 ，with语句会创建自己的作用域，因此会增加其中执行的代码的作用域链的长度，由于额外的作用域链的查找，在with语句中执行的代码肯定会比外面执行的代码要慢，在能不使用with语句的时候尽量不要使用with语句。
+          &lt;pre&gt;
+  with (a.b.c.d) &#123;
+            property1 = 1;
+            property2 = 2;
+        &#125;
+        //可以替换为：
+        var obj = a.b.c.d;
+        obj.property1 = 1;
+        obj.property2 = 2;
+&lt;/pre&gt;
+        &lt;/p&gt;
+        &lt;h4 id=&quot;f&quot;&gt;各种类型转换&lt;/h4&gt;
+        &lt;p&gt;&lt;pre&gt;
+          var myVar = &quot;3.14159&quot;,
+        str = &quot;&quot; + myVar, //  to string
+        i_int = ~ ~myVar,  //  to integer
+        f_float = 1 * myVar,  //  to float
+        b_bool = !!myVar,  /*  to boolean - any string with length
+                                and any number except 0 are true */
+        array = [myVar];  //  to array
+        &lt;/pre&gt;&lt;/p&gt;
+        &lt;h4 id=&quot;g&quot;&gt;多个类型声明&lt;/h4&gt;
+        &lt;p&gt;在JavaScript中所有变量都可以使用单个var语句来声明，这样就是组合在一起的语句，以减少整个脚本的执行时间，就如上面代码一样，上面代码格式也挺规范，让人一看就明了。
+        &lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;script src=&quot;http://libs.useso.com/js/jquery/1.9.1/jquery.min.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+  &lt;script&gt;window.jQuery || document.write(&#39;&lt;script src=&quot;js/jquery-1.9.1.min.js&quot;&gt;&lt;\/script&gt;&#39;)&lt;/script&gt;
+  &lt;script type=&quot;text/javascript&quot; src=&quot;js/anchor.js&quot;&gt;&lt;/script&gt;
+    &lt;script type=&quot;text/javascript&quot; src=&quot;js/jquery.full-search.js&quot;&gt;&lt;/script&gt;
+    &lt;script type=&quot;text/javascript&quot;&gt;
+      $(function() &#123;
+        $(&#39;#search&#39;).fullsearch(&#123;
+          highlight: true,
+          search_data: &quot;.search-result&quot;,
+          search_title: &quot;.result-section&quot;,
+          search_content: &quot;.result-content&quot;,
+          list: &quot;#result-list&quot;,
+          nodata: &quot;未找到相关数据&quot;,
+        &#125;);
+      &#125;);
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>好了，然后我就把其中的js和css抽离出来，写成一个悬浮插件，内容就是页面的内容，不过这里有个很大的缺陷，细心的人可能会发现，我在每个div那里都添加了一个id，主要是为了跳转，实现锚点定位。当我们把这个插件用在了一个陌生的网站的时候，我们不可能每个页面都要这样去添加id和class，还有就是能够响应查询内容只能在id为result-list的这个div中的内容。所以缺陷是存在的。我的下一个目标是能否直接不管页面的内容是什么直接把查询范围设定为整个页面，而且不需要每个区块都要添加id。</p>
+<p>这也是我打算开发一个单页搜索直接定位的插件，有待改善，下载地址：<a target="_blank" rel="noopener" href="http://pan.baidu.com/s/1jIQhopg">点这里</a>，密码：qk8i。为了能够更好的理解这个原理，大家可以参考我另一篇文章：<a target="_blank" rel="noopener" href="http://helongquan.github.io/2017/07/20/%E5%9F%BA%E4%BA%8Ebootstrap%E7%9A%84%E5%8D%95%E9%A1%B5%E6%90%9C%E7%B4%A2%E6%96%B9%E6%A1%88/">基于bootstrap的单页搜索方案</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/wordpress-%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91-%E5%A4%96%E9%83%A8js%E5%92%8Ccss%E6%A0%B7%E5%BC%8F%E6%96%87%E4%BB%B6-%E5%BC%95%E5%85%A5%E9%97%AE%E9%A2%98-javascript/" rel="tag"># wordpress,插件开发,外部js和css样式文件,引入问题,javascript</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/07/20/%E5%9F%BA%E4%BA%8Ebootstrap%E7%9A%84%E5%8D%95%E9%A1%B5%E6%90%9C%E7%B4%A2%E6%96%B9%E6%A1%88/" rel="prev" title="基于bootstrap的单页搜索方案">
+      <i class="fa fa-chevron-left"></i> 基于bootstrap的单页搜索方案
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/07/21/WordPress%E5%BC%95%E5%85%A5css-js%E4%B8%A4%E7%A7%8D%E6%96%B9%E6%B3%95/" rel="next" title="WordPress引入css/js两种方法">
+      WordPress引入css/js两种方法 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

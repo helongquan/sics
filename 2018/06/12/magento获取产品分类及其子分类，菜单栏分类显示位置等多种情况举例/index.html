@@ -1,37 +1,548 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="1.获取指定分类id 下的子分类 &#x2F;&#x2F; 例如获取 分类id为 13 的子分类信息 &lt;?php   $root &#x3D; Mage::getModel(&#39;catalog&#x2F;category&#39;)-&gt;load(13);   $subCat &#x3D; explode(&#39;,&#39;,$root-&gt;getChildren());    $collection  &#x3D; $root">
+<meta property="og:type" content="article">
+<meta property="og:title" content="magento获取产品分类及其子分类，菜单栏分类显示位置等多种情况举例">
+<meta property="og:url" content="http://example.com/2018/06/12/magento%E8%8E%B7%E5%8F%96%E4%BA%A7%E5%93%81%E5%88%86%E7%B1%BB%E5%8F%8A%E5%85%B6%E5%AD%90%E5%88%86%E7%B1%BB%EF%BC%8C%E8%8F%9C%E5%8D%95%E6%A0%8F%E5%88%86%E7%B1%BB%E6%98%BE%E7%A4%BA%E4%BD%8D%E7%BD%AE%E7%AD%89%E5%A4%9A%E7%A7%8D%E6%83%85%E5%86%B5%E4%B8%BE%E4%BE%8B/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="1.获取指定分类id 下的子分类 &#x2F;&#x2F; 例如获取 分类id为 13 的子分类信息 &lt;?php   $root &#x3D; Mage::getModel(&#39;catalog&#x2F;category&#39;)-&gt;load(13);   $subCat &#x3D; explode(&#39;,&#39;,$root-&gt;getChildren());    $collection  &#x3D; $root">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/fnnJqfH.jpg">
+<meta property="og:image" content="https://i.imgur.com/9QpmSzH.jpg">
+<meta property="og:image" content="https://i.imgur.com/fnnJqfH.jpg">
+<meta property="og:image" content="https://i.imgur.com/kMZxseu.jpg">
+<meta property="article:published_time" content="2018-06-12T11:17:59.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:01.866Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="magento,category,产品分类,子分类,菜单">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/fnnJqfH.jpg">
+
+<link rel="canonical" href="http://example.com/2018/06/12/magento%E8%8E%B7%E5%8F%96%E4%BA%A7%E5%93%81%E5%88%86%E7%B1%BB%E5%8F%8A%E5%85%B6%E5%AD%90%E5%88%86%E7%B1%BB%EF%BC%8C%E8%8F%9C%E5%8D%95%E6%A0%8F%E5%88%86%E7%B1%BB%E6%98%BE%E7%A4%BA%E4%BD%8D%E7%BD%AE%E7%AD%89%E5%A4%9A%E7%A7%8D%E6%83%85%E5%86%B5%E4%B8%BE%E4%BE%8B/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>magento获取产品分类及其子分类，菜单栏分类显示位置等多种情况举例 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/06/12/magento%E8%8E%B7%E5%8F%96%E4%BA%A7%E5%93%81%E5%88%86%E7%B1%BB%E5%8F%8A%E5%85%B6%E5%AD%90%E5%88%86%E7%B1%BB%EF%BC%8C%E8%8F%9C%E5%8D%95%E6%A0%8F%E5%88%86%E7%B1%BB%E6%98%BE%E7%A4%BA%E4%BD%8D%E7%BD%AE%E7%AD%89%E5%A4%9A%E7%A7%8D%E6%83%85%E5%86%B5%E4%B8%BE%E4%BE%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          magento获取产品分类及其子分类，菜单栏分类显示位置等多种情况举例
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-06-12 19:17:59" itemprop="dateCreated datePublished" datetime="2018-06-12T19:17:59+08:00">2018-06-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:01" itemprop="dateModified" datetime="2020-10-11T11:58:01+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>1.获取指定分类id 下的子分类</p>
+<p>// 例如获取 分类id为 13 的子分类信息</p>
+<pre><code>&lt;?php  
+$root = Mage::getModel(&#39;catalog/category&#39;)-&gt;load(13);  
+$subCat = explode(&#39;,&#39;,$root-&gt;getChildren());  
+
+$collection  = $root  
+            -&gt;getCollection()  
+            -&gt;addAttributeToSelect(&quot;*&quot;)  
+            -&gt;addFieldToFilter(&quot;entity_id&quot;, array(&quot;in&quot;, $subCat) );  
+
+foreach($collection as $catname)&#123;  
+echo $catname-&gt;getName();  
+
+echo &#39;&lt;br&gt;&#39;;  
+
+echo $catname-&gt;getUrl();  
+
+&#125;
+echo &#39;&lt;br&gt;&#39;; 
+?&gt; 
+
+//echo $catname-&gt;getProductCount();   //获取目录下的产品数量  
+//echo $catname-&gt;getChildrenCount();  //获取目录下子目录数量</code></pre>
+<p>2.显示所有分类和子分类</p>
+<pre><code>&lt;?php $_helper = Mage::helper(&#39;catalog/category&#39;) ?&gt;  
+&lt;?php $_categories = $_helper-&gt;getStoreCategories() ?&gt;  
+&lt;?php if (count($_categories) &gt; 0): ?&gt;  
+    &lt;ul&gt;  
+        &lt;?php foreach($_categories as $_category): ?&gt;  
+            &lt;li&gt;  
+                &lt;a href=&quot;&lt;?php echo $_helper-&gt;getCategoryUrl($_category) ?&gt;&quot;&gt;  
+                    &lt;?php echo $_category-&gt;getName() ?&gt;  
+                &lt;/a&gt;  
+                &lt;?php $_category = Mage::getModel(&#39;catalog/category&#39;)-&gt;load($_category-&gt;getId()) ?&gt;  
+                &lt;?php $_subcategories = $_category-&gt;getChildrenCategories() ?&gt;  
+                &lt;?php if (count($_subcategories) &gt; 0): ?&gt;  
+                    &lt;ul&gt;  
+                        &lt;?php foreach($_subcategories as $_subcategory): ?&gt;  
+                            &lt;li&gt;  
+                                &lt;a href=&quot;&lt;?php echo $_helper-&gt;getCategoryUrl($_subcategory) ?&gt;&quot;&gt;  
+                                    &lt;?php echo $_subcategory-&gt;getName() ?&gt;  
+                                &lt;/a&gt;  
+                            &lt;/li&gt;  
+                        &lt;?php endforeach; ?&gt;  
+                    &lt;/ul&gt;  
+                &lt;?php endif; ?&gt;  
+            &lt;/li&gt;  
+        &lt;?php endforeach; ?&gt;  
+    &lt;/ul&gt;  
+&lt;?php endif; ?&gt;</code></pre>
+<p>3.获取所有的一级分类信息</p>
+<pre><code>&lt;?php $_helper = Mage::helper(&#39;catalog/category&#39;) ?&gt;  
+&lt;?php $_categories = $_helper-&gt;getStoreCategories() ?&gt;  
+&lt;?php if (count($_categories) &gt; 0): ?&gt;  
+    &lt;ul&gt;  
+        &lt;?php foreach($_categories as $_category): ?&gt;  
+            &lt;li&gt;  
+                &lt;a href=&quot;&lt;?php echo $_helper-&gt;getCategoryUrl($_category) ?&gt;&quot;&gt;  
+                    &lt;?php echo $_category-&gt;getName() ?&gt;  
+                &lt;/a&gt;  
+            &lt;/li&gt;  
+        &lt;?php endforeach; ?&gt;  
+    &lt;/ul&gt;  
+&lt;?php endif; ?&gt;</code></pre>
+<p>4.获取所有的一级分类和当前分类的子分类信息</p>
+<pre><code>&lt;?php $_helper = Mage::helper(&#39;catalog/category&#39;) ?&gt;  
+&lt;?php $_categories = $_helper-&gt;getStoreCategories() ?&gt;  
+&lt;?php $currentCategory = Mage::registry(&#39;current_category&#39;) ?&gt;  
+&lt;?php if (count($_categories) &gt; 0): ?&gt;  
+    &lt;ul&gt;  
+        &lt;?php foreach($_categories as $_category): ?&gt;  
+            &lt;li&gt;  
+                &lt;a href=&quot;&lt;?php echo $_helper-&gt;getCategoryUrl($_category) ?&gt;&quot;&gt;  
+                    &lt;?php echo $_category-&gt;getName() ?&gt;  
+                &lt;/a&gt;  
+                &lt;?php if ($currentCategory &amp;&amp; $currentCategory-&gt;getId() == $_category-&gt;getId()): ?&gt;  
+                    &lt;?php $_category = Mage::getModel(&#39;catalog/category&#39;)-&gt;load($_category-&gt;getId()) ?&gt;  
+                    &lt;?php $_subcategories = $_category-&gt;getChildrenCategories() ?&gt;  
+                    &lt;?php if (count($_subcategories) &gt; 0): ?&gt;  
+                        &lt;ul&gt;  
+                            &lt;?php foreach($_subcategories as $_subcategory): ?&gt;  
+                                &lt;li&gt;  
+                                    &lt;a href=&quot;&lt;?php echo $_helper-&gt;getCategoryUrl($_subcategory) ?&gt;&quot;&gt;  
+                                        &lt;?php echo $_subcategory-&gt;getName() ?&gt;  
+                                    &lt;/a&gt;  
+                                &lt;/li&gt;  
+                            &lt;?php endforeach; ?&gt;  
+                        &lt;/ul&gt;  
+                    &lt;?php endif; ?&gt;  
+                &lt;?php endif; ?&gt;  
+            &lt;/li&gt;  
+        &lt;?php endforeach; ?&gt;  
+    &lt;/ul&gt;  
+&lt;?php endif; ?&gt;</code></pre>
+<p>笔者这里进行实战演示：</p>
+<p><img src="https://i.imgur.com/fnnJqfH.jpg"></p>
+<p>这里笔者这里建了一个自定义的菜单，仅仅用作测试，自定义菜单的分类ID为119.</p>
+<p>由于笔者这里采用的是porto的主题，所以笔者找到一个侧边栏的菜单所在的文件目录地址：app/design/frontend/smartwave/porto/template/smartwave/megamenu/html/</p>
+<p>这个里面控制了侧边栏的菜单显示内容，如何调用呢？这个时候我们由于在首页调用，所以我们首页的调用代码如下：</p>
+<pre><code>&lt;div class=&quot;col-md-3&quot; style=&quot;padding:0 10px;&quot;&gt;
+    &lt;div class=&quot;home-side-menu&quot; style=&quot;margin-bottom:20px;&quot;&gt;
+        &lt;h2 class=&quot;side-menu-title&quot;&gt;CATEGORIES&lt;/h2&gt;
+        &#123;&#123;block type="core/template" template="smartwave/megamenu/html/sidemenu.phtml"&#125;&#125;
+        &#123;&#123;block type="core/template" template="smartwave/megamenu/html/sidemobilemenu.phtml"&#125;&#125;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<p>看到了吗？上面就是控制侧边了的模板文件，一个是PC版的，另外一个是手机版的模板文件。</p>
+<p>这个时候，我们如果不做任何修改的话，调用出来的效果就是这样的：</p>
+<p><img src="https://i.imgur.com/9QpmSzH.jpg"></p>
+<p>看到这个了吗，这两个是一样的，都是调用后台的菜单里面的东西，那么如果我们自定义另外一个菜单该怎么让我们自定义的菜单显示在左边的侧边栏那里，水平的菜单显示默认的菜单内容呢？</p>
+<p>这个时候我们就需要对侧边栏这个做一个改造了。根据这个截图，我们看到：</p>
+<p><img src="https://i.imgur.com/fnnJqfH.jpg"></p>
+<p>然后在sidemenu.phtml这个文件里面写如下代码：</p>
+<pre><code>&lt;?php  
+    $root = Mage::getModel(&#39;catalog/category&#39;)-&gt;load(119);  
+    $subCat = explode(&#39;,&#39;,$root-&gt;getChildren());  
+
+    $collection  = $root
+                -&gt;getCollection()
+                -&gt;addAttributeToSelect(&quot;*&quot;)
+                -&gt;addFieldToFilter(&quot;entity_id&quot;, array(&quot;in&quot;, $subCat) );
+
+    echo &quot;&lt;ul class=&#39;menu side-menu mysegm&#39;&gt;&quot;;
+    foreach($collection as $catname)&#123;
+    echo &quot;&lt;li&gt;&quot;;
+    echo &quot;&lt;a href=&quot;.$catname-&gt;getUrl().&quot;&gt;&quot;.$catname-&gt;getName().&quot;&lt;/a&gt;&quot;;
+    echo &quot;&lt;/li&gt;&quot;;
+    &#125;
+    echo &quot;&lt;/ul&gt;&quot;;
+?&gt;</code></pre>
+<p>第二种写法如下：</p>
+<pre><code>&lt;?php  
+    $mo=Mage::getModel(&#39;catalog/category&#39;);  
+    $id=119;  
+    $mode=$mo-&gt;loadByAttribute(&#39;entity_id&#39;,$id);  //这里是设置条件、根据类目实体ID 查询  
+    //$mode=$mo-&gt;loadByAttribute(&#39;name&#39;,&#39;Electronics&#39;);   
+    //这个是 根据类目名称查询、这两个条件二选一。  
+    if($mode-&gt;hasChildren()) &#123;  
+    $id = $mode-&gt;getChildren();  
+    $subCategories = Mage::getModel(&#39;catalog/category&#39;)-&gt;getCollection();
+    $subCategories-&gt;getSelect()-&gt;where(&quot;e.entity_id in ($id)&quot;);
+    $subCategories-&gt;addAttributeToSelect(&#39;*&#39;);
+    $subCategories-&gt;load();
+    &#125;
+?&gt;
+&lt;?php  
+foreach($subCategories as $cate): ?&gt;  
+    &lt;li&gt;&lt;a href=&quot;&lt;?php echo $cate-&gt;getUrl();?&gt;&quot;&gt;&lt;?=$cate[&#39;name&#39;]?&gt;&lt;/a&gt;&lt;/li&gt;     
+&lt;?php endforeach; ?&gt;</code></pre>
+<p>显示ID为119的分类菜单的目录，最后的效果如下：</p>
+<p><img src="https://i.imgur.com/kMZxseu.jpg"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/magento-category-%E4%BA%A7%E5%93%81%E5%88%86%E7%B1%BB-%E5%AD%90%E5%88%86%E7%B1%BB-%E8%8F%9C%E5%8D%95/" rel="tag"># magento,category,产品分类,子分类,菜单</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/06/12/magento%E5%B8%B8%E7%94%A8%E7%9A%84%E8%BD%AE%E6%92%AD-%E5%B9%BB%E7%81%AF%E7%89%87-owlcarousel%E6%8F%92%E4%BB%B6%E9%85%8D%E7%BD%AE%E6%96%B9%E6%B3%95%E8%AF%A6%E8%A7%A3/" rel="prev" title="magento常用的轮播(幻灯片)owlcarousel插件(slider)配置方法详解">
+      <i class="fa fa-chevron-left"></i> magento常用的轮播(幻灯片)owlcarousel插件(slider)配置方法详解
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/06/12/Magento%E8%8E%B7%E5%8F%96%E5%95%86%E5%93%81%E5%9B%BE%E7%89%87%EF%BC%8C%E6%88%96%E8%80%85%E7%BC%A9%E7%95%A5%E5%9B%BE-getImage-%E7%9A%84%E6%96%B9%E6%B3%95/" rel="next" title="Magento获取商品图片，或者缩略图(getImage)的方法">
+      Magento获取商品图片，或者缩略图(getImage)的方法 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

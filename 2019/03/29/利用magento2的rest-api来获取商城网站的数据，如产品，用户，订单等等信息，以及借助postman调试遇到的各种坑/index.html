@@ -1,37 +1,701 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="今天笔者分享下折腾magento2版本的rest api的各种问题，笔者以前写过关于通过wordpress的rest api的方式来获取woocommerce的产品，以及根据这个东西对数据的增删改查。笔者这里安装的是magento2.1.16版本。 准备工作：  postman，这个工具很适合调试api 安装magento2版本 为magento2安装ssl证书 找到magento2的开发者文档，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="利用magento2的rest api来获取商城网站的数据，如产品，用户，订单等等信息，以及借助postman调试遇到的各种坑">
+<meta property="og:url" content="http://example.com/2019/03/29/%E5%88%A9%E7%94%A8magento2%E7%9A%84rest-api%E6%9D%A5%E8%8E%B7%E5%8F%96%E5%95%86%E5%9F%8E%E7%BD%91%E7%AB%99%E7%9A%84%E6%95%B0%E6%8D%AE%EF%BC%8C%E5%A6%82%E4%BA%A7%E5%93%81%EF%BC%8C%E7%94%A8%E6%88%B7%EF%BC%8C%E8%AE%A2%E5%8D%95%E7%AD%89%E7%AD%89%E4%BF%A1%E6%81%AF%EF%BC%8C%E4%BB%A5%E5%8F%8A%E5%80%9F%E5%8A%A9postman%E8%B0%83%E8%AF%95%E9%81%87%E5%88%B0%E7%9A%84%E5%90%84%E7%A7%8D%E5%9D%91/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="今天笔者分享下折腾magento2版本的rest api的各种问题，笔者以前写过关于通过wordpress的rest api的方式来获取woocommerce的产品，以及根据这个东西对数据的增删改查。笔者这里安装的是magento2.1.16版本。 准备工作：  postman，这个工具很适合调试api 安装magento2版本 为magento2安装ssl证书 找到magento2的开发者文档，">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/VgejdKv.jpg">
+<meta property="og:image" content="https://i.imgur.com/iBpOw4u.jpg">
+<meta property="og:image" content="https://i.imgur.com/lhzqeJP.jpg">
+<meta property="og:image" content="https://i.imgur.com/PBi5Lkf.jpg">
+<meta property="og:image" content="https://i.imgur.com/4SDqTyC.jpg">
+<meta property="og:image" content="https://i.imgur.com/raKnwRY.jpg">
+<meta property="og:image" content="https://i.imgur.com/qL5wsci.jpg">
+<meta property="og:image" content="https://i.imgur.com/WunWqlj.jpg">
+<meta property="og:image" content="https://i.imgur.com/5bzjiT1.jpg">
+<meta property="og:image" content="https://i.imgur.com/dlBey5p.jpg">
+<meta property="og:image" content="https://i.imgur.com/L98qcwG.jpg">
+<meta property="og:image" content="https://i.imgur.com/Nbk7THV.jpg">
+<meta property="og:image" content="https://i.imgur.com/jnPiXP8.jpg">
+<meta property="og:image" content="https://i.imgur.com/AfbfFmK.jpg">
+<meta property="og:image" content="https://i.imgur.com/LKIgzMO.jpg">
+<meta property="og:image" content="https://i.imgur.com/HMfBDlr.jpg">
+<meta property="article:published_time" content="2019-03-29T12:21:04.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:04.435Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="rest api,magento2,post man,接口">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/VgejdKv.jpg">
+
+<link rel="canonical" href="http://example.com/2019/03/29/%E5%88%A9%E7%94%A8magento2%E7%9A%84rest-api%E6%9D%A5%E8%8E%B7%E5%8F%96%E5%95%86%E5%9F%8E%E7%BD%91%E7%AB%99%E7%9A%84%E6%95%B0%E6%8D%AE%EF%BC%8C%E5%A6%82%E4%BA%A7%E5%93%81%EF%BC%8C%E7%94%A8%E6%88%B7%EF%BC%8C%E8%AE%A2%E5%8D%95%E7%AD%89%E7%AD%89%E4%BF%A1%E6%81%AF%EF%BC%8C%E4%BB%A5%E5%8F%8A%E5%80%9F%E5%8A%A9postman%E8%B0%83%E8%AF%95%E9%81%87%E5%88%B0%E7%9A%84%E5%90%84%E7%A7%8D%E5%9D%91/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>利用magento2的rest api来获取商城网站的数据，如产品，用户，订单等等信息，以及借助postman调试遇到的各种坑 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/03/29/%E5%88%A9%E7%94%A8magento2%E7%9A%84rest-api%E6%9D%A5%E8%8E%B7%E5%8F%96%E5%95%86%E5%9F%8E%E7%BD%91%E7%AB%99%E7%9A%84%E6%95%B0%E6%8D%AE%EF%BC%8C%E5%A6%82%E4%BA%A7%E5%93%81%EF%BC%8C%E7%94%A8%E6%88%B7%EF%BC%8C%E8%AE%A2%E5%8D%95%E7%AD%89%E7%AD%89%E4%BF%A1%E6%81%AF%EF%BC%8C%E4%BB%A5%E5%8F%8A%E5%80%9F%E5%8A%A9postman%E8%B0%83%E8%AF%95%E9%81%87%E5%88%B0%E7%9A%84%E5%90%84%E7%A7%8D%E5%9D%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          利用magento2的rest api来获取商城网站的数据，如产品，用户，订单等等信息，以及借助postman调试遇到的各种坑
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-03-29 20:21:04" itemprop="dateCreated datePublished" datetime="2019-03-29T20:21:04+08:00">2019-03-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:04" itemprop="dateModified" datetime="2020-10-11T11:58:04+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/magento2/" itemprop="url" rel="index"><span itemprop="name">magento2</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>今天笔者分享下折腾magento2版本的rest api的各种问题，笔者以前写过关于通过wordpress的rest api的方式来获取woocommerce的产品，以及根据这个东西对数据的增删改查。<strong>笔者这里安装的是magento2.1.16版本</strong>。</p>
+<p>准备工作：</p>
+<ol>
+<li>postman，这个工具很适合调试api</li>
+<li>安装magento2版本</li>
+<li>为magento2安装ssl证书</li>
+<li>找到magento2的开发者文档，边看边做</li>
+</ol>
+<p>在这篇文章中，笔者要用到的几个必备的网址：</p>
+<ul>
+<li>magento2模块开发文档：<a target="_blank" rel="noopener" href="https://devdocs.magento.com/videos/fundamentals/create-a-new-module/">https://devdocs.magento.com/videos/fundamentals/create-a-new-module/</a></li>
+<li>magento2的rest api列表：<a target="_blank" rel="noopener" href="https://devdocs.magento.com/guides/v2.1/rest/list.html">https://devdocs.magento.com/guides/v2.1/rest/list.html</a>，或者是这个：<a target="_blank" rel="noopener" href="https://devdocs.magento.com/guides/v2.1/rest/list.html">https://devdocs.magento.com/guides/v2.1/rest/list.html</a></li>
+<li>magento2的OA认证文档：<a target="_blank" rel="noopener" href="https://devdocs.magento.com/guides/v2.1/get-started/authentication/gs-authentication-token.html">https://devdocs.magento.com/guides/v2.1/get-started/authentication/gs-authentication-token.html</a></li>
+</ul>
+<p>先把准备的工作完成后，相信当你看到这篇文章的时候，相信你已经完成了准备工作了。</p>
+<p>我们先去magento后台—系统（system）—扩展（Extensions）—集成（Integrations），如果没有就新建一个：</p>
+<p><img src="https://i.imgur.com/VgejdKv.jpg"></p>
+<p>为了测试方便，笔者就获取所有的了：</p>
+<p><img src="https://i.imgur.com/iBpOw4u.jpg"></p>
+<p><img src="https://i.imgur.com/lhzqeJP.jpg"></p>
+<p>然后就把这个新建的激活，这里就需要这个magento2网站拥有https协议，不然，没法激活。</p>
+<p><img src="https://i.imgur.com/PBi5Lkf.jpg"></p>
+<p>激活的时候，我们就可以看到，</p>
+<p><img src="https://i.imgur.com/4SDqTyC.jpg"></p>
+<p>这些信息，这个信息接下来我们会需要用到。</p>
+<h2 id="打开magento2的rest-api的列表"><a href="#打开magento2的rest-api的列表" class="headerlink" title="打开magento2的rest api的列表"></a>打开magento2的rest api的列表</h2><p><a target="_blank" rel="noopener" href="https://devdocs.magento.com/guides/v2.1/rest/list.html">https://devdocs.magento.com/guides/v2.1/rest/list.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://devdocs.magento.com/guides/v2.1/rest/list.html">https://devdocs.magento.com/guides/v2.1/rest/list.html</a></p>
+<p>我们可以从这个里面选择我们要实验的对象。</p>
+<p>但是在实践之前，我们需要获取token。</p>
+<h2 id="获取magento2后台管理员的rest-api的token值"><a href="#获取magento2后台管理员的rest-api的token值" class="headerlink" title="获取magento2后台管理员的rest api的token值"></a>获取magento2后台管理员的rest api的token值</h2><p><a target="_blank" rel="noopener" href="https://devdocs.magento.com/guides/v2.1/get-started/authentication/gs-authentication-token.html">https://devdocs.magento.com/guides/v2.1/get-started/authentication/gs-authentication-token.html</a></p>
+<p>这个里面有详细的获取admin的token的。</p>
+<p><strong>值得提醒的是</strong>这个教程有点让人困惑，请求的地址不是<code>http://www.yourdomain.com/V1/integration/admin/token</code>，而是<code>http://www.noctiuniversity.com/rest/V1/integration/admin/token</code>，记得在这个教程里面的前面加个<code>/rest</code></p>
+<p>然后根据文档，把magento2网站后台管理员登录账号信息填入，这里必须是拥有所有权的，或者拥有获取某个api数据的权限的才行，笔者这里建议是拥有magento2网站后台的所有权的administrators角色。</p>
+<p>然后我们启动postman这个客户端。</p>
+<p>先在地址栏里面输入：<a target="_blank" rel="noopener" href="http://www.yourdomain.com/rest/V1/integration/admin/token%EF%BC%8C%E7%84%B6%E5%90%8E%E6%89%BE%E5%88%B0%EF%BC%9AAuthorization%E8%BF%99%E4%B8%AA%E9%80%89%E9%A1%B9%E5%8D%A1%E9%82%A3%E9%87%8C%EF%BC%8C%E5%A1%AB%E5%86%99%E5%89%8D%E9%9D%A2%E5%88%9B%E5%BB%BA%E7%9A%84%E9%82%A3%E4%B8%AA%E9%9B%86%E6%88%90%E7%9A%84%E7%A7%98%E9%92%A5Consumer">http://www.yourdomain.com/rest/V1/integration/admin/token，然后找到：Authorization这个选项卡那里，填写前面创建的那个集成的秘钥Consumer</a> Key，Consumer Secret，Access Token，Access Token Secret这四个：</p>
+<p><img src="https://i.imgur.com/raKnwRY.jpg"></p>
+<p>然后就是选择POST的方式，点击发送，就会出现以下的报错：</p>
+<pre><code>&#123;
+    &quot;message&quot;: &quot;One or more input exceptions have occurred.&quot;,
+    &quot;errors&quot;: [
+        &#123;
+            &quot;message&quot;: &quot;%fieldName is a required field.&quot;,
+            &quot;parameters&quot;: &#123;
+                &quot;fieldName&quot;: &quot;username&quot;
+            &#125;
+        &#125;,
+        &#123;
+            &quot;message&quot;: &quot;%fieldName is a required field.&quot;,
+            &quot;parameters&quot;: &#123;
+                &quot;fieldName&quot;: &quot;password&quot;
+            &#125;
+        &#125;
+    ]
+&#125;</code></pre>
+<p>这里很明显就是缺少两个字段：username和password，然后在Params那个选项卡里面添加这两个字段，然后用户名就是我们magento2网站后台的管理员的用户名，密码就是后台的登录密码。</p>
+<blockquote>
+<p><strong>这里更新下</strong>，当笔者第二天继续获取token的时候，用post的方式，然后其他都没有问题的情况下，居然一直报错上面的那个，提示username和password，后来笔者没有按照教程上的走（没有把username和password填写在Headers选项卡里面），而是直接在地址栏里面输入magento2网站的域名和rest api信息然后追加这两个参数：<code>http://www.yourdomain.com/rest/V1/integration/admin/token?username=admin&amp;password=abc123</code>，认证方式还是OA1.0，然后获取成功，如果还是不行，那么就试着把cookie删除。</p>
+</blockquote>
+<p><strong>总结获取网站后台的管理员token的方式就是</strong>：</p>
+<blockquote>
+<p>method: POST</p>
+<p>url: <a target="_blank" rel="noopener" href="http://www.yourdomain.com/rest/V1/integration/admin/token?username=yourusername&amp;password=yourpassword">http://www.yourdomain.com/rest/V1/integration/admin/token?username=yourusername&amp;password=yourpassword</a></p>
+</blockquote>
+<p>事实上，我们完全可以在那个链接后面手动写也可以的：<code>http://www.yourdomain.com/rest/V1/integration/admin/token?username=admin&amp;password=abc123</code></p>
+<p>然后，我们再次点击发送就可以获取到了token的值：</p>
+<p><img src="https://i.imgur.com/qL5wsci.jpg"></p>
+<blockquote>
+<p>记住这个是在测试获取rest api的数据之前的要做的，没有这一步就没法获得token的值，如果没法获取token的值，那么就没法接下来的测试工作了。</p>
+</blockquote>
+<h2 id="测试获取产品的数据信息"><a href="#测试获取产品的数据信息" class="headerlink" title="测试获取产品的数据信息"></a>测试获取产品的数据信息</h2><p>根据rest api列表来看，当初笔者也是迫不及待的去折腾了，可是总是报错，什么错误呢？</p>
+<p><img src="https://i.imgur.com/WunWqlj.jpg"></p>
+<p>正如这个列表说的，于是在postman里面输入：<a target="_blank" rel="noopener" href="http://www.yourdomain.com/V1/products%EF%BC%8C%E5%BE%97%E5%88%B0%E5%A6%82%E4%B8%8B%E7%9A%84%E9%94%99%E8%AF%AF%EF%BC%9A">http://www.yourdomain.com/V1/products，得到如下的错误：</a></p>
+<p><img src="https://i.imgur.com/5bzjiT1.jpg"></p>
+<p>道理很简单，我们什么也没设置，我们先认证，来到Authorization，这里选择认证方式：Bearer Token，然后输入我们前面获取的token值，</p>
+<p><img src="https://i.imgur.com/dlBey5p.jpg"></p>
+<p>完成这一步之后，我们继续点击发送，于是得到一样的报错，道理很简单，我们的url有问题，正确的应该是：<code>http://www.yourdomain.com/rest/V1/products</code>，所以不能照搬照抄，用点脑子想想。</p>
+<p>好的，纠正url之后，我们再次点击发送，又报错了，</p>
+<pre><code>&#123;
+    &quot;message&quot;: &quot;%fieldName is a required field.&quot;,
+    &quot;parameters&quot;: &#123;
+        &quot;fieldName&quot;: &quot;searchCriteria&quot;
+    &#125;
+&#125;</code></pre>
+<p>这个是什么鬼？参数值填写啥呢？不清楚，于是google了下，发现了解决方案：</p>
+<p><a target="_blank" rel="noopener" href="https://magento.stackexchange.com/questions/248520/how-to-get-all-product-details-using-rest-api-in-magento-2">https://magento.stackexchange.com/questions/248520/how-to-get-all-product-details-using-rest-api-in-magento-2</a></p>
+<p>网友答复：</p>
+<blockquote>
+<p>you can achieve this using catalogProductRepositoryV1</p>
+<p>method GET</p>
+<p>Authentication admin token</p>
+<p>url: <a target="_blank" rel="noopener" href="http://localhost.com/index.php/rest/V1/products">http://localhost.com/index.php/rest/V1/products</a></p>
+</blockquote>
+<p>In order to display all products, you need to have at least one criteria sent to the Rest endpoint. If you have more than 1000 items, you could loop through the pages (although any example with &gt; 1000 items would require more work to deal with that amount of data).</p>
+<p><strong>意思就是：</strong>为了显示所有产品，至少需要向Rest端点发送一个条件。如果您有超过1000个条目，您可以循环遍历页面(尽管使用&gt; 1000个条目的任何示例都需要更多的工作来处理这些数据)。</p>
+<p><strong>于是正解在这里：</strong></p>
+<blockquote>
+<p>You need to add searchCriteria field name at the end of your url as follows:</p>
+<p>$url = ‘<a target="_blank" rel="noopener" href="http://localhost.com/index.php/rest/V1/products?searchCriteria&#39;">http://localhost.com/index.php/rest/V1/products?searchCriteria&#39;</a>;</p>
+</blockquote>
+<p>所以笔者把url改成了如下：<code>http://www.yourdomain.com/rest/V1/products?searchCriteria</code></p>
+<p>点击再次发送，终于成功了。</p>
+<p><img src="https://i.imgur.com/L98qcwG.jpg"></p>
+<blockquote>
+<p>此处更新下：这里我们不禁会想，如果我的网站有成千上万个，会返回很多数据的，那么这个时候比如我想要获取自己定义的条数，比如获取5条，那么这个api的url怎么写？写法如下：<code>http://www.noctiuniversity.com/rest/V1/products?searchCriteria[pageSize]=5</code></p>
+</blockquote>
+<p>接着，我们再来测试一个试试。</p>
+<h2 id="获取产品分类的数据"><a href="#获取产品分类的数据" class="headerlink" title="获取产品分类的数据"></a>获取产品分类的数据</h2><p>url: <a target="_blank" rel="noopener" href="http://www.yourdomain.com/rest/V1/categories?searchCriteria">http://www.yourdomain.com/rest/V1/categories?searchCriteria</a></p>
+<p><img src="https://i.imgur.com/Nbk7THV.jpg"></p>
+<p>获取成功。</p>
+<h2 id="获取magento2网站的用户的token"><a href="#获取magento2网站的用户的token" class="headerlink" title="获取magento2网站的用户的token"></a>获取magento2网站的用户的token</h2><p>这个有点不一样，具体的敬请关注笔者的更新。</p>
+<p>我们根据教程走一下，还是一样的，我们先打开postman，然后我们在地址栏那里输入：<code>http://www.yourdomain.com/rest/V1/integration/customer/token</code>，请求方式采用POST，Authorization选项卡那里我们不需要设置任何方式，然后报错了，报错内容如下：</p>
+<pre><code>&#123;
+    &quot;message&quot;: &quot;One or more input exceptions have occurred.&quot;,
+    &quot;errors&quot;: [
+        &#123;
+            &quot;message&quot;: &quot;%fieldName is a required field.&quot;,
+            &quot;parameters&quot;: &#123;
+                &quot;fieldName&quot;: &quot;username&quot;
+            &#125;
+        &#125;,
+        &#123;
+            &quot;message&quot;: &quot;%fieldName is a required field.&quot;,
+            &quot;parameters&quot;: &#123;
+                &quot;fieldName&quot;: &quot;password&quot;
+            &#125;
+        &#125;
+    ]
+&#125;</code></pre>
+<p>这个很直观，就是缺少两个参数，username和password.</p>
+<blockquote>
+<p>这里要注意了，这个username不是用户名而是magento2网站中用户的登录邮箱，password就是登录的账号。这个一定要记住了，笔者就是在这个地方吃了不少亏。</p>
+</blockquote>
+<p>因此，正确的请求方式是：</p>
+<pre><code>http://www.yourdomain.com/rest/V1/integration/customer/token?username=zhangsan@qq.com&amp;password=123456</code></pre>
+<p>然后返回token字符串。</p>
+<p><img src="https://i.imgur.com/jnPiXP8.jpg"></p>
+<p><strong>总结获取网站后台的管理员token的方式就是：</strong></p>
+<blockquote>
+<p>method: POST</p>
+<p>url: <a target="_blank" rel="noopener" href="http://www.yourdomain.com/rest/V1/integration/customer/token?username=youremail&amp;password=yourpassword">http://www.yourdomain.com/rest/V1/integration/customer/token?username=youremail&amp;password=yourpassword</a></p>
+</blockquote>
+<h2 id="获取用户的数据"><a href="#获取用户的数据" class="headerlink" title="获取用户的数据"></a>获取用户的数据</h2><p>既然我们已经获取到了customer的token了，那么我们就可以接下来进行下一步的工作，来获取下用户的信息试试。比如获取某个用户的信息：</p>
+<p>根据api列表：</p>
+<pre><code>...
+POST   /V1/customers
+PUT    /V1/customers/:id
+PUT    /V1/customers/me
+GET    /V1/customers/me
+...</code></pre>
+<p>第一步：我们输入url地址：<code>http://www.yourdomain.com/rest/V1/customers/me</code></p>
+<p>第二步：选择method，那么选择get</p>
+<p>第三步：Authentication选项卡那里选择Bearer Token然后把前面获取的customer的token值填进去</p>
+<p><img src="https://i.imgur.com/AfbfFmK.jpg"></p>
+<p>第四步：这一步可以忽略，但是为了更加深刻的认识一下， 还是有必要说明，就是这里我们要设置一下token的过期时间，我们前往magento2网站的后台—店铺(stores)—设置(settings)—配置(configuration)—服务(services)—认证(OAuth)—Access Token Expiration，把这里留空或者设置更长的时间，这样以便测试。</p>
+<p>点击发送就可以获取到数据了：</p>
+<p><img src="https://i.imgur.com/LKIgzMO.jpg"></p>
+<h2 id="修改用户密码"><a href="#修改用户密码" class="headerlink" title="修改用户密码"></a>修改用户密码</h2><pre><code>method: PUT
+Authentication: Bearer Token(token的值就是前面获取的用户token)
+URL: http://www.noctiuniversity.com/rest/V1/customers/me/password</code></pre>
+<p>返回报错信息：</p>
+<pre><code>&#123;
+    &quot;message&quot;: &quot;One or more input exceptions have occurred.&quot;,
+    &quot;errors&quot;: [
+        &#123;
+            &quot;message&quot;: &quot;%fieldName is a required field.&quot;,
+            &quot;parameters&quot;: &#123;
+                &quot;fieldName&quot;: &quot;currentPassword&quot;
+            &#125;
+        &#125;,
+        &#123;
+            &quot;message&quot;: &quot;%fieldName is a required field.&quot;,
+            &quot;parameters&quot;: &#123;
+                &quot;fieldName&quot;: &quot;newPassword&quot;
+            &#125;
+        &#125;
+    ]
+&#125;</code></pre>
+<p>根据报错信息添加参数即可，这里很清楚，这是api是要设置用户密码，那么需要当前密码和新密码了。</p>
+<p><a target="_blank" rel="noopener" href="http://www.noctiuniversity.com/rest/V1/customers/me/password?currentPassword=123456&amp;newPassword=11223344">http://www.noctiuniversity.com/rest/V1/customers/me/password?currentPassword=123456&amp;newPassword=11223344</a></p>
+<blockquote>
+<p>同样的道理，我们不能仅仅只看rest api的列表，还要从调用这个api中报错中学习，报了哪些错误，需要补充什么参数，我们直接根据这个报错然后补充缺少的信息，即可获取到我们想要的数据了。</p>
+</blockquote>
+<h2 id="获取后台客户订单"><a href="#获取后台客户订单" class="headerlink" title="获取后台客户订单"></a>获取后台客户订单</h2><p>首先我们先看下这个是属于token的，后台订单，这个是跟后台管理员有关的，所以获取订单信息的时候，就先获取后台管理员的token，获取完毕后，我们就跟着api列表走了。</p>
+<pre><code>method: GET
+Authentication: Bearer Token(token的值就是前面获取的网站后台管理员的token)
+URL: http://www.noctiuniversity.com/rest/V1/orders</code></pre>
+<p>点击发送后也是报错，</p>
+<pre><code>&#123;
+    &quot;message&quot;: &quot;%fieldName is a required field.&quot;,
+    &quot;parameters&quot;: &#123;
+        &quot;fieldName&quot;: &quot;searchCriteria&quot;
+    &#125;
+&#125;</code></pre>
+<p><img src="https://i.imgur.com/HMfBDlr.jpg"></p>
+<p>这个正是前面我们碰到的，把这个参数追加到url后面即可。即：<code>http://www.noctiuniversity.com/rest/V1/orders?searchCriteria</code></p>
+<p>其他的方式相似，大家可以多尝试，如果有什么新的发现可以一起交流，本文会持续更新，敬请期待。</p>
+<hr>
+<p>**update:2019/3/30 18:09:55 **</p>
+<h2 id="获取产品的sku列表"><a href="#获取产品的sku列表" class="headerlink" title="获取产品的sku列表"></a>获取产品的sku列表</h2><p>我们前面实践的是很常规的那种，如果只是获取某一个字段的信息呢？比如获取所有产品的sku，那么怎么做？</p>
+<p>首先：我们查看rest api列表：</p>
+<pre><code>GET    /V1/products/:sku</code></pre>
+<p>单纯这样输入是不行的，会报错，后来google了下，<a target="_blank" rel="noopener" href="https://github.com/magento/magento2/issues/3463">找到答案</a>，正确请求地址应该这样写：</p>
+<pre><code>http://www.yourdomain.com/rest/V1/products?fields=items[sku]&amp;searchCriteria</code></pre>
+<p>结果就是一个sku的列表：</p>
+<pre><code>&#123;
+    &quot;items&quot;: [
+        &#123;
+            &quot;sku&quot;: &quot;rouguanludeng&quot;
+        &#125;,
+        &#123;
+            &quot;sku&quot;: &quot;WWER2224&quot;
+        &#125;,
+        &#123;
+            &quot;sku&quot;: &quot;KKLPUTY567&quot;
+        &#125;,
+        &#123;
+            &quot;sku&quot;: &quot;EEW99882&quot;
+        &#125;,
+        &#123;
+            &quot;sku&quot;: &quot;KKJ894&quot;
+        &#125;,
+        &#123;
+            &quot;sku&quot;: &quot;xlbbjb&quot;
+        &#125;,
+        &#123;
+            &quot;sku&quot;: &quot;gaoqingshexiangtou&quot;
+        &#125;,
+        &#123;
+            &quot;sku&quot;: &quot;ewrtweqingshexi&quot;
+        &#125;
+    ]
+&#125;</code></pre>
+<p>为了弄明白为啥这样写，我们不妨先获取所有产品列表，里面就会有个sku的字段，请看如下片段：</p>
+<pre><code>&#123;
+    &quot;items&quot;: [
+        &#123;
+            &quot;id&quot;: 1,
+            &quot;sku&quot;: &quot;rouguanludeng&quot;,
+            &quot;name&quot;: &quot;柔光路灯&quot;,
+            &quot;attribute_set_id&quot;: 4,
+            &quot;price&quot;: 0.1,
+            &quot;status&quot;: 1,
+            &quot;visibility&quot;: 4,
+            &quot;type_id&quot;: &quot;simple&quot;,
+            &quot;created_at&quot;: &quot;2019-03-13 03:14:28&quot;,
+            &quot;updated_at&quot;: &quot;2019-03-13 03:14:28&quot;,
+            &quot;extension_attributes&quot;: [],
+            ...
+      &#125;],
+    &quot;search_criteria&quot;: &#123;
+        &quot;filter_groups&quot;: []
+    &#125;,
+    &quot;total_count&quot;: 8
+&#125;</code></pre>
+<p>这样就不难理解这样调用的原因了。还有很重要的是如果好好思考以上的那个调用我们就可以明白老外说的：</p>
+<pre><code>http://www.yourdomain.com/rest/V1/orders?searchCriteria[filter_groups][0][filters][0][field]=entity_id</code></pre>
+<p>这个里面就有个参数的调用方式。逐渐的就能够学习文档中的参数调用方式了。</p>
+<h2 id="在调用rest-api的时候的报错"><a href="#在调用rest-api的时候的报错" class="headerlink" title="在调用rest api的时候的报错"></a>在调用rest api的时候的报错</h2><pre><code>Magento 2 did not sign in correctly or your account is temporarily disabled</code></pre>
+<p>这个报错通常是在获取用户token的时候发生的，首先我们先确保我们的这个用户没有被锁住，就是locked.</p>
+<p>google了下，找到这样的答复：</p>
+<blockquote>
+<p>After some search on internet i found that due to security reason Magento have introduced account disabled functionality with considering security of business.</p>
+</blockquote>
+<blockquote>
+<p>Here is how you can unlock and Go to your Magento root folder via FTP, SSH or SFTP</p>
+</blockquote>
+<blockquote>
+<p>Then Run following command</p>
+</blockquote>
+<blockquote>
+<p> php bin/magento admin:user:unlock ADMINUSERNAME</p>
+</blockquote>
+<blockquote>
+<p>Or jump in to bin directory from magento root: cd bin/</p>
+</blockquote>
+<blockquote>
+<p>and then run command</p>
+</blockquote>
+<blockquote>
+<p>php magento admin:user:unlock ADMINUSERNAME</p>
+</blockquote>
+<p>就是为这个用户解锁，当然我们可以在网站的后台进行设置解除锁定即可。大家可以参考这个网址：<a target="_blank" rel="noopener" href="http://devdocs.magento.com/guides/v2.0/install-gde/install/cli/install-cli-subcommands-admin.html">http://devdocs.magento.com/guides/v2.0/install-gde/install/cli/install-cli-subcommands-admin.html</a></p>
+<p>本文持续更新，敬请关注。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/rest-api-magento2-post-man-%E6%8E%A5%E5%8F%A3/" rel="tag"># rest api,magento2,post man,接口</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/03/22/vi%E7%BC%96%E8%BE%91%E5%99%A8%E7%9A%84%E9%85%8D%E7%BD%AE%E5%92%8C%E5%B8%B8%E7%94%A8%E7%9A%84%E6%8A%80%E5%B7%A7/" rel="prev" title="vi编辑器的配置和常用的技巧">
+      <i class="fa fa-chevron-left"></i> vi编辑器的配置和常用的技巧
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/04/19/wordpress%E7%BD%91%E7%AB%99%E9%92%88%E5%AF%B9%E5%88%86%E7%B1%BB%E8%BF%9B%E8%A1%8C%E6%90%9C%E7%B4%A2%EF%BC%8C%E5%9C%A8%E6%90%9C%E7%B4%A2%E7%BB%93%E6%9E%9C%E4%B8%AD%E8%BF%87%E6%BB%A4%E6%8E%89%E4%B8%8D%E9%9C%80%E8%A6%81%E7%9A%84%E7%B1%BB%E5%88%AB%EF%BC%8C%E6%AF%94%E5%A6%82%E6%96%87%E7%AB%A0%EF%BC%8C%E9%A1%B5%E9%9D%A2%E7%AD%89/" rel="next" title="wordpress网站针对分类进行搜索，在搜索结果中过滤掉不需要的类别，比如文章，页面等">
+      wordpress网站针对分类进行搜索，在搜索结果中过滤掉不需要的类别，比如文章，页面等 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%93%E5%BC%80magento2%E7%9A%84rest-api%E7%9A%84%E5%88%97%E8%A1%A8"><span class="nav-number">1.</span> <span class="nav-text">打开magento2的rest api的列表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96magento2%E5%90%8E%E5%8F%B0%E7%AE%A1%E7%90%86%E5%91%98%E7%9A%84rest-api%E7%9A%84token%E5%80%BC"><span class="nav-number">2.</span> <span class="nav-text">获取magento2后台管理员的rest api的token值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E8%8E%B7%E5%8F%96%E4%BA%A7%E5%93%81%E7%9A%84%E6%95%B0%E6%8D%AE%E4%BF%A1%E6%81%AF"><span class="nav-number">3.</span> <span class="nav-text">测试获取产品的数据信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E4%BA%A7%E5%93%81%E5%88%86%E7%B1%BB%E7%9A%84%E6%95%B0%E6%8D%AE"><span class="nav-number">4.</span> <span class="nav-text">获取产品分类的数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96magento2%E7%BD%91%E7%AB%99%E7%9A%84%E7%94%A8%E6%88%B7%E7%9A%84token"><span class="nav-number">5.</span> <span class="nav-text">获取magento2网站的用户的token</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E7%94%A8%E6%88%B7%E7%9A%84%E6%95%B0%E6%8D%AE"><span class="nav-number">6.</span> <span class="nav-text">获取用户的数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81"><span class="nav-number">7.</span> <span class="nav-text">修改用户密码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E5%90%8E%E5%8F%B0%E5%AE%A2%E6%88%B7%E8%AE%A2%E5%8D%95"><span class="nav-number">8.</span> <span class="nav-text">获取后台客户订单</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E4%BA%A7%E5%93%81%E7%9A%84sku%E5%88%97%E8%A1%A8"><span class="nav-number">9.</span> <span class="nav-text">获取产品的sku列表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8%E8%B0%83%E7%94%A8rest-api%E7%9A%84%E6%97%B6%E5%80%99%E7%9A%84%E6%8A%A5%E9%94%99"><span class="nav-number">10.</span> <span class="nav-text">在调用rest api的时候的报错</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

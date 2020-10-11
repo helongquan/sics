@@ -1,23 +1,1297 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-{% block title %}{{ config.title }}{% if theme.index_with_subtitle and config.subtitle %} - {{config.subtitle }}{% endif %}{% endblock %}
+<link rel="stylesheet" href="/css/main.css">
 
-{% block page_class %}
-  {% if is_home() %}page-home{% endif -%}
-{% endblock %}
 
-{% block content %}
-  <section id="posts" class="posts-expand">
-    {% for post in page.posts %}
-      {{ post_template.render(post, true) }}
-    {% endfor %}
-  </section>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-  {% include '_partials/pagination.swig' %}
-{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
 
-{% block sidebar %}
-  {{ sidebar_template.render(false) }}
-{% endblock %}
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/page/37/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/page/37/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
+            
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/04/03/Wordpress%E7%94%A8get-current-screen%E5%87%BD%E6%95%B0%E6%9D%A5%E9%80%89%E6%8B%A9%E6%80%A7%E5%8A%A0%E8%BD%BD%E6%8F%92%E4%BB%B6%E4%B8%AD%E7%9A%84JS%E5%92%8CCSS/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/04/03/Wordpress%E7%94%A8get-current-screen%E5%87%BD%E6%95%B0%E6%9D%A5%E9%80%89%E6%8B%A9%E6%80%A7%E5%8A%A0%E8%BD%BD%E6%8F%92%E4%BB%B6%E4%B8%AD%E7%9A%84JS%E5%92%8CCSS/" class="post-title-link" itemprop="url">Wordpress用get_current_screen函数来选择性加载插件中的JS和CSS</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-04-03 20:14:56" itemprop="dateCreated datePublished" datetime="2017-04-03T20:14:56+08:00">2017-04-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:09" itemprop="dateModified" datetime="2020-10-11T11:53:09+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>一个良好的 WordPress 使用者只加载他们需要的文件。这个原则既适用于前端，也适用于后端。当你只是想 CSS 和 JS 出现在你所创建的那个页面，就没有必要在后台也加载了。</p>
+<p>“绝对不要在所有的管理界面上都允许 CSS 和 JS 文件，这会引起与其他插件的冲突。”</p>
+<p><strong>WordPress 函数就能解决这个问题</strong></p>
+<p>几乎所有的管理员页面都有一个唯一的 URL，所以要做到在需要的页面上加载 JS 和 CSS 文件并不难。可以使用 $_SERVER[‘REQUEST_URI’] 或者是 $_GET[‘action’] 参数。其实还有一种更快捷，简单而又标准化的方式来实现这个目的。那就是 get_current_screen 函数。</p>
+<p><strong>关于 get_current_screen function 你需要了解的事情</strong></p>
+<pre><code>是在 WordPress 3.1 引入的，所以如果你在更旧版本上使用，会返回 call to undefined function 错误。如果不确定，可以用 function_exists 函数来检查一下是否可用。
+在 admin_init 和 init 挂钩上不可用。因为这是在那些挂钩请求之后才会初始化的。
+这个函数会返回 一个包含很多信息的叫 WP_Screen 的目标，但是我们需要的只是上面的 id 。
+在后端不可用。</code></pre>
+<p><strong>几行代码就能使之大不相同</strong></p>
+<p>我们假设你的插件在设置菜单下有一个选项页面你是用下面这行代码写的：</p>
+<pre><code>add_options_page(&#39;My Plugin&#39;, &#39;My Plugin&#39;, &#39;manage_options&#39;, &#39;my_plugin&#39;, &#39;my_plugin_options&#39;);</code></pre>
+<p>此时，你需要添加额外的 CSS 和 JavaScript 到这个页面，代码如下：</p>
+<pre><code>// Bad code below! Don&#39;t copy/paste!
+add_action(&#39;admin_enqueue_scripts&#39;, &#39;my_plugin_scripts&#39;);
+
+function my_plugin_scripts() &#123;
+    wp_enqueue_style(&#39;farbtastic&#39;);
+    wp_enqueue_script(&#39;farbtastic&#39;);
+&#125;</code></pre>
+<p>上面是个很糟糕的方案，不要那样做。上面一段代码会让包含 CSS 和 JS 的 Farbtastic 颜色选择器出现在管理员界面的每一页。如果别的插件不需要你的 CSS 和 JS， 他们就必须用 wp_dequeue_* 函数来移除。这很没有必要而且很鲁莽，因为这是可以有更好的代码的。代码如下：</p>
+<pre><code>add_action(&#39;admin_enqueue_scripts&#39;, &#39;my_plugin_scripts&#39;);
+
+function my_plugin_scripts() &#123;
+    // Include JS/CSS only if we&#39;re on our options page
+    if (is_my_plugin_screen()) &#123;
+        wp_enqueue_style(&#39;farbtastic&#39;);
+        wp_enqueue_script(&#39;farbtastic&#39;);
+    &#125;
+&#125;
+
+// Check if we&#39;re on our options page
+function is_my_plugin_screen() &#123;
+    $screen = get_current_screen();
+    if (is_object($screen) &amp;&amp; $screen-&gt;id == &#39;settings_page_my_plugin&#39;) &#123;
+        return true;
+    &#125; else &#123;
+        return false;
+    &#125;
+&#125;</code></pre>
+<p><strong>要实现这个功能很简单</strong></p>
+<p>你会发现只加了一个 if 语句以及一个简单的函数 is_my_plugin_screen（这是用来确认是否打开的是插件选项页面）。控制 WP_Screen 的变量 $screen 有很多属性值，但是我们感兴趣的就只有 id 。这个 id 有一个 前缀 settings_page_，该前缀在所有的设置页面都是一样的。而字符串 my_plugin 是唯一的，因为我们在调用 add_options_page 函数的时候把它定位为第四个参数了。</p>
+<p>代码很简单而且在所有的管理员界面都适用。可以很方便的看见转存到 $screen 的 id 是什么</p>
+<pre><code>echo &#39;&lt;pre&gt;&#39; . print_r(get_current_screen(), true) . &#39;&lt;/pre&gt;&#39;;</code></pre>
+<p><strong>总结</strong></p>
+<p>1、不要在所有的管理页面上都加载 CSS 或 JS 文件。这会引起与其他插件的冲突。</p>
+<p>2、在 init 函数之后使用 get_current_screen 来识别你的管理界面什么时候是可见的，可见的时候加载额外的东西。</p>
+<p>3、核心管理页面的 ID 可在 Codex 的这个页面上找到 Admin Screen Reference 。</p>
+<p>4、不要引用 <script> 或者 <style> 标签；要用 wp_enqueue_* 函数。</p>
+<p>5、先到 Codex 检查是不是你的脚本已经在 WP core 上面了</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/03/23/Sublime-Text-%E5%A6%82%E4%BD%95%E8%BF%9E%E6%8E%A5-FTP-SFTP/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/03/23/Sublime-Text-%E5%A6%82%E4%BD%95%E8%BF%9E%E6%8E%A5-FTP-SFTP/" class="post-title-link" itemprop="url">Sublime Text 如何连接 FTP/SFTP</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-03-23 22:29:59" itemprop="dateCreated datePublished" datetime="2017-03-23T22:29:59+08:00">2017-03-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:17" itemprop="dateModified" datetime="2020-10-11T11:53:17+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>默认的sublime text是没有这个sftp连接功能的，这只是一个文本编辑器，相当于windows下的txt，所以要先装上插件:</p>
+<p><strong>1） 安装package control组件:</strong></p>
+<p>按Ctrl+`调出console, 粘贴以下代码到底部命令行并回车：</p>
+<pre><code> import urllib2,os;pf=&#39;Package Control.sublime-package&#39;;ipp=sublime.installed_packages_path();os.makedirs(ipp) if not os.path.exists(ipp) else None;open(os.path.join(ipp,pf),&#39;wb&#39;).write(urllib2.urlopen(&#39;http://sublime.wbond.net/&#39;+pf.replace(&#39; &#39;,&#39;%20&#39;)).read())</code></pre>
+<p>如果是Sublime Text 3执行上述代码会报错，改成如下即可：</p>
+<pre><code> import urllib.request,os; pf = &#39;Package Control.sublime-package&#39;; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); open(os.path.join(ipp, pf), &#39;wb&#39;).write(urllib.request.urlopen( &#39;http://sublime.wbond.net/&#39; + pf.replace(&#39; &#39;,&#39;%20&#39;)).read())</code></pre>
+<p><strong>2）重启Sublime Text。</strong></p>
+<p>如果在Perferences-&gt;package settings中看到package control这一项，则安装成功。</p>
+<p><strong>3）用Package Control安装sftp插件的方法：</strong></p>
+<p>按下Ctrl+Shift+P调出命令面板</p>
+<p>输入install 调出 Install Package 选项并回车，然后输入ftp，下拉列表中会出现一些相关的插件，选中sftp进行安装就行了。</p>
+<ol start="4">
+<li>对于某项目下的文件上传配置，可按如下配置操作：</li>
+</ol>
+<p>右键项目-&gt; SFTP/FTP -&gt; Map to Remote .点击Map to Remote，看到配置文件。编辑完成后保存，在项目目录下可看到多了一个文件<code>sftp-config.json</code>。</p>
+<p>普通的ftp连接修改下列配置:</p>
+<pre><code>“type”:”ftp”: ，
+
+“upload_on_save”: true,         //保存文件的时候自动同步到ftp服务器
+
+“sync_skip_deletes”: true,     //同步时跳过删除的文件
+
+“host”: “192.168.0.148”,         //ftp服务器地址
+
+“user”: “ftptest”,                        //用户名
+
+“password”: “yuliying”,           //密码
+
+“port”:”21″ ，                            //端口
+
+“remote_path”: “/data”,          //ftp服务器项目目录</code></pre>
+<p>配置完成后右键项目-&gt; SFTP/FTP , 在这里就可以进行一系列操作了,具体操作菜单写的很清楚了。</p>
+<p>这里需要说明的是：这个文件配置文件在某个文件夹下打开，这个时候配置的信息路径确定后，如果同目录的文档保存后，会自动的被发送到这个远程的地址所在目录中去，如果换了一个文件夹，我们把本地的文件提交的远程服务器地址不一样，或者是说我们push的远程目录不一样，需要修改这个配置文件中的信息。</p>
+<p>如果是整个文件夹，我们可以在sublime T3左边的文件夹右键鼠标，选择SFTP/FTP —Map to Remote，这个时候会在这个文件夹下面出现一个sftp-config.json的配置文件，根据上面这几个选项配置好了，保存一下。然后把自己准备好的文件保存后，会被自动的传送到指定的路劲地址<code>remote_path</code>上去。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/03/23/html%E6%96%87%E4%BB%B6%E8%B0%83%E7%94%A8%E9%9D%99%E6%80%81%E7%9A%84html%E6%96%87%E4%BB%B6%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/03/23/html%E6%96%87%E4%BB%B6%E8%B0%83%E7%94%A8%E9%9D%99%E6%80%81%E7%9A%84html%E6%96%87%E4%BB%B6%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E6%B3%95/" class="post-title-link" itemprop="url">html文件调用静态的html文件的几种方法</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-03-23 22:16:06" itemprop="dateCreated datePublished" datetime="2017-03-23T22:16:06+08:00">2017-03-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:32" itemprop="dateModified" datetime="2020-10-11T11:53:32+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>建网站有好多时候在每一个网页都要使用同一的重复的地方！</p>
+<p>如每页的导航条、版权信息等！</p>
+<p>这些修改时都是要统一修改的…而如果照每页每页的修改的话简直是很吃不消。</p>
+<p>而这些在asp以及cgi、php等中可以使用include、require 等之类的调用。</p>
+<p>而绝大多数不支持程序的HTML静态空间或者大家不会编程的怎么办……</p>
+<p>呵！现在就告诉大家一条在html网页中也可以实用文件调用的超级简短代码…</p>
+<pre><code>&lt;!–webbot bot=”Include” U-Include=”../文件名.htm” TAG=”BODY” –&gt;</code></pre>
+<p>呵…快适用到你的网页中吧！！让你的网站建起来更快更容易！！</p>
+<p>而且而且这条代码可以远程调用噢！！！很多网站采用Shtml页面include外部文件</p>
+<p>例如：</p>
+<p>index.shtml页面代码</p>
+<pre><code>&lt;!--#include file=”head.htm”--&gt;</code></pre>
+<p>head.htm页面代码</p>
+<pre><code>&lt;div style=”background:#FF0000;”&gt;&lt;h1&gt;静态页面也可以包含文件&lt;/h1&gt;&lt;/div&gt;</code></pre>
+<p>这里我还找到了另外一种方案：仅仅通过用jQuery和纯htm的解决方案来实现：需要四个文件（index.html、header.html、footer.html、jquery-3.2.0.min.js）</p>
+<pre><code>&lt;html&gt;
+&lt;head&gt;
+&lt;title&gt;&lt;/title&gt;
+&lt;script src=&quot;jquery-3.2.0.min.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+$(document).ready(function () &#123;
+$(&quot;#header&quot;).load(&quot;header.html&quot;);
+$(&quot;#footer&quot;).load(&quot;footer.html&quot;);
+&#125;);
+&lt;/script&gt; 
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div id=&quot;header&quot;&gt;&lt;/div&gt;
+content
+&lt;div id=&quot;footer&quot;&gt;&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>亲测可用，这里需要放在服务器上，本地搭建一个服务器也行，直接运行就行了。这两种都有各自的优势，有的人不想用.shtml的可以用后面这种方法，而有的不想加载jquery文件的，可以用前者。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/03/23/wordpress%E7%BD%91%E7%AB%99%E5%A6%82%E4%BD%95%E5%85%81%E8%AE%B8%E7%89%B9%E5%AE%9A%E7%9A%84%E5%9B%BD%E5%AE%B6%E7%89%B9%E5%AE%9A%E7%9A%84%E8%AF%AD%E8%A8%80%E8%AE%BF%E9%97%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/03/23/wordpress%E7%BD%91%E7%AB%99%E5%A6%82%E4%BD%95%E5%85%81%E8%AE%B8%E7%89%B9%E5%AE%9A%E7%9A%84%E5%9B%BD%E5%AE%B6%E7%89%B9%E5%AE%9A%E7%9A%84%E8%AF%AD%E8%A8%80%E8%AE%BF%E9%97%AE/" class="post-title-link" itemprop="url">wordpress网站如何允许特定的国家特定的语言访问</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-03-23 22:15:34" itemprop="dateCreated datePublished" datetime="2017-03-23T22:15:34+08:00">2017-03-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:10" itemprop="dateModified" datetime="2020-10-11T11:53:10+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>wordpress网站如何允许特定的国家特定的语言访问呢？排除政治原因之外，一个很普遍的需求是外贸网站，为了不让国内的竞争对手盗取自己网站的数据（文字、图片，视频）,而做的一个策略。这里我们可以使用淘宝的IP接口来实现，进行判断。</p>
+<p>利用淘宝的IP接口来判断IP，是否是国内的ip，是国内（CN）的就不允许访问。</p>
+<pre><code>$ip = $_SERVER[&#39;REMOTE_ADDR&#39;];
+$content = file_get_contents(‘http://ip.taobao.com/service/getIpInfo.php?ip=&#39;.$ip);
+$banned = json_decode(trim($content), true);
+$lan = strtolower($_SERVER[&#39;HTTP_ACCEPT_LANGUAGE&#39;]);
+if((!empty($banned[&#39;data&#39;][&#39;country_id&#39;]) &amp;&amp; $banned[&#39;data&#39;][&#39;country_id&#39;] == ‘CN&#39;) || strstr($lan, ‘zh&#39;))
+&#123;
+header(“HTTP/1.0 404 Not Found”);
+echo ‘HTTP/1.0 404 Not Found&#39;;
+exit;
+&#125;</code></pre>
+<p>可以直接放在wordpress根目录的index.php文件的前面，具体如下：</p>
+<pre><code>&lt;?php
+/**
+ * Front to the WordPress application. This file doesn&#39;t do anything, but loads
+ * wp-blog-header.php which does and tells WordPress to load the theme.
+ *
+ * @package WordPress
+ */
+
+/**
+ * Tells WordPress to load the WordPress theme and output it.
+ *
+ * @var bool
+ */
+
+// IP判断，不是国内的就可以访问
+$ip = $_SERVER[&#39;REMOTE_ADDR&#39;];
+$content = file_get_contents(&#39;http://ip.taobao.com/service/getIpInfo.php?ip=&#39;.$ip);
+$banned = json_decode(trim($content), true);
+$lan = strtolower($_SERVER[&#39;HTTP_ACCEPT_LANGUAGE&#39;]);
+if((!empty($banned[&#39;data&#39;][&#39;country_id&#39;]) &amp;&amp; $banned[&#39;data&#39;][&#39;country_id&#39;] == &#39;CN&#39;) || strstr($lan, &#39;zh&#39;))
+&#123;
+header(&quot;HTTP/1.0 404 Not Found&quot;);
+echo &#39;你没有权限访问这个网址&#39;;
+exit;
+&#125;
+//IP判断结束
+define(&#39;WP_USE_THEMES&#39;, true);
+
+/** Loads the WordPress Environment and Template */
+require( dirname( __FILE__ ) . &#39;/wp-blog-header.php&#39; );</code></pre>
+<p>同时发现一篇好文章：<a target="_blank" rel="noopener" href="http://luhuang.sinaapp.com/redis-setnx/">http://luhuang.sinaapp.com/redis-setnx/</a> 《Redis 来限制高并发 php代码实例》</p>
+<p>Redis本质上也是一种键值数据库的，但它在保持键值数据库简单快捷特点的同时，又吸收了部分关系数据库的优点。从而使它的位置处于关系数据库和键值数据库之间。Redis不仅能保存Strings类型的数据，还能保存Lists类型（有序）和Sets类型（无序）的数据，而且还能完成排序（SORT） 等高级功能，在实现INCR，SETNX等功能的时候，保证了其操作的原子性，除此以外，还支持主从复制等功能。<br>Redis 来限制高并发<br>php代码实例</p>
+<pre><code>$redis-&gt;setnx(‘lock:hot_items&#39;, true)尝试创建一个key作为”锁”.若key已存在,setnx不会做任何动作且返回值为false,所以只有一个客户端会返回true值进入if语句更新缓存. 
+$redis = new redis();
+$redis_key = ‘lock:hot_items&#39;;
+$clock_expire_time = $redis-&gt;get($redis_key);
+if(!empty($clock_expire_time) &amp;&amp; time() &gt; intval($clock_expire_time))
+&#123;
+//解除当前Redis锁
+$redis-&gt;delete($redis_key);
+&#125;
+
+if($redis-&gt;setnx($redis_key, time() + 3) !== true)
+&#123;
+echo ‘高并发有冲突&#39;;
+&#125;
+
+//操作你的代码, 同一时刻就一个人访问该代码了
+
+//解除当前Redis锁
+$redis-&gt;delete($redis_key);</code></pre>
+<p>今天的分享到此结束。有关更多的wordpress的技术探讨，可以加我QQ（791447771），大家一起进步。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/03/23/wordpress%E7%BD%91%E7%AB%99%E5%AE%9E%E7%8E%B0%E7%A6%81%E6%AD%A2%E5%88%AB%E4%BA%BA%E5%A4%8D%E5%88%B6%E5%86%85%E5%AE%B9%E7%9A%84%E6%96%B9%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/03/23/wordpress%E7%BD%91%E7%AB%99%E5%AE%9E%E7%8E%B0%E7%A6%81%E6%AD%A2%E5%88%AB%E4%BA%BA%E5%A4%8D%E5%88%B6%E5%86%85%E5%AE%B9%E7%9A%84%E6%96%B9%E6%B3%95/" class="post-title-link" itemprop="url">wordpress网站实现禁止别人复制内容的方法</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-03-23 22:14:41" itemprop="dateCreated datePublished" datetime="2017-03-23T22:14:41+08:00">2017-03-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:10" itemprop="dateModified" datetime="2020-10-11T11:53:10+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>把下面代码放到footer.php里即可，可以放在<?php wp_footer(); ?>标签后面，其他地方貌似也可以。</p>
+<pre><code>&lt;script type=&quot;text/Javascript&quot;&gt;
+ &lt;!--
+ document.oncontextmenu=function(e)&#123;return false;&#125;;
+ document.onselectstart=function(e)&#123;return false;&#125;;
+ //--&gt;
+ &lt;/script&gt;
+ &lt;style&gt;
+ body&#123;
+ -moz-user-select:none;
+ &#125;
+ &lt;/style&gt;
+ &lt;SCRIPT LANGUAGE=javascript&gt;&lt;!--
+ if (top.location != self.location)top.location=self.location;
+ // --&gt;&lt;/SCRIPT&gt;
+ &lt;noscript&gt;&lt;iframe src=*.html&gt;&lt;/iframe&gt;&lt;/noscript&gt;</code></pre>
+<p>此代码实现：</p>
+<p>1、禁止鼠标左键选取内容。<br>2、禁止鼠标右键复制功能。<br>3、禁止使用ctrl键，无法复制。</p>
+<p>然后保存，刷新页面就额可以实现了。这里可以在其他的网站程序里进行测试，包括静态的网站程序。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/02/17/WordPress%E7%BD%91%E7%AB%99%E8%A2%AB%E9%BB%91%E6%8C%82%E9%A9%AC%E7%9A%84%E9%A2%84%E9%98%B2%E6%8E%AA%E6%96%BD%E5%8F%8A%E5%A4%84%E7%90%86%E5%8A%9E%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/02/17/WordPress%E7%BD%91%E7%AB%99%E8%A2%AB%E9%BB%91%E6%8C%82%E9%A9%AC%E7%9A%84%E9%A2%84%E9%98%B2%E6%8E%AA%E6%96%BD%E5%8F%8A%E5%A4%84%E7%90%86%E5%8A%9E%E6%B3%95/" class="post-title-link" itemprop="url">WordPress网站被黑挂马的预防措施及处理办法</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-02-17 23:58:54" itemprop="dateCreated datePublished" datetime="2017-02-17T23:58:54+08:00">2017-02-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:11" itemprop="dateModified" datetime="2020-10-11T11:53:11+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>前不久，我查看自己博客源代码的时候发现网站最底部被挂上了黑链，数量相当的多，基本都是医疗和博彩网站的链接，最近一段时间，有网友也曾反应自己的wordpress网站被挂上了木马，所反馈的问题都是出现在文章编辑区内或是网站底部或顶部被挂上一种包含多个博彩网站链接的木马，严重影响网站的运行。为此我觉得有必要写出来，给大家提供一些解决方法及防御措施。</p>
+<p>wordpress本身的安全性是非常的高的，一般不会被轻易的破解，被挂马，但是我们也不能够过度迷信wordpress的安全性，凡是连接上互联网的服务器和电脑，都存在被破解的风险性，甚至有些插件或者主题被一些人修改后在发布，所以大家使用这些的时候都到稍微正规的网站下载，最好还是在官方下载，就像我发现有些人就修改了我的主题在发表，这样的风险是较大的。</p>
+<p>所以我们在日常维护自己的网站时，一定要注重网站的安全性，最大限度的防止网站被挂上木马。</p>
+<p>一般来说，破解网站的途径是获取网站后台的管理员权限，从而进行修改网站文件，放置木马，这种方式是最为常见的也是最容易防御的。</p>
+<p>防御这种破解的方式请确保做好以下的工作：</p>
+<ol>
+<li>管理员账号绝对不要使用admin这种简单的用户名，密码使用英文大写+小写+数字+特殊符号的方式，最大限度复杂化</li>
+</ol>
+<p>2.确保你的wordpress升级到最新的版本，在使用的主题中，确保加载的js、css等文件不包含wordpress的版本号。</p>
+<p>3.隐藏wordpress后台的登录地址，不要再前端页面出现后台页面地址。</p>
+<p>4.使用robot工具，屏蔽后台的地址，如wp-admin、wp-includes文件夹等，防止黑客使用蜘蛛查询后台文件。</p>
+<p>5.可以在服务器、虚拟主机控制面板，设置执行权限选项中，直接将有上传权限的目录禁止执行或写入权限</p>
+<p>6.安装安全插件，让密码或者账户连续输入3次错误，必须在一定时间之后才能再次登录。安全插件我们之前推荐过一些，如limit login attempts、WordPress File Monitor Plus等，当然我觉得这一点还是可以有的。</p>
+<p><strong>7.有选择性的使用插件与主题</strong></p>
+<p>那么网站被挂上木马了怎么办，有了黑链怎么处理呢？</p>
+<p>如果你的wordpress网站已经被挂上了木马，那么我们就要找到木马的位置，并且清除掉。</p>
+<p>一般来说，目前所遇到的插件木马是使用js代码放置到前端，产生恶意链接、恶意跳转等方式劫持你的网站，而这些代码往往是放置在前端 的，或者使用php代码将js输出到前端。</p>
+<hr>
+<p>我们要清除这些恶意代码有几种方式可以解决：</p>
+<p><strong>1.从官方下载最新版本的wordpress，直接覆盖。</strong></p>
+<p>覆盖时，wp-includes文件夹、wp-admin以及根目录的文件和文件夹可以直接覆盖掉。重新链接一次数据库，这样数据不会丢失，并且会消除掉这些文件夹可能携带的木马。</p>
+<p>如果这些文件覆盖之后，还是没有消除掉木马，可以逐个停用插件，逐个停用主题，排查木马所在位置。找到木马，并将其清除掉。</p>
+<p><strong>2.手动查询木马</strong></p>
+<p>使用ftp工具查看自己的文件，可以看到最新修改的日期，如果最近没有自己修改过日期的话，一些明显日期修改比较靠近当前时间的文件就有非常大的嫌疑遭到修改挂上了木马。下载并打开文件，删除木马重新上传 或者直接使用官方下载的文件覆盖即可。</p>
+<p><strong>3.使用如360网站安全检测等工具</strong></p>
+<p>这一类的查杀木马工具只需要验证一下网站的所属权限，或者一个检测文件等就可以了。</p>
+<p><strong>防止wordpress网站被挂马的一些建议</strong></p>
+<p>了解了以上的一些内容，相信你对网站安全已经有了一些认识。以下建议可以防止你被挂马的几率。</p>
+<p>1.主题、插件已经要在官方发布的网站上下载，切勿在来历不明的转载网站上下载，在转载的过程中，一些来历不明的站长很有可能已经将木马植入到插件、主题之中，达到恶意目的。</p>
+<p>2.及时关注官方动态，更新主题、插件，保持你的主题和插件是最新的版本。</p>
+<p>3.及时更新wordpress。确保你的wordpress是最新版本。</p>
+<p>4.定期备份数据库和网站资料，出现问题可以及时恢复。</p>
+<p>5.不要随意将来历不明的代码贴进你的网站，特别是你不怎么懂代码的情况下。</p>
+<p>6.安装一些安全插件保护你的网站，前提是，这些插件一定要去官方下载。</p>
+<p>7.实时关注你的网站，如果你对你的网站不闻不问，那么挂马了自己也不知道。</p>
+<p>8.不时的查看网站前端输出的源代码，以方便及时发现。免得网站被搜索引擎K掉后才来寻找问题，要有忧患意识。</p>
+<p>写在最后：网络安全一定要非常的注意，并且一定要得到广大站长的重视，做好网站防御，让黑客没有可乘之机，远离木马所带来的风险。</p>
+<p>更多可以查看一下另外一篇文章，他说得很详细，参考网址：<a target="_blank" rel="noopener" href="https://zhangzifan.com/wordpress-trojan-processing.html">https://zhangzifan.com/wordpress-trojan-processing.html</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/02/17/WordPress%E5%8D%A0%E7%94%A8%E8%B5%84%E6%BA%90%E8%BF%87%E5%A4%A7-%E4%B8%80%E8%88%AC%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/02/17/WordPress%E5%8D%A0%E7%94%A8%E8%B5%84%E6%BA%90%E8%BF%87%E5%A4%A7-%E4%B8%80%E8%88%AC%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/" class="post-title-link" itemprop="url">WordPress占用资源过大 一般的优化方法</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-02-17 23:16:04" itemprop="dateCreated datePublished" datetime="2017-02-17T23:16:04+08:00">2017-02-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:09" itemprop="dateModified" datetime="2020-10-11T11:53:09+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>WordPress占用资源过大，怎么办?如果我们wordpress网站优化的好，建立站点数量也可以增加一些，如果优化的不好，即便我们是1G 内存方案VPS也许也只能放置一个站。下面是折腾两年多以来收集整理的一些资料，适当的根据目前主题进行适当的优化!力争让我们的小内存也慢慢的跑起来!</p>
+<p><strong>1. 限制wordpress定时功能</strong></p>
+<p>wordpress的定时发布功能真的很好，但是也非常耗费资源的，如果不需要，建议还是限制一下，我们需要在wp-config.php文件中限制。</p>
+<pre><code>define(&#39;DISABLE_WP_CRON&#39;, true);</code></pre>
+<p><strong>2. 限制自动保存和副本数据</strong></p>
+<p>wordpress的自动保存也是我非常喜欢的一个功能，真的很好用，但是也很占用资源，目前部分wordpress模板已经限制了自动保存的次数等 等!默认时候的WP会自动给我们保存草稿以及副本添加入数据库中，不信的话你到POST数据表看看是不是有很多记录，而我们的文章并没有这么多。这就是自 动添加的，我们需要限制自动版本和限制自动保存草稿。</p>
+<pre><code>define (&#39;WP_POST_REVISIONS&#39;, 0); define(&#39;AUTOSAVE_INTERVAL&#39;, 600);</code></pre>
+<p>这样可以限制一下自动保存的时间!</p>
+<p><strong>3. 插件、主题更新到最新</strong></p>
+<p><strong>4. 部分文件限制蜘蛛的抓取</strong></p>
+<pre><code>User-agent: * Crawl-delay: 10 Allow: /wp-content/uploads/ Disallow: /cgi-bin/ Disallow: /wp-login.php Disallow: /wp-login.php* Disallow: /wp-register.php Disallow: /wp-register.php* Disallow: /xmlrpc.php Disallow: /template.html Disallow: /wp-admin/ Disallow: /wp-includes/ Disallow: /wp-content/plugins Disallow: /wp-content/themes Disallow: /page/ Sitemap: http://www.idcps.cn/sitemap.xml Sitemap: http://www.idcps.cn/sitemap.xml.gz</code></pre>
+<p><strong>5. 不使用插件最好，最好不要使用占用大量资源的插件!</strong></p>
+<p> 比如All in One SEO,Broken Link Checker,Yet Another Related Posts Plugin,NextGen Gallery这几个插件是不能使用的，以及一些随机文章插件也不要用。其他不是必备的也删除吧。目前主机评述博客也就使用了几个常用的!</p>
+<p><strong>6. 限制爬行一些目录和限制一些蜘蛛的爬行</strong></p>
+<pre><code>RewriteEngine OnRewriteCond %&#123;HTTP_USER_AGENT&#125; ^BlackWidow [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Bot\ mailto:craftbot@yahoo.com [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^ChinaClaw [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Custo [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^DISCo [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Download\ Demon [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^eCatch [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^EirGrabber [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^EmailSiphon [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^EmailWolf [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Express\ WebPictures [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^ExtractorPro [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^EyeNetIE [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^FlashGet [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^GetRight [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^GetWeb! [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Go!Zilla [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Go-Ahead-Got-It [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^GrabNet [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Grafula [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^HMView [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; HTTrack [NC,OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Image\ Stripper [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Image\ Sucker [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; Indy\ Library [NC,OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^InterGET [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Internet\ Ninja [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^JetCar [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^JOC\ Web\ Spider [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^larbin [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^LeechFTP [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Mass\ Downloader [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^MIDown\ tool [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Mister\ PiX [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Navroad [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^NearSite [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^NetAnts [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^NetSpider [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Net\ Vampire [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^NetZIP [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Octopus [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Offline\ Explorer [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Offline\ Navigator [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^PageGrabber [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Papa\ Foto [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^pavuk [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^pcBrowser [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^RealDownload [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^ReGet [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^SiteSnagger [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^SmartDownload [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^SuperBot [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^SuperHTTP [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Surfbot [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^tAkeOut [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Teleport\ Pro [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^VoidEYE [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Web\ Image\ Collector [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Web\ Sucker [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^WebAuto [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^WebCopier [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^WebFetch [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^WebGo\ IS [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^WebLeacher [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^WebReaper [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^WebSauger [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Website\ eXtractor [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Website\ Quester [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^WebStripper [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^WebWhacker [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^WebZIP [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Wget [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Widow [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^WWWOFFLE [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Xaldon\ WebSpider [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^ZeusRewriteRule ^.* - [F,L]</code></pre>
+<p>建议把上面的文件添加到.htaccess文件最下面!</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/02/17/wordpress%E7%BD%91%E7%AB%99%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%86%85%E5%AD%98%E4%B8%8D%E8%B6%B3%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/02/17/wordpress%E7%BD%91%E7%AB%99%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%86%85%E5%AD%98%E4%B8%8D%E8%B6%B3%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" class="post-title-link" itemprop="url">wordpress网站服务器内存不足解决方法</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-02-17 23:13:54" itemprop="dateCreated datePublished" datetime="2017-02-17T23:13:54+08:00">2017-02-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:11" itemprop="dateModified" datetime="2020-10-11T11:53:11+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>在用国外主机架建wordpress站点是经常出现类似这样 fatal error: allowed memory size of 33554432 bytes exhausted (tried to allocate 491520 bytes) ……的提示，这是因为服务器限制了文件大小，而wordpress里有好多都是比较大的文件，要解决这个问题，就要增加服务器内存限制。如何解决wordpress网站服务器内存不足的问题呢？</p>
+<p>通过简单的设置就可以解决问题：</p>
+<p><strong>方法一：</strong></p>
+<p>修改wp-config.php文件，先把wp-config.php下载到本地，使用notepad++等高级文本管理器打开编辑之后上传，注意，不能使用记事本打开编辑。</p>
+<p>在wp-config.php找到</p>
+<pre><code>define(&#39;db_collate&#39;, &#39;&#39;);</code></pre>
+<p>下面添加：</p>
+<pre><code>define(‘wp_memory_limit’, ‘64m’); </code></pre>
+<p>保存，其中也可以设置64m为96m或128m。</p>
+<p><strong>方法二：(也适用与其他php程序)</strong></p>
+<p>在主机根目录下创建一个文件php.ini，里面添加下面的代码：</p>
+<pre><code>memory_limit = 64m</code></pre>
+<p>然后编辑同目录下的.htaccess文件，在文件末尾添加以下代码：(其中******为你控制面板的用户名)</p>
+<pre><code>suphp_configpath /home/******/public_html/</code></pre>
+<p>这样就可以解决问题。</p>
+<p>ps：如果试了还是不行，去联系你的主机客服，他们会帮你解决的。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/02/17/wp-config-php%E6%96%87%E4%BB%B6%E4%B8%8D%E4%B8%BA%E4%BA%BA%E7%9F%A5%E7%9A%84%E7%A7%98%E5%AF%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/02/17/wp-config-php%E6%96%87%E4%BB%B6%E4%B8%8D%E4%B8%BA%E4%BA%BA%E7%9F%A5%E7%9A%84%E7%A7%98%E5%AF%86/" class="post-title-link" itemprop="url">wp-config.php文件不为人知的秘密</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-02-17 23:12:00" itemprop="dateCreated datePublished" datetime="2017-02-17T23:12:00+08:00">2017-02-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:07" itemprop="dateModified" datetime="2020-10-11T11:53:07+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>不过完全了解wordpress的配置文件wp-config.php技巧的站长还真没多少，至少我认识的站长中完全了解wp-config.php文件技巧的还真没几个，大多数站长都只知道知道functions.php文件的妙用。好了接下来我就来说说一些关于wp-config.php文件的技巧：</p>
+<p>1、wordpress的定修版本功能大家一定不陌生，这是一项很实用的功能但是对于数据库来说这是一种负担，那么我们可以通过wp-config.php来定义保存次数或者关闭掉自动定修版本功能：</p>
+<pre><code>define(‘WP_POST_REVISIONS’, 3); //定义自动定修的次数，只保存最新的三个版本，必须为整数
+define(‘WP_POST_REVISIONS’, false);  //关闭自动定修功能</code></pre>
+<p>2、wordpress为了预防博客主们写文章时突然断电断网而造成文章数据丢失设计了自动保存草稿功能，但是在更新网站时出现出现这种突发状况的可能性几乎为零，而且wordpress默认的保存间隔时间也很短，所以会对数据库造成负担，我们可以通过wp-config.php文件把间隔时间调长一点：</p>
+<pre><code>define(‘AUTOSAVE_INTERVAL’, 100); //以秒为单位本例中为100秒</code></pre>
+<p>3、wordpress的回收站估计已经没多少站长使用了，毕竟这个功能设计的有点蛋疼= =。不过wordpress默认的是30天会自动清空一次回收站中的评论、文章等数据，我们可以使用wp-config.php文件来定义回收站清空数据的间隔。</p>
+<pre><code>define(‘EMPTY_TRASH_DAYS’, 5);  //本例中为5天</code></pre>
+<p>4、开启wordpress数据库自动修复功能。（这个没什么好多解释的，我之前发过一篇教程。）</p>
+<pre><code>define(‘WP_ALLOW_REPAIR’, true);</code></pre>
+<p>在wp-config.php文件中加入以上代码后访问“abc.com/wp-admin/maint/repair.php”即可执行wordpress自带的数据库修复优化脚本。</p>
+<p>5、阻止wordpress程序发出对外请求：</p>
+<pre><code>define(‘WP_HTTP_BLOCK_EXTERNAL’, true);</code></pre>
+<p>作用参见《wordpress加速优化教程：关闭wordpress站内搜索功能以及对外请求》</p>
+<p>6、生成错误日志：</p>
+<pre><code>@ini_set(‘log_errors’,’On’);
+@ini_set(‘display_errors’,’Off’);
+@ini_set(‘error_log’,’/home/path/moke8.com/logs/wp_error.log’); //生成日志的服务器绝对路径</code></pre>
+<p>加上以上代码即可让你的wordpress自动生成错误日志，记录每次网站出现错误的信息。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/02/17/%E5%9C%A8Linux%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E5%AE%89%E8%A3%85Swap-File%EF%BC%88%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/02/17/%E5%9C%A8Linux%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A%E5%AE%89%E8%A3%85Swap-File%EF%BC%88%E8%99%9A%E6%8B%9F%E5%86%85%E5%AD%98%EF%BC%89/" class="post-title-link" itemprop="url">在Linux服务器上安装Swap File（虚拟内存）</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-02-17 22:59:32" itemprop="dateCreated datePublished" datetime="2017-02-17T22:59:32+08:00">2017-02-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:52:50" itemprop="dateModified" datetime="2020-10-11T11:52:50+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>There will be times where you need to increase the responsiveness of your server to prevent out of memory issues. Out of memory issues happen when an application running on your server starts consuming a large amount of memory. Swap is designed as virtual memory, which uses your harddrive to store data that cannot be held in RAM. This tutorial will show you how to create a swap file, which should work under Ubuntu, CentOS, and Debian. This tutorial is not meant for any Custom ISO, but it is possible to follow along.</p>
+<p>这篇文章主要说的是为我们的服务器物理内存添加一个虚拟内存，以满足由于物理内存不够而导致的服务器CPU爆满的情况。由于是虚拟内存，也就是直接在磁盘里分出来一部分空间用于内存中使用，当然读取会相对于物理内存要慢一点。</p>
+<p><strong>Step 1: Verify that swap does not exist</strong></p>
+<p>To prevent any issues during this tutorial, you will need to run the following to verify that a swap space is currently not active:</p>
+<pre><code>free -m</code></pre>
+<p>After running that command you should see something similar to this output:</p>
+<pre><code>total              used       free     shared    buffers     cached
+Mem:               1840       1614     226       15          36       1340
+ -/+ buffers/cache:            238      1602
+Swap:              0          0        0</code></pre>
+<p>If you see a value of <code>0</code> in the <code>Swap</code> section, then you can proceed to <strong>step 2</strong>.</p>
+<p>Alternatively, you can run the following command to see if there is a configured swap file:</p>
+<pre><code>swapon -s</code></pre>
+<p>If you do not see any output from <code>swapon</code>, then proceed to step 2.</p>
+<p><strong>Step 2: Create swap file</strong></p>
+<p>You will need to choose a location for your file. In this tutorial, it will be stored at the root of the server. We will create a 2GB swap file by running the following command:</p>
+<pre><code>dd if=/dev/zero of=/swapfile count=2048 bs=1M</code></pre>
+<p>这里我的服务器内存是1G，所以我设置我的虚拟内存在物理内存的两倍即可，一般设置在1-2倍被认为是合理的。这里的dd命令可以参考<a target="_blank" rel="noopener" href="http://blog.csdn.net/zhou1021jian/article/details/50857645">这里</a></p>
+<p>The<code> dd</code> command will produce output in a similar format to:</p>
+<pre><code>2048+0 records in
+2048+0 records out
+2147483648 bytes (2.1 GB) copied, 10.5356 s, 204 MB/s</code></pre>
+<p>Next, verify that the file is located at the root of your Vultr VPS by running:</p>
+<pre><code>ls / | grep swapfile</code></pre>
+<p>Proceed if you see the swapfile file.</p>
+<p><strong>Step 3: Activate the swap file</strong></p>
+<p>Swap files are not recognized automatically. We will need to tell the server how to format the file and enable it so it can be used as a valid swap file. As a security measure, update the swapfile permissions to only allow R/W for root and no other users. Run:</p>
+<pre><code>chmod 600 /swapfile</code></pre>
+<p>The permission change can be verified by running the following command:</p>
+<pre><code>ls -lh /swapfile</code></pre>
+<p>You will see a file display:</p>
+<pre><code> -rw------- 1 root root 2.0G Oct  2 18:47 /swapfile</code></pre>
+<p>Next, tell the server to setup the swap file by running:</p>
+<pre><code>mkswap /swapfile</code></pre>
+<p>After running it, you will see the following output:</p>
+<pre><code>Setting up swapspace version 1, size = 2097148 KiB
+no label, UUID=ff3fc469-9c4b-4913-b653-ec53d6460d0e</code></pre>
+<p>If everything is shown as above, you are now ready to move on to the next step.</p>
+<p><strong>Step 4: Turn swap on</strong></p>
+<p>Once your file is ready to be used as swap, you need to enable it by running:</p>
+<pre><code>swapon /swapfile</code></pre>
+<p>You can verify that the swap file is active by running the<code> free</code> command again.</p>
+<pre><code>free -m
+
+total       used       free     shared    buffers     cached
+Mem:          1840       1754         86         16         23       1519
+ -/+ buffers/cache:        210       1630
+Swap:         2047          0       2047</code></pre>
+<p>If <code>Swap</code> shows something other than<code> 0</code>, then you have successfully setup swap.</p>
+<p><strong>Step 5: Enable swap on reboot</strong></p>
+<p>By default, your server will not automatically enable this new swap file. To enable it on boot, you can update the<code> /etc/fstab</code> file. Any text editor will suffice. In this example, I will be using<code> nano</code> or use <code>vi</code>.</p>
+<pre><code>nano /etc/fstab</code></pre>
+<p>or</p>
+<pre><code>vi /etc/fstab</code></pre>
+<p>Add the following line at the end of the file:</p>
+<pre><code>/swapfile   none    swap    sw    0   0</code></pre>
+<p>Save and close when you are finished editing the file. We are all done!</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/36/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/36/">36</a><span class="page-number current">37</span><a class="page-number" href="/page/38/">38</a><span class="space">&hellip;</span><a class="page-number" href="/page/43/">43</a><a class="extend next" rel="next" href="/page/38/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

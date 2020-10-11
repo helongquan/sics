@@ -1,37 +1,1039 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="原文地址：https:&#x2F;&#x2F;devdocs.magento.com&#x2F;guides&#x2F;m1x&#x2F;magefordev&#x2F;mage-for-dev-7.html 在第一篇介绍Magento ORM的文章中，我们提到过Magento拥有两类模型。普通的模型及Entity Attribute Value（EAV）模型。这里首先搞清楚它们之前的一些关系。 所有的Magento模型都继承自Mage_Core_Mode">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Magento开发文档(七):Magento EAV模型">
+<meta property="og:url" content="http://example.com/2018/08/17/Magento%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3-%E4%B8%83-Magento-EAV%E6%A8%A1%E5%9E%8B/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="原文地址：https:&#x2F;&#x2F;devdocs.magento.com&#x2F;guides&#x2F;m1x&#x2F;magefordev&#x2F;mage-for-dev-7.html 在第一篇介绍Magento ORM的文章中，我们提到过Magento拥有两类模型。普通的模型及Entity Attribute Value（EAV）模型。这里首先搞清楚它们之前的一些关系。 所有的Magento模型都继承自Mage_Core_Mode">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/KAxpian.png">
+<meta property="article:published_time" content="2018-08-17T09:20:50.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:00.835Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="magento,magento1.x,EAV,模型，数据模型">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/KAxpian.png">
+
+<link rel="canonical" href="http://example.com/2018/08/17/Magento%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3-%E4%B8%83-Magento-EAV%E6%A8%A1%E5%9E%8B/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>Magento开发文档(七):Magento EAV模型 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/08/17/Magento%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3-%E4%B8%83-Magento-EAV%E6%A8%A1%E5%9E%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Magento开发文档(七):Magento EAV模型
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-08-17 17:20:50" itemprop="dateCreated datePublished" datetime="2018-08-17T17:20:50+08:00">2018-08-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:00" itemprop="dateModified" datetime="2020-10-11T11:58:00+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/magento1/" itemprop="url" rel="index"><span itemprop="name">magento1</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>原文地址：<a target="_blank" rel="noopener" href="https://devdocs.magento.com/guides/m1x/magefordev/mage-for-dev-7.html">https://devdocs.magento.com/guides/m1x/magefordev/mage-for-dev-7.html</a></p>
+<p>在第一篇介绍Magento ORM的文章中，我们提到过Magento拥有两类模型。普通的模型及Entity Attribute Value（EAV）模型。这里首先搞清楚它们之前的一些关系。</p>
+<p>所有的Magento模型都继承自<code>Mage_Core_Model_Abstract/Varien_Object</code>类链。真正区别普通模型和EAV模型的关键是该模型使用的模型资源(Model Resource)。尽管所有的资源类都继承自<code>Mage_Core_Model_Resource_Abstract</code>类，普通模型拥有继承自该类的子类<code>Mage_Core_Model_Mysql4_Abstract</code>，同时EAV模型拥有继承自该类的另外一个子类<code>Mage_Eav_Model_Entity_Abstract</code>。</p>
+<p>为什么要这样设计呢？仔细想想，不难得出结论。作为终端程序员，你需要的只是如何与数据库交互的方法，而不用在意底层是如何实现的。</p>
+<h2 id="EAV模型"><a href="#EAV模型" class="headerlink" title="EAV模型"></a>EAV模型</h2><p>这里我们引用维基百科的定义，这段暂时就不翻译了，太多术语。</p>
+<blockquote>
+<p>Entity-Attribute-Value model (EAV), also known as object-attribute-value model and open schema is a data model that is used in circumstances where the number of attributes (properties, parameters) that can be used to describe a thing (an “entity” or “object”) is potentially very vast, but the number that will actually apply to a given entity is relatively modest. In mathematics, this model is known as a sparse matrix.</p>
+</blockquote>
+<p>在一个普通的数据库中，表中一般包含多列，像下表所示，</p>
+<pre><code>+------------------+
+| products         |
++------------------+
+| product_id       |
+| name             |
+| price            |
+| etc..            |
++------------------+
+
++------------+----------------+------------------+---------+
+| product_id | name           | price            | etc...  |
++------------+----------------+------------------+---------+
+| 1          | Widget A       | 11.34            | etc...  |
++------------+----------------+------------------+---------+
+| 2          | Dongle B       | 6.34             | etc...  |
++------------+----------------+------------------+---------+</code></pre>
+<p>每个产品都有，name，price等等字段。</p>
+<p>在EAV模型中，每个模型化的实体/entity(比如说产品)拥有一系列不同的属性。EAV模型几乎可以提供给电子商务一个通用的数据库解决方案。一个出售电脑（属性：CPU速度，颜色，内存）的网店与一个出售衣服（颜色，尺码，性别）的网店对于商品属性的需要肯定大不相同。即使是在电脑网店中，不同的产品对于属性的要求也有差别，如笔记本电脑（电池），台式电脑（机箱）。</p>
+<p>使用EAV模型的数据库程序，在开源及商业软件里都不多。并且多数IDC主机提供商都没有大规模采用这种数据库解决方案。因此，Magento工程师通过MySQL作为底层数据存储，用PHP实现了EAV系统。换句话说，Magento在传统关系数据库上构建了EAV数据库系统。不得不说，这是Magento对于电子商务解决方案领袖地位的体现。</p>
+<p>在实际应用中，这意味着任何使用EAV模型资源的模型，其属性都是分布在MySQL的多个表里（而非像上图中演示的普通数据库那样）。</p>
+<p><img src="https://i.imgur.com/KAxpian.png"></p>
+<p>上图演示了查询一条<code>catalog_product</code>（产品信息）EAV记录时，Magento所需要与数据库表进行交互的一个大概轮廓。每个产品在catalog_product_entity中有一条对应的记录。而整个系统中所有能够使用的属性（颜色，大小，等等，且不限于产品本身）都保存在<code>eav_attribute</code>表中，注意，该表中只是记录全局使用的属性，并不会记录任何属性值。之际的属性值分散在很多表中，例如<code>catalog_product_entity_attribute_varchar</code>， <code>catalog_product_entity_attribute_decimal</code>， <code>catalog_product_entity_attribute_etc</code>。</p>
+<p>除了EAV系统提供的超级便利的扩展性之外，对于数据库的完整性也提供了非常具有实际意义的好处。在添加一个新的产品属性时，你只需要在eav_attribute中添加该属性即可。而在传统的关系数据库中，你需要ALTER表结构，增加字段添加新的产品属性，这样很可能会造成不必要的风险。</p>
+<p>当然，EAV系统也有不够便利的地方，在这个系统中，不跨表的SQL语句几乎无法调用任何拥有的产品信息。大部分操作都需要较为庞大的JOIN连结语句。</p>
+<h2 id="在Magento中创建自定义EAV模型"><a href="#在Magento中创建自定义EAV模型" class="headerlink" title="在Magento中创建自定义EAV模型"></a>在Magento中创建自定义EAV模型</h2><p>上面我们简单介绍了下EAV模型的概念。下文主要讲解如何在Magento中创建一个新的EAV模型。可以想象对于从来没有接触过EAV模型的程序员来说，下文会非常有难度，并且多数程序员很少会用到EAV开发产品。不过，理解EAV模型的创建过程，会帮助你更加深入的理解Magento中所使用的EAV资源。</p>
+<p>下文中对于EAV模型的知识点会非常多，假如你对Magento的MVC架构还不够了解，建议你先从头阅读本系列教程。不管有多困难，一起上路吧，兄弟们！</p>
+<h2 id="EAV模型下的Weblog模块"><a href="#EAV模型下的Weblog模块" class="headerlink" title="EAV模型下的Weblog模块"></a>EAV模型下的Weblog模块</h2><p>现在，我们开始创建Weblog模块的又一个模型，不过这次使用EAV模型资源。从头开始，创建一个新的模块，Complexworld，写好相关的配置文件，并确保能够在浏览器中访问该模块。</p>
+<pre><code>http://example.com/complexworld</code></pre>
+<p>再次建议你，如果还不知道如何建立模块，从头开始看这个系列的教程。能够正常访问该地址之后，接下来创建一个Weblogeav模型。记住，是模型资源区别开普通模型和EAV模型。所以，创建EAV模型的这一过程和创建普通模型没有区别。下面这段代码，和第一次创建blogpost普通模型时差别不大。</p>
+<pre><code>&lt;global&gt;
+    &lt;!-- ... --&gt;
+    &lt;models&gt;
+        &lt;!-- ... --&gt;
+        &lt;complexworld&gt;
+            &lt;class&gt;Magentotutorial_Complexworld_Model&lt;/class&gt;
+            &lt;resourceModel&gt;complexworld_resource&lt;/resourceModel&gt;
+        &lt;/complexworld&gt;
+        &lt;!-- ... --&gt;
+    &lt;/models&gt;
+    &lt;!-- ... --&gt;
+&lt;/global&gt;</code></pre>
+<p>当然，当我们创建好一个模块的时候，就要在模块的etc目录下创建这个配置文件：config.xml，一个这个配置文件最基本的应该有如下内容：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;config&gt;
+    &lt;modules&gt;
+        &lt;Magentotutorial_Complexworld&gt;
+            &lt;version&gt;0.1.0&lt;/version&gt;
+        &lt;/Magentotutorial_Complexworld&gt;
+    &lt;/modules&gt;
+    &lt;frontend&gt;
+        &lt;routers&gt;
+            &lt;complexworld&gt;
+                &lt;use&gt;standard&lt;/use&gt;
+                &lt;args&gt;
+                    &lt;module&gt;Magentotutorial_Complexworld&lt;/module&gt;
+                    &lt;frontName&gt;complexworld&lt;/frontName&gt;
+                &lt;/args&gt;
+            &lt;/complexworld&gt;
+        &lt;/routers&gt;
+    &lt;/frontend&gt;
+&lt;/config&gt;</code></pre>
+<p>把前面那个<code>&lt;global&gt;...&lt;/global&gt;</code>中的代码加入即可，此时的config.xml配置文件的内容变成如下：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;config&gt;
+    &lt;modules&gt;
+        &lt;Magentotutorial_Complexworld&gt;
+            &lt;version&gt;0.1.0&lt;/version&gt;
+        &lt;/Magentotutorial_Complexworld&gt;
+    &lt;/modules&gt;
+    &lt;frontend&gt;
+        &lt;routers&gt;
+            &lt;complexworld&gt;
+                &lt;use&gt;standard&lt;/use&gt;
+                &lt;args&gt;
+                    &lt;module&gt;Magentotutorial_Complexworld&lt;/module&gt;
+                    &lt;frontName&gt;complexworld&lt;/frontName&gt;
+                &lt;/args&gt;
+            &lt;/complexworld&gt;
+        &lt;/routers&gt;
+    &lt;/frontend&gt;
+    &lt;global&gt;
+        &lt;models&gt;
+            &lt;complexworld&gt;
+                &lt;class&gt;Magentotutorial_Complexworld_Model&lt;/class&gt;
+                &lt;resourceModel&gt;complexworld_resource&lt;/resourceModel&gt;
+            &lt;/complexworld&gt;
+        &lt;/models&gt;
+     &lt;/global&gt;
+&lt;/config&gt;</code></pre>
+<p>细心的你应该注意到了上述代码与创建普通模型代码的区别，在<code>&lt;resourceModel /&gt;</code>标签中，该模型资源的名字更为复杂了。先不管它，我们继续。</p>
+<p>接着，我们需要告诉Magento该模型资源的配置信息。和普通模型类似，EAV资源模型的配置同样是在<code>&lt;model /&gt;</code>子节点中，继续在配置文件里面追加如下代码：。</p>
+<pre><code>&lt;global&gt;
+    &lt;!-- ... --&gt;
+    &lt;models&gt;
+        &lt;!-- ... --&gt;
+        &lt;complexworld_resource&gt;
+            &lt;class&gt;Magentotutorial_Complexworld_Model_Resource&lt;/class&gt;
+            &lt;entities&gt;
+                &lt;eavblogpost&gt;
+                    &lt;table&gt;eavblog_posts&lt;/table&gt;
+                &lt;/eavblogpost&gt;
+            &lt;/entities&gt;
+        &lt;/complexworld_resource&gt;
+        &lt;!-- ... --&gt;
+    &lt;/models&gt;
+    &lt;!-- ... --&gt;
+&lt;/global&gt;</code></pre>
+<p>到目前为止config.xml的代码如下：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;config&gt;
+    &lt;modules&gt;
+        &lt;Magentotutorial_Complexworld&gt;
+            &lt;version&gt;0.1.0&lt;/version&gt;    &lt;!-- 0.1.0版本号匹配的是在模块中的sql目录下的启动脚本一致：mysql4-install-0.1.0.php --&gt;
+        &lt;/Magentotutorial_Complexworld&gt;
+    &lt;/modules&gt;
+    &lt;frontend&gt;
+        &lt;routers&gt;
+            &lt;complexworld&gt;
+                &lt;use&gt;standard&lt;/use&gt;
+                &lt;args&gt;
+                    &lt;module&gt;Magentotutorial_Complexworld&lt;/module&gt;
+                    &lt;frontName&gt;complexworld&lt;/frontName&gt;
+                &lt;/args&gt;
+            &lt;/complexworld&gt;
+        &lt;/routers&gt;
+    &lt;/frontend&gt;
+    &lt;global&gt;
+        &lt;models&gt;
+            &lt;complexworld&gt;
+                &lt;class&gt;Magentotutorial_Complexworld_Model&lt;/class&gt;
+                &lt;resourceModel&gt;complexworld_resource&lt;/resourceModel&gt;
+            &lt;/complexworld&gt;
+            &lt;complexworld_resource&gt;
+                &lt;class&gt;Magentotutorial_Complexworld_Model_Resource&lt;/class&gt;
+                &lt;entities&gt;
+                    &lt;eavblogpost&gt;   &lt;!-- &lt;eavblogpost /&gt;标签指定了我们将要创建的模型 --&gt;
+                        &lt;table&gt;eavblog_posts&lt;/table&gt;  &lt;!-- 该标签指定了该模型将要使用的基本表 --&gt;
+                    &lt;/eavblogpost&gt;
+                &lt;/entities&gt;
+            &lt;/complexworld_resource&gt;
+        &lt;/models&gt;
+    &lt;/global&gt;
+&lt;/config&gt;</code></pre>
+<p>到目前为止，EAV模型资源的配置与普通模型资源的配置差别还不大。<code>&lt;class /&gt;</code>节点提供了一个EAV资源类（继承自<code>Mage_Eav_Model_Entity_Abstract</code>），<code>&lt;entities /&gt;</code>内提供给Magento我们想要创建的模型的基本表。<code>&lt;eavblogpost /&gt;</code>标签指定了我们将要创建的模型，该标签内部的<code>&lt;table /&gt;</code>标签指定了该模型将要使用的基本表（下文有更详细的及时）。</p>
+<p>接下来，我们同样需要<code>&lt;resources /&gt;</code>子节点中指定读取和写入适配器。这点与普通模型的设置也是一样的。该节点内部包含的信息，告诉Magento使用哪些类/哪种方式与数据库底层进行交互，我们把以下代码追加到<code>&lt;global&gt;&lt;/global&gt;</code>中。</p>
+<pre><code>&lt;global&gt;
+    &lt;resources&gt;
+        &lt;complexworld_write&gt;
+            &lt;connection&gt;
+                &lt;use&gt;core_write&lt;/use&gt;
+            &lt;/connection&gt;
+        &lt;/complexworld_write&gt;
+        &lt;complexworld_read&gt;
+            &lt;connection&gt;
+                &lt;use&gt;core_write&lt;/use&gt;
+            &lt;/connection&gt;
+        &lt;/complexworld_read&gt;
+    &lt;/resources&gt;
+&lt;/global&gt;</code></pre>
+<h2 id="文件都在什么位置"><a href="#文件都在什么位置" class="headerlink" title="文件都在什么位置"></a>文件都在什么位置</h2><p>在PHP5.3及命名空间广泛使用之前，Magento依然会保持<code>&lt;classname /&gt;</code>与路径之间的相对关系，并保证你创建了正确命名的目录结构及类文件。在配置任何<code>&lt;classname /&gt;</code>或URI之后，你会发现，当在控制器中实例化那些还未存在的类时，会非常方便。通过配置文件，PHP会抛出异常告诉它无法找到该文件，并且会附带有该文件的相对路径。一起试下在Index控制器（IndexController.php）中实例化尚未创建的模型。</p>
+<pre><code>public function indexAction() &#123;
+    $weblog2 = Mage::getModel(&#39;complexworld/eavblogpost&#39;);
+    $weblog2-&gt;load(1);
+    var_dump($weblog2);
+&#125;</code></pre>
+<p>IndexController.php的代码如下：</p>
+<pre><code>&lt;?php 
+/**
+ * 
+ */
+class Magentotutorial_Complexworld_IndexController extends Mage_core_Controller_Front_Action
+&#123;
+    public function indexAction() &#123;
+        $weblog2 = Mage::getModel(&#39;complexworld/eavblogpost&#39;);
+        $weblog2-&gt;load(1);
+        var_dump($weblog2);
+    &#125;
+&#125;
+?&gt;</code></pre>
+<p>和上面说到的一样，系统抛出以下异常，</p>
+<blockquote>
+<p>Warning: include(Magentotutorial/Complexworld/Model/Eavblogpost.php) [function.include]:<br>failed to open stream: No such file or directory  in /Users/username/Sites/magento.dev/lib/Varien/Autoload.php on line 93</p>
+</blockquote>
+<p>除了告诉我们应该在什么路径创建该资源类之外，如果遇到如下异常，</p>
+<blockquote>
+<p>Warning: include(Mage/Complexworld/Model/Eavblogpost.php) [function.include]:<br>failed to open stream: No such file or directory  in /Users/username/Sites/magento.dev/lib/Varien/Autoload.php on line 93</p>
+</blockquote>
+<p>我们就能知道配置文件出错了，因为Magento试图在核心文件中查找该模块，而非local路径中查找。</p>
+<p>了解上述内容之后，我们开始创建模型类。在以下路径创建类文件，并添加以下代码。</p>
+<pre><code>File: app/code/local/Magentotutorial/Complexworld/Model/Eavblogpost.php:</code></pre>
+<p><strong>IndexController.php代码如下：</strong></p>
+<pre><code>&lt;?php 
+/**
+ * 
+ */
+class Magentotutorial_Complexworld_Model_Eavblogpost extends Mage_core_Model_Abstract
+&#123;
+
+    function __construct()
+    &#123;
+        $this-&gt;_init(&#39;complexworld/eavblogpost&#39;);
+    &#125;
+&#125;
+
+ ?&gt;</code></pre>
+<p>再一次废话，模型本身是与模型资源独立的。无论是普通模型还是EAV模型都继承自同一个类。模型资源是区别它们的原因。</p>
+<p>清空Magento缓存，刷新页面，你会看到一个警告。</p>
+<blockquote>
+<p>Warning: include(Magentotutorial/Complexworld/Model/Resource/Eavblogpost.php)</p>
+</blockquote>
+<p>很明显，是时候为模型创建模型资源了。在以下路径创建模型资源文件，并添加如下代码。</p>
+<blockquote>
+<p>File: app/code/local/Magentotutorial/Complexworld/Model/Resource/Eavblogpost.php:</p>
+</blockquote>
+<p>代码如下：</p>
+<pre><code>&lt;?php 
+/**
+ * 
+ */
+class Magentotutorial_Complexworld_Model_Resource_Eavblogpost extends Mage_Eav_Model_Entity_Abstract
+&#123;
+    protected function _construct()
+    &#123;
+        $resource = Mage::getSingleton(&#39;core/resource&#39;);
+        $this-&gt;setType(&#39;complexworld_eavblogpost&#39;);
+        $this-&gt;setConnection(
+            $resource-&gt;getConnection(&#39;complexworld_read&#39;),
+            $resource-&gt;getConnection(&#39;complexworld_write&#39;)
+        );
+    &#125;
+&#125;
+
+ ?&gt;</code></pre>
+<p>这里，终于看到普通的模型资源和EAV模型资源的一些区别了。首先，这里扩展的是<code>Mage_Eav_Model_Entity_Abstract</code>类。另外，该类中虽然和普通模型资源一样也使用了<code>_construct()</code>方法，却没有<code>_init()</code>方法。取而代之，我们需要自己处理init()的一些功能。这意味着，我们需要告诉EAV模型资源使用哪一种链接资源，并且传递唯一标示符到对象的setType()方法中。</p>
+<p>与普通模型资源类的另外一个不同点是，<code>_construct()</code>不是抽象方法，这主要是为了与Magento老版本之间的兼容问题。</p>
+<p>清空Magento缓存，刷新页面，看下系统抛出的新异常。</p>
+<pre><code>Invalid entity_type specified: complexworld_eavblogpost</code></pre>
+<p>系统提示其无法找到叫<code>complexworld_eavblogpost</code>的实体类型(<code>entity_type</code>)。这个值是你在<code>setType()</code>方法中传递的参数。</p>
+<pre><code>$this-&gt;setType(&#39;complexworld_eavblogpost&#39;);</code></pre>
+<p>每个实体(Entity)都有一个类型。类型让EAV系统知道模型在使用哪些属性，并允许系统连接存储那些属性值的表。所以这里我们需要让Magento意识到我们添加了一个新的实体类型。首先，我们看下<code>eav_entity_type</code>表。</p>
+<pre><code>mysql&gt; select * from eav_entity_type;
+*************************** 1. row ***************************
+          entity_type_id: 1
+        entity_type_code: customer
+            entity_model: customer/customer
+         attribute_model:
+            entity_table: customer/entity
+      value_table_prefix:
+         entity_id_field:
+         is_data_sharing: 1
+        data_sharing_key: default
+default_attribute_set_id: 1
+         increment_model: eav/entity_increment_numeric
+     increment_per_store: 0
+    increment_pad_length: 8
+      increment_pad_char: 0
+*************************** 2. row ***************************
+          entity_type_id: 2
+        entity_type_code: customer_address
+            entity_model: customer/customer_address
+         attribute_model:
+            entity_table: customer/address_entity
+      value_table_prefix:
+         entity_id_field:
+         is_data_sharing: 1
+        data_sharing_key: default
+default_attribute_set_id: 2
+         increment_model:
+     increment_per_store: 0
+    increment_pad_length: 8
+      increment_pad_char: 0</code></pre>
+<p>该表包含了系统中可用的所有实体类型(<code>entity_types</code>)，该表中的唯一识别<code>complexworld_eavblogpost</code>身份的是<code>entity_type_code</code>列。</p>
+<h2 id="系统及应用-Systems-and-Applications"><a href="#系统及应用-Systems-and-Applications" class="headerlink" title="系统及应用 Systems and Applications"></a>系统及应用 Systems and Applications</h2><p>这里有必要解释下Magento系统最为重要的一个概念。想象下在你面前的这台电脑，Windows，Linux，Mac等是系统-Systems；你的浏览器(FF，IE，Opera等）是应用-Application。</p>
+<p>这里同样省略一段，讲述了系统与应用之间的一些关系，不太能理解。</p>
+<h2 id="创建启动资源"><a href="#创建启动资源" class="headerlink" title="创建启动资源"></a>创建启动资源</h2><p>手动创建表并插入相关数据确实没问题，不过推荐使用Magento启动资源（Setup Resource）。Magento的启动资源提供了一系列的助手方法，能够自动创建表及数据，以使系统正常运行。</p>
+<p>首先，我们将启动资源写入配置文件。</p>
+<pre><code>&lt;global&gt;
+    &lt;!-- ... --&gt;
+    &lt;resources&gt;
+        &lt;complexworld_setup&gt;
+            &lt;setup&gt;
+                &lt;module&gt;Magentotutorial_Complexworld&lt;/module&gt;
+                &lt;class&gt;Magentotutorial_Complexworld_Model_Resource_Setup&lt;/class&gt;
+            &lt;/setup&gt;
+        &lt;/complexworld_setup&gt;
+    &lt;/resources&gt;
+    &lt;!-- ... --&gt;
+&lt;/global&gt;</code></pre>
+<p>然后，在下列路径，创建启动资源类文件，并写入如下代码。</p>
+<pre><code>File: app/code/local/Magentotutorial/Complexworld/Model/Resource/Setup.php:</code></pre>
+<p>Setup.php代码：</p>
+<pre><code>&lt;?php 
+/**
+ * 
+ */
+class Magentotutorial_Complexworld_Model_Resource_Setup extends Mage_Eav_Model_Entity_Setup
+&#123;
+
+&#125;
+ ?&gt;</code></pre>
+<p>注意这个类继承的是<code>Mage_Eav_Model_Entity_Setup</code>而不是<code>Mage_Core_Model_Resource_Setup</code>。</p>
+<p>最后，设置安装脚本。如果你还不是太熟悉这里的命名约定，建议你复习下第六章的内容。在下列路径中创建安装脚本，并写入如下代码，</p>
+<pre><code>File: app/code/local/Magentotutorial/Complexworld/sql/complexworld_setup/mysql4-install-0.1.0.php:</code></pre>
+<p>mysql4-install-0.1.0.php代码如下：</p>
+<pre><code>&lt;?php
+$installer = $this;
+throw new Exception(&quot;This is an exception to stop the installer from completing&quot;);
+?&gt;</code></pre>
+<p>清空Magneto缓存，重新刷新页面，上述代码中的异常会被系统抛出，这说明启动资源已经被成功配置了。</p>
+<p>注意：我们会逐步完成安装脚本。如果你认真学习了第六章的知识，你会了解到，让系统重新运行安装脚本之前，必须删除<code>core_resource</code>表中的相关模块并清空缓存。在下文中，每修改一次安装脚本，都记得要执行上述步骤。</p>
+<h2 id="添加实体类型-Entity-Type"><a href="#添加实体类型-Entity-Type" class="headerlink" title="添加实体类型 Entity Type"></a>添加实体类型 Entity Type</h2><p>为了添加实体类型，首先需要将下列代码添加到安装脚本（mysql4-install-0.1.0.php）中，不要忘记移除上面代码中的异常，然后刷新任意页面。</p>
+<pre><code>&lt;?php 
+$installer = $this;
+$installer-&gt;addEntityType(&#39;complexworld_eavblogpost&#39;,Array(
+//entity_mode is the URL you&#39;d pass into a Mage::getModel() call
+&#39;entity_model&#39;          =&gt;&#39;complexworld/eavblogpost&#39;,
+//blank for now
+&#39;attribute_model&#39;       =&gt;&#39;&#39;,
+//table refers to the resource URI complexworld/eavblogpost
+//&lt;complexworld_resource_eav_mysql4&gt;...&lt;eavblogpost&gt;&lt;table&gt;eavblog_posts&lt;/table&gt;
+&#39;table&#39;         =&gt;&#39;complexworld/eavblogpost&#39;,
+//blank for now, but can also be eav/entity_increment_numeric
+&#39;increment_model&#39;       =&gt;&#39;&#39;,
+//appears that this needs to be/can be above &quot;1&quot; if we&#39;re using eav/entity_increment_numeric
+&#39;increment_per_store&#39;   =&gt;&#39;0&#39;
+));
+?&gt;</code></pre>
+<p>在这段安装脚本中，我们调用了<code>addEntityType()</code>方法。该方法允许我们传递实体类型及相关参数，并设置它的默认值。运行此脚本之后，在<code>eav_attribute_group</code>，<code>eav_attribute_set</code>和<code>eav_entity_type</code>表中会多出新的记录。再次刷新complexworld页面，页面会显示如下错误。</p>
+<pre><code>SQLSTATE[42S02]: Base table or view not found: 1146 Table &#39;magento.eavblog_posts&#39; doesn&#39;t exist</code></pre>
+<h2 id="创建表"><a href="#创建表" class="headerlink" title="创建表"></a>创建表</h2><p>现在，我们已经成功让Magento系统意识到新创建的实体类型。然后，我们需要添加一些数据库表用来存储所有的实体值，并继续添加配置文件，让系统认识到这些表的存在。</p>
+<p>如果你曾经观察过Magento核心文件中的安装脚本，你应该能够看到一些用于手动创建EAV模型表的SQL代码。幸运的是，这都已经成为历史了。启动资源拥有一个<code>createEntityTables()</code>方法，该方法能够帮助自动创建我们需要的表，并添加相应的配置文件到系统中。在上面的安装脚本中追加如下代码。</p>
+<pre><code>$installer-&gt;createEntityTables(
+    $this-&gt;getTable(&#39;complexworld/eavblogpost&#39;)
+);</code></pre>
+<p>此时的安装脚本：mysql4-install-0.1.0.php的代码如下：</p>
+<pre><code>&lt;?php 
+$installer = $this;
+$installer-&gt;createEntityTables(
+    $this-&gt;getTable(&#39;complexworld/eavblogpost&#39;)
+);
+$installer-&gt;addEntityType(&#39;complexworld_eavblogpost&#39;,Array(
+//entity_mode is the URL you&#39;d pass into a Mage::getModel() call
+&#39;entity_model&#39;          =&gt;&#39;complexworld/eavblogpost&#39;,
+//blank for now
+&#39;attribute_model&#39;       =&gt;&#39;&#39;,
+//table refers to the resource URI complexworld/eavblogpost
+//&lt;complexworld_resource_eav_mysql4&gt;...&lt;eavblogpost&gt;&lt;table&gt;eavblog_posts&lt;/table&gt;
+&#39;table&#39;         =&gt;&#39;complexworld/eavblogpost&#39;,
+//blank for now, but can also be eav/entity_increment_numeric
+&#39;increment_model&#39;       =&gt;&#39;&#39;,
+//appears that this needs to be/can be above &quot;1&quot; if we&#39;re using eav/entity_increment_numeric
+&#39;increment_per_store&#39;   =&gt;&#39;0&#39;
+));
+?&gt;</code></pre>
+<p><code>createEntityTables()</code>方法接收两个参数。第一个是表名，第二个是相关配置。我们使用启动资源的<code>getTable()</code>方法从配置文件中获取表名。如果你一直认真学习本系列教程，你能猜到这里相当于字符串<code>eavblog_posts</code>。这里暂且忽略参数二，它一般用于一些高级配置。</p>
+<p>在成功运行上述安装脚本之后，数据库中会新增下面几张表。</p>
+<pre><code>eavblog_posts
+eavblog_posts_char
+eavblog_posts_datetime
+eavblog_posts_decimal
+eavblog_posts_int
+eavblog_posts_text
+eavblog_posts_varchar</code></pre>
+<p>同时，在eav_attribute_set表中也会多出一条记录。</p>
+<pre><code>mysql&gt; select * from eav_attribute_set order by attribute_set_id DESC LIMIT 1
+*************************** 1. row ***************************
+  attribute_set_id: 21
+    entity_type_id: 9
+attribute_set_name: Default
+        sort_order: 3</code></pre>
+<p>再次重新刷新complexworld页面。</p>
+<pre><code>http://example.com/complexworld</code></pre>
+<p>这次不会再有任何的警告或者错误了，恭喜你，配置成功！</p>
+<h2 id="添加属性"><a href="#添加属性" class="headerlink" title="添加属性"></a>添加属性</h2><p>差不多到最后一步了，我们需要在启动资源中告诉Magento，新建的模型中需要哪些属性。对于EAV模型来说，添加属性这一步相当于在普通数据表中添加新的字段。这一步中，我们感兴趣的方法是<code>addAttribute</code>。</p>
+<p>这两个方法的命名字面上看起来会让人困惑。毕竟，我们不是刚刚在Magento中配置了实体吗？现在需要再来一遍？</p>
+<p>实际上，上一小节中，我们只是添加了一个实体类型到Magento系统中。而这里，我们需要做的是，添加一个属于该实体类型的实体属性到系统中。我们使用addAttribute方法做到这一点。当我们调用addAttribute时，Magento需要做几件事来安装你的实体。我们开始吧，将这些方法添加到启动资源中。首先，我们将为我们的Eavblogpost提供一个名为title的属性。</p>
+<pre><code>/* ... */
+$this-&gt;addAttribute(&#39;complexworld_eavblogpost&#39;, &#39;title&#39;, array(
+    //the EAV attribute type, NOT a MySQL varchar
+    &#39;type&#39;              =&gt; &#39;varchar&#39;,
+    &#39;label&#39;             =&gt; &#39;Title&#39;,
+    &#39;input&#39;             =&gt; &#39;text&#39;,
+    &#39;class&#39;             =&gt; &#39;&#39;,
+    &#39;backend&#39;           =&gt; &#39;&#39;,
+    &#39;frontend&#39;          =&gt; &#39;&#39;,
+    &#39;source&#39;            =&gt; &#39;&#39;,
+    &#39;required&#39;          =&gt; true,
+    &#39;user_defined&#39;      =&gt; true,
+    &#39;default&#39;           =&gt; &#39;&#39;,
+    &#39;unique&#39;            =&gt; false,
+));
+/* ... */</code></pre>
+<p>好的，这是一个代码片段。让我们拆分来理解它。</p>
+<p>addAttribute的第一个参数是实体类型代码。它必须匹配调用<code>addEntityType</code>时指定的代码。它告诉Magento我们要添加属性到哪个实体中，在这个的示例中，它是我们的<code>complexworld_eavblogpost</code>实体。要查看Magento附带的其他可用实体，请记住您可以查看<code>entity_type_code</code>列中的<code>eav_entity_type</code>表。</p>
+<p>addAttribute的第二个参数是属性代码。它必须在给定实体中是唯一的。</p>
+<p>第三个论点是真正有趣的地方。这是一组键值对，描述了属性的特性。为了简单起见，我们选择定义单个属性，但您可以通过向安装脚本添加额外的addAttribute调用来继续定义任意数量的属性。</p>
+<p>终于，我们有一长串的属性特性：</p>
+<pre><code>//the EAV attribute type, NOT a MySQL varchar
+&#39;type&#39;              =&gt; &#39;varchar&#39;,
+&#39;label&#39;             =&gt; &#39;Title&#39;,
+&#39;input&#39;             =&gt; &#39;text&#39;,
+&#39;class&#39;             =&gt; &#39;&#39;,
+&#39;backend&#39;           =&gt; &#39;&#39;,
+&#39;frontend&#39;          =&gt; &#39;&#39;,
+&#39;source&#39;            =&gt; &#39;&#39;,
+&#39;required&#39;          =&gt; true,
+&#39;user_defined&#39;      =&gt; true,
+&#39;default&#39;           =&gt; &#39;&#39;,
+&#39;unique&#39;            =&gt; false,</code></pre>
+<p>其中大部分定义了Magento如何为这个属性构建后端表单元素，并且可能您将没有必要处理。也就是说，你要注意的一个重要属性是：</p>
+<pre><code>&#39;type&#39; =&gt; &#39;varchar&#39;</code></pre>
+<p>这定义了属性所包含的值的类型。您可能还记得我们为每种属性类型添加的那些表格吧。</p>
+<pre><code>eavblog_posts_datetime
+eavblog_posts_decimal
+eavblog_posts_int
+eavblog_posts_text
+eavblog_posts_varchar</code></pre>
+<p>虽然这些不是指MySQL列类型（而是EAV属性类型），但它们的名称（varchar，datetime等）表示它们将保留的值。</p>
+<p>所有这些属性特性都是可选的，如果我们不指定它们，Magento将使用默认值。这些默认值在<code>Mage_Eav_Model_Entity_Setup</code>类的<code>_prepareValues</code>方法中定义（被我们的安装类继承）。</p>
+<pre><code>// Mage_Eav_Model_Entity_Setup
+protected function _prepareValues($attr)
+&#123;
+    $data = array(
+        &#39;backend_model&#39;   =&gt; $this-&gt;_getValue($attr, &#39;backend&#39;),
+        &#39;backend_type&#39;    =&gt; $this-&gt;_getValue($attr, &#39;type&#39;, &#39;varchar&#39;),
+        &#39;backend_table&#39;   =&gt; $this-&gt;_getValue($attr, &#39;table&#39;),
+        &#39;frontend_model&#39;  =&gt; $this-&gt;_getValue($attr, &#39;frontend&#39;),
+        &#39;frontend_input&#39;  =&gt; $this-&gt;_getValue($attr, &#39;input&#39;, &#39;text&#39;),
+        &#39;frontend_label&#39;  =&gt; $this-&gt;_getValue($attr, &#39;label&#39;),
+        &#39;frontend_class&#39;  =&gt; $this-&gt;_getValue($attr, &#39;frontend_class&#39;),
+        &#39;source_model&#39;    =&gt; $this-&gt;_getValue($attr, &#39;source&#39;),
+        &#39;is_required&#39;     =&gt; $this-&gt;_getValue($attr, &#39;required&#39;, 1),
+        &#39;is_user_defined&#39; =&gt; $this-&gt;_getValue($attr, &#39;user_defined&#39;, 0),
+        &#39;default_value&#39;   =&gt; $this-&gt;_getValue($attr, &#39;default&#39;),
+        &#39;is_unique&#39;       =&gt; $this-&gt;_getValue($attr, &#39;unique&#39;, 0),
+        &#39;note&#39;            =&gt; $this-&gt;_getValue($attr, &#39;note&#39;),
+        &#39;is_global&#39;       =&gt; $this-&gt;_getValue($attr, &#39;global&#39;,
+                                 Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_GLOBAL
+                             ),
+    );
+
+    return $data;
+&#125;</code></pre>
+<h2 id="添加其他属性"><a href="#添加其他属性" class="headerlink" title="添加其他属性"></a>添加其他属性</h2><p>说了那么多，最后启动资源脚本（mysql4-install-0.1.0.php）中的完整代码如下：</p>
+<pre><code>&lt;?php
+$installer = $this;
+$installer-&gt;startSetup();
+
+$installer-&gt;addEntityType(&#39;complexworld_eavblogpost&#39;, array(
+    //entity_mode is the URI you&#39;d pass into a Mage::getModel() call
+    &#39;entity_model&#39;    =&gt; &#39;complexworld/eavblogpost&#39;,
+
+    //table refers to the resource URI complexworld/eavblogpost
+    //&lt;complexworld_resource&gt;...&lt;eavblogpost&gt;&lt;table&gt;eavblog_posts&lt;/table&gt;
+    &#39;table&#39;           =&gt;&#39;complexworld/eavblogpost&#39;,
+));
+
+$installer-&gt;createEntityTables(
+    $this-&gt;getTable(&#39;complexworld/eavblogpost&#39;)
+);
+
+$this-&gt;addAttribute(&#39;complexworld_eavblogpost&#39;, &#39;title&#39;, array(
+    //the EAV attribute type, NOT a MySQL varchar
+    &#39;type&#39;              =&gt; &#39;varchar&#39;,
+    &#39;label&#39;             =&gt; &#39;Title&#39;,
+    &#39;input&#39;             =&gt; &#39;text&#39;,
+    &#39;class&#39;             =&gt; &#39;&#39;,
+    &#39;backend&#39;           =&gt; &#39;&#39;,
+    &#39;frontend&#39;          =&gt; &#39;&#39;,
+    &#39;source&#39;            =&gt; &#39;&#39;,
+    &#39;required&#39;          =&gt; true,
+    &#39;user_defined&#39;      =&gt; true,
+    &#39;default&#39;           =&gt; &#39;&#39;,
+    &#39;unique&#39;            =&gt; false,
+));
+$this-&gt;addAttribute(&#39;complexworld_eavblogpost&#39;, &#39;content&#39;, array(
+    &#39;type&#39;              =&gt; &#39;text&#39;,
+    &#39;label&#39;             =&gt; &#39;Content&#39;,
+    &#39;input&#39;             =&gt; &#39;textarea&#39;,
+));
+$this-&gt;addAttribute(&#39;complexworld_eavblogpost&#39;, &#39;date&#39;, array(
+    &#39;type&#39;              =&gt; &#39;datetime&#39;,
+    &#39;label&#39;             =&gt; &#39;Post Date&#39;,
+    &#39;input&#39;             =&gt; &#39;datetime&#39;,
+    &#39;required&#39;          =&gt; false,
+));
+
+$installer-&gt;endSetup();
+
+?&gt;</code></pre>
+<p>然后在控制器（IndexController.php）中添加代码：</p>
+<pre><code>public function populateEntriesAction() &#123;
+    for ($i=0;$i&lt;10;$i++) &#123;
+        $weblog2 = Mage::getModel(&#39;complexworld/eavblogpost&#39;);
+        $weblog2-&gt;setTitle(&#39;This is a test &#39;.$i);
+        $weblog2-&gt;setContent(&#39;This is test content &#39;.$i);
+        $weblog2-&gt;setDate(now());
+        $weblog2-&gt;save();
+    &#125;
+
+    echo &#39;Done&#39;;
+&#125;
+
+public function showCollectionAction() &#123;
+    $weblog2 = Mage::getModel(&#39;complexworld/eavblogpost&#39;);
+    $entries = $weblog2-&gt;getCollection()
+        -&gt;addAttributeToSelect(&#39;title&#39;)
+        -&gt;addAttributeToSelect(&#39;content&#39;);
+    $entries-&gt;load();
+    foreach($entries as $entry)
+    &#123;
+        // var_dump($entry-&gt;getData());
+        echo &#39;&lt;h2&gt;&#39; . $entry-&gt;getTitle() . &#39;&lt;/h2&gt;&#39;;
+        echo &#39;&lt;p&gt;Date: &#39; . $entry-&gt;getDate() . &#39;&lt;/p&gt;&#39;;
+        echo &#39;&lt;p&gt;&#39; . $entry-&gt;getContent() . &#39;&lt;/p&gt;&#39;;
+    &#125;
+    echo &#39;&lt;/br&gt;Done&lt;/br&gt;&#39;;
+&#125;</code></pre>
+<p>最后这个控制的中的完整代码：</p>
+<pre><code>&lt;?php 
+/**
+ * 
+ */
+class Magentotutorial_Complexworld_IndexController extends Mage_core_Controller_Front_Action
+&#123;
+    public function indexAction() &#123;
+        $weblog2 = Mage::getModel(&#39;complexworld/eavblogpost&#39;);
+        $weblog2-&gt;load(1);
+        var_dump($weblog2);
+    &#125;
+
+    public function populateEntriesAction() &#123;
+        for ($i=0;$i&lt;10;$i++) &#123;
+            $weblog2 = Mage::getModel(&#39;complexworld/eavblogpost&#39;);
+            $weblog2-&gt;setTitle(&#39;This is a test &#39;.$i);
+            $weblog2-&gt;setContent(&#39;This is test content &#39;.$i);
+            $weblog2-&gt;setDate(now());
+            $weblog2-&gt;save();
+        &#125;
+
+        echo &#39;Done&#39;;
+    &#125;
+
+    public function showCollectionAction() &#123;
+        $weblog2 = Mage::getModel(&#39;complexworld/eavblogpost&#39;);
+        $entries = $weblog2-&gt;getCollection()
+            // -&gt;addAttributeToSelect(&#39;title&#39;)
+            // -&gt;addAttributeToSelect(&#39;content&#39;);
+        -&gt;addAttributeToSelect(&#39;*&#39;);
+        $entries-&gt;load();
+        foreach($entries as $entry)
+        &#123;
+            // var_dump($entry-&gt;getData());
+            echo &#39;&lt;h2&gt;&#39; . $entry-&gt;getTitle() . &#39;&lt;/h2&gt;&#39;;
+            echo &#39;&lt;p&gt;Date: &#39; . $entry-&gt;getDate() . &#39;&lt;/p&gt;&#39;;
+            echo &#39;&lt;p&gt;&#39; . $entry-&gt;getContent() . &#39;&lt;/p&gt;&#39;;
+        &#125;
+        echo &#39;&lt;/br&gt;Done&lt;/br&gt;&#39;;
+    &#125;
+&#125;
+?&gt;</code></pre>
+<p>好的，（如果有必要的话，可以在<code>core_resource</code>表删除<code>complexworld_setup</code>这个记录，然后删除前面添加的七张表），让我们填写一些条目！加载以下URL</p>
+<pre><code>http://yourdomain.com/complexworld/index/populateEntries</code></pre>
+<p>如果您查看数据库，您应该在eavblog_posts表中看到10个新行。</p>
+<pre><code>mysql&gt; SELECT * FROM eavblog_posts ORDER BY entity_id DESC;
++ ----------- + ---------------- + ------------------ +  - ------------- ----------- + ---------- + ------------- + -------- + --------------------- + ----------- +
+| entity_id | entity_type_id | attribute_set_id | increment_id | parent_id | store_id | created_at | updated_at | is_active |
++ ----------- + ---------------- + ------------------ +  - ------------- ----------- + ---------- + ------------- + -------- + --------------------- + ----------- +
+| 10 | 31 | 0 | | 0 | 0 | 2009-12-06 08:36:41 | 2009-12-06 08:36:41 | 1 |
+| 9 | 31 | 0 | | 0 | 0 | 2009-12-06 08:36:41 | 2009-12-06 08:36:41 | 1 |
+| 8 | 31 | 0 | | 0 | 0 | 2009-12-06 08:36:41 | 2009-12-06 08:36:41 | 1 |
+| 7 | 31 | 0 | | 0 | 0 | 2009-12-06 08:36:41 | 2009-12-06 08:36:41 | 1 |
+| 6 | 31 | 0 | | 0 | 0 | 2009-12-06 08:36:41 | 2009-12-06 08:36:41 | 1 |
+| 5 | 31 | 0 | | 0 | 0 | 2009-12-06 08:36:41 | 2009-12-06 08:36:41 | 1 |
+| 4 | 31 | 0 | | 0 | 0 | 2009-12-06 08:36:41 | 2009-12-06 08:36:41 | 1 |
+| 3 | 31 | 0 | | 0 | 0 | 2009-12-06 08:36:41 | 2009-12-06 08:36:41 | 1 |
+| 2 | 31 | 0 | | 0 | 0 | 2009-12-06 08:36:41 | 2009-12-06 08:36:41 | 1 |
+| 1 | 31 | 0 | | 0 | 0 | 2009-12-06 08:36:41 | 2009-12-06 08:36:41 | 1 |
++ ----------- + ---------------- + ------------------ +  - ------------- ----------- + ---------- + ------------- + -------- + --------------------- + ----------- +</code></pre>
+<p>以及eavblog_posts_varchar表中的10个新行。</p>
+<pre><code>mysql&gt; SELECT * FROM eavblog_posts_varchar ORDER BY value_id DESC;
++----------+----------------+--------------+----------+-----------+------------------+
+| value_id | entity_type_id | attribute_id | store_id | entity_id | value            |
++----------+----------------+--------------+----------+-----------+------------------+
+|       10 |             31 |          933 |        0 |        10 | This is a test 9 |
+|        9 |             31 |          933 |        0 |         9 | This is a test 8 |
+|        8 |             31 |          933 |        0 |         8 | This is a test 7 |
+|        7 |             31 |          933 |        0 |         7 | This is a test 6 |
+|        6 |             31 |          933 |        0 |         6 | This is a test 5 |
+|        5 |             31 |          933 |        0 |         5 | This is a test 4 |
+|        4 |             31 |          933 |        0 |         4 | This is a test 3 |
+|        3 |             31 |          933 |        0 |         3 | This is a test 2 |
+|        2 |             31 |          933 |        0 |         2 | This is a test 1 |
+|        1 |             31 |          933 |        0 |         1 | This is a test 0 |
++----------+----------------+--------------+----------+-----------+------------------+</code></pre>
+<p>请注意，<code>eavblog_posts_varchar</code>通过<code>entity_id</code>列链接到<code>eavblog_posts</code>。</p>
+<p>最后，让我们回到模型这里。在浏览器中加载以下URL</p>
+<pre><code>http://yourdomain.com/complexworld/index/showCollection</code></pre>
+<p>这里有个报错：</p>
+<blockquote>
+<p>Warning: include(Magentotutorial/Complexworld/Model/Resource/Eavblogpost/Collection.php) [function.include]:<br>  failed to open stream: No such file or directory  in /Users/username/Sites/magento.dev/lib/Varien/Autoload.php on line 93</p>
+</blockquote>
+<p>不算陌生的提示吧，我们还需要创建一个收集对象！离成功很近了！添加以下代码到下列路径中。</p>
+<pre><code>File: Magentotutorial/Complexworld/Model/Resource/Eavblogpost/Collection.php:</code></pre>
+<p>Collection.php代码：</p>
+<pre><code>&lt;?php 
+class Magentotutorial_Complexworld_Model_Resource_Eavblogpost_Collection extends Mage_Eav_Model_Entity_Collection_Abstract
+&#123;
+    protected function _construct()
+    &#123;
+        $this-&gt;_init(&#39;complexworld/eavblogpost&#39;);
+    &#125;
+&#125;
+ ?&gt;</code></pre>
+<p>这段代码相当简单，但是收集对象已经成功创建了，刷新页面，好了，数据调用成功了！！！</p>
+<h2 id="读取哪些属性？"><a href="#读取哪些属性？" class="headerlink" title="读取哪些属性？"></a>读取哪些属性？</h2><p>观察细致的程序员会发现上面这个有个问题：日期数据没有显示。</p>
+<p>从控制器中的方法：<code>showCollectionAction()</code>中，我们看到：</p>
+<pre><code>$entries = $weblog2-&gt;getCollection()
+    -&gt;addAttributeToSelect(&#39;title&#39;)
+    -&gt;addAttributeToSelect(&#39;content&#39;);</code></pre>
+<p>这个是读取标题（title）和内容（content）的地方，可是没有读取时间的。</p>
+<p>因为EAV模型的读取通常会涉及到大型的SQL语句，你必须指定想要读取模型的哪些字段。这样才能避免无效读取。当然，如果你不在乎系统性能的损耗，也可以用星号来读取所有字段。把上面那句改成如下：</p>
+<pre><code>$entries = $weblog2-&gt;getCollection()
+    -&gt;addAttributeToSelect(&#39;*&#39;);</code></pre>
+<p>这样就执行了全部查询了。</p>
+<h2 id="是时候跳出这一切了！"><a href="#是时候跳出这一切了！" class="headerlink" title="是时候跳出这一切了！"></a>是时候跳出这一切了！</h2><p>我认为，到这里为止，我们已经学习到了基本的Magento架构及EAV模型的知识。当然，关于EAV还有很多需要学习。下面是关于更高级别，更详细的一些学习主题，大家可以参考一下内容继续深入学习Magento系统。</p>
+<p>EAV属性：属性不局限于datetime，decimal，int，text和varchar。你可以创建新类来构建不同的属性。这也是<code>attribute_model</code>为空的原因。<br>收集过滤(Collection Filtering)：EAV模型的收集可能会非常复杂，特别是当你在处理上面提到过的non-simple属性时。在读取数据之前，你需要对收集使用<code>addAttributeToFilter()</code>方法。<br>Magento EAV 层次：Magento不仅实现了EAV模型，更建立了适应电子商务店铺功能的紧密层级。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/magento-magento1-x-EAV-%E6%A8%A1%E5%9E%8B%EF%BC%8C%E6%95%B0%E6%8D%AE%E6%A8%A1%E5%9E%8B/" rel="tag"># magento,magento1.x,EAV,模型，数据模型</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/08/17/hexo%E5%AE%89%E8%A3%85%E5%92%8C%E5%8D%B8%E8%BD%BD%E6%8F%92%E4%BB%B6%E7%9A%84%EF%BC%8C%E4%BB%A5%E5%8F%8A%E6%B7%BB%E5%8A%A0hexo%E5%8D%9A%E5%AE%A2%E7%9A%84%E4%B8%80%E4%BA%9B%E5%8A%9F%E8%83%BD/" rel="prev" title="hexo安装和卸载插件的，以及添加hexo博客的一些功能，比如hexo的站点加速问题">
+      <i class="fa fa-chevron-left"></i> hexo安装和卸载插件的，以及添加hexo博客的一些功能，比如hexo的站点加速问题
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/08/18/Magento%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3-%E4%B8%89-Magento%E6%8E%A7%E5%88%B6%E5%99%A8/" rel="next" title="Magento开发文档(三):Magento控制器">
+      Magento开发文档(三):Magento控制器 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#EAV%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.</span> <span class="nav-text">EAV模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8Magento%E4%B8%AD%E5%88%9B%E5%BB%BA%E8%87%AA%E5%AE%9A%E4%B9%89EAV%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.</span> <span class="nav-text">在Magento中创建自定义EAV模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EAV%E6%A8%A1%E5%9E%8B%E4%B8%8B%E7%9A%84Weblog%E6%A8%A1%E5%9D%97"><span class="nav-number">3.</span> <span class="nav-text">EAV模型下的Weblog模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E9%83%BD%E5%9C%A8%E4%BB%80%E4%B9%88%E4%BD%8D%E7%BD%AE"><span class="nav-number">4.</span> <span class="nav-text">文件都在什么位置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E5%8F%8A%E5%BA%94%E7%94%A8-Systems-and-Applications"><span class="nav-number">5.</span> <span class="nav-text">系统及应用 Systems and Applications</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%90%AF%E5%8A%A8%E8%B5%84%E6%BA%90"><span class="nav-number">6.</span> <span class="nav-text">创建启动资源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E5%AE%9E%E4%BD%93%E7%B1%BB%E5%9E%8B-Entity-Type"><span class="nav-number">7.</span> <span class="nav-text">添加实体类型 Entity Type</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E8%A1%A8"><span class="nav-number">8.</span> <span class="nav-text">创建表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E5%B1%9E%E6%80%A7"><span class="nav-number">9.</span> <span class="nav-text">添加属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E5%85%B6%E4%BB%96%E5%B1%9E%E6%80%A7"><span class="nav-number">10.</span> <span class="nav-text">添加其他属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%BB%E5%8F%96%E5%93%AA%E4%BA%9B%E5%B1%9E%E6%80%A7%EF%BC%9F"><span class="nav-number">11.</span> <span class="nav-text">读取哪些属性？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%98%AF%E6%97%B6%E5%80%99%E8%B7%B3%E5%87%BA%E8%BF%99%E4%B8%80%E5%88%87%E4%BA%86%EF%BC%81"><span class="nav-number">12.</span> <span class="nav-text">是时候跳出这一切了！</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,37 +1,553 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="WordPress引入css&#x2F;js 是我们制作主题时首先面对的一个难点，任何一款主题都要加载自己的css,js,甚至很有可能还需要加载Jquery文件,网上方法特多，说法不一，我们今天借鉴wordpress官方最新的twentysixteen主题来学习总结一下WordPress引入css&#x2F;js各种常用方法，以及最优化的加载方法。  其实网上的N种方法总结起来就两种： 一、模板文件header.p">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WordPress引入css&#x2F;js两种方法">
+<meta property="og:url" content="http://example.com/2017/07/21/WordPress%E5%BC%95%E5%85%A5css-js%E4%B8%A4%E7%A7%8D%E6%96%B9%E6%B3%95/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="WordPress引入css&#x2F;js 是我们制作主题时首先面对的一个难点，任何一款主题都要加载自己的css,js,甚至很有可能还需要加载Jquery文件,网上方法特多，说法不一，我们今天借鉴wordpress官方最新的twentysixteen主题来学习总结一下WordPress引入css&#x2F;js各种常用方法，以及最优化的加载方法。  其实网上的N种方法总结起来就两种： 一、模板文件header.p">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-07-21T03:36:09.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:53:09.832Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="wordpres,外部js,外部css,javascript">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2017/07/21/WordPress%E5%BC%95%E5%85%A5css-js%E4%B8%A4%E7%A7%8D%E6%96%B9%E6%B3%95/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>WordPress引入css/js两种方法 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/07/21/WordPress%E5%BC%95%E5%85%A5css-js%E4%B8%A4%E7%A7%8D%E6%96%B9%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          WordPress引入css/js两种方法
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-07-21 11:36:09" itemprop="dateCreated datePublished" datetime="2017-07-21T11:36:09+08:00">2017-07-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:09" itemprop="dateModified" datetime="2020-10-11T11:53:09+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <blockquote>
+<p>WordPress引入css/js 是我们制作主题时首先面对的一个难点，任何一款主题都要加载自己的css,js,甚至很有可能还需要加载Jquery文件,网上方法特多，说法不一，我们今天借鉴wordpress官方最新的twentysixteen主题来学习总结一下WordPress引入css/js各种常用方法，以及最优化的加载方法。</p>
+</blockquote>
+<p><strong>其实网上的N种方法总结起来就两种：</strong></p>
+<p>一、模板文件header.php中直接引入文件</p>
+<p>二、在主题的functions.php中通过WP自带的函数wp_enqueue_scripts来加载JS文件，通过<code>wp_enqueue_style</code>来加载Css样式</p>
+<p>1、模板文件header.php中直接引入文件</p>
+<p>这是最好懂，最直白，最不好的方法在模板文件header.php中直接引入文件</p>
+<pre><code>&lt;script type=&#39;text/javascript&#39; src=&#39;http://www.jquery.com/js/jquery/1.10.2/jquery-1.10.2.min.js&#39;&gt;&lt;/script&gt;
+&lt;script type=&#39;text/javascript&#39; src=&#39;http://www.511yj.com/css/bootstrapwp.js&#39;&gt;&lt;/script&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;http://www.511yj.com/css/bootstrapwp.css&quot;&gt;</code></pre>
+<p>你觉得这样很无聊的话，还可以这样</p>
+<pre><code>&lt;link rel=&quot;stylesheet&quot; href=&quot;&lt;?php echo get_template_directory_uri(); ?&gt;/style.css&quot;&gt;
+&lt;script src=&quot;&lt;?php echo get_template_directory_uri(); ?&gt;/bootstrap/js/bootstrap.js&quot;&gt;&lt;/script&gt;</code></pre>
+<p>通过函数<code>get_template_directory_uri()</code>获得主题目录 通过echo输出。</p>
+<p><strong>注意啦以下方法虽然放在了functions.php中，表面感觉好了点……</strong></p>
+<pre><code>&lt;?php
+ function add_stylesheet_to_head() &#123;
+    echo &quot;&lt;link href=&#39;http://fonts.useso.com/css?family=Open+Sans:300,400,600&amp;subset=latin,latin-ext&#39; rel=&#39;stylesheet&#39;&gt;&quot;;
+&#125;
+ add_action( &#39;wp_head&#39;, &#39;add_stylesheet_to_head&#39; );
+?&gt;</code></pre>
+<p>但是WordPress 不能确定是否在在页面加载了JS，Css文件，如果另一个插件使用相同的JS，Css文件，就无法检查JS，Css文件是否已经被包含在页面中。然后插件第二次加载同一个文件，造成重复的代码，响应速度变慢。</p>
+<p><strong>二、引入WordPress优化解决方案：注册和排队</strong></p>
+<p>1、注册</p>
+<p><code>wp_register_style()</code> 函数进行注册：</p>
+<pre><code>&lt;?php wp_register_style( $handle, $src, $deps, $ver, $media ); ?&gt;</code></pre>
+<p>参数：<br>$handle（字符串，必需）是你的样式表唯一名称。其他函数将使用这个“handle”来排队并打印样式表。</p>
+<p>$src（字符串，必需）指的是样式表的URL。您可以使用函数，如 get_template_directory_uri() 来获取主题目录中的样式文件。永远不要去想硬编码了！</p>
+<p>$deps （数组，可选）处理相关样式的名称。如果丢失某些其他样式文件将导致你的样式表将无法正常工作，你可以使用该参数设置“依赖关系”。</p>
+<p>$ver （字符串或布尔型，可选）版本号。你可以使用你的主题的版本号或任何一个你想要的。如果您不希望使用一个版本号，将其设置为null。默认为false，这使得WordPress的添加自己的版本号。</p>
+<p>$media （字符串，可选）是指CSS的媒体类型，比如“screen”或“handheld”或“print”。如果你不知道是否需要使用这个，那就不使用它。默认为“all”。</p>
+<p><strong>例子：</strong></p>
+<pre><code>wp_register_style(
+    &#39;my-bootstrap-extension&#39;, // 名称
+    get_template_directory_uri() . &#39;/css/my-bootstrap-extension.css&#39;, // 样式表的路径
+    array( &#39;bootstrap-main&#39; ), // 依存的其他样式表
+    &#39;1.2&#39;, // 版本号
+    &#39;screen&#39;, // CSS 媒体类型
+);</code></pre>
+<p><code>wp_register_style()</code> 函数进行注册：</p>
+<pre><code>&lt;?php wp_enqueue_script( $handle, $src, $deps, $ver, $in_footer ); ?&gt;</code></pre>
+<p><strong>参数</strong></p>
+<p>$handle（字符串）（必需）脚本名称。小写字符串。默认值：None</p>
+<p>$src（字符串）（可选）WordPress根目录下的脚本路径示例：”/wp-includes/js/scriptaculous/scriptaculous.js”。该参数只在WordPress不了解脚本情况时使用。默认值：None</p>
+<p>$deps（数组）（可选）脚本所依靠的句柄组成的数组；加载该脚本前需要加载的其它脚本。若没有依赖关系，返回false。该参数只在WordPress不了解脚本情况时使用。默认值：array()</p>
+<p>$ver（字符串）（可选）指明脚本版本号的字符串（若存在版本号）。默认为false。该参数可确保即使在启用缓存的状态下，发送给客户端的仍然是正确版本，因此如果版本号可用且对脚本有意义，包含该版本号。默认值：false</p>
+<p>$in_footer（布尔型）（可选）通常情况下脚本会被放置在区块中。如果该函数为true，脚本则会出现在区块的最下方。要求主题在适当的位置中包含有wp_footer()钩子。（WordPress新功能）默认值：false</p>
+<p><strong>例子：</strong></p>
+<pre><code>&lt;?php
+function my_enqueue_scripts() &#123;
+if( !is_admin ) &#123; // 前台加载的脚本与样式表
+// 去除已注册的 jquery 脚本
+wp_deregister_script( &#39;jquery&#39; );
+// 注册 jquery 脚本
+wp_register_script( &#39;jquery&#39;, get_template_directory_uri() . &#39;/js/jquery.js&#39;, false, &#39;1.0&#39;, false );
+// 提交加载 jquery 脚本
+wp_enqueue_script( &#39;jquery&#39; );
+ &#125; 
+&#125; 
+// 添加回调函数到 init 动作上
+add_action( &#39;init&#39;, &#39;my_enqueue_scripts&#39; );
+?&gt;</code></pre>
+<p>当css/js很多，并且要分情况加载时，需要使用<code>wp_register_script()</code>和<code>wp_register_style()</code>函数，可以更好的管理资源，避免重复劳动。下面的示例代码中，先在<code>init action</code>上把所有需要用到样式表都注册一遍，之后不管想在哪里引入，都可以简单的用<code>wp_enqueue_style( $handle )</code>来加载。</p>
+<pre><code>// 在init action处注册脚本，可以与其它逻辑代码放在一起
+function my_init()&#123;
+    $url = get_template_directory_uri();
+    // 注册样式表
+    $styles = array(
+        &#39;style1&#39; =&gt; $url . &#39;/css/style1.css&#39;,
+        &#39;style2&#39; =&gt; $url . &#39;/css/style2.css&#39;,
+        &#39;style3&#39; =&gt; $url . &#39;/css/style3.css&#39;
+    );
+     foreach( $styles as $k =&gt; $v )&#123;
+        wp_register_style( $k, $v, false );
+    &#125; 
+    // 注册脚本     
+    // 其它需要在init action处运行的脚本
+&#125;
+add_action( &#39;init&#39;, &#39;my_init&#39; );</code></pre>
+<p>注册脚本时需要运行<code>$wp_scripts-&gt;add( $handle, $src, $deps, $ver )</code>;，若脚本没有注册直接使用<code>wp_enqueue_script</code>，需要先调用add方法，也就是说重复enqueue一个脚本就会运行多次add方法，降低了程序的效率。</p>
+<p>在WordPress中，注册样式是“可选的”。如果你的样式不会被其他插件使用，或者你不打算使用任何代码来再次加载它，你可以自由地排队样式而不需要注册它。继续看看它是如何实现的。</p>
+<p><strong>2、排队</strong></p>
+<p><code>wp_register_style()</code> 函数是不强制使用的，我要告诉你，你可以用两种不同的方式使用<code>wp_enqueue_style()</code>：</p>
+<pre><code>&lt;?php
+ // 如果我们之前已经注册过样式
+wp_enqueue_style( &#39;my-bootstrap-extension&#39; ); 
+// 如果我们之前没有注册，我们不得不设置 $src 参数！
+wp_enqueue_style(
+    &#39;my-bootstrap-extension&#39;,
+    get_template_directory_uri() . &#39;/css/my-bootstrap-extension.css&#39;,
+    array( &#39;bootstrap-main&#39; ),
+    null, // 举例不适用版本号
+    // ...并且没有指定CSS媒体类型
+); 
+?&gt;</code></pre>
+<p>切记：如果一个插件将要用到你的样式表，或者你打算将在你的主题的不同地方进行加载，你绝对应该先注册。</p>
+<p><strong>3、加载样式到我们的网站</strong></p>
+<p>我们不能在主题中随便找个地方使用 wp_enqueue_style() 函数 - 我们需要使用“动作”钩子。还有我们可以使用各种用途的三个动作钩子：</p>
+<pre><code>wp_enqueue_scripts 用来在网站前台加载脚本和CSS
+admin_enqueue_scripts 用来在后台加载脚本和CSS
+login_enqueue_scripts 用来在WP登录页面加载脚本和CSS</code></pre>
+<p>以下是这些钩子的示例：</p>
+<pre><code>&lt;?php
+ // 在网站前台加载css
+function mytheme_enqueue_style() &#123;
+    wp_enqueue_style( &#39;mytheme-style&#39;, get_stylesheet_uri() ); 
+&#125;
+add_action( &#39;wp_enqueue_scripts&#39;, &#39;mytheme_enqueue_style&#39; );
+
+// 在后台加载css
+function mytheme_enqueue_options_style() &#123;
+    wp_enqueue_style( &#39;mytheme-options-style&#39;, get_template_directory_uri() . &#39;/css/admin.css&#39; ); 
+&#125;
+add_action( &#39;admin_enqueue_scripts&#39;, &#39;mytheme_enqueue_options_style&#39; );
+
+// 在登录页面加载css
+function mytheme_enqueue_login_style() &#123;
+    wp_enqueue_style( &#39;mytheme-options-style&#39;, get_template_directory_uri() . &#39;/css/login.css&#39; ); 
+&#125;
+add_action( &#39;login_enqueue_scripts&#39;, &#39;mytheme_enqueue_login_style&#39; );
+?&gt;</code></pre>
+<p><strong>4、另外一个函数：wp_print_scripts()</strong></p>
+<p>虽然将 JavaScript 文件都放到页面末尾加载对于页面加载速度很有帮助，但是请注意，所谓页面末尾指的是在 WordPress 的 <code>wp_footer()</code>函数中调用，这个函数通常刚好位于页面的 标签前面（当然是末尾了）。</p>
+<p>有时候我们可能会在 wp_footer 函数出现之前就需要用到某些 JavaScript，比如 jquery.js 文件。</p>
+<p>这样的情况也是很常见的。比如我单独创建了一个链接页面，在这个页面中我使用了 jQuery 方法来获取链接网站的 favicon。很显然，我只需要在这唯一一个页面使用这部分代码，所以将这段代码直接放在这个页面模板中是最好的做法。</p>
+<p>问题来了：这部分内容显然是在<code>wp_footer</code>之前出现的，那么这段代码就在 jquery.js 文件之前出现了，导致该代码段实际上无法工作，因为调用 jQuery 方法的代码段必须比 jquery.js 文件后加载。</p>
+<p>那么如何处理这种特殊情况呢？其实也很简单。以上面的情景为例，既然我们需要先调用 jquery.js 文件，那我们就在该代码段之前直接输出需要的 jquery.js 文件，不使用 <code>wp_enqueue_script()</code> 函数，而改用<code>wp_print_scripts() </code>函数。</p>
+<p><code>wp_enqueue_script() </code>与 <code>wp_print_scripts()</code> 的区别是：<code>wp_enqueue_script()</code> 是告诉 WordPress “我在这个页面上需要用到某个 JavaScript 文件，你可要记得加载啊”。WordPress 默认在 <code>wp_head()</code> 中处理，而我们改为在 <code>wp_footer()</code> 中处理。<code>wp_print_scripts()</code> 则直接在你使用此方法的位置输出需要的 JavaScript 文件，而不是加入到 WordPress 的处理任务中。<br>如果我们在页面的中间使用，</p>
+<pre><code>&lt;?php wp_print_scripts(&#39;jquery&#39;); ?&gt;</code></pre>
+<p>直接输出了 jquery.js 文件（通常是其压缩版本 jquery.min.js），那么即使其它的插件或者什么东西使用，</p>
+<pre><code>&lt;?php wp_enqueue_script(&#39;jquery&#39;); ?&gt;</code></pre>
+<p>告诉 WordPress 需要加载 jquery.js，WordPress 在 wp_footer() 中处理的时候也会先检查前面是不是已经有了，如果有了就不会再重新加载一次。</p>
+<p><strong>5、一些额外的函数</strong></p>
+<p>WordPress 有一些关于 CSS 非常有用的函数：他们允许我们打印内嵌样式，查看样式文件的排队状态，添加元数据以及注销样式。</p>
+<p>添加动态内联样式：<code>wp_add_inline_style()</code></p>
+<p>如果你的主题有选项可自定义主题的样式，你可以使用 wp_add_inline_style() 函数来打印内置的样式：</p>
+<pre><code>function mytheme_custom_styles() &#123;
+    wp_enqueue_style( &#39;custom-style&#39;, get_template_directory_uri() . &#39;/css/custom-style.css&#39; );
+    $bold_headlines = get_theme_mod( &#39;headline-font-weight&#39; ); // 比方说，它的值是粗体“bold”
+    $custom_inline_style = &#39;.headline &#123; font-weight: &#39; . $bold_headlines . &#39;; &#125;&#39;;
+    wp_add_inline_style( &#39;custom-style&#39;, $custom_inline_style );
+&#125;
+add_action( &#39;wp_enqueue_scripts&#39;, &#39;mytheme_custom_styles&#39; );</code></pre>
+<p>方便快捷。但请记住：你必须使用与后面要添加的内联样式样式表相同的handle名称。</p>
+<p>添加元数据到样式表：<code>wp_style_add_data()</code></p>
+<p><code>wp_style_add_data() </code>是一个非常棒的函数，它可以让你添加元数据到你的样式中，包括条件注释、RTL的支持和更多！</p>
+<pre><code>&lt;?php
+// wp_style_add_data() 示例
+function mytheme_extra_styles() &#123;
+    wp_enqueue_style( &#39;mytheme-ie&#39;, get_template_directory_uri() . &#39;/css/ie.css&#39; );
+    wp_style_add_data( &#39;mytheme-ie&#39;, &#39;conditional&#39;, &#39;lt IE 9&#39; );
+    /*
+     * alternate usage:
+     * $GLOBALS[&#39;wp_styles&#39;]-&gt;add_data( &#39;mytheme-ie&#39;, &#39;conditional&#39;, &#39;lte IE 9&#39; );
+     * wp_style_add_data() is cleaner, though.
+     */
+&#125;
+
+add_action( &#39;wp_enqueue_scripts&#39;, &#39;mytheme_ie_style&#39; );
+
+?&gt;</code></pre>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/wordpres-%E5%A4%96%E9%83%A8js-%E5%A4%96%E9%83%A8css-javascript/" rel="tag"># wordpres,外部js,外部css,javascript</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/07/21/wordpress%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84%E5%A4%96%E9%83%A8js%E5%92%8Ccss%E6%A0%B7%E5%BC%8F%E6%96%87%E4%BB%B6%E7%9A%84%E5%BC%95%E5%85%A5%E9%97%AE%E9%A2%98/" rel="prev" title="wordpress插件开发中的外部js和css样式文件的引入问题">
+      <i class="fa fa-chevron-left"></i> wordpress插件开发中的外部js和css样式文件的引入问题
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/07/23/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%80%9A%E8%BF%87%E4%B8%80%E9%94%AEweb%E5%AE%89%E8%A3%85%E5%90%8E%E5%AE%89%E8%A3%85WCDP%E7%9A%84%E9%BB%98%E8%AE%A4%E7%99%BB%E5%BD%95%E4%BF%A1%E6%81%AF%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F/" rel="next" title="云服务器通过一键web安装后安装WCDP的默认登录信息是什么？">
+      云服务器通过一键web安装后安装WCDP的默认登录信息是什么？ <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

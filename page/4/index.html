@@ -1,23 +1,2049 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-{% block title %}{{ config.title }}{% if theme.index_with_subtitle and config.subtitle %} - {{config.subtitle }}{% endif %}{% endblock %}
+<link rel="stylesheet" href="/css/main.css">
 
-{% block page_class %}
-  {% if is_home() %}page-home{% endif -%}
-{% endblock %}
 
-{% block content %}
-  <section id="posts" class="posts-expand">
-    {% for post in page.posts %}
-      {{ post_template.render(post, true) }}
-    {% endfor %}
-  </section>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-  {% include '_partials/pagination.swig' %}
-{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
 
-{% block sidebar %}
-  {{ sidebar_template.render(false) }}
-{% endblock %}
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/page/4/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/page/4/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
+            
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/03/22/vi%E7%BC%96%E8%BE%91%E5%99%A8%E7%9A%84%E9%85%8D%E7%BD%AE%E5%92%8C%E5%B8%B8%E7%94%A8%E7%9A%84%E6%8A%80%E5%B7%A7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/03/22/vi%E7%BC%96%E8%BE%91%E5%99%A8%E7%9A%84%E9%85%8D%E7%BD%AE%E5%92%8C%E5%B8%B8%E7%94%A8%E7%9A%84%E6%8A%80%E5%B7%A7/" class="post-title-link" itemprop="url">vi编辑器的配置和常用的技巧</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-03-22 16:24:55" itemprop="dateCreated datePublished" datetime="2019-03-22T16:24:55+08:00">2019-03-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:02" itemprop="dateModified" datetime="2020-10-11T11:58:02+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/vi/" itemprop="url" rel="index"><span itemprop="name">vi</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>笔者今天整理一些linux操作系统中最常用的编辑器vi的一些常用的技巧：</p>
+<h2 id="选中内容，复制粘贴"><a href="#选中内容，复制粘贴" class="headerlink" title="选中内容，复制粘贴"></a>选中内容，复制粘贴</h2><p>笔者曾经学习这个编辑器的时候，发现这个编辑器是很难用的，连选中和复制粘贴都不会，现在来看下最简单的操作方法：</p>
+<p>比如我们打开了一个文件（test.html），里面有很多内容共，如果先要选中自己想要的内容怎么做呢？</p>
+<pre><code>vi test.html</code></pre>
+<p>进去后，什么也不要动。这个模式我们称作normal模式，按<code>v</code>键，进入vi中visual模式，顺便说下visual模式的进入可以有三种方式：</p>
+<p><strong>1、在普通模式（normal）下，直接按键 <code>v </code>就可以进入默认visual模式</strong>，可以使用<code>j/k/h/l</code> 进行文本的上下左右方向选中文本，当然也可以用键盘的上下左右的方向键来选择。</p>
+<p>选中之后的样子就是这样的：</p>
+<p><img src="https://i.imgur.com/d9TwEnr.jpg"></p>
+<p>记住，此时此刻我们仍然是在visual模式下，接着，对于选中的文本进行如下按键：</p>
+<p>（1.1）d   —— 按该键进行剪切操作</p>
+<p>（1.2）y   ——-按该键进行复制操作</p>
+<p>（1.3）p   ——-按该键进行粘贴操作</p>
+<p>（1.4）^  ——–按该键进行选中当前行，光标位置到行首（或者使用键盘的HOME键）</p>
+<p>（1.5）$  ——–按该键进行选中当前行，光标位置到行尾（或者使用键盘的END键）</p>
+<p>对上面的这几个，笔者有必要说明一下：</p>
+<p>在visual模式下选中后按y键就算完成了复制了，如果想要粘贴到其他位置，那么把光标移动到要粘贴的位置，然后按<code>i</code>键，就进入编辑状态，然后再按<code>Esc</code>键退出编辑模式，然后再按<code>p</code>键，这样我们就把复制的内容粘贴到了光标的位置了。</p>
+<p>跟复制同样的方式，我们也可以按<code>d</code>键来完成内容的剪切，然后根据如上的粘贴的方式完成剪切，粘贴的操作。</p>
+<p>对于<code>^ </code>的说明是这样的，当我们通过按<code>Esc</code>键的时候，我们就回到了normal模式，然后我们可以在打开的test.html里面任意移动光标找到我们想要的内容，然后如果想要复制光标位置到光标所在行的行首的内容，如图：</p>
+<p><img src="https://i.imgur.com/pDvstfX.jpg"></p>
+<p>这段内容的时候，我们操作如下：</p>
+<p>首先进入normal模式下，然后移动光标，然后按<code>v</code>键进入visual模式，然后按<code>^ </code>，这样就选中了光标位置到光标所在位置的行首这一截内容，然后按<code>y</code>复制内容，内容就被复制了，然后移动光标到要粘贴的位置，先进入编辑模式，然后确定位置后，按<code>Esc</code>键进入normal模式，然后按<code>p</code>键，粘贴内容。</p>
+<p>同样的道理，我们可以通过按<code>$</code>键来完成复制光标所在的位置到光标所在行的行尾的内容。</p>
+<p><strong>2、Visual Line模式  按键V可以进入</strong></p>
+<p>按键V之后，进入Visual Line模式，使用 j/k键可以选中一行或者多行</p>
+<p><strong>3、Visual Block模式，按键Ctrl + V可以进入</strong></p>
+<p>按键Ctrl+v之后，进入Visual Block模式，使用 j/k/h/l键可以选中一块</p>
+<h2 id="删除行操作"><a href="#删除行操作" class="headerlink" title="删除行操作"></a>删除行操作</h2><p>还是接着上面来，比如我们想要删除光标所在的行，那么怎么操作呢？</p>
+<p>进入normal模式下，按两下<code>d</code>键，也就是dd，即可把当前行删除。</p>
+<h2 id="回退，撤销"><a href="#回退，撤销" class="headerlink" title="回退，撤销"></a>回退，撤销</h2><p>我们如果误操作之后，想要撤销怎么办？</p>
+<p>进入normal模式下，按<code>u</code>键就可以回到上一步操作，连续按两次u，也就是uu，文本恢复原样。</p>
+<h2 id="光标的快速定位"><a href="#光标的快速定位" class="headerlink" title="光标的快速定位"></a>光标的快速定位</h2><p>我们在打开一个文件后，文件内容可能会很多，如果我们想要回到文件的最开始位置，怎么办？</p>
+<p>在normal模式下连续按两次g，也就是gg，光标就到了文件的最开始位置了。</p>
+<p>如果想要光标定位到文件最默认，那么在normal模式下按G，光标就定位到文件的最后了位置了。</p>
+<p>如果想要光标定位到某行，这个时候怎么办呢？</p>
+<p>进入normal模式下，也就是命令模式啦，</p>
+<p>输入<code>:100</code>，那么就定位到100行的行首位置了。</p>
+<h2 id="显示行号"><a href="#显示行号" class="headerlink" title="显示行号"></a>显示行号</h2><p>通常情况下vi编辑器是没有行号的，如果为了方便我们的浏览和编辑，那么如果想要行号显示出来，怎么操作呢?</p>
+<p>在normal模式下输入<code>:set nu</code></p>
+<h2 id="字符串的替换"><a href="#字符串的替换" class="headerlink" title="字符串的替换"></a>字符串的替换</h2><p>**1. 基本的替换 **</p>
+<p><code>:s/vivian/sky/</code> 替换当前行第一个 vivian 为 sky </p>
+<p><code>:s/vivian/sky/g</code> 替换当前行所有 vivian 为 sky </p>
+<p><code>:n,$s/vivian/sky/</code> 替换第 n 行开始到最后一行中每一行的第一个 vivian 为 sky </p>
+<p><code>:n,$s/vivian/sky/g</code> 替换第 n 行开始到最后一行中每一行所有 vivian 为 sky </p>
+<p><code>:%s/vivian/sky/</code>（等同于 :g/vivian/s//sky/） 替换每一行的第一个 vivian 为 sky </p>
+<p><code>:%s/vivian/sky/g</code>（等同于 :g/vivian/s//sky/g） 替换每一行中所有 vivian 为 sky </p>
+<h2 id="字符串的查找"><a href="#字符串的查找" class="headerlink" title="字符串的查找"></a>字符串的查找</h2><p>方法如下：</p>
+<p>命令模式下输入<code>/字符串</code>，例如<code>/span</code>，这样就查找到了第一个字符串为span的，如果想要查看下一个span那么只需按<code>n</code>即可，如果想要上一条呢？很简单，按<code>N</code>即可向前查看。</p>
+<h2 id="多列编辑（多列注释）"><a href="#多列编辑（多列注释）" class="headerlink" title="多列编辑（多列注释）"></a>多列编辑（多列注释）</h2><p>类似sublime text3编辑器那样，可以多列同时编辑。在vi编辑器下怎么操作呢？</p>
+<p>第一步：在normal模式下，将光标固定在第一列，按<code>Ctrl+V</code>快捷键进入VB可视化模式，这个要记住是<strong>visual block</strong>模式，因为在这个可视化模式下有三种：默认模式、visual inline模式，visual block模式。</p>
+<p><img src="https://i.imgur.com/XRiMeKS.jpg"></p>
+<p>第二步：上下移动光标，选择你想要注释的行。</p>
+<p><img src="https://i.imgur.com/bMBN52M.jpg"></p>
+<p>第三步：选择好之后，按<strong>大写的</strong><code>i</code>键进入insert模式，输入注释符“//”或“#”</p>
+<p><img src="https://i.imgur.com/4Q5trSY.jpg"></p>
+<p>第四步：最后按ESC键(两次)，选择的多行已经注释掉了。</p>
+<p><img src="https://i.imgur.com/GcMkXZm.jpg"></p>
+<hr>
+<h2 id="vi的配置"><a href="#vi的配置" class="headerlink" title="vi的配置"></a>vi的配置</h2><p>其实vi的配置是一项很有挑战的事情，当然经常折腾的话，其实也不难，vi之所以被很多人认为是很强大的一款编辑器，主要是在于他配置后的便利性，如果不配置其实跟普通编辑器相差不了多少的。</p>
+<p>好的，现在我们来看下配置。</p>
+<p>1、来个快捷省事的方案：<a target="_blank" rel="noopener" href="https://github.com/chxuan/vimplus">https://github.com/chxuan/vimplus</a></p>
+<p><strong>Ubuntu</strong></p>
+<p>版本要求</p>
+<p>ubuntu16.04及其以上系统。</p>
+<p>安装vimplus(建议在普通用户下安装)</p>
+<pre><code>git clone https://github.com/chxuan/vimplus.git ~/.vimplus
+cd ~/.vimplus
+./install.sh</code></pre>
+<p><strong>Centos</strong></p>
+<p>版本要求</p>
+<p>centos7及其以上系统。</p>
+<p>安装vimplus(建议在普通用户下安装)</p>
+<pre><code>git clone https://github.com/chxuan/vimplus.git ~/.vimplus
+cd ~/.vimplus
+./install.sh</code></pre>
+<p>大概十分钟就可以安装好。这个作者还设定了一些快捷方式，粘贴出来供参考学习用。</p>
+<p><img src="https://i.imgur.com/5YAxxW1.jpg"></p>
+<hr>
+<p>本文会持续更新，大家敬请关注。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/03/20/%E8%A7%A3%E5%86%B3%E5%A4%8D%E7%94%A8%E6%A8%A1%E5%9D%97%E7%9A%84%E4%BB%B7%E5%80%BC%E4%BB%A5%E5%8F%8A%E5%AF%B9%E8%87%AA%E8%BA%AB%E5%8D%87%E7%BA%A7%E6%94%B9%E9%80%A0%E7%9A%84%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84%E6%8C%87%E5%BC%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/03/20/%E8%A7%A3%E5%86%B3%E5%A4%8D%E7%94%A8%E6%A8%A1%E5%9D%97%E7%9A%84%E4%BB%B7%E5%80%BC%E4%BB%A5%E5%8F%8A%E5%AF%B9%E8%87%AA%E8%BA%AB%E5%8D%87%E7%BA%A7%E6%94%B9%E9%80%A0%E7%9A%84%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84%E6%8C%87%E5%BC%95/" class="post-title-link" itemprop="url">解决复用模块的启发以及对自身升级改造的一个新的思考</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-03-20 16:37:45" itemprop="dateCreated datePublished" datetime="2019-03-20T16:37:45+08:00">2019-03-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:06" itemprop="dateModified" datetime="2020-10-11T11:58:06+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%BF%83%E5%BE%97/" itemprop="url" rel="index"><span itemprop="name">心得</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>随着慢慢长大，时间变得越来越宝贵，能够在宝贵的时间内解决问题的关键、让自己的快乐是一件非常有挑战和需要智慧的事情。</p>
+<p>我们当然希望在有限的时间内做更多有价值有意义的事情，通过完成和实现这些事情来达到一个心灵的满足感。今天笔者分享的是这样一件事：花更多的时间在一劳永逸中的<strong>劳</strong>这个上面。</p>
+<p>在笔者的工作中，就经常碰到这样的情况，把同样的问题解决了好几次，基本都是相同的，花费了不少的时间。可是每次都解决同样的事情是很浪费生命的。后来笔者索性就写成一个通用的文档，只要根据这个文档走就能够很好解决这个问题了，尽管笔者在写这个文档上花费了不少的精力，可是相当值得去做这件事的。</p>
+<p>同样的情况也会出现在我们的生活中和人生的成长中，举例：</p>
+<h2 id="盖新房的启发"><a href="#盖新房的启发" class="headerlink" title="盖新房的启发"></a>盖新房的启发</h2><p>生活中的一劳永逸，笔者就说盖房子吧，如果我们觉得改善居住环境能够给我们带来持续不断的便利性和舒适度，那么我们把它完成得越早越好，当我们完成了房子的修缮后，我们在接下来的生活中会因为这次修缮持续受益，每天都很快乐，每天都很方便。又比如，我们把家里装修得很舒服，周边环境做得很好，而且不需要持续的投入的话，那么当前需要投入点时间和精力那也是值得的，当我们完成后，我们就会受益终生。</p>
+<h2 id="写通用代码的启发"><a href="#写通用代码的启发" class="headerlink" title="写通用代码的启发"></a>写通用代码的启发</h2><p>我们在写代码的时候，可能也会碰到这样一个问题，我们可能很多模块，或者是很多页面功能是相似的，对此我们有两种做法：</p>
+<ol>
+<li>每个页面，每个模块单独写功能，逐一积极相似需求片段。</li>
+<li>把相似的功能抽象化，写成一个通用函数，放在公共文件中，那么我们这样就可以写一个函数解决同类的所有问题。直接调动函数接解决重复的部分。</li>
+<li>如果你还是不能明白第二点，那么再举例子，与此异曲同工的是css中的class和id，一个ID对应一个问题，而一个class是更适合解决处理一片相同的问题，所以写样式的时候，尽量用class来处理样式的问题，而ID是用来处理事件或者是独一无二的标识问题。</li>
+</ol>
+<h2 id="学习vi编辑器"><a href="#学习vi编辑器" class="headerlink" title="学习vi编辑器"></a>学习vi编辑器</h2><p>用过linux操作系统的同学都知道，我们或多或少的会接触到这个编辑器，事实上这个编辑器是相当难用的，起码初级阶段是很难用的，可是笔者为什么还会选择去学习它呢？</p>
+<p>原因如下：</p>
+<ol>
+<li>笔者知道接下来的工作会越来越多的用到linux操作系统，而用这个操作系统难免会用这个编辑器来编辑一些文件，如果用外部文件的话，虽然很顺手，但是我们不得不下载到本地编辑完毕后，然后再上传上去，一次还好，如果这种事情经常发生，那么这个问题将会成为我们远行路上的鞋子中的一粒沙子，终究会羁绊着我们继续前行，因此学习这个编辑器是很有必要的。</li>
+</ol>
+<p>那么，我们学习这个编辑器的时候初始阶段遇到问题是正常的，可是当这些问题逐一被解决了以后，那么再次使用的话就会为我们带来方便，而且自此以后只会越来越方便。所以在可预期的未来如果能够确定使用它的频率很高的话，那么笔者会选择立马行动起来做它。</p>
+<h2 id="人生的成长"><a href="#人生的成长" class="headerlink" title="人生的成长"></a>人生的成长</h2><p>同样的道理，在我们的成长过程中，我们如果能够把限制我们发展的因素突破了，那么我们将会因为这个突破持续受益。</p>
+<p>比如我们学习新的知识，修炼内功，提升内在的素养，处变不惊的处事态度等等，这些看起来很难，可是当我们只要提升一点点就能够让我们在接下来的人生中受益下半生，那么我们还会犹豫吗？当然不会！</p>
+<p>当然，很多人都意识到这个问题，可是为什么很多时候没有这样做呢？</p>
+<p>笔者认为：</p>
+<ol>
+<li>他们没有深刻意识到这个一劳永逸的重要性，抓兔子的目标被突然出现的土巴鼠打乱了，最后他们的精力就时不时的被消耗在哪些非一劳永逸的事情上。</li>
+<li>他们可能没有这个意识，也可能是没有这个条件，比如一个车间工人，那么他可能把十年的时间消耗在了重复的一件事情上，结果十年之后他仍然很不安逸，因为他们没有把主要精力花费在解决问题的纵向，而是不断的生产这相似规格的螺丝钉。如果他尝试着解决不在车间生产的事情上，那么他短期内可能比较大的压力，或者会比较忙碌，可是当自己升级了以后，改造了以后，他将会永远摆脱在车间生产的命运。</li>
+<li>同样的，一个外包公司的技术，如果他为了不同客户的需求作者近乎相似的需求，那么他将会持续不断的陷入了做出不同的相近的东西，而没有任何突破，如果能够把时间和精力花费在去提升一下技能，阅读更多的书籍，系统的学习一下，那么重复造轮子的事将会迎刃而解。我们试想一下，当他花费了半年的时间把相关的技能往深处学习了一下，那么他会解决更高级的问题，而不是把1+1这种事情做无数遍。</li>
+<li>因此，无论我们生活中还是工作中，解决问题要挑典型的问题，然后把这个问题解决到极致，那么围绕这个问题的相似问题不就都被解决了吗。</li>
+<li>记住：一劳永逸中的劳要把握好，选择值得劳的部分，花大手笔去做好他。</li>
+</ol>
+<h2 id="笔者年少时玩的一个游戏"><a href="#笔者年少时玩的一个游戏" class="headerlink" title="笔者年少时玩的一个游戏"></a>笔者年少时玩的一个游戏</h2><p>多年前笔者喜欢一个游戏：星际争霸，令我印象深刻的是这个游戏中的对象有升级的选项。</p>
+<p>比如说坦克，坦克轰炸一次，敌人去掉40滴血，后来笔者就做了一个实验，当我把它升一级的时候，发现它可以轰炸掉敌人60滴血，而且防御能力提升了30%，但是升级的代价：升级一次需要花费一些矿石和汽油，还有生产三辆坦克时间。如果笔者把这些矿石和汽油和时间用在生产坦克的话，笔者可以生产三俩坦克。我们不妨算一算：多三俩坦克划算还是以后生产的所有坦克每轰炸一次把敌人轰掉更多血划算呢？这个得看情况，如果敌人就那么几个，在不需要升级的情况下消灭到他们绰绰有余的话，那么可以不用升级；如果对手很强大，或者势均力敌，这种情况很可能打的是持久战，大规模的战争，那么升级以后一定是更划算的。</p>
+<blockquote>
+<p><strong>可是</strong>，人生是一场持久战，不是闪电战，我们升级自己比我们急于做更多的东西来得更为紧迫，如果不升级自己，经我们之手的永远就是较低端的东西，难以走向更加强大和卓越。到时候面对竞争对手，我们只能望其项背而兴叹不已。</p>
+</blockquote>
+<p>所以，笔者经常看到很多人，为了眼前的蝇头小利，而难以自拔其中，错失了做更为重要事情的宝贵时间，毕竟时间才是瓶颈。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/03/18/%E9%87%87%E7%94%A8jquery%E6%9D%A5%E8%A7%A3%E5%86%B3wordpress%E7%9A%84enfold%E4%B8%BB%E9%A2%98gallery%E7%9B%B8%E5%86%8C%E9%9B%86%E6%8F%92%E5%85%A5%E8%A7%86%E9%A2%91%EF%BC%8C%E9%BC%A0%E6%A0%87%E6%82%AC%E6%B5%AE%E5%92%8C%E7%82%B9%E5%87%BB%E4%B8%8D%E5%90%8C%E6%95%88%E6%9E%9C%E7%9A%84%E6%96%B9%E6%A1%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/03/18/%E9%87%87%E7%94%A8jquery%E6%9D%A5%E8%A7%A3%E5%86%B3wordpress%E7%9A%84enfold%E4%B8%BB%E9%A2%98gallery%E7%9B%B8%E5%86%8C%E9%9B%86%E6%8F%92%E5%85%A5%E8%A7%86%E9%A2%91%EF%BC%8C%E9%BC%A0%E6%A0%87%E6%82%AC%E6%B5%AE%E5%92%8C%E7%82%B9%E5%87%BB%E4%B8%8D%E5%90%8C%E6%95%88%E6%9E%9C%E7%9A%84%E6%96%B9%E6%A1%88/" class="post-title-link" itemprop="url">采用jquery来解决wordpress的enfold主题gallery相册集插入视频，鼠标悬浮和点击不同效果的方案</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-03-18 16:11:25" itemprop="dateCreated datePublished" datetime="2019-03-18T16:11:25+08:00">2019-03-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:07" itemprop="dateModified" datetime="2020-10-11T11:58:07+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/jquery/" itemprop="url" rel="index"><span itemprop="name">jquery</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>今天笔者分享一下，在portfolio里面尝试采用相册集的方式添加图片，但是当我们在相册集里面添加视频怎么办？</p>
+<p><img src="https://i.imgur.com/AbFdHcV.jpg"></p>
+<p>在这个里面是没法添加视频的，如果想要添加视频只能通过jquery的方式嵌入外部的h5的video的标签。</p>
+<p>笔者是这样解决的，先创建一个页面，后台如下：</p>
+<p><img src="https://i.imgur.com/csr7jat.jpg"></p>
+<p>左边是gallery，右边笔者添加了一个video标签，其中代码如下：</p>
+<pre><code>&lt;video id=&quot;myVideo&quot; src=&quot;/wp-content/uploads/2018/12/IMG_7986JC.mp4&quot; poster=&quot;/wp-content/uploads/2018/12/Rope-Innovation-Vehicle-Tracker-picture-video.png&quot; controls=&quot;controls&quot; width=&quot;100%&quot; height=&quot;150&quot; style=&quot;display:none&quot;&gt;&lt;/video&gt;</code></pre>
+<p>然后就是在网站的footer.php里面的后面，<code>&lt;/body&gt;</code>标签之前添加js代码，笔者这里引用了jquery，所以先引入这个库文件，最后总体代码如下：</p>
+<pre><code>&lt;script src=&quot;http://code.jquery.com/jquery-2.1.4.min.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+var jQuery = $.noConflict(true);
+jQuery(document).ready(function()&#123;
+
+  if (jQuery(&quot;#top&quot;).find(&quot;#myVideo&quot;).length &gt;= 1) &#123;
+
+    var mediaPoster = document.getElementById(&quot;myVideo&quot;).poster;
+    var videoSrc = document.getElementById(&quot;myVideo&quot;).src;
+    jQuery(&quot;myVideo&quot;).css(&#123;&quot;display&quot;:&quot;none&quot;&#125;);
+    if(videoSrc)&#123;
+      jQuery(&quot;.avia-gallery-thumb&quot;).append(&quot;&lt;a href=&#39;#&#39; data-rel=&#39;gallery-1&#39; data-prev-img=&quot;+mediaPoster+&quot; class=&#39;lightbox lightbox-added&#39; data-onclick=&#39;3&#39; itemprop=&#39;thumbnailUrl&#39;&gt;&lt;img src=&quot;+mediaPoster+&quot; class=&#39;avia_start_animation&#39; id=&#39;myVideo_id&#39;&gt;&lt;/a&gt;&quot;);
+    &#125;
+
+    jQuery(&quot;.avia-gallery-thumb&quot;).on(&#39;click&#39;,&#39;#myVideo_id&#39;,function(event)&#123;
+        event.preventDefault(true);
+        jQuery(&#39;.avia-gallery-big #shiping&#39;).remove();
+        jQuery(&#39;.avia-gallery-big&#39;).append(&#39;&lt;div id=&quot;shiping&quot; style=&quot;position:absolute;top:0px;z-index:99&quot;&gt;&lt;video src=&quot;&#39;+videoSrc+&#39;&quot; controls=&quot;controls&quot; width=&quot;100%&quot;&gt;&lt;/video&gt;&lt;/div&gt;&#39;);
+    &#125;);
+
+    jQuery(&quot;.avia-gallery-thumb .lightbox&quot;).hover(function()&#123;
+      jQuery(&#39;.avia-gallery-big #shiping&#39;).remove();
+    &#125;);
+
+  &#125;
+
+&#125;);
+&lt;/script&gt;</code></pre>
+<p>最后的效果就是，当鼠标悬浮到下方的缩略图的时候，显示大图到上方，这个是这个主题的gallery自带的：</p>
+<p><img src="https://i.imgur.com/kTvDDpY.jpg"></p>
+<p>这个没啥说的，接着就是当我们用鼠标悬浮到下方的那个视频标志的时候，显示的还是视频的poster属性的图片，这个是笔者通过开发者工具的方式来获取的，意思就是说确保新插入的那个视频标志的缩略图跟图片的缩略图格式一致，那么笔者就把其中一张图片的html代码弄下来，然后稍作处理：</p>
+<pre><code>&lt;a href=&#39;#&#39; data-rel=&#39;gallery-1&#39; data-prev-img=&quot;/wp-content/uploads/2018/12/picture-video.png&quot; class=&#39;lightbox lightbox-added&#39; data-onclick=&#39;3&#39; itemprop=&#39;thumbnailUrl&#39;&gt;&lt;img src=&quot;/wp-content/uploads/2018/12/picture-video.png&quot; class=&#39;avia_start_animation&#39; id=&#39;myVideo_id&#39;&gt;&lt;/a&gt;</code></pre>
+<p>结构就是这样的，所有图片都是这样的，他们是并列的，好的，解决这个之后，笔者就把图片地址用变量取代即可，这个是没毛病的。</p>
+<p>完成这个后自然就是插入到里面，然后基本就可以在原有的图片集里面追加了一张视频的封面图了。</p>
+<p>然后，我们就处理点击这张视频封面图的时候，把视频显示出来，显示的位置也是一个问题，所以控制这个点击事件的代码是：</p>
+<pre><code>jQuery(&quot;.avia-gallery-thumb&quot;).on(&#39;click&#39;,&#39;#myVideo_id&#39;,function(event)&#123;
+    event.preventDefault(true);
+    jQuery(&#39;.avia-gallery-big #shiping&#39;).remove();
+    jQuery(&#39;.avia-gallery-big&#39;).append(&#39;&lt;div id=&quot;shiping&quot; style=&quot;position:absolute;top:0px;z-index:99&quot;&gt;&lt;video src=&quot;&#39;+videoSrc+&#39;&quot; controls=&quot;controls&quot; width=&quot;100%&quot;&gt;&lt;/video&gt;&lt;/div&gt;&#39;);
+&#125;);</code></pre>
+<p>这个就是，点击这个视频，然后把原有的视频删除，然后追加新的视频进去。</p>
+<blockquote>
+<p><strong>重要提醒：</strong>当一个dom元素是动态生成的时候，那么点击这dom元素是没有反应的这个问题，那么我们怎么处理呢？方法有二：一个是live方法，而这个方法仅仅支持jquery1.8.3以下，如今笔者的jquery版本更高，所以这个方法行不通；另外一个是采用on的方法，也就是笔者上面那个代码里面的写法，值得提醒的是，选择器（<code>jQuery(&quot;.avia-gallery-thumb&quot;)</code>）必须不是动态生成的，不然仍然获取不到的，笔者在这个细节上就犯过错。</p>
+</blockquote>
+<blockquote>
+<p>还有视频的定位，笔者在动态生成的视频标签的时候，曾经尝试把视频在最上层，把代码加载custom css里面，死活飘不上来，后来索性写在动态生成的里面，也就是这一段：<code>style=&quot;position:absolute;top:0px;z-index:99&quot;</code>，生效了。</p>
+</blockquote>
+<p>解决点击打开视频的问题后，我们还遇到这样一个问题，就是当鼠标悬浮到其他图片上的时候，视频并没有消失，而是盖在上面，我们接着就解决鼠标悬浮的问题，于是笔者就写了这样一段代码：</p>
+<pre><code>jQuery(&quot;.avia-gallery-thumb .lightbox&quot;).hover(function()&#123;
+  jQuery(&#39;.avia-gallery-big #shiping&#39;).remove();
+&#125;);</code></pre>
+<p>这段代码的意思很清楚，<code>.lightbox</code>是其中一张图片的class：</p>
+<p><img src="https://i.imgur.com/xzaq7jh.jpg"></p>
+<p>这段代码就是当鼠标悬浮的时候，删除视频所在的dom，只有当点击视频封面图片的缩略图的时候，才显示视频。</p>
+<p>完整的代码已经在前面了，大家可以参考。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/03/16/jquery%E9%BC%A0%E6%A0%87%E6%BB%9A%E8%BD%AE%E6%8F%92%E4%BB%B6%E5%AE%9E%E7%8E%B0%E7%81%AF%E6%B3%A1%E5%8F%98%E4%BA%AE%E5%8F%98%E6%9A%97%E7%9A%84%E7%89%B9%E6%95%88%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/03/16/jquery%E9%BC%A0%E6%A0%87%E6%BB%9A%E8%BD%AE%E6%8F%92%E4%BB%B6%E5%AE%9E%E7%8E%B0%E7%81%AF%E6%B3%A1%E5%8F%98%E4%BA%AE%E5%8F%98%E6%9A%97%E7%9A%84%E7%89%B9%E6%95%88%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">jquery鼠标滚轮插件实现灯泡变亮变暗的特效笔记</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-03-16 11:46:04" itemprop="dateCreated datePublished" datetime="2019-03-16T11:46:04+08:00">2019-03-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:58" itemprop="dateModified" datetime="2020-10-11T11:57:58+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/jquery/" itemprop="url" rel="index"><span itemprop="name">jquery</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>笔者今天分享一个特效，这个用来实现灯泡的变量和变暗的一个特效。</p>
+<p>使用场景：鼠标向下滚动的时候，灯泡变亮，当向上滚动的时候灯泡变暗。</p>
+<p>这里笔者采用的方案：jquery和jquery-mousewheel插件。</p>
+<p>其中jquery-mousewheel的cdn地址：<a target="_blank" rel="noopener" href="https://www.bootcdn.cn/jquery-mousewheel/">https://www.bootcdn.cn/jquery-mousewheel/</a>，也可以在这里<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1V7O11nyNb0OWS2lBS12R_A">下载</a>，提取码：putu </p>
+<p>使用方法：</p>
+<pre><code>$(&#39;body&#39;).mousewheel(function(event, delta) &#123;
+    var dir = delta &gt; 0 ? &#39;Up&#39; : &#39;Down&#39;;
+    if (dir == &#39;Up&#39;) &#123;
+        console.log(&#39;向上滚动&#39;);
+        //your code here
+    &#125; else &#123;
+        console.log(&#39;向下滚动&#39;);
+        //your code here
+    &#125;
+    return false;
+
+&#125;);</code></pre>
+<p>其中<code>body</code>是选择器，大家根据自己的需求更改这个，然后把鼠标向上滚动发生的事情和向下滚动发生的事情写在按个判断语句中即可。</p>
+<p><strong>值得提醒的地方：</strong>笔者在采用这个插件的时候，发现在页面中鼠标滚动的时候，滚动条不动了(使鼠标滚轮暂时失效)，后来查了下原因如下：</p>
+<p><code>return false</code> 是绑定了鼠标滚轮事件。如果让滚动条回到正常，那么把<code>return false</code> 改成<code>return ture</code> 即可。</p>
+<p>这个方案来自网友的回答：</p>
+<blockquote>
+<p>$(document).bind(‘mousewheel’, function(event, delta) { return false; });</p>
+</blockquote>
+<blockquote>
+<p>绑定滚轮事件，然后返回false就可以。</p>
+<p>return true;可以恢复</p>
+</blockquote>
+<p>最后笔者的<strong>修改后</strong>的代码如下：</p>
+<pre><code>$(&#39;#shili_a&#39;).mousewheel(function(event, delta) &#123;
+    var dir = delta &gt; 0 ? &#39;Up&#39; : &#39;Down&#39;;
+    if (dir == &#39;Up&#39;) &#123;
+        //my custom code
+        $(this).css(&#123;&quot;filter&quot;:&quot;blur(0px)&quot;,&quot;transition&quot;:&quot;5s&quot;,&quot;background&quot;:&quot;#0097ef&quot;&#125;);
+    &#125; else &#123;
+        //my custom code
+        $(this).css(&#123;&quot;filter&quot;:&quot;blur(0px)&quot;,&quot;transition&quot;:&quot;5s&quot;,&quot;background&quot;:&quot;transparent&quot;&#125;);
+    &#125;
+    // 启用鼠标滚轮
+    return true;
+    // 禁用鼠标滚轮
+    // return false
+&#125;);</code></pre>
+<p>更多的用法可以参考官网：<a target="_blank" rel="noopener" href="https://github.com/jquery/jquery-mousewheel">https://github.com/jquery/jquery-mousewheel</a></p>
+<p>在这个里面可以了解滚动位置的当前坐标，以便做更复杂的控制。笔者把效果粘贴一下：</p>
+<p>当滚轮向上滚动的时候：</p>
+<p><img src="https://i.imgur.com/0PL5Dys.jpg"></p>
+<p>当鼠标向下滚动的时候：</p>
+<p><img src="https://i.imgur.com/cIWtq7b.jpg"></p>
+<p>为了更好的把这个插件用在实际设计中，笔者把这个用在另外一个示例中，请跟着往下看：</p>
+<p>使用场景：当鼠标向下滚动的时候，灯泡变亮：</p>
+<p><img src="https://i.imgur.com/5rZymRu.jpg"></p>
+<p>当鼠标向上滚动的时候，灯泡变暗：</p>
+<p><img src="https://i.imgur.com/KUtSgCX.jpg"></p>
+<p>那么这个又是怎么实现的呢？</p>
+<p>这里笔者需要解决两个问题：</p>
+<ol>
+<li>灯泡和光</li>
+<li>鼠标的滚动方向，根据滚动方向来控制灯泡和光的一些行为。</li>
+</ol>
+<p>先解决灯泡和光的定位的问题，笔者的代码如下：</p>
+<p>HTML代码</p>
+<pre><code>&lt;section class=&quot;block-home-hero block-padding&quot; data-component=&quot;home-hero&quot;&gt;
+    &lt;div class=&quot;background&quot;&gt;
+        &lt;div class=&quot;background-gradient&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;content-wrapper&quot;&gt;
+        &lt;div class=&quot;content-inner&quot;&gt;
+            &lt;div class=&quot;visuals&quot;&gt;
+                &lt;picture class=&quot;main-visual&quot;&gt;
+                    &lt;source media=&quot;(min-width: 1024px)&quot; srcset=&quot;https://www.gelighting.com/sites/default/files/styles/bulb_finder_desktop/public/2017-10/light_0_2_0_2_2_2_0_1_2_7_1_11_7_2_7_3_0_1_4_0_0_0_2.png?itok=C32Gp7Y0&quot;&gt;
+                    &lt;img src=&quot;https://www.gelighting.com/sites/default/files/styles/bulb_finder_/public/2017-10/light-mobile_0_1_0_2_2_2_0_1_2_7_1_11_7_2_7_3_0_1_4_0_0_0_2.png?itok=ZrcaeJ7I&quot;&gt;
+                &lt;/picture&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/section&gt;</code></pre>
+<p>css代码</p>
+<pre><code>&lt;style&gt;
+    body &#123;
+        background-color: #000;
+    &#125;
+    .block-home-hero .background .background-gradient &#123;
+        position: absolute;
+        width: 100vw;
+        height: 100vw;
+        max-width: 1500px;
+        max-height: 1500px;
+        bottom: auto;
+        top: 37%;
+        left: calc(50% + 300px);
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        background: radial-gradient(#cffdfe 10%, #55dbe1 18%, rgba(46, 107, 184, 0) 50%, rgba(46, 107, 184, 0));
+    &#125;
+    .block-home-hero &#123;
+        color: #fff;
+        position: relative;
+        z-index: 1;
+        height: auto;
+        min-height: 640px;
+        padding-top: 64px;
+        padding-bottom: 64px;
+        margin-bottom: 32px;
+    &#125;
+    .block-home-hero .background &#123;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    &#125;
+    .block-home-hero .background .background-visual &#123;
+        max-width: 600px;
+        max-height: 434px;
+        right: auto;
+        left: 68%;
+        top: 43%;
+    &#125;
+    .block-home-hero .visuals .main-visual &#123;
+        position: absolute;
+        z-index: 9999;
+        right: 140px;
+        top: -258px;
+    &#125;
+&lt;/style&gt;</code></pre>
+<p>相信这个定位的问题不是什么困难的事情。就是把灯泡和光叠加在一起，免得脱离了。</p>
+<p>其中，光的css代码：</p>
+<pre><code>background: radial-gradient(#cffdfe 10%, #55dbe1 18%, rgba(46, 107, 184, 0) 50%, rgba(46, 107, 184, 0));</code></pre>
+<p>另外，html中的有个写法值得学习：</p>
+<pre><code>&lt;picture class=&quot;main-visual&quot;&gt;
+    &lt;source media=&quot;(min-width: 1024px)&quot; srcset=&quot;https://www.gelighting.com/sites/default/files/styles/bulb_finder_desktop/public/2017-10/light_0_2_0_2_2_2_0_1_2_7_1_11_7_2_7_3_0_1_4_0_0_0_2.png?itok=C32Gp7Y0&quot;&gt;
+    &lt;img src=&quot;https://www.gelighting.com/sites/default/files/styles/bulb_finder_/public/2017-10/light-mobile_0_1_0_2_2_2_0_1_2_7_1_11_7_2_7_3_0_1_4_0_0_0_2.png?itok=ZrcaeJ7I&quot;&gt;
+&lt;/picture&gt;</code></pre>
+<p>一个是html5中的picture标签，另外一个是里面的两个写法，实现不同屏幕尺寸显示哪张图片的问题。其中，在最小屏幕尺寸为1024px的时候，显示source标签里面的，否则显示img标签里面的，这个可以多学习下。</p>
+<p>好的，解决了这个灯泡和光的定位的问题和自适应（手机版上没有鼠标滚动事件）的问题。我们来看下鼠标滚动的时候，灯泡变暗和变量的机制，笔者是通过控制透明度来实现的。</p>
+<p>js代码如下：</p>
+<pre><code>$(&#39;.block-home-hero&#39;).mousewheel(function(event, delta) &#123;
+    var dir = delta &gt; 0 ? &#39;Up&#39; : &#39;Down&#39;;
+    if (dir == &#39;Up&#39;) &#123;
+        $(&quot;.background-gradient&quot;).css(&#123;&quot;filter&quot;:&quot;blur(10px)&quot;,&quot;transition&quot;:&quot;5s&quot;,&quot;opacity&quot;:&quot;1&quot;&#125;);
+    &#125; else &#123;
+        $(&quot;.background-gradient&quot;).css(&#123;&quot;filter&quot;:&quot;blur(10px)&quot;,&quot;transition&quot;:&quot;5s&quot;,&quot;opacity&quot;:&quot;0&quot;&#125;);
+    &#125;
+    // 启用鼠标滚轮
+    return true;
+    // 禁用鼠标滚轮
+    // return false
+
+&#125;);</code></pre>
+<blockquote>
+<p>js代码要写在HTML代码的后面</p>
+</blockquote>
+<p>当然我们还可以做得更复杂，通过函数的方式实现即可。这里仅仅用作演示。</p>
+<p>记住：先引入两个文件：</p>
+<pre><code>&lt;script src=&quot;https://code.jquery.com/jquery-3.3.1.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://cdn.bootcss.com/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js&quot;&gt;&lt;/script&gt;</code></pre>
+<p>最后，效果实现。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/03/15/magento2%E4%BA%A7%E5%93%81%E5%92%8C%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF%E7%9A%84%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E7%9A%84%E9%97%AE%E9%A2%98%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/03/15/magento2%E4%BA%A7%E5%93%81%E5%92%8C%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF%E7%9A%84%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E7%9A%84%E9%97%AE%E9%A2%98%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" class="post-title-link" itemprop="url">magento2产品和用户信息的导入导出的问题以及解决方案</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-03-15 17:57:39" itemprop="dateCreated datePublished" datetime="2019-03-15T17:57:39+08:00">2019-03-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:59" itemprop="dateModified" datetime="2020-10-11T11:57:59+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/magento2/" itemprop="url" rel="index"><span itemprop="name">magento2</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>今天笔者来分享下载折腾magento2的过程中遇到的一些问题和相应的解决方案。</p>
+<h2 id="导入产品"><a href="#导入产品" class="headerlink" title="导入产品"></a>导入产品</h2><p>笔者通常在研究magento2的时候，会习惯性的新建两个一摸一样的，一个座位测试版也就是开发版，另外一个是用来生成环境的。</p>
+<p>用两个一模一样的网站的好处在于可以测试一些功能，比如产品的导入导出，用户信息的导入导出。我们来说说。</p>
+<ol>
+<li>先在开发版上新建一些东西，比如产品，创建一些用户，然后把信息填写完毕，不做任何的额外的定制，也不用添加什么自定义字段等的处理。</li>
+</ol>
+<p>然后来到magento后台的系统—导出，然后选择产品，</p>
+<p><img src="https://i.imgur.com/7nlTpiK.jpg"></p>
+<p>都保持默认，点击继续。就可以把产品信息全部导出来了。通常是一个csv格式的文件，我们可以打开进去看下这个文件中的内容。</p>
+<p>从这个文件里面，我们可以看到。</p>
+<p><img src="https://i.imgur.com/i6NifSY.jpg"></p>
+<p><img src="https://i.imgur.com/3yE1Eh4.jpg"></p>
+<p>类似这样的信息，从这个里面我们可以编辑信息，<strong>另外一个重要的信息就是产品的图片</strong>，从这个文件里面我们可以看到产品的图片的目录，所以我们在导入这个文件到目标网站之前，我们先把导出产品的这个网站的媒体文件所在的目录复制到目标网站的目录中。我们可以很轻易的知道产品图片的目录大概的位置，通过浏览器的开发者工具定位即可。事实上，magento2网站的媒体文件都是保存在<code>/pub/media</code>这个目录中。</p>
+<p>大家不是很清楚不同目录的功能，大家可以搜索一下<a target="_blank" rel="noopener" href="https://my.oschina.net/ganfanghua/blog/2395552">magento的文件结构</a>。</p>
+<p><strong>pub目录的用处</strong></p>
+<blockquote>
+<p>这里存放的是图片文件(比如产品图片)</p>
+<p>以及生成的静态缓存文件.</p>
+</blockquote>
+<p>同时，我们只需要把图片复制过去，所以我们只关心media这个目录。所以我们把media这个目录复制到目标网站的/pub/media中。linux下的命令：</p>
+<pre><code>cp -r current-website-root/pub/media goal-website-root/pub/media</code></pre>
+<p><code>current-website-root</code>为导出网站所在的目录，<code>goal-website-root</code>是目标网站所在的目录。</p>
+<p>先把目标网站的这个media文件夹删除，不然没法导入进去，同时记得添加参数<code>-r</code></p>
+<p>这样的话，我们就算是把产品的图片引用的问题搞定了。</p>
+<p>接着，我们就可以登录目标网站的后台，来到系统—导入，选择产品。</p>
+<p><img src="https://i.imgur.com/SgRwbrT.jpg"></p>
+<p>然后，点击右上角的检查数据。这个时候是对导入文件的一个检查，看下是否有不符合的地方。这个就是为什么要保持导出文件的magento网站和目标网站的要一模一样才行，包括后台的语言，字段都要一致。否则会报错！</p>
+<p>比如笔者在进行导入测试的时候发现笔者导出的那个网站是中文后台，而导入的网站是英文后台，那么就报错了，报错信息会提示，某个字段，或者某条记录有不匹配的，或者是不合理的。</p>
+<p>针对这个报错，笔者的解决方案有两个：</p>
+<ol>
+<li>把目标网站的语言跟导出的那个网站语言一致。</li>
+<li>语言不修改的情况下，只能把报错字段或者是记录的值删除。</li>
+</ol>
+<p>然后再次导入即可成功。</p>
+<p>还有就是，笔者在导入实验的时候发现报错，说是没有发现某个字段，根据这个问题笔者也有两种方法，那就是：</p>
+<ol>
+<li>把目标网站的自定义字段跟导出网站的字段保持一致即可。</li>
+<li>或者是在导出的时候，把目标网站没有的字段过滤掉，也就是不导出目标网站没有的属性，减少报错的几率。</li>
+</ol>
+<p>然后，再次导入即可成功。</p>
+<p>根据笔者的导入导出实验，总结出这么一个道理：</p>
+<blockquote>
+<p>跟wordpress的导入导出不同，magento2的产品导入导出是一个谨慎细心，事先做好准备工作的活儿。我们先对导出的网站和目标网站进行观察，了解清楚双方的相同点和不同点，然后实施的原则就是：先导入少量的记录，试试水，确保没有问题的时候，再继续导入，当然最好对数据库和源码备份是最靠谱的了。</p>
+</blockquote>
+<blockquote>
+<p>根据这个导入导出，我们还发现，如果加快产品的创建和上传，事实上我们完全可以导出一个产品，然后在csv文件里面新建产品，然后把信息在exel里面填写好，然后一次性导入进去，免得直接操作后台进行创建产品，当然这个是针对不太喜欢操作后台的用户而言的。</p>
+</blockquote>
+<p>本文持续更新，敬请关注。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/03/15/mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E6%89%B9%E9%87%8F%E5%88%A0%E9%99%A4%E8%A1%A8%E5%92%8C%E5%85%B6%E4%BB%96%E6%93%8D%E4%BD%9C%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/03/15/mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E6%89%B9%E9%87%8F%E5%88%A0%E9%99%A4%E8%A1%A8%E5%92%8C%E5%85%B6%E4%BB%96%E6%93%8D%E4%BD%9C%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" class="post-title-link" itemprop="url">mysql数据库批量删除表和其他操作的一些常用命令(导入导出，数据清洗等等)</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-03-15 14:55:30" itemprop="dateCreated datePublished" datetime="2019-03-15T14:55:30+08:00">2019-03-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:02" itemprop="dateModified" datetime="2020-10-11T11:58:02+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="mysql删掉某一个库下的所有表"><a href="#mysql删掉某一个库下的所有表" class="headerlink" title="mysql删掉某一个库下的所有表"></a>mysql删掉某一个库下的所有表</h2><p><strong>第一步：</strong></p>
+<pre><code>select concat(&#39;drop table &#39;,table_name,&#39;;&#39;) from information_schema.TABLES where table_schema=&#39;databasename&#39;;</code></pre>
+<p>其中<code>databasename</code>是要删除表所在数据库名。</p>
+<p>这一步完成后，就会罗列出这个数据库里面的所有删除数据库表的命令，类似：</p>
+<pre><code>...
+drop table eav_entity_type;
+drop table quote;
+drop table rating;
+drop table rating_entity;
+...</code></pre>
+<p><strong>第二步：</strong></p>
+<p>把第一步的执行结果导出，然后全部执行。</p>
+<hr>
+<h2 id="mysql-导入导出数据库命令"><a href="#mysql-导入导出数据库命令" class="headerlink" title="mysql 导入导出数据库命令"></a>mysql 导入导出数据库命令</h2><p>参考链接：<a target="_blank" rel="noopener" href="http://www.habotalk.com/server/1627.html">http://www.habotalk.com/server/1627.html</a></p>
+<p><strong>数据库的导入</strong></p>
+<p>比如我们想要把本地电脑的数据库文件(.sql)导入到远程的数据库中，那么我们用ssh先登录服务器，然后运行命令：</p>
+<pre><code>rz</code></pre>
+<p>然后选择要上传的sql文件。</p>
+<p>当然，linux中如果没有安装的话，可以安装一下：</p>
+<pre><code>yum install lrzsz</code></pre>
+<p>这个包是用来解决文件的上传和下载的。大家可以网上了解下这个包在不同的distribution中的安装方法和使用方法。</p>
+<p>好的，如果我们上传外部的sql文件成功了的话，那么我们就登录一下mysql:</p>
+<pre><code>mysql -u username -p</code></pre>
+<p>然后输入数据库密码，完成登录，然后找到要导入数据的数据库。运行命令：</p>
+<pre><code>source ./testdate.sql</code></pre>
+<p>即可完成导入。</p>
+<p><strong>数据导出</strong></p>
+<p>先查看下自己要导出的数据库是否存在，我这里以magento为例，这里有magento，接着在这个目录下运行命令，格式如下：</p>
+<pre><code>mysqldump -u 用户名 -p 数据库名 &gt; 导出的文件名</code></pre>
+<p>这里我运行的命令如下：</p>
+<pre><code>mysqldump -u root -p magento &gt; magento.sql</code></pre>
+<p>完成后，这个时候运行命令：</p>
+<p>ls</p>
+<p>就可以看到在当前目录下多了一个magento.sql</p>
+<p>然后，我们可以通过linux的命令，把这个sql文件下载到电脑本地，运行命令如下</p>
+<pre><code>sz magento.sql</code></pre>
+<hr>
+<p>本文会持续更新，敬请关注。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/03/11/enfold%E4%B8%BB%E9%A2%98%E7%9A%84%E5%A4%8D%E7%94%A8%E7%89%B9%E6%95%88%E5%A4%A7%E5%85%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/03/11/enfold%E4%B8%BB%E9%A2%98%E7%9A%84%E5%A4%8D%E7%94%A8%E7%89%B9%E6%95%88%E5%A4%A7%E5%85%A8/" class="post-title-link" itemprop="url">enfold主题的复用特效大全</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-03-11 16:23:37" itemprop="dateCreated datePublished" datetime="2019-03-11T16:23:37+08:00">2019-03-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:57" itemprop="dateModified" datetime="2020-10-11T11:57:57+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/wordpress/" itemprop="url" rel="index"><span itemprop="name">wordpress</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>1，鼠标悬浮，出现文字和按钮，鼠标在不悬浮的时候有一行文字始终在底部显示，参考效果：</p>
+<p><img src="https://i.imgur.com/lHJRuNV.png"></p>
+<p>这个我们用enfold主题怎么实现？其实很简单，笔者为了避免重复造轮子，一劳永逸，就写了一个案例：</p>
+<p>后台如下：</p>
+<p>为区块设置一个ID：nocti_home_first</p>
+<p><img src="https://i.imgur.com/SSVnC6t.png"></p>
+<p>添加图片，然后设置caption开启。</p>
+<p><img src="https://i.imgur.com/hJvYJyT.png"></p>
+<p><img src="https://i.imgur.com/UWB892J.png"></p>
+<p>然后添加代码：</p>
+<pre><code>&lt;div class=&quot;maxs&quot;&gt;
+&lt;h2&gt;GM2 WINNER&lt;/h2&gt;
+&lt;div class=&quot;detaills&quot;&gt;
+&lt;p class=&quot;extper&quot;&gt;Gaming phone holder for mobile phones 65-80mm no need to install any software&lt;/p&gt;
+&lt;p class=&quot;mete_infos&quot;&gt;&lt;span class=&quot;botomg&quot;&gt;&lt;a href=&quot;#&quot;&gt;Discover more&lt;/a&gt;&lt;/span&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<p>完毕后写css代码，所有代码如下：</p>
+<pre><code>#nocti_home_first .avia-image-container.avia-align-center .avia-image-container-inner &#123;
+    position: relative !important;
+    overflow:hidden;
+&#125;
+#nocti_home_first .avia-image-container-inner .maxs h2&#123;
+    position: absolute !important;
+    width: 100%;
+    bottom: -10px;
+    background: rgba(236, 101, 26, 0.5);
+    left: 0px;
+    padding: 8px;
+    color: #fff;
+    text-align: left;
+&#125;
+.mete_infos&#123;
+    overflow:hidden;
+&#125;
+.extper&#123;
+    font-size:16px;
+    transform: translateX(-120%);
+    transition:0.5s ease;
+&#125;
+.botomg&#123;
+    font-size:16px;
+    transform: translateY(-120%);
+    transition:0.5s ease;
+    display: inline-block;
+&#125;
+.botomg a&#123;
+    border: 1px solid #fff;
+    border-radius: 3px;
+    padding: 4px 10px;
+    color: #fff;
+    font-size: 14px;
+    text-decoration: none;
+&#125;
+.botomg a:hover&#123;
+    background:#fff !important;
+&#125;
+#nocti_home_first .avia-image-container-inner:hover .detaills&#123;
+     display:block !important;
+     padding: 10px 15px;
+&#125;
+#nocti_home_first .avia-image-container-inner:hover .extper&#123;
+    transform: translateX(0%);
+&#125;
+#nocti_home_first .avia-image-container-inner:hover .botomg&#123;
+    transform: translateY(0%);
+&#125;
+#nocti_home_first .av-overlay-hover-deactivate:hover .av-caption-image-overlay-bg &#123;
+    opacity: 0.5 !important;
+&#125;
+
+@media (max-width:1600px) and (min-width:1321px)&#123;
+  #nocti_home_first .avia-image-container-inner .maxs h2 &#123;
+     font-size: 22px !important;
+  &#125;
+&#125;
+
+@media (max-width:1320px) and (min-width:920px)&#123;
+ .extper&#123;
+    font-size:14px;
+    line-height:1.5em !important;
+ &#125;
+ #nocti_home_first .avia-image-container-inner:hover .detaills &#123;
+    padding: 0px !important;
+    font-size: 12px  !important;
+ &#125;
+ #nocti_home_first .avia-image-container-inner .maxs h2 &#123;
+    font-size: 18px !important;
+ &#125;
+&#125;</code></pre>
+<p>最后的效果：</p>
+<p><img src="https://i.imgur.com/ciziZdj.png"></p>
+<hr>
+<p>本文会持续更新，敬请关注。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/03/05/%E9%9D%A2%E5%AF%B9%E6%96%B0%E7%9F%A5%E8%AF%86%E5%88%87%E8%8E%AB%E6%8E%A9%E8%80%B3%E7%9B%97%E9%93%83%EF%BC%8C%E5%A4%A7%E8%83%86%E6%8B%A5%E6%8A%B1%EF%BC%8C%E6%8C%81%E7%BB%AD%E6%8E%A2%E7%B4%A2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/03/05/%E9%9D%A2%E5%AF%B9%E6%96%B0%E7%9F%A5%E8%AF%86%E5%88%87%E8%8E%AB%E6%8E%A9%E8%80%B3%E7%9B%97%E9%93%83%EF%BC%8C%E5%A4%A7%E8%83%86%E6%8B%A5%E6%8A%B1%EF%BC%8C%E6%8C%81%E7%BB%AD%E6%8E%A2%E7%B4%A2/" class="post-title-link" itemprop="url">面对新知识切莫掩耳盗铃，大胆拥抱，持续探索</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-03-05 18:24:34" itemprop="dateCreated datePublished" datetime="2019-03-05T18:24:34+08:00">2019-03-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:07" itemprop="dateModified" datetime="2020-10-11T11:58:07+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%BF%83%E5%BE%97/" itemprop="url" rel="index"><span itemprop="name">心得</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <blockquote>
+<p>对新知识的追求和探索，是一件令人兴奋的事。</p>
+</blockquote>
+<p>就像当年对javascript的不了解，因而对javascript的好奇和怀疑，当别人告诉我说它有多么多么好的，多么强大的时候，我不屑一顾，在我心里就是觉得它就是一个很难用，令人费解的东西。</p>
+<p>当我开始慢慢习惯javascript的时候，我享受到这个东西的便利和强大，开始去了解它，想要知道更多关于它的东西，希望他们变得更方便，更好用，开始期待他们的变化，而不是排斥。就像当年使用bootstrap那样，了解了一半就感觉很好了，希望只停留在一半的理解程度，因为我觉得这一半的理解已经解决了很多的问题，可是为啥不挖得更深呢？了解更多的东西，追求更好的方案是一个好事情，现在我也开始慢慢的拥抱他们的新版本，去了解有哪些特性。</p>
+<p>js很难，对它的兴趣我一点都没减，为什么呢？就是因为我已经正在使用它了，它给我带来了很大的积极的作用。我希望了解更多的东西，以带来更大的积极的作用。</p>
+<p>因此，笔者今天开始了解vue，这个东西我也尝试了了解过几次，都是挖得很浅，没法深挖，一方面可能是基础的问题，另一方面是对这个东西没有了解，这个东西没有给我带来正面积极的作用，所以没有太大的兴趣去做这件事情。</p>
+<p>现在，我想说的是，必须离开这个误区，如果当年我开始创造一个javascript对我的正面积极的作用的话，我也刻意的用它来解决我工作中遇到的问题，那么会不会更早的了解它，更好的运用它？这是当然的！</p>
+<p>大胆的去尝试，大胆的拥抱新的东西，而且深入了解，就像对bootstrap的了解不能只停留在它只是一个栅格化的框架一样。</p>
+<p><strong>成熟的男人用成熟的方式来了解一个新的东西的成熟路线：</strong>先初步了解，分析它的结构（能够跟自己讲明白这个东西是干什么的，哪些东西放哪里，怎么用的，这样用为什么好，为什么这么受欢迎），然后用一个小项目来练手，接着尽量在工作运用它来解决实际问题，最后深入了解它。</p>
+<p>本文持续更新，敬请期待。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/02/16/%E5%A6%82%E4%BD%95%E7%BF%BB%E8%AF%91-%E6%B1%89%E5%8C%96-wordpress%E4%B8%BB%E9%A2%98%E5%92%8C%E6%8F%92%E4%BB%B6%EF%BC%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/02/16/%E5%A6%82%E4%BD%95%E7%BF%BB%E8%AF%91-%E6%B1%89%E5%8C%96-wordpress%E4%B8%BB%E9%A2%98%E5%92%8C%E6%8F%92%E4%BB%B6%EF%BC%9F/" class="post-title-link" itemprop="url">如何翻译(汉化)wordpress主题和插件？</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-02-16 18:04:09" itemprop="dateCreated datePublished" datetime="2019-02-16T18:04:09+08:00">2019-02-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:05" itemprop="dateModified" datetime="2020-10-11T11:58:05+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/wordpress/" itemprop="url" rel="index"><span itemprop="name">wordpress</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>wordpress是一个非常完善的开源项目，无数拓展和优秀的主题。但是很多优秀的wordpress主题和wordpress插件大多都源于国外，也就是说都是英文，并不适合国人使用。尤其是英语水平一般的普通用户，我们就需要翻译（汉化）和调整它的显示语言，使之更适合国人。这个把英文翻译成中文的过程，我们称之为汉化。例如：The7汉化版，是国外模板，经汉化和修改后才更适合我们投入到响应式网站建设中。wordpress主题和插件汉化都是异曲同工的道理。</p>
+<p>有几种方法这边说下：一种是用软件汉化；另一种是用插件汉化；最后一种是直接修改源码翻译。但不论是哪种，自己亲自动手填写翻译文本，插件汉化是安装插件，扫描出要翻译的文本，最后在wordpress后台直接翻译，生成.mo和.po文件。几种常见的汉化方法操作教程如下。</p>
+<p>方法一、使用Poedit软件生成语言包进行汉化</p>
+<p>关于Poedit软件（绿色破解版下载地址）：<a target="_blank" rel="noopener" href="http://pan.baidu.com/s/1qYipLW4">http://pan.baidu.com/s/1qYipLW4</a> ，来源于网络。开发者可直接download。切记这个是要破解版的，不是破解版的没法翻译主题和插件，只能翻译已有的po文件包。</p>
+<p>首选我们打开，看到界面如下：</p>
+<p><img src="https://i.imgur.com/13Zr0OY.jpg"></p>
+<p>我们可以看到第三项功能，翻译wordpress的主题或插件，点击它。然后把要翻译的主题或者插件的文件夹拖放到：</p>
+<p><img src="https://i.imgur.com/ab9nUZ8.jpg"></p>
+<p>然后选择中文，</p>
+<p><img src="https://i.imgur.com/ShVtuNy.jpg"></p>
+<p>我们开始翻译主题或者插件。记住是选中主题或者插件的目录。软件自动扫描。下面我们以汉化enfold版本为例:</p>
+<p><img src="https://i.imgur.com/Ha1BElw.jpg"></p>
+<p>此时我们看到等待汉化的词条已经扫码出来了：</p>
+<p><img src="https://i.imgur.com/HlxORyY.jpg"></p>
+<p>选中词条开始翻译，然后保存，保存完毕后来到文件那里，选择里面的编译为mo，直接保存到默认的目录下，跟po这个文件在同一个目录即可，完成后，可以在后台刷新，可以看到变化。</p>
+<p><strong>插件的汉化跟上面的方法一样的</strong>。</p>
+<p>这个翻译是笔者为了让客户更加方便的操作和理解wordpress的后台，我们的客户可能有些是外贸企业，他们的前台语言是英文的，同时又让客户用中文操作后台，那么最简单的方法就是：在wordpress的后台设置—常规—站点语言，在这里先切换成中文，保存一下，然后马上切换成英文，保存。接着来到右上角那里的编辑用户的个人资料，进入用户后台的个人资料那里。就会出现语言的切换栏了。</p>
+<p><img src="https://i.imgur.com/Ccq5YfQ.jpg"></p>
+<p>然后在这里选择中文，那么当前用户的后台就会变成中文的了，前台依然是英文。前台的语言是通过设置—常规—站点语言，那里设置的。而网站后台管理员的界面语言是在个人资料那里设置的。相互不影响。</p>
+<p>既然wordpress的后台都有了语言切换的了，那为啥还要翻译主题和插件呢？道理很简单，因为有些主题和插件的字符是wordpress自带的翻译包没法翻译的，就出现一些是中文一些是英文的情况，显得非常的乱。这就是为什么我们针对主题和插件进行另外的翻译的原因。看了这篇文章，相信你已经解决了主题和插件的翻译的问题了，而且已经解决了不同后台管理员采用自己的语言的问题了。接下来我分享下第二种方法和第三种方法。</p>
+<hr>
+<p><strong>方法二、使用Codestyling Localization（非常非常好用）</strong></p>
+<p>Codestyling Localization：<a target="_blank" rel="noopener" href="http://www.code-styling.de/english/development/wordpress-plugin-codestyling-localization-en">http://www.code-styling.de/english/development/wordpress-plugin-codestyling-localization-en</a><br>我们在后台找到这个插件</p>
+<p><img src="https://i.imgur.com/21eTk6E.png"></p>
+<p>我们点开之后，看到插件，添加语言即可</p>
+<p><img src="https://i.imgur.com/VSQUcUh.png"></p>
+<p>扫码即可</p>
+<p><img src="https://i.imgur.com/PYfEH3T.png"></p>
+<p>同理，一样一条一条的翻译即可。</p>
+<p><strong>方法三、使用WPML汉化主题和插件</strong></p>
+<p>相信用过wordpress的人，对这个大名鼎鼎的插件并不陌生，这个是收费插件，非常值得购买。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/02/15/bootstrap-table%E7%9A%84%E5%A4%9A%E7%A7%8D%E7%94%A8%E6%B3%95%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3js%E6%89%A7%E8%A1%8C%E5%AE%8C%E4%B8%80%E4%B8%AA%E5%87%BD%E6%95%B0%E4%B9%8B%E5%90%8E%E5%86%8D%E6%89%A7%E8%A1%8C%E5%8F%A6%E5%A4%96%E4%B8%80%E4%B8%AA%E5%87%BD%E6%95%B0%E7%9A%84%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/02/15/bootstrap-table%E7%9A%84%E5%A4%9A%E7%A7%8D%E7%94%A8%E6%B3%95%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3js%E6%89%A7%E8%A1%8C%E5%AE%8C%E4%B8%80%E4%B8%AA%E5%87%BD%E6%95%B0%E4%B9%8B%E5%90%8E%E5%86%8D%E6%89%A7%E8%A1%8C%E5%8F%A6%E5%A4%96%E4%B8%80%E4%B8%AA%E5%87%BD%E6%95%B0%E7%9A%84%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">bootstrap table的多种用法以及解决js执行完一个函数之后再执行另外一个函数的问题</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-02-15 19:38:12" itemprop="dateCreated datePublished" datetime="2019-02-15T19:38:12+08:00">2019-02-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:57" itemprop="dateModified" datetime="2020-10-11T11:57:57+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript/" itemprop="url" rel="index"><span itemprop="name">javascript</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>笔者在项目中运用bootstrap table的时候，发现这个是一个很有用，而且使用特别方便的一个东西，现在把自己的使用心得记录下来。</p>
+<p>这个bootstrap插件的官网如下：<a target="_blank" rel="noopener" href="https://bootstrap-table.com/">https://bootstrap-table.com/</a>，在官网也找了很久的教程，源码感觉隐藏的比较隐秘，其他扩展功能也很难找到，其实都在：<a target="_blank" rel="noopener" href="http://issues.wenzhixin.net.cn/bootstrap-table/index.html">http://issues.wenzhixin.net.cn/bootstrap-table/index.html</a>这里面，点击上面的tab可以找到具体的功能实现（特别是extension和issues，之前以为issues不是教程，结果点进去才知道）</p>
+<p>大家可以去官网下载这个，也可以从这里下载：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1rUJgRJlrR2xuXwj6ekL3pA">https://pan.baidu.com/s/1rUJgRJlrR2xuXwj6ekL3pA</a> 提取码：16c2 </p>
+<h4 id="bootstrap-table-最简单的用法"><a href="#bootstrap-table-最简单的用法" class="headerlink" title="bootstrap table 最简单的用法"></a>bootstrap table 最简单的用法</h4><p>第一步：新建一个html页面。</p>
+<p>html代码：</p>
+<pre><code>&lt;table data-toggle=&quot;table&quot; data-url=&quot;json.data&quot; data-height=&quot;550&quot; data-sort-name=&quot;paiwei&quot; data-sort-order=&quot;desc&quot; data-pagination=&quot;true&quot;&gt;
+  &lt;thead&gt;
+      &lt;tr&gt;
+          &lt;th data-field=&quot;paiwei&quot; data-align=&quot;left&quot;&gt;排位&lt;/th&gt;
+          &lt;th data-field=&quot;nianfen&quot; data-align=&quot;left&quot;&gt;年份&lt;/th&gt;
+          &lt;th data-field=&quot;pici&quot; data-align=&quot;left&quot;&gt;批次&lt;/th&gt;
+          &lt;th data-field=&quot;kelei&quot; data-align=&quot;left&quot;&gt;科目类别&lt;/th&gt;
+          &lt;th data-field=&quot;yuanxiaomingchen&quot; data-sortable=&quot;true&quot; data-align=&quot;left&quot;&gt;学校名称&lt;/th&gt;
+      &lt;/tr&gt;
+  &lt;/thead&gt;
+&lt;/table&gt;</code></pre>
+<p>api的数据json.data数据格式如下：</p>
+<pre><code>[
+&#123;
+    &quot;paiwei&quot;: 5441,
+    &quot;nianfen&quot;: 2018,
+    &quot;pici&quot;: &quot;提前本科非军检&quot;,
+    &quot;yuanxiaomingchen&quot;: &quot;北京大学医学部&quot;,
+    &quot;kelei&quot;: &quot;理科&quot;
+&#125;,
+&#123;
+    &quot;paiwei&quot;: 6029,
+    &quot;nianfen&quot;: 2018,
+    &quot;pici&quot;: &quot;本科&quot;,
+    &quot;yuanxiaomingchen&quot;: &quot;东南大学&quot;,
+    &quot;kelei&quot;: &quot;理科&quot;
+&#125;,
+&#123;
+    &quot;paiwei&quot;: 6106,
+    &quot;nianfen&quot;: 2018,
+    &quot;pici&quot;: &quot;本科&quot;,
+    &quot;yuanxiaomingchen&quot;: &quot;中国政法大学&quot;,
+    &quot;kelei&quot;: &quot;理科&quot;
+&#125;,
+&#123;
+    &quot;paiwei&quot;: 6463,
+    &quot;nianfen&quot;: 2018,
+    &quot;pici&quot;: &quot;本科&quot;,
+    &quot;yuanxiaomingchen&quot;: &quot;中国社会科学院大学&quot;,
+    &quot;kelei&quot;: &quot;理科&quot;
+&#125;,
+&#123;
+    &quot;paiwei&quot;: 6878,
+    &quot;nianfen&quot;: 2018,
+    &quot;pici&quot;: &quot;本科&quot;,
+    &quot;yuanxiaomingchen&quot;: &quot;中山大学&quot;,
+    &quot;kelei&quot;: &quot;理科&quot;
+&#125;,
+&#123;
+    &quot;paiwei&quot;: 6897,
+    &quot;nianfen&quot;: 2018,
+    &quot;pici&quot;: &quot;本科&quot;,
+    &quot;yuanxiaomingchen&quot;: &quot;北京理工大学&quot;,
+    &quot;kelei&quot;: &quot;理科&quot;
+&#125;,
+&#123;
+    &quot;paiwei&quot;: 7565,
+    &quot;nianfen&quot;: 2018,
+    &quot;pici&quot;: &quot;本科&quot;,
+    &quot;yuanxiaomingchen&quot;: &quot;哈尔滨工业大学&quot;,
+    &quot;kelei&quot;: &quot;理科&quot;
+&#125;,
+&#123;
+    &quot;paiwei&quot;: 7614,
+    &quot;nianfen&quot;: 2018,
+    &quot;pici&quot;: &quot;本科&quot;,
+    &quot;yuanxiaomingchen&quot;: &quot;厦门大学&quot;,
+    &quot;kelei&quot;: &quot;理科&quot;
+&#125;,
+&#123;
+    &quot;paiwei&quot;: 7966,
+    &quot;nianfen&quot;: 2018,
+    &quot;pici&quot;: &quot;本科&quot;,
+    &quot;yuanxiaomingchen&quot;: &quot;北京邮电大学&quot;,
+    &quot;kelei&quot;: &quot;理科&quot;
+&#125;,
+&#123;
+    &quot;paiwei&quot;: 9394,
+    &quot;nianfen&quot;: 2018,
+    &quot;pici&quot;: &quot;本科&quot;,
+    &quot;yuanxiaomingchen&quot;: &quot;四川大学&quot;,
+    &quot;kelei&quot;: &quot;理科&quot;
+&#125;]</code></pre>
+<p><strong>当然，这个data-url的值可以是一个json文件，也可以是一个api地址，只要这个api地址返回的数据符合格式即可</strong>。然后就是加载bootstrap table的必要依赖文件，在页面头部引入如下文件：</p>
+<pre><code>&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;css/bootstrap.min.css&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;css/bootstrap-table.min.css&quot;&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;js/jquery-3.2.1.min.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;js/bootstrap.min.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;js/bootstrap-table.min.js&quot;&gt;&lt;/script&gt;</code></pre>
+<p>由于这个是依赖bootstrap的，所以bootstrap需要被引入，然后就完事了。效果如下：</p>
+<p><img src="https://i.imgur.com/r7rNTUm.jpg"></p>
+<p>通常表格的那些自带的文字是英文的，如果想要显示成中文，那么安装一个中文字符包，这个字符包要在页面的底部引入，放在最后面：</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot; src=&quot;js/bootstrap-table-zh-CN.js&quot;&gt;&lt;/script&gt;
+&lt;/body&gt;</code></pre>
+<p>这字符包也是跟这个插件库在一起的，自己可以从下载的压缩包里面找到，然后引用即可。这个就是最简单的使用方法了。</p>
+<h4 id="bootstrap-table-高度灵活定制的用法"><a href="#bootstrap-table-高度灵活定制的用法" class="headerlink" title="bootstrap table 高度灵活定制的用法"></a>bootstrap table 高度灵活定制的用法</h4><p>虽然前面的那个方法已经能够满足笔者很多时候的需求了，可是有的时候需求可能是不能用这种方法满足，那么我们就要采用灵活定制的方式了。</p>
+<p>我们先来看下笔者的一个需求场景，笔者的需求是这个api地址是动态变化的，不同用户的不同时期的数据会不一样，而且这个api后面有一些参数跟着，而这些参数是来自另外一个函数的运行结果的，根据其他函数运行结果作为参数来进行查询。</p>
+<p>好的，我们先来拆分这个问题：</p>
+<ol>
+<li>如何解决bootstrap table中的url有多个参数情况，而这个参数是个变量，不是写死的。</li>
+<li>如何确保这个bootstrap table的表格数据的获取是在另外一个函数运行之后才运行。</li>
+</ol>
+<p><strong>解决方案：</strong></p>
+<p>首先，我们的html代码如下：</p>
+<pre><code>&lt;table id=&quot;table&quot;&gt;
+
+&lt;/table&gt;</code></pre>
+<p>js代码(参考的js，先看下格式)：</p>
+<pre><code>$(&#39;#table&#39;).bootstrapTable(&#123;
+    url:&quot;/wadmin/permission/doRuleList&quot;,//请求数据url
+    queryParams: function (params) &#123;
+        return &#123;
+            offset: params.offset,  //页码
+            limit: params.limit,   //页面大小
+            search : params.search, //搜索
+            order : params.order, //排序
+            ordername : params.sort, //排序
+        &#125;;
+    &#125;,
+    showHeader : true,
+    showColumns : true,
+    showRefresh : true,
+    pagination: true,//分页
+    sidePagination : &#39;server&#39;,//服务器端分页
+    pageNumber : 1,
+    pageList: [5, 10, 20, 50],//分页步进值
+    search: true,//显示搜索框
+    //表格的列
+    columns: [
+        &#123;
+            field: &#39;id&#39;,//域值
+            title: &#39;规则ID&#39;,//标题
+            visible: true,//false表示不显示
+            sortable: true,//启用排序
+            width : &#39;5%&#39;,
+        &#125;,
+        &#123;
+            field: &#39;name&#39;,//域值
+            title: &#39;唯一英文标识&#39;,//标题
+            visible: true,//false表示不显示
+            sortable: true,//启用排序
+            width : &#39;30%&#39;,
+            editable:true,
+        &#125;,
+        &#123;
+            field: &#39;title&#39;,//域值
+            title: &#39;中文描述&#39;,//内容
+            visible: true,//false表示不显示
+            sortable: true,//启用排序
+            width : &#39;35%&#39;,
+            editable:true,
+        &#125;,
+        &#123;
+            field: &#39;status&#39;,//域值
+            title: &#39;状态&#39;,//内容
+            visible: true,//false表示不显示
+            sortable: true,//启用排序
+            width : &#39;20%&#39;,
+            formatter : function (value, row, index) &#123;
+                if (row[&#39;status&#39;] === 1) &#123;
+                    return &#39;正常&#39;;
+                &#125;
+                if (row[&#39;status&#39;] === 0) &#123;
+                    return &#39;禁用&#39;;
+                &#125;
+                return value;
+            &#125;
+        &#125;
+    ]
+&#125;);</code></pre>
+<p>说明：这个js代码由很多参数组成，当然大家也可以删减一些不需要的，其中显示表格头部的地方是<code>columns:</code>这个地方。其实跟前面的那种方法是很有关联的，这个只是把它写成了这种形式而已。这里我们就可以对某一列进行一些配置，比如列宽，是否可见，是否可以编辑等。而前面的那些参数也是很有用的，比如是否有搜索的，是否可以刷新等。当然你可能会觉得奇怪，如何才能知道得更多呢？那就去官网：<a target="_blank" rel="noopener" href="https://bootstrap-table.com/docs/api/table-options/">https://bootstrap-table.com/docs/api/table-options/</a>，这个里面说得很清楚，如果还是不是很明白，那么可以去这个js库文件里面读源码，你会知道这些参数是怎么用的。</p>
+<p>说白了，我们现在写的这个js就是对bootstrap-table.js这个文件的默认配置进行的一个重写。笔者截取里面的一个片段你就会明白了：</p>
+<pre><code>const DEFAULTS = &#123;
+    height: undefined,
+    classes: &#39;table table-bordered table-hover&#39;,
+    theadClasses: &#39;&#39;,
+    rowStyle (row, index) &#123;
+      return &#123;&#125;
+    &#125;,
+    rowAttributes (row, index) &#123;
+      return &#123;&#125;
+    &#125;,
+    undefinedText: &#39;-&#39;,
+    locale: undefined,
+    sortable: true,
+    sortClass: undefined,
+    silentSort: true,
+    sortName: undefined,
+    sortOrder: &#39;asc&#39;,
+    sortStable: false,
+    rememberOrder: false,
+    customSort: undefined,
+    columns: [
+      []
+    ],
+    data: [],
+    url: undefined,
+    method: &#39;get&#39;,
+    cache: true,
+    contentType: &#39;application/json&#39;,
+    dataType: &#39;json&#39;,
+    ajax: undefined,
+    ajaxOptions: &#123;&#125;,
+    queryParams (params) &#123;
+      return params
+    &#125;,
+    queryParamsType: &#39;limit&#39;, // &#39;limit&#39;, undefined
+    responseHandler (res) &#123;
+      return res
+    &#125;,
+    totalField: &#39;total&#39;,
+    dataField: &#39;rows&#39;,
+    pagination: false,
+    onlyInfoPagination: false,
+    paginationLoop: true,
+    sidePagination: &#39;client&#39;, // client or server
+    totalRows: 0,
+    pageNumber: 1,
+    pageSize: 10,
+    pageList: [10, 25, 50, 100],
+    ...</code></pre>
+<p>这些不就是我们上面那个js里面的某些配置吗。</p>
+<p>好的，说了html的部分，笔者放一下自己的js代码：</p>
+<pre><code>$(&#39;#table&#39;).bootstrapTable(&#123;
+    url:&quot;/user/personal/school&quot;,//请求数据url
+    showHeader : true,
+    showColumns : true,
+    showRefresh : true,
+    pagination: true,//分页
+    pageNumber : 1,
+    sortOrder: &#39;asc&#39;, //升序排序
+    pageList: [5, 10, 20, 50],//分页步进值
+    search: true,//显示搜索框
+    //表格的列
+    columns: [
+        &#123;
+            field: &#39;yxmc&#39;,//域值
+            title: &#39;名称&#39;,//标题
+            visible: true,//false表示不显示
+            sortable: false,//启用排序
+        &#125;,
+        &#123;
+            field: &#39;pw&#39;,//域值
+            title: &#39;排位&#39;,//标题
+            visible: true,//false表示不显示
+            sortable: true,//启用排序
+        &#125;,
+        &#123;
+            field: &#39;nf&#39;,//域值
+            title: &#39;年份&#39;,//内容
+            visible: true,//false表示不显示
+            sortable: false,//启用排序
+        &#125;,
+        &#123;
+            field: &#39;pc&#39;,//域值
+            title: &#39;批次&#39;,//内容
+            visible: true,//false表示不显示
+            sortable: false,//启用排序
+        &#125;
+    ]
+&#125;); </code></pre>
+<p>笔者根据自己的需要就是这样配置的。好的，拆分的第一个已经搞定，那么第二个怎么搞定。比如笔者的请求地址是：</p>
+<pre><code>/user/personal/school?weishu=5399</code></pre>
+<p>而这个里面的参数weishu是一个经常变动的，因此不可能写成静态的。这个时候我们需要一个参数，而刚才我们看到了，这个是可以配置查询字符串的，另外就是这个参数的值是由另外一个函数执行完毕后的结果，我们先看下这个另外的那个函数：</p>
+<pre><code>function yugupw() &#123;
+
+    htmlobj = $.ajax(&#123;
+        url: &quot;/user/personal/yugu&quot;,
+        type: &quot;get&quot;,
+        dataType: &quot;json&quot;,
+        contentType: &quot;application/json&quot;,
+        success: function (res) &#123;
+            if (typeof res === &#39;string&#39;) &#123;
+                res = JSON.parse(res);
+            &#125;
+            if (res.status == 1) &#123;
+                var yugupaiweis = res.yugupaiw;
+                var yyt = yugupaiweis[0].pw_min;
+                $(&quot;#zhepwei&quot;).append(yyt);
+                keshang_goal_school(yyt);
+            &#125;
+        &#125;,
+        error: function (xhr, err, exception) &#123;
+            console.log(err);
+        &#125;
+    &#125;);
+&#125;</code></pre>
+<p>我们看到了这个函数<code>yugupw()</code>里面执行完毕后，有个变量<code>yyt</code>，而这个变量的值刚好是笔者需要的，那么笔者调用这个变量不就可以了吗，没错！就是这样的，那么我们就把js代码改造成如下：</p>
+<pre><code>function goal_school(data)&#123;
+
+    $(&#39;#table&#39;).bootstrapTable(&#123;
+        url:&quot;/user/personal/school&quot;,//请求数据url
+        queryParams: function (params) &#123;
+            return &#123;
+                ygpaiwei: data, 
+            &#125;;
+        &#125;,
+        showHeader : true,
+        showColumns : true,
+        showRefresh : true,
+        pagination: true,//分页
+        pageNumber : 1,
+        sortOrder: &#39;asc&#39;, //升序排序
+        pageList: [5, 10, 20, 50],//分页步进值
+        search: true,//显示搜索框
+        //表格的列
+        columns: [
+            &#123;
+                field: &#39;yxmc&#39;,//域值
+                title: &#39;名称&#39;,//标题
+                visible: true,//false表示不显示
+                sortable: false,//启用排序
+            &#125;,
+            &#123;
+                field: &#39;pw&#39;,//域值
+                title: &#39;排位&#39;,//标题
+                visible: true,//false表示不显示
+                sortable: true,//启用排序
+            &#125;,
+            &#123;
+                field: &#39;nf&#39;,//域值
+                title: &#39;年份&#39;,//内容
+                visible: true,//false表示不显示
+                sortable: false,//启用排序
+            &#125;,
+            &#123;
+                field: &#39;pc&#39;,//域值
+                title: &#39;批次&#39;,//内容
+                visible: true,//false表示不显示
+                sortable: false,//启用排序
+            &#125;
+        ]
+    &#125;); 
+&#125;</code></pre>
+<p>就是把这个js写在一个函数里面，同时为这个函数添加一个参数，这个参数是读取其他函数的执行结果或者是其他函数的某个变量的，这样就确定了两个函数的依赖关系，即：函数A的参数是来自函数B的执行结果，那么函数A会在函数B后面执行。</p>
+<p>同时也让笔者意识到把js代码写成一个函数的重要性，不是马上需要执行的js代码尽量写成一个函数，等需要它的时候再调用，这样才算是比较合理的和安全的。</p>
+<p>从上面的两个函数来看，函数goal_school(data)会在函数yugupw()执行完了之后执行，为了让bootstrap table的js代码那边能够获得经常变动的参数，那么就在配置那里，配置成：</p>
+<pre><code>queryParams: function (params) &#123;
+    return &#123;
+        ygpaiwei: data, 
+    &#125;;
+&#125;</code></pre>
+<p>这个data就是函数goal_school(data)里面的参数，参数的值是在函数yugupw()中那个叫<code>yyt</code>的变量的值。</p>
+<p>这样说明已经很清楚了吧，希望大家多多用函数，多多写带参数的函数，去体会下。</p>
+<p>最后笔者用第二种灵活配置的方案的运行结果如下：</p>
+<p><img src="https://i.imgur.com/CEHuumq.jpg"></p>
+<p>是不是多了些功能，当然还可以再丰富点，这个大家自己参考官网和库文件的源码去配置了。</p>
+<p>这种方式跟前面的方式都是要引入必要的库文件：</p>
+<pre><code>&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;css/bootstrap.min.css&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;css/bootstrap-table.min.css&quot;&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;js/jquery-3.2.1.min.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;js/bootstrap.min.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;js/bootstrap-table.min.js&quot;&gt;&lt;/script&gt;</code></pre>
+<p>做好这些之后，就完成了。</p>
+<p>作为补充的知识，很重要，曾几何时，笔者不是很能吃透jquery的<code>$(document).ready(function () &#123;&#125;)</code>这个的作用，笔者也是在这个案例中体会到的，分享给大家吧。</p>
+<pre><code>$(document).ready()&#123;
+    //your code here
+&#125;)</code></pre>
+<p>这个是很熟悉的了吧，这个的意思是在网站加载的时候要执行的那些js代码，跟<code>window.onload = function () &#123;&#125;</code>的意思差不多，就是页面加载的时候执行。而通常有些代码我们不需要它在页面加载的时候就执行，而是需要它的时候再执行，笔者刚才前面说过。科学合理的写法如下：</p>
+<pre><code>$(document).ready(function () &#123;
+
+    // 获取一些东西
+    getAnother();
+    // 获取一些东西
+    yugupw();
+    // 获取一些东西
+    getsomething();
+    ...
+
+&#125;);
+
+function yugupw() &#123;
+    htmlobj = $.ajax(&#123;
+        url: &quot;/user/personal/yugu&quot;,
+        type: &quot;get&quot;,
+        dataType: &quot;json&quot;,
+        contentType: &quot;application/json&quot;,
+        success: function (res) &#123;
+            if (typeof res === &#39;string&#39;) &#123;
+                res = JSON.parse(res);
+            &#125;
+            if (res.status == 1) &#123;
+                var yugupaiweis = res.yugupaiw;
+                var yyt = yugupaiweis[0].pw_min;
+                $(&quot;#zhepwei&quot;).append(yyt);
+                keshang_goal_school(yyt);
+            &#125;
+        &#125;,
+        error: function (xhr, err, exception) &#123;
+            console.log(err);
+        &#125;
+    &#125;);
+&#125;
+
+function getAnother() &#123;
+    ...
+&#125;
+
+function getsomething() &#123;
+    ...
+&#125;
+
+function goal_school(data)&#123;
+
+    $(&#39;#table&#39;).bootstrapTable(&#123;
+        url:&quot;/user/personal/school&quot;,//请求数据url
+        queryParams: function (params) &#123;
+            return &#123;
+                ygpaiwei: data, 
+            &#125;;
+        &#125;,
+        showHeader : true,
+        showColumns : true,
+        showRefresh : true,
+        pagination: true,//分页
+        pageNumber : 1,
+        sortOrder: &#39;asc&#39;, //升序排序
+        pageList: [5, 10, 20, 50],//分页步进值
+        search: true,//显示搜索框
+        //表格的列
+        columns: [
+            &#123;
+                field: &#39;yxmc&#39;,//域值
+                title: &#39;名称&#39;,//标题
+                visible: true,//false表示不显示
+                sortable: false,//启用排序
+            &#125;,
+            &#123;
+                field: &#39;pw&#39;,//域值
+                title: &#39;排位&#39;,//标题
+                visible: true,//false表示不显示
+                sortable: true,//启用排序
+            &#125;,
+            &#123;
+                field: &#39;nf&#39;,//域值
+                title: &#39;年份&#39;,//内容
+                visible: true,//false表示不显示
+                sortable: false,//启用排序
+            &#125;,
+            &#123;
+                field: &#39;pc&#39;,//域值
+                title: &#39;批次&#39;,//内容
+                visible: true,//false表示不显示
+                sortable: false,//启用排序
+            &#125;
+        ]
+    &#125;); 
+&#125;</code></pre>
+<p>类似这样写，就是说我们把不是在页面加载的时候执行的代码统统写成函数，然后需要的时候放在合适的地方执行就行了。然后通过参数的形式来把多个函数确定一个依赖关系，这样就实现了在大量采用ajax的情况下函数的执行先后顺序。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/43/">43</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

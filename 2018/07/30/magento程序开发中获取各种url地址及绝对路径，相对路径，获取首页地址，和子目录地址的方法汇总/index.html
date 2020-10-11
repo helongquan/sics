@@ -1,37 +1,637 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="magento block 程序中获取各种url的方法 php代码： Mage::getBaseUrl(&#39;media&#39;) &#x2F;&#x2F;可获得 media 带 http 的url 地址。    &#x2F;&#x2F;同理也可以获得skin 和js 目录的地址：   Mage::getBaseUrl(&#39;skin&#39;);   Mage::getBaseUrl(&#39;js&#39;);    &#x2F;&#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="magento程序开发中获取各种url地址及绝对路径，相对路径，获取首页地址，和子目录地址的方法汇总">
+<meta property="og:url" content="http://example.com/2018/07/30/magento%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91%E4%B8%AD%E8%8E%B7%E5%8F%96%E5%90%84%E7%A7%8Durl%E5%9C%B0%E5%9D%80%E5%8F%8A%E7%BB%9D%E5%AF%B9%E8%B7%AF%E5%BE%84%EF%BC%8C%E7%9B%B8%E5%AF%B9%E8%B7%AF%E5%BE%84%EF%BC%8C%E8%8E%B7%E5%8F%96%E9%A6%96%E9%A1%B5%E5%9C%B0%E5%9D%80%EF%BC%8C%E5%92%8C%E5%AD%90%E7%9B%AE%E5%BD%95%E5%9C%B0%E5%9D%80%E7%9A%84%E6%96%B9%E6%B3%95%E6%B1%87%E6%80%BB/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="magento block 程序中获取各种url的方法 php代码： Mage::getBaseUrl(&#39;media&#39;) &#x2F;&#x2F;可获得 media 带 http 的url 地址。    &#x2F;&#x2F;同理也可以获得skin 和js 目录的地址：   Mage::getBaseUrl(&#39;skin&#39;);   Mage::getBaseUrl(&#39;js&#39;);    &#x2F;&#x2F;">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-07-30T13:21:47.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:01.575Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="magento,url,路径,首页路径,子目录,绝对路径,相对路径">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2018/07/30/magento%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91%E4%B8%AD%E8%8E%B7%E5%8F%96%E5%90%84%E7%A7%8Durl%E5%9C%B0%E5%9D%80%E5%8F%8A%E7%BB%9D%E5%AF%B9%E8%B7%AF%E5%BE%84%EF%BC%8C%E7%9B%B8%E5%AF%B9%E8%B7%AF%E5%BE%84%EF%BC%8C%E8%8E%B7%E5%8F%96%E9%A6%96%E9%A1%B5%E5%9C%B0%E5%9D%80%EF%BC%8C%E5%92%8C%E5%AD%90%E7%9B%AE%E5%BD%95%E5%9C%B0%E5%9D%80%E7%9A%84%E6%96%B9%E6%B3%95%E6%B1%87%E6%80%BB/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>magento程序开发中获取各种url地址及绝对路径，相对路径，获取首页地址，和子目录地址的方法汇总 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/07/30/magento%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91%E4%B8%AD%E8%8E%B7%E5%8F%96%E5%90%84%E7%A7%8Durl%E5%9C%B0%E5%9D%80%E5%8F%8A%E7%BB%9D%E5%AF%B9%E8%B7%AF%E5%BE%84%EF%BC%8C%E7%9B%B8%E5%AF%B9%E8%B7%AF%E5%BE%84%EF%BC%8C%E8%8E%B7%E5%8F%96%E9%A6%96%E9%A1%B5%E5%9C%B0%E5%9D%80%EF%BC%8C%E5%92%8C%E5%AD%90%E7%9B%AE%E5%BD%95%E5%9C%B0%E5%9D%80%E7%9A%84%E6%96%B9%E6%B3%95%E6%B1%87%E6%80%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          magento程序开发中获取各种url地址及绝对路径，相对路径，获取首页地址，和子目录地址的方法汇总
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-07-30 21:21:47" itemprop="dateCreated datePublished" datetime="2018-07-30T21:21:47+08:00">2018-07-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:01" itemprop="dateModified" datetime="2020-10-11T11:58:01+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>magento block 程序中获取各种url的方法</strong></p>
+<p>php代码：</p>
+<pre><code>Mage::getBaseUrl(&#39;media&#39;) //可获得 media 带 http 的url 地址。  
+
+//同理也可以获得skin 和js 目录的地址：  
+Mage::getBaseUrl(&#39;skin&#39;);  
+Mage::getBaseUrl(&#39;js&#39;);  
+
+//而获取带http 的网站根地址为：  
+Mage::getBaseUrl(&#39;web&#39;);  
+
+//在cms中调用的URL的方法（content 中）：  
+&#123;&#123;store direct_url="Home"&#125;&#125;   //跳网id 是Home 的cms页面。  
+&#123;&#123;skin url='images/media/main_page_banner.jpg'&#125;&#125;  //定位一副图片的位置。  
+
+$this-&gt;getUrl(&#39;catalogsearch/advanced/result&#39;);  
+//在block 可以获得一页页面的URL.  
+
+$this-&gt;getSkinUrl(&#39;/images/logo.jpg&#39;)  
+//可以直接获取图片地址  
+
+$this-&gt;getSkinUrl(&#39;css/style.css&#39;);  
+//$this-&gt;getSkinUrl();一看应该就知道得到的是skin下面的路径。  
+
+$this-&gt;getUrl(&#39;contacts&#39;);  
+//要是要获得的是具体页面的url, 如果$this不能用就可以用Mage:: 来调用函数  </code></pre>
+<p>php代码：</p>
+<pre><code>//To Retrieve URL path in STATIC BLOCK  
+
+//To get SKIN URL  
+&#123;&#123;skin url='images/sampleimage.jpg '&#125;&#125;  
+
+//To get Media URL  
+&#123;&#123;media url='/sampleimage.jpg'&#125;&#125;  
+
+//To get Store URL  
+&#123;&#123;store url='mypage.html'&#125;&#125;  
+
+//To get Base URL  
+&#123;&#123;base url='yourstore/mypage.html'&#125;&#125;  
+
+//TO Retrieve URL path in PHTML  
+//Note: In editing PHTML don&#39;t forget to enclode the following code With PHP tag  
+
+//Not secure Skin URL:  
+&lt;?php echo $this-&gt;getSkinUrl(&#39;images/sampleimage.jpg&#39;) ?&gt;  
+
+//Secure Skin URL  
+&lt;?php echo $this-&gt;getSkinUrl(&#39;images/ sampleimage.gif&#39;,array(&#39;_secure&#39;=&gt;true)) ?&gt;  
+
+//Get Current URL  
+$current_url = Mage::helper(&#39;core/url&#39;)-&gt;getCurrentUrl();  
+
+//Get Home URL  
+$home_url = Mage::helper(&#39;core/url&#39;)-&gt;getHomeUrl();  
+
+//Get Magento Media Url  
+Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK);  
+
+//Get Magento Media Url  
+Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA);  
+
+//Get Magento Skin Url  
+Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN);  
+
+//Get Magento Store Url  
+Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB);  
+
+//Get Magento Js Url  
+Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_JS);  </code></pre>
+<p><strong>Get Directory paths</strong></p>
+<p>Php代码</p>
+<pre><code>Mage::getBaseDir()  
+ //output : /var/www/html/magento  
+Mage::getBaseDir(&#39;app&#39;)  
+ //output : /var/www/html/magento/app  
+Mage::getBaseDir(&#39;media&#39;)  
+ //output : /var/www/html/magento/media  
+
+Same way you can get more directory path,
+Mage::getBaseDir(&#39;design&#39;) =&gt; Get design directory path
+Mage::getBaseDir(&#39;code&#39;) =&gt; Gives code directory file path
+Mage::getBaseDir(&#39;lib&#39;) =&gt; Gives lib directory file path
+Mage::getBaseDir(&#39;skin&#39;) =&gt; Gives skin directory file path
+Mage::getBaseDir(&#39;var&#39;) =&gt; Gives var directory file path
+Mage::getBaseDir(&#39;cache&#39;) =&gt; Gives cache directory file path
+Mage::getBaseDir(&#39;log&#39;) =&gt; Gives log directory file path</code></pre>
+<p><strong>Magento Base Directories</strong></p>
+<p>Add the following code an empty controller action or other area of Magento where you can run arbitrary code.</p>
+<p>Php代码</p>
+<pre><code>$base_path = Mage::getBaseDir(&#39;base&#39;);  
+var_dump($base_path);  
+
+$etc_path = Mage::getBaseDir(&#39;etc&#39;);  
+var_dump($etc_path);  </code></pre>
+<p>You should see output something like the following</p>
+<p>Php代码</p>
+<pre><code>string &#39;/Users/username/Sites/magento1point4.1.dev&#39; (length=43)  
+string &#39;/Users/username/Sites/magento1point4.1.dev/app/etc&#39; (length=51)  </code></pre>
+<p>The first folder is the base directory for the entire Magento installation. The second folder is the base directory for Magento’s etc folder, which holds configuration files.</p>
+<p>In the latest Community Edition release of Magento there are 14 different directories that are considered important enough to be retrievable by this method. The static calls to <code>Mage::getBaseDir are a wrapper/public-api</code> to the <code>getDir method</code> on a <code>Mage_Core_Model_Config_Options</code> object. If you take a look at the Magento Model pseudo-constructor in</p>
+<p>Php代码</p>
+<pre><code>#File: app/code/core/Mage/Core/Model/Config/Options.php  
+class Mage_Core_Model_Config_Options extends Varien_Object  
+&#123;  
+    /* ... */  
+    protected function _construct()  
+    &#123;  
+        $appRoot= Mage::getRoot();  
+        $root   = dirname($appRoot);  
+
+        $this-&gt;_data[&#39;app_dir&#39;]     = $appRoot;  
+        $this-&gt;_data[&#39;base_dir&#39;]    = $root;  
+        $this-&gt;_data[&#39;code_dir&#39;]    = $appRoot.DS.&#39;code&#39;;  
+        $this-&gt;_data[&#39;design_dir&#39;]  = $appRoot.DS.&#39;design&#39;;  
+        $this-&gt;_data[&#39;etc_dir&#39;]     = $appRoot.DS.&#39;etc&#39;;  
+        $this-&gt;_data[&#39;lib_dir&#39;]     = $root.DS.&#39;lib&#39;;  
+        $this-&gt;_data[&#39;locale_dir&#39;]  = $appRoot.DS.&#39;locale&#39;;  
+        $this-&gt;_data[&#39;media_dir&#39;]   = $root.DS.&#39;media&#39;;  
+        $this-&gt;_data[&#39;skin_dir&#39;]    = $root.DS.&#39;skin&#39;;  
+        $this-&gt;_data[&#39;var_dir&#39;]     = $this-&gt;getVarDir();  
+        $this-&gt;_data[&#39;tmp_dir&#39;]     = $this-&gt;_data[&#39;var_dir&#39;].DS.&#39;tmp&#39;;  
+        $this-&gt;_data[&#39;cache_dir&#39;]   = $this-&gt;_data[&#39;var_dir&#39;].DS.&#39;cache&#39;;  
+        $this-&gt;_data[&#39;log_dir&#39;]     = $this-&gt;_data[&#39;var_dir&#39;].DS.&#39;log&#39;;  
+        $this-&gt;_data[&#39;session_dir&#39;] = $this-&gt;_data[&#39;var_dir&#39;].DS.&#39;session&#39;;  
+        $this-&gt;_data[&#39;upload_dir&#39;]  = $this-&gt;_data[&#39;media_dir&#39;].DS.&#39;upload&#39;;  
+        $this-&gt;_data[&#39;export_dir&#39;]  = $this-&gt;_data[&#39;var_dir&#39;].DS.&#39;export&#39;;  
+    &#125;  </code></pre>
+<p>you can see where these directory paths are stored.</p>
+<p>Let’s quickly review each one</p>
+<p><strong>Mage::getBaseDir(‘base’);</strong></p>
+<p>This is your main Magento directory. In a default root level application instal, this is the equivalent of the document root.</p>
+<p><strong>Mage::getBaseDir(‘app’);</strong></p>
+<p>This is your Magento application directory. This is the directory where the final class Mage… application file (Mage.php) is stored.</p>
+<p>The default directory (from the Magento base folder) is</p>
+<pre><code>/app/</code></pre>
+<p><strong>Mage::getBaseDir(‘code’);</strong></p>
+<p>This is your Magento code directory. This is base directory for the three Magento code pools (core, community,  local).</p>
+<p>The default directory (from the Magento base folder) is</p>
+<pre><code>/app/code</code></pre>
+<p><strong>Mage::getBaseDir(‘design’);</strong></p>
+<p>This is your Magento design package directory. This is the base folder that contains the “design packages” for each Area of Magento, (frontend, adminhtml, and install)</p>
+<p>The default directory (from the Magento base folder) is</p>
+<pre><code>app/design </code></pre>
+<p><strong>Mage::getBaseDir(‘etc’);</strong></p>
+<p>The etc folder is where Magento stores system level (as opposed to module level) configuration files. The name  etc is borrowed from the *nix family of operating systems, and Magento’s configuration files are all XML based.</p>
+<p>The default directory (from the Magento base folder) is</p>
+<pre><code>/app/etc</code></pre>
+<p><strong>Mage::getBaseDir(‘lib’);</strong></p>
+<p>Magento’s library folder is where non-module based Magento code lives. This include a large amount of the system code which allows Magento to run, as well as a number of third party libraries (including the Zend Framework). The library is also the last code pool Magento will search when attempting to autoload a file.</p>
+<p>The default directory (from the Magento base folder) is</p>
+<pre><code>/lib</code></pre>
+<p><strong>Mage::getBaseDir(‘locale’);</strong></p>
+<p>The locale folder contains the translation files for the core Magento modules. Magento uses a system similar to GNU gettext to provide translated text. Unique strings are stored as key value pairs in the translation files. They “key” is used to lookup which text should actually be displayed. This means for the english locale you’ll see redundant looking strings like</p>
+<pre><code>&quot;Add Option&quot;,&quot;Add Option&quot;</code></pre>
+<p>It’s only when you look at the non-english speaking translation files that the system become obvious</p>
+<p>The default directory (from the Magento base folder) is</p>
+<pre><code>/app/locale</code></pre>
+<p><strong>Mage::getBaseDir(‘media’);</strong></p>
+<p>Magento’s media folder is where media files (images, movies, etc.) related to data (products) is stored.</p>
+<p>The default directory (from the Magento base folder) is</p>
+<pre><code>/media</code></pre>
+<p><strong>Mage::getBaseDir(‘skin’);</strong></p>
+<p>If the word module is the most used yet least well defined programming term, then the words skin and theme are the most abused in the designer’s world. In Magento, the skin folder contains images, CSS and Javascript files used by your themes.</p>
+<p>This is not the only folder where you’ll find images, CSS or javascript though. This folder is meant for files that are customized per theme.</p>
+<p>The default directory (from the Magento base folder) is</p>
+<pre><code>/skin</code></pre>
+<p><strong>Mage::getBaseDir(‘var’);</strong></p>
+<p>The var folder is another one borrowed from the *nix world. The var stands for Variable files, and is intended to store files which are expected to change during normal system operations.</p>
+<p>The default directory (from the Magento base folder) is</p>
+<pre><code>/var</code></pre>
+<p><strong>Mage::getBaseDir(‘tmp’);</strong></p>
+<p>The tmp dir is a temporary directory for safely outputting files into for immediate processing. The operating assumption of the tmp folder is that any developer can write to it and expect their file to stay around for a few minutes, without any expectation that it will be there tomorrow.</p>
+<p>The default directory (from the Magento base folder) is</p>
+<pre><code>/var/tmp</code></pre>
+<p><strong>Mage::getBaseDir(‘cache’);</strong></p>
+<p>Magento, rather famously, makes heavy use of caching for activities that might bog down the system if they had to be performed every-time a page loads. For example, Layout XML files are merged once, and then the tree is cached so they don’t need to be merged again. The cache folder is one place where Magento will store these cached results.</p>
+<p>The default directory (from the Magento base folder) is</p>
+<pre><code>/var/cache</code></pre>
+<p><strong>Mage::getBaseDir(‘log’);</strong></p>
+<p>Magento’s log folder is where is stores the system and exception logs. These logs can be turned on from the Admin Panel’s</p>
+<p>System -&gt; Configuration -&gt; Developer -&gt; Log Settings<br>section. The apache/web-server user will need write permission on this folder and the files therein.</p>
+<p>The default directory (from the Magento base folder) is</p>
+<pre><code>/var/log</code></pre>
+<p><strong>Mage::getBaseDir(‘session’);</strong></p>
+<p>During installation you have the option of storing user sessions on disk, or in the database. The session folder is where the user sessions are written out to and read from if you choose to store them in the filesystem</p>
+<p>The default directory (from the Magento base folder) is</p>
+<pre><code>/var/session</code></pre>
+<p><strong>Mage::getBaseDir(‘upload’);</strong></p>
+<p>There are a number of Admin Panel features which allow you to upload media files (default logos, etc.). The  upload folder is where Magento stores these files.</p>
+<p>The default directory (from the Magento base folder) is</p>
+<pre><code>/media/upload</code></pre>
+<p><strong>Mage::getBaseDir(‘export’);</strong></p>
+<p>The export folder is where Magento will write out files meant to be viewed and used by system owners. For example, the Data Flow section of the Admin uses this folder to write out its export files.</p>
+<p>The default directory (from the Magento base folder) is</p>
+<pre><code>/var/export</code></pre>
+<p><strong>Module Base Directories</strong></p>
+<p>So, that covers the system folders that Magento gives you access to. There is, however, one other important static method on the Mage application class class that we should discuss. Give the following a try</p>
+<p>Php代码</p>
+<pre><code>var_dump( Mage::getModuleDir(&#39;&#39;, &#39;Mage_Core&#39;) );  
+var_dump( Mage::getModuleDir(&#39;etc&#39;, &#39;Mage_Core&#39;) );  
+var_dump( Mage::getModuleDir(&#39;controllers&#39;, &#39;Mage_Core&#39;) );  
+var_dump( Mage::getModuleDir(&#39;sql&#39;, &#39;Mage_Core&#39;) );  
+var_dump( Mage::getModuleDir(&#39;locale&#39;, &#39;Mage_Core&#39;) );  </code></pre>
+<p>That static method Mage::getModuleDir method allows you to retrieve directory path information that’s specific to any module loaded into the system. Like the getBaseDir method, this call is a public-api to code deeper in the Magento system</p>
+<p>Php代码</p>
+<pre><code>#File: app/code/core/Mage/Core/Model/Config.php  
+class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base  
+&#123;  
+    /* ... */  
+    public function getModuleDir($type, $moduleName)  
+    &#123;  
+        $codePool = (string)$this-&gt;getModuleConfig($moduleName)-&gt;codePool;  
+        $dir = $this-&gt;getOptions()-&gt;getCodeDir().DS.$codePool.DS.uc_words($moduleName, DS);  
+
+        switch ($type) &#123;  
+            case &#39;etc&#39;:  
+                $dir .= DS.&#39;etc&#39;;  
+                break;  
+
+            case &#39;controllers&#39;:  
+                $dir .= DS.&#39;controllers&#39;;  
+                break;  
+
+            case &#39;sql&#39;:  
+                $dir .= DS.&#39;sql&#39;;  
+                break;  
+
+            case &#39;locale&#39;:  
+                $dir .= DS.&#39;locale&#39;;  
+                break;  
+        &#125;  
+
+        $dir = str_replace(&#39;/&#39;, DS, $dir);  
+        return $dir;  
+    &#125;  </code></pre>
+<p>Let’s quickly cover these four folders.</p>
+<p><strong>Mage::getModuleDir(‘etc’, ‘Packagename_Modulename’);</strong></p>
+<p>Your module’s etc folder. The etc folder is a concept borrowed from the *nix, and contains you’re module’s XML configuration files.</p>
+<pre><code>Mage::getModuleDir(&#39;controllers&#39;, &#39;Packagename_Modulename&#39;);</code></pre>
+<p>Your module’s controllers folder. Magento’s controllers are not included in the __autoload implementation. If you ever need to manually include or require a controller, use this method to ensure you get the right path.</p>
+<p><strong>Mage::getModuleDir(‘sql’, ‘Packagename_Modulename’);</strong></p>
+<p>Your module’s sql folder. The sql folder contains installer and upgrade files for your Model resources, which are used to install entities and migrate database information during installations.</p>
+<p><strong>Mage::getModuleDir(‘locale’, ‘Packagename_Modulename’);</strong></p>
+<p>Your module’s locale folder. The locale folder contains translation files that are used by Magento when your module is viewed under a different locales.</p>
+<p>参考文献：<a target="_blank" rel="noopener" href="http://alanstorm.com/magento_base_directories">http://alanstorm.com/magento_base_directories</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/magento-url-%E8%B7%AF%E5%BE%84-%E9%A6%96%E9%A1%B5%E8%B7%AF%E5%BE%84-%E5%AD%90%E7%9B%AE%E5%BD%95-%E7%BB%9D%E5%AF%B9%E8%B7%AF%E5%BE%84-%E7%9B%B8%E5%AF%B9%E8%B7%AF%E5%BE%84/" rel="tag"># magento,url,路径,首页路径,子目录,绝对路径,相对路径</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/07/30/magento%E8%BE%B9%E6%A0%8F%E8%B0%83%E7%94%A8%E7%83%AD%E9%97%A8%E6%90%9C%E7%B4%A2%E5%85%B3%E9%94%AE%E5%AD%97%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90/" rel="prev" title="magento侧边栏调用热门搜索关键字自动生成，热搜词，关键词，top search">
+      <i class="fa fa-chevron-left"></i> magento侧边栏调用热门搜索关键字自动生成，热搜词，关键词，top search
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/07/31/%E4%B8%BAmagento%E6%B7%BB%E5%8A%A0%E7%83%AD%E6%90%9C%E8%AF%8D%E5%8A%9F%E8%83%BD%EF%BC%8C%E8%BF%87%E6%BB%A4%E6%8E%89%E6%B2%A1%E6%9C%89%E6%90%9C%E7%B4%A2%E7%BB%93%E6%9E%9C%E7%9A%84%E5%85%B3%E9%94%AE%E8%AF%8D%E5%92%8C%E6%B2%A1%E6%9C%89%E4%BA%A7%E5%93%81%E7%9A%84%E5%85%B3%E9%94%AE%E8%AF%8D/" rel="next" title="为magento添加热搜词功能，过滤掉没有搜索结果的关键词和没有产品的关键词">
+      为magento添加热搜词功能，过滤掉没有搜索结果的关键词和没有产品的关键词 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

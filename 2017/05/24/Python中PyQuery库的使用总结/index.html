@@ -1,37 +1,457 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="pyquery库是jQuery的Python实现，可以用于解析HTML网页内容，我个人写过的一些抓取网页数据的脚本就是用它来解析html获取数据的。他的官方文档地址是：http:&#x2F;&#x2F;packages.python.org&#x2F;pyquery&#x2F;。今天重新看了一遍整个文档，把它的一些使用方法整理了一下，做个记录。 使用方法 from pyquery import PyQuery as pq 1.可加载一段">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python中PyQuery库的使用总结">
+<meta property="og:url" content="http://example.com/2017/05/24/Python%E4%B8%ADPyQuery%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="pyquery库是jQuery的Python实现，可以用于解析HTML网页内容，我个人写过的一些抓取网页数据的脚本就是用它来解析html获取数据的。他的官方文档地址是：http:&#x2F;&#x2F;packages.python.org&#x2F;pyquery&#x2F;。今天重新看了一遍整个文档，把它的一些使用方法整理了一下，做个记录。 使用方法 from pyquery import PyQuery as pq 1.可加载一段">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-05-24T01:41:23.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:53:18.524Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="PyQuery,pyquery">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2017/05/24/Python%E4%B8%ADPyQuery%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>Python中PyQuery库的使用总结 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/05/24/Python%E4%B8%ADPyQuery%E5%BA%93%E7%9A%84%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Python中PyQuery库的使用总结
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-05-24 09:41:23" itemprop="dateCreated datePublished" datetime="2017-05-24T09:41:23+08:00">2017-05-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:18" itemprop="dateModified" datetime="2020-10-11T11:53:18+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>pyquery库是jQuery的Python实现，可以用于解析HTML网页内容，我个人写过的一些抓取网页数据的脚本就是用它来解析html获取数据的。他的官方文档地址是：<a target="_blank" rel="noopener" href="http://packages.python.org/pyquery/">http://packages.python.org/pyquery/</a>。今天重新看了一遍整个文档，把它的一些使用方法整理了一下，做个记录。</p>
+<p><strong>使用方法</strong></p>
+<p>from pyquery import PyQuery as pq</p>
+<p>1.可加载一段HTML字符串，或一个HTML文件，或是一个url地址，</p>
+<p>例：</p>
+<pre><code>d=pq(&quot;&lt;html&gt;&lt;title&gt;hello&lt;/title&gt;&lt;/html&gt;&quot;)
+d=pq(filename=path_to_html_file)
+d=pq(url=&#39;http://www.baidu.com&#39;) #注意：此处url似乎必须写全</code></pre>
+<p>2.html()和text() ——获取相应的HTML块或文本块，</p>
+<p>例：</p>
+<pre><code>p=pq(&quot;&lt;head&gt;&lt;title&gt;hello&lt;/title&gt;&lt;/head&gt;&quot;)
+p(&#39;head&#39;).html()#返回&lt;title&gt;hello&lt;/title&gt;
+p(&#39;head&#39;).text()#返回hello</code></pre>
+<p>3.根据HTML标签来获取元素，</p>
+<p>例：</p>
+<pre><code>d=pq(&#39;&lt;div&gt;&lt;p&gt;test 1&lt;/p&gt;&lt;p&gt;test 2&lt;/p&gt;&lt;/div&gt;&#39;)
+d(&#39;p&#39;)#返回[&lt;p&gt;,&lt;p&gt;]
+print d(&#39;p&#39;)#返回&lt;p&gt;test 1&lt;/p&gt;&lt;p&gt;test 2&lt;/p&gt;
+print d(&#39;p&#39;).html()#返回test 1</code></pre>
+<p>注意：当获取到的元素不只一个时，html()、text()方法只返回首个元素的相应内容块</p>
+<p>4.eq(index) ——根据给定的索引号得到指定元素</p>
+<p>接上例，若想得到第二个p标签内的内容，则可以：</p>
+<pre><code>print d(&#39;p&#39;).eq(1).html() #返回test 2</code></pre>
+<p>5.filter() ——根据类名、id名得到指定元素，例：</p>
+<pre><code>d=pq(&quot;&lt;div&gt;&lt;p id=&#39;1&#39;&gt;test 1&lt;/p&gt;&lt;p class=&#39;2&#39;&gt;test 2&lt;/p&gt;&lt;/div&gt;&quot;)
+d(&#39;p&#39;).filter(&#39;#1&#39;) #返回[&lt;p#1&gt;]
+d(&#39;p&#39;).filter(&#39;.2&#39;) #返回[&lt;p.2&gt;]</code></pre>
+<p>6.find() ——查找嵌套元素，例：</p>
+<pre><code>d=pq(&quot;&lt;div&gt;&lt;p id=&#39;1&#39;&gt;test 1&lt;/p&gt;&lt;p class=&#39;2&#39;&gt;test 2&lt;/p&gt;&lt;/div&gt;&quot;)
+d(&#39;div&#39;).find(&#39;p&#39;)#返回[&lt;p#1&gt;, &lt;p.2&gt;]
+d(&#39;div&#39;).find(&#39;p&#39;).eq(0)#返回[&lt;p#1&gt;]</code></pre>
+<p>7.直接根据类名、id名获取元素，例：</p>
+<pre><code>d=pq(&quot;&lt;div&gt;&lt;p id=&#39;1&#39;&gt;test 1&lt;/p&gt;&lt;p class=&#39;2&#39;&gt;test 2&lt;/p&gt;&lt;/div&gt;&quot;)
+d(&#39;#1&#39;).html()#返回test 1
+d(&#39;.2&#39;).html()#返回test 2</code></pre>
+<p>8.获取属性值，例：</p>
+<pre><code>d=pq(&quot;&lt;p id=&#39;my_id&#39;&gt;&lt;a href=&#39;http://hello.com&#39;&gt;hello&lt;/a&gt;&lt;/p&gt;&quot;)
+d(&#39;a&#39;).attr(&#39;href&#39;)#返回http://hello.com
+d(&#39;p&#39;).attr(&#39;id&#39;)#返回my_id</code></pre>
+<p>9.修改属性值，例：</p>
+<pre><code>d(&#39;a&#39;).attr(&#39;href&#39;,&#39;http://baidu.com&#39;)把href属性修改为了baidu</code></pre>
+<p>10.addClass(value) ——为元素添加类，例：</p>
+<pre><code>d=pq(&#39;&lt;div&gt;&lt;/div&gt;&#39;)
+d.addClass(&#39;my_class&#39;)#返回[&lt;div.my_class&gt;]</code></pre>
+<p>11.hasClass(name) #返回判断元素是否包含给定的类，例：</p>
+<pre><code>d=pq(&quot;&lt;div class=&#39;my_class&#39;&gt;&lt;/div&gt;&quot;)
+d.hasClass(&#39;my_class&#39;)#返回True</code></pre>
+<p>12.children(selector=None) ——获取子元素，例：</p>
+<pre><code>d=pq(&quot;&lt;span&gt;&lt;p id=&#39;1&#39;&gt;hello&lt;/p&gt;&lt;p id=&#39;2&#39;&gt;world&lt;/p&gt;&lt;/span&gt;&quot;)
+d.children()#返回[&lt;p#1&gt;, &lt;p#2&gt;]
+d.children(&#39;#2&#39;)#返回[&lt;p#2&gt;]</code></pre>
+<p>13.parents(selector=None)——获取父元素，例：</p>
+<pre><code>d=pq(&quot;&lt;span&gt;&lt;p id=&#39;1&#39;&gt;hello&lt;/p&gt;&lt;p id=&#39;2&#39;&gt;world&lt;/p&gt;&lt;/span&gt;&quot;)
+d(&#39;p&#39;).parents()#返回[&lt;span&gt;]
+d(&#39;#1&#39;).parents(&#39;span&#39;)#返回[&lt;span&gt;]
+d(&#39;#1&#39;).parents(&#39;p&#39;)#返回[]</code></pre>
+<p>14.clone() ——返回一个节点的拷贝</p>
+<p>15.empty() ——移除节点内容</p>
+<p>16.nextAll(selector=None) ——返回后面全部的元素块，例：</p>
+<pre><code>d=pq(&quot;&lt;p id=&#39;1&#39;&gt;hello&lt;/p&gt;&lt;p id=&#39;2&#39;&gt;world&lt;/p&gt;&lt;img scr=&#39;&#39; /&gt;&quot;)
+d(&#39;p:first&#39;).nextAll()#返回[&lt;p#2&gt;, &lt;img&gt;]
+d(&#39;p:last&#39;).nextAll()#返回[&lt;img&gt;]</code></pre>
+<p>17.not_(selector) ——返回不匹配选择器的元素，例：</p>
+<pre><code>d=pq(&quot;&lt;p id=&#39;1&#39;&gt;test 1&lt;/p&gt;&lt;p id=&#39;2&#39;&gt;test 2&lt;/p&gt;&quot;)
+d(&#39;p&#39;).not_(&#39;#2&#39;)#返回[&lt;p#1&gt;]</code></pre>
+<p>pyquery还有其他一些用法，这里没有一一整理出来，更多更全的方法可以直接去看它的文档。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/PyQuery-pyquery/" rel="tag"># PyQuery,pyquery</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/05/23/win7%E6%80%8E%E4%B9%88%E6%A0%B7%E8%AE%A9%E5%91%BD%E4%BB%A4%E6%8F%90%E7%A4%BA%E7%AC%A6%E5%BF%AB%E9%80%9F%E5%AE%9A%E4%BD%8D%E5%88%B0%E6%9F%90%E4%B8%AA%E6%96%87%E4%BB%B6%E5%A4%B9%E8%B7%AF%E5%BE%84/" rel="prev" title="win7怎么样让命令提示符快速定位到某个文件夹路径">
+      <i class="fa fa-chevron-left"></i> win7怎么样让命令提示符快速定位到某个文件夹路径
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/05/27/%E8%A7%A3%E5%86%B3python3-UnicodeEncodeError/" rel="next" title="解决python3 UnicodeEncodeError">
+      解决python3 UnicodeEncodeError <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

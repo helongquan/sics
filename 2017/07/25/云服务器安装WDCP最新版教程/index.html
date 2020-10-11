@@ -1,37 +1,456 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="wdcp_v3.2正式版本，终于可以和大家见面了 v3.2版本，最大的亮点，自然是大家期待以久的两大功能 多版本PHP共存和SSL功能设置的支持，现已可以完美的支持 其实还有一个大亮点，那就是同时支持N+A的组合，也就是说，wdcp的v3.2版本，可以同时支持N+A的组合，以及多版本PHP的共存，同时优化了部分内核代码，操作流程，界面等。功能更强大，使用更灵活，简洁，一如既往的免费。  安装方法(">
+<meta property="og:type" content="article">
+<meta property="og:title" content="云服务器安装WDCP最新版教程">
+<meta property="og:url" content="http://example.com/2017/07/25/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AE%89%E8%A3%85WDCP%E6%9C%80%E6%96%B0%E7%89%88%E6%95%99%E7%A8%8B/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="wdcp_v3.2正式版本，终于可以和大家见面了 v3.2版本，最大的亮点，自然是大家期待以久的两大功能 多版本PHP共存和SSL功能设置的支持，现已可以完美的支持 其实还有一个大亮点，那就是同时支持N+A的组合，也就是说，wdcp的v3.2版本，可以同时支持N+A的组合，以及多版本PHP的共存，同时优化了部分内核代码，操作流程，界面等。功能更强大，使用更灵活，简洁，一如既往的免费。  安装方法(">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-07-25T03:32:48.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:52:51.300Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="云服务器,安装WDCP,最新版,WDCP">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2017/07/25/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AE%89%E8%A3%85WDCP%E6%9C%80%E6%96%B0%E7%89%88%E6%95%99%E7%A8%8B/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>云服务器安装WDCP最新版教程 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/07/25/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AE%89%E8%A3%85WDCP%E6%9C%80%E6%96%B0%E7%89%88%E6%95%99%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          云服务器安装WDCP最新版教程
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-07-25 11:32:48" itemprop="dateCreated datePublished" datetime="2017-07-25T11:32:48+08:00">2017-07-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:52:51" itemprop="dateModified" datetime="2020-10-11T11:52:51+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>wdcp_v3.2正式版本，终于可以和大家见面了</p>
+<p>v3.2版本，最大的亮点，自然是大家期待以久的两大功能</p>
+<p>多版本PHP共存和SSL功能设置的支持，现已可以完美的支持</p>
+<p>其实还有一个大亮点，那就是同时支持N+A的组合，也就是说，wdcp的v3.2版本，可以同时支持N+A的组合，以及多版本PHP的共存，同时优化了部分内核代码，操作流程，界面等。功能更强大，使用更灵活，简洁，一如既往的免费。</p>
+<blockquote>
+<p>安装方法(请使用纯净系统，即不带任何其它WEB环境的系统)</p>
+</blockquote>
+<p><strong>1 只安装wdcp面板看看</strong></p>
+<pre><code>wget http://down.wdlinux.cn/in/install_v3.sh
+sh install_v3.sh</code></pre>
+<p><strong>2 和lanmp环境一起安装</strong></p>
+<pre><code>yum install -y wget
+wget http://dl.wdlinux.cn/files/lanmp_v3.2.tar.gz
+tar zxvf lanmp_v3.2.tar.gz
+chmod 755 lanmp.sh
+sh lanmp.sh</code></pre>
+<p>可选安装LNMP,LAMP,LNAMP,4全部安装(可切换)</p>
+<p>默认安装软件版本为：</p>
+<pre><code>nginx-1.8.1
+apache-2.2.31
+mysql-5.5.54
+php-5.5.38
+memcache
+redis
+zend</code></pre>
+<p>如需要自定义软件版本，后加cus,如下</p>
+<pre><code>sh lanmp.sh cus</code></pre>
+<p>如需PHP多版本共存指定使用功能，也需安装，如</p>
+<pre><code>sh lib/phps.sh</code></pre>
+<p>(共支持7个版本的PHP，如5.2.17/5.3.29/5.4.45/5.5.38/5.6.30/7.0.18/7.1.4)</p>
+<p>也可指定安装某一版本，如sh lib/phps.sh 5.2.17</p>
+<p>多版本的zend,redis,memcache,opcache.sh扩展支持安装</p>
+<pre><code>sh lib/phps_zend.sh
+sh lib/phps_redis.sh
+sh lib/phps_memcache.sh</code></pre>
+<p>默认安装全部PHP版本，也可指定安装某PHP版本，同上</p>
+<p>软件安装目录</p>
+<pre><code>/www/wdlinux</code></pre>
+<p>数据库文件目录</p>
+<pre><code>/www/wdlinux/mysql/data</code></pre>
+<p>支持组件</p>
+<p>zend,memcache,rewrite,pdo_mysql,mysqli等常用组件</p>
+<p>支持系统</p>
+<p>wdcp_v3 支持wdOS/CentOS5.x/6.x/7.x</p>
+<p><strong>3 升级</strong>(3.0/3.1的升级)</p>
+<p>可后台直接升级或使用如下手动升级</p>
+<pre><code>wget http://down.wdlinux.cn/in/update_v3.sh
+sh update_v3.sh</code></pre>
+<p>备注：</p>
+<p>此升级只是升级wdcp的后台面板及功能，对于WEB环境的软件需另外升级(无特别需求，WEB环境可不升级或根据需求有针对性的升级)(2.X的升级)，可用安装方法1中所说方法。</p>
+<p><strong>关于从v2的升级</strong></p>
+<p>对于使用v2的用户，可以单独升级wdcp后台到v3的版本(只安装v3的后台系统就可以,千万不要全新安装，否则很麻烦)，v2/v3升级到v3.2的单独安装多PHP的方法：<a target="_blank" rel="noopener" href="http://www.wdlinux.cn/bbs/thread-57646-1-1.html">http://www.wdlinux.cn/bbs/thread-57646-1-1.html</a></p>
+<p><strong>卸载方法</strong></p>
+<pre><code>rm -fr /www/wdlinux
+reboot</code></pre>
+<p><strong>wdcp后台的启动，重起，关闭方法</strong></p>
+<pre><code>service wdcp start
+service wdcp restart
+service wdcp stop</code></pre>
+<p><strong>多版本PHP的手动启动|停止|重起</strong></p>
+<p>如:5.5</p>
+<pre><code>/www/wdlinux/phps/55/bin/php-fpm start
+/www/wdlinux/phps/55/bin/php-fpm stop
+/www/wdlinux/phps/55/bin/php-fpm restart</code></pre>
+<p>如是其它版本，把55替换为相应版本即可。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8-%E5%AE%89%E8%A3%85WDCP-%E6%9C%80%E6%96%B0%E7%89%88-WDCP/" rel="tag"># 云服务器,安装WDCP,最新版,WDCP</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/07/25/wdcp%E8%BF%81%E7%A7%BB%E8%87%B3%E6%95%B0%E6%8D%AE%E7%9B%98%E6%95%99%E7%A8%8B/" rel="prev" title="wdcp迁移至数据盘教程">
+      <i class="fa fa-chevron-left"></i> wdcp迁移至数据盘教程
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/07/25/%E7%BD%91%E7%AB%99%E6%90%AC%E5%AE%B6%E5%90%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%AD%E4%B9%B1%E7%A0%81%E5%92%8C%E6%96%87%E7%AB%A0%E5%87%BA%E7%8E%B0404%E7%9A%84%E9%97%AE%E9%A2%98/" rel="next" title="网站搬家后数据库中乱码和文章出现404的问题">
+      网站搬家后数据库中乱码和文章出现404的问题 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

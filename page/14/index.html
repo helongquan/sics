@@ -1,23 +1,1316 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-{% block title %}{{ config.title }}{% if theme.index_with_subtitle and config.subtitle %} - {{config.subtitle }}{% endif %}{% endblock %}
+<link rel="stylesheet" href="/css/main.css">
 
-{% block page_class %}
-  {% if is_home() %}page-home{% endif -%}
-{% endblock %}
 
-{% block content %}
-  <section id="posts" class="posts-expand">
-    {% for post in page.posts %}
-      {{ post_template.render(post, true) }}
-    {% endfor %}
-  </section>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-  {% include '_partials/pagination.swig' %}
-{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
 
-{% block sidebar %}
-  {{ sidebar_template.render(false) }}
-{% endblock %}
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/page/14/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/page/14/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
+            
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/08/07/magento%E8%A3%85%E4%B8%8Amemcached%E5%8A%A0%E9%80%9F-%E8%AE%BF%E9%97%AE%E9%80%9F%E5%BA%A6%E6%98%8E%E6%98%BE%E6%8F%90%E5%8D%87/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/08/07/magento%E8%A3%85%E4%B8%8Amemcached%E5%8A%A0%E9%80%9F-%E8%AE%BF%E9%97%AE%E9%80%9F%E5%BA%A6%E6%98%8E%E6%98%BE%E6%8F%90%E5%8D%87/" class="post-title-link" itemprop="url">magento装上memcached加速,访问速度明显提升</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-08-07 11:52:57" itemprop="dateCreated datePublished" datetime="2018-08-07T11:52:57+08:00">2018-08-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:02" itemprop="dateModified" datetime="2020-10-11T11:58:02+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/magento/" itemprop="url" rel="index"><span itemprop="name">magento</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>magento本身集成了memcached，所以只需要配置一下就ok了</p>
+<p>打开app/etc/下的local.xml</p>
+<p>然后在<code>&lt;session_save&gt;&lt;![CDATA[files]]&gt;&lt;/session_save&gt;</code>上面加入以下代码。</p>
+<p>其中127.0.0.1是你的memcached地址，port是你的端口，默认11211</p>
+<pre><code>&lt;cache&gt;
+    &lt;backend&gt;memcached&lt;/backend&gt;
+    &lt;memcached&gt;
+        &lt;servers&gt;
+            &lt;server&gt;
+                &lt;host&gt;&lt;![CDATA[127.0.0.1]]&gt;&lt;/host&gt;
+                &lt;port&gt;&lt;![CDATA[11211]]&gt;&lt;/port&gt;
+                &lt;persistent&gt;&lt;![CDATA[1]]&gt;&lt;/persistent&gt;
+            &lt;/server&gt;
+        &lt;/servers&gt;
+        &lt;compression&gt;&lt;![CDATA[0]]&gt;&lt;/compression&gt;
+        &lt;cache_dir&gt;&lt;![CDATA[]]&gt;&lt;/cache_dir&gt;
+        &lt;hashed_directory_level&gt;&lt;![CDATA[]]&gt;&lt;/hashed_directory_level&gt;
+        &lt;hashed_directory_umask&gt;&lt;![CDATA[]]&gt;&lt;/hashed_directory_umask&gt;
+        &lt;file_name_prefix&gt;&lt;![CDATA[]]&gt;&lt;/file_name_prefix&gt;
+    &lt;/memcached&gt;
+&lt;/cache&gt;</code></pre>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/08/07/linux-Centos-%E5%A6%82%E4%BD%95%E5%BC%80%E5%90%AFphp%E7%9A%84OPcache%E5%8A%A0%E9%80%9F%EF%BC%8C%E5%AE%9E%E7%8E%B0%E7%BD%91%E7%AB%99%E7%9A%84%E6%8F%90%E9%80%9F%E7%9A%84%E7%9B%AE%E7%9A%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/08/07/linux-Centos-%E5%A6%82%E4%BD%95%E5%BC%80%E5%90%AFphp%E7%9A%84OPcache%E5%8A%A0%E9%80%9F%EF%BC%8C%E5%AE%9E%E7%8E%B0%E7%BD%91%E7%AB%99%E7%9A%84%E6%8F%90%E9%80%9F%E7%9A%84%E7%9B%AE%E7%9A%84/" class="post-title-link" itemprop="url">linux(Centos)如何开启php的OPcache加速，实现网站的提速的目的</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-08-07 10:58:44" itemprop="dateCreated datePublished" datetime="2018-08-07T10:58:44+08:00">2018-08-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:58" itemprop="dateModified" datetime="2020-10-11T11:57:58+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>PHP 5.5.0 及后续版本可以支持OPcache加速，如果你使用 <code>--disable-all</code> 参数 禁用了默认扩展的构建， 那么必须使用 <code>--enable-opcache</code> 选项来开启 OPcache。</p>
+<p>在编译php的时候加上参数 <code>--enable-opcache</code> 你才可以启用OPcache加速功能，完成php的编译及安装，我们使用find命令先查询一下opcache.so所在的位置</p>
+<pre><code>cd /
+# find ./ -name opcache.so</code></pre>
+<p>如果没有开启，那么是找不到结果的，这个时候我们前往php.ini，打开文件搜索<code>opcache</code>，把如下：</p>
+<pre><code>;zend_extension=opcache.so</code></pre>
+<p>改成：</p>
+<pre><code>zend_extension=opcache.so</code></pre>
+<p>然后重启一下服务，笔者是xampp，因此重启xampp即可。如果你不是集成的，可以单独重启一下apache.</p>
+<p>然后，我们再次运行：</p>
+<pre><code>cd /
+# find ./ -name opcache.so</code></pre>
+<p>可以找到：</p>
+<pre><code>./opt/lampp/lib/php/extensions/no-debug-non-zts-20131226/opcache.so</code></pre>
+<p>显示结果已经出来了，下面我们编辑php.ini文件</p>
+<pre><code># vi /opt/lampp/etc/php.ini</code></pre>
+<p>使用查询功能找到opcache的位置在<code>zend_extension=opcache.so</code>后面添加如下信息：</p>
+<pre><code>zend_extension=/opt/lampp/lib/php/extensions/no-debug-non-zts-20131226/opcache.so
+opcache.enable=1
+opcache.memory_consumption=128
+opcache.interned_strings_buffer=8
+opcache.max_accelerated_files=4000
+opcache.revalidate_freq=60
+opcache.fast_shutdown=1
+opcache.enable_cli=1</code></pre>
+<p>重新启动php-fpm</p>
+<pre><code># service php-fpm restart</code></pre>
+<p>笔者这里是集成环境，因此重启xampp即可。</p>
+<p>我们写一个探针phpinfo.php：</p>
+<pre><code>&lt;?php
+    phpinfo()
+?&gt;</code></pre>
+<p>放在web根目录下，然后通过域名访问一下：<a target="_blank" rel="noopener" href="http://www.yourdomain.com/phpinfo.php">http://www.yourdomain.com/phpinfo.php</a></p>
+<p>我们看到已经加载成功啦！截图如下：</p>
+<p><img src="https://i.imgur.com/pgCe8ep.png"></p>
+<p>搞定！</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/08/07/CentOS6-%E5%AE%89%E8%A3%85Google-BBR%E7%AE%97%E6%B3%95%E8%BE%BE%E5%88%B0%E7%BD%91%E7%AB%99%E5%8A%A0%E9%80%9F%E7%9A%84%E7%9B%AE%E7%9A%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/08/07/CentOS6-%E5%AE%89%E8%A3%85Google-BBR%E7%AE%97%E6%B3%95%E8%BE%BE%E5%88%B0%E7%BD%91%E7%AB%99%E5%8A%A0%E9%80%9F%E7%9A%84%E7%9B%AE%E7%9A%84/" class="post-title-link" itemprop="url">linux(CentOS6)安装Google BBR算法达到网站加速的目的</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-08-07 10:27:28" itemprop="dateCreated datePublished" datetime="2018-08-07T10:27:28+08:00">2018-08-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:57" itemprop="dateModified" datetime="2020-10-11T11:57:57+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><strong>1</strong>，首先<code>yum update -y</code>更新系统</p>
+<p><strong>2</strong>，更换内核至4.9或者以上，一次运行如下命令：</p>
+<pre><code>rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org   //首先，我们添加 ELRepo GPG key
+
+rpm -Uvh http://www.elrepo.org/elrepo-release-6-8.el6.elrepo.noarch.rpm    //为 RHEL-6，SL-6，CentOS-6 添加 ELRepo 源
+
+yum install yum-plugin-fastestmirror    //别忘了fastestmirror还是需要的
+
+yum --enablerepo=elrepo-kernel install kernel-ml -y   //安装内核</code></pre>
+<p><code>vi /etc/grub.conf</code> 把default=改成0，然后重启服务器：</p>
+<pre><code>reboot</code></pre>
+<p><code>uname -r </code>看看是不是变4.9或者以上版本了？</p>
+<p><strong>3，开启bbr</strong></p>
+<p>在命令行输入：</p>
+<pre><code>echo &quot;net.core.default_qdisc=fq&quot; &gt;&gt; /etc/sysctl.conf
+echo &quot;net.ipv4.tcp_congestion_control=bbr&quot; &gt;&gt; /etc/sysctl.conf</code></pre>
+<p>保存生效，输入命令：</p>
+<pre><code>sysctl -p</code></pre>
+<p>然后，执行输入以下命令：</p>
+<pre><code>sysctl net.ipv4.tcp_available_congestion_control</code></pre>
+<p>如果结果中有bbr, 则证明你的内核已开启bbr</p>
+<p>执行 <code>lsmod | grep bbr</code> , 看到有 tcp_bbr 模块即说明bbr已启动。</p>
+<hr>
+<p>如果想关闭BBR就可以执行：</p>
+<pre><code>sed -i &#39;/net\.core\.default_qdisc=fq/d&#39; /etc/sysctl.conf
+sed -i &#39;/net\.ipv4\.tcp_congestion_control=bbr/d&#39; /etc/sysctl.conf
+sysctl -p</code></pre>
+<p>然后重启才能生效。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/08/06/%E7%BD%91%E7%AB%99%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%AE%9D%E8%B4%B5%E5%BF%83%E5%BE%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/08/06/%E7%BD%91%E7%AB%99%E8%AE%BE%E8%AE%A1%E4%B8%AD%E7%9A%84%E5%AE%9D%E8%B4%B5%E5%BF%83%E5%BE%97/" class="post-title-link" itemprop="url">网站设计中的宝贵心得(沙漠中的一片绿叶)</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-08-06 18:02:31" itemprop="dateCreated datePublished" datetime="2018-08-06T18:02:31+08:00">2018-08-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:06" itemprop="dateModified" datetime="2020-10-11T11:58:06+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%BF%83%E5%BE%97/" itemprop="url" rel="index"><span itemprop="name">心得</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>**1.**笔者在开发magento2的时候，意外之中发现了一个非常难得的设计灵感，看截图：</p>
+<p><img src="https://i.imgur.com/JWoSk80.png"></p>
+<p>用过magento2的用户大概知道，这个系统的后台是什么样的，几乎一片白色和咖啡色的，浅灰色做背景。然后配上红色，蛋黄色。</p>
+<p>看起来就犹如看到了一片沙漠，没有生命的体征，可是当笔者在把鼠标悬浮到上图的那个按钮上的时候，绿色出现了，此时此刻的，这个按钮是笔者多么梦寐以求的出现了，我难以忘怀。在整体背景一片浅色，或者是整体偏色一致的时候，突然笔锋突转，来那么一个毫不相干的颜色，让人感觉大旱逢甘霖啊。</p>
+<p>**2.**笔者在看的magento的一个网站你的时候，感觉这个配色简直太美了，没有华丽的配色，简简单单的黑色系列：</p>
+<p><img src="https://i.imgur.com/sOqgCIZ.png"></p>
+<p>这个里面有三种颜色：黑色（#444444），深灰色（#666666），浅灰色（#7D7D7D），橘黄色（#F4A137）</p>
+<p>通常，我们总觉得，黑色和灰色显得网站很压抑，可是笔者在这个里面看到了他们的威力，这三种颜色的结合，达到了意想不到的作用，笔者真是爱死他们了。</p>
+<p>2018/8/7 11:18:27 更新</p>
+<p><strong>3.临近色方案</strong></p>
+<p>上两张图：</p>
+<p><img src="https://i.imgur.com/88RaYrf.jpg"></p>
+<p><img src="https://i.imgur.com/wfgLXwR.jpg"></p>
+<p><img src="https://i.imgur.com/CthdXaS.png"></p>
+<p>看下这三种配色，看起来是不是很舒服，到至今为止都能够让我窒息。这颜色很不错。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/08/06/magento2%E8%B7%9Fmagento1%E4%B9%8B%E9%97%B4%E7%9A%84%E5%AF%B9%E6%AF%94%E5%92%8C%E5%90%84%E8%87%AA%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/08/06/magento2%E8%B7%9Fmagento1%E4%B9%8B%E9%97%B4%E7%9A%84%E5%AF%B9%E6%AF%94%E5%92%8C%E5%90%84%E8%87%AA%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9/" class="post-title-link" itemprop="url">magento2跟magento1之间的对比和各自的优缺点</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-08-06 17:03:47" itemprop="dateCreated datePublished" datetime="2018-08-06T17:03:47+08:00">2018-08-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:59" itemprop="dateModified" datetime="2020-10-11T11:57:59+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><strong>magento2的优点：</strong></p>
+<p>1.可以用命令进行管理，这样对于一个比较慢的magento来说，那是相当方便的，再也不用每次都要进入很深的目录才能进行设置，像删除缓存，启用缓存，启用模块，启用维护模式等等这些，都可以一条命令搞定。</p>
+<p>2.对于编辑产品或者是添加产品的时候，magento2不存在添加图片那里没有上传按钮，而magento1需要浏览器支持flash才行，有的时候，忘记启用flash的那种情况，基本就不会显示了，更可恶的是笔者的电脑是win10系统，结果要更换图片的时候，居然是这样的：</p>
+<p><img src="https://i.imgur.com/vbhYqet.png"></p>
+<p>笔者启用了flash之后，才会显示，不然是不会显示红色框中的东西的：</p>
+<p><img src="https://i.imgur.com/I6QzIKQ.png"></p>
+<p>3.个人觉得magento2的后台设计风格借鉴了wordpress，布局拖放等功能，但是便捷性和速度还是不及wordpress，这个笔者个人使用后的感觉。</p>
+<p>4.magento2在设计上和功能上，在magento1的基础上进行了整体的提升，magento1看起来比较旧。</p>
+<hr>
+<p><strong>magento1的优点：</strong></p>
+<p>1.想必与magento2而言，网络上的解决方案比较多，比较成熟。</p>
+<p>2.比较稳定，操作比较容易和简单</p>
+<p>3.加载速度相对来说比较快。</p>
+<hr>
+<p>2018/8/7 11:17:29 更新。</p>
+<p>本文持续更新，敬请期待…</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/08/06/How-to-install-Magento-2-on-Xampp-localhost-step-by-step/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/08/06/How-to-install-Magento-2-on-Xampp-localhost-step-by-step/" class="post-title-link" itemprop="url">如何一步一步的在xampp上安装magento2</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-08-06 11:03:59" itemprop="dateCreated datePublished" datetime="2018-08-06T11:03:59+08:00">2018-08-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:57" itemprop="dateModified" datetime="2020-10-11T11:57:57+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><strong>Step 1: Install Xampp server</strong></p>
+<p>This is simple, just like install a normal Windows program. Go to <a target="_blank" rel="noopener" href="https://www.apachefriends.org/index.html">https://www.apachefriends.org/index.html</a> to download and install the latest XAMPP server on your PC</p>
+<p><strong>Step 2: Download Magento 2</strong></p>
+<p>You can download latest version of Magento 2 here: <a target="_blank" rel="noopener" href="https://www.magentocommerce.com/download">https://www.magentocommerce.com/download</a></p>
+<p>Upon finishing, unzip all files/folders of Magento to  C:\xampp\htdocs and open XAMPP server and start Apache and Mysql as below:</p>
+<p><img src="https://i.imgur.com/2d0zBPB.png"></p>
+<p><strong>Step 3: Installing Composer</strong></p>
+<p>You can download Composer here: <a target="_blank" rel="noopener" href="https://getcomposer.org/Composer-Setup.exe">https://getcomposer.org/Composer-Setup.exe</a></p>
+<p>This installer will install the latest version of Composer and set up path so that you can call Composer from any directory using command lines</p>
+<p>Now follow these steps to install Composer</p>
+<p><img src="https://i.imgur.com/VHcq1B3.png"></p>
+<p>Click on Next and select Install Shell Menus</p>
+<p><img src="https://i.imgur.com/OUqWH9n.png"></p>
+<p>Click on Next, now the install will ask for folder that contains php.exe file. By defaul the install will do this for you, however if you need, php.exe is located in  <strong>C:\xampp\php</strong></p>
+<p><img src="https://i.imgur.com/0qqJSjo.png"></p>
+<p><img src="https://i.imgur.com/i0ir29T.png"></p>
+<p>Click on install to finish setting up Composer</p>
+<p><img src="https://i.imgur.com/EdtiKlK.png"></p>
+<p>After the installation is finished, you must enable (<strong>php_intl.dll</strong>) in php.ini. Open php.ini in <strong>C:\xampp\php</strong> and uncomment the line by removing “;” before “<code>extension=php_intl.dll</code>” then save the file.</p>
+<p>Next, open Magento 2 folder in htdocs, hold “Shift” + Right click and select “Open command window here” to open CMD window. Now type in: ** composer install**  to start install Magento 2 to your PC</p>
+<p>Note: if you get error, go back to Magento 2 folder in htpdocs and right click to composer.lock =&gt; Select “composer update” then start over the installation</p>
+<p><img src="https://i.imgur.com/PXKGYzb.png"></p>
+<p><img src="https://i.imgur.com/R2WIYoF.png"></p>
+<p>Now the program will ask for your Magento username and password, username/password is not your login account, you must get <strong>Secure Keys</strong> to enter to this field. <strong>Secure Keys</strong> can get in Magento.com &gt; My Account&gt;Secure keys(under developer section on the left). Here you can see Public Key and Private Key. Puclic key = Username and Private key = Password, use these values to proceed Magento 2 installation (Generate new if you don’t have)</p>
+<p><img src="https://i.imgur.com/Szm1sxa.png"></p>
+<p>Next, go to PHPmyadmin to create a new Database for your Magento 2 site, on your web browser, go to 127.0.0.1/phpmyadmin.</p>
+<p><img src="https://i.imgur.com/fgwYEji.png"></p>
+<p>Note: to avoid errors during Magento 2 installation, open php.ini in <strong>C:\xampp\php</strong> and edit these lines:</p>
+<p>Search for:  <code>always_populate_raw_post_data</code> , remove “;” before the line and change it to <code>always_populate_raw_post_data = -1</code> . Next, open XAMPP =&gt; restart Apache and Mysql to apply the changes.</p>
+<p><strong>Step 4: Install Magento 2</strong></p>
+<p>Enter Magento 2 URL to your browser, for example: localhost/Magento2</p>
+<p><img src="https://i.imgur.com/Epa9bXN.png"></p>
+<p>Click on Agree and Setup.</p>
+<p><img src="https://i.imgur.com/Z2JNQHG.png"></p>
+<p>Now Magento 2 will start to check if system requirements to install Magento 2</p>
+<p><img src="https://i.imgur.com/PHhZfWE.png"></p>
+<p>In Add a Database Step, enter Database information you created in PHPmyadmin (you can use root username to avoid error with mysql privileges) leave Database password blank.</p>
+<p><img src="https://i.imgur.com/Ckkl4bo.png"></p>
+<p>In Web Configuration, you can setup URL, Admin URL and some other options.</p>
+<p><img src="https://i.imgur.com/4jwRrIx.png"></p>
+<p>In <strong>customize your store step</strong>, select timezone, currency and language you want to use on your store</p>
+<p><img src="https://i.imgur.com/4H0vrw3.png"></p>
+<p>Next, create  Admin account to manage your store</p>
+<p><img src="https://i.imgur.com/vCFMroZ.png"></p>
+<p><img src="https://i.imgur.com/GnYncMu.png"></p>
+<p>Wait for the installation being processed. When the installation is successful, go to the URL to emter your Magento store</p>
+<p><img src="https://i.imgur.com/nxwFNNZ.png"></p>
+<p>Congratulation, you have successfully installed Magento 2!</p>
+<p><strong>Troubleshooter</strong></p>
+<p><strong>1st note:</strong> If you encounter error with Magento 2 Admin URL, go to PHPmyadmin, search for “core_config_data” and changes these 2 values</p>
+<pre><code>web/unsecure/base_url  to http://127.0.0.1/magento2/
+web/secure/base_url  to https://127.0.0.1/magento2/</code></pre>
+<p><strong>2nd note:</strong> If you have error with site’s appearance, no css is loaded or image quality is bad, open Magento 2 folder in <strong>C:\Xampp\htdocs</strong>, hold Shift + Right Click =&gt; Open Windows Command here =&gt; Enter this command  <strong>php bin/magento setup:static-content:deploy</strong>  to get it fixed</p>
+<p>Drop a line if you need and help.</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/08/06/magento2%E5%AE%89%E8%A3%85%E8%BF%87%E7%A8%8B%E4%B8%AD%E7%A2%B0%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%EF%BC%8C%E4%BB%A5%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%8A%A5%E9%94%99%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/08/06/magento2%E5%AE%89%E8%A3%85%E8%BF%87%E7%A8%8B%E4%B8%AD%E7%A2%B0%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%EF%BC%8C%E4%BB%A5%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%8A%A5%E9%94%99%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" class="post-title-link" itemprop="url">magento2和magento1安装过程中碰到的问题，以及相关报错的解决方案</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-08-06 09:59:40" itemprop="dateCreated datePublished" datetime="2018-08-06T09:59:40+08:00">2018-08-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:59" itemprop="dateModified" datetime="2020-10-11T11:57:59+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/magento2/" itemprop="url" rel="index"><span itemprop="name">magento2</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>首先说明下Magento2的各个版本对php有详细的要求，如下：</p>
+<blockquote>
+<p>5.6.x (versions 2.1.0 and 2.1.1)</p>
+<p>5.6.5 and later (version 2.1.2)</p>
+<p>7.0.2, 7.0.6 up to 7.1 (all 2.1.x versions)</p>
+<p>7.0.4 is supported by 2.1.2 and later only</p>
+</blockquote>
+<p>比较稳妥的办法是直接装5.6.X版本，对7熟悉的直接用php7</p>
+<p>开始安装的时候，会进行检测，对php的扩展进行检测，看下缺少哪些扩展没有安装或者开启，如果有报错，就来到php.ini里面去搜索，然后把前面的<code>;</code>删除即可。比如：</p>
+<pre><code>;extension=php_gmp.dll
+;extension=php_intl.dll
+;extension=php_imap.dll</code></pre>
+<p>删除他们前面的<code>;</code>，就相当于开启了这个php扩展了，笔者用的是xampp进行的测试。如果你不是用的集成开发环境，那么需要进入到php的目录中找到这个配置文件（php.ini）。还有可能是数据库版本的问题的报错，当然我们在准备安装magento2之前就应该把这些版本确定好，免得走弯路了。</p>
+<p>好的，通常解决第一个问题后，后面相对来说没有什么问题，直到我们安装成功后，我们访问后台地址的时候报错了，内容如下：</p>
+<blockquote>
+<p>Exception printing is disabled by default for security reasons.</p>
+</blockquote>
+<p>这个问题比较普遍，如何解决呢？笔者这里只说magento2的解决方案，在网站根目录下进入pub/errors/目录，把文件<code>local.xml.sample</code> 重命名为  <code>local.xml</code></p>
+<p><img src="https://i.imgur.com/grgVvoe.png"></p>
+<p>然后在magento2的根目录下，运行命令：</p>
+<pre><code>php bin/magento cache:clean</code></pre>
+<p>清除一下缓存，不然，可能会报错。</p>
+<p>笔者引用的是这位大神的解决方案，粘贴如下，也顺便提醒各位读者支持原创，以及支持他：</p>
+<p>You may also see this error in Magento 2, just like Magento 1, we will need to enable exception printing in Magento 2. The local.xml file in Magento 2 is located in pub/errors/, now we will rename <code>local.xml.sample</code>  to  <code>local.xml</code> .</p>
+<p>Now reload your error page to see debug messages on the page rather than just  <code>exception printing is disabled by default for security reasons</code> , something like this：</p>
+<pre><code>Recoverable Error: Argument 1 passed to Mage_Eav_Model_Attribute_Data::factory() must be an instance of Mage_Eav_Model_Attribute, instance of Mage_Eav_Model_Entity_Attribute given, called in /magento/app/code/core/Mage/Customer/Block/Address/Renderer/Default.php on line 114 and defined  in /magento/app/code/core/Mage/Eav/Model/Attribute/Data.php on line 59
+#0 /magento/app/code/core/Mage/Eav/Model/Attribute/Data.php(59): mageCoreErrorHandler(4096, &#39;Argument 1 pass...&#39;, &#39;/var/www/vhosts...&#39;, 59, Array)
+#1 /magento/app/code/core/Mage/Customer/Block/Address/Renderer/Default.php(114): Mage_Eav_Model_Attribute_Data::factory(Object(Mage_Eav_Model_Entity_Attribute), Object(Mage_Sales_Model_Order_Address))
+#2 /magento/app/code/core/Mage/Customer/Model/Address/Abstract.php(337): Mage_Customer_Block_Address_Renderer_Default-&gt;render(Object(Mage_Sales_Model_Order_Address))
+#3 /magento/app/code/core/Mage/Customer/Model/Address/Abstract.php(326): Mage_Customer_Model_Address_Abstract-&gt;format(&#39;html&#39;)
+#4 /magento/app/design/adminhtml/default/quickcheckout/template/sales/order/view/info.phtml(163): Mage_Customer_Model_Address_Abstract-&gt;getFormated(true)
+#5 /magento/app/code/core/Mage/Core/Block/Template.php(241): include(&#39;/var/www/vhosts...&#39;)</code></pre>
+<p>Now you will see what you need to do next, normally we will have to <code>clear Magento cache</code> as in Magento 1, in some case you will need to repair corrupted table in your Magento 2 Databse, that depends on the error logs you see.</p>
+<p>看到了吧，他已经说得很清楚了，需要清除缓存。</p>
+<hr>
+<p>作为补充，笔者这里也把magento1的安装报错的解决方案分享下：</p>
+<p>Solutions for Magento 1.x<br>Now, I will provide several solutions to this errors, you can try every or all solution until you can fix your issue.</p>
+<p><strong>1. Delete/rename cache folder</strong></p>
+<p>Do this first, 90% you will get the error fixed.</p>
+<p>First, go to root folder var/cache</p>
+<p><img src="https://i.imgur.com/eCBUSxK.jpg"></p>
+<p>Now you can rename or just remove all cache files, and refresh your Magento site to see if the error is gone.</p>
+<p><strong>2. Check error log record</strong></p>
+<p>As you can see the error message: Error log record number: xxxxxxxxxx, here xxxxxxxxxx is the name of log file we need to check. All error log files are located in Magento/var/report folder, just open file manager and go to that folder and find the corresponding file and read the log to find solution.</p>
+<p><strong>3. Enable printing errors</strong></p>
+<p>If the solution above doesn’t help, you can enable printing errors to check what problems caused the error. To do this follows these steps:</p>
+<p><strong>Step 1:</strong> go to folder  Magento/errors</p>
+<p>There you will see <code> local.xml.sample</code>  file, just rename it to  <code>local.xml </code>, the purpose of this action is to enable error printing in Magento</p>
+<p><strong>Step 2:</strong> Reload the error page and you will see the full list of error message, this will help you fix the issue</p>
+<p><strong>4. Enable Magento exception printing</strong></p>
+<p>We can also enable Magento exception printing to get more details report on the error. To do this,</p>
+<p><strong>Step 1:</strong> in admin panel of Magento go to <strong>System &gt; Configuration &gt; Developer &gt; Log Settings</strong>. Now change Log Setting to “Yes”</p>
+<p><img src="https://i.imgur.com/cVPTxh0.png"></p>
+<p><code>Step 2:</code> You can find <strong>system.log</strong> and <strong>exception.log</strong> in <strong>Magento/var/log</strong>. As per my experience, you will see the following error in <strong>exception.log</strong></p>
+<pre><code>Exception message: Could not determine temp directory, please specify a cache_dir manually
+exception ‘Zend_Cache_Exception’ with message ‘Could not determine temp directory, please specify a cache_dir manu</code></pre>
+<p>Now we need to specify a cache_dir for Magento, go to the file <strong>/lib/Zend/Cache/Backend/File.php</strong>, find:</p>
+<blockquote>
+<p>‘cache_dir’ =&gt; null,</p>
+</blockquote>
+<p>change it to:</p>
+<blockquote>
+<p>‘cache_dir’ =&gt; ‘tmp/’,</p>
+</blockquote>
+<p><img src="https://i.imgur.com/bwaZcDX.png"></p>
+<p>Next, go to Magento root folder and create: <strong>/tmp</strong> folder</p>
+<p><img src="https://i.imgur.com/3eSyQgz.png"></p>
+<p>Finally, refresh the page to see if the issue is fixed.</p>
+<p>搞定!</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/08/04/Magento%E7%BD%91%E7%AB%99%E5%8A%A0%E9%80%9F%E6%96%B9%E6%A1%88%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91%E4%B9%8B%E5%90%88%E5%B9%B6js%E5%92%8Ccss%E5%AF%BC%E8%87%B4%E5%90%8E%E5%8F%B0%E6%A0%B7%E5%BC%8F%E9%94%99%E4%B9%B1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/08/04/Magento%E7%BD%91%E7%AB%99%E5%8A%A0%E9%80%9F%E6%96%B9%E6%A1%88%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E5%9D%91%E4%B9%8B%E5%90%88%E5%B9%B6js%E5%92%8Ccss%E5%AF%BC%E8%87%B4%E5%90%8E%E5%8F%B0%E6%A0%B7%E5%BC%8F%E9%94%99%E4%B9%B1/" class="post-title-link" itemprop="url">Magento网站加速方案中遇到的坑之合并js和css导致后台样式错乱</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-08-04 20:15:03" itemprop="dateCreated datePublished" datetime="2018-08-04T20:15:03+08:00">2018-08-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:01" itemprop="dateModified" datetime="2020-10-11T11:58:01+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><strong>第一个坑：</strong></p>
+<p>开启javascript和css编译</p>
+<p>进入后台：</p>
+<p>system-&gt;Configuration-&gt;Developer-&gt;Javascript Setting 开启javascript编译合并</p>
+<p>Merge javascript files-&gt;Yes</p>
+<p>Enable prototype deprecation log-&gt;Yes</p>
+<p>system-&gt;Configuration-&gt;Developer-&gt;CSS Setting 开启css编译合并</p>
+<p>Merge CSS File-&gt;Yes</p>
+<p>这个默认是no的，如果你把这两个设置成yes，那么你再刷新一下后台样式就乱了，千万别再对magento网站加速的时候把这里改成yes。</p>
+<p><strong>第二个坑：</strong></p>
+<p>开启动态编译（Compilation）导致的问题，解决方案在笔者的另外一篇文章中有写了，大家可以搜索：<code>Compilation</code>。即可找到这篇文章。</p>
+<p>建议新手在优化magento网站前要多了解一些关于网站提速的后遗症再进行，避免走一下弯路。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/08/04/Magento%E5%9C%A8%E5%90%8E%E5%8F%B0%E5%BC%80%E5%90%AFCompilation%E6%9D%A5%E8%BF%9B%E8%A1%8C%E5%8A%A0%E9%80%9F%E7%BD%91%E7%AB%99%EF%BC%8C%E5%8A%A0%E5%BF%AB%E5%8A%A0%E8%BD%BD%E9%80%9F%E5%BA%A6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/08/04/Magento%E5%9C%A8%E5%90%8E%E5%8F%B0%E5%BC%80%E5%90%AFCompilation%E6%9D%A5%E8%BF%9B%E8%A1%8C%E5%8A%A0%E9%80%9F%E7%BD%91%E7%AB%99%EF%BC%8C%E5%8A%A0%E5%BF%AB%E5%8A%A0%E8%BD%BD%E9%80%9F%E5%BA%A6/" class="post-title-link" itemprop="url">Magento在后台开启Compilation来进行加速网站，加快加载速度</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-08-04 19:46:21" itemprop="dateCreated datePublished" datetime="2018-08-04T19:46:21+08:00">2018-08-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:00" itemprop="dateModified" datetime="2020-10-11T11:58:00+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>开启Magento自带的编译模式Compilation，是提升速度最好的方法。</p>
+<p>登录进后台后，依次选择System&gt;Tools&gt;Compilation。第一次开启点击“run compilation process”功能，隔一会后就安装成功。第一次开启Compilation千万不要点“启动/Enabled”，会导致网站访问不了。 我就试过，比较苦逼，不明白Magento为什么不给点限制和提醒。</p>
+<p><img src="https://i.imgur.com/USAhH7W.png"></p>
+<p>根据官方的资料，该模块可以提高 25% 到 50% 的性能</p>
+<p>开启编译模式Compilation</p>
+<p>后台-&gt;System&gt;Tools&gt;Compilation, 点击“run compilation process”功能，隔一会后就安装成功。</p>
+<p>有些时候，开启Compilation后会有一些意想不到的错误，这里收集一下各种错误的处理方法。总的来讲，关闭Compilation就行。不过有些错误是连后台都进不到，这里列一下用其它的方法关闭Compilation功能。</p>
+<p>如magento开启 Compilation Mage.php on line 53错误，或是访问前台后台都是空白。</p>
+<p>修改代码关闭Compilation</p>
+<p>打开includes/config.php</p>
+<p>把</p>
+<pre><code>define(&#39;COMPILER_INCLUDE_PATH&#39;, dirname(__FILE__).DIRECTORY_SEPARATOR.&#39;src&#39;);
+define(&#39;COMPILER_COLLECT_PATH&#39;, dirname(__FILE__).DIRECTORY_SEPARATOR.&#39;stat&#39;);</code></pre>
+<p>修改成</p>
+<pre><code>#define(&#39;COMPILER_INCLUDE_PATH&#39;, dirname(__FILE__).DIRECTORY_SEPARATOR.&#39;src&#39;);
+#define(&#39;COMPILER_COLLECT_PATH&#39;, dirname(__FILE__).DIRECTORY_SEPARATOR.&#39;stat&#39;);</code></pre>
+<p>最后清除掉var/cache目录下的缓存。</p>
+<p>用shell关闭Compilation，登录SSH后，进入网站的shell目录：</p>
+<p>关闭编译,清理缓存。</p>
+<pre><code>cd shell
+php -f compiler.php disable
+cd ..
+rm –rf var/cache/*</code></pre>
+<p>开启编译</p>
+<pre><code>php -f compiler.php compile</code></pre>
+<p>查看编译状态</p>
+<pre><code>php -f compiler.php state</code></pre>
+<p>查看使用compiler.php的方法</p>
+<pre><code>$php -f compiler.php help
+Usage: php -f compiler.php -- [options]
+  state Show Compilation State
+  compile Run Compilation Process
+clear Disable Compiler include path and Remove compiled files
+  enable Enable Compiler include path
+  disable Disable Compiler include path
+  help This help</code></pre>
+<p>这里有篇文章更为详细介绍Compilation的原理的，点这里。</p>
+<p>还有一个问题，开启预编译（Compilation）后，后台插件管理（Magento Connect Manager）不能访问：</p>
+<p>解决方法： </p>
+<blockquote>
+<p>把 /downloader/pearlib/php 文件夹拷贝到 /includes/downloader/pearlib/php/，问题解决。</p>
+</blockquote>
+<p>又一问题，开启编译后，如果后面又要装其它的扩展，就要先把Compilation关闭后再装，不然也是会访问不了。这时再按上面的方法关闭编译即可。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/08/04/Magento%E5%88%A9%E7%94%A8-htaccess%E5%BC%80%E5%90%AFgzip%E5%8E%8B%E7%BC%A9%E6%8F%90%E9%80%9F%EF%BC%8C%E6%8F%90%E9%AB%98%E7%BD%91%E7%AB%99%E7%9A%84%E5%93%8D%E5%BA%94%E9%80%9F%E5%BA%A6%E5%92%8C%E5%8A%A0%E9%80%9F%E7%BD%91%E7%AB%99/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/08/04/Magento%E5%88%A9%E7%94%A8-htaccess%E5%BC%80%E5%90%AFgzip%E5%8E%8B%E7%BC%A9%E6%8F%90%E9%80%9F%EF%BC%8C%E6%8F%90%E9%AB%98%E7%BD%91%E7%AB%99%E7%9A%84%E5%93%8D%E5%BA%94%E9%80%9F%E5%BA%A6%E5%92%8C%E5%8A%A0%E9%80%9F%E7%BD%91%E7%AB%99/" class="post-title-link" itemprop="url">Magento利用.htaccess开启gzip压缩提速，提高网站的响应速度和加速网站</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-08-04 19:08:06" itemprop="dateCreated datePublished" datetime="2018-08-04T19:08:06+08:00">2018-08-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:00" itemprop="dateModified" datetime="2020-10-11T11:58:00+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>使用这个功能的前提是：magento网站所在主机支持gzip压缩！</p>
+<p>另外Magento本身根目录自带的.htaccess就有写入开启gzip压缩的代码，只是被注释了，我们只需要把相关的注释去掉，下面我们来设置一下吧。</p>
+<p>对magento根目录的.htaccess操作：</p>
+<p>搜索<code>output_compression</code>，把<code>#php_flag zlib.output_compression on</code>这行的#去掉。</p>
+<p>搜索SetOutputFilter，找到相关的是：</p>
+<pre><code># Insert filter on all content
+###SetOutputFilter DEFLATE
+# Insert filter on selected content types only
+#AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript
+
+# Netscape 4.x has some problems...
+#BrowserMatch ^Mozilla/4 gzip-only-text/html
+
+# Netscape 4.06-4.08 have some more problems
+#BrowserMatch ^Mozilla/4\.0[678] no-gzip
+
+# MSIE masquerades as Netscape, but it is fine
+#BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+
+# Don&#39;t compress images
+#SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png)$ no-gzip dont-vary
+
+# Make sure proxies don&#39;t deliver the wrong content
+#Header append Vary User-Agent env=!dont-vary</code></pre>
+<p>处理后的代码是：</p>
+<pre><code># Insert filter on all content
+SetOutputFilter DEFLATE
+# Insert filter on selected content types only
+AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript
+
+# Netscape 4.x has some problems...
+BrowserMatch ^Mozilla/4 gzip-only-text/html
+
+# Netscape 4.06-4.08 have some more problems
+BrowserMatch ^Mozilla/4\.0[678] no-gzip
+
+# MSIE masquerades as Netscape, but it is fine
+BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+
+# Don&#39;t compress images
+SetEnvIfNoCase Request_URI \.(?:gif|jpe?g|png)$ no-gzip dont-vary
+
+# Make sure proxies don&#39;t deliver the wrong content
+Header append Vary User-Agent env=!dont-vary</code></pre>
+<p>保存，把Magento缓存清掉刷新测试。果然，Magento利用.Htaccess开启gzip还是有点效果的。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/13/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><span class="page-number current">14</span><a class="page-number" href="/page/15/">15</a><span class="space">&hellip;</span><a class="page-number" href="/page/43/">43</a><a class="extend next" rel="next" href="/page/15/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

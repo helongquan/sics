@@ -1,37 +1,563 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="笔者今天分享一个特效，这个用来实现灯泡的变量和变暗的一个特效。 使用场景：鼠标向下滚动的时候，灯泡变亮，当向上滚动的时候灯泡变暗。 这里笔者采用的方案：jquery和jquery-mousewheel插件。 其中jquery-mousewheel的cdn地址：https:&#x2F;&#x2F;www.bootcdn.cn&#x2F;jquery-mousewheel&#x2F;，也可以在这里下载，提取码：putu  使用方法： $(&amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jquery鼠标滚轮插件实现灯泡变亮变暗的特效笔记">
+<meta property="og:url" content="http://example.com/2019/03/16/jquery%E9%BC%A0%E6%A0%87%E6%BB%9A%E8%BD%AE%E6%8F%92%E4%BB%B6%E5%AE%9E%E7%8E%B0%E7%81%AF%E6%B3%A1%E5%8F%98%E4%BA%AE%E5%8F%98%E6%9A%97%E7%9A%84%E7%89%B9%E6%95%88%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="笔者今天分享一个特效，这个用来实现灯泡的变量和变暗的一个特效。 使用场景：鼠标向下滚动的时候，灯泡变亮，当向上滚动的时候灯泡变暗。 这里笔者采用的方案：jquery和jquery-mousewheel插件。 其中jquery-mousewheel的cdn地址：https:&#x2F;&#x2F;www.bootcdn.cn&#x2F;jquery-mousewheel&#x2F;，也可以在这里下载，提取码：putu  使用方法： $(&amp;">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/0PL5Dys.jpg">
+<meta property="og:image" content="https://i.imgur.com/cIWtq7b.jpg">
+<meta property="og:image" content="https://i.imgur.com/5rZymRu.jpg">
+<meta property="og:image" content="https://i.imgur.com/KUtSgCX.jpg">
+<meta property="article:published_time" content="2019-03-16T03:46:04.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:57:58.387Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="jquery,鼠标滚轮,灯泡变亮,灯泡变暗,光晕">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/0PL5Dys.jpg">
+
+<link rel="canonical" href="http://example.com/2019/03/16/jquery%E9%BC%A0%E6%A0%87%E6%BB%9A%E8%BD%AE%E6%8F%92%E4%BB%B6%E5%AE%9E%E7%8E%B0%E7%81%AF%E6%B3%A1%E5%8F%98%E4%BA%AE%E5%8F%98%E6%9A%97%E7%9A%84%E7%89%B9%E6%95%88%E7%AC%94%E8%AE%B0/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>jquery鼠标滚轮插件实现灯泡变亮变暗的特效笔记 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/03/16/jquery%E9%BC%A0%E6%A0%87%E6%BB%9A%E8%BD%AE%E6%8F%92%E4%BB%B6%E5%AE%9E%E7%8E%B0%E7%81%AF%E6%B3%A1%E5%8F%98%E4%BA%AE%E5%8F%98%E6%9A%97%E7%9A%84%E7%89%B9%E6%95%88%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          jquery鼠标滚轮插件实现灯泡变亮变暗的特效笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-03-16 11:46:04" itemprop="dateCreated datePublished" datetime="2019-03-16T11:46:04+08:00">2019-03-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:58" itemprop="dateModified" datetime="2020-10-11T11:57:58+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/jquery/" itemprop="url" rel="index"><span itemprop="name">jquery</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>笔者今天分享一个特效，这个用来实现灯泡的变量和变暗的一个特效。</p>
+<p>使用场景：鼠标向下滚动的时候，灯泡变亮，当向上滚动的时候灯泡变暗。</p>
+<p>这里笔者采用的方案：jquery和jquery-mousewheel插件。</p>
+<p>其中jquery-mousewheel的cdn地址：<a target="_blank" rel="noopener" href="https://www.bootcdn.cn/jquery-mousewheel/">https://www.bootcdn.cn/jquery-mousewheel/</a>，也可以在这里<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1V7O11nyNb0OWS2lBS12R_A">下载</a>，提取码：putu </p>
+<p>使用方法：</p>
+<pre><code>$(&#39;body&#39;).mousewheel(function(event, delta) &#123;
+    var dir = delta &gt; 0 ? &#39;Up&#39; : &#39;Down&#39;;
+    if (dir == &#39;Up&#39;) &#123;
+        console.log(&#39;向上滚动&#39;);
+        //your code here
+    &#125; else &#123;
+        console.log(&#39;向下滚动&#39;);
+        //your code here
+    &#125;
+    return false;
+
+&#125;);</code></pre>
+<p>其中<code>body</code>是选择器，大家根据自己的需求更改这个，然后把鼠标向上滚动发生的事情和向下滚动发生的事情写在按个判断语句中即可。</p>
+<p><strong>值得提醒的地方：</strong>笔者在采用这个插件的时候，发现在页面中鼠标滚动的时候，滚动条不动了(使鼠标滚轮暂时失效)，后来查了下原因如下：</p>
+<p><code>return false</code> 是绑定了鼠标滚轮事件。如果让滚动条回到正常，那么把<code>return false</code> 改成<code>return ture</code> 即可。</p>
+<p>这个方案来自网友的回答：</p>
+<blockquote>
+<p>$(document).bind(‘mousewheel’, function(event, delta) { return false; });</p>
+</blockquote>
+<blockquote>
+<p>绑定滚轮事件，然后返回false就可以。</p>
+<p>return true;可以恢复</p>
+</blockquote>
+<p>最后笔者的<strong>修改后</strong>的代码如下：</p>
+<pre><code>$(&#39;#shili_a&#39;).mousewheel(function(event, delta) &#123;
+    var dir = delta &gt; 0 ? &#39;Up&#39; : &#39;Down&#39;;
+    if (dir == &#39;Up&#39;) &#123;
+        //my custom code
+        $(this).css(&#123;&quot;filter&quot;:&quot;blur(0px)&quot;,&quot;transition&quot;:&quot;5s&quot;,&quot;background&quot;:&quot;#0097ef&quot;&#125;);
+    &#125; else &#123;
+        //my custom code
+        $(this).css(&#123;&quot;filter&quot;:&quot;blur(0px)&quot;,&quot;transition&quot;:&quot;5s&quot;,&quot;background&quot;:&quot;transparent&quot;&#125;);
+    &#125;
+    // 启用鼠标滚轮
+    return true;
+    // 禁用鼠标滚轮
+    // return false
+&#125;);</code></pre>
+<p>更多的用法可以参考官网：<a target="_blank" rel="noopener" href="https://github.com/jquery/jquery-mousewheel">https://github.com/jquery/jquery-mousewheel</a></p>
+<p>在这个里面可以了解滚动位置的当前坐标，以便做更复杂的控制。笔者把效果粘贴一下：</p>
+<p>当滚轮向上滚动的时候：</p>
+<p><img src="https://i.imgur.com/0PL5Dys.jpg"></p>
+<p>当鼠标向下滚动的时候：</p>
+<p><img src="https://i.imgur.com/cIWtq7b.jpg"></p>
+<p>为了更好的把这个插件用在实际设计中，笔者把这个用在另外一个示例中，请跟着往下看：</p>
+<p>使用场景：当鼠标向下滚动的时候，灯泡变亮：</p>
+<p><img src="https://i.imgur.com/5rZymRu.jpg"></p>
+<p>当鼠标向上滚动的时候，灯泡变暗：</p>
+<p><img src="https://i.imgur.com/KUtSgCX.jpg"></p>
+<p>那么这个又是怎么实现的呢？</p>
+<p>这里笔者需要解决两个问题：</p>
+<ol>
+<li>灯泡和光</li>
+<li>鼠标的滚动方向，根据滚动方向来控制灯泡和光的一些行为。</li>
+</ol>
+<p>先解决灯泡和光的定位的问题，笔者的代码如下：</p>
+<p>HTML代码</p>
+<pre><code>&lt;section class=&quot;block-home-hero block-padding&quot; data-component=&quot;home-hero&quot;&gt;
+    &lt;div class=&quot;background&quot;&gt;
+        &lt;div class=&quot;background-gradient&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;content-wrapper&quot;&gt;
+        &lt;div class=&quot;content-inner&quot;&gt;
+            &lt;div class=&quot;visuals&quot;&gt;
+                &lt;picture class=&quot;main-visual&quot;&gt;
+                    &lt;source media=&quot;(min-width: 1024px)&quot; srcset=&quot;https://www.gelighting.com/sites/default/files/styles/bulb_finder_desktop/public/2017-10/light_0_2_0_2_2_2_0_1_2_7_1_11_7_2_7_3_0_1_4_0_0_0_2.png?itok=C32Gp7Y0&quot;&gt;
+                    &lt;img src=&quot;https://www.gelighting.com/sites/default/files/styles/bulb_finder_/public/2017-10/light-mobile_0_1_0_2_2_2_0_1_2_7_1_11_7_2_7_3_0_1_4_0_0_0_2.png?itok=ZrcaeJ7I&quot;&gt;
+                &lt;/picture&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/section&gt;</code></pre>
+<p>css代码</p>
+<pre><code>&lt;style&gt;
+    body &#123;
+        background-color: #000;
+    &#125;
+    .block-home-hero .background .background-gradient &#123;
+        position: absolute;
+        width: 100vw;
+        height: 100vw;
+        max-width: 1500px;
+        max-height: 1500px;
+        bottom: auto;
+        top: 37%;
+        left: calc(50% + 300px);
+        -ms-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        background: radial-gradient(#cffdfe 10%, #55dbe1 18%, rgba(46, 107, 184, 0) 50%, rgba(46, 107, 184, 0));
+    &#125;
+    .block-home-hero &#123;
+        color: #fff;
+        position: relative;
+        z-index: 1;
+        height: auto;
+        min-height: 640px;
+        padding-top: 64px;
+        padding-bottom: 64px;
+        margin-bottom: 32px;
+    &#125;
+    .block-home-hero .background &#123;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    &#125;
+    .block-home-hero .background .background-visual &#123;
+        max-width: 600px;
+        max-height: 434px;
+        right: auto;
+        left: 68%;
+        top: 43%;
+    &#125;
+    .block-home-hero .visuals .main-visual &#123;
+        position: absolute;
+        z-index: 9999;
+        right: 140px;
+        top: -258px;
+    &#125;
+&lt;/style&gt;</code></pre>
+<p>相信这个定位的问题不是什么困难的事情。就是把灯泡和光叠加在一起，免得脱离了。</p>
+<p>其中，光的css代码：</p>
+<pre><code>background: radial-gradient(#cffdfe 10%, #55dbe1 18%, rgba(46, 107, 184, 0) 50%, rgba(46, 107, 184, 0));</code></pre>
+<p>另外，html中的有个写法值得学习：</p>
+<pre><code>&lt;picture class=&quot;main-visual&quot;&gt;
+    &lt;source media=&quot;(min-width: 1024px)&quot; srcset=&quot;https://www.gelighting.com/sites/default/files/styles/bulb_finder_desktop/public/2017-10/light_0_2_0_2_2_2_0_1_2_7_1_11_7_2_7_3_0_1_4_0_0_0_2.png?itok=C32Gp7Y0&quot;&gt;
+    &lt;img src=&quot;https://www.gelighting.com/sites/default/files/styles/bulb_finder_/public/2017-10/light-mobile_0_1_0_2_2_2_0_1_2_7_1_11_7_2_7_3_0_1_4_0_0_0_2.png?itok=ZrcaeJ7I&quot;&gt;
+&lt;/picture&gt;</code></pre>
+<p>一个是html5中的picture标签，另外一个是里面的两个写法，实现不同屏幕尺寸显示哪张图片的问题。其中，在最小屏幕尺寸为1024px的时候，显示source标签里面的，否则显示img标签里面的，这个可以多学习下。</p>
+<p>好的，解决了这个灯泡和光的定位的问题和自适应（手机版上没有鼠标滚动事件）的问题。我们来看下鼠标滚动的时候，灯泡变暗和变量的机制，笔者是通过控制透明度来实现的。</p>
+<p>js代码如下：</p>
+<pre><code>$(&#39;.block-home-hero&#39;).mousewheel(function(event, delta) &#123;
+    var dir = delta &gt; 0 ? &#39;Up&#39; : &#39;Down&#39;;
+    if (dir == &#39;Up&#39;) &#123;
+        $(&quot;.background-gradient&quot;).css(&#123;&quot;filter&quot;:&quot;blur(10px)&quot;,&quot;transition&quot;:&quot;5s&quot;,&quot;opacity&quot;:&quot;1&quot;&#125;);
+    &#125; else &#123;
+        $(&quot;.background-gradient&quot;).css(&#123;&quot;filter&quot;:&quot;blur(10px)&quot;,&quot;transition&quot;:&quot;5s&quot;,&quot;opacity&quot;:&quot;0&quot;&#125;);
+    &#125;
+    // 启用鼠标滚轮
+    return true;
+    // 禁用鼠标滚轮
+    // return false
+
+&#125;);</code></pre>
+<blockquote>
+<p>js代码要写在HTML代码的后面</p>
+</blockquote>
+<p>当然我们还可以做得更复杂，通过函数的方式实现即可。这里仅仅用作演示。</p>
+<p>记住：先引入两个文件：</p>
+<pre><code>&lt;script src=&quot;https://code.jquery.com/jquery-3.3.1.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://cdn.bootcss.com/jquery-mousewheel/3.1.13/jquery.mousewheel.min.js&quot;&gt;&lt;/script&gt;</code></pre>
+<p>最后，效果实现。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/jquery-%E9%BC%A0%E6%A0%87%E6%BB%9A%E8%BD%AE-%E7%81%AF%E6%B3%A1%E5%8F%98%E4%BA%AE-%E7%81%AF%E6%B3%A1%E5%8F%98%E6%9A%97-%E5%85%89%E6%99%95/" rel="tag"># jquery,鼠标滚轮,灯泡变亮,灯泡变暗,光晕</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/03/15/magento2%E4%BA%A7%E5%93%81%E5%92%8C%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF%E7%9A%84%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E7%9A%84%E9%97%AE%E9%A2%98%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" rel="prev" title="magento2产品和用户信息的导入导出的问题以及解决方案">
+      <i class="fa fa-chevron-left"></i> magento2产品和用户信息的导入导出的问题以及解决方案
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/03/18/%E9%87%87%E7%94%A8jquery%E6%9D%A5%E8%A7%A3%E5%86%B3wordpress%E7%9A%84enfold%E4%B8%BB%E9%A2%98gallery%E7%9B%B8%E5%86%8C%E9%9B%86%E6%8F%92%E5%85%A5%E8%A7%86%E9%A2%91%EF%BC%8C%E9%BC%A0%E6%A0%87%E6%82%AC%E6%B5%AE%E5%92%8C%E7%82%B9%E5%87%BB%E4%B8%8D%E5%90%8C%E6%95%88%E6%9E%9C%E7%9A%84%E6%96%B9%E6%A1%88/" rel="next" title="采用jquery来解决wordpress的enfold主题gallery相册集插入视频，鼠标悬浮和点击不同效果的方案">
+      采用jquery来解决wordpress的enfold主题gallery相册集插入视频，鼠标悬浮和点击不同效果的方案 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

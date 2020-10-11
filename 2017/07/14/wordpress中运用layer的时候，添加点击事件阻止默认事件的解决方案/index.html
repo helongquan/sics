@@ -1,37 +1,534 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="当我在把layer运用到wordpress的时候，遇到了各种问题，这种婚嫁关系给我们带来了惊喜也给我们带来了烦恼，今天的主角是要解决阻止默认事件的行为。 开始我是想做一个类似这样的效果：  看到没？这个是有一个链接的，也就是有a标签在里面，我要为这个文字段落添加一个点击事件，他的html结构是这样的 &lt;p id&#x3D;&quot;tongzhi&quot;&gt; &lt;a href&#x3D;&amp;quot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="wordpress中运用layer的时候，添加点击事件阻止默认事件的解决方案">
+<meta property="og:url" content="http://example.com/2017/07/14/wordpress%E4%B8%AD%E8%BF%90%E7%94%A8layer%E7%9A%84%E6%97%B6%E5%80%99%EF%BC%8C%E6%B7%BB%E5%8A%A0%E7%82%B9%E5%87%BB%E4%BA%8B%E4%BB%B6%E9%98%BB%E6%AD%A2%E9%BB%98%E8%AE%A4%E4%BA%8B%E4%BB%B6%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="当我在把layer运用到wordpress的时候，遇到了各种问题，这种婚嫁关系给我们带来了惊喜也给我们带来了烦恼，今天的主角是要解决阻止默认事件的行为。 开始我是想做一个类似这样的效果：  看到没？这个是有一个链接的，也就是有a标签在里面，我要为这个文字段落添加一个点击事件，他的html结构是这样的 &lt;p id&#x3D;&quot;tongzhi&quot;&gt; &lt;a href&#x3D;&amp;quot">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://i.imgur.com/edKwS6U.jpg">
+<meta property="og:image" content="http://i.imgur.com/j8xExs1.jpg">
+<meta property="article:published_time" content="2017-07-14T10:53:20.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:53:09.255Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="wordpress,layer,事件冒泡,阻止默认事件,a标签,preventDefault">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://i.imgur.com/edKwS6U.jpg">
+
+<link rel="canonical" href="http://example.com/2017/07/14/wordpress%E4%B8%AD%E8%BF%90%E7%94%A8layer%E7%9A%84%E6%97%B6%E5%80%99%EF%BC%8C%E6%B7%BB%E5%8A%A0%E7%82%B9%E5%87%BB%E4%BA%8B%E4%BB%B6%E9%98%BB%E6%AD%A2%E9%BB%98%E8%AE%A4%E4%BA%8B%E4%BB%B6%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>wordpress中运用layer的时候，添加点击事件阻止默认事件的解决方案 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/07/14/wordpress%E4%B8%AD%E8%BF%90%E7%94%A8layer%E7%9A%84%E6%97%B6%E5%80%99%EF%BC%8C%E6%B7%BB%E5%8A%A0%E7%82%B9%E5%87%BB%E4%BA%8B%E4%BB%B6%E9%98%BB%E6%AD%A2%E9%BB%98%E8%AE%A4%E4%BA%8B%E4%BB%B6%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          wordpress中运用layer的时候，添加点击事件阻止默认事件的解决方案
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-07-14 18:53:20" itemprop="dateCreated datePublished" datetime="2017-07-14T18:53:20+08:00">2017-07-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:09" itemprop="dateModified" datetime="2020-10-11T11:53:09+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>当我在把layer运用到wordpress的时候，遇到了各种问题，这种婚嫁关系给我们带来了惊喜也给我们带来了烦恼，今天的主角是要解决阻止默认事件的行为。</p>
+<p>开始我是想做一个类似这样的效果：</p>
+<p><img src="http://i.imgur.com/edKwS6U.jpg"></p>
+<p>看到没？这个是有一个链接的，也就是有a标签在里面，我要为这个文字段落添加一个点击事件，他的html结构是这样的</p>
+<pre><code>&lt;p id=&quot;tongzhi&quot;&gt;
+&lt;a href=&quot;http://www.baidu.com&quot;&gt;add your own text&lt;/a&gt;
+&lt;/p&gt;</code></pre>
+<p>很简单的一个结构，这个时候我点击的时候，只会跳转到百度去了，然而，这个并不是我想要的目标，我的目标是点击这个之后弹出一个弹窗。开始代码是这样的：</p>
+<pre><code>&lt;script&gt;
+window.onload=function()&#123;
+    document.getElementById(&#39;tongzhi&#39;).onclick=tz;
+    function tz()&#123;
+        ;!function()&#123;
+          layer.open(&#123;
+          type: 1
+          ,title:false //不显示标题
+          ,closeBtn: false
+          ,area: &#39;300px;&#39;
+          ,shade: 0.8
+          ,id: &#39;LAY_layuipro&#39; //设定一个id，防止重复弹出
+          ,resize: false
+          ,btn: [&#39;了解详情&#39;, &#39;算了&#39;]
+          ,btnAlign: &#39;c&#39;
+          ,moveType: 1 //拖拽模式，0或者1
+          ,content: &#39;&lt;div style=&quot;padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;&quot;&gt;我白天是个邮递员，晚上就是个有抱负的演员。这是我的博客。我住在天朝的帝都，有条叫做杰克的狗&lt;/div&gt;&#39;
+          ,success: function(layero)&#123;
+            var btn = layero.find(&#39;.layui-layer-btn&#39;);
+            btn.find(&#39;.layui-layer-btn0&#39;).attr(&#123;
+              href: &#39;http://helongquan.github.io/&#39;
+              ,target: &#39;_blank&#39;
+            &#125;);
+          &#125;
+        &#125;);
+        &#125;()
+    &#125;
+&#125;
+&lt;/script&gt;
+
+&lt;style&gt;
+#tongzhi a&#123;
+background:blue;
+padding:10px 20px;
+color:#fff;
+&#125;
+&lt;/style&gt;</code></pre>
+<p>这样的话，点击这个目标元素，总是不弹出东西来，然后定位问题，解决问题，问题的根源在默认事件，取消默认事件即可。</p>
+<p>改进后的代码如下：</p>
+<pre><code>&lt;script&gt;
+window.onload=function()&#123;
+    document.getElementById(&#39;tongzhi&#39;).onclick=tz;
+    function tz(event)&#123;
+        event.preventDefault();
+        ;!function()&#123;
+          layer.open(&#123;
+          type: 1
+          ,title:false //不显示标题
+          ,closeBtn: false
+          ,area: &#39;300px;&#39;
+          ,shade: 0.8
+          ,id: &#39;LAY_layuipro&#39; //设定一个id，防止重复弹出
+          ,resize: false
+          ,btn: [&#39;了解详情&#39;, &#39;算了&#39;]
+          ,btnAlign: &#39;c&#39;
+          ,moveType: 1 //拖拽模式，0或者1
+          ,content: &#39;&lt;div style=&quot;padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;&quot;&gt;我白天是个邮递员，晚上就是个有抱负的演员。这是我的博客。我住在天朝的帝都，有条叫做杰克的狗&lt;/div&gt;&#39;
+          ,success: function(layero)&#123;
+            var btn = layero.find(&#39;.layui-layer-btn&#39;);
+            btn.find(&#39;.layui-layer-btn0&#39;).attr(&#123;
+              href: &#39;http://helongquan.github.io/&#39;
+              ,target: &#39;_blank&#39;
+            &#125;);
+          &#125;
+        &#125;);
+        &#125;()
+    &#125;
+&#125;
+&lt;/script&gt;
+
+&lt;style&gt;
+#tongzhi a&#123;
+background:blue;
+padding:10px 20px;
+color:#fff;
+&#125;
+&lt;/style&gt;</code></pre>
+<p>在第四行和第五行那里，我添加了一个组织默认事件，其实如果是简单的添加那么容易就好了，事实上不是这样的，开始由于其他地方，比如标题：title那里，我添加了标题，缺少了一个符号，导致让问题变得扑朔迷离，后来借助chrome开发者工具的console，找到问题的方法。最后的效果：</p>
+<p><img src="http://i.imgur.com/j8xExs1.jpg"></p>
+<p>其实跟这个相关的还有事件冒泡和事件捕获这两个概念。</p>
+<p>事件冒泡，给你一个典型的例子，点击<a target="_blank" rel="noopener" href="http://pan.baidu.com/s/1pKZPRXT">这里</a>下载，密码：sn00</p>
+<p>html代码如下：</p>
+<pre><code>&lt;!DOCTYPE html &gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;Porschev---Jquery 事件冒泡&lt;/title&gt;
+    &lt;script src=&quot;jquery-1.3.2-vsdoc.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;form id=&quot;form1&quot; runat=&quot;server&quot;&gt;
+        &lt;div id=&quot;divOne&quot; onclick=&quot;alert(&#39;我是最外层&#39;);&quot;&gt;
+            &lt;div id=&quot;divTwo&quot; onclick=&quot;alert(&#39;我是中间层！&#39;)&quot;&gt;&lt;a id=&quot;hr_three&quot; href=&quot;http://www.baidu.com&quot; mce_href=&quot;http://www.baidu.com&quot; onclick=&quot;alert(&#39;我是最里层！&#39;)&quot;&gt;点击我&lt;/a&gt;&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/form&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>那么如何阻止这个事件冒泡呢？</p>
+<p>方式1.event.stopPropagation();</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+
+        $(function() &#123;
+            $(&quot;#hr_three&quot;).click(function(event) &#123;
+                event.stopPropagation();
+            &#125;);
+        &#125;);
+  &lt;/script&gt;</code></pre>
+<p>再点击“点击我”，会弹出：我是最里层，然后链接到百度。</p>
+<p>方式2.return false; </p>
+<p>如果头部加入的是以下代码：</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+    $(function() &#123; $(&quot;#hr_three&quot;).click(function(event) &#123; return false; &#125;); &#125;);
+&lt;/script&gt;</code></pre>
+<p>再点击“点击我”，会弹出：我是最里层，但不会执行链接到百度页面。</p>
+<p>由此可以看出： </p>
+<p>1.event.stopPropagation(); </p>
+<p>事件处理过程中，阻止了事件冒泡，但不会阻击默认行为（它就执行了超链接的跳转）</p>
+<p>2.return false; </p>
+<p>事件处理过程中，阻止了事件冒泡，也阻止了默认行为（比如刚才它就没有执行超链接的跳转）</p>
+<p>还有一种有冒泡有关的：</p>
+<p>3.event.preventDefault(); </p>
+<p>如果把它放在头部A标签的click事件中，点击“点击我”。</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+    $(function() &#123;
+        $(&quot;#hr_three&quot;).click(function(event) &#123;
+            event.preventDefault();
+        &#125;);
+    &#125;);
+&lt;/script&gt;</code></pre>
+<p>会发现它依次弹出：我是最里层—-&gt;我是中间层—-&gt;我是最外层，但最后却没有跳转到百度。</p>
+<blockquote>
+<p>它的作用是：事件处理过程中，不阻击事件冒泡，但阻击默认行为（它只执行所有弹框，却没有执行超链接跳转）。</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/wordpress-layer-%E4%BA%8B%E4%BB%B6%E5%86%92%E6%B3%A1-%E9%98%BB%E6%AD%A2%E9%BB%98%E8%AE%A4%E4%BA%8B%E4%BB%B6-a%E6%A0%87%E7%AD%BE-preventDefault/" rel="tag"># wordpress,layer,事件冒泡,阻止默认事件,a标签,preventDefault</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/07/14/wordpress%E7%BD%91%E7%AB%99%E5%A6%82%E4%BD%95%E8%AE%A9javascript%E5%92%8Ccss%E9%80%89%E6%8B%A9%E6%80%A7%E7%9A%84%E5%8A%A0%E8%BD%BD/" rel="prev" title="wordpress网站如何让javascript和css选择性的加载">
+      <i class="fa fa-chevron-left"></i> wordpress网站如何让javascript和css选择性的加载
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/07/14/%E9%98%BF%E9%87%8C%E4%BA%91Linux%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85web%E7%8E%AF%E5%A2%83%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B-1/" rel="next" title="阿里云Linux一键安装web环境使用教程">
+      阿里云Linux一键安装web环境使用教程 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

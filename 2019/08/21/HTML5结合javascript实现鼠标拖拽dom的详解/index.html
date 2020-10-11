@@ -1,37 +1,892 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="很久前就想记录下关于H5中的拖拽相关问题的详解，今日做个记录，如有不严谨的地方，欢迎斧正。 在阅读笔者的这篇文章之前，建议读者先去以下这几个网站实践一下，以便能够深刻地掌握和理解。 首推：https:&#x2F;&#x2F;developer.mozilla.org&#x2F;en-US&#x2F;docs&#x2F;Web&#x2F;API&#x2F;HTML_Drag_and_Drop_API 基于jquery的拖拽实例：https:&#x2F;&#x2F;github.com&#x2F;p">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTML5结合javascript实现鼠标拖拽dom的详解">
+<meta property="og:url" content="http://example.com/2019/08/21/HTML5%E7%BB%93%E5%90%88javascript%E5%AE%9E%E7%8E%B0%E9%BC%A0%E6%A0%87%E6%8B%96%E6%8B%BDdom%E7%9A%84%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="很久前就想记录下关于H5中的拖拽相关问题的详解，今日做个记录，如有不严谨的地方，欢迎斧正。 在阅读笔者的这篇文章之前，建议读者先去以下这几个网站实践一下，以便能够深刻地掌握和理解。 首推：https:&#x2F;&#x2F;developer.mozilla.org&#x2F;en-US&#x2F;docs&#x2F;Web&#x2F;API&#x2F;HTML_Drag_and_Drop_API 基于jquery的拖拽实例：https:&#x2F;&#x2F;github.com&#x2F;p">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/o1IeBQj.png">
+<meta property="article:published_time" content="2019-08-21T01:27:09.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:57:57.631Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="HTML5,javascript,拖拽,拖放,拖动,jquery,drag,drop">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/o1IeBQj.png">
+
+<link rel="canonical" href="http://example.com/2019/08/21/HTML5%E7%BB%93%E5%90%88javascript%E5%AE%9E%E7%8E%B0%E9%BC%A0%E6%A0%87%E6%8B%96%E6%8B%BDdom%E7%9A%84%E8%AF%A6%E8%A7%A3/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>HTML5结合javascript实现鼠标拖拽dom的详解 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/08/21/HTML5%E7%BB%93%E5%90%88javascript%E5%AE%9E%E7%8E%B0%E9%BC%A0%E6%A0%87%E6%8B%96%E6%8B%BDdom%E7%9A%84%E8%AF%A6%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          HTML5结合javascript实现鼠标拖拽dom的详解
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-08-21 09:27:09" itemprop="dateCreated datePublished" datetime="2019-08-21T09:27:09+08:00">2019-08-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:57" itemprop="dateModified" datetime="2020-10-11T11:57:57+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/html5/" itemprop="url" rel="index"><span itemprop="name">html5</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>很久前就想记录下关于H5中的拖拽相关问题的详解，今日做个记录，如有不严谨的地方，欢迎斧正。</p>
+<p>在阅读笔者的这篇文章之前，建议读者先去以下这几个网站实践一下，以便能够深刻地掌握和理解。</p>
+<p>首推：<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API">https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API</a></p>
+<p>基于jquery的拖拽实例：<a target="_blank" rel="noopener" href="https://github.com/pluslicy/drag">https://github.com/pluslicy/drag</a>，可以在这里下载，也可以在笔者分享的这个链接下载：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1TBaicpr6phksPJyLz6QUVw">https://pan.baidu.com/s/1TBaicpr6phksPJyLz6QUVw</a> 提取码：8o5z </p>
+<p>我们进入到本文的正题中，关于拖拽我们需要知道以下这些概念：</p>
+<p>定义和用法</p>
+<p>在拖放的过程中会触发以下事件：</p>
+<p>在拖动目标上触发事件 (源元素):</p>
+<ul>
+<li>ondragstart - 用户开始拖动元素时触发</li>
+<li>ondrag - 元素正在拖动时触发</li>
+<li>ondragend - 用户完成元素拖动后触发</li>
+</ul>
+<p>释放目标时触发的事件:</p>
+<ul>
+<li>ondragenter - 当被鼠标拖动的对象进入其容器范围内时触发此事件</li>
+<li>ondragover - 当某被拖动的对象在另一对象容器范围内拖动时触发此事件</li>
+<li>ondragleave - 当被鼠标拖动的对象离开其容器范围内时触发此事件</li>
+<li>ondrop - 在一个拖动过程中，释放鼠标键时触发此事件</li>
+</ul>
+<p><strong>浏览器支持</strong></p>
+<p>Internet Explorer 9+, Firefox, Opera, Chrome, 和 Safari 支持拖动。</p>
+<p>注意:Safari 5.1.2不支持拖动；在拖动元素时，每隔 350 毫秒会触发 ondragover 事件。</p>
+<p>实例代码：</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Document&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;script&gt;
+        function dragstart_handler(ev) &#123;
+         // Add the target element&#39;s id to the data transfer object
+         ev.dataTransfer.setData(&quot;app&quot;, ev.target.id);
+         ev.dataTransfer.setData(&quot;content&quot;, ev.target.innerHTML);
+         ev.dataTransfer.setData(&quot;name&quot;, ev.target.dataset.name);
+         ev.dataTransfer.setData(&quot;class&quot;, ev.target.className);
+         ev.dataTransfer.setData(&quot;href&quot;, ev.target.href);
+         ev.dataTransfer.setData(&quot;src&quot;, ev.target.src);
+         ev.dataTransfer.setData(&quot;alt&quot;, ev.target.alt);
+         ev.dataTransfer.dropEffect = &quot;move&quot;;
+        &#125;
+        function dragover_handler(ev) &#123;
+         ev.preventDefault();
+         ev.dataTransfer.dropEffect = &quot;move&quot;
+        &#125;
+        function drop_handler(ev) &#123;
+         ev.preventDefault();
+         // Get the id of the target and add the moved element to the target&#39;s DOM
+         var info = &#123;
+             id: ev.dataTransfer.getData(&quot;app&quot;),
+             content: ev.dataTransfer.getData(&quot;content&quot;),
+             name: ev.dataTransfer.getData(&quot;name&quot;),
+             class: ev.dataTransfer.getData(&quot;class&quot;),
+             link: ev.dataTransfer.getData(&quot;href&quot;),
+             src: ev.dataTransfer.getData(&quot;src&quot;),
+             alt: ev.dataTransfer.getData(&quot;alt&quot;),
+         &#125;
+         var data = ev.dataTransfer.getData(&quot;app&quot;);
+
+         // var content = ev.dataTransfer.getData(&quot;content&quot;);
+         // var name = ev.dataTransfer.getData(&quot;name&quot;);
+         // var classs = ev.dataTransfer.getData(&quot;class&quot;);
+         // console.log(info);
+         ev.target.appendChild(document.getElementById(data));
+         tips(info);
+        &#125;
+        function tips(get_info)&#123;
+            console.log(&quot;你移动了元素的位置&quot;);
+            console.log(get_info);
+        &#125;
+    &lt;/script&gt;
+
+    &lt;p id=&quot;p1&quot; data-name=&quot;zhangsan&quot; class=&quot;container&quot; draggable=&quot;true&quot; ondragstart=&quot;dragstart_handler(event)&quot;&gt;This element is draggable.&lt;/p&gt;
+    &lt;img src=&quot;../logo.jpg&quot; ondragstart=&quot;dragstart_handler(event)&quot; id=&quot;tupian&quot; data-name=&quot;lisi&quot; class=&quot;img-container&quot; alt=&quot;茄子&quot;&gt;
+    &lt;a href=&quot;http://www.baidu.com/&quot; ondragstart=&quot;dragstart_handler(event)&quot; id=&quot;tiaozhuan&quot; data-name=&quot;boming&quot; class=&quot;link-container&quot;&gt;跳转链接&lt;/a&gt;
+    &lt;div id=&quot;target&quot; ondrop=&quot;drop_handler(event)&quot; ondragover=&quot;dragover_handler(event)&quot;&gt;Drop Zone&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>更多的知识，参考链接：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/sqh17/p/8676983.html">https://www.cnblogs.com/sqh17/p/8676983.html</a>。</p>
+<p>默认的HTML元素支持拖动的是链接和图片，也就是说这两类无需为标签添加<code>draggable=&quot;true&quot;</code></p>
+<h2 id="第一步：拖动什么"><a href="#第一步：拖动什么" class="headerlink" title="第一步：拖动什么"></a>第一步：拖动什么</h2><p>这里用到 ondragstart 和 setData()</p>
+<p>然后，规定当元素被拖动时，会发生什么。</p>
+<p>在上面的例子中，ondragstart 属性调用了一个函数，<code>dragstart_handler(event)</code>，它规定了被拖动的数据。</p>
+<p>dataTransfer.setData() 方法设置被拖数据的数据类型和值：</p>
+<pre><code>function dragstart_handler(ev) &#123;
+    // Add the target element&#39;s id to the data transfer object
+    ev.dataTransfer.setData(&quot;app&quot;, ev.target.id);
+    ev.dataTransfer.setData(&quot;content&quot;, ev.target.innerHTML);
+    ev.dataTransfer.setData(&quot;name&quot;, ev.target.dataset.name);
+    ev.dataTransfer.setData(&quot;class&quot;, ev.target.className);
+    ev.dataTransfer.dropEffect = &quot;move&quot;;
+&#125;</code></pre>
+<p>在这个例子中，为了更充分地说明，笔者分别获取了dom中可能出现的各种属性的值：</p>
+<pre><code>// 获取拖拽对象的id
+ev.target.id</code></pre>
+<p>打印输出：p1</p>
+<pre><code>// 获取拖拽对象的所在dom的文本
+ev.target.innerHTML</code></pre>
+<p>打印输出：This element is draggable.</p>
+<pre><code>// 获取拖拽对象的自定义属性(data-name)的值
+ev.target.dataset.name</code></pre>
+<p>打印输出：zhangsan</p>
+<pre><code>// 获取拖拽对象的class
+ev.target.className</code></pre>
+<p>打印输出：container</p>
+<pre><code>// 如果是链接的话，获取拖拽对象的链接
+ev.target.href</code></pre>
+<p>打印输出：<a target="_blank" rel="noopener" href="http://www.baidu.com/">http://www.baidu.com/</a></p>
+<pre><code>// 如果是图片的话，获取拖拽对象的图片地址
+ev.target.src</code></pre>
+<p>打印输出：<a target="_blank" rel="noopener" href="http://localhost/logo.jpg">http://localhost/logo.jpg</a></p>
+<pre><code>// 如果是图片的话，获取拖拽对象的图片的替代文本
+ev.target.alt</code></pre>
+<p>打印输出：茄子</p>
+<p>这里就不用一个个的举例出来了，常用的就这么些，如果这些还不能满足需求，直接用自定义属性，到时候想要多少就用多少。</p>
+<p>上面的那个打印输出的前提是先设置拖拽目标要获取哪些内容，然后到目标区域drop的时候通过getData()函数获取前面dragstart那里setData()函数中的设置的内容。然后输出即可，大家可以看下示例代码里面，很简单。</p>
+<h2 id="第二步：放到何处（ondragover）"><a href="#第二步：放到何处（ondragover）" class="headerlink" title="第二步：放到何处（ondragover）"></a>第二步：放到何处（ondragover）</h2><p>ondragover 事件规定在何处放置被拖动的数据。</p>
+<p>默认情况，是无法将数据/元素放置到其他元素中。如果需要设置允许放置，我们必须阻止对元素的默认处理方式。</p>
+<p>这要通过调用 ondragover 事件的 event.preventDefault() 方法：</p>
+<pre><code>event.preventDefault()</code></pre>
+<p>还有一个这样的函数：</p>
+<pre><code>ev.dataTransfer.dropEffect = &quot;move&quot;</code></pre>
+<p>这个时候我们需要了解下dataTransfer.dropEffect这个的用法，根据<a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer/dropEffect">官网</a>解释：</p>
+<p><strong>copy</strong></p>
+<pre><code>A copy of the source item is made at the new location.</code></pre>
+<p><strong>move</strong></p>
+<pre><code>An item is moved to a new location.</code></pre>
+<p><strong>link</strong></p>
+<pre><code>A link is established to the source at the new location.</code></pre>
+<p><strong>none</strong></p>
+<pre><code>The item may not be dropped. </code></pre>
+<p>本示例用到move，那么就是把一个元素移动到另外一个地方。</p>
+<h2 id="第三步：进行放置-ondrop"><a href="#第三步：进行放置-ondrop" class="headerlink" title="第三步：进行放置 - ondrop"></a>第三步：进行放置 - ondrop</h2><p>这个就是像降落伞着陆的意思，被拖拽的目标被放置在新的目标位置，这个时候需要发生一些事情，或者说我们希望它发生一些事情，比如我把一张图片拖动到目标位置的时候，我希望显示这张图片的相关信息，或者我拖放了一个文本，叫做张三的人名，那么我希望把这个文本拖放到目标位置后，显示张三的相关的信息等等。</p>
+<p>当放置被拖数据时，会发生 drop 事件。</p>
+<p>在上面的例子中，ondrop 属性调用了一个函数，drop_handler(event)：</p>
+<pre><code>function drop_handler(ev) &#123;
+     ev.preventDefault();
+     // Get the id of the target and add the moved element to the target&#39;s DOM
+     var info = &#123;
+         id: ev.dataTransfer.getData(&quot;app&quot;),
+         content: ev.dataTransfer.getData(&quot;content&quot;),
+         name: ev.dataTransfer.getData(&quot;name&quot;),
+         class: ev.dataTransfer.getData(&quot;class&quot;),
+         link: ev.dataTransfer.getData(&quot;href&quot;),
+         src: ev.dataTransfer.getData(&quot;src&quot;),
+         alt: ev.dataTransfer.getData(&quot;alt&quot;),
+     &#125;
+     var data = ev.dataTransfer.getData(&quot;app&quot;);
+
+     // var content = ev.dataTransfer.getData(&quot;content&quot;);
+     // var name = ev.dataTransfer.getData(&quot;name&quot;);
+     // var classs = ev.dataTransfer.getData(&quot;class&quot;);
+     // console.log(info);
+     ev.target.appendChild(document.getElementById(data));
+     tips(info);
+&#125;</code></pre>
+<p><strong>代码解释：</strong></p>
+<ul>
+<li>调用 preventDefault() 来避免浏览器对数据的默认处理（drop 事件的默认行为是以链接形式打开）</li>
+<li>通过 <code>dataTransfer.getData()</code> 方法获得被拖的数据。该方法将返回在 <code>setData()</code> 方法中设置为相同类型的任何数据，为了方便测试和信息的管理，笔者这里把所有的都以对象字面量的方式放在一个info对象中。</li>
+<li>被拖数据是被拖元素的 id (“app”)，也就是drag里面的那个<code>ev.target.id</code>（被拖拽目标的ID）</li>
+<li>把被拖元素追加到放置的元素（目标元素）中。</li>
+</ul>
+<p>这样就实现了拖动目标元素到新的位置。</p>
+<p><strong>dataTransfer对象</strong></p>
+<p>在拖曳操作的过程中，我们可以用过dataTransfer对象来传输数据，以便在拖曳操作结束的时候对数据进行其他的操作。这个也是在本实例中应用频率较高的一个对象。</p>
+<p><strong>火狐浏览器拖拽问题</strong></p>
+<p>但是进行到这儿在火狐浏览器中发现一个问题：</p>
+<p>html5的拖拽，用了preventDefault防止弹出新页面，但在火狐下不管用？</p>
+<p>解决办法：</p>
+<pre><code>document.body.ondrop = function (event) &#123;
+    event.preventDefault();
+    event.stopPropagation();
+&#125;</code></pre>
+<p>也就是添加一个阻止事件冒泡的发生即可。</p>
+<p>这里，笔者再补充一些东西，我们可以在鼠标拖拽的三个阶段添加一些函数，让拖拽变得更加丰富，比如在拖拽的阶段，我希望目标的背景颜色变成红色，那么怎么做呢？</p>
+<p>我们写一个函数：</p>
+<pre><code>function changeColor(ev)&#123;
+    ev.target.style.background = &#39;red&#39;;
+&#125;</code></pre>
+<p>这个函数有一个参数，然后把这个函数放在：</p>
+<pre><code>function dragstart_handler(ev) &#123;
+    ...
+    changeColor(ev);
+&#125;</code></pre>
+<p>这个里面，当我们开始拖动元素的时候，被拖动的元素的背景颜色就变成红色的了。当然，我们完全可以把<code>changeColor(ev)</code>变得更加丰富，以便完成更加复杂的需求。</p>
+<p>如果我们在拖动完成放置到目标区域的时候，发生一些事情的时候，怎么办，还是一样的，根据前面的这个来，我们也写一个函数：</p>
+<pre><code>function tips(get_info)&#123;
+    console.log(&quot;你移动了元素的位置&quot;);
+    console.log(get_info);
+&#125;</code></pre>
+<p>这个函数是用来在浏览器的控制台打印拖动的时候要获取的数据。这里也是需要传递一个参数。然后把这个函数放在：</p>
+<pre><code>function drop_handler(ev) &#123;
+    ...
+    var info = &#123;
+         id: ev.dataTransfer.getData(&quot;app&quot;),
+         content: ev.dataTransfer.getData(&quot;content&quot;),
+         name: ev.dataTransfer.getData(&quot;name&quot;),
+         class: ev.dataTransfer.getData(&quot;class&quot;),
+         link: ev.dataTransfer.getData(&quot;href&quot;),
+         src: ev.dataTransfer.getData(&quot;src&quot;),
+         alt: ev.dataTransfer.getData(&quot;alt&quot;),
+     &#125;
+    tips(info);
+&#125;</code></pre>
+<p>这个的目的就是，当拖拽元素到目标区域的时候，会执行tips()函数。我们也可以对tips()函数里面添加一些更丰富的逻辑处理代码，以实现更加复杂的业务需求。</p>
+<p>比如，很常用的就是一个ajax的异步请求，这个很有用。</p>
+<hr>
+<p>前面的这个是用javascript的方式实现的，很多函数都是直接写在HTML中，这样不利于解耦，代码维护起来有点麻烦，如果分离的话，可以参考第二方案，这个不是笔者自己写的，采纳别人的，方案二仅仅作为参考，分享来用。</p>
+<h2 id="方案二：jquery-HTML5实现拖拽"><a href="#方案二：jquery-HTML5实现拖拽" class="headerlink" title="方案二：jquery+HTML5实现拖拽"></a>方案二：jquery+HTML5实现拖拽</h2><p>HTML代码：</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;拖拽&lt;/title&gt;
+    &lt;script type=&quot;text/javascript&quot; src=&quot;js/jquery-3.2.1.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script type=&quot;text/javascript&quot; src=&quot;js/tbl.js&quot;&gt;&lt;/script&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;css/style.css&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class=&quot;container&quot;&gt;
+        &lt;b&gt;types:&lt;/b&gt; &lt;ul class=&quot;canDrog&quot;&gt;
+            &lt;li draggable=&quot;true&quot; data-text=&quot;optimal&quot;&gt;optimal&lt;/li&gt;
+            &lt;li draggable=&quot;true&quot; data-text=&quot;good&quot;&gt;good&lt;/li&gt;
+            &lt;li draggable=&quot;true&quot; data-text=&quot;medium&quot;&gt;medium&lt;/li&gt;
+            &lt;li draggable=&quot;true&quot; data-text=&quot;badly&quot;&gt;badly&lt;/li&gt;
+        &lt;/ul&gt;
+
+        &lt;table class=&quot;dataTbl&quot;&gt;
+            &lt;thead&gt;
+                &lt;tr&gt;
+                    &lt;th style=&quot;width: auto&quot;&gt;section/weeks&lt;/th&gt;
+                    &lt;th style=&quot;width: 16%&quot;&gt;Monday &lt;/th&gt;
+                    &lt;th style=&quot;width: 16%&quot;&gt;Tuesday&lt;/th&gt;
+                    &lt;th style=&quot;width: 16%&quot;&gt;Wednesday &lt;/th&gt;
+                    &lt;th style=&quot;width: 16%&quot;&gt;Thursday&lt;/th&gt;
+                    &lt;th style=&quot;width: 16%&quot;&gt;Friday&lt;/th&gt;
+                &lt;/tr&gt;
+            &lt;/thead&gt;
+            &lt;tbody&gt;
+                &lt;tr&gt;
+                    &lt;td&gt;section_one&lt;/td&gt;
+                    &lt;td draggable=&quot;true&quot; &gt;&lt;/td&gt;
+                    &lt;td draggable=&quot;true&quot; &gt;&lt;/td&gt;
+                    &lt;td draggable=&quot;true&quot; &gt;&lt;/td&gt;
+                    &lt;td draggable=&quot;true&quot; &gt;&lt;/td&gt;
+                    &lt;td draggable=&quot;true&quot; &gt;&lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr&gt;
+                    &lt;td&gt;section_two&lt;/td&gt;
+                    &lt;td draggable=&quot;true&quot; &gt;&lt;/td&gt;
+                    &lt;td draggable=&quot;true&quot; &gt;&lt;/td&gt;
+                    &lt;td draggable=&quot;true&quot; &gt;&lt;/td&gt;
+                    &lt;td draggable=&quot;true&quot; &gt;&lt;/td&gt;
+                    &lt;td draggable=&quot;true&quot; &gt;&lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr&gt;
+                    &lt;td&gt;section_three&lt;/td&gt;
+                    &lt;td draggable=&quot;true&quot; &gt;&lt;/td&gt;
+                    &lt;td draggable=&quot;true&quot; &gt;&lt;/td&gt;
+                    &lt;td draggable=&quot;true&quot; &gt;&lt;/td&gt;
+                    &lt;td draggable=&quot;true&quot; &gt;&lt;/td&gt;
+                    &lt;td draggable=&quot;true&quot; &gt;&lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr&gt;
+                    &lt;td&gt;section_four&lt;/td&gt;
+                    &lt;td draggable=&quot;true&quot; &gt;&lt;/td&gt;
+                    &lt;td draggable=&quot;true&quot; &gt;&lt;/td&gt;
+                    &lt;td draggable=&quot;true&quot; &gt;&lt;/td&gt;
+                    &lt;td draggable=&quot;true&quot; &gt;&lt;/td&gt;
+                    &lt;td draggable=&quot;true&quot; &gt;&lt;/td&gt;
+                &lt;/tr&gt;
+                &lt;tr&gt;
+                    &lt;td&gt;section_five&lt;/td&gt;
+                    &lt;td draggable=&quot;true&quot; &gt;&lt;/td&gt;
+                    &lt;td draggable=&quot;true&quot; &gt;&lt;/td&gt;
+                    &lt;td draggable=&quot;true&quot; &gt;&lt;/td&gt;
+                    &lt;td draggable=&quot;true&quot; &gt;&lt;/td&gt;
+                    &lt;td draggable=&quot;true&quot; &gt;&lt;/td&gt;
+                &lt;/tr&gt;
+            &lt;/tbody&gt;
+        &lt;/table&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>js代码（tbl.js中的所有代码）：</p>
+<pre><code>$(function()&#123;
+
+    //解决火狐弹出新选项卡的问题
+    $(&quot;.container&quot;).bind(&#39;drop&#39;,function(event)&#123;
+        event.preventDefault();
+        event.stopPropagation();
+    &#125;);
+
+    //拖拽开始时将被拖拽元素透明度设置为50%
+    $(&#39;.canDrog &gt; li&#39;).bind(&#39;dragstart&#39;,function(event)&#123;
+        var event = event.originalEvent;
+        event.target.style.opacity = .5;
+        var dataText = $(event.target).attr(&#39;data-text&#39;);
+        //firefox 必须添加
+        event.dataTransfer.setData(&quot;text&quot;,dataText);
+    &#125;);
+
+    //拖拽过程不执行任何操作。将会被持续触发
+    $(&#39;.canDrog &gt; li&#39;).bind(&#39;drag&#39;,function(event)&#123;&#125;);
+
+    //拖拽之后恢复被拖拽元素的透明度
+    $(&#39;.canDrog &gt; li&#39;).bind(&#39;dragend&#39;,function(event)&#123;
+        var event = event.originalEvent;
+        event.target.style.opacity = 1;
+    &#125;);
+
+
+    //将元素拖入当前元素
+    $(&#39;.dataTbl&#39;).bind(&#39;dragenter&#39;,&#39;td&#39;,function(event)&#123;
+        var event = event.originalEvent;
+        event.target.style.backgroundColor=&#39;#fdfdfd&#39;;
+    &#125;);
+    //google chrome,opera需要添加
+    $(&quot;.dataTbl&quot;).bind(&quot;dragover&quot;,&#39;td&#39;,function(e)&#123;
+        e.originalEvent.preventDefault();  
+    &#125;)  
+    //将元素拖离当前元素
+    $(&#39;.dataTbl&#39;).bind(&#39;dragleave&#39;,&#39;td&#39;,function(event)&#123;
+        var event = event.originalEvent;
+        event.target.style.backgroundColor=&#39;&#39;;
+    &#125;);
+
+    //将元素释放到当前元素中
+    $(&#39;.dataTbl&#39;).bind(&#39;drop&#39;,&#39;td&#39;,function(event)&#123;
+        var event = event.originalEvent;
+        var text = event.dataTransfer.getData(&quot;text&quot;);
+        //重置背景色
+        event.target.style.backgroundColor=&#39;&#39;;
+        //添加拖拽元素的类型
+        $(event.target).removeClass();
+        $(event.target).addClass(text);
+        $(event.target).text(text);
+
+        event.preventDefault();
+        event.stopPropagation();
+    &#125;);
+&#125;);</code></pre>
+<p>大家可以参考下。这个很直观，也很经典。</p>
+<p>笔者在运用这个这地方的时候，有点小问题，就是笔者的被拖拽的目标是通过js动态生成的dom，也就是说在html代码之后生成的，那么没法被监听到。所以这里需要做个处理。</p>
+<p><strong>首先</strong>，我们要确保<code>$(&#39;.dataTbl&#39;)</code>这个jquery对象不是动态生成的，而是原本就存在的。</p>
+<p><strong>接着</strong>，把<code>bind</code>改成<code>on</code>，然后写法可以自行参考下jquery中on的写法。</p>
+<p>经过纠正之后，笔者用在本地项目的时候，js代码写法如下：</p>
+<pre><code>$(document).ready(function() &#123;
+
+    // 拖拽事件处理代码 开始
+    // 解决在火狐浏览器上拖放的目标被在新的浏览器标签上打开
+    $(&quot;#media_manage .content&quot;).on(&#39;drop&#39;, function(event) &#123;
+        event.preventDefault();
+        event.stopPropagation();
+    &#125;);
+
+    $(&quot;#media_manage .content&quot;).on(&#39;dragstart&#39;,&#39;.media-item&#39;, function(event) &#123;
+        var event = event.originalEvent;
+        event.target.style.opacity = 0.5;
+        var dataText = $(event.target).attr(&#39;data-alt&#39;);
+        var dataLink = $(event.target).attr(&#39;data-link&#39;);
+        //firefox 必须添加
+        event.dataTransfer.setData(&quot;alt&quot;,dataText);
+        event.dataTransfer.setData(&quot;link&quot;,dataLink);
+    &#125;);
+
+    //拖拽过程不执行任何操作。将会被持续触发
+    $(&#39;#media_manage .content&#39;).on(&#39;drag&#39;,&#39;.media-item&#39;,function(event)&#123;&#125;);
+
+    //拖拽之后恢复被拖拽元素的透明度
+    $(&#39;#media_manage .content&#39;).on(&#39;dragend&#39;,&#39;.media-item&#39;,function(event)&#123;
+        var event = event.originalEvent;
+        event.target.style.opacity = 1;
+    &#125;);
+
+    //将元素拖入当前元素
+    $(&#39;#media_manage .content&#39;).on(&#39;dragenter&#39;,&#39;#media_result&#39;,function(event)&#123;
+        var event = event.originalEvent;
+        event.target.style.backgroundColor=&#39;#fdfdfd&#39;;
+    &#125;);
+
+    //google chrome,opera需要添加
+    $(&quot;#media_manage .content&quot;).on(&quot;dragover&quot;,&#39;#media_result&#39;,function(e)&#123;
+        e.originalEvent.preventDefault();  
+    &#125;);
+
+    //将元素拖离当前元素
+    $(&#39;#media_manage .content&#39;).on(&#39;dragleave&#39;,&#39;#media_result&#39;,function(event)&#123;
+        var event = event.originalEvent;
+        event.target.style.backgroundColor=&#39;&#39;;
+    &#125;);
+
+    //将元素释放到当前元素中
+    $(&#39;#media_manage .content&#39;).on(&#39;drop&#39;,&#39;#media_result&#39;,function(event)&#123;
+        var event = event.originalEvent;
+        var text = event.dataTransfer.getData(&quot;alt&quot;);
+        var link = event.dataTransfer.getData(&quot;link&quot;);
+        //重置背景色
+        event.target.style.backgroundColor=&#39;&#39;;
+        //添加拖拽元素的类型
+        $(event.target).removeClass();
+        $(event.target).addClass(text);
+        // $(event.target).text(text);
+        // $(event.target).prepend(link);
+        $(event.target).html(text+&quot; - &quot;+link);
+        getStudentInfomation(text,link);
+
+        event.preventDefault();
+        event.stopPropagation();
+    &#125;);
+
+    // 拖拽事件处理代码 结束
+
+&#125;)
+
+function getStudentInfomation(student,link)&#123;
+    $.ajax(&#123;
+        url:&quot;./api/media/getStudentInfomation?student=&quot;+student,
+        type: &quot;get&quot;,
+        dataType: &quot;json&quot;,
+        contentType: &quot;application/json&quot;,
+        success: function(res)&#123;
+            console.log(res.data);
+            res = res.data;
+            var html = &#39;&lt;div class=&quot;media&quot;&gt;&#39;;
+            html += &#39;&lt;div class=&quot;media-left&quot;&gt;&lt;a href=&quot;#&quot;&gt;&#39;;
+
+            if(res[0].headimg == null)&#123;
+                html += &#39;&lt;img class=&quot;media-object&quot; src=&quot;./public/uploads/wordpress.jpg&quot;&gt;&#39;;
+            &#125;else&#123;
+                html += &#39;&lt;img class=&quot;media-object&quot; src=&quot;&#39;+res[0].headimg+&#39;&quot;&gt;&#39;;
+            &#125;
+
+            html += &#39;&lt;/a&gt;&lt;/div&gt;&#39;;
+            html += &#39;&lt;div class=&quot;media-body&quot;&gt;&#39;;
+            html += &#39;&lt;h4 class=&quot;media-heading&quot; id=&quot;user_name&quot;&gt;学生：&lt;a href=&quot;&#39;+link+&#39;&quot; target=&quot;_blank&quot;&gt;&#39;+res[0].name+&#39;&lt;/a&gt;&lt;/h4&gt;&#39;;
+            html += &#39;&lt;p&gt;&lt;span&gt;年级：&#39;+res[0].grade+&#39;&lt;/span&gt;&amp;nbsp;&amp;nbsp;&lt;span&gt;年纪&#39;+res[0].age+&#39;&lt;/span&gt;&lt;/p&gt;&#39;;
+            html += &#39;&lt;p&gt;手机号：&#39;+res[0].mobile+&#39;&lt;/p&gt;&#39;;
+            html += &#39;&lt;p&gt;地址：&#39;+res[0].address+&#39;&lt;/p&gt;&#39;;
+            html += &#39;&lt;/div&gt;&#39;;
+            $(&quot;#pic_infomation_result&quot;).html(html);
+        &#125;,
+        error: function(xhr, err, exception)&#123;
+            console.log(err);
+        &#125;
+    &#125;)
+&#125;</code></pre>
+<p>HTML代码如下：</p>
+<pre><code>&lt;div id=&quot;media_manage&quot;&gt;
+    &lt;div class=&quot;content&quot;&gt;
+        &lt;p&gt;媒体中心&lt;/p&gt;
+        &lt;div class=&quot;content-block&quot;&gt;
+           &lt;div id=&quot;schedule_student_list&quot;&gt;
+              // 这里会有一些动态的dom生成，动态生成的dom会成为被拖拽的目标
+           &lt;/div&gt;
+            &lt;div class=&quot;media-grid&quot;&gt;
+                &lt;div class=&quot;media-item&quot;&gt;
+                    &lt;img src=&quot;./public/uploads/1.jpg&quot; data-link=&quot;./index&quot; data-alt=&quot;刘备&quot;&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;media-item&quot;&gt;
+                    &lt;img src=&quot;./public/uploads/2.jpg&quot; data-link=&quot;./student&quot; data-alt=&quot;孙权&quot;&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;media-item&quot;&gt;
+                    &lt;img src=&quot;./public/uploads/3.jpg&quot; data-link=&quot;https://www.layui.com&quot; data-alt=&quot;曹操&quot;&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;media-item&quot;&gt;
+                    &lt;img src=&quot;./public/uploads/4.jpg&quot; data-link=&quot;https://www.baidu.com&quot; data-alt=&quot;关羽&quot;&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;media-item&quot;&gt;
+                    &lt;img src=&quot;./public/uploads/5.jpg&quot; data-link=&quot;http://localhost/tp5/index&quot; data-alt=&quot;张骞&quot;&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;media-item&quot;&gt;
+                    &lt;img src=&quot;./public/uploads/6.jpg&quot; data-link=&quot;http://localhost/tp5/index&quot; data-alt=&quot;赵云&quot;&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;hr&gt;
+        &lt;div id=&quot;media_result&quot;&gt;拖放图片到此区域识别真伪&lt;/div&gt;
+        &lt;div id=&quot;pic_infomation_result&quot; class=&quot;content-block&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<p>这样当我拖动元素的时候，就不会出现没法拖放到目标区域的问题了。</p>
+<p>最后，作为一个小demo，笔者实现了这样一个：拖动图片到指定的区域，然后可以显示图片的相关信息，同时可以以图片的某些值作为参数来发起ajax请求，然后查询出更多跟图片相关的信息。</p>
+<p>上图：</p>
+<p><img src="https://i.imgur.com/o1IeBQj.png"></p>
+<p>本文会持续更新，敬请关注。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/HTML5-javascript-%E6%8B%96%E6%8B%BD-%E6%8B%96%E6%94%BE-%E6%8B%96%E5%8A%A8-jquery-drag-drop/" rel="tag"># HTML5,javascript,拖拽,拖放,拖动,jquery,drag,drop</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/08/16/tp5%E8%B0%83%E8%AF%95%E8%AE%B0%E5%BD%95%E4%B9%8B%E6%A8%A1%E6%9D%BF%E7%9A%84%E8%BF%90%E7%94%A8%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/" rel="prev" title="tp5调试记录之模板的运用注意事项">
+      <i class="fa fa-chevron-left"></i> tp5调试记录之模板的运用注意事项
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/08/21/Tp5%E9%A1%B9%E7%9B%AE%E4%B8%AD%E5%89%8D%E7%AB%AFajax%E8%BF%94%E5%9B%9E%E5%80%BC%E5%89%8D%E6%9C%89-php%E7%AC%A6%E5%8F%B7%E8%80%8C%E4%B8%94%E5%89%8D%E5%8F%B0%E9%A1%B5%E9%9D%A2%E4%B8%AD%E7%9A%84%E6%9C%80%E5%89%8D%E9%9D%A2%E4%B9%9F%E6%9C%89/" rel="next" title="Tp5项目中前端ajax返回值前有php符号而且前台页面中的最前面也有">
+      Tp5项目中前端ajax返回值前有php符号而且前台页面中的最前面也有 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E6%AD%A5%EF%BC%9A%E6%8B%96%E5%8A%A8%E4%BB%80%E4%B9%88"><span class="nav-number">1.</span> <span class="nav-text">第一步：拖动什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E6%AD%A5%EF%BC%9A%E6%94%BE%E5%88%B0%E4%BD%95%E5%A4%84%EF%BC%88ondragover%EF%BC%89"><span class="nav-number">2.</span> <span class="nav-text">第二步：放到何处（ondragover）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%89%E6%AD%A5%EF%BC%9A%E8%BF%9B%E8%A1%8C%E6%94%BE%E7%BD%AE-ondrop"><span class="nav-number">3.</span> <span class="nav-text">第三步：进行放置 - ondrop</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E6%A1%88%E4%BA%8C%EF%BC%9Ajquery-HTML5%E5%AE%9E%E7%8E%B0%E6%8B%96%E6%8B%BD"><span class="nav-number">4.</span> <span class="nav-text">方案二：jquery+HTML5实现拖拽</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

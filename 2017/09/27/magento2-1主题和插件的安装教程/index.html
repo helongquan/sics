@@ -1,37 +1,476 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="很长一段时间，我困惑于如何安装一个magento的主题和插件，可能是长时间对wordpress的琢磨而不能自拔了。好的，今天就跟大家讲讲：magento2.1主题和插件的安装教程 我们先去网络上下载对应的主题和插件，比如主题：yume主题，插件比如：Banners插件 下载下来后，我们也不要急着安装，先解压看下文件结构，因为很多主题或者插件结构需要对应好，才能被检测到。 主题我们需要看regist">
+<meta property="og:type" content="article">
+<meta property="og:title" content="magento2.1主题和插件的安装教程">
+<meta property="og:url" content="http://example.com/2017/09/27/magento2-1%E4%B8%BB%E9%A2%98%E5%92%8C%E6%8F%92%E4%BB%B6%E7%9A%84%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="很长一段时间，我困惑于如何安装一个magento的主题和插件，可能是长时间对wordpress的琢磨而不能自拔了。好的，今天就跟大家讲讲：magento2.1主题和插件的安装教程 我们先去网络上下载对应的主题和插件，比如主题：yume主题，插件比如：Banners插件 下载下来后，我们也不要急着安装，先解压看下文件结构，因为很多主题或者插件结构需要对应好，才能被检测到。 主题我们需要看regist">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/J9StXm8.jpg">
+<meta property="og:image" content="https://i.imgur.com/4YTZqx9.jpg">
+<meta property="article:published_time" content="2017-09-27T03:11:43.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:53:27.091Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="magento,magento2.1,主题,插件">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/J9StXm8.jpg">
+
+<link rel="canonical" href="http://example.com/2017/09/27/magento2-1%E4%B8%BB%E9%A2%98%E5%92%8C%E6%8F%92%E4%BB%B6%E7%9A%84%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>magento2.1主题和插件的安装教程 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/09/27/magento2-1%E4%B8%BB%E9%A2%98%E5%92%8C%E6%8F%92%E4%BB%B6%E7%9A%84%E5%AE%89%E8%A3%85%E6%95%99%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          magento2.1主题和插件的安装教程
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-09-27 11:11:43" itemprop="dateCreated datePublished" datetime="2017-09-27T11:11:43+08:00">2017-09-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:27" itemprop="dateModified" datetime="2020-10-11T11:53:27+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>很长一段时间，我困惑于如何安装一个magento的主题和插件，可能是长时间对wordpress的琢磨而不能自拔了。好的，今天就跟大家讲讲：magento2.1主题和插件的安装教程</p>
+<p>我们先去网络上下载对应的主题和插件，比如主题：<a target="_blank" rel="noopener" href="https://marketplace.magento.com/venustheme-theme-frontend-yume.html">yume主题</a>，插件比如：<a target="_blank" rel="noopener" href="https://marketplace.magento.com/fme-banners.html">Banners插件</a></p>
+<p>下载下来后，我们也不要急着安装，先解压看下文件结构，因为很多主题或者插件结构需要对应好，才能被检测到。</p>
+<p>主题我们需要看registration.php这个文件，插件也是registration.php这个文件，里面有写这个文件的目录是怎么样的。</p>
+<p>我们就以yume这个主题来说，这里需要说明的是，我们下载主题后，有些主题很简单，可能什么也没有，这个一般不怎么靠谱，主题应该是有很多个文件夹和必要的配置文件，以及说明文件组成的：registration.php、theme.xml、config.xml、composer.json等，这些文件应该都要有。如果觉得下载主题不靠谱我们可以打开magento默认的主题luma和下载主题对应一下，看下这些文件是否差不多，毕竟主题不一样，文件也有所差异，但是这些必要的文件应该是需要有的。好了，我们检查好了这一步后，我们就能够进行主题目录的定位，我们下载下来的主题应该放在magento的哪个目录下呢？</p>
+<p>注意：以下的内容会很重要，需要仔细阅读。<br>magento1和magento2可能有点不一样，我这里是以magento2.1作为讲解的。registration.php文件夹里的代码如下：</p>
+<pre><code>&lt;?php
+/**
+* Copyright © 2015 Magento. All rights reserved.
+* See COPYING.txt for license details.
+*/
+\Magento\Framework\Component\ComponentRegistrar::register(
+ \Magento\Framework\Component\ComponentRegistrar::THEME,
+ &#39;frontend/Venustheme/yume&#39;,
+ __DIR__
+);</code></pre>
+<p>说明这个是在magento根目录/app/design/frontend/Venustheme/yume，所以我们下载主题的名字应该是Venustheme文件夹，里面再有一个yume文件夹，最后就是一些文件夹和文件了，这就是主题的文件结构，可能大家还是有点困惑，大家不妨把luma主题用来做对比，luma的registration.php文件的代码如下：</p>
+<pre><code>&lt;?php
+/**
+ * Copyright © 2013-2017 Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+\Magento\Framework\Component\ComponentRegistrar::register(
+ \Magento\Framework\Component\ComponentRegistrar::THEME,
+ &#39;frontend/Magento/luma&#39;,
+ __DIR__
+);</code></pre>
+<p>luma主题文件虽然在magento根目录/vendor/magento/theme-frontend-luma下，这个Magento是默认的，所以如果要重写，可能就在这个文件夹里添加代码。</p>
+<p>起初，我还把Venustheme这个主题放了一份在magento根目录/vendor/magento/下，并且命名为magento根目录/vendor/magento/theme-frontend-yume，不知道这样是否可行，大家可以去折腾下，反正我是很肤浅的这样复制粘贴，说明我根本没有理解透彻这个主题的设计。当然我这个做法可以用来备用，万一有些个别情况，有的人根据上面的指导还是不行的话，或许我这种拙劣的经历会有一些启发。<br>选择好了，然后查看没啥问题后，就上传，然后就运行命令：</p>
+<pre><code>magento setup:upgrade
+magento setup:di:compile</code></pre>
+<p>这样进入到后台—内容—主题，这个时候你就会看到新添加的yume就出现了。</p>
+<p><img src="https://i.imgur.com/J9StXm8.jpg"></p>
+<p>然后进入到配置那里，把默认的luma变成新添加的主题，然后刷新前台，就会发生样式上的变化，当然这个仅仅是用作测试，如果用于生产环境，最好找个上好的主题，进行安装配置即可。</p>
+<p>如果我们想变回默认主题也很简单，直接在内容—配置—选择默认的主题—进行主题切换—选择luma主题。</p>
+<p>好了，我们再来说说安装插件吧</p>
+<p>我们下载好了插件的文件后，也是一样的，先看registration.php文件，里面的代码大致如下，这里我以banners这个插件作为讲解。</p>
+<pre><code>&lt;?php
+
+\Magento\Framework\Component\ComponentRegistrar::register(
+ \Magento\Framework\Component\ComponentRegistrar::MODULE,
+ &#39;FME_Banners&#39;,
+ __DIR__
+ );</code></pre>
+<p>虽然我们下载下来的名字是fme-banners-1.0.4，但是我们从上面的代码可以看出插件的文件名应该是FME，然后里面有个Banners文件夹，再里面才是放源码的。这个很重要，这些目录具体怎么样，是由这个registration.php决定好了的。明白这个后，我们就需要解决：插件应该放哪里呢？哪个目录？</p>
+<p>magento2.1的插件目录是：magento根目录/app/code(如果没有这个目录，就自己新建一个)/插件位置，比如我要放FME这个插件，那么它的目录就是magento根目录/app/code/FME，</p>
+<p>然后我们就在magento根目录下运行命令：</p>
+<pre><code>php bin/magento module:status    //查看插件情况</code></pre>
+<p>这个时候会在最后显示有个没有被启用的插件：FME_Banners</p>
+<p>然后就是启用这个插件，运行命令：</p>
+<pre><code>php bin/magento module:enable FME_Banners    //启用特定的插件的写法</code></pre>
+<p>如果我们一次性上传了好几个插件的话，然后我们要全部启用这些，该怎么办，我们就不用一个一个的运行启用了，直接运行如下命令：</p>
+<pre><code>php bin/magento module:enable --all  //启用所有插件</code></pre>
+<p>启用好了后，我们就运行如下命令：</p>
+<pre><code>php bin/magento setup:upgrade</code></pre>
+<p>更新一下magento，有的时候可能还要运行一下如下命令：</p>
+<pre><code>php bin/magento setup:di:compile</code></pre>
+<p>完毕后，进入magento后台，就可以看到安装好的扩展了。</p>
+<p>这里会有一个特殊情况，比如我们在安装插件的时候，我们已经安装了Mageplaza，这个是一个系列的，就是类似wordpress中的woocommerce的一样，我们可以在magento后台看到Mageplaza这个区块的内容，也有Mageplaza Marketplace，如果我们在这里上面下载的插件的话，当然我们还是要想前面说那样把插件的文件结构确定好，然后命好名，上传的路径不是magento根目录/app/code，而是magento根目录/app/code/Mageplaza，道理很简单，它的和注册文件为：</p>
+<pre><code>&lt;?php
+
+\Magento\Framework\Component\ComponentRegistrar::register( 
+
+\Magento\Framework\Component\ComponentRegistrar::MODULE,
+
+ &#39;Mageplaza_Seo&#39;, 
+
+__DIR__
+
+);</code></pre>
+<p>所以插件的名字就是应该是：Seo，然后在Seo文件夹下就是插件的源代码。这个值得大家注意，事实上，我下载的这个插件（seo_v1.4.1.2_ce_mageplaza）目录结构如下</p>
+<p><img src="https://i.imgur.com/4YTZqx9.jpg"></p>
+<p>所以很多时候，不能下载下来就觉得万事大吉了，我们还得看下插件的文件结构，再决定下一步怎么做。相信将来还会遇到更复杂的情况，只要保持冷静，对比，尝试，观察，我们就能举一反三。</p>
+<p>有的时候，我在安装一个扩展的是，是一个PDF的扩展，然后报错了，说是没有一个文件或是某个函数什么的，我们在安装插件出错了怎么办，不要着急，根据以下方法走就行。</p>
+<p>如果想彻底删除的话，直接删除有问题的插件的文件，就是在magento根目录/app/code/下的需要删除的插件的文件夹。然后更新一下magento，运行命令：</p>
+<pre><code>php bin/magento setup:upgrade</code></pre>
+<p>或者是，不删除但是我们直接禁用这个有问题的插件，这里我以插件FME_Banners为例，运行命令：</p>
+<pre><code>php bin/magento module:disable FME_Banners</code></pre>
+<p>这样就禁用了这个插件了，然后更新一下，运行命令：</p>
+<pre><code>php bin/magento setup:upgrade</code></pre>
+<p>好了，以上就是magento2.1版本中的插件和主题的安装讲解，如有任何疑问可以与我取得联系，QQ：791447771，以上文章为原创，请尊重笔者知识产权，转载请注明出处，谢谢。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/magento-magento2-1-%E4%B8%BB%E9%A2%98-%E6%8F%92%E4%BB%B6/" rel="tag"># magento,magento2.1,主题,插件</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/09/15/%E6%9C%80%E7%AE%80%E5%8D%95%E9%9D%A0%E8%B0%B1%E7%9A%84varnish%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B/" rel="prev" title="最简单靠谱的varnish配置教程">
+      <i class="fa fa-chevron-left"></i> 最简单靠谱的varnish配置教程
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/09/27/magento2%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%EF%BC%9Amagento2-Hello-World/" rel="next" title="magento2插件开发：magento2 Hello World">
+      magento2插件开发：magento2 Hello World <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

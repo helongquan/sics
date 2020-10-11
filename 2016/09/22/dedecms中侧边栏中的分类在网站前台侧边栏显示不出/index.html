@@ -1,37 +1,593 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="问题是这样的： dedecms 更新一个三级的栏目以后，弹出  ‘&#x2F;templets&#x2F;default&#x2F;list_default.htm’ 不存在,无法解析文档!但是模板templets文件夹里面根本没有list_default.htm这个文件呀，如下图所示的，应该是指向list_article.htm文件呀，而不是ist_default.htm这个文件呀。 每次添加分类之后，更新栏目的时候出现这样">
+<meta property="og:type" content="article">
+<meta property="og:title" content="dedecms中侧边栏中的分类在网站前台侧边栏显示不出">
+<meta property="og:url" content="http://example.com/2016/09/22/dedecms%E4%B8%AD%E4%BE%A7%E8%BE%B9%E6%A0%8F%E4%B8%AD%E7%9A%84%E5%88%86%E7%B1%BB%E5%9C%A8%E7%BD%91%E7%AB%99%E5%89%8D%E5%8F%B0%E4%BE%A7%E8%BE%B9%E6%A0%8F%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%87%BA/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="问题是这样的： dedecms 更新一个三级的栏目以后，弹出  ‘&#x2F;templets&#x2F;default&#x2F;list_default.htm’ 不存在,无法解析文档!但是模板templets文件夹里面根本没有list_default.htm这个文件呀，如下图所示的，应该是指向list_article.htm文件呀，而不是ist_default.htm这个文件呀。 每次添加分类之后，更新栏目的时候出现这样">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://i.imgur.com/wVcBr7P.jpg">
+<meta property="og:image" content="http://i.imgur.com/SG3OAOc.jpg">
+<meta property="og:image" content="http://i.imgur.com/aZZnZvu.jpg">
+<meta property="og:image" content="http://i.imgur.com/m6ijrdo.jpg">
+<meta property="og:image" content="http://i.imgur.com/RZIXWT5.jpg">
+<meta property="og:image" content="http://i.imgur.com/VnKkgJ7.jpg">
+<meta property="og:image" content="http://i.imgur.com/l5kenE9.png">
+<meta property="og:image" content="http://i.imgur.com/LWBObxF.png">
+<meta property="og:image" content="http://i.imgur.com/fKJfGAJ.jpg">
+<meta property="og:image" content="http://i.imgur.com/2R06obj.jpg">
+<meta property="og:image" content="http://i.imgur.com/ihJgRT0.jpg">
+<meta property="article:published_time" content="2016-09-22T14:59:49.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:53:34.625Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="dedecms,添加分类,侧边栏">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://i.imgur.com/wVcBr7P.jpg">
+
+<link rel="canonical" href="http://example.com/2016/09/22/dedecms%E4%B8%AD%E4%BE%A7%E8%BE%B9%E6%A0%8F%E4%B8%AD%E7%9A%84%E5%88%86%E7%B1%BB%E5%9C%A8%E7%BD%91%E7%AB%99%E5%89%8D%E5%8F%B0%E4%BE%A7%E8%BE%B9%E6%A0%8F%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%87%BA/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>dedecms中侧边栏中的分类在网站前台侧边栏显示不出 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/09/22/dedecms%E4%B8%AD%E4%BE%A7%E8%BE%B9%E6%A0%8F%E4%B8%AD%E7%9A%84%E5%88%86%E7%B1%BB%E5%9C%A8%E7%BD%91%E7%AB%99%E5%89%8D%E5%8F%B0%E4%BE%A7%E8%BE%B9%E6%A0%8F%E6%98%BE%E7%A4%BA%E4%B8%8D%E5%87%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          dedecms中侧边栏中的分类在网站前台侧边栏显示不出
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-09-22 22:59:49" itemprop="dateCreated datePublished" datetime="2016-09-22T22:59:49+08:00">2016-09-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:34" itemprop="dateModified" datetime="2020-10-11T11:53:34+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>问题是这样的：</p>
+<p>dedecms 更新一个三级的栏目以后，弹出  ‘/templets/default/list_default.htm’ 不存在,无法解析文档!<br>但是模板templets文件夹里面根本没有list_default.htm这个文件呀，如下图所示的，应该是指向list_article.htm文件呀，而不是ist_default.htm这个文件呀。</p>
+<p>每次添加分类之后，更新栏目的时候出现这样的问题：</p>
+<p>/templets/default/list_default.htm’ 不存在,无法解析文档!</p>
+<p>开始觉得很纳闷儿，到底是哪里不对呢？在网上也找了好久，有一搭没一搭，结果浪费了半天的时间，后来在这里找到了：</p>
+<p>由于一级导航有模板对应，所以一级导航单独更新是可以的，如图：</p>
+<p><img src="http://i.imgur.com/wVcBr7P.jpg"></p>
+<p>这是一级导航的（就是导航条上的主导航）。<br>现在一级导航上的模板指定了，是可以这样更新的：</p>
+<p><img src="http://i.imgur.com/SG3OAOc.jpg"></p>
+<p>这样更新代表仅仅更新主导航，如果选择更新子级栏目，那么由于子级栏目并没有对应的模板文件，就会出现你图上的这个问题：</p>
+<p><img src="http://i.imgur.com/aZZnZvu.jpg"></p>
+<p>这时只需要指定你三级导航的“列表模板”，即可以正常更新：</p>
+<p><img src="http://i.imgur.com/m6ijrdo.jpg"></p>
+<p>要注意，这个列表模板需要在你的模板根目录中存在，也就是如下图：</p>
+<p><img src="http://i.imgur.com/RZIXWT5.jpg"></p>
+<p>这样，系统就不会因为找不到模板报错了！</p>
+<p>作为补充，我再加点东西，以便更清楚的说明。</p>
+<p>我们就以<a target="_blank" rel="noopener" href="http://xxx.com/dede/dedo/%E4%B8%BA%E4%BE%8B%EF%BC%8C%E8%BF%9B%E8%A1%8C%E8%AE%B2%E8%A7%A3">http://xxx.com/dede/dedo/为例，进行讲解</a></p>
+<p>产品页的侧边栏不显示新添加的分类? 这个问题看起来很严重。</p>
+<p><img src="http://i.imgur.com/VnKkgJ7.jpg"></p>
+<p>然后，我找到”模板管理“找到负责侧边栏显示的文件：我们给他一个名字：left_navigation.htm</p>
+<p><strong>代码如下：</strong></p>
+<pre><code>&lt;div class=&quot;left_nav&quot;&gt;
+    &lt;ul&gt;
+          &#123;dede:channelartlist  typeid=&#39;5,6,7,8,9,10,11,12,25,26,27,28,29,30,31,32,33,34,35,50,51,52,53,54,55,56,57&#39;&#125;   
+            &lt;li&gt;&lt;a href=&quot;&#123;dede:field name=&#39;typeurl&#39;/&#125;&quot; class=&quot;depth_2&quot;&gt;&#123;dede:field name=&#39;typename&#39;/&#125;&lt;/a&gt;
+                &lt;ul class=&quot;san_ul&quot;&gt; 
+                  &#123;dede:channel type=&#39;son&#39; noself=&#39;yes&#39;&#125;                  
+                    &lt;li&gt;&lt;a href=&quot;[field:typelink/]&quot;  class=&quot;depth_3&quot;&gt;[field:typename/]&lt;/a&gt;&lt;/li&gt;                                  
+                    &#123;/dede:channel&#125;                                    
+                &lt;/ul&gt;                
+            &lt;/li&gt;                    
+          &#123;/dede:channelartlist&#125;
+    &lt;/ul&gt;
+&lt;/div&gt;</code></pre>
+<p>然后，我又找到负责产品显示的以及内页显示的，模板文件：product_list.htm</p>
+<p><strong>代码如下：</strong></p>
+<pre><code>&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;
+
+&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+
+&lt;head&gt;
+
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;
+
+&lt;title&gt;顺升&lt;/title&gt;
+
+&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;&#123;dede:global.cfg_templets_skin/&#125;/css/reset.css&quot;/&gt;
+
+&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;&#123;dede:global.cfg_templets_skin/&#125;/css/main.css&quot;/&gt;
+
+&lt;/head&gt;
+
+&lt;body&gt;
+
+  &lt;div class=&quot;main&quot;&gt;
+
+      &#123;dede:include filename=&quot;header.htm&quot;/&#125;
+
+        &lt;div class=&quot;sprite&quot;&gt;
+
+          &lt;div class=&quot;wrap&quot;&gt;
+
+            &lt;a href=&quot;index.html&quot;&gt;首  頁&lt;/a&gt; / &lt;a href=&quot;javascript:;&quot;&gt;產品中心&lt;/a&gt;
+
+          &lt;/div&gt;
+
+        &lt;/div&gt;
+
+        &lt;div class=&quot;middle&quot;&gt;
+
+          &lt;div class=&quot;wrap&quot;&gt;
+
+              &lt;div class=&quot;mi_left&quot;&gt;
+
+                  &lt;div class=&quot;left_top&quot;&gt;產品列表&lt;/div&gt;
+
+                    &lt;div class=&quot;left_h&quot;&gt;
+
+                      &#123;dede:include filename=&quot;left_navigation.htm&quot;/&#125;
+
+                    &lt;/div&gt;
+
+                    &lt;div class=&quot;left_down&quot;&gt;&lt;/div&gt;
+
+
+
+                    &lt;div class=&quot;left_con&quot;&gt;&lt;a href=&quot;http://xxx.com/mrgw/index.html&quot;&gt;&lt;img src=&quot;&#123;dede:global.cfg_templets_skin/&#125;/images/n1.jpg&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+          &lt;div class=&quot;left_con&quot;&gt;&lt;a href=&quot;#&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;&#123;dede:global.cfg_templets_skin/&#125;/images/too.jpg&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+                    &lt;div class=&quot;left_con&quot;&gt;&lt;a href=&quot;#&quot; target=&quot;_blank&quot;&gt;&lt;img src=&quot;&#123;dede:global.cfg_templets_skin/&#125;/images/zy.jpg&quot; /&gt;&lt;/a&gt;&lt;/div&gt;
+                &lt;/div&gt;
+
+                &lt;div class=&quot;mi_right&quot;&gt;
+
+                  &lt;div class=&quot;nybanner&quot;&gt;&lt;img src=&quot;&#123;dede:global.cfg_templets_skin/&#125;/images/ny_ner.jpg&quot; /&gt;&lt;/div&gt;
+
+                    &lt;div class=&quot;right_list&quot;&gt;
+
+                      &lt;ul&gt;
+
+                          &#123;dede:list pagesize=&#39;10&#39; orderby=&#39;weight&#39; orderway=&#39;asc&#39;&#125;
+
+                          &lt;li&gt;
+
+                              &lt;div class=&quot;right_list_img&quot;&gt;&lt;img src=&quot;[field:picname/]&quot; /&gt;&lt;/div&gt;
+
+                                &lt;div class=&quot;right_text&quot;&gt;
+
+                                  &lt;h2&gt;[field:title/]&lt;/h2&gt;
+
+                                    &lt;p&gt;[field:description/]...&lt;/p&gt;              
+
+                                &lt;/div&gt;
+
+                                &lt;div class=&quot;right_btn&quot;&gt;&lt;a href=&quot;[field:arcurl/]&quot;&gt;點擊查看詳情&lt;/a&gt;&lt;/div&gt;
+
+                            &lt;/li&gt;
+
+                            &#123;/dede:list&#125;
+
+                        &lt;/ul&gt;
+                        &lt;!--page--&gt;
+
+                        &lt;div class=&quot;pages&quot; id=&quot;pages2&quot;&gt;
+
+                           &#123;dede:pagelist listitem=&quot;pageno&quot; listsize=&quot;7&quot; /&#125;
+
+                        &lt;/div&gt;
+                    &lt;/div&gt;
+
+                &lt;/div&gt;
+
+            &lt;/div&gt;
+
+        &lt;/div&gt;
+
+        &lt;div class=&quot;clear&quot;&gt;&lt;/div&gt;
+
+       &#123;dede:include filename=&quot;footer.htm&quot;/&#125;
+
+    &lt;/div&gt;
+
+&lt;/body&gt;
+
+&lt;/html&gt;
+
+&lt;script type=&quot;text/javascript&quot; src=&quot;&#123;dede:global.cfg_templets_skin/&#125;/js/move.js&quot;&gt;&lt;/script&gt;
+
+&lt;script src=&quot;&#123;dede:global.cfg_templets_skin/&#125;/js/main.js&quot;&gt;&lt;/script&gt;
+
+&lt;script&gt;
+
+  var ulDiv=document.getElementById(&quot;pages2&quot;);
+
+  var ulLis=ulDiv.getElementsByTagName(&quot;li&quot;);
+
+  if(ulLis.length==1)&#123;
+
+    ulLis[0].style.width=110+&quot;px&quot;;
+
+    &#125;
+
+&lt;/script&gt;</code></pre>
+<p>在这个文件里面，我们找到了一个关键的标签：</p>
+<pre><code>`&#123;dede:include filename=&quot;left_navigation.htm&quot;/&#125;`</code></pre>
+<p>很显然，在产品列表显示页面中的侧边栏就是通过left_navigation.htm来显示的，之所以没显示出来，我们只需要排查标签是否调用了这些分类。</p>
+<p>让我们回到这个文件去：</p>
+<pre><code>typeid=&#39;5,6,7,8,9,10,11,12,25,26,27,28,29,30,31,32,33,34,35,50,51,52,53,54,55,56,57&#39;</code></pre>
+<p>这个就是代表每个分类说对应的id,截图如下：</p>
+<p><img src="http://i.imgur.com/l5kenE9.png"></p>
+<p>这样就代表把这些指定的分类显示在侧边栏。</p>
+<p>让我们选择其中的一个分类进行编辑一下：</p>
+<p><img src="http://i.imgur.com/LWBObxF.png"></p>
+<p>然后找到”高级选项“，完成三个重要的设置：</p>
+<p><img src="http://i.imgur.com/fKJfGAJ.jpg"></p>
+<p><img src="http://i.imgur.com/2R06obj.jpg"></p>
+<p>完成这些之后，我们就需要去更新了，这里得一个一个栏目的更新下，截图如下：</p>
+<p><img src="http://i.imgur.com/ihJgRT0.jpg"></p>
+<p>然后就是逐个分类单独更新下，最后来个一键更新，清理一下缓存什么的，基本就完成了。</p>
+<p>最后针对dedecms的模板解析失败，不存在之类的问题，为了能够更好地定位到问题所在的位置，这里给出四条建议：（这里我以关于我们页面作为示例）</p>
+<p><strong>第一：</strong></p>
+<p>如果是更新文档html出现 ‘模板文件不存在，无法解析文档’ 的提示,就找到根目录\include\下的arc.archives.class.php文件，将里面的 echo “模板文件不存在，无法解析文档!”; 改为 echo “模板文件不存在，无法解析文档!” .$this-&gt;ArcID; 这么改的意思是出提示的时候你可以看到出问题的文档的id号是多少，然后去找相应的文档看它是不是没有指定模板类别，改好应该就行了。</p>
+<p>如果是更新栏目html出现 ‘模板文件不存在，无法解析文档’的提示，就找到根目录\include\下的arc.listview.class.php文件，将里面的 echo “模板文件不存在，无法解析文档!”; 改为 echo “模板文件不存在，无法解析文档!” .$this-&gt;TypeID; 这么改的意思是出提示的时候你可以看到出问题的栏目的id号是多少，相应进行修改。</p>
+<p><strong>第二：</strong></p>
+<p>删除/dede/makehtml_list_action.php 101行： $lv-&gt;CountRecord();</p>
+<p><strong>第三：</strong></p>
+<p>修改栏目里的关于我们页面，把模版文件按默认给填写上!(我用的这个，就是在栏目管理-&gt;关于我们的高级选项里将封面模板选index_default.htm、列表模板选list_default.htm、文章模板选article_default.htm 就行了。)</p>
+<p><strong>第四：</strong></p>
+<p>最简单的方法就是重新添加一个顶级目录，只改常规选项里面的!其他的高级选项和栏目内容都不要动。</p>
+<p>祝大家好运，早日实现理想。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/dedecms-%E6%B7%BB%E5%8A%A0%E5%88%86%E7%B1%BB-%E4%BE%A7%E8%BE%B9%E6%A0%8F/" rel="tag"># dedecms,添加分类,侧边栏</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2016/09/22/AI%E5%9B%BE%E5%B1%82%E5%92%8C%E4%B8%BA%E6%A0%87%E9%A2%98%E6%96%87%E5%AD%97%E6%B7%BB%E5%8A%A0%E4%B8%8B%E5%88%92%E7%BA%BF%E6%A0%B7%E5%BC%8F%E7%9A%84%E9%97%AE%E9%A2%98/" rel="prev" title="为AI图层填充颜色和为标题文字添加下划线样式的问题">
+      <i class="fa fa-chevron-left"></i> 为AI图层填充颜色和为标题文字添加下划线样式的问题
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2016/11/02/web%E4%B8%ADwindow-history-back%E7%9A%84%E6%80%BB%E7%BB%93/" rel="next" title="web中window.history.back的总结">
+      web中window.history.back的总结 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,37 +1,602 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="根据客户需求，想要一个菱形的，然后就是鼠标悬浮上去有图片，同时文字小时，离开后，回到最初的样子。  菱形：这个地方我想到了css3里面的旋转特性 垂直居中对齐：这个时候我们需要使用flex布局 鼠标悬浮背景图片显示：这个时候笔者采用html5中的自定义属性来做这件事。 鼠标离开的时候恢复原状：这个时候我们需要获取当前的元素的背景颜色，保存为一个变量中，离开的时候把这个变量赋值给背景颜色这个属性 动">
+<meta property="og:type" content="article">
+<meta property="og:title" content="菱形风格垂直居中对齐,jquery鼠标悬浮动态改变背景图片以及动态插入图片方案">
+<meta property="og:url" content="http://example.com/2018/10/16/%E8%8F%B1%E5%BD%A2%E9%A3%8E%E6%A0%BC%E5%9E%82%E7%9B%B4%E5%B1%85%E4%B8%AD%E5%AF%B9%E9%BD%90-jquery%E9%BC%A0%E6%A0%87%E6%82%AC%E6%B5%AE%E5%8A%A8%E6%80%81%E6%94%B9%E5%8F%98%E8%83%8C%E6%99%AF%E5%9B%BE%E7%89%87%E4%BB%A5%E5%8F%8A%E5%8A%A8%E6%80%81%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E6%96%B9%E6%A1%88/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="根据客户需求，想要一个菱形的，然后就是鼠标悬浮上去有图片，同时文字小时，离开后，回到最初的样子。  菱形：这个地方我想到了css3里面的旋转特性 垂直居中对齐：这个时候我们需要使用flex布局 鼠标悬浮背景图片显示：这个时候笔者采用html5中的自定义属性来做这件事。 鼠标离开的时候恢复原状：这个时候我们需要获取当前的元素的背景颜色，保存为一个变量中，离开的时候把这个变量赋值给背景颜色这个属性 动">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/pJlQHfn.jpg">
+<meta property="og:image" content="https://i.imgur.com/stxYZq1.jpg">
+<meta property="og:image" content="https://i.imgur.com/gd2xFqm.jpg">
+<meta property="article:published_time" content="2018-10-16T04:08:48.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:06.406Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="菱形,jquery,鼠标悬浮,背景图片,动态变化">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/pJlQHfn.jpg">
+
+<link rel="canonical" href="http://example.com/2018/10/16/%E8%8F%B1%E5%BD%A2%E9%A3%8E%E6%A0%BC%E5%9E%82%E7%9B%B4%E5%B1%85%E4%B8%AD%E5%AF%B9%E9%BD%90-jquery%E9%BC%A0%E6%A0%87%E6%82%AC%E6%B5%AE%E5%8A%A8%E6%80%81%E6%94%B9%E5%8F%98%E8%83%8C%E6%99%AF%E5%9B%BE%E7%89%87%E4%BB%A5%E5%8F%8A%E5%8A%A8%E6%80%81%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E6%96%B9%E6%A1%88/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>菱形风格垂直居中对齐,jquery鼠标悬浮动态改变背景图片以及动态插入图片方案 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/10/16/%E8%8F%B1%E5%BD%A2%E9%A3%8E%E6%A0%BC%E5%9E%82%E7%9B%B4%E5%B1%85%E4%B8%AD%E5%AF%B9%E9%BD%90-jquery%E9%BC%A0%E6%A0%87%E6%82%AC%E6%B5%AE%E5%8A%A8%E6%80%81%E6%94%B9%E5%8F%98%E8%83%8C%E6%99%AF%E5%9B%BE%E7%89%87%E4%BB%A5%E5%8F%8A%E5%8A%A8%E6%80%81%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E6%96%B9%E6%A1%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          菱形风格垂直居中对齐,jquery鼠标悬浮动态改变背景图片以及动态插入图片方案
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-10-16 12:08:48" itemprop="dateCreated datePublished" datetime="2018-10-16T12:08:48+08:00">2018-10-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:06" itemprop="dateModified" datetime="2020-10-11T11:58:06+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript/" itemprop="url" rel="index"><span itemprop="name">javascript</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>根据客户需求，想要一个菱形的，然后就是鼠标悬浮上去有图片，同时文字小时，离开后，回到最初的样子。</p>
+<ol>
+<li>菱形：这个地方我想到了css3里面的旋转特性</li>
+<li>垂直居中对齐：这个时候我们需要使用flex布局</li>
+<li>鼠标悬浮背景图片显示：这个时候笔者采用html5中的自定义属性来做这件事。</li>
+<li>鼠标离开的时候恢复原状：这个时候我们需要获取当前的元素的背景颜色，保存为一个变量中，离开的时候把这个变量赋值给背景颜色这个属性</li>
+<li>动态插入图片：这个作为第二方案</li>
+</ol>
+<p><strong>HTML结构：</strong></p>
+<pre><code>&lt;div class=&quot;container&quot;&gt;
+      &lt;div class=&quot;rrg&quot; data-src=&quot;caijing.jpg&quot;&gt;&lt;span&gt;世界，你好啊!世界，你好啊!世界，你好啊!世界，你好啊!&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;rrg&quot; data-src=&quot;background.png&quot;&gt;&lt;span&gt;世界，你好啊!世界，你好啊!世界，你好啊!世界，你好啊!&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;rrg&quot; data-src=&quot;caijing.jpg&quot;&gt;&lt;span&gt;世界，你好啊!世界，你好啊!世界，你好啊!世界，你好啊!&lt;/span&gt;&lt;/div&gt;
+ &lt;/div&gt;</code></pre>
+<p>如果不居中对齐会很丑，所以我们先用css来解决垂直居中对齐的问题：</p>
+<p><strong>css代码：</strong></p>
+<pre><code>&lt;style&gt;
+    .rrg&#123;
+        background: red;
+        position: relative;
+        min-width: 150px;
+        max-width: 150px;
+        min-height: 150px;
+        display: block;
+        float: left;
+        overflow: hidden;
+        margin: 35px;
+        transform: rotate(45deg);
+        display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; -webkit-justify-content: center; 
+        justify-content: center;
+    &#125;
+    .rrg span&#123;
+        transform: rotate(-45deg);
+        display: block;
+        color: #fff;
+        width: 100%;
+        text-align: center;
+        position: absolute;
+    &#125;
+&lt;/style&gt;</code></pre>
+<p>从这里我们看到这个的居中对齐的关键就是：</p>
+<pre><code>display: -webkit-flex;
+display: flex;
+-webkit-align-items: center;
+align-items: center;
+-webkit-justify-content: center;
+justify-content: center;</code></pre>
+<p>完成了这个，我们就可以看到一个这样的效果了：</p>
+<p><img src="https://i.imgur.com/pJlQHfn.jpg"></p>
+<p>现在光是旋转没有什么丰富的交互效果感觉还差了点，现在我们想让这个东西鼠标悬浮上去显示那个自定义属性的值，把这个值当做背景图片来用，我们先引入jquery,</p>
+<pre><code>&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js&quot;&gt;&lt;/script&gt;</code></pre>
+<p>然后就是写自定义的js代码：</p>
+<pre><code>&lt;script&gt;
+      $(document).ready(function()&#123;
+          if ($(&quot;.container&quot;).width() &gt;= 920) &#123;
+              $(&quot;.rrg&quot;).hover(function() &#123;
+                  var newbackground = $(this).attr(&quot;data-src&quot;);
+                  //console.log(newbackground);
+                  $(this).css(&#123;&quot;backgroundImage&quot;:&quot;url(&quot;+newbackground+&quot;)&quot;&#125;).css(&#123;&quot;background-size&quot;:&quot;100%&quot;&#125;);
+                  $(this).children(&#39;span&#39;).css(&#123;&#39;display&#39;:&#39;none&#39;&#125;);
+              &#125;, function() &#123;
+                  var currentBackgroundColor=$(this).css(&quot;background-color&quot;);
+                  $(this).css(&#123;&#39;background&#39;:currentBackgroundColor&#125;);
+                  // $(this).removeAttr(&#39;background-image&#39;);
+                  // $(this).removeAttr(&#39;background-size&#39;);
+                  $(this).children(&#39;span&#39;).css(&#123;&#39;display&#39;:&#39;inline-block&#39;&#125;);
+              &#125;);
+          &#125;
+      &#125;)
+  &lt;/script&gt;</code></pre>
+<p>这个里面说得很清楚，在屏幕大于992的时候，执行里面的代码，鼠标悬浮的时候，有悬浮的时候执行的代码，悬浮离开的时候执行的代码：</p>
+<p>悬浮的时候：</p>
+<pre><code>var newbackground = $(this).attr(&quot;data-src&quot;);
+//console.log(newbackground);
+$(this).css(&#123;&quot;backgroundImage&quot;:&quot;url(&quot;+newbackground+&quot;)&quot;&#125;).css(&#123;&quot;background-size&quot;:&quot;100%&quot;&#125;);
+$(this).children(&#39;span&#39;).css(&#123;&#39;display&#39;:&#39;none&#39;&#125;);</code></pre>
+<p>先是获取这个元素的自定义属性：<code>data-src</code>的值，也就是图片地址，那后把这个传值到当前dom的背景图片属性，然后设置为100%显示。然后就是如何选择当前dom的子元素的呢？这里有个jquery方法<code>children()</code>，顺便科普一下关于获取当前子元素的方法：</p>
+<blockquote>
+<p><strong>Jquery获取子元素的方法有2种，分别是children()方法和find()方法。</strong></p>
+<p>1.children()方法：获取该元素下的直接子集元素</p>
+<p>2.find()方法：获取该元素下的所有子集元素</p>
+<p>3.children()方法获取ul下面直接子集元素li：$(“ul”).children(“li”)</p>
+<p>4.find()方法获取ul下所有元素li：$(“ul”).find(“li”)</p>
+<p>5.children和find的区别：children只会查找直接子集，而find会跨越层级查找，一直找到没有为止</p>
+</blockquote>
+<p>好的，我们言归正传，这里我们让当前元素的子集span元素隐藏：</p>
+<pre><code>$(this).children(&#39;span&#39;).css(&#123;&#39;display&#39;:&#39;none&#39;&#125;);</code></pre>
+<p>这样就完成了一个鼠标悬浮的过程，接着就要实现鼠标离开这个dom元素发生的事，顺便说下，笔者在处理这个的时候，总是有问题，问题就在于，鼠标悬浮上去是达到了背景图片显示了，可以是鼠标离开后呢，背景图片依然在，就是不恢复到最初的样子，后来进过查阅资料发现这个是因为，我们没有指定离开后的背景图片。笔者这里单单只是采用了：</p>
+<pre><code>$(this).removeAttr(&#39;background-image&#39;);
+$(this).removeAttr(&#39;background-size&#39;);</code></pre>
+<p>甚至，笔者这样写（笔者企图通过这种方式来删除这个属性）：</p>
+<pre><code>$(this).css(&#123;&#39;background-image&#39;:&#39;none&#39;&#125;);</code></pre>
+<p>这样都是不行的，不用用这种方式来解决这个问题。</p>
+<p>解决方案就是必须要重新指定一个背景给当前dom，以替换才行，如下：</p>
+<pre><code>var currentBackgroundColor=$(this).css(&quot;background-color&quot;);
+$(this).css(&#123;&#39;background&#39;:currentBackgroundColor&#125;);
+$(this).children(&#39;span&#39;).css(&#123;&#39;display&#39;:&#39;inline-block&#39;&#125;);</code></pre>
+<p>代码解释：</p>
+<p>由于笔者的这个列表的背景颜色比较复杂，所以这里不能只替换一种颜色，</p>
+<p><img src="https://i.imgur.com/stxYZq1.jpg"></p>
+<p>所以，这里选择当前的背景颜色，然后把这个属性值保存在一个变量(currentBackgroundColor)中。然后把这个变量传递到鼠标离开后的元素背景属性里面去，最后再把悬浮的时候的文字显示出来。</p>
+<p>这样就以一个背景的方式来展示图片了，用这个方案的好处就是我们能够让这个背景图片显示在我们的dom里面。</p>
+<h2 id="获取自定义的属性，动态生成图片插入dom中"><a href="#获取自定义的属性，动态生成图片插入dom中" class="headerlink" title="获取自定义的属性，动态生成图片插入dom中"></a>获取自定义的属性，动态生成图片插入dom中</h2><p>除了用前面的那个方法之外，这里我们还可以用这种方法处理鼠标悬浮的图片显示，鼠标离开图片消失。</p>
+<p>HTML代码不变，css代码我们在原来的基础上添加一条：</p>
+<pre><code>.rrg img&#123;
+    max-width: 150px;
+    max-height: 150px;
+&#125;</code></pre>
+<p>这个就是用来约束动态生成的图片的大小，而这个图片的大小是要跟这个盒子大小一样的尺寸，以便不把这个盒子撑变形了。好的，我们来看下js：</p>
+<pre><code>&lt;script&gt;
+    $(document).ready(function()&#123;
+        $(&quot;.rrg&quot;).hover(function() &#123;
+            var newbackground = $(this).attr(&quot;data-src&quot;);
+            //console.log(newbackground);
+            $(this).append(&quot;&lt;img src=&quot;+newbackground+&quot;&gt;&quot;);
+            $(this).children(&#39;img&#39;).css(&#123;&#39;transform&#39;:&#39;rotate(-45deg)&#39;&#125;);
+            $(this).children(&#39;span&#39;).css(&#123;&#39;display&#39;:&#39;none&#39;&#125;);
+        &#125;, function() &#123;
+            $(this).children(&#39;img&#39;).remove();
+            $(this).children(&#39;span&#39;).css(&#123;&#39;display&#39;:&#39;inline-block&#39;&#125;);
+        &#125;);
+    &#125;)
+&lt;/script&gt;</code></pre>
+<p>这个意思已经很明了了，获取自定义属性值，然后动态添加一个img标签，然后把属性值插入到img标签中，然后进行选择回正，鼠标离开的时候就删除掉这个img标签，然后把里面的文字显示出来。</p>
+<p>这就是两种方法：</p>
+<ol>
+<li>方法一其实是最好的，不过有个小小的缺点就是背景图片没法旋转</li>
+<li>方法二就是相对来说对图片的尺寸要求约束多了点，图片的尺寸必须是跟盒子的尺寸一致，对图片的css处理相对来说灵活点</li>
+</ol>
+<p>如果能够解决背景图片的旋转，那么建议采用方案一。</p>
+<h2 id="实际案例："><a href="#实际案例：" class="headerlink" title="实际案例："></a>实际案例：</h2><p><strong>HTML代码：</strong></p>
+<pre><code>&lt;ul class=&quot;candolist&quot;&gt;
+    &lt;li data-src=&quot;&#123;&#123;media url="wysiwyg/hot-poduct2.jpg"&#125;&#125;&quot;&gt;&lt;span&gt;Electrical&amp;Tools&lt;/span&gt;&lt;/li&gt;
+    &lt;li data-src=&quot;&#123;&#123;media url="wysiwyg/hot-product1.jpg"&#125;&#125;&quot;&gt;&lt;span&gt;ESD&amp;Cleanroom&lt;/span&gt;&lt;/li&gt;
+    &lt;li data-src=&quot;&#123;&#123;media url="wysiwyg/hot-product3.jpg"&#125;&#125;&quot;&gt;&lt;span&gt;Soldering&amp;Welding&lt;/span&gt;&lt;/li&gt;
+    &lt;li data-src=&quot;&#123;&#123;media url="wysiwyg/hot-product4.jpg"&#125;&#125;&quot;&gt;&lt;span&gt;Security,Safety&amp;Protection&lt;/span&gt;&lt;/li&gt;
+    &lt;li data-src=&quot;&#123;&#123;media url="wysiwyg/hot-product4.jpg"&#125;&#125;&quot;&gt;&lt;span&gt;Material Handling&amp;Storage&lt;/span&gt;&lt;/li&gt;
+    &lt;li data-src=&quot;&#123;&#123;media url="wysiwyg/hot-product6.jpg"&#125;&#125;&quot;&gt;&lt;span&gt;Adhesives, Sealants and Tape&lt;/span&gt;&lt;/li&gt;
+    &lt;li data-src=&quot;&#123;&#123;media url="wysiwyg/hot-product7.jpg"&#125;&#125;&quot;&gt;&lt;span&gt;Semiconductors&lt;/span&gt;&lt;/li&gt;
+    &lt;li data-src=&quot;&#123;&#123;media url="wysiwyg/hot-product8.jpg"&#125;&#125;&quot;&gt;&lt;span&gt;Testers&amp;Measurement&lt;/span&gt;&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+<p><strong>css代码：</strong></p>
+<pre><code>.candolist li&#123;
+    position: relative;
+    min-width: 150px;
+    max-width: 150px;
+    min-height: 150px;
+    overflow: hidden;
+    float: left;
+    margin: 32px;
+    transform: rotate(45deg);
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+&#125;
+
+.candolist li span&#123;
+    transform: rotate(-45deg);
+    display: block;
+    width: 100%;
+    text-align: center;
+    position: absolute;
+&#125;
+.candolist li:nth-child(2n)&#123;
+    background: #e6e6e6;
+    color:#000 !important;
+&#125;
+.candolist li:nth-child(2n+1)&#123;
+    background: #009688;
+    color:#fff !important;
+&#125;
+.candolist li img&#123;
+    max-width: 200px;
+    max-height: 200px;
+&#125;</code></pre>
+<p><strong>js代码：</strong></p>
+<pre><code>&lt;script&gt;
+    $(document).ready(function()&#123;
+        if ($(&quot;.cms-about&quot;).width() &gt;= 920) &#123;
+            $(&quot;.candolist li&quot;).hover(function() &#123;
+                var newbackground = $(this).attr(&quot;data-src&quot;);
+                // console.log(newbackground);
+                $(this).css(&#123;&quot;backgroundImage&quot;:&quot;url(&quot;+newbackground+&quot;)&quot;&#125;).css(&#123;&quot;background-size&quot;:&quot;100%&quot;&#125;);
+                $(this).children(&#39;span&#39;).css(&#123;&#39;display&#39;:&#39;none&#39;&#125;);
+            &#125;, function() &#123;
+                var currentBackgroundColor=$(this).css(&quot;background-color&quot;);
+                $(this).css(&#123;&#39;background&#39;:currentBackgroundColor&#125;);
+                $(this).children(&#39;span&#39;).css(&#123;&#39;display&#39;:&#39;inline-block&#39;&#125;);
+            &#125;);
+        &#125;
+    &#125;)
+&lt;/script&gt;</code></pre>
+<p>效果：</p>
+<p><img src="https://i.imgur.com/gd2xFqm.jpg"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%8F%B1%E5%BD%A2-jquery-%E9%BC%A0%E6%A0%87%E6%82%AC%E6%B5%AE-%E8%83%8C%E6%99%AF%E5%9B%BE%E7%89%87-%E5%8A%A8%E6%80%81%E5%8F%98%E5%8C%96/" rel="tag"># 菱形,jquery,鼠标悬浮,背景图片,动态变化</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/10/14/Ajax%E7%82%B9%E5%87%BB%E4%B8%8D%E6%96%AD%E5%8A%A0%E8%BD%BD%E6%95%B0%E6%8D%AE%E5%88%97%E8%A1%A8-%E5%AE%9E%E7%8E%B0%E5%8A%A0%E8%BD%BD%E6%9B%B4%E5%A4%9A%E7%9A%84%E5%8A%9F%E8%83%BD/" rel="prev" title="Ajax点击不断加载数据列表,实现加载更多的功能">
+      <i class="fa fa-chevron-left"></i> Ajax点击不断加载数据列表,实现加载更多的功能
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/10/16/magento%E6%B7%BB%E5%8A%A0%E7%AB%8B%E5%8D%B3%E8%B4%AD%E4%B9%B0-buy-now-%E5%8A%9F%E8%83%BD/" rel="next" title="magento添加立即购买(buy now)功能">
+      magento添加立即购买(buy now)功能 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84%E5%B1%9E%E6%80%A7%EF%BC%8C%E5%8A%A8%E6%80%81%E7%94%9F%E6%88%90%E5%9B%BE%E7%89%87%E6%8F%92%E5%85%A5dom%E4%B8%AD"><span class="nav-number">1.</span> <span class="nav-text">获取自定义的属性，动态生成图片插入dom中</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E9%99%85%E6%A1%88%E4%BE%8B%EF%BC%9A"><span class="nav-number">2.</span> <span class="nav-text">实际案例：</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

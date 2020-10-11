@@ -1,37 +1,410 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="我们在申请阿里云服务器的时候，我们会发现他们提供一个公网IP，私网IP，我们通常用公网IP开解析域名，根据上面的示意图来看，公网IP是面对外部的访问的一张“门牌号”，我们可能会觉得奇怪，全世界IP很有限，为啥阿里云能够有这么多IP呢？事实上，阿里云确实购买了这么多，所以阿里云直接买的是IP，通过硬件虚拟化然后变成多个虚拟机售卖，所以我们在用FTP登录云服务器的时候，会用公网IP，私网IP是针对阿">
+<meta property="og:type" content="article">
+<meta property="og:title" content="公网与私网的知识">
+<meta property="og:url" content="http://example.com/2017/05/08/%E5%85%AC%E7%BD%91%E4%B8%8E%E7%A7%81%E7%BD%91%E7%9A%84%E7%9F%A5%E8%AF%86/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="我们在申请阿里云服务器的时候，我们会发现他们提供一个公网IP，私网IP，我们通常用公网IP开解析域名，根据上面的示意图来看，公网IP是面对外部的访问的一张“门牌号”，我们可能会觉得奇怪，全世界IP很有限，为啥阿里云能够有这么多IP呢？事实上，阿里云确实购买了这么多，所以阿里云直接买的是IP，通过硬件虚拟化然后变成多个虚拟机售卖，所以我们在用FTP登录云服务器的时候，会用公网IP，私网IP是针对阿">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://i.imgur.com/dh4Mnyf.jpg">
+<meta property="og:image" content="http://i.imgur.com/xs5Ir4y.jpg">
+<meta property="og:image" content="http://i.imgur.com/rEonKHt.jpg">
+<meta property="og:image" content="http://i.imgur.com/855CXjT.jpg">
+<meta property="article:published_time" content="2017-05-08T01:44:15.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:53:02.462Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="公网ip,私网ip">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://i.imgur.com/dh4Mnyf.jpg">
+
+<link rel="canonical" href="http://example.com/2017/05/08/%E5%85%AC%E7%BD%91%E4%B8%8E%E7%A7%81%E7%BD%91%E7%9A%84%E7%9F%A5%E8%AF%86/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>公网与私网的知识 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/05/08/%E5%85%AC%E7%BD%91%E4%B8%8E%E7%A7%81%E7%BD%91%E7%9A%84%E7%9F%A5%E8%AF%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          公网与私网的知识
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-05-08 09:44:15" itemprop="dateCreated datePublished" datetime="2017-05-08T09:44:15+08:00">2017-05-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:02" itemprop="dateModified" datetime="2020-10-11T11:53:02+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="http://i.imgur.com/dh4Mnyf.jpg"></p>
+<p>我们在申请阿里云服务器的时候，我们会发现他们提供一个公网IP，私网IP，我们通常用公网IP开解析域名，根据上面的示意图来看，公网IP是面对外部的访问的一张“门牌号”，我们可能会觉得奇怪，全世界IP很有限，为啥阿里云能够有这么多IP呢？事实上，阿里云确实购买了这么多，所以阿里云直接买的是IP，通过硬件虚拟化然后变成多个虚拟机售卖，所以我们在用FTP登录云服务器的时候，会用公网IP，私网IP是针对阿里云服务器内部各个服务器或者是虚拟机之间互相访问的，就是说各个虚拟机是同一个网络的，网络号是一样的。他们是同一个局域网的。</p>
+<p><img src="http://i.imgur.com/xs5Ir4y.jpg"></p>
+<p>两台电脑如何相互认识呢？就是通过IP来进行识别的，我们在家用的那种路由器，弄一个WIFI，那么连上这个WIFI的客户端，就是在同一个网络，如果我们手动修改的话，可以让他们不在同一个网络，只需修改网络号就行了，就是修改他们的子网掩码，所以门牌号不是电脑而是一张网卡，只要有一张网卡就能作为身份来相互识别，同样的，如果没有网卡，那么电脑是不能被相互识别的。在同一个局域网中ip可以手动逐个添加，也可以自动分配，这个概念就是DHCP，我们可以想一下，如果在一个局域网里面有很多台电脑，逐个添加IP是比较费时费力的。所以用动态分配就是最好的方法。有的时候我们发现我们的电脑可能连不上网，其他的客户端却能连得上，这里十有八九是启用了静态IP，改成动态ip就行了。也有可能是我们的路由器里面的DHCP关闭了，启用试试看。</p>
+<p><img src="http://i.imgur.com/rEonKHt.jpg"></p>
+<p>这里我顺便说一下ip的一些事情，一个ip号包括两个部分，一部分是网络号，用来表示这个是属于什么网络的（A网、B网、C网），这个举个例子192.168.1.1/8，这个表示这个是A网，因为一个ip有32节，每一节有8位数，所以8表示前面的8位是网络号（192），后面的24是主机号（168.1.1），从这里可以看出，A网可容纳的主机最多，网络最少，最多可建255个网络；192.168.1.1/16，这个表示这个是B网，因为一个ip有32节，每一节有8位数，所以16表示前面的16位是网络号（192.168），后面的16是主机号（1.1），从这里可以看出，B网可容纳的主机比A网的少，B网的主机有255<em>255台，网络数比A网多，可建255</em>255台主机；192.168.1.1/24，这个表示这个是C网，因为一个ip有32节，每一节有8位数，所以24表示前面的24位是网络号（192.168.1），后面的8位是主机号（1），最多可容纳255台主机，从这里可以看出，C网可容纳的主机比B网的少，网络数比B网多，可以包含255<em>255</em>255台主机；</p>
+<p>ip的个数是有限的，再则还有一些私有地址：</p>
+<pre><code>A网的私有地址：127.0.0.1
+
+B网的私有地址：172.16.0.0--172.31.255.255
+
+C网的私有地址：192.168.0.0-192.168.255.255</code></pre>
+<p><img src="http://i.imgur.com/855CXjT.jpg"></p>
+<p>我们可能会想，我们的IP后面没有这个/8或者是/24，如何知道是什么网络呢？这里我们必须说的是子网掩码255.255.255.0这个表示的是前面24位为网络号，如果是255.255.0.0，那么表示前面的16位为网络号，就是通过子网掩码来表示是什么网络的，这里我们需要做一个说明，子网掩码的二进制表示法：11111111.11111111.11111001.00000000，子网掩码的规则是，前面必须全部为1，且不能中断，直到中断的地方为止，后面的表示主机号，面的表示网络号，所以根据计算1<em>（2^7）+1</em>（2^6）+1<em>（2^5）+1</em>（2^4）+1<em>（2^3）+0</em>（2^2）+0*（2^1）+1（2^0）=249，那么这个子网掩码为：255.255.249.0，有的时候我们可能会发现有255.255.250.0这种子网掩码，就是这个原因，但是一般情况下都是255.255.255.0</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%85%AC%E7%BD%91ip-%E7%A7%81%E7%BD%91ip/" rel="tag"># 公网ip,私网ip</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/05/05/VMware%E5%AE%89%E8%A3%85%E8%BF%87%E7%A8%8B%E7%9A%84%E8%BE%9B%E9%85%B8%E7%BB%8F%E5%8E%86/" rel="prev" title="VMware安装过程的辛酸经历">
+      <i class="fa fa-chevron-left"></i> VMware安装过程的辛酸经历
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/05/08/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%9C%A8VPN%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8/" rel="next" title="计算机网络在VPN中的应用">
+      计算机网络在VPN中的应用 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

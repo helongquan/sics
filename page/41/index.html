@@ -1,23 +1,2399 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-{% block title %}{{ config.title }}{% if theme.index_with_subtitle and config.subtitle %} - {{config.subtitle }}{% endif %}{% endblock %}
+<link rel="stylesheet" href="/css/main.css">
 
-{% block page_class %}
-  {% if is_home() %}page-home{% endif -%}
-{% endblock %}
 
-{% block content %}
-  <section id="posts" class="posts-expand">
-    {% for post in page.posts %}
-      {{ post_template.render(post, true) }}
-    {% endfor %}
-  </section>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-  {% include '_partials/pagination.swig' %}
-{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
 
-{% block sidebar %}
-  {{ sidebar_template.render(false) }}
-{% endblock %}
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/page/41/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/page/41/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
+            
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/04/29/Vue-js%E5%9C%A8wordpress%E4%B8%BB%E9%A2%98%E4%B8%8A%E7%9A%84%E8%BF%90%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/04/29/Vue-js%E5%9C%A8wordpress%E4%B8%BB%E9%A2%98%E4%B8%8A%E7%9A%84%E8%BF%90%E7%94%A8/" class="post-title-link" itemprop="url">Vue.js在wordpress主题上的运用</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-04-29 12:44:51" itemprop="dateCreated datePublished" datetime="2016-04-29T12:44:51+08:00">2016-04-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:16" itemprop="dateModified" datetime="2020-10-11T11:53:16+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>下面我来介绍一下如何把vue.js运用在wordpress这个平台上</p>
+<p>首先我们的引入以下这几个文件：（这三个可以去vue.js官网下载）</p>
+<p>vue.min.js</p>
+<p>vue-router.min.js</p>
+<p>vue-strap.min.js</p>
+<p>为了能够让vue.js能够引用外部文件，我们可以引用另外一个库：q.js，通过这个我们可以引用外部的静态html文件，因此，我们去q.js官网下载这个文件即可。当我们准备这几个文件后，我么就可以进行下一步了。为了不影响网站的加载，我们把所有需要的这些文件放在网站的底部加载，看截图：</p>
+<p><img src="http://i.imgur.com/x7IRH25.png"></p>
+<p>图-1</p>
+<p>这个时候我们对这些库的引用就算完毕了，我们接着往下看，我们在页面的适当位置运用，我运用在头部导航菜单那里，看截图：</p>
+<p><img src="http://i.imgur.com/SUOXYo0.png"></p>
+<p>图-2</p>
+<p>注意这里的写法，我们用#/后面跟一个文件名，其实还有另外一种写法</p>
+<pre><code>v-link=&quot;&#123; path: &#39;/products&#39; &#125;&quot;</code></pre>
+<p>用这种写法来取代</p>
+<pre><code>href=&quot;#/products&quot;</code></pre>
+<p>也是可以的。</p>
+<p>接下来我们得新建一个js文件，我们给他取名叫做index.js，以下是这个文件中的代码：</p>
+<pre><code>Vue.use(VueRouter);
+Yoo.modules.App = Vue.extend(&#123;
+components : &#123;
+    alert : VueStrap.alert
+&#125;
+&#125;)
+function refineTemplate(obj)&#123;
+var deferred = Q.defer();
+$.get(obj.templateUrl, function(res)&#123;
+        obj.template = res; 
+        deferred.resolve(obj);
+&#125;);
+return deferred.promise;
+&#125;
+Q.all([
+    refineTemplate(Yoo.modules.Aboutus),
+    refineTemplate(Yoo.modules.Creditable),
+    refineTemplate(Yoo.modules.Products),
+    refineTemplate(Yoo.modules.Services),
+    refineTemplate(Yoo.modules.Contacts)
+]).then(function(res)&#123;    
+        console.log(res);
+        var router = new VueRouter()
+        router.map(&#123;
+            &#39;/aboutus&#39;: &#123;
+                component: Yoo.modules.Aboutus
+            &#125;,
+            &#39;/products&#39;: &#123;
+                component: Yoo.modules.Products
+            &#125;,
+            &#39;/services&#39;: &#123;
+                component: Yoo.modules.Services
+            &#125;,
+            &#39;/contacts&#39;: &#123;
+                component: Yoo.modules.Contacts
+            &#125;,
+            &#39;/creditable&#39;: &#123;
+                component: Yoo.modules.Creditable
+            &#125;
+        &#125;)
+        router.start(Yoo.modules.App, &#39;#main-content&#39;);
+&#125;);</code></pre>
+<p>另外yoo.js里面的代码如下：</p>
+<pre><code>(function()&#123;
+var Yoo = &#123;
+modules : &#123;&#125;
+&#125;;
+window.Yoo = Yoo;
+&#125;)();</code></pre>
+<p>整体的js已经准备得差不多了，好根据图-1，我们在Js文件夹下新建一个components文件夹，用来存放引用静态资源的js文件。</p>
+<p>我们分别给它们取名为：aboutus.js、products.js、services.js、contacts.js、creditable.js</p>
+<p>这些文件中的代码内容很相似，我以其中的一个文件的代码为例（aboutus.js）：</p>
+<pre><code>Yoo.modules.Aboutus = &#123;
+    templateUrl : &#39;pages/aboutus.html&#39;
+&#125;;</code></pre>
+<p>你会觉得很奇怪，为什么会这么少，很正常！这个只是起到了一个路由的作用，用来引用资源，相当于一个通道。另外的文件名字一一对应即可。</p>
+<p>接下来，我们准备五个静态文件，分别是：aboutus.html、products.html、sevices.html、contacts.html、creditable.html</p>
+<p>内容根据自己的业务进行填充即可。</p>
+<p>这样看来似乎全部完成了，不对！还有重要的一步：为这些静态文件显示指定一个地方。</p>
+<p>先看截图：</p>
+<p><img src="http://i.imgur.com/35XwtVI.png"></p>
+<p>图-3</p>
+<p>值得提醒的是：这里有个id，这个id的值要跟index.js里的最后的那个引用一一对应，这段代码应该跟图-2处于同一个文件中，因为图-2引用后，直接显示出来，如果你是个细心的读者，你会发现在aboutus.js 中有一个路径的调用，这里的路径是：<code> pages/aboutus.html</code>，这是相对于index.html(首页而言的)</p>
+<p>我这里的示例是在首页文件index.html中完成的，即底部加载图-1中的文件，然后在<body></body>中编写一些代码，包括图-2中的代码，当然也包含图-3中的代码。</p>
+<p>整体的文件结构是这样的，看截图：</p>
+<p><img src="http://i.imgur.com/A4Se8Lb.png"></p>
+<p>图-4</p>
+<p><img src="http://i.imgur.com/mGMLWto.png"></p>
+<p>图-5</p>
+<p><img src="http://i.imgur.com/Blo8wIy.png"></p>
+<p>图-6</p>
+<p>不然，没法一一对应，内容显示不了。这个id的值可以随便取，根据自己的爱好。</p>
+<p>这样我们就可以达到一种绑定的效果，类似一种ajax技术。</p>
+<p>这种方式很适合制作一个宣传型的企业网站，用静态页面来构建，也适用于某个网站的某个模块，比如帮助文档，使用手册等一些非动态生成的数据，这样大大提高了网站的加载速度。</p>
+<p>今天花了2个小时的时间整理了下，希望对正在使用vue.js这个库的新手有个初步的认识，为了不误导你们，我的建议是：先去官网看教程，了解vue.js后再回过头来看这个会觉得很简单的。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/04/29/wordpress%E7%BD%91%E7%AB%99%E5%BB%BA%E8%AE%BE%E4%B8%AD%E7%9A%84%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90%E6%95%85%E4%BA%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/04/29/wordpress%E7%BD%91%E7%AB%99%E5%BB%BA%E8%AE%BE%E4%B8%AD%E7%9A%84%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90%E6%95%85%E4%BA%8B/" class="post-title-link" itemprop="url">wordpress网站建设中的需求分析故事</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-04-29 12:40:02" itemprop="dateCreated datePublished" datetime="2016-04-29T12:40:02+08:00">2016-04-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:11" itemprop="dateModified" datetime="2020-10-11T11:53:11+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>1、从前，在中国西北地区的一个小山区，有一个村子很贫穷，不但贫穷，计划生育也做得很差，几乎每家每户都超生。结果，越穷越生，越生越穷，成了个恶性循环。由于这个村子的存在，该县老是被评为贫穷县，县长很无奈，勒令镇长去做好工作，做不好就滚。</p>
+<p><strong>如果你是镇长，你会怎么做？</strong></p>
+<p>镇长1：跑到村子里挨家挨户逐个做思想工作。</p>
+<p>然并卵，镇长1滚了</p>
+<p>镇长2：开个宣讲会集中宣传，再挨家挨户逐个做思想工作，我给你们洗脑。</p>
+<p>唔…镇长2也走了</p>
+<p>主角镇长：主角镇长先去村子里走了一趟，发现这个村子真滴穷，电都没通，村民还在用煤油灯。主角镇长看到这种状况，似乎想到了什么，马上给村子通电，装喇叭，装电视。并没有做什么计划生育宣传洗脑，但是几年下来，村子的情况得到了极大改善。</p>
+<p>为什么主角镇长能够做到？并不是因为他的主角光环，而是因为他发现了需求点，并找到了解决方法解决这个需求。</p>
+<p>村子没有电，村民整体没有新鲜事值得关注的，到了傍晚五六点的时候天就黑了，黑了就得回家。（场景）</p>
+<p>回家想要省点煤油钱就只能早点睡了。但是这么早就睡了，人的精力根本还很旺盛呢，睡不着怎么办呢？（用户分析）</p>
+<p>还不就真剩下那唯一的床上运动了嘛，所以这才越穷越生啊。（原因）</p>
+<p>没有电村民闲着没事做是需求；村民缺乏素质教育，对计划生育漠视是伪需求；那么，这个问题就很好解决了——找到办法增加村民晚上的娱乐活动。</p>
+<p>回到正题，怎么做需求分析？能够像主角镇长一样找到村民真实的需求呢？</p>
+<p>首先，需求分析应该服务于用户，所以要以用户为中心做需求分析</p>
+<p>其次，需求分析后要形成一份PRD，让团队里的人更流程地工作，减少沟通成本</p>
+<p>那么，它的步骤是怎样的？</p>
+<p><strong>1.产品定位</strong></p>
+<p><strong>2.找到你的目标用户，分析出初步需求</strong></p>
+<p><strong>3.确定需求的优先级</strong></p>
+<p>####第一步：给你的产品定个位</p>
+<p>“请用一句话描述你的产品”（结构是：主要面向XX用户，提供XX功能，具有XX特色）</p>
+<p>这个方法谁用谁知道，如果很难描述出来的话，你的这个产品就定位有点模糊了，方向也不明确。</p>
+<p>####第二步：找到初步需求</p>
+<p><img src="http://i.imgur.com/TbblFuQ.png"></p>
+<p>首先，通过用户研究、头脑风暴等方法，产出用户需求示意列表</p>
+<p>（需要注意的是，用户类型不是绝对互斥和独立的，主要以取向为区分）</p>
+<p>做完这个表之后，你会发现有很多种类型，其中最重要的，当然是目标用户了，而目标用户又跟潜在用户量与业务价值挂钩，可以用下图来做个定位分析</p>
+<p><img src="http://i.imgur.com/5xB8mof.png"></p>
+<p>[优先选择最右上角的用户（用户类型2)]</p>
+<p>同时，也要了解市场上同类产品的情况，并从中找到自身产品可能的差异点</p>
+<p><img src="http://i.imgur.com/MNZkmf4.png"></p>
+<p>最后，根据选择的用户类型匹配相应的场景和需求，得到初步需求。</p>
+<p><img src="http://i.imgur.com/bguCEHr.png"></p>
+<p>第三步：确定需求的优先级</p>
+<p><img src="http://i.imgur.com/6fzlBZN.png"></p>
+<p>得到初步需求后，先把不可实现、不合理、价值不大、无适合场景的需求剔除。——筛选</p>
+<p>然后，挖掘用户的目标，找到用户真实的需求。——挖掘</p>
+<p>这里需要注意的两点是：</p>
+<p>1.倾听用户并不等于听从用户</p>
+<p>2.用户想要什么不等于真实需求</p>
+<p>接着就是匹配产品定位，找出产品主要功能和特色功能。——匹配</p>
+<p>最后就是根据项目的资源来确定需求的优先级</p>
+<p>接下来就是苦逼地写PRD吧</p>
+<p>确定需求还有几个模型可以参考</p>
+<p>1.KANO模型</p>
+<p>2.马斯洛需求模型</p>
+<p>3.用户体验设计模型</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/04/26/java%E4%B8%AD%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/04/26/java%E4%B8%AD%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">java中连接数据库的笔记</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-04-26 23:57:25" itemprop="dateCreated datePublished" datetime="2016-04-26T23:57:25+08:00">2016-04-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:30" itemprop="dateModified" datetime="2020-10-11T11:53:30+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><img src="http://i.imgur.com/xJkv5Zb.jpg"></p>
+<p>今天给大家分享一些我学习java中关于操作MySQL的方法</p>
+<p>学习过php的同学会觉得通过php访问MySQL真是太方便了，当我们学习java之后发现，有点不一样。</p>
+<p>首先我们引入一个包，叫做：mysql-connector-java-5.0.5-bin.jar，这个可以在网上下载得到。</p>
+<p>然后在eclipse中新建一个工程，我们把它命名为：JavaConnectMysql，分别新建四个包名字分别命名为：com.kelin.bean/com.kelin.dao/com.kelin.main/com.kelin.util。完成后在com.kelin.bean包中新建两个类文件（News.java/NewsType.java）；在com.kelin.dao包中新建（NewsDAO.java/NewsTypeDAO.java）；在com.kelin.main包中新建一个类文件（TestMain.java）；在com.kelin.util中新建一个类文件（BaseConnection.java），然后鼠标右键工程名字选择属性（Properties），找到Java Build Path，选择后找到Libraries，然后点击Add JARs…，会弹出一个目录，选择已经导入到工程中的mysql-connector-java-5.0.5-bin.jar包，最后的工程结构图如下：</p>
+<p><img src="http://i.imgur.com/IRvsjlt.png"></p>
+<p>首先我们在第一个包中创建News.java文件，代码如下：</p>
+<pre><code>package com.kelin.bean;
+
+public class News
+&#123;
+    private int id;
+    private String title;
+    private String content;
+    private int type;
+    private String name;
+
+    public String getName()
+    &#123;
+        return name;
+    &#125;
+
+
+    public void setName(String name)
+    &#123;
+        this.name = name;
+    &#125;
+
+
+    public int getId()
+    &#123;
+        return id;
+    &#125;
+
+
+    public void setId(int id)
+    &#123;
+        this.id = id;
+    &#125;
+
+
+    public String getTitle()
+    &#123;
+        return title;
+    &#125;
+
+
+    public void setTitle(String title)
+    &#123;
+        this.title = title;
+    &#125;
+
+
+    public String getContent()
+    &#123;
+        return content;
+    &#125;
+
+
+    public void setContent(String content)
+    &#123;
+        this.content = content;
+    &#125;
+
+
+    public int getType()
+    &#123;
+        return type;
+    &#125;
+
+
+    public void setType(int type)
+    &#123;
+        this.type = type;
+    &#125;
+
+
+    public static void main(String[] args)
+    &#123;
+
+    &#125;
+
+&#125;</code></pre>
+<p>文件NewsType.java文件的代码如下：</p>
+<pre><code>    package com.kelin.bean;
+
+    public class NewsType
+    &#123;
+        private int id;
+        private String name;
+
+        public int getId()
+        &#123;
+            return id;
+        &#125;
+
+        public void setId(int id)
+        &#123;
+            this.id = id;
+        &#125;
+
+        public String getName()
+        &#123;
+            return name;
+        &#125;
+
+        public void setName(String name)
+        &#123;
+            this.name = name;
+        &#125;
+
+        public static void main(String[] args)
+        &#123;
+
+        &#125;
+
+    &#125;</code></pre>
+<p>接下来，我介绍下com.kelin.dao包中文件的代码，代码中有详细的注释，这里就不再赘述，其中NewsTypeDAO.java的代码如下：</p>
+<pre><code>    package com.kelin.dao;
+
+    public class NewsTypeDAO
+    &#123;
+
+        public static void main(String[] args)
+        &#123;
+
+        &#125;
+
+    &#125;</code></pre>
+<p>文件NewsDAO.java的代码如下：</p>
+<pre><code>package com.kelin.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+
+import org.omg.CORBA.portable.ValueInputStream;
+
+import com.kelin.bean.News;
+import com.kelin.util.BaseConnection;
+
+public class NewsDAO
+&#123;
+//    这一行(public ArrayList&lt;News&gt; getList())是针对单表查询的语句，如果只是单表查询开启该选项
+//    这一行(public ArrayList&lt;News&gt; getListAll())是针对联表查询的语句，如果执行联表查询，执行这一行
+//    public ArrayList&lt;News&gt; getList()
+    public ArrayList&lt;News&gt; getListAll()
+    &#123;
+        ArrayList&lt;News&gt; ar=new ArrayList&lt;News&gt;();
+
+        Connection conn=BaseConnection.getConnection();
+//        SQL执行器对象 Statement
+        PreparedStatement ps=null;
+//        结果集对象
+        ResultSet rs=null;
+
+        try
+        &#123;
+//            String sql=&quot;select * from news&quot;是单表查询的SQL语句，当前处于关闭注释状态
+//            String sql=&quot;select * from news&quot;;
+
+//            String sql=&quot;select * from news,newstype where news.type=newstype.id&quot;是联表查询的语句，联表查询
+            String sql=&quot;select * from news,newstype where news.type=newstype.id&quot;;
+
+//            通过conn对象获取prepareStatement()对象,将sql语句传入prepareStatement()方法中
+            ps=conn.prepareStatement(sql);
+//            执行数据库查询的相关方法，通过SQL执行器对象来调用executeQuery()方法，
+//            把从数据库查询出来的对象全部传给rs
+            rs=ps.executeQuery();
+
+//            这里的while中的rs对象是一个带有指针的对象，一开始指针指向的是第0行
+//            接着通过next()方法，这样就对指针进行下移，移至第一行，如果有数据，
+//            那么就会返回一个true值，输出数据
+
+            while (rs.next())
+            &#123;
+//                通过列名的方式进行数据的取出，这里分别以title、conten、type进行输出
+//                当取出一组数据之后，指针继续下移，取下一行的数据，如果有继续取数据，没有的话，停止取值
+//                下面的三条语句是单表查询无封装的输出，注意与有封装的输出的区别
+//                System.out.println(rs.getString(&quot;title&quot;));
+//                System.out.println(rs.getString(&quot;content&quot;));
+//                System.out.println(rs.getInt(&quot;type&quot;));
+
+//                下面的6行代码是把从数据库中查询出来的数据封装在ne这个对象中
+                News ne=new News();
+                ne.setId(rs.getInt(&quot;id&quot;));
+                ne.setTitle(rs.getString(&quot;title&quot;));
+                ne.setContent(rs.getString(&quot;content&quot;));
+                ne.setType(rs.getInt(&quot;type&quot;));
+                ne.setName(rs.getString(&quot;name&quot;));
+
+//                通过循环，每循环一次我们就封装一次到ar中，不断的循环，所有的数据就存在ar中了
+                ar.add(ne);
+
+            &#125;
+
+        &#125;
+        catch (Exception e)
+        &#123;
+            e.printStackTrace();
+        &#125;
+
+//        当我们查询完毕后，我们需要把与数据库连接的三个对象rs、ps、conn关闭掉，免得造成堵塞
+//        而关闭的顺序是从里到外，先关闭rs，再关闭ps，最后关闭conn对象
+        finally &#123;
+//            这里直接调用com.kelin.util包中的Baseconnection中的closeRes()方法，通过了解我们会发现在这个包中有另个方法同名的，但是参数不一样，我们称之为方法的重载，这里传入的是三个参数
+            BaseConnection.closeRes(rs,ps,conn);
+        &#125;
+
+        return ar;
+
+
+    &#125;
+
+
+
+//    插入数据的方法一，该方法负责将传递过来的news对象中的数据存入数据库中
+    public void insert(News ne)
+    &#123;
+        Connection conn=BaseConnection.getConnection();
+        PreparedStatement ps=null;
+
+//        这里由于news表中的数据的id字段是自动递增的，所以不需要添加,这里由于type是int类型的，所以不需要加单引号
+        String sql=&quot;insert into news(title,content,type)&quot;+&quot;values(&#39;&quot;+ne.getTitle()+&quot;&#39;,&#39;&quot;+ne.getContent()+&quot;&#39;,&quot;+ne.getType()+&quot;)&quot;;
+
+        try
+        &#123;
+//            这里的prepareStatement()起到一个传话员的作用，负责将我们写好的SQL语句传递到数据库，让数据库知道我们要干什么
+            ps=conn.prepareStatement(sql);
+
+//            这个方法用于改变数据库数据
+            int a=ps.executeUpdate();
+
+            if (a&gt;0)
+            &#123;
+                System.out.println(&quot;添加成功&quot;);
+            &#125;
+            else 
+            &#123;
+                System.out.println(&quot;添加失败&quot;);
+            &#125;
+
+        &#125;
+        catch (Exception e)
+        &#123;
+            e.printStackTrace();
+        &#125;
+
+        finally
+        &#123;
+//            这里直接调用com.kelin.util包中的Baseconnection中的closeRes()方法，通过了解我们会发现在这个包中有另个方法同名的，但是参数不一样，我们称之为方法的重载，这里传入的是两个参数
+            BaseConnection.closeRes(ps,conn);
+        &#125;
+    &#125;
+
+
+
+
+//    这里我们采用第二种方法插入数据，注意与上一种方法的区别,而且以后我们需要在数据库中插入数据的时候，也应该使用占位符的方法，这种方法相比于前一种方法更科学、更安全
+//    public void insert1(News ne)
+    public boolean insert1(News ne)
+    &#123;
+
+        boolean b=false;
+        Connection conn=BaseConnection.getConnection();
+        PreparedStatement ps=null;
+
+//        这里由于news表中的数据的id字段是自动递增的，所以不需要添加,这里由于type是int类型的，所以不需要加单引号
+        String sql=&quot;insert into news(title,content,type)&quot;+&quot;values(?,?,?)&quot;;//这三个？号是占位符
+
+        try
+        &#123;
+//            这里的prepareStatement()起到一个传话员的作用，负责将我们写好的SQL语句传递到数据库，让数据库知道我们要干什么
+            ps=conn.prepareStatement(sql);
+
+//            这里我们可能有疑问，相比insert()方法，insert1()方法到底有什么优势呢？我想有如下几种优势：
+//            1、占位符效率较高；2、占位符拼写的时候不容易出错；3、防止SQL注入
+            ps.setString(1, ne.getTitle());//这一句是填充上面第一个？的
+            ps.setString(2, ne.getContent());//这一句是填充上面第二个？的
+            ps.setInt(3, ne.getType());//这一句是填充上面第三个？的，这里注意是setInt，而不是setType，根据类型调用相应的方法
+
+//            这个方法用于改变数据库数据
+            int a=ps.executeUpdate();
+
+            if (a&gt;0)
+            &#123;
+//                下面的这一句用于正常的返回值提示输出，这个的返回值在方法中设置为void,而不是boolean
+//                System.out.println(&quot;添加成功&quot;);
+
+//                下面这行用户优化返回值得提示信息
+                b=true;//这行我们需要配合该方法的返回值类型，如果用这种方式，我们得需要修改该方法的返回值类型改为boolean
+            &#125;
+            else 
+            &#123;
+                System.out.println(&quot;添加失败&quot;);
+            &#125;
+
+        &#125;
+        catch (Exception e)
+        &#123;
+            e.printStackTrace();
+        &#125;
+
+        finally
+        &#123;
+            BaseConnection.closeRes(ps,conn);
+        &#125;
+//        如果采用布尔型（Boolean）作为返回值,那么这里需要添加一个return语句，如下
+        return b;
+    &#125;
+
+
+
+//    本方法用于将传递过来的news对象中的值，根据ID主键，改变数据库中的值，本方法没有经过任何优化，读者可以结合delete()、insert()方法来对比差异
+public void update(News ne)
+&#123;
+    Connection conn=BaseConnection.getConnection();
+    PreparedStatement ps=null;
+    String sql=&quot;update news set title= ?,content= ?,type= ? &quot;+&quot;where id= ? &quot;;
+    try
+    &#123;
+        ps=conn.prepareStatement(sql);
+        ps.setString(1, ne.getTitle());
+        ps.setString(2, ne.getContent());
+        ps.setInt(3, ne.getType());
+        ps.setInt(4, ne.getId());
+        int a=ps.executeUpdate();
+
+        if (a&gt;0)
+        &#123;
+            System.out.println(&quot;更新成功&quot;);
+        &#125;
+        else &#123;
+            System.out.println(&quot;更新失败&quot;);
+        &#125;
+
+
+    &#125;
+    catch (Exception e)
+    &#123;
+        e.printStackTrace();
+    &#125;
+    finally &#123;
+//        这里是没有使用BaseConnection.closeRes(ps,conn)来优化的状态，通过if语句来运用在每个方法中，会造成冗余代码
+        try
+        &#123;
+            if (ps!=null)
+            &#123;
+                ps.close();
+            &#125;
+            if (conn!=null)
+            &#123;
+                conn.close();
+            &#125;
+        &#125;
+        catch (Exception e2)
+        &#123;
+            e2.printStackTrace();
+        &#125;
+    &#125;
+
+&#125;
+
+
+
+//这里是删除方法的使用，这里我采用返回值为boolean型的方法，另外为了优化代码，采用boolean值作为返回值；其次，采用调用其他包中的方法BaseConnection.closeRes(ps,conn)来精简代码
+public boolean delete(int id)
+&#123;
+
+//    创建一个布尔型变量为b
+    boolean b=false;
+    Connection conn=BaseConnection.getConnection();
+    PreparedStatement ps=null;
+    String sql=&quot;delete from news where id= ? &quot;;
+
+    try
+    &#123;
+        ps=conn.prepareStatement(sql);
+        ps.setInt(1, id);
+        int a=ps.executeUpdate();
+
+        if (a&gt;0)
+        &#123;
+            b=true;
+        &#125;
+
+    &#125;
+    catch (Exception e)
+    &#123;
+        e.printStackTrace();
+    &#125;
+    finally &#123;
+        BaseConnection.closeRes(ps,conn);
+    &#125;
+//    如果采用布尔型（Boolean）作为返回值,那么这里需要添加一个return语句，如下
+    return b;
+&#125;
+
+
+
+    public static void main(String[] args)
+    &#123;
+//        new NewsDAO().getList();
+        new NewsDAO().getListAll();
+
+        News ne=new News();
+//        NewsDAO neda=new NewsDAO();
+
+
+        ne.setTitle(&quot;wonderful day!&quot;);
+        ne.setContent(&quot;my classmeta invite me to go seaside&quot;);
+        ne.setType(1);
+        ne.setId(5);
+
+//        neda.delete(7);
+//        
+//        neda.insert1(ne);
+//        
+//        neda.insert(ne);
+//        
+//        neda.update(ne);
+
+//        实例化一个ArrayList对象，以下的这几行代码与ne对象的封装信息配合使用，即：
+//        News ne=new News()...中间省略一些代码...ne.setName(rs.getString(&quot;name&quot;));
+
+
+//        下面的这行ArrayList&lt;News&gt; ar=new NewsDAO().getList();用于单表查询的
+//        ArrayList&lt;News&gt; ar=new NewsDAO().getList();
+
+//        下面的这行ArrayList&lt;News&gt; ar=new NewsDAO().getListAll();用于联表查询的
+        ArrayList&lt;News&gt; ar=new NewsDAO().getListAll();
+
+//        利用新型的for循环，进行循环输出
+
+        for (News ne1:ar)
+        &#123;
+            System.out.println(ne1.getId()+&quot;---&quot;+ne1.getTitle()+&quot;---&quot;+ne1.getName());
+        &#125;
+
+    &#125;
+
+&#125;</code></pre>
+<p>这里的注释没有高亮效果，不是特别明显，建议读者把代码复制粘贴到代码编辑器中查看效果，如果对其中的注释有异意的可以联系我，很乐意帮助大家排忧解惑。</p>
+<p>接下来我们分别把剩下的两个包中文件的代码粘贴出来</p>
+<p>包com.kelin.main中的TestMain.java文件代码如下：</p>
+<pre><code>package com.kelin.main;
+
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import com.kelin.bean.News;
+import com.kelin.dao.NewsDAO;
+
+public class TestMain
+&#123;
+
+    public static void main(String[] args)
+    &#123;
+
+        @SuppressWarnings(&quot;resource&quot;)
+        Scanner sc=new Scanner(System.in);
+        NewsDAO nd=new NewsDAO();
+
+        while(true)
+        &#123;
+            System.out.println(&quot;1、查看新闻 2、添加新闻 3、删除新闻 4、退出&quot;);
+            int a=sc.nextInt();
+            if (a==1)&#123;
+                ArrayList&lt;News&gt; ar=nd.getListAll();
+                System.out.println(&quot;编号\t标题\t内容&quot;);
+                for(News ne:ar)&#123;
+                    System.out.println(ne.getTitle()+&quot;\t&quot;+ne.getContent());
+                &#125;
+            &#125;else if (a==2) &#123;
+                System.out.println(&quot;请输入新闻标题内容 类别 编号&quot;);
+                News ne=new News();
+                ne.setTitle(sc.next());
+                ne.setContent(sc.next());
+                ne.setType(sc.nextInt());
+                boolean b=nd.insert1(ne);
+                System.out.println(b);
+            &#125;else if (a==3) &#123;
+                System.out.println(&quot;请输入要删除的新闻编号&quot;);
+                int id=sc.nextInt();
+                boolean b=nd.delete(id);
+                System.out.println(b);
+
+            &#125;else &#123;
+                break;
+            &#125;
+        &#125;
+
+    &#125;
+
+&#125;</code></pre>
+<p>包com.kelin.util中的BaseConnection.java文件的代码如下：</p>
+<pre><code>package com.kelin.util;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+public class BaseConnection
+&#123;
+
+    public static Connection getConnection()
+    &#123;
+        Connection conn=null;
+        try
+        &#123;
+            Class.forName(&quot;com.mysql.jdbc.Driver&quot;);
+            conn=DriverManager.getConnection(&quot;jdbc:mysql://localhost:3306/newsmanager&quot;, &quot;root&quot;, &quot;&quot;);
+        &#125;
+
+        catch (Exception e)
+        &#123;
+            e.printStackTrace();
+        &#125;
+        return conn;
+    &#125;
+
+
+
+//    以下方法是关于所有方法的查询连接关闭
+public static void closeRes(ResultSet rs,PreparedStatement ps,Connection conn)
+&#123;
+    try
+    &#123;
+        if (rs!=null)
+        &#123;
+            rs.close();
+        &#125;
+        if (ps!=null)
+        &#123;
+            ps.close();
+        &#125;
+        if (conn!=null)
+        &#123;
+            conn.close();
+        &#125;
+    &#125;
+    catch (Exception e)
+    &#123;
+        e.printStackTrace();
+    &#125;
+&#125;    
+
+
+
+
+//以下方法是关于所有方法的查询连接关闭
+public static void closeRes(PreparedStatement ps,Connection conn)
+&#123;
+    try
+    &#123;
+        if (ps!=null)
+        &#123;
+            ps.close();
+        &#125;
+        if (conn!=null)
+        &#123;
+            conn.close();
+        &#125;
+    &#125;
+    catch (Exception e)
+    &#123;
+        e.printStackTrace();
+    &#125;
+&#125;    
+
+
+
+    public static void main(String[] args)
+    &#123;
+//        输出连接信息，这里通过静态的方式，以类+方法的方式进行输出，这里我们把public Connection---》public static Connection
+//        也可以非静态的方式输出，可以把第九行的public static Connection---》public Connection
+//        以下的信息就得改成Connection conn=new BaseConnection().getConnection();这里我们以静态的方式进行输出
+        Connection conn=BaseConnection.getConnection();
+                System.out.println(conn);
+    &#125;
+
+&#125;</code></pre>
+<p>这里简短扼要的介绍下这四个包要表示的含义：</p>
+<p>包com.kelin.bean中存放的是数据库中数据表对象的定义，两个数据表分别对应两个类文件news—&gt;News.java、newstype—&gt;NewsType.java。</p>
+<p>包com.kelin.dao中存放的是对数据进行增删改查的方法，在NewsDAO.java文件中包含6个方法，读者可以在代码中观察得很清楚，其中有些代码被注释掉，是因为在这个里面包含了几种方法的混合，因此，为了运行不出故障，而采取了这些措施，因此，具备一定的java基础的应该不是什么理解上的问题。</p>
+<p>包com.kelin.main中存放的是一个案例的代码，这里我们通过一个案例来表示对数据库的增删改查操作，请读者重视对代码的理解。</p>
+<p>最后的包是com.kelin.util，在这个包中存放的是基础的连接信息，通用方法和一些共享的模块代码，在整个过程中我们不仅仅完成了java对Mysql的增删改查，而且我们还对整个代码进行了优化，把重复存在各个方法中的代码单独剥离出来，比如对数据库读取后的关闭代码，这些代码已经存在我们的增删改查的所有方法中，所以造成了一定量的代码冗余，还有，在用户对数据库的操作后的提示信息（修改成功，修改失败），这也是一个冗余，那么我们改如何解决这些问题呢？我们在方法中采用boolean类型的返回值，具体的我在代码的注释中讲得非常清楚了，读者细心品读即可。</p>
+<p>相关包下载：<code>http://pan.baidu.com/s/1kUMdnO7 </code>    密码：ooqw</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/04/26/java%E4%B8%AD%E5%A6%82%E4%BD%95%E8%AF%BB%E5%8F%96json%E6%A0%BC%E5%BC%8F%E7%9A%84%E6%95%B0%E6%8D%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/04/26/java%E4%B8%AD%E5%A6%82%E4%BD%95%E8%AF%BB%E5%8F%96json%E6%A0%BC%E5%BC%8F%E7%9A%84%E6%95%B0%E6%8D%AE/" class="post-title-link" itemprop="url">java中如何读取json格式的数据</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-04-26 01:28:40" itemprop="dateCreated datePublished" datetime="2016-04-26T01:28:40+08:00">2016-04-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:30" itemprop="dateModified" datetime="2020-10-11T11:53:30+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>json格式的数据在网络传输中比XML更有优势，json格式的数据很简单，它的表现形式是以“键:值”对的形式来承载数据的，好！今天我来谈谈如何在java中读取json格式的数据，</p>
+<p>首先我们在eclipse中创建一个工程，名字随便取一个：<code>TestReadJson</code></p>
+<p>这里必须得提醒的是，我们首先在这个工程中引入<code>gson-2.2.4.jar</code>，我们可以在网上下载到这个包，我们在工程中新建一个文件夹lib,然后把这个包放进这个文件夹里，然后把<code>gson-2.2.4.jar</code>，添加进入到<code>build path</code>中，具体操作：选择<code>gson-2.2.4.jar</code>，右键然后选择<code>Build Path</code>，选择<code>add to build path</code>即可。</p>
+<p>完成了这一步之后，我们就算是添加了引用包了。</p>
+<p>其中，各个文件的工程目录截图如下：</p>
+<p><img src="http://i.imgur.com/18MwvQ0.png"></p>
+<p>接下来，我们直接在src中添加一个<code>class</code>，给它命名为<code>ReadJson</code>，以下是这个类的代码：</p>
+<pre><code>import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.Iterator;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
+
+public class ReadJson
+&#123;
+
+    public static void main(String[] args)
+    &#123;
+        try
+        &#123;
+
+//            创建一个Json的解析器，并且创建一个新的实例，这个解析器用来解析字符串和输入流
+            JsonParser parser=new JsonParser();
+//            实例化一个json对象，并且为这个解析对象添加解析，这里增加一个read方法，并且指定一个新的fileread,这个时候可能会有异常，
+//            我们使用try...catch（右键---》surround with---》try/catch---》自动生成）把第20行和第23行包围起来，以便检测错误
+//            这里指的提醒的是，这里需要做个强制的类型转换(JsonObject) 
+            JsonObject object=(JsonObject) parser.parse(new FileReader(&quot;test.json&quot;));
+
+//            这里开始输出test.json中的第一条属性cat，通过get方法获取该属性，
+//            这里需要注意的地方在于，由于cat是字符串，所以我们采用getAsString()方法
+            System.out.println(&quot;cat=&quot;+object.get(&quot;cat&quot;).getAsString());
+
+//            同样的道理，pop是一个布尔型，所以我们采用getAsBoolean()方法，进行输出
+            System.out.println(&quot;pop=&quot;+object.get(&quot;pop&quot;).getAsBoolean());
+
+//            接下来，我们读取数组languages,新建一个JsonArray，这里我们先实例化一个数组，
+//            通过get方法获取数组languages,最后通过getAsJsonArray()方法获取数组类型的数据。
+            JsonArray array=object.get(&quot;languages&quot;).getAsJsonArray();
+
+//            通过for循环来循环输出数组中的数据，
+            for (int i = 0; i &lt; array.size(); i++)
+            &#123;
+
+                System.out.println(&quot;------------------&quot;);
+
+//                这个数组中包含三个对象，因此我们需要参考前面的第24行，先实例化一个Jsonobject对象，由于有三个对象，所以我们通过
+//                get(i)的方式，逐个对象打印出来，因此采用getAsJsonObject()方法直接获得对象
+                JsonObject subObject=array.get(i).getAsJsonObject();
+
+//                然后，逐个输出这个数组对象中的属性，根据不同数据类型，采用不同的方法，这里请读者留意其中的细节
+                System.out.println(&quot;id=&quot;+subObject.get(&quot;id&quot;).getAsInt());
+                System.out.println(&quot;ide=&quot;+subObject.get(&quot;ide&quot;).getAsString());
+                System.out.println(&quot;name=&quot;+subObject.get(&quot;name&quot;).getAsString());
+            &#125;
+
+
+
+
+        &#125;
+
+
+        catch (JsonIOException e)
+        &#123;
+            e.printStackTrace();
+        &#125;
+        catch (JsonSyntaxException e)
+        &#123;
+            e.printStackTrace();
+        &#125;
+        catch (FileNotFoundException e)
+        &#123;
+            e.printStackTrace();
+        &#125;
+    &#125;
+
+&#125;</code></pre>
+<p>//中对其中的逻辑进行了详细的说明。</p>
+<p>最后的效果是</p>
+<pre><code>cat=it
+pop=true
+------------------
+id=1
+ide=Eclipse
+name=Java
+------------------
+id=2
+ide=Xcode
+name=Swift
+------------------
+id=3
+ide=Visual Studio
+name=C#</code></pre>
+<p><strong>备注：</strong></p>
+<p>java高手请飘过，把平时的笔记分享，旨在抛砖引玉，如果还有更好的方法，希望斧正。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/04/26/%E5%A6%82%E4%BD%95%E5%9C%A8java%E4%B8%AD%E7%94%9F%E6%88%90json%E6%A0%BC%E5%BC%8F%E7%9A%84%E6%95%B0%E6%8D%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/04/26/%E5%A6%82%E4%BD%95%E5%9C%A8java%E4%B8%AD%E7%94%9F%E6%88%90json%E6%A0%BC%E5%BC%8F%E7%9A%84%E6%95%B0%E6%8D%AE/" class="post-title-link" itemprop="url">如何在java中生成json格式的数据</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-04-26 00:00:03" itemprop="dateCreated datePublished" datetime="2016-04-26T00:00:03+08:00">2016-04-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:52:57" itemprop="dateModified" datetime="2020-10-11T11:52:57+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>json格式的数据在网络传输中比XML更有优势，json格式的数据很简单，它的表现形式是以“键:值”对的形式来承载数据的，好！今天我来谈谈如何在java中创建json格式的数据，</p>
+<p>首先我们在eclipse中创建一个工程，名字随便取一个：<code>CreateJson</code></p>
+<p>这里必须得提醒的是，我们首先在这个工程中引入<code>gson-2.2.4.jar</code>，我们可以在网上下载到这个包，我们在工程中新建一个文件夹lib,然后把这个包放进这个文件夹里，然后把<code>gson-2.2.4.jar</code>，添加进入到<code>build path</code>中，具体操作：选择<code>gson-2.2.4.jar</code>，右键然后选择<code>Build Path</code>，选择<code>add to build path</code>即可。</p>
+<p>完成了这一步之后，我们就算是添加了引用包了。</p>
+<p>其中，工程文件的目录结构截图如下：</p>
+<p><img src="http://i.imgur.com/Zp8xdKG.png"></p>
+<p>接下来，我们直接在src中添加一个<code>class</code>，给它命名为<code>CreateJson</code>，以下是这个类的代码：</p>
+<pre><code>import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+public class CreateJson
+&#123;
+
+    public static void main(String[] args)
+    &#123;
+//        先实例化一个json对象
+        JsonObject object=new JsonObject();
+//        参考test.json中的数据，添加第一条数据，由于cat的值是字符串，所以选择addProperty(property, string);
+        object.addProperty(&quot;cat&quot;, &quot;it&quot;);
+//        添加完第一条之后，我们接下来添加数组，首先应该实例化一个数组对象
+        JsonArray array=new JsonArray();
+
+//        在这个数组中有三个对象，因此我们分别为这三个数组对象实例化一个对象（lan1、lan2、lan3）,并且参照第12行中的原则
+//        id属于整数型，我们用addProperty(property, number);ide属于字符型因此我们使用addProperty(property, string)
+//        若为布尔型，那么使用addProperty(property, Boolean)即可;
+
+        JsonObject lan1=new JsonObject();
+        lan1.addProperty(&quot;id&quot;, 1);
+        lan1.addProperty(&quot;ide&quot;, &quot;Eclipse&quot;);
+        lan1.addProperty(&quot;name&quot;, &quot;Java&quot;);
+//        我们创建完毕这些属性之后，添加这个对象到该数组中
+        array.add(lan1);
+
+        JsonObject lan2=new JsonObject();
+        lan2.addProperty(&quot;id&quot;, 2);
+        lan2.addProperty(&quot;ide&quot;, &quot;Xcode&quot;);
+        lan2.addProperty(&quot;name&quot;, &quot;Swift&quot;);
+//        我们创建完毕这些属性之后，添加这个对象到该数组中
+        array.add(lan2);
+
+        JsonObject lan3=new JsonObject();
+        lan3.addProperty(&quot;id&quot;, 3);
+        lan3.addProperty(&quot;ide&quot;, &quot;Visual Studio&quot;);
+        lan3.addProperty(&quot;name&quot;, &quot;C#&quot;);
+//        我们创建完毕这些属性之后，添加这个对象到该数组中
+        array.add(lan3);
+
+//        当我们在对象中添加对象完毕后，我们把这个对象中的三个对象所属的属性（languages）添加到数组中，完成封装        
+        object.add(&quot;languages&quot;, array);
+//        最后，我们把剩下的一条属性pop添加进来,跟前面不同的是这个属性是布尔型的，我们使用addProperty(property, Boolean)
+        object.addProperty(&quot;pop&quot;, true);
+//        这里我们使用系统的输出语句把这个对象输出
+        System.out.println(object.toString());
+
+    &#125;
+
+&#125;</code></pre>
+<p>//中对其中的逻辑进行了详细的说明。</p>
+<p>最后的效果是</p>
+<pre><code>&#123;
+&quot;cat&quot;:&quot;it&quot;,
+&quot;languages&quot;:[
+        &#123;&quot;id&quot;:1,&quot;ide&quot;:&quot;Eclipse&quot;,&quot;name&quot;:&quot;Java&quot;&#125;,
+        &#123;&quot;id&quot;:2,&quot;ide&quot;:&quot;Xcode&quot;,&quot;name&quot;:&quot;Swift&quot;&#125;,
+        &#123;&quot;id&quot;:3,&quot;ide&quot;:&quot;Visual Studio&quot;,&quot;name&quot;:&quot;C#&quot;&#125;
+],
+&quot;pop&quot;:true
+&#125;</code></pre>
+<p>例子非常简单，希望对新手有帮助。也希望大家持续关注我的博客。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/04/25/WordPress%E7%94%A8%E6%88%B7%E8%B5%84%E6%96%99%E6%B7%BB%E5%8A%A0%E8%87%AA%E5%AE%9A%E4%B9%89%E7%94%A8%E6%88%B7%E5%A4%B4%E5%83%8F%E5%8A%9F%E8%83%BD-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/04/25/WordPress%E7%94%A8%E6%88%B7%E8%B5%84%E6%96%99%E6%B7%BB%E5%8A%A0%E8%87%AA%E5%AE%9A%E4%B9%89%E7%94%A8%E6%88%B7%E5%A4%B4%E5%83%8F%E5%8A%9F%E8%83%BD-1/" class="post-title-link" itemprop="url">WordPress用户资料添加自定义用户头像功能</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-04-25 15:14:58" itemprop="dateCreated datePublished" datetime="2016-04-25T15:14:58+08:00">2016-04-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:09" itemprop="dateModified" datetime="2020-10-11T11:53:09+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>一般情况下，WordPress默认都是使用Gravatar头像，如果用户没有注册过Gravatar头像，那就使用网站设置的默认头像，这样用户体验不是很好；再则，如果直接调用远程Gravatar头像，还会影响网站的加载速度（WordPress缓存Gravatar头像到本地，提高加载速度）。所以，作为一个开放注册的WordPress网站而言，在用户资料页面添加自定义用户头像功能是极为重要的。</p>
+<p>自定义用户头像，只需要安装 Simple Local Avatars 插件即可，建议在后台插件安装页面搜索 Simple Local Avatars 在线安装，启用该插件后，你就可以在后台 &gt;用户&gt;我的个人资料 下看到自定义头像上传功能了</p>
+<p><img src="http://i.imgur.com/vlFdvK9.png"></p>
+<p>Simple Local Avatars 是英文的，只有一个主文件 simple-local-avatars.php，你也可以将这个功能直接集成到你的主题中，只需将该插件的 simple-local-avatars.php 放到正在使用的主题的根目录，然后在 functions.php文件中使用下面的代码引入该文件即可：</p>
+<pre><code>require_once(TEMPLATEPATH . &#39;/simple-local-avatars.php&#39;);</code></pre>
+<p>通过以上的两种方式，你的网站已经具备了自定义用户头像功能。那么，如何调用自定义头像？很简单，可以调用get_simple_local_avatar 或 get_avatar 函数即可，例如：</p>
+<pre><code>&lt;?php echo get_avatar(get_the_author_meta(&#39;ID&#39;)); ?&gt;</code></pre>
+<blockquote>
+<p>注：如果你已设置了Gravatar头像，也上传了自定义头像，优先显示自定义头像</p>
+</blockquote>
+<p><strong>附：simple-local-avatars.php 完整代码</strong></p>
+<pre><code>&lt;?php
+/**
+ Plugin Name: Simple Local Avatars
+ Plugin URI: http://get10up.com/plugins/simple-local-avatars-wordpress/
+ Description: Adds an avatar upload field to user profiles if the current user has media permissions. Generates requested sizes on demand just like Gravatar! Simple and lightweight.
+ Version: 1.3.1
+ Author: Jake Goldman (10up LLC), Oomph Inc
+ Author URI: http://get10up.com
+
+    Plugin: Copyright 2011 Jake Goldman (email : jake@get10up.com)
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+
+    NOTE: Previous versions may have accidentally and incorrectly attributed the 
+    copyright to employers of Mr. Goldman. While credit is given to all contributors
+    to the current version, including Mr. Goldman&#39;s employers, the copyright belongs
+    - and has always belonged - to Mr. Goldman, personally.
+*/
+
+/**
+ * add field to user profiles
+ */
+
+class Simple_Local_Avatars &#123;
+    private $user_id_being_edited;
+
+    public function __construct() &#123;
+        add_filter( &#39;get_avatar&#39;, array( $this, &#39;get_avatar&#39; ), 10, 5 );
+
+        add_action( &#39;admin_init&#39;, array( $this, &#39;admin_init&#39; ) );
+
+        add_action( &#39;show_user_profile&#39;, array( $this, &#39;edit_user_profile&#39; ) );
+        add_action( &#39;edit_user_profile&#39;, array( $this, &#39;edit_user_profile&#39; ) );
+
+        add_action( &#39;personal_options_update&#39;, array( $this, &#39;edit_user_profile_update&#39; ) );
+        add_action( &#39;edit_user_profile_update&#39;, array( $this, &#39;edit_user_profile_update&#39; ) );
+
+        add_filter( &#39;avatar_defaults&#39;, array( $this, &#39;avatar_defaults&#39; ) );
+    &#125;
+
+    public function get_avatar( $avatar = &#39;&#39;, $id_or_email, $size = 96, $default = &#39;&#39;, $alt = false ) &#123;
+
+        if ( is_numeric($id_or_email) )
+            $user_id = (int) $id_or_email;
+        elseif ( is_string( $id_or_email ) &amp;&amp; ( $user = get_user_by( &#39;email&#39;, $id_or_email ) ) )
+            $user_id = $user-&gt;ID;
+        elseif ( is_object( $id_or_email ) &amp;&amp; ! empty( $id_or_email-&gt;user_id ) )
+            $user_id = (int) $id_or_email-&gt;user_id;
+
+        if ( empty( $user_id ) )
+            return $avatar;
+
+        $local_avatars = get_user_meta( $user_id, &#39;simple_local_avatar&#39;, true );
+
+        if ( empty( $local_avatars ) || empty( $local_avatars[&#39;full&#39;] ) )
+            return $avatar;
+
+        $size = (int) $size;
+
+        if ( empty( $alt ) )
+            $alt = get_the_author_meta( &#39;display_name&#39;, $user_id );
+
+        // generate a new size
+        if ( empty( $local_avatars[$size] ) ) &#123;
+            $upload_path = wp_upload_dir();
+            $avatar_full_path = str_replace( $upload_path[&#39;baseurl&#39;], $upload_path[&#39;basedir&#39;], $local_avatars[&#39;full&#39;] );
+            $image_sized = image_resize( $avatar_full_path, $size, $size, true );        
+            // deal with original being &gt;= to original image (or lack of sizing ability)
+            $local_avatars[$size] = is_wp_error($image_sized) ? $local_avatars[$size] = $local_avatars[&#39;full&#39;] : str_replace( $upload_path[&#39;basedir&#39;], $upload_path[&#39;baseurl&#39;], $image_sized );    
+            // save updated avatar sizes
+            update_user_meta( $user_id, &#39;simple_local_avatar&#39;, $local_avatars );
+        &#125; elseif ( substr( $local_avatars[$size], 0, 4 ) != &#39;http&#39; ) &#123;
+            $local_avatars[$size] = home_url( $local_avatars[$size] );
+        &#125;
+
+        $author_class = is_author( $user_id ) ? &#39; current-author&#39; : &#39;&#39; ;
+        $avatar = &quot;&lt;img alt=&#39;&quot; . esc_attr( $alt ) . &quot;&#39; src=&#39;&quot; . $local_avatars[$size] . &quot;&#39; class=&#39;avatar avatar-&#123;$size&#125;&#123;$author_class&#125; photo&#39; height=&#39;&#123;$size&#125;&#39; width=&#39;&#123;$size&#125;&#39; /&gt;&quot;;
+
+        return apply_filters( &#39;simple_local_avatar&#39;, $avatar );
+    &#125;
+
+    public function admin_init() &#123;
+        load_plugin_textdomain( &#39;simple-local-avatars&#39;, false, dirname( plugin_basename( __FILE__ ) ) . &#39;/localization/&#39; );
+
+        register_setting( &#39;discussion&#39;, &#39;simple_local_avatars_caps&#39;, array( $this, &#39;sanitize_options&#39; ) );
+        add_settings_field( &#39;simple-local-avatars-caps&#39;, __(&#39;Local Avatar Permissions&#39;,&#39;simple-local-avatars&#39;), array( $this, &#39;avatar_settings_field&#39; ), &#39;discussion&#39;, &#39;avatars&#39; );
+    &#125;
+
+    public function sanitize_options( $input ) &#123;
+        $new_input[&#39;simple_local_avatars_caps&#39;] = empty( $input[&#39;simple_local_avatars_caps&#39;] ) ? 0 : 1;
+        return $new_input;
+    &#125;
+
+    public function avatar_settings_field( $args ) &#123;        
+        $options = get_option(&#39;simple_local_avatars_caps&#39;);
+
+        echo &#39;
+            &lt;label for=&quot;simple_local_avatars_caps&quot;&gt;
+                &lt;input type=&quot;checkbox&quot; name=&quot;simple_local_avatars_caps&quot; id=&quot;simple_local_avatars_caps&quot; value=&quot;1&quot; &#39; . @checked( $options[&#39;simple_local_avatars_caps&#39;], 1, false ) . &#39; /&gt;
+                &#39; . __(&#39;Only allow users with file upload capabilities to upload local avatars (Authors and above)&#39;,&#39;simple-local-avatars&#39;) . &#39;
+            &lt;/label&gt;
+        &#39;;
+    &#125;
+
+    public function edit_user_profile( $profileuser ) &#123;
+    ?&gt;
+    &lt;h3&gt;&lt;?php _e( &#39;Avatar&#39;,&#39;simple-local-avatars&#39; ); ?&gt;&lt;/h3&gt;
+
+    &lt;table class=&quot;form-table&quot;&gt;
+        &lt;tr&gt;
+            &lt;th&gt;&lt;label for=&quot;simple-local-avatar&quot;&gt;&lt;?php _e(&#39;Upload Avatar&#39;,&#39;simple-local-avatars&#39;); ?&gt;&lt;/label&gt;&lt;/th&gt;
+            &lt;td style=&quot;width: 50px;&quot; valign=&quot;top&quot;&gt;
+                &lt;?php echo get_avatar( $profileuser-&gt;ID ); ?&gt;
+            &lt;/td&gt;
+            &lt;td&gt;
+            &lt;?php
+                $options = get_option(&#39;simple_local_avatars_caps&#39;);
+
+                if ( empty($options[&#39;simple_local_avatars_caps&#39;]) || current_user_can(&#39;upload_files&#39;) ) &#123;
+                    do_action( &#39;simple_local_avatar_notices&#39; ); 
+                    wp_nonce_field( &#39;simple_local_avatar_nonce&#39;, &#39;_simple_local_avatar_nonce&#39;, false ); 
+            ?&gt;
+                    &lt;input type=&quot;file&quot; name=&quot;simple-local-avatar&quot; id=&quot;simple-local-avatar&quot; /&gt;&lt;br /&gt;
+            &lt;?php
+                    if ( empty( $profileuser-&gt;simple_local_avatar ) )
+                        echo &#39;&lt;span class=&quot;description&quot;&gt;&#39; . __(&#39;No local avatar is set. Use the upload field to add a local avatar.&#39;,&#39;simple-local-avatars&#39;) . &#39;&lt;/span&gt;&#39;;
+                    else 
+                        echo &#39;
+                            &lt;input type=&quot;checkbox&quot; name=&quot;simple-local-avatar-erase&quot; value=&quot;1&quot; /&gt; &#39; . __(&#39;Delete local avatar&#39;,&#39;simple-local-avatars&#39;) . &#39;&lt;br /&gt;
+                            &lt;span class=&quot;description&quot;&gt;&#39; . __(&#39;Replace the local avatar by uploading a new avatar, or erase the local avatar (falling back to a gravatar) by checking the delete option.&#39;,&#39;simple-local-avatars&#39;) . &#39;&lt;/span&gt;
+                        &#39;;        
+                &#125; else &#123;
+                    if ( empty( $profileuser-&gt;simple_local_avatar ) )
+                        echo &#39;&lt;span class=&quot;description&quot;&gt;&#39; . __(&#39;No local avatar is set. Set up your avatar at Gravatar.com.&#39;,&#39;simple-local-avatars&#39;) . &#39;&lt;/span&gt;&#39;;
+                    else 
+                        echo &#39;&lt;span class=&quot;description&quot;&gt;&#39; . __(&#39;You do not have media management permissions. To change your local avatar, contact the blog administrator.&#39;,&#39;simple-local-avatars&#39;) . &#39;&lt;/span&gt;&#39;;
+                &#125;
+            ?&gt;
+            &lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/table&gt;
+    &lt;script type=&quot;text/javascript&quot;&gt;var form = document.getElementById(&#39;your-profile&#39;);form.encoding = &#39;multipart/form-data&#39;;form.setAttribute(&#39;enctype&#39;, &#39;multipart/form-data&#39;);&lt;/script&gt;
+    &lt;?php        
+    &#125;
+
+    public function edit_user_profile_update( $user_id ) &#123;
+        if ( ! isset( $_POST[&#39;_simple_local_avatar_nonce&#39;] ) || ! wp_verify_nonce( $_POST[&#39;_simple_local_avatar_nonce&#39;], &#39;simple_local_avatar_nonce&#39; ) )            //security
+            return;
+
+        if ( ! empty( $_FILES[&#39;simple-local-avatar&#39;][&#39;name&#39;] ) ) &#123;
+            $mimes = array(
+                &#39;jpg|jpeg|jpe&#39; =&gt; &#39;image/jpeg&#39;,
+                &#39;gif&#39; =&gt; &#39;image/gif&#39;,
+                &#39;png&#39; =&gt; &#39;image/png&#39;,
+                &#39;bmp&#39; =&gt; &#39;image/bmp&#39;,
+                &#39;tif|tiff&#39; =&gt; &#39;image/tiff&#39;
+            );
+
+            // front end (theme my profile etc) support
+            if ( ! function_exists( &#39;wp_handle_upload&#39; ) )
+                require_once( ABSPATH . &#39;wp-admin/includes/file.php&#39; );
+
+            $this-&gt;avatar_delete( $user_id );    // delete old images if successful
+
+            // need to be more secure since low privelege users can upload
+            if ( strstr( $_FILES[&#39;simple-local-avatar&#39;][&#39;name&#39;], &#39;.php&#39; ) )
+                wp_die(&#39;For security reasons, the extension &quot;.php&quot; cannot be in your file name.&#39;);
+
+            $this-&gt;user_id_being_edited = $user_id; // make user_id known to unique_filename_callback function
+            $avatar = wp_handle_upload( $_FILES[&#39;simple-local-avatar&#39;], array( &#39;mimes&#39; =&gt; $mimes, &#39;test_form&#39; =&gt; false, &#39;unique_filename_callback&#39; =&gt; array( $this, &#39;unique_filename_callback&#39; ) ) );
+
+            if ( empty($avatar[&#39;file&#39;]) ) &#123;        // handle failures
+                switch ( $avatar[&#39;error&#39;] ) &#123;
+                    case &#39;File type does not meet security guidelines. Try another.&#39; :
+                        add_action( &#39;user_profile_update_errors&#39;, create_function(&#39;$a&#39;,&#39;$a-&gt;add(&quot;avatar_error&quot;,__(&quot;Please upload a valid image file for the avatar.&quot;,&quot;simple-local-avatars&quot;));&#39;) );                
+                        break;
+                    default :
+                        add_action( &#39;user_profile_update_errors&#39;, create_function(&#39;$a&#39;,&#39;$a-&gt;add(&quot;avatar_error&quot;,&quot;&lt;strong&gt;&quot;.__(&quot;There was an error uploading the avatar:&quot;,&quot;simple-local-avatars&quot;).&quot;&lt;/strong&gt; &#39; . esc_attr( $avatar[&#39;error&#39;] ) . &#39;&quot;);&#39;) );
+                &#125;
+
+                return;
+            &#125;
+
+            update_user_meta( $user_id, &#39;simple_local_avatar&#39;, array( &#39;full&#39; =&gt; $avatar[&#39;url&#39;] ) );        // save user information (overwriting old)
+        &#125; elseif ( ! empty( $_POST[&#39;simple-local-avatar-erase&#39;] ) ) &#123;
+            $this-&gt;avatar_delete( $user_id );
+        &#125;
+    &#125;
+
+    /**
+     * remove the custom get_avatar hook for the default avatar list output on options-discussion.php
+     */
+    public function avatar_defaults( $avatar_defaults ) &#123;
+        remove_action( &#39;get_avatar&#39;, array( $this, &#39;get_avatar&#39; ) );
+        return $avatar_defaults;
+    &#125;
+
+    /**
+     * delete avatars based on user_id
+     */
+    public function avatar_delete( $user_id ) &#123;
+        $old_avatars = get_user_meta( $user_id, &#39;simple_local_avatar&#39;, true );
+        $upload_path = wp_upload_dir();
+
+        if ( is_array($old_avatars) ) &#123;
+            foreach ($old_avatars as $old_avatar ) &#123;
+                $old_avatar_path = str_replace( $upload_path[&#39;baseurl&#39;], $upload_path[&#39;basedir&#39;], $old_avatar );
+                @unlink( $old_avatar_path );    
+            &#125;
+        &#125;
+
+        delete_user_meta( $user_id, &#39;simple_local_avatar&#39; );
+    &#125;
+
+    public function unique_filename_callback( $dir, $name, $ext ) &#123;
+        $user = get_user_by( &#39;id&#39;, (int) $this-&gt;user_id_being_edited ); 
+        $name = $base_name = sanitize_file_name( $user-&gt;display_name . &#39;_avatar&#39; );
+        $number = 1;
+
+        while ( file_exists( $dir . &quot;/$name$ext&quot; ) ) &#123;
+            $name = $base_name . &#39;_&#39; . $number;
+            $number++;
+        &#125;
+
+        return $name . $ext;
+    &#125;
+&#125;
+
+$simple_local_avatars = new Simple_Local_Avatars;
+
+/**
+ * more efficient to call simple local avatar directly in theme and avoid gravatar setup
+ * 
+ * @param int|string|object $id_or_email A user ID,  email address, or comment object
+ * @param int $size Size of the avatar image
+ * @param string $default URL to a default image to use if no avatar is available
+ * @param string $alt Alternate text to use in image tag. Defaults to blank
+ * @return string &lt;img&gt; tag for the user&#39;s avatar
+ */
+function get_simple_local_avatar( $id_or_email, $size = &#39;96&#39;, $default = &#39;&#39;, $alt = false ) &#123;
+    global $simple_local_avatars;
+    $avatar = $simple_local_avatars-&gt;get_avatar( &#39;&#39;, $id_or_email, $size, $default, $alt );
+
+    if ( empty ( $avatar ) )
+        $avatar = get_avatar( $id_or_email, $size, $default, $alt );
+
+    return $avatar;
+&#125;
+
+/**
+ * on uninstallation, remove the custom field from the users and delete the local avatars
+ */
+
+register_uninstall_hook( __FILE__, &#39;simple_local_avatars_uninstall&#39; );
+
+function simple_local_avatars_uninstall() &#123;
+    $simple_local_avatars = new Simple_Local_Avatars;
+    $users = get_users_of_blog();
+
+    foreach ( $users as $user )
+        $simple_local_avatars-&gt;avatar_delete( $user-&gt;user_id );
+
+    delete_option(&#39;simple_local_avatars_caps&#39;);
+&#125;</code></pre>
+<p>更多请参考：wordpress大学</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/04/20/windows%E4%B8%ADDOS%E5%91%BD%E4%BB%A4%E7%9A%84%E8%BF%90%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/04/20/windows%E4%B8%ADDOS%E5%91%BD%E4%BB%A4%E7%9A%84%E8%BF%90%E7%94%A8/" class="post-title-link" itemprop="url">windows中DOS命令的运用</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-04-20 12:37:06" itemprop="dateCreated datePublished" datetime="2016-04-20T12:37:06+08:00">2016-04-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:15" itemprop="dateModified" datetime="2020-10-11T11:53:15+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="Windows-强制删除文件及文件夹命令"><a href="#Windows-强制删除文件及文件夹命令" class="headerlink" title="Windows 强制删除文件及文件夹命令"></a>Windows 强制删除文件及文件夹命令</h4><p><strong>一、删除文件或目录CMD命令：</strong></p>
+<pre><code>rd/s/q 盘符:\某个文件夹 （强制删除文件文件夹和文件夹内所有文件）
+del/f/s/q 盘符:\文件名 （强制删除文件，文件名必须加文件后缀名）</code></pre>
+<p><strong>二、删除文件或目录BAT命令：</strong></p>
+<p>1、新建.BAT批处理文件输入如下命令，然后将要删除的文件拖放到批处理文件图标上即可删除。</p>
+<pre><code>DEL /F /A /Q 
+RD /S /Q </code></pre>
+<h4 id="如何在windows中的DOS命令框中以管理员的权限运行"><a href="#如何在windows中的DOS命令框中以管理员的权限运行" class="headerlink" title="如何在windows中的DOS命令框中以管理员的权限运行"></a>如何在windows中的DOS命令框中以管理员的权限运行</h4><p>这里借助网友给出的答案，体验了一把，感觉确实解决了这个问题：</p>
+<p><strong>执行该命令即可</strong></p>
+<pre><code>runas /user:管理员用户名 cmd.exe
+
+（以管理员身份运行cmd）
+
+但前提是需要管理员设置了密码，之后即可以管理员权限执行DOS，然后输入你的命令即可</code></pre>
+<p>为了简单明了，上张图吧：</p>
+<p><img src="http://i.imgur.com/wAdllsL.png"></p>
+<p>当你根据以上命令运行的时候就会弹出另外一个黑黑的窗口，留意顶部的信息</p>
+<p><img src="http://i.imgur.com/ii2CvHP.png"></p>
+<p>这样就对了。</p>
+<p>平时也没少用windows命令框，开始的时候嘛，一直纠结着一些细小的问题，比如磁盘路径怎么切换，如何上溯到父文件夹等等一系列问题：</p>
+<p>一开始打开运行框的时候，不是现实在根目录的，我们怎么回到根目录呢？</p>
+<p>直接在里面输入</p>
+<pre><code>cd \</code></pre>
+<p>就直接回到根目录了，这些很基础，也很常用，新手学会了会给我们的工作带来很大的便利性</p>
+<p>比如说，回到上一层，直接命令</p>
+<pre><code>cd..回到上层菜单。。。</code></pre>
+<p>又比如，从C盘到H盘，假设现在是在C盘下，直接：</p>
+<pre><code>h: 进入h盘</code></pre>
+<p>为了方便查找，这里列出了常用的一些windows命令，仅供参考：</p>
+<pre><code>AT 计划在计算机上运行的命令和程序。
+ATTRIB 显示或更改文件属性。
+BREAK 设置或清除扩展式 CTRL+C 检查。
+CACLS 显示或修改文件的访问控制列表(ACLs)。
+CALL 从另一个批处理程序调用这一个。
+CD 显示当前目录的名称或将其更改。
+CHCP 显示或设置活动代码页数。
+CHDIR 显示当前目录的名称或将其更改。
+CHKDSK 检查磁盘并显示状态报告。
+CHKNTFS 显示或修改启动时间磁盘检查。
+CLS 清除屏幕。
+CMD 打开另一个 Windows 命令解释程序窗口。
+COLOR 设置默认控制台前景和背景颜色。
+COMP 比较两个或两套文件的内容。
+COMPACT 显示或更改 NTFS 分区上文件的压缩。
+CONVERT 将 FAT 卷转换成 NTFS。您不能转换当前驱动器。
+COPY 将至少一个文件复制到另一个位置。
+DATE 显示或设置日期。
+DEL 删除至少一个文件。
+DIR 显示一个目录中的文件和子目录。
+DISKCOMP 比较两个软盘的内容。
+DISKCOPY 将一个软盘的内容复制到另一个软盘。
+DOSKEY 编辑命令行、调用 Windows 命令并创建宏。
+ECHO 显示消息，或将命令回显打开或关上。
+ENDLOCAL 结束批文件中环境更改的本地化。
+ERASE 删除至少一个文件。
+EXIT 退出 CMD.EXE 程序(命令解释程序)。
+FC 比较两个或两套文件，并显示不同处。
+FIND 在文件中搜索文字字符串。
+FINDSTR 在文件中搜索字符串。
+FOR 为一套文件中的每个文件运行一个指定的命令。
+FORMAT 格式化磁盘，以便跟 Windows 使用。
+FTYPE 显示或修改用于文件扩展名关联的文件类型。
+GOTO 将 Windows 命令解释程序指向批处理程序中某个标明的行。
+GRAFTABL 启用 Windows 来以图像模式显示扩展字符集。
+HELP 提供 Windows 命令的帮助信息。
+IF 执行批处理程序中的条件性处理。
+LABEL 创建、更改或删除磁盘的卷标。
+MD 创建目录。
+MKDIR 创建目录。
+MODE 配置系统设备。
+MORE 一次显示一个结果屏幕。
+MOVE 将文件从一个目录移到另一个目录。
+PATH 显示或设置可执行文件的搜索路径。
+PAUSE 暂停批文件的处理并显示消息。
+POPD 还原 PUSHD 保存的当前目录的上一个值。
+PRINT 打印文本文件。
+PROMPT 更改 Windows 命令提示符。
+PUSHD 保存当前目录，然后对其进行更改。
+RD 删除目录。
+RECOVER 从有问题的磁盘恢复可读信息。
+REM 记录批文件或 CONFIG.SYS 中的注释。
+REN 重命名文件。
+RENAME 重命名文件。
+REPLACE 替换文件。
+RMDIR 删除目录。
+SET 显示、设置或删除 Windows 环境变量。
+SETLOCAL 开始批文件中环境更改的本地化。
+SHIFT 更换批文件中可替换参数的位置。
+SORT 对输入进行分类。
+START 启动另一个窗口来运行指定的程序或命令。
+SUBST 将路径跟一个驱动器号关联。
+TIME 显示或设置系统时间。
+TITLE 设置 CMD.EXE 会话的窗口标题。
+TREE 以图形模式显示驱动器或路径的目录结构。
+TYPE 显示文本文件的内容。
+VER 显示 Windows 版本。
+VERIFY 告诉 Windows 是否验证文件是否已正确写入磁盘。
+VOL 显示磁盘卷标和序列号。
+XCOPY 复制文件和目录树。
+appwiz.cpl------------添加删除程序
+control userpasswords2--------用户帐户设置
+cleanmgr-------垃圾整理
+CMD--------------命令提示符可以当作是 Windows 的一个附件，Ping，Convert 这些不能在图形环境下 使用的功能要借助它来完成。
+cmd------jview察看Java虚拟机版本。
+command.com------调用的则是系统内置的 NTVDM，一个 DOS虚拟机。它完全是一个类似 Virtual PC 的 虚拟环境，和系统本身联系不大。当我们在命令提示符下运行 DOS 程序时，实际上也 是自动转移到 NTVDM虚拟机下，和 CMD 本身没什么关系。
+calc-----------启动计算器
+chkdsk.exe-----Chkdsk磁盘检查
+compmgmt.msc---计算机管理
+conf-----------启动 netmeeting
+control userpasswords2-----User Account 权限设置
+devmgmt.msc--- 设备管理器
+diskmgmt.msc---磁盘管理实用程序
+dfrg.msc-------磁盘碎片整理程序
+drwtsn32------ 系统医生
+dvdplay--------启动Media Player
+dxdiag-----------DirectX Diagnostic Tool
+gpedit.msc-------组策略编辑器
+gpupdate /target:computer /force 强制刷新组策略
+eventvwr.exe-----事件查看器
+explorer-------打开资源管理器
+logoff---------注销命令
+lusrmgr.msc----本机用户和组
+msinfo32---------系统信息
+msconfig---------系统配置实用程序
+net start (servicename)----启动该服务
+net stop (servicename)-----停止该服务
+notepad--------打开记事本
+nusrmgr.cpl-------同control userpasswords，打开用户帐户控制面板
+Nslookup-------IP地址侦测器
+oobe/msoobe /a----检查XP是否激活
+perfmon.msc----计算机性能监测程序
+progman--------程序管理器
+regedit----------注册表编辑器
+regedt32-------注册表编辑器
+regsvr32 /u *.dll----停止dll文件运行
+route print------查看路由表 
+rononce -p ----15秒关机
+rsop.msc-------组策略结果集
+rundll32.exe rundll32.exe %Systemroot%System32shimgvw.dll,ImageView_Fullscreen----启动一个空白的Windows 图片和传真查看器
+secpol.msc--------本地安全策略
+services.msc---本地服务设置
+sfc /scannow-----启动系统文件检查器
+sndrec32-------录音机
+taskmgr-----任务管理器（适用于2000／xp／2003）
+tsshutdn-------60秒倒计时关机命令
+winchat--------XP自带局域网聊天
+winmsd---------系统信息
+winver-----显示About Windows 窗口
+wupdmgr-----------Windows Update</code></pre>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/04/15/nodejs%E5%AE%89%E8%A3%85%E4%B8%8D%E4%BA%86%E5%92%8Cnpm%E5%AE%89%E8%A3%85%E4%B8%8D%E4%BA%86%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/04/15/nodejs%E5%AE%89%E8%A3%85%E4%B8%8D%E4%BA%86%E5%92%8Cnpm%E5%AE%89%E8%A3%85%E4%B8%8D%E4%BA%86%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" class="post-title-link" itemprop="url">nodejs安装不了和npm安装不了的解决方法</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-04-15 17:22:24" itemprop="dateCreated datePublished" datetime="2016-04-15T17:22:24+08:00">2016-04-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:18" itemprop="dateModified" datetime="2020-10-11T11:53:18+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>笔记本win7在nodejs官方网站下载.msi文件安装，安装到一半的时候，进度条提示：roll back，because of a error.node.JS setup wizard ended prematurely.然后我就找啊找，各种环境配置，各种msi文件文件修改，杯具的还是解决不了。最后手动安装下载包和配置环境变量。</p>
+<p><strong>安装nodejs</strong></p>
+<p>答案是在这里找到的：install in windows，下面简要的说一下安装步骤：</p>
+<p>1、下载nodejs引擎，32bit version或者64bit version</p>
+<p>2、下载最新版的npm  zip格式压缩包：<a target="_blank" rel="noopener" href="http://nodejs.org/dist/npm/">http://nodejs.org/dist/npm/</a></p>
+<p>3、在硬盘某个位置，如D盘下建立一个文件nodejs，把上面两个下载的东西都放在这里，npm要解压。</p>
+<p>4、配置两个环境变量：一个是PATH上增加node.exe的目录D:\nodejs,一个是增加环境变量NODE_PATH,值为</p>
+<p><img src="http://i.imgur.com/hSr3iyv.jpg"></p>
+<p><img src="http://i.imgur.com/4FVuddv.jpg"></p>
+<p>5、win7环境配置在系统》高级系统设置》高级》环境变量》系统变量中查找PATH，编辑加上D:\nodejs，再加上NODE_PATH变量和值。</p>
+<p>6、安装express：打开cmd命令行，使用命令行定位到这Node目录下，键入指令npm install express[安装express至相对路径]或npm install express -g[安装express至绝对路径]nodejs安装不了和npm安装不了的解决方法</p>
+<p><img src="http://i.imgur.com/cqPd6ni.jpg"></p>
+<p>到这里，你在命令行里面输入node -v如果输出nodejs的版本则安装成功。</p>
+<p><strong>无法安装npm</strong></p>
+<p>如果你发现安装好nodejs后，使用npm install ** 安装插件时，下载不了，可能是你的npm 配置由于之前修改过，内容过时了。你可以使用命令：</p>
+<p>npm config list 查看以前修改过的命令，针对错误的地方删除掉。</p>
+<pre><code>npm config set &lt;key&gt; &lt;value&gt; [--global]
+npm config get &lt;key&gt;
+npm config delete &lt;key&gt;
+npm config list
+npm config edit
+npm c [set|get|delete|list]
+npm get &lt;key&gt;
+npm set &lt;key&gt; &lt;value&gt; [--global]</code></pre>
+<p>例如你可以删除代理</p>
+<pre><code>npm config delete proxy</code></pre>
+<p>删除注册的目录</p>
+<pre><code>npm config delete registry</code></pre>
+<p>以下，我讲下我在用npm安装nodejs的时候遇到的问题，前提是我已经安装了nodejs的较旧版本，我想把旧版本升级到最新版本，而且还没安装npm，我该怎么办呢？请看下面的文字：</p>
+<p>我在Linux虚拟机上安装的时候，出现过安装目录不存在的问题，可能是网络的问题导致连接不畅，由于我用<code>npm install -g n</code>命令安装Nodejs最新版本的时候总是提示说Could’t find npm command，很显然是npm没安装，于是找到了</p>
+<pre><code>curl https://npmjs.org/install.sh | sh </code></pre>
+<p>有的时候也看到有人用</p>
+<pre><code>curl -L https://npmjs.org/install.sh | sh </code></pre>
+<p>安装npm我能找到的就这两条命令了，如果能够翻墙的话，最好开启翻墙工具，这样安装可能会好点。最后，你可以运行命令：</p>
+<pre><code>npm --version</code></pre>
+<p>来查看npm的安装情况，如果出现类似3.8.6的文字说明，你安装这个包管理器成功了。</p>
+<p>安装完了npm的时候，再次运行<code>npm install -g n</code>，然后，接着运行<code>n latest</code>，这样就可以完成nodejs升级到最新版的操作了。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/04/14/%E5%A6%82%E4%BD%95%E5%88%A4%E5%AE%9Awordpress%E4%B8%BB%E9%A2%98%E6%98%AF%E5%90%A6%E5%AE%89%E5%85%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/04/14/%E5%A6%82%E4%BD%95%E5%88%A4%E5%AE%9Awordpress%E4%B8%BB%E9%A2%98%E6%98%AF%E5%90%A6%E5%AE%89%E5%85%A8/" class="post-title-link" itemprop="url">如何判定wordpress主题是否安全</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-04-14 20:08:12" itemprop="dateCreated datePublished" datetime="2016-04-14T20:08:12+08:00">2016-04-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:52:58" itemprop="dateModified" datetime="2020-10-11T11:52:58+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>在之前的淘宝客模板中，和大家分享了一些淘宝客的常用wordpress模板，不过，有些朋友在QQ群中提到，这些模板安全么?其实wordpress的优势之一，就是有N多的免费模板，在淘宝中也有N多的破解模板，但是，如何判定这些主题的安全性?</p>
+<p>例如，主题中是否有加密?主题是否有固定链接?主题是否有暗链?这些都是使用免费主题的朋友很关注的问题，那么，我们应该如何检测呢?</p>
+<p>今天和大家分享一款wordpress插件：Theme Authenticity Checker。</p>
+<p>这是一款用来检测wordpress主题安全性的插件，检查是否主题有加密，使用方式也很简单，具体操作如下：</p>
+<ul>
+<li>第一步，我们需要进入wordpress后台。</li>
+<li>第二步，点击进入插件页面。</li>
+<li>第三步，选择安装插件，在插件搜索中输入“Theme Authenticity Checker (TAC)”，选择安装。</li>
+<li>第四步，安装并启用插件</li>
+<li>第五步，点击外观</li>
+<li>第六步，选择 TAC，之后，您能够看到如下图所示的页面：</li>
+</ul>
+<p><img src="http://i.imgur.com/PPvi2lj.png"></p>
+<p><img src="http://i.imgur.com/MHbS9qr.png"></p>
+<ul>
+<li>第七步，查看分析</li>
+<li>如果显示“Theme Ok!”这个就代表该主题基本安全。</li>
+<li>第八步，查看链接</li>
+<li>然后，我们看一下上面的 Details，点击即可查看，如下图所示：</li>
+</ul>
+<p>一般来说，主题都会有一到两个链接，一个是主题作者的版权链接，还有一个是wordprees的链接，如果再有你不认识的其他链接，有可能就是被挂外链了。</p>
+<p>以后，无论是在淘宝购买的模板，还是某个网站上免费下载的模板，霍常亮都建议大家用该款插件检测一下再使用，该插件的作用就是用来检测，我们用的时候，启用下，如果检测完成，可以在后台对该款插件进行禁用，这样，既不会影响后台的加载速度，也不会增加每次使用的繁琐度。</p>
+<p>我记得在帮别人搭建一个网站的时候就遇到过这样的问题，可能是历史遗留问题——不好的习惯，我拿着一个主题没有经过任何处理就开始使用，结果导致网站空间直接被占用完了，网站都打不开，空间商那边为了安全，直接把网站暂停了，后来我在搭建网站的时候，看了霍常亮的一篇文章特别受启发，站长应该有一种安全意识，任何陌生的东西都谨慎使用，天下没有免费的午餐，各位小伙伴们记住这点很重要。</p>
+<p>后来我就用这个插件检测了一下安装在本地机子里的某某模板，发现了以上截图中的问题，我这才明白我已经上线的那个网站出现的问题的原因。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/04/14/%E4%B8%BAWordPress%E9%A1%B5%E9%9D%A2%EF%BC%88page%EF%BC%89%E6%B7%BB%E5%8A%A0%E6%A0%87%E7%AD%BE%E5%92%8C%E5%88%86%E7%B1%BB%E5%8A%9F%E8%83%BD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2016/04/14/%E4%B8%BAWordPress%E9%A1%B5%E9%9D%A2%EF%BC%88page%EF%BC%89%E6%B7%BB%E5%8A%A0%E6%A0%87%E7%AD%BE%E5%92%8C%E5%88%86%E7%B1%BB%E5%8A%9F%E8%83%BD/" class="post-title-link" itemprop="url">为WordPress页面（page）添加标签和分类功能</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-04-14 11:54:51" itemprop="dateCreated datePublished" datetime="2016-04-14T11:54:51+08:00">2016-04-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:52:53" itemprop="dateModified" datetime="2020-10-11T11:52:53+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>WordPress的页面（page）默认是不支持添加标签和分类的，让页面支持添加标签和分类，以及在标签存档和分类存档中包含页面的方法。</p>
+<p>经常折腾wordpress的人估计很清楚wordpress后台的情况，文章栏那里才有文章分类和标签，可是我们一般不会看到页面那里也有页面分类和标签，这样我们就不能针对每篇文章使用不同的模板了，如果哪天能够实现一个不同文章使用不同的模板那该多好，没错！这个想法我在几个月前也想过，可是当时也不知道如何解决这个问题，接下来将会让你们心想事成，实现这个功能并不是特别难，借助插件就可以实现，对于很多不喜欢插件的人来说，能够通过代码的方式实现这个功能将会更好，废话少说，我们开始吧！</p>
+<p>找到你的主题的functions.php文件，打开它并且把下面的代码添加进去，具体代码如下：</p>
+<pre><code>//为WordPress页面添加标签和分类
+
+class tgca&#123;
+
+  function __construct()&#123;
+
+    add_action( &#39;init&#39;, array( $this, &#39;taxonomies_for_pages&#39; ) );
+
+    /**
+     * 确保这些查询修改不会作用于管理后台，防止文章和页面混杂 
+     */
+    if ( ! is_admin() ) &#123;
+      add_action( &#39;pre_get_posts&#39;, array( $this, &#39;category_archives&#39; ) );
+      add_action( &#39;pre_get_posts&#39;, array( $this, &#39;tags_archives&#39; ) );
+    &#125; // ! is_admin
+
+  &#125; // __construct
+
+  /**
+   * 为“页面”添加“标签”和“分类”
+   *
+   * @uses register_taxonomy_for_object_type
+   */
+  function taxonomies_for_pages() &#123;
+      register_taxonomy_for_object_type( &#39;post_tag&#39;, &#39;page&#39; );
+      register_taxonomy_for_object_type( &#39;category&#39;, &#39;page&#39; );
+  &#125; // taxonomies_for_pages
+
+  /**
+   * 在标签存档中包含“页面”
+   */
+  function tags_archives( $wp_query ) &#123;
+
+    if ( $wp_query-&gt;get( &#39;tag&#39; ) )
+      $wp_query-&gt;set( &#39;post_type&#39;, &#39;any&#39; );
+
+  &#125; // tags_archives
+
+  /**
+   * 在分类存档中包含“页面”
+   */
+  function category_archives( $wp_query ) &#123;
+
+    if ( $wp_query-&gt;get( &#39;category_name&#39; ) || $wp_query-&gt;get( &#39;cat&#39; ) )
+      $wp_query-&gt;set( &#39;post_type&#39;, &#39;any&#39; );
+
+  &#125; // category_archives
+
+&#125; // tgca
+
+$ptcfp = new tgca();</code></pre>
+<p>这里借鉴了畅萌的经验，要想了解更多wordpress开发，可以关注一下wordpress大学，很多使用的经验供你参考。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/40/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/40/">40</a><span class="page-number current">41</span><a class="page-number" href="/page/42/">42</a><a class="page-number" href="/page/43/">43</a><a class="extend next" rel="next" href="/page/42/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

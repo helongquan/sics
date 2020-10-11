@@ -1,23 +1,2086 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-{% block title %}{{ config.title }}{% if theme.index_with_subtitle and config.subtitle %} - {{config.subtitle }}{% endif %}{% endblock %}
+<link rel="stylesheet" href="/css/main.css">
 
-{% block page_class %}
-  {% if is_home() %}page-home{% endif -%}
-{% endblock %}
 
-{% block content %}
-  <section id="posts" class="posts-expand">
-    {% for post in page.posts %}
-      {{ post_template.render(post, true) }}
-    {% endfor %}
-  </section>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-  {% include '_partials/pagination.swig' %}
-{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
 
-{% block sidebar %}
-  {{ sidebar_template.render(false) }}
-{% endblock %}
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/page/24/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/page/24/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
+            
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/03/27/%E5%80%9F%E5%8A%A9%E6%B7%98%E5%AE%9Dip%E5%BA%93%E5%AE%9E%E7%8E%B0contact-form-7%E8%81%94%E7%B3%BB%E8%A1%A8%E5%8D%95%E7%9F%A5%E9%81%93%E5%AE%A2%E6%88%B7%E6%9D%A5%E8%87%AA%E5%93%AA%E4%B8%AA%E5%9C%B0%E5%8C%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/03/27/%E5%80%9F%E5%8A%A9%E6%B7%98%E5%AE%9Dip%E5%BA%93%E5%AE%9E%E7%8E%B0contact-form-7%E8%81%94%E7%B3%BB%E8%A1%A8%E5%8D%95%E7%9F%A5%E9%81%93%E5%AE%A2%E6%88%B7%E6%9D%A5%E8%87%AA%E5%93%AA%E4%B8%AA%E5%9C%B0%E5%8C%BA/" class="post-title-link" itemprop="url">借助淘宝ip库实现contact form 7联系表单知道客户来自哪个地区</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-03-27 14:06:50" itemprop="dateCreated datePublished" datetime="2018-03-27T14:06:50+08:00">2018-03-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:52:59" itemprop="dateModified" datetime="2020-10-11T11:52:59+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>前一阵子，处理过contact form 7的文件上传的问题，这次作为补充，我们通过contact form 7这个wordpress插件实现知道客户从哪个页面发送的，发送电邮的用户来自哪个IP，进而知道客户是来自哪个国家。</p>
+<p>首先准备的东西：wordpress,contact form 7</p>
+<p>新建一个联系表单，然后在wordpress后台新建一个页面，然后把联系表单的短码粘贴进去，访问前台。</p>
+<p>我们这里主要说的是联系表单的设置：</p>
+<p>一般来说当我们安装好contact form 7后，有个默认表单：</p>
+<p><img src="https://i.imgur.com/HlspPkK.png"></p>
+<p>然后我们来到Mail这里：</p>
+<p><img src="https://i.imgur.com/NVhN9gS.png"></p>
+<p>这里我添加了两个短码：</p>
+<pre><code>[_remote_ip]</code></pre>
+<p>这是获取用户的IP的。</p>
+<pre><code>[_url]</code></pre>
+<p>这是用来获取电邮是从哪个页面发送过来的。</p>
+<p>好的，重点来了，我们通过使用淘宝的IP库：</p>
+<pre><code>http://ip.taobao.com/</code></pre>
+<p>这个是淘宝的IP库，里面有API，可以用来获取数据。</p>
+<p><strong>接口说明</strong></p>
+<p>1.请求接口（GET）：</p>
+<pre><code>/service/getIpInfo.php?ip=[ip地址字串]</code></pre>
+<p>2.响应信息：</p>
+<pre><code>（json格式的）国家 、省（自治区或直辖市）、市（县）、运营商</code></pre>
+<p>3.返回数据格式：</p>
+<pre><code>&#123;&quot;code&quot;:0,&quot;data&quot;:&#123;&quot;ip&quot;:&quot;210.75.225.254&quot;,&quot;country&quot;:&quot;\u4e2d\u56fd&quot;,&quot;area&quot;:&quot;\u534e\u5317&quot;,
+&quot;region&quot;:&quot;\u5317\u4eac\u5e02&quot;,&quot;city&quot;:&quot;\u5317\u4eac\u5e02&quot;,&quot;county&quot;:&quot;&quot;,&quot;isp&quot;:&quot;\u7535\u4fe1&quot;,
+&quot;country_id&quot;:&quot;86&quot;,&quot;area_id&quot;:&quot;100000&quot;,&quot;region_id&quot;:&quot;110000&quot;,&quot;city_id&quot;:&quot;110000&quot;,
+&quot;county_id&quot;:&quot;-1&quot;,&quot;isp_id&quot;:&quot;100017&quot;&#125;&#125;</code></pre>
+<p>其中code的值的含义为，0：成功，1：失败。</p>
+<p>这样我们只需要把<code>[_remote_ip]</code>接到这个api接口后面即可。</p>
+<p>这样我们访问</p>
+<pre><code>http://ip.taobao.com/service/getIpInfo.php?ip=个人IP地址</code></pre>
+<p>的时候，我们就能够获取这个IP相关的信息。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/03/26/WordPress%E5%AE%9E%E7%8E%B0ajax%E6%97%A0%E5%88%B7%E6%96%B0%E5%88%86%E7%B1%BB%E7%AD%9B%E9%80%89%E4%BB%A5%E5%8F%8A%E5%88%86%E9%A1%B5%E7%9A%84%E6%96%87%E7%AB%A0%E5%88%97%E8%A1%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/03/26/WordPress%E5%AE%9E%E7%8E%B0ajax%E6%97%A0%E5%88%B7%E6%96%B0%E5%88%86%E7%B1%BB%E7%AD%9B%E9%80%89%E4%BB%A5%E5%8F%8A%E5%88%86%E9%A1%B5%E7%9A%84%E6%96%87%E7%AB%A0%E5%88%97%E8%A1%A8/" class="post-title-link" itemprop="url">WordPress实现ajax无刷新分类筛选以及分页的文章列表</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-03-26 15:20:02" itemprop="dateCreated datePublished" datetime="2018-03-26T15:20:02+08:00">2018-03-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:11" itemprop="dateModified" datetime="2020-10-11T11:53:11+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>今天我们通过短码实现一个带有无刷新动态分类筛选以及分页的文章列表.</p>
+<p>先把下载包分享下，下载地址：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1vg_PmZqa92WSsS1_jsJsiw">https://pan.baidu.com/s/1vg_PmZqa92WSsS1_jsJsiw</a>  密码：iool</p>
+<p>该文章列表带有单选筛选功能，筛选条件可以是分类、标签或者其他自定义分类，采用ajax技术，文章列表可以通过数字分页</p>
+<p>1.编写短码函数</p>
+<pre><code>function jsonvue_filter_posts_sc($atts) &#123;
+    $a = shortcode_atts( array(
+        &#39;tax&#39;      =&gt; &#39;category&#39;, 
+        &#39;terms&#39;    =&gt; false, 
+        &#39;active&#39;   =&gt; false, 
+        &#39;per_page&#39; =&gt; 2     //每页显示的文章数量
+    ), $atts );
+    $result = NULL;
+    $terms  = get_terms($a[&#39;tax&#39;]);
+    if (count($terms)) :
+        ob_start(); ?&gt;
+            &lt;div id=&quot;container-async&quot; data-paged=&quot;&lt;?php echo $a[&#39;per_page&#39;]; ?&gt;&quot; class=&quot;sc-ajax-filter&quot;&gt;
+                &lt;ul class=&quot;nav-filter&quot;&gt;
+                &lt;li&gt;
+                    &lt;a href=&quot;#&quot; data-filter=&quot;post_tag&quot; data-term=&quot;all-terms&quot; data-page=&quot;1&quot;&gt;所有&lt;/a&gt;
+                    &lt;/li&gt;
+                    &lt;?php foreach ($terms as $term) : ?&gt;
+                        &lt;li&lt;?php if ($term-&gt;term_id == $a[&#39;active&#39;]) :?&gt; class=&quot;active&quot;&lt;?php endif; ?&gt;&gt;
+                            &lt;a href=&quot;&lt;?php echo get_term_link( $term, $term-&gt;taxonomy ); ?&gt;&quot; data-filter=&quot;&lt;?php echo $term-&gt;taxonomy; ?&gt;&quot; data-term=&quot;&lt;?php echo $term-&gt;slug; ?&gt;&quot; data-page=&quot;1&quot;&gt;
+                                &lt;?php echo $term-&gt;name; ?&gt;
+                            &lt;/a&gt;
+                        &lt;/li&gt;
+                    &lt;?php endforeach; ?&gt;
+                &lt;/ul&gt;
+
+                &lt;div class=&quot;status&quot;&gt;&lt;/div&gt;
+                &lt;div class=&quot;content&quot;&gt;&lt;/div&gt;
+            &lt;/div&gt;
+        &lt;?php $result = ob_get_clean();
+    endif;
+    return $result;
+&#125;</code></pre>
+<p><strong>注册该短码：</strong></p>
+<pre><code>add_shortcode( &#39;jsonvue_posts&#39;, &#39;jsonvue_filter_posts_sc&#39;);</code></pre>
+<p><strong>2.其他函数</strong></p>
+<p>第一步的短码函数并没有带有具体的处理逻辑，比如：发送ajax请求，php处理请求，分页数据等功能，那么现在我们就开始构建这些函数。</p>
+<p>首先是 发送ajax请求的JS代码，这个是通过jquery实现。</p>
+<pre><code>$(&#39;#container-async&#39;).on(&#39;click&#39;, &#39;a[data-filter], .pagination a&#39;, function(event) &#123;
+    if(event.preventDefault) &#123; event.preventDefault(); &#125;
+
+    $this = $(this);
+
+
+    if ($this.data(&#39;filter&#39;)) &#123;
+        $this.closest(&#39;ul&#39;).find(&#39;.active&#39;).removeClass(&#39;active&#39;);
+        $this.parent(&#39;li&#39;).addClass(&#39;active&#39;);
+        $page = $this.data(&#39;page&#39;);
+    &#125;
+    else &#123;
+
+        $page = parseInt($this.attr(&#39;href&#39;).replace(/\D/g,&#39;&#39;));
+        $this = $(&#39;.nav-filter .active a&#39;);
+    &#125;
+
+
+    $params    = &#123;
+        &#39;page&#39; : $page,
+        &#39;tax&#39;  : $this.data(&#39;filter&#39;),
+        &#39;term&#39; : $this.data(&#39;term&#39;),
+        &#39;qty&#39;  : $this.closest(&#39;#container-async&#39;).data(&#39;paged&#39;),
+    &#125;;
+
+
+    get_posts($params);
+&#125;);
+
+$(&#39;a[data-term=&quot;all-terms&quot;]&#39;).trigger(&#39;click&#39;);</code></pre>
+<p><strong>Ajax请求后台php获取数据的JS代码</strong></p>
+<pre><code>function get_posts($params) &#123;
+
+    $container = $(&#39;#container-async&#39;);
+    $content   = $container.find(&#39;.content&#39;);
+        $status    = $container.find(&#39;.status&#39;);
+
+    $status.text(&#39;正在加载 ...&#39;);
+
+    $.ajax(&#123;
+            url: jsonvue.ajax_url,
+            data: &#123;
+                action: &#39;do_filter_posts&#39;,
+                nonce: jsonvue.nonce,
+                params: $params
+            &#125;,
+            type: &#39;post&#39;,
+            dataType: &#39;json&#39;,
+            success: function(data, textStatus, XMLHttpRequest) &#123;
+
+                if (data.status === 200) &#123;
+                    $content.html(data.content);
+                &#125;
+                else if (data.status === 201) &#123;
+                    $content.html(data.message);    
+                &#125;
+                else &#123;
+                    $status.html(data.message);
+                &#125;
+             &#125;,
+             error: function(MLHttpRequest, textStatus, errorThrown) &#123;
+
+            $status.html(textStatus);
+
+            /*console.log(MLHttpRequest);
+            console.log(textStatus);
+            console.log(errorThrown);*/
+             &#125;,
+        complete: function(data, textStatus) &#123;
+
+            msg = textStatus;
+
+            if (textStatus === &#39;success&#39;) &#123;
+                msg = data.responseJSON.found;
+            &#125;
+
+            $status.text(&#39;已显示: &#39;+ msg+&#39;篇文章&#39;);
+
+            /*console.log(data);
+            console.log(textStatus);*/
+        &#125;
+    &#125;);
+&#125;</code></pre>
+<p><strong>php函数处理ajax请求</strong></p>
+<pre><code>function jsonvue_filter_posts() &#123;
+    if( !isset( $_POST[&#39;nonce&#39;] ) || !wp_verify_nonce( $_POST[&#39;nonce&#39;], &#39;jsonvue&#39; ) )
+        die(&#39;Permission denied&#39;);
+
+    $response = [
+        &#39;status&#39;  =&gt; 500,
+        &#39;message&#39; =&gt; &#39;貌似有错误，请稍后再试 ...&#39;,
+        &#39;content&#39; =&gt; false,
+        &#39;found&#39;   =&gt; 0
+    ];
+    $tax  = sanitize_text_field($_POST[&#39;params&#39;][&#39;tax&#39;]);
+    $term = sanitize_text_field($_POST[&#39;params&#39;][&#39;term&#39;]);
+    $page = intval($_POST[&#39;params&#39;][&#39;page&#39;]);
+    $qty  = intval($_POST[&#39;params&#39;][&#39;qty&#39;]);
+
+    if (!term_exists( $term, $tax) &amp;&amp; $term != &#39;all-terms&#39;) :
+        $response = [
+            &#39;status&#39;  =&gt; 501,
+            &#39;message&#39; =&gt; &#39;没找到分类&#39;,
+            &#39;content&#39; =&gt; 0
+        ];
+        die(json_encode($response));
+    endif;
+    if ($term == &#39;all-terms&#39;) : 
+        $tax_qry[] = [
+            &#39;taxonomy&#39; =&gt; $tax,
+            &#39;field&#39;    =&gt; &#39;slug&#39;,
+            &#39;terms&#39;    =&gt; $term,
+            &#39;operator&#39; =&gt; &#39;NOT IN&#39;
+        ];
+    else :
+        $tax_qry[] = [
+            &#39;taxonomy&#39; =&gt; $tax,
+            &#39;field&#39;    =&gt; &#39;slug&#39;,
+            &#39;terms&#39;    =&gt; $term,
+        ];
+    endif;
+
+    $args = [
+        &#39;paged&#39;          =&gt; $page,
+        &#39;post_type&#39;      =&gt; &#39;post&#39;,
+        &#39;post_status&#39;    =&gt; &#39;publish&#39;,
+        &#39;posts_per_page&#39; =&gt; $qty,
+        &#39;tax_query&#39;      =&gt; $tax_qry
+    ];
+    $qry = new WP_Query($args);
+    ob_start();
+        if ($qry-&gt;have_posts()) :
+            while ($qry-&gt;have_posts()) : $qry-&gt;the_post(); ?&gt;
+
+                &lt;article class=&quot;loop-item&quot;&gt;
+                    &lt;header&gt;
+                        &lt;h2 class=&quot;entry-title&quot;&gt;&lt;a href=&quot;&lt;?php the_permalink(); ?&gt;&quot;&gt;&lt;?php the_title(); ?&gt;&lt;/a&gt;&lt;/h2&gt;
+                    &lt;/header&gt;
+                    &lt;div class=&quot;entry-summary&quot;&gt;
+                        &lt;?php the_excerpt(); ?&gt;
+                    &lt;/div&gt;
+                &lt;/article&gt;
+
+            &lt;?php endwhile;
+
+            jsonvue_ajax_pager($qry,$page);
+            $response = [
+                &#39;status&#39;=&gt; 200,
+                &#39;found&#39; =&gt; $qry-&gt;found_posts
+            ];
+
+        else :
+            $response = [
+                &#39;status&#39;  =&gt; 201,
+                &#39;message&#39; =&gt; &#39;没有文章&#39;
+            ];
+        endif;
+    $response[&#39;content&#39;] = ob_get_clean();
+    die(json_encode($response));
+&#125;
+add_action(&#39;wp_ajax_do_filter_posts&#39;, &#39;jsonvue_filter_posts&#39;);
+add_action(&#39;wp_ajax_nopriv_do_filter_posts&#39;, &#39;jsonvue_filter_posts&#39;);</code></pre>
+<p><strong>分页函数：</strong></p>
+<pre><code>function jsonvue_ajax_pager( $query = null, $paged = 1 ) &#123;
+    if (!$query)
+        return;
+    $paginate = paginate_links([
+        &#39;base&#39;      =&gt; &#39;%_%&#39;,
+        &#39;type&#39;      =&gt; &#39;array&#39;,
+        &#39;total&#39;     =&gt; $query-&gt;max_num_pages,
+        &#39;format&#39;    =&gt; &#39;#page=%#%&#39;,
+        &#39;current&#39;   =&gt; max( 1, $paged ),
+        &#39;prev_text&#39; =&gt; &#39;上一页&#39;,
+        &#39;next_text&#39; =&gt; &#39;下一页&#39;
+    ]);
+    if ($query-&gt;max_num_pages &gt; 1) : ?&gt;
+        &lt;ul class=&quot;pagination&quot;&gt;
+            &lt;?php foreach ( $paginate as $page ) :?&gt;
+                &lt;li&gt;&lt;?php echo $page; ?&gt;&lt;/li&gt;
+            &lt;?php endforeach; ?&gt;
+        &lt;/ul&gt;
+    &lt;?php endif;
+&#125;</code></pre>
+<p><strong>最后，将上述代码整合，属于js的写在custom.js里面然后上传到主题的js文件夹中，属于php那部分代码的就写在functions.php里面：</strong></p>
+<p>然后在加上下面的代码在前面：</p>
+<pre><code>function assets() &#123;
+    wp_enqueue_script( &#39;bootcdn&#39;, get_template_directory_uri().&#39;/js/jquery.min.js&gt;&#39; ); 
+     wp_enqueue_script(&#39;jsonvue/js&#39;, get_template_directory_uri().&#39;/js/custom.js&#39;);
+    //php想向js传递变量
+    wp_localize_script( &#39;jsonvue/js&#39;, &#39;jsonvue&#39;, array(
+        &#39;nonce&#39;    =&gt; wp_create_nonce( &#39;jsonvue&#39; ), //ajax请求安全处理
+        &#39;ajax_url&#39; =&gt; admin_url( &#39;admin-ajax.php&#39; ) //调用wordpress自带ajax处理程序
+    ));
+&#125;
+add_action(&#39;wp_enqueue_scripts&#39;, &#39;assets&#39;, 100);</code></pre>
+<p>就是跟下面这样：</p>
+<pre><code>function assets() &#123;
+    wp_enqueue_script( &#39;bootcdn&#39;, get_template_directory_uri().&#39;/js/jquery.min.js&gt;&#39; ); 
+     wp_enqueue_script(&#39;jsonvue/js&#39;, get_template_directory_uri().&#39;/js/custom.js&#39;);
+    //php想向js传递变量
+    wp_localize_script( &#39;jsonvue/js&#39;, &#39;jsonvue&#39;, array(
+        &#39;nonce&#39;    =&gt; wp_create_nonce( &#39;jsonvue&#39; ), //ajax请求安全处理
+        &#39;ajax_url&#39; =&gt; admin_url( &#39;admin-ajax.php&#39; ) //调用wordpress自带ajax处理程序
+    ));
+&#125;
+add_action(&#39;wp_enqueue_scripts&#39;, &#39;assets&#39;, 100);
+
+//把属于php那边的代码的加在这里</code></pre>
+<p>最终functions.php里面的代码如下：</p>
+<pre><code>function assets() &#123;
+    wp_enqueue_script( &#39;bootcdn&#39;, get_template_directory_uri().&#39;/js/jquery.min.js&gt;&#39; ); 
+     wp_enqueue_script(&#39;jsonvue/js&#39;, get_template_directory_uri().&#39;/js/custom.js&#39;);
+    //php想向js传递变量
+    wp_localize_script( &#39;jsonvue/js&#39;, &#39;jsonvue&#39;, array(
+        &#39;nonce&#39;    =&gt; wp_create_nonce( &#39;jsonvue&#39; ), //ajax请求安全处理
+        &#39;ajax_url&#39; =&gt; admin_url( &#39;admin-ajax.php&#39; ) //调用wordpress自带ajax处理程序
+    ));
+&#125;
+add_action(&#39;wp_enqueue_scripts&#39;, &#39;assets&#39;, 100);
+
+function jsonvue_filter_posts_sc($atts) &#123;
+    $a = shortcode_atts( array(
+        &#39;tax&#39;      =&gt; &#39;category&#39;, 
+        &#39;terms&#39;    =&gt; false, 
+        &#39;active&#39;   =&gt; false, 
+        &#39;per_page&#39; =&gt; 2     //每页显示的文章数量
+    ), $atts );
+    $result = NULL;
+    $terms  = get_terms($a[&#39;tax&#39;]);
+    if (count($terms)) :
+        ob_start(); ?&gt;
+            &lt;div id=&quot;container-async&quot; data-paged=&quot;&lt;?php echo $a[&#39;per_page&#39;]; ?&gt;&quot; class=&quot;sc-ajax-filter&quot;&gt;
+                &lt;ul class=&quot;nav-filter&quot;&gt;
+                    &lt;li&gt;
+                        &lt;a href=&quot;#&quot; data-filter=&quot;post_tag&quot; data-term=&quot;all-terms&quot; data-page=&quot;1&quot;&gt;所有&lt;/a&gt;
+                    &lt;/li&gt;
+                    &lt;?php foreach ($terms as $term) : ?&gt;
+                        &lt;li&lt;?php if ($term-&gt;term_id == $a[&#39;active&#39;]) :?&gt; class=&quot;active&quot;&lt;?php endif; ?&gt;&gt;
+                            &lt;a href=&quot;&lt;?php echo get_term_link( $term, $term-&gt;taxonomy ); ?&gt;&quot; data-filter=&quot;&lt;?php echo $term-&gt;taxonomy; ?&gt;&quot; data-term=&quot;&lt;?php echo $term-&gt;slug; ?&gt;&quot; data-page=&quot;1&quot;&gt;
+                                &lt;?php echo $term-&gt;name; ?&gt;
+                            &lt;/a&gt;
+                        &lt;/li&gt;
+                    &lt;?php endforeach; ?&gt;
+                &lt;/ul&gt;
+
+                &lt;div class=&quot;status&quot;&gt;&lt;/div&gt;
+                &lt;div class=&quot;content&quot;&gt;&lt;/div&gt;
+            &lt;/div&gt;
+        &lt;?php $result = ob_get_clean();
+    endif;
+    return $result;
+&#125;
+
+add_shortcode( &#39;jsonvue_posts&#39;, &#39;jsonvue_filter_posts_sc&#39;);
+
+function jsonvue_filter_posts() &#123;
+    if( !isset( $_POST[&#39;nonce&#39;] ) || !wp_verify_nonce( $_POST[&#39;nonce&#39;], &#39;jsonvue&#39; ) )
+        die(&#39;Permission denied&#39;);
+
+    $response = [
+        &#39;status&#39;  =&gt; 500,
+        &#39;message&#39; =&gt; &#39;貌似有错误，请稍后再试 ...&#39;,
+        &#39;content&#39; =&gt; false,
+        &#39;found&#39;   =&gt; 0
+    ];
+    $tax  = sanitize_text_field($_POST[&#39;params&#39;][&#39;tax&#39;]);
+    $term = sanitize_text_field($_POST[&#39;params&#39;][&#39;term&#39;]);
+    $page = intval($_POST[&#39;params&#39;][&#39;page&#39;]);
+    $qty  = intval($_POST[&#39;params&#39;][&#39;qty&#39;]);
+
+    if (!term_exists( $term, $tax) &amp;&amp; $term != &#39;all-terms&#39;) :
+        $response = [
+            &#39;status&#39;  =&gt; 501,
+            &#39;message&#39; =&gt; &#39;没找到分类&#39;,
+            &#39;content&#39; =&gt; 0
+        ];
+        die(json_encode($response));
+    endif;
+    if ($term == &#39;all-terms&#39;) : 
+        $tax_qry[] = [
+            &#39;taxonomy&#39; =&gt; $tax,
+            &#39;field&#39;    =&gt; &#39;slug&#39;,
+            &#39;terms&#39;    =&gt; $term,
+            &#39;operator&#39; =&gt; &#39;NOT IN&#39;
+        ];
+    else :
+        $tax_qry[] = [
+            &#39;taxonomy&#39; =&gt; $tax,
+            &#39;field&#39;    =&gt; &#39;slug&#39;,
+            &#39;terms&#39;    =&gt; $term,
+        ];
+    endif;
+
+    $args = [
+        &#39;paged&#39;          =&gt; $page,
+        &#39;post_type&#39;      =&gt; &#39;post&#39;,
+        &#39;post_status&#39;    =&gt; &#39;publish&#39;,
+        &#39;posts_per_page&#39; =&gt; $qty,
+        &#39;tax_query&#39;      =&gt; $tax_qry
+    ];
+    $qry = new WP_Query($args);
+    ob_start();
+        if ($qry-&gt;have_posts()) :
+            while ($qry-&gt;have_posts()) : $qry-&gt;the_post(); ?&gt;
+
+                &lt;article class=&quot;loop-item&quot;&gt;
+                    &lt;header&gt;
+                        &lt;h2 class=&quot;entry-title&quot;&gt;&lt;a href=&quot;&lt;?php the_permalink(); ?&gt;&quot;&gt;&lt;?php the_title(); ?&gt;&lt;/a&gt;&lt;/h2&gt;
+                    &lt;/header&gt;
+                    &lt;div class=&quot;entry-summary&quot;&gt;
+                        &lt;?php the_excerpt(); ?&gt;
+                    &lt;/div&gt;
+                &lt;/article&gt;
+
+            &lt;?php endwhile;
+
+            jsonvue_ajax_pager($qry,$page);
+            $response = [
+                &#39;status&#39;=&gt; 200,
+                &#39;found&#39; =&gt; $qry-&gt;found_posts
+            ];
+
+        else :
+            $response = [
+                &#39;status&#39;  =&gt; 201,
+                &#39;message&#39; =&gt; &#39;没有文章&#39;
+            ];
+        endif;
+    $response[&#39;content&#39;] = ob_get_clean();
+    die(json_encode($response));
+&#125;
+add_action(&#39;wp_ajax_do_filter_posts&#39;, &#39;jsonvue_filter_posts&#39;);
+add_action(&#39;wp_ajax_nopriv_do_filter_posts&#39;, &#39;jsonvue_filter_posts&#39;);
+
+function jsonvue_ajax_pager( $query = null, $paged = 1 ) &#123;
+    if (!$query)
+        return;
+    $paginate = paginate_links([
+        &#39;base&#39;      =&gt; &#39;%_%&#39;,
+        &#39;type&#39;      =&gt; &#39;array&#39;,
+        &#39;total&#39;     =&gt; $query-&gt;max_num_pages,
+        &#39;format&#39;    =&gt; &#39;#page=%#%&#39;,
+        &#39;current&#39;   =&gt; max( 1, $paged ),
+        &#39;prev_text&#39; =&gt; &#39;上一页&#39;,
+        &#39;next_text&#39; =&gt; &#39;下一页&#39;
+    ]);
+    if ($query-&gt;max_num_pages &gt; 1) : ?&gt;
+        &lt;ul class=&quot;pagination&quot;&gt;
+            &lt;?php foreach ( $paginate as $page ) :?&gt;
+                &lt;li&gt;&lt;?php echo $page; ?&gt;&lt;/li&gt;
+            &lt;?php endforeach; ?&gt;
+        &lt;/ul&gt;
+    &lt;?php endif;
+&#125;</code></pre>
+<p>custom.js里面的代码如下：</p>
+<pre><code>(function($) &#123;
+    $doc = $(document);
+
+    $doc.ready( function() &#123;
+
+        function get_posts($params) &#123;
+
+            $container = $(&#39;#container-async&#39;);
+            $content   = $container.find(&#39;.content&#39;);
+            $status    = $container.find(&#39;.status&#39;);
+
+            $status.text(&#39;正在加载 ...&#39;);
+
+            $.ajax(&#123;
+                url: jsonvue.ajax_url,
+                data: &#123;
+                    action: &#39;do_filter_posts&#39;,
+                    nonce: jsonvue.nonce,
+                    params: $params
+                    &#125;,
+                type: &#39;post&#39;,
+                dataType: &#39;json&#39;,
+                success: function(data, textStatus, XMLHttpRequest) &#123;
+
+                    if (data.status === 200) &#123;
+                        $content.html(data.content);
+                    &#125;
+                    else if (data.status === 201) &#123;
+                        $content.html(data.message);    
+                    &#125;
+                    else &#123;
+                        $status.html(data.message);
+                    &#125;
+                &#125;,
+                error: function(MLHttpRequest, textStatus, errorThrown) &#123;
+                    $status.html(textStatus);
+                &#125;,
+                complete: function(data, textStatus) &#123;
+
+                    msg = textStatus;
+
+                    if (textStatus === &#39;success&#39;) &#123;
+                        msg = data.responseJSON.found;
+                    &#125;
+
+                    $status.text(&#39;已显示: &#39;+ msg+&#39;篇文章&#39;);
+                &#125;
+            &#125;);
+        &#125;
+
+        $(&#39;#container-async&#39;).on(&#39;click&#39;, &#39;a[data-filter], .pagination a&#39;, function(event) &#123;
+            if(event.preventDefault) &#123; event.preventDefault(); &#125;
+
+            $this = $(this);
+
+            if ($this.data(&#39;filter&#39;)) &#123;
+                $this.closest(&#39;ul&#39;).find(&#39;.active&#39;).removeClass(&#39;active&#39;);
+                $this.parent(&#39;li&#39;).addClass(&#39;active&#39;);
+                $page = $this.data(&#39;page&#39;);
+            &#125;
+            else &#123;
+
+                $page = parseInt($this.attr(&#39;href&#39;).replace(/\D/g,&#39;&#39;));
+                $this = $(&#39;.nav-filter .active a&#39;);
+            &#125;
+
+            $params    = &#123;
+                &#39;page&#39; : $page,
+                &#39;tax&#39;  : $this.data(&#39;filter&#39;),
+                &#39;term&#39; : $this.data(&#39;term&#39;),
+                &#39;qty&#39;  : $this.closest(&#39;#container-async&#39;).data(&#39;paged&#39;),
+            &#125;;
+
+            get_posts($params);
+        &#125;);
+
+        $(&#39;a[data-term=&quot;all-terms&quot;]&#39;).trigger(&#39;click&#39;);
+    &#125;);
+
+&#125;)(jQuery);</code></pre>
+<p>最终的效果：</p>
+<p><img src="https://i.imgur.com/6ovHIHK.jpg"></p>
+<p>每一页显示两篇文章。</p>
+<p>补充：这里给大家来一个真实的案例，根据上面的方案，这里有个客户需要对portfolio产品进行一个ajax的无刷新加载，增加用户体验。</p>
+<p>一样的：我们把下面的代码全部放入functions.php里面：</p>
+<pre><code>function assets() &#123;
+    // 通常wordpress网站都会有加载了jQuery的了，所以这里可以不需要再次加载jQuery
+    // wp_enqueue_script( &#39;bootcdn&#39;, &#39;http://cdn.bootcss.com/jquery/2.2.3/jquery.min.js&quot;&gt;&#39; );
+ wp_enqueue_script(&#39;jsonvue/js&#39;, get_template_directory_uri().&#39;/js/custom.js&#39;);
+    //php想向js传递变量
+    wp_localize_script( &#39;jsonvue/js&#39;, &#39;jsonvue&#39;, array(
+        &#39;nonce&#39;    =&gt; wp_create_nonce( &#39;jsonvue&#39; ),//ajax请求安全处理
+        &#39;ajax_url&#39; =&gt; admin_url( &#39;admin-ajax.php&#39; )//调用wordpress自带ajax处理程序
+    ));
+&#125;
+add_action(&#39;wp_enqueue_scripts&#39;, &#39;assets&#39;, 100);
+function jsonvue_filter_posts_sc($atts) &#123;
+    $a = shortcode_atts( array(
+        &#39;tax&#39;      =&gt; &#39;category&#39;, 
+        &#39;terms&#39;    =&gt; false,
+        &#39;active&#39;   =&gt; false,
+        &#39;per_page&#39; =&gt; 4   //每页显示的数量
+    ), $atts );
+    $result = NULL;
+    $terms  = get_terms($a[&#39;tax&#39;]);
+    if (count($terms)) :
+        ob_start(); ?&gt;
+            &lt;div id=&quot;container-async&quot; data-paged=&quot;&lt;?php echo $a[&#39;per_page&#39;]; ?&gt;&quot; class=&quot;sc-ajax-filter&quot;&gt;
+                &lt;ul class=&quot;nav-filter&quot;&gt;
+                &lt;li&gt;
+                        &lt;a href=&quot;#&quot; data-filter=&quot;post_tag&quot; data-term=&quot;all-terms&quot; data-page=&quot;1&quot;&gt;
+                            所有
+                        &lt;/a&gt;
+                    &lt;/li&gt;
+                    &lt;?php foreach ($terms as $term) : ?&gt;
+                        &lt;li&lt;?php if ($term-&gt;term_id == $a[&#39;active&#39;]) :?&gt; class=&quot;active&quot;&lt;?php endif; ?&gt;&gt;
+                            &lt;a href=&quot;&lt;?php echo get_term_link( $term, $term-&gt;taxonomy ); ?&gt;&quot; data-filter=&quot;&lt;?php echo $term-&gt;taxonomy; ?&gt;&quot; data-term=&quot;&lt;?php echo $term-&gt;slug; ?&gt;&quot; data-page=&quot;1&quot;&gt;
+                                &lt;?php echo $term-&gt;name; ?&gt;
+                            &lt;/a&gt;
+                        &lt;/li&gt;
+                    &lt;?php endforeach; ?&gt;
+                &lt;/ul&gt;
+
+                &lt;div class=&quot;status&quot;&gt;&lt;/div&gt;
+                &lt;div class=&quot;content&quot;&gt;&lt;/div&gt;
+            &lt;/div&gt;
+
+        &lt;?php $result = ob_get_clean();
+    endif;
+    return $result;
+&#125;
+add_shortcode( &#39;jsonvue_posts&#39;, &#39;jsonvue_filter_posts_sc&#39;);
+
+function jsonvue_filter_posts() &#123;
+    if( !isset( $_POST[&#39;nonce&#39;] ) || !wp_verify_nonce( $_POST[&#39;nonce&#39;], &#39;jsonvue&#39; ) )
+        die(&#39;Permission denied&#39;);
+
+    $response = [
+        &#39;status&#39;  =&gt; 500,
+        &#39;message&#39; =&gt; &#39;貌似有错误，请稍后再试 ...&#39;,
+        &#39;content&#39; =&gt; false,
+        &#39;found&#39;   =&gt; 0
+    ];
+    $tax  = sanitize_text_field($_POST[&#39;params&#39;][&#39;tax&#39;]);
+    $term = sanitize_text_field($_POST[&#39;params&#39;][&#39;term&#39;]);
+    $page = intval($_POST[&#39;params&#39;][&#39;page&#39;]);
+    $qty  = intval($_POST[&#39;params&#39;][&#39;qty&#39;]);
+
+    if (!term_exists( $term, $tax) &amp;&amp; $term != &#39;all-terms&#39;) :
+        $response = [
+            &#39;status&#39;  =&gt; 501,
+            &#39;message&#39; =&gt; &#39;没找到分类&#39;,
+            &#39;content&#39; =&gt; 0
+        ];
+        die(json_encode($response));
+    endif;
+    if ($term == &#39;all-terms&#39;) : 
+        $tax_qry[] = [
+            &#39;taxonomy&#39; =&gt; $tax,
+            &#39;field&#39;    =&gt; &#39;slug&#39;,
+            &#39;terms&#39;    =&gt; $term,
+            &#39;operator&#39; =&gt; &#39;NOT IN&#39;
+        ];
+    else :
+        $tax_qry[] = [
+            &#39;taxonomy&#39; =&gt; $tax,
+            &#39;field&#39;    =&gt; &#39;slug&#39;,
+            &#39;terms&#39;    =&gt; $term,
+        ];
+    endif;
+
+    $args = [
+        &#39;paged&#39;          =&gt; $page,
+        &#39;post_type&#39;      =&gt; &#39;portfolio&#39;,    //输出的类型是portfolio，根据自己的业务需要可以输出文章，页面，还有其他的，更多的可以进入数据库产品post的类型。
+        &#39;post_status&#39;    =&gt; &#39;publish&#39;,
+        &#39;posts_per_page&#39; =&gt; $qty,
+        &#39;tax_query&#39;      =&gt; $tax_qry
+    ];
+    $qry = new WP_Query($args);
+    ob_start();
+        if ($qry-&gt;have_posts()) :
+            while ($qry-&gt;have_posts()) : $qry-&gt;the_post(); ?&gt;
+                //这里是循环输出portfolio产品的，为了前端样式，这里采用ul+li的方式，需要显示的有缩略图、标题、产品链接，如果有必要也可以输出摘要。
+                &lt;ul id=&quot;noctibox5&quot; class=&quot;noctibox&quot;&gt;
+                    &lt;li&gt;
+                        &lt;?php the_post_thumbnail(); ?&gt;
+                        &lt;p class=&quot;biaoti&quot;&gt;&lt;a href=&quot;&lt;?php the_permalink(); ?&gt;&quot;&gt;&lt;?php the_title(); ?&gt;&lt;/a&gt;&lt;/p&gt;
+                    &lt;/li&gt;
+                &lt;/ul&gt;
+
+            &lt;?php endwhile;
+
+            jsonvue_ajax_pager($qry,$page);
+            $response = [
+                &#39;status&#39;=&gt; 200,
+                &#39;found&#39; =&gt; $qry-&gt;found_posts
+            ];
+
+        else :
+            $response = [
+                &#39;status&#39;  =&gt; 201,
+                &#39;message&#39; =&gt; &#39;暂时没有产品&#39;
+            ];
+        endif;
+    $response[&#39;content&#39;] = ob_get_clean();
+    die(json_encode($response));
+&#125;
+add_action(&#39;wp_ajax_do_filter_posts&#39;, &#39;jsonvue_filter_posts&#39;);
+add_action(&#39;wp_ajax_nopriv_do_filter_posts&#39;, &#39;jsonvue_filter_posts&#39;);
+
+function jsonvue_ajax_pager( $query = null, $paged = 1 ) &#123;
+    if (!$query)
+        return;
+    $paginate = paginate_links([
+        &#39;base&#39;      =&gt; &#39;%_%&#39;,
+        &#39;type&#39;      =&gt; &#39;array&#39;,
+        &#39;total&#39;     =&gt; $query-&gt;max_num_pages,
+        &#39;format&#39;    =&gt; &#39;#page=%#%&#39;,
+        &#39;current&#39;   =&gt; max( 1, $paged ),
+        &#39;prev_text&#39; =&gt; &#39;←&#39;,
+        &#39;next_text&#39; =&gt; &#39;→&#39;
+    ]);
+    if ($query-&gt;max_num_pages &gt; 1) : ?&gt;
+        &lt;ul class=&quot;pagination&quot;&gt;
+            &lt;?php foreach ( $paginate as $page ) :?&gt;
+                &lt;li&gt;&lt;?php echo $page; ?&gt;&lt;/li&gt;
+            &lt;?php endforeach; ?&gt;
+        &lt;/ul&gt;
+    &lt;?php endif;
+&#125;</code></pre>
+<p>把这些放进functions.php里面，接下来我们把custom.js放在主题的js目录下，当然位置可以随便你自己放，只要保证能够引用到就行了。这个位置取决于前面引用的位置：</p>
+<pre><code>wp_enqueue_script(&#39;jsonvue/js&#39;, get_template_directory_uri().&#39;/js/custom.js&#39;);</code></pre>
+<p>好的，明确这里后，基本就实现了，然后我们把代码：</p>
+<pre><code>[jsonvue_posts]</code></pre>
+<p>放入我么想要发放置的地方就可以输出了，由于样式不太美观，这里笔者把样式也分享出来，这个样式可以放在后台的custom css那里，代码如下，这个样式基于每页显示4个产品设置的：</p>
+<pre><code>.noctibox&#123;
+    width:100%;
+    height:100%;
+    margin:0;padding:0;
+    border-radius:2px;
+    list-style:none;
+    background-color:#eee;
+&#125;
+.noctibox li&#123;
+  margin:5px;
+  padding:10px;
+  border-radius:5px;
+  background:#efefef;
+  text-align:center;
+  list-style-type: none;
+&#125;
+#noctibox5&#123;
+   -webkit-justify-content:space-around;
+   justify-content:space-around;
+&#125;
+#noctibox5 li&#123;
+  width: calc(100%/4 - 10px);
+  float:left;
+&#125;
+.entry-content-wrapper div li &#123;
+    text-indent: 0;
+    list-style-type: none;
+&#125;
+.biaoti&#123;
+    display: inline-block;
+    min-height: 55px;
+    margin: 0px;
+    margin-top: 15px;
+&#125;</code></pre>
+<p>最后，在这里贴一下成果：</p>
+<p><img src="https://i.imgur.com/c5K69kH.jpg"></p>
+<p>感觉还行。到此结束，希望大家持续关注笔者，支持我的原创之路吧。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/03/22/%E4%BF%AE%E6%94%B9wordpress%E7%9A%84enfold%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E6%B3%A8%E5%86%8C%E5%8A%9F%E8%83%BD%E5%88%B0%E9%A1%B6%E9%83%A8%E4%BD%8D%E7%BD%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/03/22/%E4%BF%AE%E6%94%B9wordpress%E7%9A%84enfold%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E6%B3%A8%E5%86%8C%E5%8A%9F%E8%83%BD%E5%88%B0%E9%A1%B6%E9%83%A8%E4%BD%8D%E7%BD%AE/" class="post-title-link" itemprop="url">修改wordpress的enfold主题添加用户登录注册功能到顶部位置</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-03-22 11:17:15" itemprop="dateCreated datePublished" datetime="2018-03-22T11:17:15+08:00">2018-03-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:52:52" itemprop="dateModified" datetime="2020-10-11T11:52:52+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>针对这个问题，笔者在以前的一篇日记里面写了关于把用户注册登录的功能放在菜单的位置，类似如下：</p>
+<p><img src="https://i.imgur.com/liCYzFt.png"></p>
+<p>可是存在一些兼容性，为了考虑客户的多方位，个性化的需求，这里作为改进，做成这样：</p>
+<p><img src="https://i.imgur.com/mQzOFs5.png"></p>
+<p>这样就不会因为小屏幕的PC设备而造成登录的这个文字挡住菜单栏的内容。对于这个小小的更换，我们如何处理呢？</p>
+<p>这里以enfold主题作为讲解，当然这篇日记更重要的价值是提供一个思路，因为不同主题，有不同的代码结构，甚至有的主题没有这个顶部内容功能，这个时候我们依然可以根据这个思路添加。</p>
+<p>同样的，我们通过chrome浏览器的开发者工具，定位到这个顶部的区块所在的源码的文件（通过源码搜索的方式找到），在开发者工具中我找到一个<code>class</code>为<code>phone-info</code>的，因此我们只需要在主题中搜索这个所在的源码文件，然后加上去即可。</p>
+<p>通过这个思路，我找到了这个文件在主题中的路径：<code>/enfold/includes/helper-main-menu.php</code></p>
+<p>然后我们打开，找到：</p>
+<p><img src="https://i.imgur.com/bLSPFuL.png"></p>
+<pre><code>if($phone)&#123; echo &quot;&lt;div class=&#39;phone-info &#123;$phone_class&#125;&#39;&gt;&lt;span&gt;&quot;.do_shortcode($phone).&quot;&lt;/span&gt;&lt;/div&gt;&quot;; &#125;</code></pre>
+<p>确定好了这个之后，我们在这里面嵌入我们事先准备好的代码：</p>
+<p><img src="https://i.imgur.com/Gcn9MVJ.png"></p>
+<p>添加的代码如下：</p>
+<pre><code>if($phone)&#123; 
+    echo &quot;&lt;div class=&#39;phone-info &#123;$phone_class&#125;&#39;&gt;&lt;span&gt;&quot;.do_shortcode($phone).&quot;&lt;/span&gt;&quot;;
+    ?&gt;
+    &lt;div class=&quot;wemng&quot;&gt;
+        &lt;?php if ( is_user_logged_in() ) &#123; ?&gt;
+        &lt;?php
+        $current_user = wp_get_current_user();
+        // echo get_avatar( $current_user-&gt;user_email, 36 );
+        ?&gt;
+        &lt;span&gt;&lt;a href=&quot;#&quot;&gt;Get a quote&lt;/a&gt;&lt;/span&gt;&amp;nbsp;&amp;nbsp;
+        &lt;span&gt;
+        &lt;a href=&quot;&lt;?php echo wp_logout_url(); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa-sign-out&quot; style=&quot;display: none&quot;&gt;&lt;/i&gt;Log out&lt;/a&gt;&lt;/span&gt;
+        &lt;?php &#125; else &#123; ?&gt;
+        &lt;span&gt;&lt;a href=&quot;#&quot;&gt;Get a quote&lt;/a&gt;&lt;/span&gt;&amp;nbsp;&amp;nbsp;
+        &lt;span&gt;&lt;a href=&quot;/wp-login.php&quot; title=&quot;Members Area Login&quot; rel=&quot;home&quot;&gt;&lt;i class=&quot;fa fa-user&quot; style=&quot;display: none&quot;&gt;&lt;/i&gt;Sign in&lt;/a&gt;&lt;/span&gt;
+        &lt;?php &#125; ?&gt;
+    &lt;/div&gt;
+    &lt;?php
+    echo &quot;&lt;/div&gt;&quot;;
+    &#125;    
+?&gt;</code></pre>
+<p>然后通过添加样式，即可！</p>
+<p>说到这里，客户居然想把woocommerce的购物车标志</p>
+<p><img src="https://i.imgur.com/gbmaiEB.png"></p>
+<p>改成Cart</p>
+<p><img src="https://i.imgur.com/uJ4r0Zw.png"></p>
+<p>这个其实也可以修改的，因为wordpress主题一旦安装了woocomemrce就会自动的生成这么一个购物车标志。</p>
+<p>我们只需要找到这个购物车标志的在哪里即可。开发者工具—定位元素的位置—在主题中搜索源码—找到位置—进行修改。</p>
+<p>我们找到了：<code>cart_dropdown_first</code>这个class，说明在这个里面，然后具体的代码位置：<code>enfold/config-woocommerce/config.php</code>，然后打开：</p>
+<p><img src="https://i.imgur.com/ONT9q9g.png"></p>
+<p>相应的代码：</p>
+<pre><code>$output = &quot;&quot;;
+$output .= &quot;&lt;ul &#123;$id&#125; class = &#39;cart_dropdown &#123;$trigger&#125;&#39; data-success=&#39;&quot;.__(&#39;was added to the cart&#39;, &#39;avia_framework&#39;).&quot;&#39;&gt;&lt;li class=&#39;cart_dropdown_first&#39;&gt;&quot;;
+$output .= &quot;&lt;a class=&#39;cart_dropdown_link&#39; href=&#39;&quot;.$link.&quot;&#39;&gt;&lt;span &quot;.av_icon_string(&#39;cart&#39;).&quot;&gt;&lt;/span&gt;&lt;span class=&#39;av-cart-counter&#39;&gt;0&lt;/span&gt;&lt;span class=&#39;avia_hidden_link_text&#39;&gt;&quot;.__(&#39;Shopping Cart&#39;,&#39;avia_framework&#39;).&quot;&lt;/span&gt;&lt;/a&gt;&lt;!--&lt;span class=&#39;cart_subtotal&#39;&gt;&quot;.$cart_subtotal.&quot;&lt;/span&gt;--&gt;&quot;;
+$output .= &quot;&lt;div class=&#39;dropdown_widget dropdown_widget_cart&#39;&gt;&lt;div class=&#39;avia-arrow&#39;&gt;&lt;/div&gt;&quot;;
+$output .= &#39;&lt;div class=&quot;widget_shopping_cart_content&quot;&gt;&lt;/div&gt;&#39;;
+$output .= &quot;&lt;/div&gt;&quot;;
+$output .= &quot;&lt;/li&gt;&lt;/ul&gt;&quot;;</code></pre>
+<p>这样我们就能找到，然后添加我们的Cart这个文字，修改后的如下：</p>
+<pre><code>$output = &quot;&quot;;
+$output .= &quot;&lt;ul &#123;$id&#125; class = &#39;cart_dropdown &#123;$trigger&#125;&#39; data-success=&#39;&quot;.__(&#39;was added to the cart&#39;, &#39;avia_framework&#39;).&quot;&#39;&gt;&lt;li class=&#39;cart_dropdown_first&#39;&gt;&quot;;
+$output .= &quot;&lt;a class=&#39;cart_dropdown_link&#39; href=&#39;&quot;.$link.&quot;&#39;&gt;&lt;span &quot;.av_icon_string(&#39;cart&#39;).&quot; class=&#39;gouwuche&#39;&gt;Cart&lt;/span&gt;&lt;span class=&#39;av-cart-counter&#39;&gt;0&lt;/span&gt;&lt;span class=&#39;avia_hidden_link_text&#39;&gt;&quot;.__(&#39;Shopping Cart&#39;,&#39;avia_framework&#39;).&quot;&lt;/span&gt;&lt;/a&gt;&lt;!--&lt;span class=&#39;cart_subtotal&#39;&gt;&quot;.$cart_subtotal.&quot;&lt;/span&gt;--&gt;&quot;;
+$output .= &quot;&lt;div class=&#39;dropdown_widget dropdown_widget_cart&#39;&gt;&lt;div class=&#39;avia-arrow&#39;&gt;&lt;/div&gt;&quot;;
+$output .= &#39;&lt;div class=&quot;widget_shopping_cart_content&quot;&gt;&lt;/div&gt;&#39;;
+$output .= &quot;&lt;/div&gt;&quot;;
+$output .= &quot;&lt;/li&gt;&lt;/ul&gt;&quot;;</code></pre>
+<p>这样我们保存，上传，就可以看到我们想要修改的效果了。</p>
+<p>写下这篇笔记，旨在将来有类似的问题，提高处理的效率，专业人士一笑了之。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/03/21/wordpress%E7%BD%91%E7%AB%99%E5%9F%BA%E4%BA%8Ecookie%E6%B7%BB%E5%8A%A0%E5%8F%AA%E5%BC%B9%E5%87%BA%E4%B8%80%E6%AC%A1%E7%9A%84%E5%BC%B9%E7%AA%97%E5%8A%9F%E8%83%BD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/03/21/wordpress%E7%BD%91%E7%AB%99%E5%9F%BA%E4%BA%8Ecookie%E6%B7%BB%E5%8A%A0%E5%8F%AA%E5%BC%B9%E5%87%BA%E4%B8%80%E6%AC%A1%E7%9A%84%E5%BC%B9%E7%AA%97%E5%8A%9F%E8%83%BD/" class="post-title-link" itemprop="url">wordpress网站基于cookie添加只弹出一次的弹窗功能</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-03-21 14:46:11" itemprop="dateCreated datePublished" datetime="2018-03-21T14:46:11+08:00">2018-03-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:11" itemprop="dateModified" datetime="2020-10-11T11:53:11+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>最近在收到来自客户的一个小需求：想让自己的网站在被用户第一次访问的时候，能否做一个选择，如果如何某个条件就访问某个地方，否则，则访问另外一个地方；而且这个弹窗不能每次访问的时候，或者是说不能刷新的时候再次弹出来，这样用户体验非常差。</p>
+<p>网站找了一下，说的都是关于javascript的方式让弹窗只弹出一次，这个网上非常多，笔者在这个基础上进行了进一步的改良。</p>
+<p>首先我们把控制弹窗的javascript代码添加到wordpress主题的header.php的头部（<code>&lt;/head&gt;</code>之前），代码如下：</p>
+<pre><code>&lt;!-- 弹窗开始 --&gt;
+&lt;script&gt;
+　　window.onload=loadpopup();
+　　function openwin()&#123;
+        //var openUrl = &quot;http://www.yourdomain.com/notice.html&quot;; //弹出窗口的url
+        var openUrl = &quot;&lt;?php bloginfo(&#39;url&#39;); ?&gt;/notice.html&quot;; //也可以采用这种动态地址作为弹出窗口的url 
+        var iWidth=600; //弹出窗口的宽度;  
+        var iHeight=450; //弹出窗口的高度;  
+        var iTop = (window.screen.availHeight-30-iHeight)/2; //获得窗口的垂直位置;  
+        var iLeft = (window.screen.availWidth-10-iWidth)/2; //获得窗口的水平位置;
+    　　window.open(openUrl,&quot;_self&quot;,&quot;height=&quot;+iHeight+&quot;, width=&quot;+iWidth+&quot;, top=&quot;+iTop+&quot;, left=&quot;+iLeft);
+　　&#125;
+　　function get_cookie(Name) &#123;
+    　　var search = Name + &quot;=&quot;
+    　　var returnvalue = &quot;&quot;;
+    　　if (document.cookie.length &gt; 0) &#123;
+        　　offset = document.cookie.indexOf(search)
+        　　if (offset != -1) &#123;
+            　　offset += search.length
+            　　end = document.cookie.indexOf(&quot;;&quot;, offset);
+            　　if (end == -1)
+            　　end = document.cookie.length;
+            　　returnvalue=unescape(document.cookie.substring(offset, end))
+        　　&#125;
+    　　&#125;
+    　　return returnvalue;
+　　&#125;
+　　function loadpopup()&#123;
+    　　if (get_cookie(&#39;popped&#39;)==&#39;&#39;)&#123;
+        　　openwin()
+        　　document.cookie=&quot;popped=yes&quot;
+    　　&#125;
+　　&#125;
+&lt;/script&gt;
+&lt;!-- 弹窗结束 --&gt;</code></pre>
+<p>这个跳转的地址根据自己的网址进行更换。在网址中有个noctice.html文件，这个文件放在wordpress的根目录下，笔者经过美化后的代码如下：</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1, maximum-scale=1&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;style type=&quot;text/css&quot;&gt;
+    .container&#123;
+        display: grid;
+        margin:0 auto;
+        padding:40px 0px;
+    &#125;
+    .meg&#123;
+        margin:15px;
+    &#125;
+    .meg h2&#123;
+        font-size: 18px;
+    &#125;
+    .megn&#123;
+        display: flex;
+        max-width: 450px;
+        width:100%;
+    &#125;
+    .ppt&#123;
+        flex:1 !important;
+    &#125;
+    #modal-overlay &#123;
+     /*visibility: hidden;    */
+     position: absolute;   /* 使用绝对定位或固定定位  */
+     left: 0px;    
+     top: 0px;
+     width:100%;
+     height:100%;
+     text-align:center;
+     z-index: 1000;
+     background-color: #333; 
+     opacity: 0.5;   /* 背景半透明 */
+    &#125;
+    /* 模态框样式 */
+    .modal-data&#123;
+         max-width:450px;
+         width: 80%;
+         margin: 200px auto;
+         background-color: #fff;
+         border:1px solid #000;
+         padding:15px;
+         text-align:center;
+    &#125;
+    .ppt a&#123;
+        background: #516f7d;
+        padding: 5px 10px;
+        font-size: 14px;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 3px;
+    &#125;
+    .ppt a:hover&#123;
+        background: #395765 !important;
+    &#125;
+    .dayu a&#123;
+        background: #FF5722 !important;
+    &#125;
+    .dayu a:hover&#123;
+        background: #e43801 !important;
+    &#125;
+    &lt;/style&gt;
+    &lt;script type=&quot;text/javascript&quot;&gt;
+        function CloseWin() &#123;
+            window.opener=null;
+            window.open(&#39;&#39;,&#39;_self&#39;);
+            window.close();
+        &#125;
+    &lt;/script&gt;
+    &lt;div id=&quot;modal-overlay&quot;&gt;
+        &lt;div class=&quot;modal-data&quot;&gt;
+            &lt;div class=&quot;container&quot;&gt;
+                &lt;div class=&quot;meg&quot;&gt;
+                    &lt;h2&gt;温馨提示：请问你的年龄是？&lt;/h2&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;megn&quot;&gt;
+                    &lt;div class=&quot;ppt&quot;&gt;
+                        &lt;a href=&quot;http://www.baidu.com&quot; target=&quot;_self&quot; onclick=&quot;CloseWin()&quot;&gt;小于21岁&lt;/a&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;ppt dayu&quot;&gt;
+                        &lt;a href=&quot;http://wordpress.noctiuniversity.com&quot; target=&quot;_self&quot;&gt;大于21岁&lt;/a&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>这里的逻辑就是如果年龄小于21岁，那么直接访问百度，否则访问自己指定的网址，这个仅仅是一个象征性的展示，用得比较多的时候是公司新消息，或者是促销广告等等。以及公司的申明，为自己树立一个良好的形象，比如香烟类的网站，成人用品网店等等。</p>
+<p>总结一下：这里核心的两点：在网站头部添加javascript代码，这个代码用来指定初次访问的时候的一个跳转；其次，就是跳转的那个页面，页面有个条件，根据条件引导用户进行一个选择，这里笔者做成一个模态框的形式仅仅是提升用户体验，读者完全没必要一模一样啊。</p>
+<p>今天到此为止，如果我的文章能够帮助到你节省了更多的时间，提升了效率，请关注笔者，如果你还是不明白，请记得与我取得联系，我们共同进步，QQ:791447771</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/03/19/javascript%E8%84%9A%E6%9C%AC%E5%9C%A8%E5%A4%84%E7%90%86%E6%89%93%E5%8D%B0%E9%A1%B5%E9%9D%A2%E7%9A%84%E6%97%B6%E5%80%99%E9%BB%98%E8%AE%A4%E6%A8%AA%E5%90%91%E6%89%93%E5%8D%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/03/19/javascript%E8%84%9A%E6%9C%AC%E5%9C%A8%E5%A4%84%E7%90%86%E6%89%93%E5%8D%B0%E9%A1%B5%E9%9D%A2%E7%9A%84%E6%97%B6%E5%80%99%E9%BB%98%E8%AE%A4%E6%A8%AA%E5%90%91%E6%89%93%E5%8D%B0/" class="post-title-link" itemprop="url">javascript脚本在处理打印页面的时候默认横向打印</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-03-19 17:48:31" itemprop="dateCreated datePublished" datetime="2018-03-19T17:48:31+08:00">2018-03-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:32" itemprop="dateModified" datetime="2020-10-11T11:53:32+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>根据客户的需求，页面的打印功能是通过javascript实现的，这个时候，我们在默认的情况下，打印是纵向打印的，但是由于个别原因，我们在打印具有很多列的时候，纵向打印是显示不全的，这个时候如果我们不设置成横向打印，那么客户体验很差，那么针对这个问题，我们应该如何实现呢？</p>
+<p>这里我们只需要在样式中添加以下代码即可设置成打印的方式为横向打印：</p>
+<pre><code>@media print &#123;
+    .noprint&#123;
+        display: none;
+    &#125;
+    @page &#123; size: landscape;&#125;
+&#125;</code></pre>
+<p>这里有两条语句：</p>
+<p>.noprint这个是控制某些区域不能打印，只要这个区块有这个class，在打印的时候，就不会被打印出来，第二条：</p>
+<pre><code>@page &#123; size: landscape;&#125;</code></pre>
+<p>这个是用来设置成默认为横向打印的，笔者在试验中成功了，大家可以一试，这里说个题外话，因为笔者在处理wordpress网站的时候，有个woocommerce的插件，那么我们在安装后，会在菜单栏的右边会有一个购物车的icon，我们在打印结算页面的时候，会连同这个也打印进去了，那么我们怎么隐藏呢，这个时候我们只需要找到控制这个icon显示的class那里，然后追加一个noprint就行了，这里以enfold主题作为讲解。</p>
+<p>首先，我们先在开发者工具那里找到控制icon显示的class，为<code>cart_dropdown_first</code>。然后，我们通过在主题中进行全部代码搜索<code>cart_dropdown_first</code>，大概能够找到这个文件在：<code>enfold/config-woocommerce/config.php</code></p>
+<p>然后找到这个地方：</p>
+<p><img src="https://i.imgur.com/Z19j2jj.png"></p>
+<p>添加进去即可。其他的类似操作。还有一个问题，就是我们在打印的时候，总是会显示页面的页眉和页码，这些页眉和页码，看起来很多余。如何去掉呢？在当前页加上以下代码：</p>
+<pre><code>&lt;script language=&quot;JavaScript&quot;&gt;
+    var hkey_root,hkey_path,hkey_key
+    hkey_root=&quot;HKEY_CURRENT_USER&quot;
+    hkey_path=&quot;SoftwareMicrosoftInternet ExplorerPageSetup&quot;
+    //设置网页打印的页眉页脚为空
+    function pagesetup_null()&#123;
+    try&#123;
+    var RegWsh = new ActiveXObject(&quot;WScript.Shell&quot;)
+    hkey_key=&quot;header&quot; 
+    RegWsh.RegWrite(hkey_root+hkey_path+hkey_key,&quot;&quot;)
+    hkey_key=&quot;footer&quot;
+    RegWsh.RegWrite(hkey_root+hkey_path+hkey_key,&quot;&quot;)
+    &#125;catch(e)&#123;&#125;
+    &#125;
+    //设置网页打印的页眉页脚为默认值
+    function pagesetup_default()&#123;
+    try&#123;
+    var RegWsh = new ActiveXObject(&quot;WScript.Shell&quot;)
+    hkey_key=&quot;header&quot; 
+    RegWsh.RegWrite(hkey_root+hkey_path+hkey_key,&quot;&amp;w&amp;b页码，&amp;p/&amp;P&quot;)
+    hkey_key=&quot;footer&quot;
+    RegWsh.RegWrite(hkey_root+hkey_path+hkey_key,&quot;&amp;u&amp;b&amp;d&quot;)
+    &#125;catch(e)&#123;&#125;
+    &#125;
+&lt;/script&gt;
+&lt;input type=&quot;button&quot; value=&quot;清空页码&quot; onclick=pagesetup_null()&gt;
+&lt;input type=&quot;button&quot; value=&quot;恢复页码&quot; onclick=pagesetup_default()&gt;</code></pre>
+<p>貌似好像也没啥用，最简单粗暴的方法就是直接在打印的那个页面，在更多设置里面设置成：</p>
+<p><img src="https://i.imgur.com/1kmeEc2.png"></p>
+<p>只要把这个取消勾选，就可以把页脚和页眉去掉。</p>
+<p>最后，发现在打印的时候，如果打印的页面中有链接的时候，比如在wordpress的结算页面有所购买的产品列表，会显示链接的url地址，这个看起来特别的不美观，这个时候在前端我们可以定位到这个</p>
+<p><img src="https://i.imgur.com/K7aC2xV.jpg"></p>
+<p>然后把里面的产品的链接去掉，这样打印的时候，就OK了。行了，我们开始行动。</p>
+<p>找到这个对应的文件地址：<code>enfold/woocommerce/order/order-details-item.php</code>，打开，然后找到这里：</p>
+<p><img src="https://i.imgur.com/cOKd0Sd.jpg"></p>
+<p>把原来的注释掉，然后复制一份，把 <code>get_permalink($item)</code> 改成 <code>$item</code>，也就是直接把链接去掉。</p>
+<p>这样，再次打印的时候，就显示了纯文本而不会出现链接了。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/03/19/%E5%9C%A8wordpress%E7%BD%91%E7%AB%99%E4%B8%8A%E5%AE%9E%E7%8E%B0%E5%B7%A6%E8%BE%B9%E5%9B%BE%E7%89%87%EF%BC%8C%E5%8F%B3%E8%BE%B9%E6%96%87%E5%AD%97%E7%82%B9%E5%87%BB%E5%88%87%E6%8D%A2%E8%BD%AE%E6%92%AD%E7%9A%84%E6%95%88%E6%9E%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/03/19/%E5%9C%A8wordpress%E7%BD%91%E7%AB%99%E4%B8%8A%E5%AE%9E%E7%8E%B0%E5%B7%A6%E8%BE%B9%E5%9B%BE%E7%89%87%EF%BC%8C%E5%8F%B3%E8%BE%B9%E6%96%87%E5%AD%97%E7%82%B9%E5%87%BB%E5%88%87%E6%8D%A2%E8%BD%AE%E6%92%AD%E7%9A%84%E6%95%88%E6%9E%9C/" class="post-title-link" itemprop="url">在wordpress网站上实现左边图片，右边文字点击切换轮播的效果</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-03-19 17:10:33" itemprop="dateCreated datePublished" datetime="2018-03-19T17:10:33+08:00">2018-03-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:52:49" itemprop="dateModified" datetime="2020-10-11T11:52:49+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>实现的效果类似</p>
+<p><img src="https://i.imgur.com/wbcxobN.png"></p>
+<p>根据图片可以看出，在网站中全屏显示，左边是图片右边是文字区域和按钮的切换区域，这个通过js是可以实现的，笔者这里实现了一个html版本，下载地址：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1jYLSQwvVC0JTkOXeZlAkVg">https://pan.baidu.com/s/1jYLSQwvVC0JTkOXeZlAkVg</a>  密码：m53a</p>
+<p>但是，当我们运用到wordpress主题中去的时候，类似enfold主题的时候，那么会产生一些样式问题，看起来特别乱，怎么办呢？</p>
+<p>这里为了不影响其他的样式问题，这里我们再页面中添加一个ID，只针对这个区块进行处理。</p>
+<p>好的，我们新建一个colorsection,或者是别的，只要能够让container变成全宽即可。</p>
+<p>我为这个区块设置一个ID命名为：specialet，</p>
+<p>那么我把对这个特效的控制的js代码和css代码放在wordpress主题的对应的css和js文件中，目的是为了方便调用，不会因为网站的搬迁而引用失效。</p>
+<p>下载地址：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1EGfRNH6poVI5RbnMR5VuJw">https://pan.baidu.com/s/1EGfRNH6poVI5RbnMR5VuJw</a>   密码：ylqs</p>
+<blockquote>
+<p>温馨提示：先查看必读部分</p>
+</blockquote>
+<p>这个是处理后，能够兼容多终端的效果，PC版效果：</p>
+<p><img src="https://i.imgur.com/17lTjv3.png"></p>
+<p><img src="https://i.imgur.com/5Cik9Rc.png"></p>
+<p><img src="https://i.imgur.com/DHl2Hfk.png"></p>
+<p>手机版：</p>
+<p><img src="https://i.imgur.com/A7L9WZH.png"></p>
+<p>好的，本案例到此结束，如果还有更多疑问和需要探讨的，可以与笔者取得联系，QQ:791447771</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/03/15/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%B9%B3%E5%8F%B0%E5%BC%80%E5%8F%91%E7%9A%84%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/03/15/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%B9%B3%E5%8F%B0%E5%BC%80%E5%8F%91%E7%9A%84%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">微信公众平台开发的笔记</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-03-15 21:09:41" itemprop="dateCreated datePublished" datetime="2018-03-15T21:09:41+08:00">2018-03-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:52:54" itemprop="dateModified" datetime="2020-10-11T11:52:54+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>隔行如隔山，说得没错，解除新鲜事物的时候，可能需要一些时间去消化水土不服。</p>
+<p>咱来说说微信公众平台开发过程中走过的弯路。</p>
+<p><strong>弯路一</strong></p>
+<p>其实，服务号申请不是我这边的事，还好，假设我们已经成功的把服务号申请到了，我们登录到微信公众号的后台去，第一步应该是到 “开发” 那里，做一个基本配置：</p>
+<p><img src="https://i.imgur.com/v1jRbKo.png"></p>
+<p>这个怎么填呢？</p>
+<p>服务器地址就是我们放网站后台跟微信打交道的路径，这里我在新浪SAE中申请购买了一个云服务器，进行了测试，根据教程走了一遍，当然我们不一定要用新浪的SAE云服务器，不过笔者觉得它很实惠，作为开发解决的调试还是很不错的了。</p>
+<p>这个路径中的文件，我们需要充微信下载示例文件，下载地址：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/12fEvugms-oTXZJT0H13hQQ">https://pan.baidu.com/s/12fEvugms-oTXZJT0H13hQQ</a>  密码：skaf</p>
+<p>里面有教程以及如何使用的。但是我们需要了解这个本质，其实参考这篇文章就很有价值：<a target="_blank" rel="noopener" href="https://www.liaoxuefeng.com/article/0013900476318564121d01facf844cba508396f95d9bb82000">https://www.liaoxuefeng.com/article/0013900476318564121d01facf844cba508396f95d9bb82000</a></p>
+<p>这四个参数：signature，timestamp，nonce，echostr</p>
+<p>如果我们解决好这个问题后，那么我们我们这个服务器配置就搞定了，因为笔者在配置这里的时候，经常报错：提示token请求超时</p>
+<p>类似这样的问题，如果我们随便写一个路径是不行的，必须要有一个路径中的某个文件能够接收来自微信传递的四个参数，只有四个参数被成功接收后，然后服务器做出响应才能不报错，知道这个之后我们就不能任性的乱填写一个在服务器端的文件了。意识到这个问题很重要。</p>
+<p>接着我们可以去申请一个微信公众平台接口测试帐号，这样我们就可以进行测试了，当然也可以用自己的本身的，在基本配置那里有。</p>
+<p>完成这个之后，我们就可以根据开发者文档进行相应的开发和操作了，具体想要做成什么样，可以去学习相关的开发教程，或者阅读微信公众平台的操作文档。</p>
+<p>说说我遇到的一个问题，就是我在自定义的菜单的时候，在使用微信公众平台接口调试工具的时候，报错了，当我通过接口类型的基础支持的时候，通过填写appid和secret，获取得到access_token的值，然后复制，然后把接口类型切换到：自定义菜单</p>
+<p>填写access_token的值后，在body中填写了示例的代码：</p>
+<pre><code> &#123;
+     &quot;button&quot;:[
+     &#123;    
+          &quot;type&quot;:&quot;click&quot;,
+          &quot;name&quot;:&quot;今日歌曲&quot;,
+          &quot;key&quot;:&quot;V1001_TODAY_MUSIC&quot;
+      &#125;,
+      &#123;
+           &quot;name&quot;:&quot;菜单&quot;,
+           &quot;sub_button&quot;:[
+           &#123;    
+               &quot;type&quot;:&quot;view&quot;,
+               &quot;name&quot;:&quot;搜索&quot;,
+               &quot;url&quot;:&quot;http://www.soso.com/&quot;
+            &#125;,
+            &#123;
+                 &quot;type&quot;:&quot;miniprogram&quot;,
+                 &quot;name&quot;:&quot;wxa&quot;,
+                 &quot;url&quot;:&quot;http://mp.weixin.qq.com&quot;,
+                 &quot;appid&quot;:&quot;wx286b93c14bbf93aa&quot;,
+                 &quot;pagepath&quot;:&quot;pages/lunar/index&quot;
+             &#125;,
+            &#123;
+               &quot;type&quot;:&quot;click&quot;,
+               &quot;name&quot;:&quot;赞一下我们&quot;,
+               &quot;key&quot;:&quot;V1001_GOOD&quot;
+            &#125;]
+       &#125;]
+ &#125;</code></pre>
+<p>这个时候，又报错了，看了下发现：</p>
+<pre><code>Connection: keep-alive
+Date: Thu, 15 Mar 2018 13:34:26 GMT
+Content-Type: application/json; encoding=utf-8
+Content-Length: 72
+&#123;
+    &quot;errcode&quot;: 85005, 
+    &quot;errmsg&quot;: &quot;appid not bind weapp hint: [lFyJKA0866vr18]&quot;
+&#125;</code></pre>
+<p>这个说明也很清楚，就是示例代码里面有不匹配的东西，然后我把不是自己的东西删除了：</p>
+<pre><code>&#123;
+    &quot;button&quot;: [
+        &#123;
+                    &quot;type&quot;: &quot;view&quot;, 
+                    &quot;name&quot;: &quot;美食查询&quot;, 
+                    &quot;url&quot;: &quot;http://mydomain.com&quot;
+        &#125;
+    ]
+&#125;</code></pre>
+<p>再次检查的时候，正常了：</p>
+<pre><code>Connection: keep-alive
+Date: Thu, 15 Mar 2018 13:36:46 GMT
+Content-Type: application/json; encoding=utf-8
+Content-Length: 27
+&#123;
+    &quot;errcode&quot;: 0, 
+    &quot;errmsg&quot;: &quot;ok&quot;
+&#125;</code></pre>
+<p>说道这里的时候，我们还有个地方忘了，就是开始的时候我在用微信公众平台接口调试工具的时候</p>
+<p><img src="https://i.imgur.com/naB1B0m.png"></p>
+<p>这个地方居然也报错了，报错原因是微信服务器IP没有加入白名单，这里我就纳闷了，到底加哪个IP啊，我估摸着，只有两种情况了，我服务器那边的IP，因为我在填写服务器地址(URL)的时候不是有一个地址吗，然后赶紧ping了一下，把IP找出来，然后填进去，还是不行。</p>
+<p>然后就想着，估计是本地的电信的IP，然后又填写进去，还是不行，这可急坏了，可是上帝保佑，下面其实已经提醒了，在报错的那里就有一个IP地址，然后我就死马当活马医了，把前面加的白名单里的那些IP全删了，再把这个IP加进去，果然可以了，也不报错了。很开心。</p>
+<p>这个还没结束，后面会继续写各种弯路的日记，敬请期待。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/03/15/magento%E7%BD%91%E7%AB%99%E6%90%AC%E8%BF%81%E7%9A%84%E8%BE%9B%E9%85%B8%E5%8F%B2%E5%92%8C%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/03/15/magento%E7%BD%91%E7%AB%99%E6%90%AC%E8%BF%81%E7%9A%84%E8%BE%9B%E9%85%B8%E5%8F%B2%E5%92%8C%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" class="post-title-link" itemprop="url">magento网站搬迁的辛酸史和问题解决方案</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-03-15 20:29:53" itemprop="dateCreated datePublished" datetime="2018-03-15T20:29:53+08:00">2018-03-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:21" itemprop="dateModified" datetime="2020-10-11T11:53:21+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>本来网站的搬迁是充满各种不确定性的一件事，相比于wordpress,magento网站的搬迁遇到的问题会更麻烦，笔者在前面的一篇文章中已经写了关于<a target="_blank" rel="noopener" href="http://helongquan.github.io/2018/02/26/magento%E7%BD%91%E7%AB%99%E8%BF%81%E7%A7%BB%E7%9B%B8%E5%85%B3%E6%96%B9%E6%A1%88/">如何搬迁magento网站</a>，这篇文章也是为了解决这篇文章而做出的补充方案，我们开门见山。</p>
+<p>当我们把源码上传到目标网站的合适的位置的时候，我们把里面的缓存文件删除，也就是把var文件夹里面的cache和session文件夹里的内容全部删除，然后把app/etc/里面的local.xml文件删除。</p>
+<blockquote>
+<p>在这里也是把我卡了很久，一直不明白为啥我搬迁成功了，每次访问我的新域名的时候，总是重定向到搬迁前的那个域名（旧的网址还在，域名也在使用中），后来当我查看到local.xml里面的内容的时候，恍然大悟啊！原来是里面的配置都是旧网站的数据库配置，用的是旧网站的数据库，那自然而然就会重定向到旧的网站，没毛病。</p>
+</blockquote>
+<p>如果有必要的话，可以把media里面的catalog/product/cache里的内容全部删除。</p>
+<p>这里值得注意的是，我们可能会在magento的根目录下看到有个php.ini文件，这个文件是在后面生成的，笔者以前搬迁很多次都不成功，跟这个有很大的关系，如果不把这个文件注释掉或者删除，那么我们可能会碰到这样的错误：</p>
+<pre><code>pdo_mysql extension is not installed
+#0 D:\Hosting\11486590\html\shopping\magento\lib\Zend\Db\Adapter\Abstract.php(459): Varien_Db_Adapter_Pdo_Mysql-&gt;_connect()
+#1 D:\Hosting\11486590\html\shopping\magento\lib\Zend\Db\Adapter\Pdo\Abstract.php(238): Zend_Db_Adapter_Abstract-&gt;query(&#39;SET NAMES utf8&#39;, Array)
+#2 D:\Hosting\11486590\html\shopping\magento\lib\Varien\Db\Adapter\Pdo\Mysql.php(419): Zend_Db_Adapter_Pdo_Abstract-&gt;query(&#39;SET NAMES utf8&#39;, Array)
+#3 D:\Hosting\11486590\html\shopping\magento\app\code\core\Mage\Core\Model\Resource.php(169): Varien_Db_Adapter_Pdo_Mysql-&gt;query(&#39;SET NAMES utf8&#39;)
+#4 D:\Hosting\11486590\html\shopping\magento\app\code\core\Mage\Core\Model\Resource.php(110): Mage_Core_Model_Resource-&gt;_newConnection(&#39;pdo_mysql&#39;, Object(Mage_Core_Model_Config_Element))
+#5 D:\Hosting\11486590\html\shopping\magento\app\code\core\Mage\Core\Model\Resource\Db\Abstract.php(320): Mage_Core_Model_Resource-&gt;getConnection(&#39;core_write&#39;)
+#6 D:\Hosting\11486590\html\shopping\magento\app\code\core\Mage\Core\Model\Resource\Db\Abstract.php(350): Mage_Core_Model_Resource_Db_Abstract-&gt;_getConnection(&#39;write&#39;)
+#7 D:\Hosting\11486590\html\shopping\magento\app\code\core\Mage\Core\Model\Resource\Db\Abstract.php(335): Mage_Core_Model_Resource_Db_Abstract-&gt;_getWriteAdapter()
+#8 D:\Hosting\11486590\html\shopping\magento\app\code\core\Mage\Core\Model\Resource\Cache.php(53): Mage_Core_Model_Resource_Db_Abstract-&gt;_getReadAdapter()
+#9 D:\Hosting\11486590\html\shopping\magento\app\code\core\Mage\Core\Model\Cache.php(455): Mage_Core_Model_Resource_Cache-&gt;getAllOptions()
+#10 D:\Hosting\11486590\html\shopping\magento\app\code\core\Mage\Core\Model\Cache.php(497): Mage_Core_Model_Cache-&gt;_initOptions()
+#11 D:\Hosting\11486590\html\shopping\magento\app\code\core\Mage\Core\Model\App.php(1183): Mage_Core_Model_Cache-&gt;canUse(&#39;config&#39;)
+#12 D:\Hosting\11486590\html\shopping\magento\app\code\core\Mage\Core\Model\Config.php(414): Mage_Core_Model_App-&gt;useCache(&#39;config&#39;)
+#13 D:\Hosting\11486590\html\shopping\magento\app\code\core\Mage\Core\Model\Config.php(294): Mage_Core_Model_Config-&gt;_canUseCacheForInit()
+#14 D:\Hosting\11486590\html\shopping\magento\app\code\core\Mage\Core\Model\App.php(413): Mage_Core_Model_Config-&gt;loadModulesCache()
+#15 D:\Hosting\11486590\html\shopping\magento\app\code\core\Mage\Core\Model\App.php(343): Mage_Core_Model_App-&gt;_initModules()
+#16 D:\Hosting\11486590\html\shopping\magento\app\Mage.php(683): Mage_Core_Model_App-&gt;run(Array)
+#17 D:\Hosting\11486590\html\shopping\magento\index.php(87): Mage::run(&#39;&#39;, &#39;store&#39;)</code></pre>
+<p>类似这样的错误，这个如果有更好的方案，可以根据报错去解决，具体自己去谷歌，笔者是这样解决的：</p>
+<blockquote>
+<p>直接删除这个php.ini文件或者重命名（当然前提是在自己的服务器的PHP环境中，已经安装了这个扩展。）</p>
+</blockquote>
+<p>这样，就不会报这个错误了。另外还需要提醒的是，根据我们的magento版本选择对应支持的PHP版本。</p>
+<p><strong>数据库的问题</strong></p>
+<p>数据库文件的导出，在导出之前我们需要做如下的操作：</p>
+<blockquote>
+<p>我们进入到网站的后台，在system—configration—general—web里面，把Unsecure里的Base URL的内容改成，把Secure里的Base URL也改成。</p>
+</blockquote>
+<p>然后保存，接着在后台把缓存禁用了。</p>
+<p>最后保存一下。</p>
+<p>下一步，我们来到数据库的管理工具中，把数据库文件导出。</p>
+<p>导出后，打开，然后搜索搬迁前的网址批量替换成搬迁后的网址，替换完成后保存。</p>
+<p>最后，把这个.sql文件导入的新的目标网站的数据库中。这个过程可能需要点时间。完毕后，然后在浏览器中输入新的网址的域名，这个时候就会进入安装的引导界面，进行一步一步的安装就好了，安装完成后，打开到前台，我们的网站就被彻底的搬迁到新的地址中去了。</p>
+<p>这里值得提醒的是，当我们打开页面的时候，或者是登录后台的时候，我们可能出现Internal Server Error这样的错误，原因在于当我们登录后台的时候通常输入：<a target="_blank" rel="noopener" href="http://www.yourdomain.com/admin%EF%BC%8C%E4%BD%86%E6%98%AF%E8%BF%99%E6%A0%B7%E4%BC%9A%E6%8A%A5%E9%94%99%EF%BC%8C%E6%94%B9%E6%88%90%EF%BC%9Ahttp://www.yourdomain.com/index.php/admin%E8%BF%99%E6%A0%B7%E5%B0%B1%E5%8F%AF%E4%BB%A5%E4%BA%86%E3%80%82">http://www.yourdomain.com/admin，但是这样会报错，改成：http://www.yourdomain.com/index.php/admin这样就可以了。</a></p>
+<p>同样的，如果我们通过网站的搬迁后，点击页面的时候，可能会出现以上的错误，我们只需要在域名后面加上inedex.php就行了。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/03/12/Magento%E5%95%86%E5%9F%8E%E4%B8%AD%E8%81%94%E7%B3%BB%E8%A1%A8%E5%8D%95%E6%B2%A1%E6%B3%95%E5%8F%91%E9%80%81%E7%9A%84%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/03/12/Magento%E5%95%86%E5%9F%8E%E4%B8%AD%E8%81%94%E7%B3%BB%E8%A1%A8%E5%8D%95%E6%B2%A1%E6%B3%95%E5%8F%91%E9%80%81%E7%9A%84%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">Magento商城中联系表单没法发送的问题</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-03-12 17:38:32" itemprop="dateCreated datePublished" datetime="2018-03-12T17:38:32+08:00">2018-03-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:22" itemprop="dateModified" datetime="2020-10-11T11:53:22+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>为了不啰嗦，这里直截了当</p>
+<p>笔者在处理magento网站的时候，有些时候发现没法发送电邮，有些网站又可以发送电邮，但是源码是有一样的，那么问题出在哪里呢？</p>
+<p><strong>第一、插件</strong></p>
+<p>这个我们根据magento版本进行安装相应的电邮插件（SMTP），进行相应的配置，能够解决这个问题。</p>
+<p><strong>第二、服务器</strong></p>
+<p>很多时候我们服务器地址决定了我们电邮发送是否成功，以及服务器是否开启了这个邮件服务器，以及端口有没有开启。</p>
+<p>比如，我的magento网站的服务器采用的是国内的，那么我们在配置SMTP的时候，就配置QQ邮箱，或者国内的其他邮箱：</p>
+<p><img src="https://i.imgur.com/ZbvrUyA.jpg"></p>
+<p>如果我们的magento的服务器在国外（采用的是国外的服务器），那么我们这里选择google的，配置如下：</p>
+<p><img src="https://i.imgur.com/KT3W6br.jpg"></p>
+<p>这样保存，然后在前台测试一下，估计就可以了，当然情况不一样，造成不能发送电邮的原因很多，这里只是提供一个启发，希望没有误导读者。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/03/12/Magento%E5%95%86%E5%9F%8E%E4%B8%AD%E6%B7%BB%E5%8A%A0%E5%BF%AB%E9%80%92%E8%B7%9F%E8%B8%AA%E9%A1%B5%E9%9D%A2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/03/12/Magento%E5%95%86%E5%9F%8E%E4%B8%AD%E6%B7%BB%E5%8A%A0%E5%BF%AB%E9%80%92%E8%B7%9F%E8%B8%AA%E9%A1%B5%E9%9D%A2/" class="post-title-link" itemprop="url">Magento商城中添加快递跟踪页面</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-03-12 17:01:51" itemprop="dateCreated datePublished" datetime="2018-03-12T17:01:51+08:00">2018-03-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:21" itemprop="dateModified" datetime="2020-10-11T11:53:21+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p> 有些朋友会使用magento建立自己的B2C商城，当有客户在商城中下单后，就自然会进入到物流的环节。那么如何让客户可以在商城网站中自己查询订单的物流信息和状态呢？这就需要添加一个快递跟踪页。</p>
+<p>下面会写出添加一个快递查询页面的步骤，原理是通过iframe嵌入Trackingmore网站的​快递查询功能，几分钟就可以搞定。<br>第一步，创建一个快递查询页面</p>
+<p>在magento中创建一个快递查询（track order）页面，填写好页面标题和页面URL地址</p>
+<p><img src="https://i.imgur.com/LUj8Ndb.jpg"></p>
+<p>第二步，复制代码到编辑页</p>
+<p>Content页面中将在<a target="_blank" rel="noopener" href="http://www.trackingmore.com/embed_box_float-cn.html">Trackingmore页面</a>中的外部调用javascrip代码复制过来</p>
+<p><img src="https://i.imgur.com/l5YoD1A.jpg"></p>
+<p>第三步，设置design布局和Meta标签</p>
+<p><img src="https://i.imgur.com/4NFInbn.jpg"></p>
+<p>第四步，保存后预览页面效果</p>
+<p>完成上面三步后，保存页面设置，查看页面预览，​就可以得到一个自带快递查询功能的查询框，客户输入单号后，就可以在当前页面查询自己的快递信息了。</p>
+<p><img src="https://i.imgur.com/QpUNgtD.jpg"></p>
+<p>以上就是在Magento商城中添加快递跟踪功能的方法，只需几分钟，不需要自己写一句代码，没有任何开发量就可以完成。当然，如果你需要对快递查询页面完全自定义，你也可以去对接<a target="_blank" rel="noopener" href="https://www.trackingmore.com/api-index-cn.html">快递查询API</a>，自行发开相应的快递查询页。</p>
+<p>如果添加其他平台的快递查询的API，我们也可以直接去平台里面找到API，然后放入我们要放的网站中，就行了，比如我们想要运单100这个平台的API，那么我们直接访问：<a target="_blank" rel="noopener" href="http://www.kuaidi100.com/openapi/%EF%BC%8C%E7%84%B6%E5%90%8E%E7%94%B3%E8%AF%B7%EF%BC%8C">http://www.kuaidi100.com/openapi/，然后申请，</a></p>
+<pre><code>&lt;form action=&quot;https://m.kuaidi100.com/index_all.html&quot; method=&quot;get&quot; accept-charset=&quot;utf-8&quot; target=&quot;_blank&quot;&gt;
+    &lt;div class=&quot;row&quot; id=&quot;kemu&quot;&gt;
+        &lt;div class=&quot;form-group&quot;&gt;
+            &lt;div class=&quot;col-sm-6 imputss&quot;&gt;
+                &lt;!-- &lt;input type=&quot;hidden&quot; name=&quot;id&quot; value=&quot;这个是个人申请的ID号&quot;&gt; --&gt;
+                &lt;input type=&quot;text&quot; name=&quot;type&quot; value=&quot;&quot; placeholder=&quot;快递公司代称，不能写中文&quot;&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;col-sm-6 imputss&quot;&gt;
+                &lt;input type=&quot;text&quot; name=&quot;postid&quot; value=&quot;&quot; placeholder=&quot;快递单号，请勿带特殊符号，不支持中文&quot;&gt;
+                &lt;input type=&quot;hidden&quot; name=&quot;callbackurl&quot; value=&quot;&lt;?php bloginfo(&#39;url&#39;); ?&gt;&quot;&gt;
+                &lt;!-- &lt;input type=&quot;hidden&quot; name=&quot;show&quot; value=&quot;0&quot;&gt;
+                &lt;input type=&quot;hidden&quot; name=&quot;muti&quot; value=&quot;1&quot;&gt;
+                &lt;input type=&quot;hidden&quot; name=&quot;order&quot; value=&quot;desc&quot;&gt; --&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;clearfix&quot;&gt;&lt;/div&gt;
+    &lt;button type=&quot;submit&quot; class=&quot;btn btn-default btn-primary form-control&quot;&gt;立即查询&lt;/button&gt;
+    &lt;br/&gt;
+    &lt;hr&gt;
+&lt;/form&gt;</code></pre>
+<p>其实也不难，自己多去实践下就行了。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/23/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/23/">23</a><span class="page-number current">24</span><a class="page-number" href="/page/25/">25</a><span class="space">&hellip;</span><a class="page-number" href="/page/43/">43</a><a class="extend next" rel="next" href="/page/25/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

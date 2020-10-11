@@ -1,37 +1,612 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="今天分享的是个人为wordpress网站设置ssl证书的详细步骤。 网站环境：由于是测试环境，我这里在linux上面使用了xampp这个环境集成包，由于里面放了多个网站，我采用了虚拟机的形式。 操作系统：linux 首先，我们先申请一个免费的ssl证书，因为收费的太贵了，所以我找到了阿里云的一款：赛门铁克免费型DV SSL，链接：https:&#x2F;&#x2F;common-buy.aliyun.com&#x2F;?spm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="最简单的wordpress网站配置ssl证书全部过程">
+<meta property="og:url" content="http://example.com/2018/01/12/%E6%9C%80%E7%AE%80%E5%8D%95%E7%9A%84wordpress%E7%BD%91%E7%AB%99%E9%85%8D%E7%BD%AEssl%E8%AF%81%E4%B9%A6%E5%85%A8%E9%83%A8%E8%BF%87%E7%A8%8B/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="今天分享的是个人为wordpress网站设置ssl证书的详细步骤。 网站环境：由于是测试环境，我这里在linux上面使用了xampp这个环境集成包，由于里面放了多个网站，我采用了虚拟机的形式。 操作系统：linux 首先，我们先申请一个免费的ssl证书，因为收费的太贵了，所以我找到了阿里云的一款：赛门铁克免费型DV SSL，链接：https:&#x2F;&#x2F;common-buy.aliyun.com&#x2F;?spm">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/knRGR7E.png">
+<meta property="og:image" content="https://i.imgur.com/xNyZnuD.png">
+<meta property="og:image" content="https://i.imgur.com/t7hEtGC.png">
+<meta property="og:image" content="https://i.imgur.com/mpuLS8E.png">
+<meta property="og:image" content="https://i.imgur.com/dsTYMLA.png">
+<meta property="og:image" content="https://i.imgur.com/QBbTJmM.png">
+<meta property="og:image" content="https://i.imgur.com/2aLQcYo.png">
+<meta property="og:image" content="https://i.imgur.com/bOo6bej.png">
+<meta property="article:published_time" content="2018-01-12T02:07:12.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:52:49.271Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="wordpress,ssl,https,apache">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/knRGR7E.png">
+
+<link rel="canonical" href="http://example.com/2018/01/12/%E6%9C%80%E7%AE%80%E5%8D%95%E7%9A%84wordpress%E7%BD%91%E7%AB%99%E9%85%8D%E7%BD%AEssl%E8%AF%81%E4%B9%A6%E5%85%A8%E9%83%A8%E8%BF%87%E7%A8%8B/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>最简单的wordpress网站配置ssl证书全部过程 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/01/12/%E6%9C%80%E7%AE%80%E5%8D%95%E7%9A%84wordpress%E7%BD%91%E7%AB%99%E9%85%8D%E7%BD%AEssl%E8%AF%81%E4%B9%A6%E5%85%A8%E9%83%A8%E8%BF%87%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          最简单的wordpress网站配置ssl证书全部过程
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-01-12 10:07:12" itemprop="dateCreated datePublished" datetime="2018-01-12T10:07:12+08:00">2018-01-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:52:49" itemprop="dateModified" datetime="2020-10-11T11:52:49+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>今天分享的是个人为wordpress网站设置ssl证书的详细步骤。</p>
+<p>网站环境：由于是测试环境，我这里在linux上面使用了xampp这个环境集成包，由于里面放了多个网站，我采用了虚拟机的形式。</p>
+<p>操作系统：linux</p>
+<p>首先，我们先申请一个免费的ssl证书，因为收费的太贵了，所以我找到了阿里云的一款：赛门铁克免费型DV SSL，链接：<a target="_blank" rel="noopener" href="https://common-buy.aliyun.com/?spm=5176.2020520163.cas.1.41dbe13dj0ysg2&amp;commodityCode=cas#/buy">https://common-buy.aliyun.com/?spm=5176.2020520163.cas.1.41dbe13dj0ysg2&amp;commodityCode=cas#/buy</a></p>
+<p><img src="https://i.imgur.com/knRGR7E.png"></p>
+<p>点击购买，然后进行审核阶段，具体流程如下：<br><img src="https://i.imgur.com/xNyZnuD.png"></p>
+<p>这里我们根据里面的要求进行填写就行了，这里有个地方需要提醒的是：如何选择域名授权验证</p>
+<ol>
+<li>DNS验证方式</li>
+<li>文件验证方式</li>
+</ol>
+<p>根据不同业务需求进行选择，我们一般都是选择 “DNS验证方式”，然后勾选下面那个小的复选框，勾选后，会在域名解析那里自动添加一条解析记录：</p>
+<p><img src="https://i.imgur.com/t7hEtGC.png"></p>
+<p>如果您的域名托管在阿里云的云解析服务中，可选择授权证书服务系统自动完成域名配置。这样，您就不需要在域名解析管理控制台上进行任何操作了。</p>
+<p><img src="https://i.imgur.com/mpuLS8E.png"></p>
+<p>注意： 如果域名没有托管在阿里云的云解析服务中，请不要选择这个选项，即使选择该选项也无法完成推送。</p>
+<p>重要： 由于某些 CA 中心可能会要求用户创建隐藏文件夹（.xxx），如果您的站点服务器是 Windows 服务器或者使用了阿里云 OSS 服务，将无法创建隐藏目录，请不要选择文件验证方式，建议您通过 DNS 方式进行域名授权验证。</p>
+<p>完成这个后，就是等着阿里云那边审核了，大概等个10分钟左右，就基本可以完成，如果信息填写无误的话。通过审核后一般会有通知，邮件通知，然后再次进入到：阿里云管理控制台—CA证书服务，我们看到</p>
+<p><img src="https://i.imgur.com/dsTYMLA.png"></p>
+<p>这样的一个信息，然后我们点击下载那里</p>
+<p><img src="https://i.imgur.com/QBbTJmM.png"></p>
+<p>这里我们就根据我们使用的服务器来进行选择了，由于我前面说了，我采用的是xampp，所以我选择的是apache，我们选择apache那个选项，里面告诉了我们如何操作，但是这里需要注意的是，不要直接把上面的代码复制粘贴，毕竟每个人的服务器安装路径不一样，所以我们先阅读一下这些内容到底是什么意思会更好。</p>
+<p>apache配置方法如下：</p>
+<p><strong>安装证书</strong></p>
+<p>文件说明：</p>
+<ol>
+<li>证书文件214432579040782.pem，包含两段内容，请不要删除任何一段内容。</li>
+<li>如果是证书系统创建的CSR，还包含：证书私钥文件214432579040782.key、证书公钥文件public.pem、证书链文件chain.pem。</li>
+</ol>
+<p>( 1 ) 在Apache的安装目录下创建cert目录，并且将下载的全部文件拷贝到cert目录中。如果申请证书时是自己创建的CSR文件，请将对应的私钥文件放到cert目录下并且命名为214432579040782.key；<br>( 2 ) 打开 apache 安装目录（我这里是apache2）下 conf 目录中的 httpd.conf 文件，找到以下内容并去掉“#”，这里我说明下，我这边根据这个路径找到的是一个没有下面内容的，所以我于是想可能不是这个地方，然后我回到了 opt/lamp/etc/里面,在这里面也有httpd.conf，然后如愿以偿的找到了下面的这两个地方，这里吐槽下：对于这个问题“如果找不到请确认是否编译过 openssl 插件”，我百度了，基本都是千篇一律，全部是抄的，没有一个说到重点的，所以很多时候还得靠自己的脑子，别太依赖别人的方案，好的话说回来，我们把下面这两行开启，很多时候这两个应该都是开启了的：</p>
+<pre><code>#LoadModule ssl_module modules/mod_ssl.so (如果找不到请确认是否编译过 openssl 插件)
+#Include conf/extra/httpd-ssl.conf</code></pre>
+<p>( 3 ) 打开 apache 安装目录下 conf/extra/httpd-ssl.conf 文件 (也可能是conf.d/ssl.conf，与操作系统及安装方式有关)， 在配置文件中查找以下配置语句:</p>
+<pre><code># 添加 SSL 协议支持协议，去掉不安全的协议
+SSLProtocol all -SSLv2 -SSLv3
+# 修改加密套件如下
+SSLCipherSuite HIGH:!RC4:!MD5:!aNULL:!eNULL:!NULL:!DH:!EDH:!EXP:+MEDIUM
+SSLHonorCipherOrder on
+# 证书公钥配置
+SSLCertificateFile cert/public.pem
+# 证书私钥配置
+SSLCertificateKeyFile cert/214432579040782.key
+# 证书链配置，如果该属性开头有 &#39;#&#39;字符，请删除掉
+SSLCertificateChainFile cert/chain.pem</code></pre>
+<p>貌似这个加进去没啥卵用，不过最好添加一下吧，原来存在的就注释掉，比如我这里有，以前安装的时候存在的一些配置</p>
+<pre><code>#SSLCertificateChainFile &quot;/opt/lampp/etc/server-ca.crt&quot;  //这个是以前安装自带的，我把它注释掉了，不然会重复
+#证书链配置，如果该属性开头有 &#39;#&#39;字符，请删除掉
+SSLCertificateChainFile &quot;/opt/lampp/apache2/cert/chain.pem&quot;   //新添加的
+
+#SSLCertificateKeyFile &quot;/opt/lampp/etc/ssl.key/server.key&quot;   //这些都注释
+#证书公钥配置
+SSLCertificateFile &quot;/opt/lampp/apache2/cert/public.pem&quot;    //新添加的
+#证书私钥配置
+SSLCertificateKeyFile &quot;/opt/lampp/apache2/cert/214432579040782.key&quot;    //新添加的
+#SSLCertificateKeyFile &quot;/opt/lampp/etc/server-dsa.key&quot;   //这些都注释
+#SSLCertificateKeyFile &quot;/opt/lampp/etc/server-ecc.key&quot;   //这些都注释</code></pre>
+<p>可能是我加的地方错误，于是又痛苦了一晚，第二天早上继续处理，后来，我在<a target="_blank" rel="noopener" href="https://www.cnblogs.com/lqzweb/p/7121980.html">这篇文章</a>找到了我的答案。</p>
+<p>他的意思是：</p>
+<p><strong>第一步</strong></p>
+<p>找到 #LoadModule ssl_module modules/mod_ssl.so 和 #Include conf/extra/httpd-ssl.conf，去掉前面的#号注释；这一步我已经完成了，这一步他说的比较笼统，新手很可能不知道在哪里找这两个，其实这两个就是前面第一步说的。</p>
+<p><strong>第二步；</strong></p>
+<p>编辑Apache根目录下 conf/extra/httpd-ssl.conf 文件，修改如下内容：（路径一定要填对，不然启动不了）<br>复制代码</p>
+<pre><code>Listen 443
+&lt;VirtualHost *:443&gt;
+  SSLEngine on
+  SSLProtocol all -SSLv2 -SSLv3  //去除不安全协议的
+  SSLCipherSuite HIGH:MEDIUM:!aNULL:!MD5   //加密的
+  SSLCertificateFile &quot;C:/phpStudy/Apache/conf/ssl/2_www.weiduweilan.cn.crt&quot;  //证书公钥
+  SSLCertificateKeyFile &quot;C:/phpStudy/Apache/conf/ssl/3_www.weiduweilan.cn.key&quot;  //证书私钥
+  SSLCertificateChainFile &quot;C:/phpStudy/Apache/conf/ssl/1_root_bundle.crt&quot; //根证书
+  DocumentRoot  &quot;C:\phpStudy\WWW\Zerg\public&quot;
+  &lt;Directory /&gt;
+    Options +Indexes +FollowSymLinks +ExecCGI
+    AllowOverride All
+    Order allow,deny
+    Allow from all
+    Require all granted
+  &lt;/Directory&gt;
+&lt;/VirtualHost&gt;</code></pre>
+<p>这一步，在哪里添加呢？这个根据个人配置，因为不同的配置，文件可能是不一样的，所以，我这里使用了虚拟机，就是建了一个httpd-vhosts.conf,所以，我把这个添加到了这个里面。大概在这个位置：</p>
+<pre><code>#        #SSLCertificateKeyFile /etc/httpd/conf/server.key
+#        SSLCertificateKeyFile &quot;/opt/lampp/apache2/cert/214432579040782.key&quot;
+#&lt;/VirtualHost&gt;
+# 把原本的80端口关闭或者删除，这里是作为测试https，所以，我关闭了，以备后面使用
+#&lt;VirtualHost *:80&gt;
+#    ServerAdmin webmaster@keli.com
+#    DocumentRoot &quot;/wwwroot/webroot/www.keli.com&quot;
+#    ServerName http://www.keli.com
+#    ErrorLog &quot;logs/dummy-host2.example.com-error_log&quot;
+#    CustomLog &quot;logs/dummy-host2.example.com-access_log&quot; common
+#&lt;/VirtualHost&gt;
+
+# 这个是我加进去的 开始
+&lt;VirtualHost *:443&gt;
+  SSLEngine on
+  SSLProtocol all -SSLv2 -SSLv3
+  SSLCipherSuite HIGH:MEDIUM:!aNULL:!MD5
+  SSLCertificateFile &quot;/opt/lampp/apache2/cert/public.pem&quot;   //证书公钥
+  SSLCertificateKeyFile &quot;/opt/lampp/apache2/cert/214432579040782.key&quot;   //证书私钥
+  SSLCertificateChainFile &quot;/opt/lampp/apache2/cert/chain.pem&quot;   //根证书
+  DocumentRoot  &quot;/wwwroot/webroot/www.keli.com&quot;  //这个是网站源码的根目录
+  &lt;Directory /&gt;
+    Options +Indexes +FollowSymLinks +ExecCGI
+    AllowOverride All
+    Order allow,deny
+    Allow from all
+    Require all granted
+  &lt;/Directory&gt;
+&lt;/VirtualHost&gt;
+# 这个是我加进去的 结束
+&lt;VirtualHost *:80&gt;
+    ServerAdmin webmaster@university.com
+    DocumentRoot &quot;/wwwroot/webroot/www.university.com&quot;
+    ServerName http://www.university.com
+    ErrorLog &quot;logs/dummy-host2.example.com-error_log&quot;
+    CustomLog &quot;logs/dummy-host2.example.com-access_log&quot; common
+&lt;/VirtualHost&gt;
+
+&lt;VirtualHost *:80&gt;
+    ServerAdmin webmaster@university.com
+    DocumentRoot &quot;/wwwroot/webroot/www.cdoor.net&quot;
+    ServerName http://www.cdoor.net
+    ErrorLog &quot;logs/dummy-host2.example.com-error_log&quot;
+    CustomLog &quot;logs/dummy-host2.example.com-access_log&quot; common
+&lt;/VirtualHost&gt;</code></pre>
+<p>这里我说明一下，由于我这个服务器放了三个网站，因此配置了三个域名，后面的那两个大家可以不用理睬，关注前面的那个被我注释掉的80端口，我把它关闭了，然后开启443，开启了443端口，这个端口已经在httpd-ssl.conf那边监听了，如果没有监听，去那边开启（把里面的#号删除）就行了，根据阿里云那边的教程，我这里对公钥和私钥，以及根证书的地址我采用了绝对路径（/opt/lampp/apache2/cert），这样比较容易理解，就行链接一样，能够找得到。</p>
+<p><strong>注意：这里如果我们关闭了80端口的监听，那么我们是没法输入<a target="_blank" rel="noopener" href="http://www.keli.com进行访问的,原因很简单,因为这个端口没有监听,如果只是测试https的话,关了这个没关系,但是想要https和http都能访问,那么建议80端口和443端口都开着/">http://www.keli.com进行访问的，原因很简单，因为这个端口没有监听，如果只是测试https的话，关了这个没关系，但是想要https和http都能访问，那么建议80端口和443端口都开着</a></strong></p>
+<pre><code># 为了两个协议都能访问，我都开启了
+&lt;VirtualHost *:80&gt;
+    ServerAdmin webmaster@keli.com
+    DocumentRoot &quot;/wwwroot/webroot/www.keli.com&quot;
+    ServerName http://www.keli.com
+    ErrorLog &quot;logs/dummy-host2.example.com-error_log&quot;
+    CustomLog &quot;logs/dummy-host2.example.com-access_log&quot; common
+&lt;/VirtualHost&gt;
+
+# 这个是我加进去的用来开启https 开始
+&lt;VirtualHost *:443&gt;
+  SSLEngine on
+  SSLProtocol all -SSLv2 -SSLv3
+  SSLCipherSuite HIGH:MEDIUM:!aNULL:!MD5
+  SSLCertificateFile &quot;/opt/lampp/apache2/cert/public.pem&quot;   //证书公钥
+  SSLCertificateKeyFile &quot;/opt/lampp/apache2/cert/214432579040782.key&quot;   //证书私钥
+  SSLCertificateChainFile &quot;/opt/lampp/apache2/cert/chain.pem&quot;   //根证书
+  DocumentRoot  &quot;/wwwroot/webroot/www.keli.com&quot;  //这个是网站源码的根目录
+  &lt;Directory /&gt;
+    Options +Indexes +FollowSymLinks +ExecCGI
+    AllowOverride All
+    Order allow,deny
+    Allow from all
+    Require all granted
+  &lt;/Directory&gt;
+&lt;/VirtualHost&gt;
+# 这个是我加进去的用来开启https 结束</code></pre>
+<p>好的，我这里确定好了之后。</p>
+<p>( 4 ) 重启 Apache。</p>
+<p>运行命令：</p>
+<pre><code>/opt/lampp/lampp restart</code></pre>
+<p>如果没有什么问题，所有的服务（apache,mysql,php等）都可以启动的</p>
+<p><img src="https://i.imgur.com/2aLQcYo.png"></p>
+<p>在wordpress版本4.7以上都会默认具有wp-json这个功能的了，所以我们没必要安装WP REST API的插件了。判断是否具备这个功能，直接访问<a target="_blank" rel="noopener" href="http://yourdomain.com/wp-json/wp/v2/posts%EF%BC%8C%E7%9C%8B%E4%B8%8B%E6%9C%89%E6%B2%A1%E6%9C%89json%E6%A0%BC%E5%BC%8F%E7%9A%84%E6%95%B0%E6%8D%AE%E5%87%BA%E6%9D%A5%EF%BC%8C%E6%9C%89%E7%9A%84%E8%AF%9D%E8%AF%B4%E6%98%8E%E4%BD%A0%E7%9A%84wordpress%E7%89%88%E6%9C%AC%E6%98%AF%E9%AB%98%E4%BA%8E4.7%E7%9A%84%EF%BC%8C%E6%88%96%E8%80%85%E8%AF%B4%E4%BD%A0%E5%B7%B2%E7%BB%8F%E5%AE%89%E8%A3%85%E4%BA%86WP">http://yourdomain.com/wp-json/wp/v2/posts，看下有没有json格式的数据出来，有的话说明你的wordpress版本是高于4.7的，或者说你已经安装了WP</a> REST API这个插件。</p>
+<p>然后，去wordpress后台修改固定链接：</p>
+<p><img src="https://i.imgur.com/bOo6bej.png"></p>
+<p>然后把WordPress地址（URL）和站点地址（URL）的http改成https，这个得确保你的两个协议都能访问的情况下修改，不然改成https后没法访问了，所以，我的做法就是一边开着数据库，一边修改这个，如果发现没法访问了，直接把wp_option这个表中的https改成http。</p>
+<p>好的，我们把这个修改成https后，我们就可以通过https进行访问了。不过，我这边貌似http就不能访问了，不过不要紧，我只是用作一个小程序的测试项目，不过能够两个都能访问就是最好的了。</p>
+<p>至于服务器是nginx的如何配置，我这边引用一下阿里云的解决方案：</p>
+<hr>
+<p><strong>安装证书</strong></p>
+<p>文件说明：</p>
+<ol>
+<li>证书文件214432579040782.pem，包含两段内容，请不要删除任何一段内容。</li>
+<li>如果是证书系统创建的CSR，还包含：证书私钥文件214432579040782.key。</li>
+</ol>
+<p>( 1 ) 在Nginx的安装目录下创建cert目录，并且将下载的全部文件拷贝到cert目录中。如果申请证书时是自己创建的CSR文件，请将对应的私钥文件放到cert目录下并且命名为214432579040782.key；</p>
+<p>( 2 ) 打开 Nginx 安装目录下 conf 目录中的 nginx.conf 文件，找到：</p>
+<pre><code># HTTPS server
+# #server &#123;
+# listen 443;
+# server_name localhost;
+# ssl on;
+# ssl_certificate cert.pem;
+# ssl_certificate_key cert.key;
+# ssl_session_timeout 5m;
+# ssl_protocols SSLv2 SSLv3 TLSv1;
+# ssl_ciphers ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP;
+# ssl_prefer_server_ciphers on;
+# location / &#123;
+#
+#
+#&#125;
+#&#125;</code></pre>
+<p>( 3 ) 将其修改为 (以下属性中ssl开头的属性与证书配置有直接关系，其它属性请结合自己的实际情况复制或调整) :</p>
+<pre><code>server &#123;
+    listen 443;
+    server_name localhost;
+    ssl on;
+    root html;
+    index index.html index.htm;
+    ssl_certificate   cert/214432579040782.pem;
+    ssl_certificate_key  cert/214432579040782.key;
+    ssl_session_timeout 5m;
+    ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4;
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+    ssl_prefer_server_ciphers on;
+    location / &#123;
+        root html;
+        index index.html index.htm;
+    &#125;
+&#125;</code></pre>
+<p>保存退出。</p>
+<p>( 4 )重启 Nginx，等个两三分钟看效果。</p>
+<p>经历过上面的问题后，相信这个方式问题不大。祝你们好运。如果你还有好的方法，以及任何疑问，可以与笔者取得联络，QQ:791447771</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/wordpress-ssl-https-apache/" rel="tag"># wordpress,ssl,https,apache</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/01/09/wordpress%E5%89%8D%E5%8F%B0%E5%AE%9E%E7%8E%B0%E5%90%91%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B7%BB%E5%8A%A0%E6%95%B0%E6%8D%AE%E7%9A%84%E5%8A%9F%E8%83%BD%EF%BC%8C%E7%B1%BB%E4%BC%BC%E6%B7%BB%E5%8A%A0%E9%98%B2%E4%BC%AA%E7%A0%81%E6%88%96%E8%80%85%E5%BA%8F%E5%88%97%E7%A0%81%E7%9A%84%E9%9C%80%E6%B1%82%EF%BC%8C%E7%84%B6%E5%90%8E%E5%8F%AF%E4%BB%A5%E6%9F%A5%E8%AF%A2%EF%BC%8C%E4%B9%9F%E5%8F%AF%E4%BB%A5%E9%80%9A%E8%BF%87navicat%E7%9A%84%E6%96%B9%E5%BC%8F%E5%AF%BC%E5%85%A5excel%E8%A1%A8%E6%95%B0%E6%8D%AE/" rel="prev" title="wordpress前台实现向数据库添加数据的功能，类似添加防伪码或者序列码的需求，然后可以查询，也可以通过navicat的方式导入excel表数据，以及mysql乱码的问题解决方案">
+      <i class="fa fa-chevron-left"></i> wordpress前台实现向数据库添加数据的功能，类似添加防伪码或者序列码的需求，然后可以查询，也可以通过navicat的方式导入excel表数据，以及mysql乱码的问题解决方案
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/01/15/%E5%90%91wordpress%E7%BD%91%E7%AB%99%E4%B8%AD%E6%9C%AC%E5%9C%B0%E5%BC%95%E7%94%A8font-awesome%E7%9A%84%E5%AD%97%E4%BD%93%E5%9B%BE%E6%A0%87/" rel="next" title="向wordpress网站中本地引用font awesome的字体图标">
+      向wordpress网站中本地引用font awesome的字体图标 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

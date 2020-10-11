@@ -1,37 +1,852 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="今天笔者分享一个magento商城网站中很普遍的一个需求：在分类页中如果有子分类，那么显示子分类到内容区，并且显示缩略图；需求二就是在当前分类页中显示当前分类的所有后台分类，包括子分类。 最开始是这样的：  那么如果想要把这个当前子目录显示到右边内容区，并且显示子目录的缩略图出来。怎么办呢？现在就以porto主题为例。 思路：  问题是一个模板文件的范畴，因此我们只需修改模板文件即可。 问题的核心">
+<meta property="og:type" content="article">
+<meta property="og:title" content="magento1.x的porto主题对产品分类页的重构之显示当前分类的子分类以及缩略图，以及调用当前分类的所有后代分类和侧边栏调用首页垂直菜单的方法">
+<meta property="og:url" content="http://example.com/2019/01/09/magento1-x%E7%9A%84porto%E4%B8%BB%E9%A2%98%E5%AF%B9%E4%BA%A7%E5%93%81%E5%88%86%E7%B1%BB%E9%A1%B5%E7%9A%84%E9%87%8D%E6%9E%84%E4%B9%8B%E6%98%BE%E7%A4%BA%E5%BD%93%E5%89%8D%E5%88%86%E7%B1%BB%E7%9A%84%E5%AD%90%E5%88%86%E7%B1%BB%E4%BB%A5%E5%8F%8A%E7%BC%A9%E7%95%A5%E5%9B%BE%EF%BC%8C%E4%BB%A5%E5%8F%8A%E8%B0%83%E7%94%A8%E5%BD%93%E5%89%8D%E5%88%86%E7%B1%BB%E7%9A%84%E6%89%80%E6%9C%89%E5%90%8E%E4%BB%A3%E5%88%86%E7%B1%BB/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="今天笔者分享一个magento商城网站中很普遍的一个需求：在分类页中如果有子分类，那么显示子分类到内容区，并且显示缩略图；需求二就是在当前分类页中显示当前分类的所有后台分类，包括子分类。 最开始是这样的：  那么如果想要把这个当前子目录显示到右边内容区，并且显示子目录的缩略图出来。怎么办呢？现在就以porto主题为例。 思路：  问题是一个模板文件的范畴，因此我们只需修改模板文件即可。 问题的核心">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/JTybwzS.jpg">
+<meta property="og:image" content="https://i.imgur.com/sjq0XSo.jpg">
+<meta property="og:image" content="https://i.imgur.com/k5PcAAO.jpg">
+<meta property="og:image" content="https://i.imgur.com/4blB29R.jpg">
+<meta property="og:image" content="https://i.imgur.com/OsbHl0v.jpg">
+<meta property="og:image" content="https://i.imgur.com/7FPJG72.jpg">
+<meta property="og:image" content="https://i.imgur.com/2gDeSS1.jpg">
+<meta property="og:image" content="https://i.imgur.com/3bkdxhj.jpg">
+<meta property="article:published_time" content="2019-01-09T11:30:30.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:57:58.853Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="magento,porto,产品分类,产品分类图,产品分类缩略图,子分类缩略图,当前分类">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/JTybwzS.jpg">
+
+<link rel="canonical" href="http://example.com/2019/01/09/magento1-x%E7%9A%84porto%E4%B8%BB%E9%A2%98%E5%AF%B9%E4%BA%A7%E5%93%81%E5%88%86%E7%B1%BB%E9%A1%B5%E7%9A%84%E9%87%8D%E6%9E%84%E4%B9%8B%E6%98%BE%E7%A4%BA%E5%BD%93%E5%89%8D%E5%88%86%E7%B1%BB%E7%9A%84%E5%AD%90%E5%88%86%E7%B1%BB%E4%BB%A5%E5%8F%8A%E7%BC%A9%E7%95%A5%E5%9B%BE%EF%BC%8C%E4%BB%A5%E5%8F%8A%E8%B0%83%E7%94%A8%E5%BD%93%E5%89%8D%E5%88%86%E7%B1%BB%E7%9A%84%E6%89%80%E6%9C%89%E5%90%8E%E4%BB%A3%E5%88%86%E7%B1%BB/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>magento1.x的porto主题对产品分类页的重构之显示当前分类的子分类以及缩略图，以及调用当前分类的所有后代分类和侧边栏调用首页垂直菜单的方法 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/01/09/magento1-x%E7%9A%84porto%E4%B8%BB%E9%A2%98%E5%AF%B9%E4%BA%A7%E5%93%81%E5%88%86%E7%B1%BB%E9%A1%B5%E7%9A%84%E9%87%8D%E6%9E%84%E4%B9%8B%E6%98%BE%E7%A4%BA%E5%BD%93%E5%89%8D%E5%88%86%E7%B1%BB%E7%9A%84%E5%AD%90%E5%88%86%E7%B1%BB%E4%BB%A5%E5%8F%8A%E7%BC%A9%E7%95%A5%E5%9B%BE%EF%BC%8C%E4%BB%A5%E5%8F%8A%E8%B0%83%E7%94%A8%E5%BD%93%E5%89%8D%E5%88%86%E7%B1%BB%E7%9A%84%E6%89%80%E6%9C%89%E5%90%8E%E4%BB%A3%E5%88%86%E7%B1%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          magento1.x的porto主题对产品分类页的重构之显示当前分类的子分类以及缩略图，以及调用当前分类的所有后代分类和侧边栏调用首页垂直菜单的方法
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-01-09 19:30:30" itemprop="dateCreated datePublished" datetime="2019-01-09T19:30:30+08:00">2019-01-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:58" itemprop="dateModified" datetime="2020-10-11T11:57:58+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/magento1/" itemprop="url" rel="index"><span itemprop="name">magento1</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>今天笔者分享一个magento商城网站中很普遍的一个需求：在分类页中如果有子分类，那么显示子分类到内容区，并且显示缩略图；需求二就是在当前分类页中显示当前分类的所有后台分类，包括子分类。</p>
+<p>最开始是这样的：</p>
+<p><img src="https://i.imgur.com/JTybwzS.jpg"></p>
+<p>那么如果想要把这个当前子目录显示到右边内容区，并且显示子目录的缩略图出来。怎么办呢？现在就以porto主题为例。</p>
+<p>思路：</p>
+<ul>
+<li>问题是一个模板文件的范畴，因此我们只需修改模板文件即可。</li>
+<li>问题的核心是调用子分类和缩略图。</li>
+</ul>
+<p><strong>首先：</strong>我们找到对应的模板文件：</p>
+<pre><code>/app/design/frontend/smartwave/porto/template/catalog/category/category_nav.phtml</code></pre>
+<p>最开始这个文件的内容如下：</p>
+<pre><code>&lt;?php $_categories = $this-&gt;getCurrentChildCategories() ?&gt;
+&lt;?php $_count = is_array($_categories)?count($_categories):$_categories-&gt;count(); ?&gt;
+&lt;?php
+    function cmpCatPosition($a, $b) &#123;
+        if ($a-&gt;position == $b-&gt;position)
+            return 0;
+        return ($a-&gt;position &gt; $b-&gt;position) ? 1 : -1;
+    &#125;
+    function getChildrenCategoriesHtml($_category)&#123;
+        $children = explode( &quot;,&quot;, $_category-&gt;getChildren() );
+        //usort($children, &#39;cmpCatPosition&#39;);
+        $content = &#39;&#39;;
+        $content .= &#39;&lt;li class=&quot;&#39;;
+        if(!$children[0])
+            $content .= &#39;has-no-children&#39;;
+        else
+            $content .= &#39;has-children&#39;;
+        $content .= &#39;&quot;&gt;&#39;;
+        $content .= &#39;&lt;a href=&quot;&#39;.$_category-&gt;getUrl().&#39;&quot; &#39;;
+        $content .= &#39;&gt;&#39;.$_category-&gt;getName().&#39;&lt;/a&gt;&#39;;
+        if($children[0])&#123;
+            $content .= &#39;&lt;a href=&quot;javascript:void(0)&quot; class=&quot;plus&quot;&gt;&lt;i class=&quot;icon-plus-squared&quot;&gt;&lt;/i&gt;&lt;/a&gt;&#39;;
+            $content .= &#39;&lt;ul&gt;&#39;;
+            foreach($children as $child)&#123;
+                $_subcat = Mage::getModel( &#39;catalog/category&#39; )-&gt;load( $child );
+                $content .= getChildrenCategoriesHtml($_subcat);
+            &#125;
+            $content .= &#39;&lt;/ul&gt;&#39;;
+        &#125;
+        $content .= &#39;&lt;/li&gt;&#39;;
+        return $content;
+    &#125;
+?&gt;
+&lt;?php if($_count): ?&gt;
+&lt;div class=&quot;block block-category-nav&quot;&gt;
+    &lt;h2&gt;nocti categories&lt;/h2&gt;
+    &lt;div class=&quot;block-title&quot;&gt;
+        &lt;strong&gt;&lt;span&gt;&lt;?php echo Mage::registry(&#39;current_category&#39;)-&gt;getName(); ?&gt;&lt;/span&gt;&lt;/strong&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;block-content&quot;&gt;
+        &lt;ul class=&quot;category-list&quot;&gt;
+        &lt;?php foreach ($_categories as $_category): ?&gt;
+            &lt;?php
+            if($_category-&gt;getIsActive())&#123;
+                echo getChildrenCategoriesHtml($_category);
+            &#125;
+            ?&gt;
+        &lt;?php endforeach ?&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+    jQuery(function($)&#123;
+        $(&quot;.block.block-category-nav .block-title&quot;).click(function()&#123;
+            if($(this).hasClass(&quot;closed&quot;))&#123;
+                $(&quot;.block.block-category-nav .block-content&quot;).slideDown();
+                $(this).removeClass(&quot;closed&quot;);
+            &#125; else &#123;
+                $(&quot;.block.block-category-nav .block-content&quot;).slideUp();
+                $(this).addClass(&quot;closed&quot;);
+            &#125;
+        &#125;);
+        $(&quot;.block.block-category-nav .category-list a.plus&quot;).click(function()&#123;
+            if($(this).parent().hasClass(&quot;opened&quot;))&#123;
+                $(this).parent().children(&quot;ul&quot;).slideUp();
+                $(this).parent().removeClass(&quot;opened&quot;);
+                $(this).children(&quot;i.icon-minus-squared&quot;).removeClass(&quot;icon-minus-squared&quot;).addClass(&quot;icon-plus-squared&quot;);
+            &#125; else &#123;
+                $(this).parent().children(&quot;ul&quot;).slideDown();
+                $(this).parent().addClass(&quot;opened&quot;);
+                $(this).children(&quot;i.icon-plus-squared&quot;).removeClass(&quot;icon-plus-squared&quot;).addClass(&quot;icon-minus-squared&quot;);
+            &#125;
+        &#125;);
+    &#125;);
+&lt;/script&gt;
+&lt;/div&gt;
+&lt;?php endif; ?&gt;</code></pre>
+<p>这个文件实现的功能就是获取当前分类的所有后台分类包括子分类。现在我们需要修改这个文件以达到我们的目的，为了方便还原笔者把这个文件备份下。现在我们开始修改：</p>
+<p>首先分析上面的代码：遍历当前分类的后代分类的函数是<code>getChildrenCategoriesHtml()</code>，而获取当前分类的函数是来自：</p>
+<pre><code>&lt;?php $_categories = $this-&gt;getCurrentChildCategories() ?&gt;</code></pre>
+<p>好的，明确这两点之后我们先找到getCurrentChildCategories()这个函数到底在哪里。我们可以把源码下载下来在sublime里面进行源码全搜索，会搜索出一这个函数在哪些文件中。最后我们定位到：</p>
+<pre><code>/app/code/core/Mage/Catalog/Block/Navigation.php</code></pre>
+<p>这个文件打开它，找到这个函数，它的代码如下：</p>
+<pre><code>public function getCurrentChildCategories()
+    &#123;
+        $layer = Mage::getSingleton(&#39;catalog/layer&#39;);
+        $category   = $layer-&gt;getCurrentCategory();
+        /* @var $category Mage_Catalog_Model_Category */
+        $categories = $category-&gt;getChildrenCategories();
+        $productCollection = Mage::getResourceModel(&#39;catalog/product_collection&#39;);
+        $layer-&gt;prepareProductCollection($productCollection);
+        $productCollection-&gt;addCountToCategories($categories);
+        return $categories;
+&#125;</code></pre>
+<p>我们需要把这个函数修改下，让这个函数获取的子分类有缩略图的这个字段，修改成如下代码：</p>
+<pre><code>public function getCurrentChildCategories()
+   &#123;
+        $layer = Mage::getSingleton(&#39;catalog/layer&#39;);
+        $category   = $layer-&gt;getCurrentCategory();
+        /* @var $category Mage_Catalog_Model_Category */
+        $collection = Mage::getModel(&#39;catalog/category&#39;)-&gt;getCollection();
+        /* @var $collection Mage_Catalog_Model_Resource_Eav_Mysql4_Category_Collection */
+        $collection-&gt;addAttributeToSelect(&#39;url_key&#39;)
+            -&gt;addAttributeToSelect(&#39;name&#39;)
+            -&gt;addAttributeToSelect(&#39;is_anchor&#39;)
+            -&gt;addAttributeToSelect(&#39;image&#39;)
+            -&gt;addAttributeToFilter(&#39;is_active&#39;, 1)
+            -&gt;addIdFilter($category-&gt;getChildren())
+            -&gt;setOrder(&#39;position&#39;, &#39;ASC&#39;)
+            -&gt;joinUrlRewrite()
+            -&gt;load();
+
+        $productCollection = Mage::getResourceModel(&#39;catalog/product_collection&#39;);
+        $layer-&gt;prepareProductCollection($productCollection);
+        $productCollection-&gt;addCountToCategories($collection);
+        return $collection;
+    &#125;</code></pre>
+<p>这里变化的就是中间那里。我们修改完成后保存。现在我们解决了获取图片的这个问题了。</p>
+<p>虽然获取图片这个字段已经有了，那么还得调用才能显示到模板文件，所以我们现在就解决下调用当前分类的子分类的图片问题。因此我们在函数getChildrenCategoriesHtml里面的合适位置，添加如下代码到category_nav.phtml文件中：</p>
+<pre><code>$content .=&#39;&lt;img src=&quot;&#39;.$_category-&gt;getImageUrl().&#39;&quot; style=&quot;max-width:140px;display:block;&quot;&gt;&#39;;</code></pre>
+<p><img src="https://i.imgur.com/sjq0XSo.jpg"></p>
+<p>这个就是获取分类图片的代码：</p>
+<pre><code>$_category-&gt;getImageUrl()</code></pre>
+<p>或者是给缩略语加上对应的链接的话：</p>
+<pre><code>&lt;a href=&quot;&lt;?php echo $_category-&gt;getUrl() ?&gt;&quot;&gt;&lt;img src=&quot;&lt;?php echo $_category-&gt;getImageUrl(); ?&gt;&quot; /&gt;&lt;/a&gt;</code></pre>
+<p>完成这个之后，虽然是可以把分类的图片调用出来，可是调用的是把当前分类的所有后台分类都调用出来，当然后台分类不多还好，万一当前这个分类有好几级，那么后台分类可能会很多，那么用户体验不是很好，那么可否只显示当前分类的子分类，而不显示子分类的子分类以及后面的那些？答案是可以的。我们回到文件category_nav.phtml中，我们通过分析发现控制子分类是来自这里的：</p>
+<pre><code>$children = explode( &quot;,&quot;, $_category-&gt;getChildren() );</code></pre>
+<p>从这个函数可以看出，这里是调用所有子分类（也就是笔者所说的后台分类）。我们只需要把这里修改下，改成：</p>
+<pre><code>$children = explode( &quot;,&quot;, $_category );</code></pre>
+<p>这样就不调用后台所有分类而是只调用当前分类的子分类了。整个category_nav.phtml文件修改后如下：</p>
+<pre><code>&lt;div class=&quot;nocti_custom_some&quot;&gt;
+    &lt;div class=&quot;newsgg&quot;&gt;
+        &lt;?php $_categories = $this-&gt;getCurrentChildCategories() ?&gt;
+        &lt;?php $_count = is_array($_categories)?count($_categories):$_categories-&gt;count(); ?&gt;
+        &lt;?php
+            function cmpCatPosition($a, $b) &#123;
+                if ($a-&gt;position == $b-&gt;position)
+                    return 0;
+                return ($a-&gt;position &gt; $b-&gt;position) ? 1 : -1;
+            &#125;
+            function getChildrenCategoriesHtml($_category)&#123;
+                // $children = explode( &quot;,&quot;, $_categories-&gt;getChildren() );
+                $children = explode( &quot;,&quot;, $_category );
+                //usort($children, &#39;cmpCatPosition&#39;);
+                $content = &#39;&#39;;
+                $content .= &#39;&lt;span class=&quot;&#39;;
+                if(!$children[0])
+                    $content .= &#39;has-no-children&#39;;
+                else
+                    $content .= &#39;has-children&#39;;
+                $content .= &#39;&quot;&gt;&#39;;
+                $content .=&#39;&lt;img src=&quot;&#39;.$_category-&gt;getImageUrl().&#39;&quot; style=&quot;max-width:140px;display:block;&quot;&gt;&#39;;
+                $content .= &#39;&lt;a href=&quot;&#39;.$_category-&gt;getUrl().&#39;&quot;&#39;;
+                $content .= &#39;&gt;&#39;.$_category-&gt;getName().&#39;&lt;/a&gt;&#39;;
+                if($children[0])&#123;
+                    $content .= &#39;&lt;a href=&quot;javascript:void(0)&quot; class=&quot;plus&quot;&gt;&lt;i class=&quot;icon-plus-squared&quot;&gt;&lt;/i&gt;&lt;/a&gt;&#39;;
+                    $content .= &#39;&lt;div&gt;&#39;;
+                    foreach($children as $child)&#123;
+                        $_subcat = Mage::getModel( &#39;catalog/category&#39; )-&gt;load( $child );
+                        $content .= getChildrenCategoriesHtml($_subcat);
+                    &#125;
+                    $content .= &#39;&lt;/div&gt;&#39;;
+                &#125;
+                $content .= &#39;&lt;/span&gt;&#39;;
+                return $content;
+            &#125;
+        ?&gt;
+        &lt;?php if($_count): ?&gt;
+        &lt;div class=&quot;block block-category-nav&quot;&gt;
+            &lt;div class=&quot;block-title&quot;&gt;
+                &lt;strong&gt;&lt;span&gt;&lt;?php echo Mage::registry(&#39;current_category&#39;)-&gt;getName(); ?&gt;&lt;/span&gt;&lt;/strong&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;block-content&quot;&gt;
+                &lt;div class=&quot;category-list&quot;&gt;
+                &lt;?php foreach ($_categories as $_category): ?&gt;
+                    &lt;?php
+                    if($_category-&gt;getIsActive())&#123;
+                        echo getChildrenCategoriesHtml($_category);
+                    &#125;
+                    ?&gt;
+                &lt;?php endforeach ?&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;script type=&quot;text/javascript&quot;&gt;
+            jQuery(function($)&#123;
+                $(&quot;.block.block-category-nav .block-title&quot;).click(function()&#123;
+                    if($(this).hasClass(&quot;closed&quot;))&#123;
+                        $(&quot;.block.block-category-nav .block-content&quot;).slideDown();
+                        $(this).removeClass(&quot;closed&quot;);
+                    &#125; else &#123;
+                        $(&quot;.block.block-category-nav .block-content&quot;).slideUp();
+                        $(this).addClass(&quot;closed&quot;);
+                    &#125;
+                &#125;);
+                $(&quot;.block.block-category-nav .category-list a.plus&quot;).click(function()&#123;
+                    if($(this).parent().hasClass(&quot;opened&quot;))&#123;
+                        $(this).parent().children(&quot;div&quot;).slideUp();
+                        $(this).parent().removeClass(&quot;opened&quot;);
+                        $(this).children(&quot;i.icon-minus-squared&quot;).removeClass(&quot;icon-minus-squared&quot;).addClass(&quot;icon-plus-squared&quot;);
+                    &#125; else &#123;
+                        $(this).parent().children(&quot;div&quot;).slideDown();
+                        $(this).parent().addClass(&quot;opened&quot;);
+                        $(this).children(&quot;i.icon-plus-squared&quot;).removeClass(&quot;icon-plus-squared&quot;).addClass(&quot;icon-minus-squared&quot;);
+                    &#125;
+                &#125;);
+            &#125;);
+        &lt;/script&gt;
+        &lt;/div&gt;
+        &lt;?php endif; ?&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<p>那么如何把这个显示到右边的内容区呢？其实很简单了，方法有两个：一个是改写分类页模板文件；另外一个方法是通过jquery把侧边栏的那个菜单调用到右边内容区，然后修改下样式即可。</p>
+<p>笔者采用后面一个方法，为了方便对dom元素进行操作，笔者为这个代码片段的最外层添加了一个div。好的，通过开发者工具判断，最后相应的js代码如下：</p>
+<pre><code>&lt;script&gt;
+    jQuery(document).ready(function()&#123;
+
+      if(jQuery(&quot;.sidebar&quot;).find(&quot;.nocti_custom_some&quot;).length &gt;= 1)&#123;
+        var currentSubcategories = jQuery(&quot;.nocti_custom_some&quot;).html();
+        jQuery(&quot;.sidebar .nocti_custom_some&quot;).empty();
+        jQuery(&quot;.category-products&quot;).before(currentSubcategories);
+      &#125;
+
+    &#125;);
+&lt;/script&gt;</code></pre>
+<p>当然我们为了更严谨我们可以进一步判断，如果两者都存在的情况下才执行代码，比如：</p>
+<pre><code>&lt;script&gt;
+    jQuery(document).ready(function()&#123;
+
+      if(jQuery(&quot;.sidebar&quot;).find(&quot;.nocti_custom_some&quot;).length &gt;= 1)&#123;
+        var currentSubcategories = jQuery(&quot;.nocti_custom_some&quot;).html();
+        if(jQuery(&quot;.main-container&quot;).find(&quot;.category-products&quot;).length &gt;= 1)&#123;
+            jQuery(&quot;.sidebar .nocti_custom_some&quot;).empty();
+            jQuery(&quot;.category-products&quot;).before(currentSubcategories);
+        &#125;
+      &#125;
+
+    &#125;);
+&lt;/script&gt;</code></pre>
+<p>这个代码解释了一切，就是把侧边栏的显示当前分类的子分类及其缩略图移到右边内容区的产品分类的前面位置。把js代码放在模板文件的合适位置即可，保存。最后我们看的效果如下：</p>
+<p><img src="https://i.imgur.com/k5PcAAO.jpg"></p>
+<p>当然，如果想要显示当前分类的所有后台分类的话，直接把上面修改完后的category_nav.phtml文件里的代码：</p>
+<pre><code>// $children = explode( &quot;,&quot;, $_categories-&gt;getChildren() );
+$children = explode( &quot;,&quot;, $_category );</code></pre>
+<p>改成：</p>
+<pre><code>$children = explode( &quot;,&quot;, $_categories-&gt;getChildren() );
+// $children = explode( &quot;,&quot;, $_category );</code></pre>
+<p>即可。这些细微的修改需要读者仔细领悟，了解这些函数的原理，当我们对magento的这些常用的函数了如指掌后相信会在同行中脱颖而出。</p>
+<hr>
+<p>题外话，用过magento的porto主题的读者可能很想要侧边栏有个像首页那样的垂直菜单。因为目前只有首页有，如果想要侧边栏有怎么办呢？这个菜单：</p>
+<p><img src="https://i.imgur.com/4blB29R.jpg"></p>
+<p>其实我们只需要找到首页垂直菜单对应的模板文件，我们不妨来到首页，里面就有一个垂直菜单的调用代码：</p>
+<pre><code>&#123;&#123;block type="core/template" template="smartwave/megamenu/html/sidemenu.phtml"&#125;&#125;</code></pre>
+<p>这个目录我们很快可以找到，然后打开它，里面的代码如下：</p>
+<pre><code>&lt;?php $menuHelper = Mage::helper(&#39;megamenu&#39;); ?&gt;
+&lt;?php $menuData = $menuHelper-&gt;getMenuData(); extract($menuData); ?&gt;
+&lt;?php $only_categories = $this-&gt;getOnlyCategories(); ?&gt;
+&lt;ul class=&quot;menu side-menu&quot;&gt;
+    &lt;?php echo $menuHelper-&gt;getMenuContent($only_categories); ?&gt;
+&lt;/ul&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+//&lt;![CDATA[
+var SW_MENU_POPUP_WIDTH = &lt;?php echo $_popupWidth; ?&gt;;
+jQuery(function($)&#123;
+    $(&#39;.menu.side-menu&#39;).et_menu(&#123;
+        type: &quot;default&quot;
+    &#125;);
+&#125;);
+//]]&gt;
+&lt;/script&gt;</code></pre>
+<p>那么我们如果想要在左侧边栏调用的话我们只需要找到目录：</p>
+<pre><code>app/design/frontend/smartwave/porto/template/page/2columns-left.phtml</code></pre>
+<p>把以上代码添加进去，最后如下：</p>
+<pre><code>...
+&lt;div class=&quot;main-container col2-left-layout&quot;&gt;
+    &lt;div class=&quot;main container&quot;&gt;
+        &lt;div class=&quot;row&quot;&gt;
+            &lt;div class=&quot;col-main col-sm-9 f-right&quot;&gt;
+                &lt;?php echo $this-&gt;getChildHtml(&#39;global_messages&#39;) ?&gt;
+                &lt;?php echo $this-&gt;getChildHtml(&#39;content&#39;) ?&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;col-left sidebar f-left col-sm-3&quot;&gt;
+
+                // add menu start
+                &lt;div class=&quot;extra_add_menu&quot;&gt;
+                    &lt;?php $menuHelper = Mage::helper(&#39;megamenu&#39;); ?&gt;
+                    &lt;?php $menuData = $menuHelper-&gt;getMenuData(); extract($menuData); ?&gt;
+                    &lt;?php $only_categories = $this-&gt;getOnlyCategories(); ?&gt;
+                    &lt;ul class=&quot;menu side-menu&quot;&gt;
+                        &lt;?php echo $menuHelper-&gt;getMenuContent($only_categories); ?&gt;
+                    &lt;/ul&gt;
+                &lt;/div&gt;
+                &lt;script type=&quot;text/javascript&quot;&gt;
+                //&lt;![CDATA[
+                var SW_MENU_POPUP_WIDTH = &lt;?php echo $_popupWidth; ?&gt;;
+                jQuery(function($)&#123;
+                    $(&#39;.menu.side-menu&#39;).et_menu(&#123;
+                        type: &quot;default&quot;
+                    &#125;);
+                &#125;);
+                //]]&gt;
+                &lt;/script&gt;
+                // add menu end
+
+                &lt;?php echo $this-&gt;getChildHtml(&#39;left&#39;) ?&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+...</code></pre>
+<p>这样我们就可以在侧边栏那里显示了：</p>
+<p><img src="https://i.imgur.com/OsbHl0v.jpg"></p>
+<p>当然了，还有其他的一些东西值得我们去挖掘。笔者分享到此结束，如有任何问题可与笔者取得联络。</p>
+<p><strong>更新</strong>2019/1/15 10:33:34 </p>
+<p>根据以上这个方法貌似有点小问题，缩略图显示不出来，这个时候，笔者又开始了新的探索，即使笔者根据上面的方法添加了，打开分类页还是这样的：</p>
+<p><img src="https://i.imgur.com/7FPJG72.jpg"></p>
+<p>也就是分类图还是没有显示出来，这个时候我们就需要调用当前分类的子分类的缩略图，一样的方式，我们通过全文搜索：Browse By，最终定位到这个来自：</p>
+<pre><code>/app/design/frontend/smartwave/porto/template/catalog/navigation/left.phtml</code></pre>
+<p>这个文件的代码如下：</p>
+<pre><code>&lt;?php
+/**
+ * Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Academic Free License (AFL 3.0)
+ * that is bundled with this package in the file LICENSE_AFL.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/afl-3.0.php
+ * If you did not receive a copy of the license and are unable to
+ * obtain it through the world-wide-web, please send an email
+ * to license@magentocommerce.com so we can send you a copy immediately.
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade Magento to newer
+ * versions in the future. If you wish to customize Magento for your
+ * needs please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   Copyright (c) 2014 Magento Inc. (http://www.magentocommerce.com)
+ * @license     http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
+ */
+
+/**
+ * Category left navigation
+ *
+ * @see Mage_Catalog_Block_Navigation
+ */
+?&gt;
+&lt;?php if (!Mage::registry(&#39;current_category&#39;)) return ?&gt;
+&lt;?php $_categories = $this-&gt;getCurrentChildCategories() ?&gt;
+&lt;?php $_count = is_array($_categories)?count($_categories):$_categories-&gt;count(); ?&gt;
+&lt;?php if($_count): ?&gt;
+&lt;div class=&quot;block block-layered-nav&quot;&gt;
+    &lt;div class=&quot;block-title&quot;&gt;
+        &lt;strong&gt;&lt;span&gt;&lt;?php echo $this-&gt;__(&#39;Browse By&#39;) ?&gt;&lt;/span&gt;&lt;/strong&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;block-content&quot;&gt;
+        &lt;dl id=&quot;narrow-by-list2&quot;&gt;
+            &lt;dt&gt;&lt;?php echo $this-&gt;__(&#39;Category&#39;) ?&gt;&lt;/dt&gt;
+            &lt;dd&gt;
+                &lt;ol&gt;
+                &lt;?php foreach ($_categories as $_category): ?&gt;
+                    &lt;?php if($_category-&gt;getIsActive()): ?&gt;
+                    &lt;li&gt;
+                        &lt;a href=&quot;&lt;?php echo $this-&gt;getCategoryUrl($_category) ?&gt;&quot;&lt;?php if ($this-&gt;isCategoryActive($_category)): ?&gt; class=&quot;current&quot;&lt;?php endif; ?&gt;&gt;&lt;?php echo $this-&gt;escapeHtml($_category-&gt;getName()) ?&gt;&lt;/a&gt; (&lt;?php echo $_category-&gt;getProductCount() ?&gt;)
+                    &lt;/li&gt;
+                    &lt;?php endif; ?&gt;
+                &lt;?php endforeach ?&gt;
+                &lt;/ol&gt;
+            &lt;/dd&gt;
+        &lt;/dl&gt;
+        &lt;script type=&quot;text/javascript&quot;&gt;decorateDataList(&#39;narrow-by-list2&#39;)&lt;/script&gt;
+        &lt;script type=&quot;text/javascript&quot;&gt;
+            jQuery(function($)&#123;
+                $(&quot;#narrow-by-list2 dt&quot;).click(function()&#123;
+                    if($(this).next(&quot;dd&quot;).css(&quot;display&quot;) == &quot;none&quot;)&#123;
+                        $(this).next(&quot;dd&quot;).slideDown(200);
+                        $(this).removeClass(&quot;closed&quot;);
+                    &#125; else &#123;
+                        $(this).next(&quot;dd&quot;).slideUp(200);
+                        $(this).addClass(&quot;closed&quot;);
+                    &#125;
+                &#125;);
+            &#125;);
+        &lt;/script&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;?php endif; ?&gt;</code></pre>
+<p>找到合适的位置添加缩略图的调用代码：</p>
+<pre><code>&lt;a class=&quot;suoluetu&quot; href=&quot;&lt;?php echo $_category-&gt;getUrl() ?&gt;&quot;&gt;&lt;img src=&quot;&lt;?php echo $_category-&gt;getImageUrl() ?&gt;&quot;&gt;&lt;/a&gt;</code></pre>
+<p>修改后代码如下：</p>
+<pre><code>...
+&lt;dl id=&quot;narrow-by-list2&quot;&gt;
+    &lt;dt&gt;&lt;?php echo $this-&gt;__(&#39;Category&#39;) ?&gt;&lt;/dt&gt;
+    &lt;dd&gt;
+        &lt;ol&gt;
+        &lt;?php foreach ($_categories as $_category): ?&gt;
+            &lt;?php if($_category-&gt;getIsActive()): ?&gt;
+            &lt;li&gt;
+                &lt;a class=&quot;suoluetu&quot; href=&quot;&lt;?php echo $_category-&gt;getUrl() ?&gt;&quot;&gt;&lt;img src=&quot;&lt;?php echo $_category-&gt;getImageUrl() ?&gt;&quot;&gt;&lt;/a&gt;
+                &lt;a href=&quot;&lt;?php echo $this-&gt;getCategoryUrl($_category) ?&gt;&quot;&lt;?php if ($this-&gt;isCategoryActive($_category)): ?&gt; class=&quot;current&quot;&lt;?php endif; ?&gt;&gt;&lt;?php echo $this-&gt;escapeHtml($_category-&gt;getName()) ?&gt;&lt;/a&gt; (&lt;?php echo $_category-&gt;getProductCount() ?&gt;)
+            &lt;/li&gt;
+            &lt;?php endif; ?&gt;
+        &lt;?php endforeach ?&gt;
+        &lt;/ol&gt;
+    &lt;/dd&gt;
+    &lt;hr style=&quot;clear:both;padding: 10px 0px;&quot;&gt;
+&lt;/dl&gt;
+...</code></pre>
+<p>最后，经过css的调整，我们得到如下效果：</p>
+<p><img src="https://i.imgur.com/2gDeSS1.jpg"></p>
+<p>那剩下的就是通过js的方式把侧边栏的这个分类调用到右边内容区的上方即可，js代码如下：</p>
+<pre><code>&lt;script&gt;
+jQuery(document).ready(function()&#123;
+
+  if(jQuery(&quot;.sidebar&quot;).find(&quot;#narrow-by-list2&quot;).length &gt;= 1)&#123;
+    var currentSubcategorie_2 = jQuery(&quot;#narrow-by-list2&quot;).html();
+    if(jQuery(&quot;.main-container&quot;).find(&quot;.category-products&quot;).length &gt;= 1)&#123;
+      jQuery(&quot;.sidebar #narrow-by-list2&quot;).empty();
+      jQuery(&quot;.category-products&quot;).prepend(currentSubcategorie_2).addClass(&#39;cate_content&#39;);
+    &#125;
+  &#125;
+
+&#125;);
+&lt;/script&gt;</code></pre>
+<p>最后效果如下：</p>
+<p><img src="https://i.imgur.com/3bkdxhj.jpg"></p>
+<p>好的，关于调用缩略图的方案到此为止，本文还会持续更新，敬请关注。</p>
+<p>参考链接：</p>
+<p><a target="_blank" rel="noopener" href="https://www.templatemonster.com/help/magento-listing-sub-categories-on-a-category-page.html">https://www.templatemonster.com/help/magento-listing-sub-categories-on-a-category-page.html</a><br><a target="_blank" rel="noopener" href="https://community.magento.com/t5/Magento-1-x-Programming/Display-subcategories-in-parent-category-with-category-images-in/m-p/15379#M3265">https://community.magento.com/t5/Magento-1-x-Programming/Display-subcategories-in-parent-category-with-category-images-in/m-p/15379#M3265</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/magento-porto-%E4%BA%A7%E5%93%81%E5%88%86%E7%B1%BB-%E4%BA%A7%E5%93%81%E5%88%86%E7%B1%BB%E5%9B%BE-%E4%BA%A7%E5%93%81%E5%88%86%E7%B1%BB%E7%BC%A9%E7%95%A5%E5%9B%BE-%E5%AD%90%E5%88%86%E7%B1%BB%E7%BC%A9%E7%95%A5%E5%9B%BE-%E5%BD%93%E5%89%8D%E5%88%86%E7%B1%BB/" rel="tag"># magento,porto,产品分类,产品分类图,产品分类缩略图,子分类缩略图,当前分类</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/01/08/wordpress%E7%9A%84enfold%E4%B8%BB%E9%A2%98%E6%89%8B%E6%9C%BA%E7%89%88%E8%8F%9C%E5%8D%95%E4%BC%98%E5%8C%96%E6%96%B9%E6%A1%88/" rel="prev" title="wordpress的enfold主题手机版菜单优化方案">
+      <i class="fa fa-chevron-left"></i> wordpress的enfold主题手机版菜单优化方案
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/01/17/wordpress%E7%9A%84enfold%E4%B8%BB%E9%A2%98%E5%B1%8F%E8%94%BD%E5%90%8E%E5%8F%B0%E4%B8%BB%E9%A2%98%E8%AE%BE%E7%BD%AE%E5%A4%84%E7%9A%84%E9%87%8D%E7%BD%AE%E6%8C%89%E9%92%AE%EF%BC%8C%E4%BB%A5%E5%8F%8A%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E7%AD%89%E9%80%89%E9%A1%B9/" rel="next" title="wordpress的enfold主题屏蔽后台主题设置处的重置按钮，以及导入导出等选项">
+      wordpress的enfold主题屏蔽后台主题设置处的重置按钮，以及导入导出等选项 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

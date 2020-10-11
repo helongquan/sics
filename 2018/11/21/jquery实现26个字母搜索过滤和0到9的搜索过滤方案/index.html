@@ -1,37 +1,1218 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="最近有个客户需求，想要实现一个从A-Z还有0-9的一个类似列表的东西，下方是所有内容的一个列表，当点击其中的一个字母或者数字，就会对下方的首字母符合选中的字母或者数字的记录进行筛选，并且显示出来，不符合的不显示，说得通俗一点，就是点击条件过滤内容的显示。  根据截图相信你已经明白我要表达的需求了，现在我们来看如何实现它。 HTML代码： &lt;div class&#x3D;&quot;et_pb_text">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jquery实现26个字母(A-Z)搜索过滤和0到9的搜索过滤方案">
+<meta property="og:url" content="http://example.com/2018/11/21/jquery%E5%AE%9E%E7%8E%B026%E4%B8%AA%E5%AD%97%E6%AF%8D%E6%90%9C%E7%B4%A2%E8%BF%87%E6%BB%A4%E5%92%8C0%E5%88%B09%E7%9A%84%E6%90%9C%E7%B4%A2%E8%BF%87%E6%BB%A4%E6%96%B9%E6%A1%88/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="最近有个客户需求，想要实现一个从A-Z还有0-9的一个类似列表的东西，下方是所有内容的一个列表，当点击其中的一个字母或者数字，就会对下方的首字母符合选中的字母或者数字的记录进行筛选，并且显示出来，不符合的不显示，说得通俗一点，就是点击条件过滤内容的显示。  根据截图相信你已经明白我要表达的需求了，现在我们来看如何实现它。 HTML代码： &lt;div class&#x3D;&quot;et_pb_text">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/dK76CYm.jpg">
+<meta property="og:image" content="https://i.imgur.com/nIeVPSf.jpg">
+<meta property="og:image" content="https://i.imgur.com/DBnLYT9.jpg">
+<meta property="article:published_time" content="2018-11-21T07:12:07.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:57:58.159Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="jquery,A-Z,0-9,过滤">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/dK76CYm.jpg">
+
+<link rel="canonical" href="http://example.com/2018/11/21/jquery%E5%AE%9E%E7%8E%B026%E4%B8%AA%E5%AD%97%E6%AF%8D%E6%90%9C%E7%B4%A2%E8%BF%87%E6%BB%A4%E5%92%8C0%E5%88%B09%E7%9A%84%E6%90%9C%E7%B4%A2%E8%BF%87%E6%BB%A4%E6%96%B9%E6%A1%88/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>jquery实现26个字母(A-Z)搜索过滤和0到9的搜索过滤方案 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/11/21/jquery%E5%AE%9E%E7%8E%B026%E4%B8%AA%E5%AD%97%E6%AF%8D%E6%90%9C%E7%B4%A2%E8%BF%87%E6%BB%A4%E5%92%8C0%E5%88%B09%E7%9A%84%E6%90%9C%E7%B4%A2%E8%BF%87%E6%BB%A4%E6%96%B9%E6%A1%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          jquery实现26个字母(A-Z)搜索过滤和0到9的搜索过滤方案
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-11-21 15:12:07" itemprop="dateCreated datePublished" datetime="2018-11-21T15:12:07+08:00">2018-11-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:58" itemprop="dateModified" datetime="2020-10-11T11:57:58+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript/" itemprop="url" rel="index"><span itemprop="name">javascript</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>最近有个客户需求，想要实现一个从A-Z还有0-9的一个类似列表的东西，下方是所有内容的一个列表，当点击其中的一个字母或者数字，就会对下方的首字母符合选中的字母或者数字的记录进行筛选，并且显示出来，不符合的不显示，说得通俗一点，就是点击条件过滤内容的显示。</p>
+<p><img src="https://i.imgur.com/dK76CYm.jpg"></p>
+<p>根据截图相信你已经明白我要表达的需求了，现在我们来看如何实现它。</p>
+<p><strong>HTML代码：</strong></p>
+<pre><code>&lt;div class=&quot;et_pb_text_inner&quot;&gt;
+    &lt;div class=&quot;cm-glossary table modern&quot;&gt;
+        &lt;div class=&quot;glossary-container no-counts&quot;&gt;
+            &lt;div class=&quot;progress-indicator&quot;&gt;
+                &lt;div id=&quot;glossaryList-nav&quot; class=&quot;listNav medium&quot; role=&quot;tablist&quot;&gt;
+                    &lt;div class=&quot;ln-letters&quot;&gt;
+                        &lt;a class=&quot;ln-all ln-selected&quot; aria-selected=&quot;true&quot; href=&quot;#&quot;&gt;ALL&lt;/a&gt;
+                        &lt;a class=&quot;ln-_&quot; href=&quot;#&quot;&gt;0-9&lt;/a&gt;
+                        &lt;a class=&quot;ln-0 lnletter-a ln-first&quot; href=&quot;#&quot;&gt;A&lt;/a&gt;
+                        &lt;a class=&quot;ln-1 lnletter-b&quot; href=&quot;#&quot;&gt;B&lt;/a&gt;
+                        &lt;a class=&quot;ln-2 lnletter-c&quot; href=&quot;#&quot;&gt;C&lt;/a&gt;
+                        &lt;a class=&quot;ln-3 lnletter-d&quot; href=&quot;#&quot;&gt;D&lt;/a&gt;
+                        &lt;a class=&quot;ln-4 lnletter-e&quot; href=&quot;#&quot;&gt;E&lt;/a&gt;
+                        &lt;a class=&quot;ln-5 lnletter-f&quot; href=&quot;#&quot;&gt;F&lt;/a&gt;
+                        &lt;a class=&quot;ln-6 lnletter-g&quot; href=&quot;#&quot;&gt;G&lt;/a&gt;
+                        &lt;a class=&quot;ln-7 lnletter-h&quot; href=&quot;#&quot;&gt;H&lt;/a&gt;
+                        &lt;a class=&quot;ln-8 lnletter-i&quot; href=&quot;#&quot;&gt;I&lt;/a&gt;
+                        &lt;a class=&quot;ln-9 lnletter-j&quot; href=&quot;#&quot;&gt;J&lt;/a&gt;
+                        &lt;a class=&quot;ln-10 lnletter-k&quot; href=&quot;#&quot;&gt;K&lt;/a&gt;
+                        &lt;a class=&quot;ln-11 lnletter-l&quot; href=&quot;#&quot;&gt;L&lt;/a&gt;
+                        &lt;a class=&quot;ln-12 lnletter-m&quot; href=&quot;#&quot;&gt;M&lt;/a&gt;
+                        &lt;a class=&quot;ln-13 lnletter-n&quot; href=&quot;#&quot;&gt;N&lt;/a&gt;
+                        &lt;a class=&quot;ln-14 lnletter-o&quot; href=&quot;#&quot;&gt;O&lt;/a&gt;
+                        &lt;a class=&quot;ln-15 lnletter-p&quot; href=&quot;#&quot;&gt;P&lt;/a&gt;
+                        &lt;a class=&quot;ln-16 lnletter-q&quot; href=&quot;#&quot;&gt;Q&lt;/a&gt;
+                        &lt;a class=&quot;ln-17 lnletter-r&quot; href=&quot;#&quot;&gt;R&lt;/a&gt;
+                        &lt;a class=&quot;ln-18 lnletter-s&quot; href=&quot;#&quot;&gt;S&lt;/a&gt;
+                        &lt;a class=&quot;ln-19 lnletter-t&quot; href=&quot;#&quot;&gt;T&lt;/a&gt;
+                        &lt;a class=&quot;ln-20 lnletter-u&quot; href=&quot;#&quot;&gt;U&lt;/a&gt;
+                        &lt;a class=&quot;ln-21 lnletter-v&quot; href=&quot;#&quot;&gt;V&lt;/a&gt;
+                        &lt;a class=&quot;ln-22 lnletter-w&quot; href=&quot;#&quot;&gt;W&lt;/a&gt;
+                        &lt;a class=&quot;ln-23 lnletter-x&quot; href=&quot;#&quot;&gt;X&lt;/a&gt;
+                        &lt;a class=&quot;ln-24 lnletter-y&quot; href=&quot;#&quot;&gt;Y&lt;/a&gt;
+                        &lt;a class=&quot;ln-25 lnletter-z ln-last&quot; href=&quot;#&quot;&gt;Z&lt;/a&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+                &lt;ul class=&quot;glossaryList&quot; role=&quot;tabpanel&quot; id=&quot;glossaryList&quot;&gt;
+                    &lt;li class=&quot;the-index-letter ln-_&quot; style=&quot;display: list-item;&quot;&gt;&lt;h2&gt;2&lt;/h2&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-_&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;2K Molding&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;A type of injection molding in which two resins with different properties are processed sequentially in separate cavities of a single tool.
+                             &lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;the-letter-separator&quot; style=&quot;display: list-item;&quot;&gt;&lt;/li&gt;
+                    &lt;li class=&quot;the-index-letter ln-_&quot; style=&quot;display: list-item;&quot;&gt;&lt;h2&gt;3&lt;/h2&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-_&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;3D Printing&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Also known as additive manufacturing, this refers to the production of a solid object by sequentially building up 2D layers of printing substrate.
+                             &lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;the-letter-separator&quot; style=&quot;display: list-item;&quot;&gt;&lt;/li&gt;
+                    &lt;li class=&quot;the-index-letter ln-0&quot; style=&quot;display: list-item;&quot;&gt;&lt;h2&gt;a&lt;/h2&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-0&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;A-Side&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;The A-Side is often the cosmetic side of the part. This side of the part is usually formed by the cavity or A-plate of the mold tool.
+                             &lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-0&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Additive Manufacturing, AM&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Also known as 3D printing, additive manufacturing involves the building of a three-dimensional object by the controlled deposition of two-dimensional layers of substrate. May also involve continuous, non-layering processes. Compare to subtractive manufacturing.
+                             &lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-0&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;AddSub®&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Star Rapid&#39;s exclusive hybrid service. This combines the flexibility of additive manufacturing with the precision of traditional subtractive production methods.
+                             &lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-0&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Angle Pin&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;A strategically placed inclined pin, designed to retract a sliding core in a plastic injection mold tool.
+                             &lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-0&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Anodizing&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;One type of surface passivation. An oxide layer on the surface of a part is created by replacing some of the surface molecules with ions from an electrolyte bath.
+                             &lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;the-letter-separator&quot; style=&quot;display: list-item;&quot;&gt;&lt;/li&gt;
+                    &lt;li class=&quot;the-index-letter ln-1&quot; style=&quot;display: list-item;&quot;&gt;&lt;h2&gt;b&lt;/h2&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-1&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;B-Side&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;The B-side is often the inside or non-cosmetic side of a molded part. This side is usually formed by the core or B-plate of the mold tool in injection molding or pressure die casting.
+                             &lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-1&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Baffle&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Flat or corkscrew shaped blades of metal inserted into the coolant channels of a mold tool to create a return coolant circuit within that channel.
+                             &lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-1&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Ball Nosed Endmill&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;In machining, a ball nosed endmill has a semi-circular cutting edge of a single radii.
+                             &lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-1&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Barrel (Molding Machine)&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Cylinder housing the screw and check ring of a plastic injection molding machine. The barrel is also heated to help melt the plastic resin within.
+                             &lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-1&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Bosses&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Projections or protrusions in cast or injected molded parts.
+                             &lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-1&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Bubblers&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Typically thin, hollow tubes that are fitted into drilled holes of an injection mold tool to supply coolant in narrow or hard to reach areas.
+                             &lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-1&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Build Plate&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Platform used in additive manufacturing upon which the layers of the part are built.
+                             &lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-1&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Bull Horn Gate&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;A type of submarine gate which gates on a face formed by the parting line.
+                             &lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-1&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Bullnose End Mill&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Similar to a standard endmill, these cutting tools have radiused corners of a known size.
+                             &lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-1&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Bump Off&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;A shallow undercut area of a molded part that is able to be formed without lifters, sliders or handloads.
+                        &lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;the-letter-separator&quot; style=&quot;display: list-item;&quot;&gt;&lt;/li&gt;
+                    &lt;li class=&quot;the-index-letter ln-2&quot; style=&quot;display: list-item;&quot;&gt;&lt;h2&gt;c&lt;/h2&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-2&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;CAD&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Computer Aided Design. The use of computer software to create 2D and 3D digital models of an object in preparation for manufacturing.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-2&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;CAM&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Computer Aided Manufacturing. Producing objects with computer controlled machine tools using digital data. &lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-2&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Cascade Gating&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;A type of sequential gating using hot runners, in which a series of gates are automatically activated in succession to fill a mold cavity.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-2&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Cavity&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Depression in a die casting or plastic injection mold tool, usually on the fixed or non-moving side of the mold. Typically forms the outside, convex and cosmetic face of the part. &lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-2&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Check Ring&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Fitted on the end of the screw inside the barrel of a plastic injection molding machine, the check ring acts as a non-return valve allowing correct holding pressures to be reached and maintained.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-2&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Chip Size&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;The size of the metal chips that are created during CNC cutting operations.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-2&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Clamp Force&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;The amount of pressure applied between the 2 platens of a molding machine.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-2&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;CMM&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Coordinate Measuring Machine. This is a precision CNC controlled measuring device. Using special probes this machine can access and measure part features to a very high degree of accuracy on multiple axes.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-2&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;CNC&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Computer Numeric Control. The precise control of automated machine tools via digital instructions derived from CAD/CAM software.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-2&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Cold Slug&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Semi solidified plastic material formed at the nozzle opening, blocking the flow of material during plastic injection molding.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-2&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Cold Slug Well&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;A trap placed opposite the sprue in an injection molding machine. Designed to capture a cold slug so that it does not interfere with the subsequent production cycle.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-2&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Compression Molding&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Type of molding in which the substrate is compressed between two mold halves, to be cured under heat and pressure into the final shape.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-2&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Conformal Cooling&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;The cooling of a mold tool using internal channels created via 3D printing. &lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-2&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Cooling Time&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;A waiting period for die casting or plastic injection molding, allowing the part to solidify within the mold so that it can be safely ejected from the tool without deformation.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-2&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Copolymer&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;A polymer derived from two or more monomers.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-2&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Core&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;One half of a typical plastic injection or die casting mold tool. This is the moveable, convex half which in turn forms a concave part surface.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-2&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Core Pin&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;A separate, removable insert in a plastic injection mold tool. Used to form a hole, aperture or other feature requiring high precision, or in areas requiring molded features difficult to access by other means.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-2&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Cusp Height&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;In machining, the raised areas between adjacent passes of cutters.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-2&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Cycle Time&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Production time required to complete one finished part in a molding operation and prepare for the next injection.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-2&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Cyclic Cooling&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;An approach to mold temperature control that allows rapid switching between hot and cold circuits. &lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;the-letter-separator&quot; style=&quot;display: list-item;&quot;&gt;&lt;/li&gt;
+                    &lt;li class=&quot;the-index-letter ln-3&quot; style=&quot;display: list-item;&quot;&gt;&lt;h2&gt;d&lt;/h2&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-3&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Date Marking&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Indexable inserts used to mark the date an item was injection molded. &lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-3&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Datum&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;A reference point on one or more faces, surfaces or features of a part, from which all other dimensions are calibrated. &lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-3&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Debossed&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Letters, logos or other graphic marks molded into a finished part, set below the surrounding surface.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-3&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Delamination&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Surface defect of an injection molded part due to the presence of contaminants within the machine.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-3&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Dial Indicator&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;A visual readout using a rotating dial mounted on a precision measurement gauge.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-3&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Diaphragm Gate&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;A variant of the edge gate, a diaphragm gate is used to gate around the full circumference of an internal hole on an injection molded part.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-3&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Dielectric&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Insulating fluid such as de-ionized water, used during electrical discharge machining (EDM).&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-3&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Dimensions&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Dimensions are measurable sizes of part features using standardized units. &lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-3&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Distortion&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;A malformation of an injected molded part due to poor design or process control errors.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-3&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;DMLM&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Direct Metal Laser Melting. A type of powder bed 3D metal printing using a laser to fully melt and bond successive layers of metal powder on a build platform.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-3&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Draft Angle&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;An angle applied to the design of a surface or side wall of a molded part, allowing it to be removed from an injection mold tool without damage.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-3&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Dryer&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Heated chamber used to remove excessive moisture from plastic pellets of raw material before injection molding.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-3&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;DWG&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;From &quot;drawing&quot;. A common CAD file format.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-3&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;DXF&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Drawing Exchange Format. A common CAD file format.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;the-letter-separator&quot; style=&quot;display: list-item;&quot;&gt;&lt;/li&gt;
+                    &lt;li class=&quot;the-index-letter ln-4&quot; style=&quot;display: list-item;&quot;&gt;&lt;h2&gt;e&lt;/h2&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-4&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Edge Gate&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;In injection molding, edge gates fill the mold cavity at a location along the split line, usually leaving behind a rectangular witness mark.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-4&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;EDM&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Electrical Discharge Machining. The removal of material from a workpiece using high-powered electrical current.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-4&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Ejection&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;The forced removal of a cast or injected part from a mold tool. &lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-4&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Ejector Blade&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Square or rectangular pins of different dimensions strategically placed in the mold to push out or eject the formed part during plastic injection molding&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-4&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Ejector Pin&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Round pins of different diameters strategically placed in the mold to push out or eject the formed part during plastic injection molding.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-4&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Ejector Plates&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Two-part platen system holding the ejector pins for plastic injection molding tools.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-4&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Electrode&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;A sacrificial conductor, usually of copper, which discharges high powered electrical current to erode the surface of a workpiece.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-4&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Embossed&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Lettering, logos or other features raised from the surrounding surface.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-4&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;End Mill&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;A cutting tool used in conventional milling. End mills have a flat cutting surface and sharp corners. See ball nose cutters, bull nose.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-4&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Engraving&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Etching text, logos or other graphical features into a part face with an ultrasonically vibrating stylus.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-4&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Etch&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Selective patterning or erosion of the surface of a part or mold tool to create a textured effect. &lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;the-letter-separator&quot; style=&quot;display: list-item;&quot;&gt;&lt;/li&gt;
+                    &lt;li class=&quot;the-index-letter ln-5&quot; style=&quot;display: list-item;&quot;&gt;&lt;h2&gt;f&lt;/h2&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-5&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Family Mold&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;A multi-cavity mold that creates two or more dissimilar parts for a single assembly.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-5&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Fan Gate&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;One type of edge gate in a plastic injection mold tool design, wider at the parting line of the tool halves.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-5&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;FDM&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Fused Deposition Modeling. A variant of 3D printing using plastic filament which is heated to the melting point and ejected from a nozzle in successive 2D layers onto a build platform to create a finished 3D shape.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-5&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Fixture&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;A clamp, vise or other device to hold a workpiece securely while it is being machined.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-5&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Flash&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;In plastic injection molding, a thin residue of waste plastic extruded from between the halves of a mold tool along the parting line. &lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-5&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Flow Front&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;The leading edge of molten plastic as it works its way through the mold cavity during injection. The front will be the first part to contact the solid walls of the cavity and hence to cool and solidify first.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-5&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Food Safe&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Plastic which has been approved for use in food storage or preparation.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-5&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Forced Ejection&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Ejecting a finished part from a plastic injection mold tool using undercuts instead of ejector pins.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;the-letter-separator&quot; style=&quot;display: list-item;&quot;&gt;&lt;/li&gt;
+                    &lt;li class=&quot;the-index-letter ln-6&quot; style=&quot;display: list-item;&quot;&gt;&lt;h2&gt;g&lt;/h2&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-6&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;G-Code&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Digital instructions, usually derived from a 3D CAD file, which control the precise tool path, speed and other customized parameters of CNC equipment.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-6&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Gas Trap&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Pockets or voids in a plastic injection mold tool that trap gas during an injection cycle, caused by insufficient venting.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-6&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Gate&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;A channel in a mold tool allowing molten material to flow from the runner to the cavity.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-6&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Gate Freeze Off Time&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;During a plastic injection molding cycle, the amount of time typically available for molten resin to fill a cavity before it begins to cool and harden. &lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-6&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;GD&amp;T&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Geometric Dimension and Tolerance. This is the industry-standard symbolic language for annotating physical features and allowable variations on engineering drawings.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;the-letter-separator&quot; style=&quot;display: list-item;&quot;&gt;&lt;/li&gt;
+                    &lt;li class=&quot;the-index-letter ln-7&quot; style=&quot;display: list-item;&quot;&gt;&lt;h2&gt;h&lt;/h2&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-7&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Handload&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;A manually placed and removed component to allow the molding of undercuts in a plastic injection mold tool.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-7&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Heel Block&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;An angled face that engages with a matching angle on the back of a sliding core to hold it in place.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-7&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Height Gauge&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Measuring device used to determine the height of a feature relative to a flat, horizontal surface plate.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-7&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Homopolymer&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;A thermopolymer resin derrived from a single monomer.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-7&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Hopper&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Drum or cylinder into which is loaded plastic pellets for injection molding.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-7&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Hot Runner/Manifold&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;In plastic injection molding, this is a heated system of channels used to distribute molten resin from the machine nozzle to hot tip locations within a mold. &lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-7&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Hot Sprue&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;A heated, tapered hole in a plastic injection mold tool that allows material to flow directly from the machine nozzle into the mold cavity.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-7&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Hot Tip&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Sliding cores in plastic injection mold tools that are actuated with hydraulic power. Compare to manual sliders.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-7&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Hydraulic Cores&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Sliding cores in plastic injection mold tools that are actuated with hydraulic power. Compare to manual sliders.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;the-letter-separator&quot; style=&quot;display: list-item;&quot;&gt;&lt;/li&gt;
+                    &lt;li class=&quot;the-index-letter ln-8&quot; style=&quot;display: list-item;&quot;&gt;&lt;h2&gt;i&lt;/h2&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-8&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;IGES&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Acronym for Initial Graphics Exchange Specification. This is a CAD file format for 3D data.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-8&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;In Mold Labeling&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Date stamps, material codes or other information applied to a part during the molding process via customized molding inserts.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-8&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Infill&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;During additive manufacturing, infill is additional material added between layers to fill any gaps or voids left by the printing process.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-8&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Injection&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Molten thermoplastic or thermoforming resin forced into a mold cavity under pressure.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-8&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Insert Molding&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Plastic injection molding around the circumference of a metal insert.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-8&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;International Standards Organization&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Organization that establishes consesus-based, market-driven standards applying to a wide variety of industries and services.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;the-letter-separator&quot; style=&quot;display: list-item;&quot;&gt;&lt;/li&gt;
+                    &lt;li class=&quot;the-index-letter ln-9&quot; style=&quot;display: list-item;&quot;&gt;&lt;h2&gt;j&lt;/h2&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-9&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Jetting&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;An injection molding defect that causes snake-like lines on the surface of a molding. Often caused when material leaves a smaller gate at high velocity directly into a thick section of the part or cavity.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;the-letter-separator&quot; style=&quot;display: list-item;&quot;&gt;&lt;/li&gt;
+                    &lt;li class=&quot;the-index-letter ln-10&quot; style=&quot;display: list-item;&quot;&gt;&lt;h2&gt;k&lt;/h2&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-10&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Knock Backs&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;A pin inside the plastic injection mold. After the mold is closed, it maintains a consistent gap between the cavity and core which is filled with resin during injection.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;the-letter-separator&quot; style=&quot;display: list-item;&quot;&gt;&lt;/li&gt;
+                    &lt;li class=&quot;the-index-letter ln-11&quot; style=&quot;display: list-item;&quot;&gt;&lt;h2&gt;l&lt;/h2&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-11&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Lathe&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Machine tool for creating round profiles and cavities with concentric or rotational features. &lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-11&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Layer Height&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Average thickness of a deposited layer of substrate in additive manufacturing.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-11&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Line of Draw&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Main direction of motion for opening/closing the halves of a casting or injection mold tool.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-11&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Live Tooling&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Rotating cutting tools mounted in a lathe or turn mill tool turret for CNC machining.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-11&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Living Hinge&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;A plastic hinge formed by exploiting the ability of some plastics to bend repeatedly without breaking.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;the-letter-separator&quot; style=&quot;display: list-item;&quot;&gt;&lt;/li&gt;
+                    &lt;li class=&quot;the-index-letter ln-12&quot; style=&quot;display: list-item;&quot;&gt;&lt;h2&gt;m&lt;/h2&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-12&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;M-Code&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Machine language for programming auxiliary functions in CNC machine tools. See also G-Code.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-12&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Master Batch&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Heavily pigmented plastic resin used to add color for plastic injection molded parts.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-12&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Melt Temperature&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Temperature at which plastic resin achieves a liquid or molten state and can therefore be molded.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-12&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Metal Safe&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Deliberately making some high-precision metal parts in mold tools oversized, so they can later be machined down to final dimensions.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-12&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Micrometer&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Precise measuring tool providing graduated measurements calibrated in microns.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-12&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Mill Turn&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;A lathe that is fitted with live tooling enabling milling operations to be carried out on turned components.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-12&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Modular Unit Die&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;A holding fixture of standard size which acts as a base for securing mold tools in a plastic injection molding machine.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-12&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Mold Base&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Custom core/cavity mold tools are made to fit inside of a mold base, which in turn is placed inside a plastic injection molding machine.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-12&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Mold Locks&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Precision machined tapered features on mold tools with male and female halves. &lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-12&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Mold Temperature&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Optimum temperature of a plastic injection mold tool based on the resin compound being molded.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-12&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Molding Cycle&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;A molding cycle is composed of the following steps: Close, Inject, Pack, Cool, Open, Eject and Close. &lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-12&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Multi Cavity&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;A pressure die casting or plastic injection mold tool with multiple cavities, for creating more than one part in a given cycle.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;the-letter-separator&quot; style=&quot;display: list-item;&quot;&gt;&lt;/li&gt;
+                    &lt;li class=&quot;the-index-letter ln-13&quot; style=&quot;display: list-item;&quot;&gt;&lt;h2&gt;n&lt;/h2&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-13&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Nominal&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Of or pertaining to the precise numerical value of a dimension. Usually taken as the reference dimension from which allowable deviation must be made in most processes. &lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-13&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Nozzle&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Fitting in a plastic injection molding machine, used to eject molten resin from the barrel into the mold.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;the-letter-separator&quot; style=&quot;display: list-item;&quot;&gt;&lt;/li&gt;
+                    &lt;li class=&quot;the-index-letter ln-14&quot; style=&quot;display: list-item;&quot;&gt;&lt;h2&gt;o&lt;/h2&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-14&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;O-Ring&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;A soft elastomer seal with a circular cross-section.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-14&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;OES&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Optical Emission Spectroscopy. A method of positive material identification (PMI).&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-14&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;OMOM®&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;One Man One Mold. Star Rapid&#39;s proprietary service for fast-turnaround tools created by a single master craftsman.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-14&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Outsert Molding&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Method of plastic injection molding in which the molded material is formed inside of a metal fitting. Compare to insert molding.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-14&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Overmolding&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;An injection molding technique that allows a second injection cycle to mold plastic on top of an already molded base material.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;the-letter-separator&quot; style=&quot;display: list-item;&quot;&gt;&lt;/li&gt;
+                    &lt;li class=&quot;the-index-letter ln-15&quot; style=&quot;display: list-item;&quot;&gt;&lt;h2&gt;p&lt;/h2&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-15&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Packing&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;In plastic injection molding, a secondary application of pressure to a filled mold to ensure full part density and close dimensional tolerances.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-15&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Parting Line&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;The parting line is the physical break or split between the two halves of a plastic injection or pressure die casting mold.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-15&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Pigment&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Coloring agent used in plastics, paints, and other raw materials.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-15&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Pin Gauge&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Precision ground, hardened metal pins of known diameter and tolerance used for measurement.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-15&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Pin Push&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;A defect in plastic injection molding that usually presents as stress marks on the A-surface of the part directly opposite the ejector pins. &lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-15&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Plastic Injection Molding&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Manufacturing process using thermoforming plastic resin injected under pressure into the empty cavity of a mold tool to make multiple copies.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-15&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Platten&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;The large fixed and moving plates in an injection molding machine. The mold halves are clamped to these plates.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-15&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Positive Material Identification&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;PMI. The process for accurately identifying metal and plastic material by directly analysing its molecular or chemical composition and comparing the results against a known sample or database. &lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-15&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Pressure Die Casting&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;PDC. Technique for creating solid parts by injecting molten metal under pressure into the cavity of a die casting mold.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-15&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Process Control&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Controlling the parameters of the plastic injection molding cycle to ensure optimal and repeatable part quality.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-15&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Push Backs&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;A pin inside the plastic injection mold. After the mold is closed, it maintains a consistent gap between the cavity and core which is filled with resin during injection.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;the-letter-separator&quot; style=&quot;display: list-item;&quot;&gt;&lt;/li&gt;
+                    &lt;li class=&quot;the-index-letter ln-16&quot; style=&quot;display: list-item;&quot;&gt;&lt;h2&gt;q&lt;/h2&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-16&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Quality Control&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Processes and procedures for measuring and recording numerical and subjective parameters affecting the visual and physical attributes of a manufactured part.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-16&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Quenching&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;This is the rapid cooling of a workpiece to achieve specific material properties such as hardness. Normally part of the heat treatment process of metal used for mold tooling.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;the-letter-separator&quot; style=&quot;display: list-item;&quot;&gt;&lt;/li&gt;
+                    &lt;li class=&quot;the-index-letter ln-17&quot; style=&quot;display: list-item;&quot;&gt;&lt;h2&gt;r&lt;/h2&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-17&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Resin&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Thermoforming or thermosetting plastic material used for injection molding.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-17&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Return Pins&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;A pin inside the plastic injection mold. After the mold is closed, it maintains a consistent gap between the cavity and core which is filled with resin during injection.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-17&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Ribs&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Support structures in molded parts, usually placed at right angles to walls or bosses. &lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-17&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Rockwell&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;An industry standard method for specifying material hardness.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-17&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Runner&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Feed channels cut into the faces of plastic injection molds, directing the plastic from the sprue to the gate. &lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;the-letter-separator&quot; style=&quot;display: list-item;&quot;&gt;&lt;/li&gt;
+                    &lt;li class=&quot;the-index-letter ln-18&quot; style=&quot;display: list-item;&quot;&gt;&lt;h2&gt;s&lt;/h2&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-18&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Screw (Molding Machine)&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Long helical gear inside the barrel of a plastic injection molding machine. The screw helps to transport, heat and compress the resin for molding.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-18&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Short Shot&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;An injection molding defect where material has failed to completely fill the cavity. &lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-18&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Shot&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Total volume of material injected into a mold cavity during one cycle.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-18&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Shot Weight&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;The total weight of all parts, sprues, runners and gates produced in a single molding cycle&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-18&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;shrink&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Decrease in volume of material when it transitions from a molten to a solid state. Varies according to the material type and part geometry. Fillers such as glass fiber can also affect shrinkage.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-18&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Shrink Fit&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Using heat to expand a collet, which then shrinks to form a tight mechanical fit with a cutting tool.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-18&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;SLA&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Stereolithography. A 3D printing technique using ultraviolet (UV) light to successively cure layers of light-sensitive liquid polymer and fuse it into a 3D solid.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-18&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Sleeve Ejector&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;A cylindrical ejector pin with a precision bore cut through the center allowing the sleeve to pass over a fixed core pin.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-18&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Slider/Sliding Core&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;An automatic mechanism built into an injection mold to form undercuts or holes on the part. The opening and closing action of the mold pushes and retracts the undercut detail using angled pins and wedges.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-18&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;SLS&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Selective Laser Sintering. An additive manufacturing process using a high powered laser to fuse successive layers of powdered metal or plastic into a three-dimensional solid.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-18&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Society of the Plastics Industry&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;American trade and regulatory organization, recently changed name to Plastics Industry Association. They are responsible for creating a series of standard surface texture gauges for plastic injection molding tools.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-18&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Spark Erosion&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Method for removing small amounts of metal from a work surface through a series of high-energy discharges of current from a charged electrode within a dielectric or insulating bath.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-18&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Split Line&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Mark left on a molded part indicating where the two halves of the mold separate or the edges of a sliding core form an undercut.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-18&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Sprue&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;The portion of the runner system between the nozzle of the injection molding machine and the runner system in the mold.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-18&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Sprue Bush&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;A bushing in a mold which presses agains the nozzle of the injection machine to give passage to the runner system within the mold.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-18&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Sprue Puller&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;An undercut opposite the sprue which causes the sprue to be pulled out of the sprue bush ready for ejection.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-18&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;STL&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Stereolithography. Original CAD file format developed for the stereolithography additive manufacturing technology invented by Chuck Hull.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-18&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;STP/STEP&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;An ISO-standard data file format for creating and distributing CAD files.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-18&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Stress Marks&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Visual marks on an injected molded part where unequal heating and cooling during manufacture caused local distortion.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-18&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Stripper Plate&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Moveable plate used to push molded parts off of a mold core after injection. &lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-18&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Sub Gate&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;A type of gate from the runner sytem into the component which goes below the parting lines, generally into a sidewall of the component, thus giving the advantage of automatic degating during ejection.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-18&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Subtractive Manufacturing&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Conventional manufacturing processes where successive amounts of material are removed from a workpiece with cutting, drilling or grinding tools. Compare to additive manufacturing.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-18&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Supports&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Load-bearing structures added to 3D printed parts to provide stability during the printing process. &lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-18&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Surface Coating&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;An application of material on the surface of a workpiece to alter its physical, chemical or cosmetic properties.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-18&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Surface Finish&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;The texture of a part&#39;s surface, which can be measured as a roughness (Ra) value. Also, a subjective determination of surface appearance.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-18&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Surface Plate&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;A very flat and hard horizontal surface forming the base for measurement, tool setup and layout.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-18&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Surfometer&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Device for measuring surface roughness by dragging a sensitive stylus across the workpiece and recording the electronic wavelength so generated.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;the-letter-separator&quot; style=&quot;display: list-item;&quot;&gt;&lt;/li&gt;
+                    &lt;li class=&quot;the-index-letter ln-19&quot; style=&quot;display: list-item;&quot;&gt;&lt;h2&gt;t&lt;/h2&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-19&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Tap&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Male cutting tool used to create internal threads.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-19&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Texture&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;An organized and repeating pattern applied to the surface of a mold tool or finished part. Compare to Roughness.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-19&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Thermoplastics&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;One group of moldable plastic resins which become molten when heated. Once set, thermoplastics can be re-melted and remolded with the addition of heat, so their physical state is said to be reversible.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-19&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Thermoset&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;One group of moldable plastic compounds which are comprised of two or more constituents undergoing a chemical change during processing and molding. Once molded, the process is irreversible.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-19&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Three Plate Mold&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;The third plate creates a parting line that is used for the runner system that allows the gates to be on the upper surface of the component away from of the core and cavity parting line.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-19&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Thumbnail/Toenail Ejector&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;A round ejector pin that overlaps the side wall or edge of the component thus partially contacting the edge of the cavity.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-19&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Tolerance&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Allowable deviation away from a nominal value.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-19&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Transfer Molding&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;A molding method using a pre-measured amount of solid or powder material that is placed in the transfer pot then forced from the transfer pot into a closed cavity and core area of a heated mold.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-19&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Turn Gate&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;A rotating gate in a multi-cavity injection mold tool which is able to selectively close off different cavities. &lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-19&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Two Stage Ejection&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Ejection of a molded or die cast part from a mold tool, requiring more than one releasing step per cycle.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;the-letter-separator&quot; style=&quot;display: list-item;&quot;&gt;&lt;/li&gt;
+                    &lt;li class=&quot;the-index-letter ln-20&quot; style=&quot;display: list-item;&quot;&gt;&lt;h2&gt;u&lt;/h2&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-20&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Undercut&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;A hole or feature in a plastic injection molded part design that is not in line of draw. Typically an undercut will trap the part in the mold if undercut release mechanisms aren&#39;t used.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-20&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Undercut Release Mechanism&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;A moving component in a plastic injection mold tool to allow the molding and subsequent release of the formed part at the undercut location.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-20&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;UV Stable&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Plastic molding resin which is formulated to resist the deteriorating effects of UV light.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;the-letter-separator&quot; style=&quot;display: list-item;&quot;&gt;&lt;/li&gt;
+                    &lt;li class=&quot;the-index-letter ln-21&quot; style=&quot;display: list-item;&quot;&gt;&lt;h2&gt;v&lt;/h2&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-21&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Vacuum Casting&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Method of creating copies of a master pattern, using liquid resin poured into a silicon mold which is then cured in a vacuum chamber. &lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-21&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Vacuum Fixture&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Holding fixture for CNC machining making use of vacuum pressure. Often used on thin, flat sheets of material where other clamping methods would be ineffective.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-21&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Vacuum Hardening&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Method of heat treating steel alloys within a vacuum chamber to prevent oxidation during the heating cycle.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-21&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Valve Gate&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;A mechanical valve used in a hot runner system of an injection mold tool which closes off the gate between injection cycles. &lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-21&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Vapor Polishing&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Method of creating a very smooth surface on some transparent plastics to achieve optical clarity. The surface is melted with a reactive gas to cause it to flow and fill in minute cracks, scratches or voids.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-21&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;VDI&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Society of German Engineers. Comparator templates used for grading EDM surface textures.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-21&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Vent&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Opening in a plastic injection mold to allow air to escape as the cavity is filled.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-21&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Vernier Calliper&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Precise measuring device comprised of opposing jaws which slide apart on a graduated beam to provide accurate measurement of length.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-21&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Vice&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Holding device which clamps the workpiece between opposing faces of jaws mounted on sliding screws to accommodate parts of different sizes.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;the-letter-separator&quot; style=&quot;display: list-item;&quot;&gt;&lt;/li&gt;
+                    &lt;li class=&quot;the-index-letter ln-22&quot; style=&quot;display: list-item;&quot;&gt;&lt;h2&gt;w&lt;/h2&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-22&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Wall&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Vertical structures in molded parts, usually defining the exterior volume of a part cavity.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-22&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Warp&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Distortion of an injection molded or pressure die cast part caused by unequal cooling rates after molding.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-22&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Water Channels&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Fluid passages machined into die cast and injection molding tools, allowing the passage of coolant for temperature control.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-22&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Weld Line&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Visible mark on a molded part&#39;s surface, usually occurring around an obstruction such as a hole or cutout. Formed as a consequence of two flow fronts meeting during the injection cycle and cooling at differing rates.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-22&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Winkle Gate&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;See Bull Horn Gate.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-22&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Wire EDM&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;Electrical discharge machining, using a brass wire as a sacrificial conductor to cut precise shapes through hardened steels.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;the-letter-separator&quot; style=&quot;display: list-item;&quot;&gt;&lt;/li&gt;
+                    &lt;li class=&quot;the-index-letter ln-23&quot; style=&quot;display: list-item;&quot;&gt;&lt;h2&gt;x&lt;/h2&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-23&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;X-Axis&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;One of three primary axes of movement in a three-dimensional X-Y-Z coordinate system. Generally assumed to be horizontal to the viewer&#39;s reference.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-23&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;XRF&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;X-Ray Fluorescence. Non-destructive analytical test for determining a material&#39;s composition by bombarding the surface with high-energy x-rays and reading the resulting emitted spectra, which is unique for all material types.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;the-letter-separator&quot; style=&quot;display: list-item;&quot;&gt;&lt;/li&gt;
+                    &lt;li class=&quot;the-index-letter ln-24&quot; style=&quot;display: list-item;&quot;&gt;&lt;h2&gt;y&lt;/h2&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-24&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Y-Axis&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;One of three primary axes of movement in a three-dimensional coordinate system. Generally considered to be vertical to the viewer&#39;s reference.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;the-letter-separator&quot; style=&quot;display: list-item;&quot;&gt;&lt;/li&gt;
+                    &lt;li class=&quot;the-index-letter ln-25&quot; style=&quot;display: list-item;&quot;&gt;&lt;h2&gt;z&lt;/h2&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-25&quot; style=&quot;display: list-item;&quot;&gt;&lt;span class=&quot;glossaryLinkMain &quot;&gt;Z-Axis&lt;/span&gt;
+                        &lt;div class=&quot;glossary_itemdesc&quot;&gt;One of three primary axes of movement in a three-dimensional coordinate system. Generally considered to be towards or away from the viewer&#39;s reference.&lt;/div&gt;
+                    &lt;/li&gt;
+                    &lt;li class=&quot;ln-no-match&quot; style=&quot;display: none;&quot;&gt;Nothing found. Please change the filters.&lt;/li&gt;
+                &lt;/ul&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<p>其实，我们完全没有必要写得跟这个一模一样，为了达到更好的效果，笔者只能原滋原味的把客户参考的那个网站的内容全部获取了，而且dom结构也不用跟这个一样，主要是为了方便跟参考网站的样式一样，笔者连css也套用参考网站的了。</p>
+<p><strong>CSS代码：</strong></p>
+<pre><code>&lt;style&gt;
+.cm-glossary.table.modern ul.glossaryList &gt; li &#123;
+    list-style: none;
+    list-style-type: none;
+    min-height: 1.5em;
+    border: 1px solid #EAEAEA;
+    margin:5px auto;
+    position: relative !important;
+&#125;
+.cm-glossary.table.modern ul.glossaryList li &gt; div.glossary_itemdesc &#123;
+    width: 60%;
+    list-style: none;
+    list-style-type: none;
+    margin-left: 37%;
+    min-height: 3em;
+    padding: 0.5em 0 0.5em 2%;
+    border-left: 1px solid #E5E5E5;
+    word-wrap: break-word;
+&#125;
+.glossary-container.no-counts .medium .ln-letters a &#123;
+    font-size: 10pt;
+    line-height: 1.25em;
+&#125;
+.glossaryList&#123;
+    clear:both !important;
+    padding-top: 20px;
+    margin-left: 0px;
+&#125;
+.ln-letters a &#123;
+    font-size: 7pt;
+    display: block;
+    float: left;
+    padding: 2px 6px;
+    border: 1px solid silver;
+    text-decoration: none;
+    margin-left: -1px;
+    box-shadow: none;
+    cursor:pointer;
+&#125;
+.glossaryLinkMain&#123;
+    position: absolute;
+    top: 30%;
+    left: 10px;
+&#125;
+.the-index-letter&#123;
+  border:0px solid transparent !important;
+&#125;
+.the-letter-separator&#123;display:none !important;&#125;
+&lt;/style&gt;</code></pre>
+<p>这个稍微懂点css的相信都已经理解这个什么意思了。而最有意思的是js代码，由于这里依赖了jquery，所以笔者先引用jquery，再写js代码。</p>
+<p><strong>JS代码：</strong></p>
+<pre><code>&lt;script src=&quot;https://code.jquery.com/jquery-3.2.1.min.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+$(document).ready(function()&#123;
+   $(&quot;.ln-letters a&quot;).click(function()&#123;
+       $(this).css(&#123;&quot;background&quot;:&quot;#9AB861&quot;&#125;).css(&#123;&quot;color&quot;:&quot;#fff&quot;&#125;).siblings().css(&#123;&quot;background&quot;:&quot;#fff&quot;&#125;).css(&#123;&quot;color&quot;:&quot;#333&quot;&#125;);
+       var current_seleted = $(this).text();
+       var content_totals = $(&quot;.glossaryList li .glossaryLinkMain&quot;);
+       console.log(content_totals.length);
+       for (var i = content_totals.length - 1; i &gt;= 0; i--) &#123;
+            if ($(content_totals[i]).text().split(&quot;&quot;)[0].toUpperCase() === current_seleted) &#123;
+                // console.log($(content_totals[i]).text().split(&quot;&quot;)[0]);
+                $(content_totals[i]).parent().siblings(&#39;.biaoti&#39;).remove();
+                $(content_totals[i]).parent().before(&quot;&lt;li class=&#39;biaoti ln-0&#39; style=&#39;border:0px solid !important&#39;&gt;&lt;h2&gt;&quot;+current_seleted+&quot;&lt;/h2&gt;&lt;/li&gt;&quot;);
+                $(content_totals[i]).parent().css(&#123;&quot;display&quot;:&quot;block&quot;&#125;);
+            &#125;else if(current_seleted === &#39;0-9&#39;)&#123;
+                $(content_totals[i]).parent(&#39;.ln-_&#39;).css(&#123;&quot;display&quot;:&quot;block&quot;&#125;).siblings(&quot;li:not(.ln-_)&quot;).css(&#123;&quot;display&quot;:&quot;none&quot;&#125;);
+            &#125;else if(current_seleted === &#39;ALL&#39;)&#123;
+                $(content_totals[i]).parent().css(&#123;&quot;display&quot;:&quot;block&quot;&#125;);
+                $(content_totals[i]).parent().siblings(&#39;.the-index-letter&#39;).css(&#123;&quot;display&quot;:&quot;block&quot;&#125;);
+            &#125;else&#123;
+                $(content_totals[i]).parent().css(&#123;&quot;display&quot;:&quot;none&quot;&#125;);
+                $(content_totals[i]).parent().siblings(&#39;.the-index-letter&#39;).css(&#123;&quot;display&quot;:&quot;none&quot;&#125;);
+            &#125;
+       &#125;
+   &#125;);
+&#125;)
+&lt;/script&gt;</code></pre>
+<p>这里的写法需要大家观察一下html代码的dom结构和dom的规律，然后进行判断，如果大家是自己从头到尾的开发，或者是从后端获取的数据过来的，那么可以自己构造一些class和dom结构，以方便自己实现点击过滤，这个是题外话，我们这个js代码是基于前面的dom结构来的。</p>
+<p>好的，当我们完成这些之后，我们的任务就完成了，把这些放在页面上就可以看到效果。</p>
+<blockquote>
+<p>这里说明一下：客户就是想把所有的内容写死在这个页面里，所以html代码会写很多，笔者觉得这个东西应该是从后端读取数据，然后渲染出来的，然后根据点击进行相应的过滤。</p>
+</blockquote>
+<p>最后的效果，笔者粘贴一下：</p>
+<p><img src="https://i.imgur.com/nIeVPSf.jpg"></p>
+<p><img src="https://i.imgur.com/DBnLYT9.jpg"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/jquery-A-Z-0-9-%E8%BF%87%E6%BB%A4/" rel="tag"># jquery,A-Z,0-9,过滤</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/11/20/%E6%89%8B%E6%8C%81%E6%89%8B%E6%9C%BA%E4%BD%9C%E4%B8%BA%E8%83%8C%E6%99%AF%E7%9A%84%E6%BB%9A%E5%8A%A8%E5%88%87%E6%8D%A2%E6%95%88%E6%9E%9C%E6%96%B9%E6%A1%88%E5%9C%A8wordpress%E4%B8%8A%E7%9A%84%E5%AE%9E%E7%8E%B0/" rel="prev" title="手持手机作为背景的滚动切换效果swiper方案在wordpress上的实现">
+      <i class="fa fa-chevron-left"></i> 手持手机作为背景的滚动切换效果swiper方案在wordpress上的实现
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/11/21/%E5%9F%BA%E4%BA%8Ewordpress%E7%BB%93%E5%90%88postman%E5%AE%9E%E7%8E%B0woocommerce%E7%9A%84rest-api%E8%8E%B7%E5%8F%96%E4%BA%A7%E5%93%81%E5%92%8C%E8%AE%A2%E5%8D%95%E7%AD%89%E6%95%B0%E6%8D%AE%E7%9A%84%E6%96%B9%E6%B3%95/" rel="next" title="基于wordpress结合postman实现woocommerce的rest api获取产品，编辑产品，删除产品，创建产品和订单等数据的方法，以及把这些功能整合到用户个人中心">
+      基于wordpress结合postman实现woocommerce的rest api获取产品，编辑产品，删除产品，创建产品和订单等数据的方法，以及把这些功能整合到用户个人中心 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

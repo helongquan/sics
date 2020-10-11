@@ -1,37 +1,687 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="原文地址：https:&#x2F;&#x2F;devdocs.magento.com&#x2F;guides&#x2F;m1x&#x2F;magefordev&#x2F;mage-for-dev-5.html 模型层的实现是任何一个MVC框架的重要组成部分。它用来实现应用程序的数据，并且大部分应用程序在没有数据的情况下都是一堆废柴。相对于其他PHP MVC框架，Magento模型在系统中扮演了一个更为重要的角色，因为它包含了通常应用于控制器和助手方法中的业">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Magento开发文档(五):Magento模型与ORM基础">
+<meta property="og:url" content="http://example.com/2018/08/16/Magento%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3-%E4%BA%94-Magento%E6%A8%A1%E5%9E%8B%E4%B8%8EORM%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="原文地址：https:&#x2F;&#x2F;devdocs.magento.com&#x2F;guides&#x2F;m1x&#x2F;magefordev&#x2F;mage-for-dev-5.html 模型层的实现是任何一个MVC框架的重要组成部分。它用来实现应用程序的数据，并且大部分应用程序在没有数据的情况下都是一堆废柴。相对于其他PHP MVC框架，Magento模型在系统中扮演了一个更为重要的角色，因为它包含了通常应用于控制器和助手方法中的业">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-08-16T12:01:53.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:00.906Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="magento1.x,magento开发，magento模型，ORM">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2018/08/16/Magento%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3-%E4%BA%94-Magento%E6%A8%A1%E5%9E%8B%E4%B8%8EORM%E5%9F%BA%E7%A1%80/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>Magento开发文档(五):Magento模型与ORM基础 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/08/16/Magento%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3-%E4%BA%94-Magento%E6%A8%A1%E5%9E%8B%E4%B8%8EORM%E5%9F%BA%E7%A1%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Magento开发文档(五):Magento模型与ORM基础
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-08-16 20:01:53" itemprop="dateCreated datePublished" datetime="2018-08-16T20:01:53+08:00">2018-08-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:00" itemprop="dateModified" datetime="2020-10-11T11:58:00+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/magento1/" itemprop="url" rel="index"><span itemprop="name">magento1</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>原文地址：<a target="_blank" rel="noopener" href="https://devdocs.magento.com/guides/m1x/magefordev/mage-for-dev-5.html">https://devdocs.magento.com/guides/m1x/magefordev/mage-for-dev-5.html</a></p>
+<p>模型层的实现是任何一个MVC框架的重要组成部分。它用来实现应用程序的数据，并且大部分应用程序在没有数据的情况下都是一堆废柴。相对于其他PHP MVC框架，Magento模型在系统中扮演了一个更为重要的角色，因为它包含了通常应用于控制器和助手方法中的业务逻辑。</p>
+<h2 id="传统的PHP-MVC模型"><a href="#传统的PHP-MVC模型" class="headerlink" title="传统的PHP MVC模型"></a>传统的PHP MVC模型</h2><p>如果说MVC架构的定义有些模糊，那么模型的定义就更为模糊了。早在MVC模式被PHP开发者普遍接受之前，数据的交互通常是使用原始的SQL语句或者SQL抽象进行。开发者必须很多数据库查询语句，而不用考虑在模型化哪个对象。</p>
+<p>此处省略三段关于传统PHP MVC模型层以及ORM的探讨，直接进入正题。</p>
+<h2 id="Magento-模型"><a href="#Magento-模型" class="headerlink" title="Magento 模型"></a>Magento 模型</h2><p>毫无疑问Magento实现了ORM模式。尽管Zend Framework的SQL抽象层能够正常使用，大部分的数据交互依然是通过内置的Magento模型，以及用户自己构建的模型完成。Magento系统拥有一个高度灵活，高度抽象的模型层。</p>
+<h2 id="Magento模型解剖"><a href="#Magento模型解剖" class="headerlink" title="Magento模型解剖"></a>Magento模型解剖</h2><p>绝大部分Magento模型可以被分为两类。基础的，ActiveRecord，或者说是“一张表，一个对象”的模型；另外一种是Entity Attribute Value(EAV)模型。每个模型都包含一个模型收集(Model Collection)。收集（Collections）是用来同时操作多个Magento模型实例的对象。Magento团队通过实现PHP的IteratorAggregate标准库接口和Countable，从而允许每个模型类型拥有自己的收集类型。如果你对PHP标准库不是很熟悉，可以将模型收集想象成拥有方法可以使用的数组。</p>
+<p>Magento模型不包含任何连接数据库的代码。取而代之，每个模型使用两个modelResource类（一个读取，一个写入），它们通过read and write adapter objects与数据库进行交互。通过解耦模型与数据库交互代码，理论上可以通过构建新的资源类来满足任意不同的数据库平台，并且保持模型的完整性。</p>
+<h2 id="创建一个基础的Magento模型"><a href="#创建一个基础的Magento模型" class="headerlink" title="创建一个基础的Magento模型"></a>创建一个基础的Magento模型</h2><p>下面我们开始创建一个基础的Magento模型，我们以简单的weblog博客为例，构建一个模型，总的分为以下几步。</p>
+<ul>
+<li>创建“Weblog”模块</li>
+<li>为模型创建一张表，模型命名为Blogpost</li>
+<li>添加模型信息到配置文件</li>
+<li>添加模型资源信息到配置文件</li>
+<li>添加Read Adapter信息到配置文件</li>
+<li>添加Write Adapter信息到配置文件</li>
+<li>为Blogpost模型添加PHP类文件</li>
+<li>foo</li>
+<li>初始化模型</li>
+</ul>
+<p><strong>创建 Weblog 模块</strong></p>
+<hr>
+<p>通过之前几章的学习，创建一个新的空模块应该没有问题啦，这里我们跳过这些细节，假设你已经创建了一个名为Weblog的空模块。完成之后，我们为Index控制器设置路由规则。这里依然假设我们的Package命名为Magentotutorial。</p>
+<p>在Magentotutorial/Weblog/etc/config.xml文件中，加入一下路由规则，</p>
+<pre><code>&lt;frontend&gt;
+    &lt;routers&gt;
+        &lt;weblog&gt;
+            &lt;use&gt;standard&lt;/use&gt;
+            &lt;args&gt;
+                &lt;module&gt;Magentotutorial_Weblog&lt;/module&gt;
+                &lt;frontName&gt;weblog&lt;/frontName&gt;
+             &lt;/args&gt;
+        &lt;/weblog&gt;
+    &lt;/routers&gt;
+&lt;/frontend&gt;</code></pre>
+<p>然后添加以下代码到Index控制器中，该文件位于Magentotutorial/Weblog/controller/IndexController.php。</p>
+<pre><code>class Magentotutorial_Weblog_IndexController extends Mage_Core_Controller_Front_Action &#123;
+    public function testModelAction() &#123;
+        echo &#39;Setup!&#39;;
+    &#125;
+&#125;</code></pre>
+<p>清空Magento缓存，根据你的安装路径，访问类似下面的地址，</p>
+<blockquote>
+<p><a href="http://example.com/weblog/index/testModel">http://example.com/weblog/index/testModel</a></p>
+</blockquote>
+<p><strong>创建数据库表</strong></p>
+<hr>
+<p>Magento系统能够自动创建和更改数据库模式，这里为了演示，我们先手动为模型创建一个表。使用命令行或你最喜欢的MySQL GUI工具，创建下表，</p>
+<pre><code>CREATE TABLE `blog_posts` (
+  `blogpost_id` int(11) NOT NULL auto_increment,
+  `title` text,
+  `post` text,
+  `date` datetime default NULL,
+  `timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  PRIMARY KEY  (`blogpost_id`)
+)</code></pre>
+<p>然后填充一些数据到表中，</p>
+<pre><code>INSERT INTO `blog_posts` VALUES (1,&#39;My New Title&#39;,&#39;This is a blog post&#39;,&#39;2010-07-01 00:00:00&#39;,&#39;2010-07-02 23:12:30&#39;);</code></pre>
+<p><strong>创建模型及其配置文件</strong></p>
+<hr>
+<p>创建Weblog的模型及其配置文件需要以下五步完成，</p>
+<ul>
+<li>在模块中启用模型</li>
+<li>在模块中启用模型资源（Model Resources）</li>
+<li>在模型资源中添加实体”entity”，对于简单的模型来说，该实体即表名</li>
+<li>为模型资源指定读取适配器（Read Adapter）</li>
+<li>为模型资源指定写入适配器（Writer adapter）</li>
+</ul>
+<p>在Magento中实例化一个模型，可以使用如下语法，</p>
+<pre><code>$model = Mage::getModel(&#39;weblog/blogpost&#39;);</code></pre>
+<p><code>getmodel()</code>方法里的URI的第一部分叫做模型组名（Model Group Name）。考虑到Magento为类使用<code>__autoload</code>方法，所以该模型组名必须是模块的小写形式。该URI的第二部分是你的模型名的小写形式。</p>
+<p>接着，我们开始添加模型的配置代码到模块的config.xml文件中。</p>
+<pre><code>&lt;global&gt;
+    &lt;!-- ... --&gt;
+    &lt;models&gt;
+        &lt;weblog&gt;
+            &lt;class&gt;Magentotutorial_Weblog_Model&lt;/class&gt;
+            &lt;!--
+                need to create our own resource, cant just
+                use core_mysql4
+            --&gt;
+            &lt;resourceModel&gt;weblog_mysql4&lt;/resourceModel&gt;
+        &lt;/weblog&gt;
+    &lt;/models&gt;
+    &lt;!-- ... --&gt;
+&lt;/global&gt;</code></pre>
+<p>最外层的<code>&lt;weblog /&gt;</code>标签是模型组名，应该匹配模块名。<code>&lt;class /&gt;</code>中的值是weblog组中所有的模型都拥有的BASE名。<code>&lt;resourceModel /&gt;</code>标签指定weblog组中的模型应该使用哪种模型资源，这里我们先记得它是由模型组名加“mysql4”。</p>
+<p>现在让我们清理下Magento缓存，尝试下实例化这个blogpost模型。在<code>testModelAction()</code>中，添加如下代码。</p>
+<pre><code>public function testModelAction() &#123;
+    $blogpost = Mage::getModel(&#39;weblog/blogpost&#39;);
+    echo get_class($blogpost);
+&#125;</code></pre>
+<p>刷新页面之后，你会看到系统抛出了异常，大概如下，</p>
+<blockquote>
+<p>include(Magentotutorial/Weblog/Model/Blogpost.php) [function.include]: failed to open stream: No such file or directory</p>
+</blockquote>
+<p>由于在上面那段代码中，试图引用‘<code>weblog/blogpost</code>’模型，Magento会实例化下面这个类，</p>
+<pre><code>Magentotutorial_Weblog_Model_Blogpost</code></pre>
+<p>但是此时我们还没有创建这个文件。所以系统会抛出上面的异常。下面我们来创建该类，文件路径位于，</p>
+<blockquote>
+<p>File: app/code/local/Magentotutorial/Weblog/Model/Blogpost.php</p>
+</blockquote>
+<pre><code>class Magentotutorial_Weblog_Model_Blogpost extends Mage_Core_Model_Abstract
+&#123;
+    protected function _construct()
+    &#123;
+        $this-&gt;_init(&#39;weblog/blogpost&#39;);
+    &#125;
+&#125;</code></pre>
+<p>刷新页面之后，异常就被该类名所取代了。所有的基础模型都必须扩展<code>Mage_Core_Model_Abstract</code>类。这个抽象类强制你必须实现一个名为<code>_construct</code>的方法。此方法会调用该类的<code>_init</code>方法，并需要传递在<code>getModel()</code>方法中的参数，这里是：<code>weblog/blogpost</code>。</p>
+<p><strong>全局配置和模型资源</strong></p>
+<hr>
+<p>到此为止，我们已经成功设置了自定义的模型。接着，我们需要设置它的模型资源。模型资源包含与数据库交互的代码。在上一小节中，我们在配置文件中添加了如下代码，</p>
+<pre><code>&lt;resourceModel&gt;weblog_mysql4&lt;/resourceModel&gt;</code></pre>
+<p>在<code>&lt;resourceModel /&gt;</code>中的值会实例化一个模型资源类。尽管你从不需要手动调用它，当任何在weblog组中的模型需要与数据库交互时，Magento会调用以下方法获取模型资源，</p>
+<pre><code>Mage::getResourceModel(&#39;weblog/blogpost&#39;);</code></pre>
+<p>重申一次，weblog是模型组名，blogpost是模型名。<code>Mage::getResourceModel</code>方法使用weblog/blogpost URI来检查全局配置文件，并获取<code>&lt;resourceModel&gt;</code>中的值（在这里，是<code>weblog_mysql4</code>）。然后，下列URI地址的模型类将会被实例化。</p>
+<pre><code>weblog_mysql4/blogpost</code></pre>
+<p>资源模型的配置与模型的配置在XML配置文件中的相同节点呢，下面我们在<code>&lt;models&gt;</code>节点中添加下列代码，</p>
+<pre><code>&lt;global&gt;
+    &lt;!-- ... --&gt;
+    &lt;models&gt;
+        &lt;!-- ... --&gt;
+        &lt;weblog_mysql4&gt;
+            &lt;class&gt;Magentotutorial_Weblog_Model_Mysql4&lt;/class&gt;
+        &lt;/weblog_mysql4&gt;
+    &lt;/models&gt;
+&lt;/global&gt;</code></pre>
+<p>这里设置的<code>&lt;weblog_mysql4 /&gt;</code>标签，就是刚刚在<code>&lt;resourceModel /&gt;</code>标签中设置的值。<code>&lt;class /&gt;</code>节点中的值是使用的资源模型的基础命名，它的命名方式大概如下:</p>
+<pre><code>Packagename_Modulename_Model_Mysql4</code></pre>
+<p>现在，我们成功配置了资源模型，来试着从模型数据中读取一些信息吧。稍稍添加一些代码到<code>testModelAction()</code>方法中。</p>
+<pre><code>public function testModelAction() &#123;
+    $params = $this-&gt;getRequest()-&gt;getParams();
+    $blogpost = Mage::getModel(&#39;weblog/blogpost&#39;);
+    echo(&quot;Loading the blogpost with an ID of &quot;.$params[&#39;id&#39;]);
+    $blogpost-&gt;load($params[&#39;id&#39;]);
+    $data = $blogpost-&gt;getData();
+    var_dump($data);
+&#125;</code></pre>
+<p>清空Magento缓存，在浏览器中打开如下地址，</p>
+<pre><code>http://example.com/weblog/index/testModel/id/1</code></pre>
+<p>好吧，又一次看到系统抛出了异常，大概如下，</p>
+<pre><code>Warning: include(Magentotutorial/Weblog/Model/Mysql4/Blogpost.php) [function.include]: failed to open stream: No such file ….</code></pre>
+<p>上面我们提到过，当与数据库交互时，会实例化资源模型类，这里系统提示我们需要为该模型添加一个模型资源类。（译者注：本文提到过，Magento的模型本身与数据库连接及交互是相互独立的，所以在模型没有与数据库交互之前，例如在本篇第一次使用<code>getModel()</code>方法时，系统不会抛出关于实例化模型以外的异常。）每个模型都有模型资源类，添加该类到下列路径的文件中，</p>
+<blockquote>
+<p>File: app/code/local/Magentotutorial/Weblog/Model/Mysql4/Blogpost.php</p>
+</blockquote>
+<pre><code>class Magentotutorial_Weblog_Model_Mysql4_Blogpost extends Mage_Core_Model_Mysql4_Abstract&#123;
+    protected function _construct()
+    &#123;
+        $this-&gt;_init(&#39;weblog/blogpost&#39;, &#39;blogpost_id&#39;);
+    &#125;
+&#125;</code></pre>
+<p>可以看到，_init方法的第一个参数依旧是模型组名/模型名。参数二是数据库字段，可以是任意唯一字段，大多数情况下，参数二可以指定为主键。清空缓存，刷新页面，页面中会显示如下内容，</p>
+<pre><code>Loading the blogpost with an ID of 1
+
+array
+
+empty</code></pre>
+<p>没有异常？可是也没有正常读取到数据！接着该做些什么呢？每一个模型组都拥有一个读取适配器和写入适配器。Magento允许模型使用默认的适配器，也可以使用开发者自己开发的适配器。无论使用哪一种，我们需要告诉Magento系统关于适配器的配置。这里，我们在配置文件中添加一个新的tag节点，<code>&lt;resources /&gt;</code>到<code>&lt;global /&gt;</code>节点中。</p>
+<pre><code>&lt;global&gt;
+    &lt;!-- ... --&gt;
+    &lt;resources&gt;
+        &lt;weblog_write&gt;
+            &lt;connection&gt;
+                &lt;use&gt;core_write&lt;/use&gt;
+            &lt;/connection&gt;
+        &lt;/weblog_write&gt;
+        &lt;weblog_read&gt;
+            &lt;connection&gt;
+                &lt;use&gt;core_read&lt;/use&gt;
+            &lt;/connection&gt;
+        &lt;/weblog_read&gt;
+    &lt;/resources&gt;
+&lt;/global&gt;</code></pre>
+<p>这里我们在<resources />中添加了两个子节点。一个用来写入，另一个用来读取。标签命名(<code>&lt;weblog_write /&gt;</code>和<code>&lt;weblog_read /&gt;</code>)根据上面定义的模型组名。完成改配置文件之后，清空Magento缓存，再次刷新页面，然后…</p>
+<pre><code>Can’t retrieve entity config: weblog/blogpost</code></pre>
+<p>又一次出现异常了！一起理清下思路，在使用模型URI <code>weblog/blogpost</code>时，Magento系统被告知我们想使用模型组weblog，以及blogpost实体。在扩展<code>Mage_Core_Model_Mysql4_Abstract</code>的简单模型中，实体相对应一张表。这里，该表即我们上面创建的<code>blog_posts</code>表，添加该实体到配置文件中。</p>
+<pre><code>&lt;models&gt;
+    &lt;!-- ... ---&gt;
+    &lt;weblog_mysql4&gt;
+        &lt;class&gt;Magentotutorial_Weblog_Model_Mysql4&lt;/class&gt;
+        &lt;entities&gt;
+            &lt;blogpost&gt;
+                &lt;table&gt;blog_posts&lt;/table&gt;
+            &lt;/blogpost&gt;
+        &lt;/entities&gt;
+    &lt;/weblog_mysql4&gt;
+&lt;/models&gt;</code></pre>
+<p>在配置文件中的resource模型节点中，添加新的<code>&lt;entities /&gt;</code>节点。现在，在配置文件中终于出现了以刚才创建的表名命名的节点，从而为该模型指定相关的数据库表。</p>
+<p>清空Magento缓存，刷新页面，OK…</p>
+<pre><code>Loading the blogpost with an ID of 2
+
+Loading the blogpost with an ID of 1
+
+array
+‘blogpost_id’ =&gt; string ’1′ (length=1)
+‘title’ =&gt; string ‘My New Title’ (length=12)
+‘post’ =&gt; string ‘This is a blog post’ (length=19)
+‘date’ =&gt; string ’2009-07-01 00:00:00′ (length=19)
+‘timestamp’ =&gt; string ’2009-07-02 16:12:30′ (length=19)</code></pre>
+<p>好啦！经过这么长一个过程我们终于成功从数据库中读取到了数据，更为重要的是，我们完成了一个崭新的Magento模型的配置！</p>
+<p><strong>基础的Magento模型操作</strong></p>
+<hr>
+<p>Magento模型都继承自<code>Varien_Object</code>类。该类是Magento系统核心库中的一部分，而非Magento核心模块。可以在下列路径找到该对象。</p>
+<pre><code>lib/Varien/Object.php</code></pre>
+<p>Magento模型将数据保存在一个protected的<code>_data</code>属性中。<code>Varien_Object</code>类提供给我们很多方法，可以使用这些方法读取这些数据。你已经使用过了<code>getData()</code>方法，该方法返回一个包含字段/值的数组。你也可以通过传递字段名作为该方法的参数来获取相应字段的值</p>
+<pre><code>$model-&gt;getData();
+$model-&gt;getData(&#39;title&#39;);</code></pre>
+<p>还有一个getOrigData方法，<code>which will return the Model data as it was when the object was initially populated, (working with the protected _origData method)</code>.这段就不翻译了。</p>
+<pre><code>$model-&gt;getOrigData();
+$model-&gt;getOrigData(&#39;title&#39;);</code></pre>
+<p><code>Varien_Object</code>类通过PHP的魔术方法<code>__call</code>实现了一些特殊的方法。你可以通过get，set，unset以及has加上驼峰命名的字段名的方式，获取、设置、unset及查看任意存在的字段值。</p>
+<pre><code>$model-&gt;getBlogpostId();
+$model-&gt;setBlogpostId(25);
+$model-&gt;unsetBlogpostId();
+if($model-&gt;hasBlogpostId())&#123;...&#125;</code></pre>
+<p>正因为如此，你可能会以小写字母及下划线来命名数据库字段。不过，最近版本的Magento已经舍弃了这种语法，转而实现PHP的数组连接（ArrayAccess）接口。</p>
+<pre><code>$id = $model-&gt;[&#39;blogpost_id&#39;];
+$model-&gt;[&#39;blogpost_id&#39;] = 25;
+//etc...</code></pre>
+<p>That said, you’re likely to see both techniques used throughout the Magento code base, as well as third party extensions.这段意思应该是说你可以在Magento或第三方扩展中看到上面两种语法格式。</p>
+<p><strong>Magento的CRUD操作</strong></p>
+<hr>
+<p>Magento模型通过load()，sava()，delete()方法，提供基础的Create，Read，Update和Delete功能。在上面的控制器方法中，我们已经使用了load()方法。当传递一个参数到load()方法中，该方法会返回与该参数相对应的id字段（在模型资源中设置）的一条记录。</p>
+<pre><code>$blogpost-&gt;load(1);</code></pre>
+<p>save()方法允许你插入新数据到模型中，或更新已经存在的数据。添加如下代码到控制器中。</p>
+<pre><code>public function createNewPostAction() &#123;
+    $blogpost = Mage::getModel(&#39;weblog/blogpost&#39;);
+    $blogpost-&gt;setTitle(&#39;Code Post!&#39;);
+    $blogpost-&gt;setPost(&#39;This post was created from code!&#39;);
+    $blogpost-&gt;save();
+    echo &#39;post created&#39;;
+&#125;</code></pre>
+<p>然后在浏览器中访问以下地址，</p>
+<blockquote>
+<p><a href="http://example.com/weblog/index/createNewPost">http://example.com/weblog/index/createNewPost</a></p>
+</blockquote>
+<p>这时你会看到数据库表中新增了一条数据，然后在控制器中加入编辑功能。</p>
+<pre><code>public function editFirstPostAction() &#123;
+    $blogpost = Mage::getModel(&#39;weblog/blogpost&#39;);
+    $blogpost-&gt;load(1);
+    $blogpost-&gt;setTitle(&quot;The First post!&quot;);
+    $blogpost-&gt;save();
+    echo &#39;post edited&#39;;
+&#125;</code></pre>
+<p>最后，加入下列代码，实现删除功能。</p>
+<pre><code>public function deleteFirstPostAction() &#123;
+    $blogpost = Mage::getModel(&#39;weblog/blogpost&#39;);
+    $blogpost-&gt;load(1);
+    $blogpost-&gt;delete();
+    echo &#39;post removed&#39;;
+&#125;</code></pre>
+<p><strong>Magento的模型收集 Model Collections</strong></p>
+<hr>
+<p>对于单独一个模型的操作固然很有用，但是多数时候，我们会同时操作多个模型。比返回多个模型的一个多维嵌套数组更好的是，在Magento中，每个模型类型都有一个唯一的收集对象与其关联。这些对象实现了PHP IteratorAggregate和Countable接口，这意味着它们可以被传递到count函数，并使用for each结构循环出数据。</p>
+<p>我们将在第八章具体介绍Magento的收集机制，现在我们先简要介绍下它的设置和使用。添加如下代码到控制器中，然后再浏览器中访问该地址。</p>
+<pre><code>public function showAllBlogPostsAction() &#123;
+    $posts = Mage::getModel(&#39;weblog/blogpost&#39;)-&gt;getCollection();
+    foreach($posts as $blog_post)&#123;
+        echo &#39;&lt;h3&gt;&#39;.$blog_post-&gt;getTitle().&#39;&lt;/h3&gt;&#39;;
+        echo nl2br($blog_post-&gt;getPost());
+    &#125;
+&#125;</code></pre>
+<p>访问如下地址，</p>
+<pre><code>http://example.com/weblog/index/showAllBlogPosts</code></pre>
+<p>然后，是的，系统再一次抛出异常。</p>
+<pre><code>Warning: include(Magentotutorial/Weblog/Model/Mysql4/Blogpost/Collection.php) [function.include]: failed to open stream</code></pre>
+<p>看下上面的PHP代码，你就应该对系统抛出异常不会感到太惊讶了吧？我们需要添加一个类来定义Blogpost的模型收集。每个模型资源拥有一个<code>_resourceCollectionName</code>保护属性，它包含了用来识别收集的URI。</p>
+<pre><code>protected &#39;_resourceCollectionName&#39; =&gt; string &#39;weblog/blogpost_collection&#39;</code></pre>
+<p>默认的，该URI也用来识别模型资源，以字符串”<code>_collection</code>”结尾。Magento将收集归为模型资源的一部分，所以该URI转换为类名之后如下，</p>
+<pre><code>Magentotutorial_Weblog_Model_Mysql4_Blogpost_Collection</code></pre>
+<p>添加下面的模型收集类到如下路径，</p>
+<blockquote>
+<p>File: app/code/local/Magentotutorial/Weblog/Model/Mysql4/Blogpost/Collection.php</p>
+</blockquote>
+<pre><code>class Magentotutorial_Weblog_Model_Mysql4_Blogpost_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract &#123;
+    protected function _construct()
+    &#123;
+        $this-&gt;_init(&#39;weblog/blogpost&#39;);
+    &#125;
+&#125;</code></pre>
+<p>和其他类一样，我们需要使用该模型的URI（weblog/blogpsot)来<code>_init</code>模型收集。最后，在浏览器中访问模型收集的地址，就能成功返回文章的数据信息了。</p>
+<p><strong>Magento核心模型</strong></p>
+<hr>
+<p>恭喜你，到这里，说明你已经完成了Magento模型的配置。在后面的教程中，我们会更深入的讲解Magento的高级EAV模型。</p>
+<p>还要提到一点，上面文章中，我们说到所有的Magento模型都继承自<code>Mage_Core_Model_Abstract</code>类。这并不是100%正确。因为有些模型直接继承自<code>Varien_Object</code>。当然，这都不会影响到任何你创建的模型，说明这些只是为了让开发者能够更好的理解Magento的代码。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/magento1-x-magento%E5%BC%80%E5%8F%91%EF%BC%8Cmagento%E6%A8%A1%E5%9E%8B%EF%BC%8CORM/" rel="tag"># magento1.x,magento开发，magento模型，ORM</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/08/16/magento1-x%E5%9C%A8%E5%BC%80%E5%8F%91%E9%98%B6%E6%AE%B5%E5%BC%80%E5%90%AF%E5%89%8D%E5%8F%B0%E8%B0%83%E8%AF%95%E6%A8%A1%E5%BC%8F%E7%9A%84%E6%96%B9%E6%B3%95/" rel="prev" title="magento1.x在开发阶段开启前台调试模式的方法">
+      <i class="fa fa-chevron-left"></i> magento1.x在开发阶段开启前台调试模式的方法
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/08/16/Magento%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3-%E5%85%AD-Magento%E6%A8%A1%E5%9E%8B%E5%90%AF%E5%8A%A8%E8%B5%84%E6%BA%90/" rel="next" title="Magento开发文档(六):Magento模型启动资源">
+      Magento开发文档(六):Magento模型启动资源 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BC%A0%E7%BB%9F%E7%9A%84PHP-MVC%E6%A8%A1%E5%9E%8B"><span class="nav-number">1.</span> <span class="nav-text">传统的PHP MVC模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Magento-%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.</span> <span class="nav-text">Magento 模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Magento%E6%A8%A1%E5%9E%8B%E8%A7%A3%E5%89%96"><span class="nav-number">3.</span> <span class="nav-text">Magento模型解剖</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E5%9F%BA%E7%A1%80%E7%9A%84Magento%E6%A8%A1%E5%9E%8B"><span class="nav-number">4.</span> <span class="nav-text">创建一个基础的Magento模型</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

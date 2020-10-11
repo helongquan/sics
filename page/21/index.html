@@ -1,23 +1,1410 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-{% block title %}{{ config.title }}{% if theme.index_with_subtitle and config.subtitle %} - {{config.subtitle }}{% endif %}{% endblock %}
+<link rel="stylesheet" href="/css/main.css">
 
-{% block page_class %}
-  {% if is_home() %}page-home{% endif -%}
-{% endblock %}
 
-{% block content %}
-  <section id="posts" class="posts-expand">
-    {% for post in page.posts %}
-      {{ post_template.render(post, true) }}
-    {% endfor %}
-  </section>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-  {% include '_partials/pagination.swig' %}
-{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
 
-{% block sidebar %}
-  {{ sidebar_template.render(false) }}
-{% endblock %}
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/page/21/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/page/21/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
+            
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/05/17/magento%E7%9A%84%E5%87%A0%E4%B8%AA%E5%B8%B8%E7%94%A8%E8%B0%83%E8%AF%95%E4%BB%A3%E7%A0%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/05/17/magento%E7%9A%84%E5%87%A0%E4%B8%AA%E5%B8%B8%E7%94%A8%E8%B0%83%E8%AF%95%E4%BB%A3%E7%A0%81/" class="post-title-link" itemprop="url">magento的几个常用调试代码</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-05-17 14:30:22" itemprop="dateCreated datePublished" datetime="2018-05-17T14:30:22+08:00">2018-05-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:24" itemprop="dateModified" datetime="2020-10-11T11:53:24+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>看到这么一篇文章，感觉对于magento开发者有帮助，转了。原文地址：<a target="_blank" rel="noopener" href="https://blog.csdn.net/liuxiaojun828/article/details/40657755">https://blog.csdn.net/liuxiaojun828/article/details/40657755</a></p>
+<p>Magento模板开发，经常会用到的几个方法和函数</p>
+<p>实例化一个类，创建个Magento对象</p>
+<pre><code>$note_obj= new Mage();</code></pre>
+<p><strong>getSingleton方法</strong></p>
+<pre><code>objInfo($note_obj-&gt;getSingleton(&#39;catalog/session&#39;));</code></pre>
+<p><strong>helper方法</strong></p>
+<pre><code>$temp = $note_obj-&gt;helper(&#39;catalog/product&#39;);
+// or
+$temp = Mage::helper(&#39;catalog/product&#39;);
+objInfo($temp);</code></pre>
+<p><strong>获取Magento后台设置信息</strong></p>
+<p>通常位于./etc/system.xml配置文件中</p>
+<pre><code>Mage::getStoreConfig(&#39;sales/identity/logo&#39;);</code></pre>
+<p><strong>调用后台自定义变量值</strong></p>
+<pre><code>Mage::getModel(&#39;core/variable&#39;)-&gt;loadByCode(&#39;var_code&#39;)-&gt;getValue();</code></pre>
+<p><strong>getModel方法</strong></p>
+<pre><code>$temp = Mage::getModel(&#39;catalog/product&#39;)-&gt;load($product_id)-&gt;getProductUrl();
+objInfo($temp);</code></pre>
+<p><strong>registry 方法</strong></p>
+<pre><code>$temp = Mage::registry(&#39;current_product&#39;)-&gt;getId();
+objInfo($temp);</code></pre>
+<p><strong>创建一个静态块</strong></p>
+<pre><code>echo $note_obj-&gt;getBlockSingleton(&#39;checkout/cart_sidebar&#39;)-&gt;setTemplate(&#39;checkout/cart/top_bar.phtml&#39;)-&gt;toHtml();
+echo $note_obj-&gt;app()-&gt;getLayout()-&gt;getBlockSingleton(&#39;checkout/cart_sidebar&#39;)-&gt;setTemplate(&#39;checkout/cart/top_bar.phtml&#39;)-&gt;toHtml();</code></pre>
+<p>调用后台CMS静态块</p>
+<pre><code>echo $this-&gt;getLayout()-&gt;createBlock(&#39;cms/block&#39;)-&gt;setBlockId(&#39;block_id&#39;)-&gt;toHtml();
+echo $note_obj-&gt;app()-&gt;getLayout()-&gt;createBlock(&#39;cms/block&#39;)-&gt;setBlockId(&#39;block_id&#39;)-&gt;toHtml();</code></pre>
+<p>其他方法待整理和总结中。。。</p>
+<p>objInfo()格式化输出函数可以参考此文：<a target="_blank" rel="noopener" href="https://www.magentonotes.com/debug-formatted-output-magento-object-class-methods.html">Magento格式化输出调试对象的类和方法</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/05/17/magento%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/05/17/magento%E6%BA%90%E7%A0%81%E5%89%96%E6%9E%90/" class="post-title-link" itemprop="url">magento源码剖析</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-05-17 14:25:39" itemprop="dateCreated datePublished" datetime="2018-05-17T14:25:39+08:00">2018-05-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:01" itemprop="dateModified" datetime="2020-10-11T11:58:01+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>很多开发者对magento的页面显示和执行方式很模糊，没有一个整体的概念，现在这里就大概的总结一下。</p>
+<p><strong>一、模板</strong></p>
+<p>magento的模板(template)比较复杂，需要.phtml文件、.xml文件、样式文件这三种文件才能实现一个完整的模板。</p>
+<p><strong>二、程序是怎么实现页面的呢？</strong></p>
+<p>当安装了默认的magento后, Home page 的Layout 默认为2columns-right，如图一所示。</p>
+<p><strong>1、设计路径</strong></p>
+<p>默认的页面设计路径是magento\app\design\frontend\default；</p>
+<p>当页面Layout选择”1 column”的时候，那么对应的文件是magento\app\design\frontend\base\default\template\page\1column.phtml；</p>
+<p>当页面Layout选择”2columns-right”(2 columns with right bar )的时候，那么对应的文件是magento\app\design\frontend\base\default\template\page\2columns-right.phtml；</p>
+<p>注意：base旧版本是default；</p>
+<p>其它类此；</p>
+<p><strong>2、php的函数调用</strong></p>
+<p>我们看下2columns-right.phtml这个文件的内容，找到其中一个php的函数调用$this-&gt;getChildHtml(‘header’)；</p>
+<p>这个函数就是magento为了获得header的方法，这个header从哪里去获得呢？</p>
+<p>打开magento\app\design\frontend\base\default\layout\page.xml文件，可以找到如下的代码：</p>
+<pre><code>&lt;block type=&quot;page/html_header&quot; name=&quot;header&quot; as=&quot;header&quot;&gt;
+&lt;block type=&quot;page/template_links&quot; name=&quot;top.links&quot; as=&quot;topLinks&quot;/&gt;
+&lt;block type=&quot;page/switch&quot; name=&quot;store_language&quot; as=&quot;store_language&quot; template=&quot;page/switch/languages.phtml&quot;/&gt;
+&lt;block type=&quot;core/text_list&quot; name=&quot;top.menu&quot; as=&quot;topMenu&quot;/&gt;
+&lt;/block&gt;</code></pre>
+<p>这里是header区块的结构，magento以block（区块）来布局页面的，一个block就是一个逻辑输出。</p>
+<p>这个header结构调用了三个block，分别是topLinks，store_language，topMenu。</p>
+<p>这些block从哪得到呢？</p>
+<p>属性type=”page/html_header”，指明要从magento\app\code\core\Mage\Page\Block\Html的Mage_Page_Block_Html_Header对象里获得，代码在Header.php文件中。</p>
+<p>以此类推，topLinks是从magento\app\code\core\Mage\Page\Block\Template的Mage_Page_Block_Template_Links对象获得，代码在Links.php文件中；</p>
+<p>topMenu是从magento\app\code\core\Mage\Core\Block\Text中的Mage_Core_Block_Text_List对象获得，代码在List.php文件中。</p>
+<p><strong>3、页面视图</strong></p>
+<p>在Header.php文件可以看到如下代码：</p>
+<pre><code>class Mage_Page_Block_Html_Header extends Mage_Core_Block_Template
+&#123;
+    public function _construct()
+    &#123;
+        $this-&gt;setTemplate(&#39;page/html/header.phtml&#39;);
+    &#125;
+...
+&#125;</code></pre>
+<p>在这个Block对象里，可以发现初始化的时候有一行 $this-&gt;setTemplate(‘page/html/header.phtml’)的代码；其它Block对象里都有类似于这样的初始化代码。</p>
+<p>例如遇到$this-&gt;setTemplate(‘page/template/links.phtml’)这样的代码，到相应的magento\app\design\frontend\default\default\template\目录下，可以找到对应的html模板，可以修改对应的页面视图。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/05/15/magento%E7%9A%84Codazon%E4%B8%BB%E9%A2%98%E7%9A%84blog%E6%8A%A5%E9%94%99%E7%9A%84%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/05/15/magento%E7%9A%84Codazon%E4%B8%BB%E9%A2%98%E7%9A%84blog%E6%8A%A5%E9%94%99%E7%9A%84%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" class="post-title-link" itemprop="url">magento的Codazon主题的blog报错的问题解决方案</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-05-15 19:10:25" itemprop="dateCreated datePublished" datetime="2018-05-15T19:10:25+08:00">2018-05-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:01" itemprop="dateModified" datetime="2020-10-11T11:58:01+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>笔者在测试magento1.x的时候，由于这个主题还是相当不错的，笔者就折腾了下，只要安装了这个主题后，就会自带安装了blog这个功能，说到底这个并不是这个主题的一部分，而是一个插件来的。</p>
+<p>好的，当我在后台尝试着添加blog的时候，居然报错了，报错如下：</p>
+<pre><code>Fatal error: require_once(): Failed opening required &#39;AW/Blog/controllers/Adminhtml/Awblog/Manage/BlogController.php&#39; (include_path=&#39;/opt/lampp/htdocs/zsna/app/code/local:/opt/lampp/htdocs/zsna/app/code/community:/opt/lampp/htdocs/zsna/app/code/core:/opt/lampp/htdocs/colddoor/lib:.:/opt/lampp/lib/php&#39;) in /opt/lampp/htdocs/zsna/app/code/local/Codazon/Blogfeatures/controllers/Adminhtml/Awblog/Manage/BlogController.php on line 2</code></pre>
+<p>这个时候，根据报错的目录，说的是这个引用这个文件失败，于是找到这个目录，发现没有BlogController.php这个文件。</p>
+<p>笔者开始尝试着把这个插件卸载掉，可是当我逐个删除文件的时候，各种报错让我玩陷入了各种烦恼中，即使后台禁用这个blog插件的时候，然后安装blog插件，还是不行，因为我这个blog只是禁用了，并没有删除。所以安装一个blog插件会提示已经存在某个文件之类的报错。所以这个想法取消了。</p>
+<p>后来我观察了下codazon这个主题里面自带的blog，其实是插件：aheadworks+AW_Blog 来的，因为笔者找到了AW这个目录，所以有了一个大胆的猜测，其实这两个就是同一个。</p>
+<p>好的，确定这个之后，笔者在本地服务器搭建了一个magento1.x，然后通过market place connect安装了这个插件，插件地址：</p>
+<pre><code>https://connect20.magentocommerce.com/a44e6839a8292747b8add296620e10dd/aheadworks+AW_Blog-1.4.0</code></pre>
+<p>安装完毕后，我根据以上的那个报错，我在本地服务器的magento的目录下找到了BlogController.php所在的路径。</p>
+<pre><code>app/code/community/AW/Blog/controllers/Adminhtml/Awblog/Manage/</code></pre>
+<p>因此，只要把这个blog插件的这个文件上传到服务器上的那个同样的路径的时候，问题不就解决了吗？事实证明这个想法是对的。</p>
+<p>最后来张截图：</p>
+<p><img src="https://i.imgur.com/GjFSehE.jpg"></p>
+<p>启发：求同法处理问题的思路能够找到规律，对比法能够找到差异。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/05/15/magento%E5%90%8E%E5%8F%B0%E5%AE%89%E8%A3%85%E5%AF%BC%E5%85%A5%E6%8F%92%E4%BB%B6%E5%90%8E%E6%8A%A5%E9%94%99%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/05/15/magento%E5%90%8E%E5%8F%B0%E5%AE%89%E8%A3%85%E5%AF%BC%E5%85%A5%E6%8F%92%E4%BB%B6%E5%90%8E%E6%8A%A5%E9%94%99%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" class="post-title-link" itemprop="url">magento后台安装导入插件后报错的解决方案</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-05-15 12:16:17" itemprop="dateCreated datePublished" datetime="2018-05-15T12:16:17+08:00">2018-05-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:00" itemprop="dateModified" datetime="2020-10-11T11:58:00+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>笔者在处理magento1.x的时候，尝试着解决把magento的产品导出，然后导入到另外的magento的网站的问题，去下载了一个插件：</p>
+<pre><code>插件名： Ingram Micro Product Import Tool
+market place connect地址: https://connect20.magentocommerce.com/a44e6839a8292747b8add296620e10dd/stockinthechannel+stockinthechannel2012-2.3.0</code></pre>
+<p>启用了插件后提示说，有两个问题需要解决：</p>
+<ol>
+<li>说是这个magento所在的服务器没有php cli的东西，因为笔者采用的是xampp的方式在测试。</li>
+<li>这个innodb_buffer_pool_size需要的是512M大小，而目前是16M，所以需要修改这个配置，修改地址是：/etc/my.cnf</li>
+</ol>
+<p>面对这两个问题，由于笔者采用的是集成的开发环境，所以这里笔者在根目录下运行命令安装php的cli扩展：</p>
+<pre><code>yum install php php-gd php-mysql php-tidy php-xmlrpc php-common php-cli php-xml</code></pre>
+<p>其中cli就在其中，为了不漏掉其他的模块，所以这里直接运行了以上的代码，然后重启了xampp，然后进入到magento的后台，刷新了下那个地方，发现第一个报错没有了。</p>
+<p>对于第二个问题，这里跟着提示找到了/etc/my.cnf。可是却找不到配置的详细信息，为啥呢？原因刚才说了，我采用的是xampp这个web集成环境，所以我应该去xampp的目录下的etc找这个my.cnf文件，果不其然，我找到了，然后把这个修改成512M或者更大，然后重启xampp，然后计入magento后台刷新，报错消失。</p>
+<p>位置：</p>
+<pre><code># of RAM but beware of setting memory usage too high
+innodb_buffer_pool_size =512M
+# Deprecated in 5.6
+#innodb_additional_mem_pool_size = 2M
+# Set .._log_file_size to 25 % of buffer pool size
+innodb_log_file_size = 5M
+innodb_log_buffer_size = 8M
+innodb_flush_log_at_trx_commit = 1
+innodb_lock_wait_timeout = 50</code></pre>
+<p>这个位置，我们可以用vi的查找命令快速定位。</p>
+<p><img src="https://i.imgur.com/VzzCV8u.jpg"></p>
+<p>后台：</p>
+<p><img src="https://i.imgur.com/OWELaRl.jpg"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/05/15/magento%E4%B8%BB%E9%A2%98codazon%E7%9A%84%E5%AE%89%E8%A3%85/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/05/15/magento%E4%B8%BB%E9%A2%98codazon%E7%9A%84%E5%AE%89%E8%A3%85/" class="post-title-link" itemprop="url">magento主题codazon的安装</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-05-15 09:46:25" itemprop="dateCreated datePublished" datetime="2018-05-15T09:46:25+08:00">2018-05-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:19" itemprop="dateModified" datetime="2020-10-11T11:53:19+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="准备阶段"><a href="#准备阶段" class="headerlink" title="准备阶段"></a>准备阶段</h2><p>假设您已经安装了Magento（1.x），为了准备安装新的主题，您需要执行以下步骤：</p>
+<p>备份您的Magento源文件和网站数据库</p>
+<p>在安装主题之前创建备份非常重要，尤其是在您正在使用的时候。请不要忽略这个阶段</p>
+<p>禁用Magento网站上的所有缓存包括：</p>
+<ul>
+<li><p>Magento缓存（系统&gt;缓存管理）</p>
+<p>  <img src="https://i.imgur.com/ksJjxpn.jpg"></p>
+</li>
+<li><p>服务器上的任何其他缓存，例如PHP缓存引擎，APC ……，当然这个可以不用深究，如果报错的时候，可以考虑这方面的因素</p>
+</li>
+<li><p>在上传主题源之前启用维护模式。要将商店置于此模式，您可以在Magento的根目录下创建文件maintenance.flag</p>
+</li>
+<li><p>将主题文件包括app，媒体……上传到您的Magento根目录。可以使用FTP软件（例如FileZilla），然后登录到您的主机，解压缩主题包，并将所有目录（app，media，…）上传到Magento根目录，就是覆盖原有的。</p>
+</li>
+<li><p>确保成功上传所有主题文件夹和文件。可以通过删除maintenance.flag来禁用商店的维护模式。在此步骤之后，在你的网络浏览器中，您将重新加载你的网站。</p>
+</li>
+</ul>
+<h2 id="主题设置"><a href="#主题设置" class="headerlink" title="主题设置"></a>主题设置</h2><p>完成主题的上传覆盖之后，我们推出magento的网站后台，再次登录后台，我们进入Codazon theme &gt; Fastest theme &gt; Theme Installer，这个目录</p>
+<p><img src="https://i.imgur.com/kyVdaLG.png"></p>
+<p>然后，逐个导入即可。</p>
+<p>下一步，我们来到 System &gt; Configuration这个目录，然后在左边选择Design这个。</p>
+<p><img src="https://i.imgur.com/iWvYYZf.jpg"></p>
+<p>然后，选择我们刚才安装的主题，这里是：codazon_fastest，我们可以从源码中也可以看到这个名字：</p>
+<p><img src="https://i.imgur.com/mdp5M7C.jpg"></p>
+<p>因此这个空穴来风的命名，然后我们可以进一步发现这个主题下后多个模板：</p>
+<p><img src="https://i.imgur.com/FGYcHSW.jpg"></p>
+<p>好的，我们可以根据自己IDE需要进行选择，然后填到以上截图的那里，假设笔者这里选择的是：drugpharmacy，那么我的添加如下：</p>
+<p><img src="https://i.imgur.com/c2P5VLz.jpg"></p>
+<blockquote>
+<p>Current Package Name: codazon_fastest</p>
+<p>Templates: drugpharmacy</p>
+<p>Skin (Images/CSS): drugpharmacy</p>
+<p>Layout: drugpharmacy</p>
+</blockquote>
+<p>其他的，跟着这个类似填写即可。</p>
+<p>所有布局使用带有一列布局的主页。所以你可以将你的主页设置为一列布局。否则，在管理面板中，进入System &gt; Configuration &gt;在左侧菜单中选择Web ; 找到Default Pages里面的CMS Home Page，选择 Fastest Fashion Homepage</p>
+<p><img src="https://i.imgur.com/rkdx7d2.jpg"></p>
+<p>完成这个之后，应该就成功了。</p>
+<p>如果有问题，最常见的问题就是404页面了，这个时候需要退出后台，然后再次登录后台。或者是magento的目录的权限不够，这个时候如果是服务器的娿，可以把这个改成755或者更高。如果还是有显示不完整的话，这个时候也有可能是这个上传的文件有缺陷。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/05/14/%E5%A6%82%E4%BD%95%E5%B0%86Magento-1-x%E7%BD%AE%E4%BA%8E%E7%BB%B4%E6%8A%A4%E6%A8%A1%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/05/14/%E5%A6%82%E4%BD%95%E5%B0%86Magento-1-x%E7%BD%AE%E4%BA%8E%E7%BB%B4%E6%8A%A4%E6%A8%A1%E5%BC%8F/" class="post-title-link" itemprop="url">如何将Magento 1.x置于维护模式</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-05-14 17:47:47" itemprop="dateCreated datePublished" datetime="2018-05-14T17:47:47+08:00">2018-05-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:05" itemprop="dateModified" datetime="2020-10-11T11:58:05+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>本教程介绍如何将Magento在线商店置于维护模式，以便您的访问者知道您正在使用您的网站。</p>
+<p>要将Magento网站置于维护模式，您需要创建一个空的maintenance.flag文件并将其上传到您网站的根文件夹。之后，您的网站将如下所示：</p>
+<p><img src="https://i.imgur.com/5Rgm6zq.jpg"></p>
+<p>请注意，一旦启用维护模式，即使以admin身份登录，您也将无法访问站点的前端。您需要修改Magento根文件夹中的index.php文件，以授予对可加载该网站的某些IP地址的访问权限。为此，打开index.php文件并在第49行添加以下代码：</p>
+<pre><code>$ip = $_SERVER[&#39;REMOTE_ADDR&#39;];
+$allowed = array(&#39;113.118.199.218&#39;,&#39;23.102.229.24&#39;,&#39;127.0.0.1&#39;);</code></pre>
+<p>在<code>$allowed = array(&#39;113.118.199.218&#39;,&#39;23.102.229.24&#39;,&#39;127.0.0.1&#39;);</code> 您应该指定可以访问您的网站的IP列表，就是为此添加IP白名单，以便在即使维护模式下也能够访问和登录后台。</p>
+<p>接下来，搜索这段代码：</p>
+<pre><code>if (file_exists($maintenanceFile)) &#123;</code></pre>
+<p>并用下面的代替它：</p>
+<pre><code>if (file_exists($maintenanceFile) &amp;amp;&amp;amp; !in_array($ip, $allowed)) &#123;</code></pre>
+<p>修改后的index.php文件应该如下所示：</p>
+<pre><code>$mageFilename = MAGENTO_ROOT . &#39;/app/Mage.php&#39;;
+$maintenanceFile = &#39;maintenance.flag&#39;;
+$ip = $_SERVER[&#39;REMOTE_ADDR&#39;];
+$allowed = array(&#39;113.118.199.218&#39;,&#39;23.102.229.24&#39;,&#39;127.0.0.1&#39;);
+
+if (!file_exists($mageFilename)) &#123;
+    if (is_dir(&#39;downloader&#39;)) &#123;
+        header(&quot;Location: downloader&quot;);
+    &#125; else &#123;
+        echo $mageFilename.&quot; was not found&quot;;
+    &#125;
+    exit;
+&#125;
+
+if (file_exists($maintenanceFile) &amp;&amp; !in_array($ip, $allowed)) &#123;
+    include_once dirname(__FILE__) . &#39;/errors/503.php&#39;;
+    exit;
+&#125;</code></pre>
+<p>如果您想显示更多信息而不仅仅是维护模式文本，则可以编辑错误/默认文件夹下的503.phtml文件。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/05/14/magento%E5%AE%89%E8%A3%85%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/05/14/magento%E5%AE%89%E8%A3%85%E7%9A%84%E5%87%A0%E7%A7%8D%E6%96%B9%E5%BC%8F/" class="post-title-link" itemprop="url">magento安装的几种方式</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-05-14 17:35:27" itemprop="dateCreated datePublished" datetime="2018-05-14T17:35:27+08:00">2018-05-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:26" itemprop="dateModified" datetime="2020-10-11T11:53:26+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>对于安装magento感到困惑的新手可能不知道用什么方式安装magento算是合理的，笔者这里收集了一些magento的安装方式：</p>
+<ol>
+<li><p>去官网下载源码安装包，通过FTP上传到webroot去。然后运行安装(这种方式算是最常用的了)</p>
+</li>
+<li><p>通过composer的方式安装</p>
+</li>
+<li><p>去官网下载下载器：downloader.php文件，官网有：</p>
+<p> <img src="https://i.imgur.com/Stp6G6h.jpg"></p>
+<p> 下载这个文件后解压，里面只有一个文件：downloader.php，然后把这个文件上传到webroot（magento的根目录下），然后在浏览器输入<a target="_blank" rel="noopener" href="http://www.youdomain.com/downloader.php%EF%BC%8C%E8%BF%99%E6%A0%B7%E5%B0%B1%E8%BF%9B%E5%85%A5%E4%B8%80%E4%B8%AA%E5%AE%89%E8%A3%85%E4%BB%A5%E5%8F%8A%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE%E7%95%8C%E9%9D%A2%E3%80%82%E8%B7%9F%E7%9D%80%E5%BC%95%E5%AF%BC%E4%B8%80%E6%AD%A5%E4%B8%80%E6%AD%A5%E7%9A%84%E8%BF%9B%E8%A1%8C%E5%8D%B3%E5%8F%AF%EF%BC%8C%E5%A6%82%E6%9E%9C%E5%9C%A8%E4%B8%8B%E8%BD%BD%E7%9A%84%E8%BF%87%E7%A8%8B%E4%B8%AD%E5%87%BA%E7%8E%B0%E6%8A%A5%E9%94%99%EF%BC%8C%E5%8F%AF%E8%83%BD%E6%98%AF%E7%BD%91%E7%BB%9C%E7%9A%84%E5%8E%9F%E5%9B%A0%EF%BC%8C%E5%8F%AF%E4%BB%A5%E7%82%B9%E5%87%BB%E5%86%8D%E6%AC%A1%E5%AE%89%E8%A3%85%E7%9A%84%E6%8C%89%E9%92%AE">http://www.youdomain.com/downloader.php，这样就进入一个安装以及安装配置界面。跟着引导一步一步的进行即可，如果在下载的过程中出现报错，可能是网络的原因，可以点击再次安装的按钮</a></p>
+</li>
+<li><p>其他</p>
+</li>
+</ol>
+<p>这里需要说明的是：magento源码包有含sample data的源码和不含sample data的源码，两者文件大小差别很大，这个需要新手注意。</p>
+<blockquote>
+<p>提示：magento本身比较大，因此无论是上传源码包还是导入样本数据，建议采用先以压缩文件的方式上传到服务器上，然后再解压。这样可以加快速度。</p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/05/12/%E4%B8%BAhexo%E7%BD%91%E7%AB%99%E6%96%87%E7%AB%A0%E6%B7%BB%E5%8A%A0%E5%AF%86%E7%A0%81%E8%AE%BF%E9%97%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/05/12/%E4%B8%BAhexo%E7%BD%91%E7%AB%99%E6%96%87%E7%AB%A0%E6%B7%BB%E5%8A%A0%E5%AF%86%E7%A0%81%E8%AE%BF%E9%97%AE/" class="post-title-link" itemprop="url">为hexo网站文章添加密码访问</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-05-12 12:09:47" itemprop="dateCreated datePublished" datetime="2018-05-12T12:09:47+08:00">2018-05-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:52:54" itemprop="dateModified" datetime="2020-10-11T11:52:54+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>在网站上看到一个关于对hexo文章加密的问题，感觉这篇文章很好的解决了我的问题，这里就把这个分享给大家</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>在 hexo 根目录的 package.json 中添加 ‘“hexo-blog-encrypt”: “2.0.*”‘ 依赖。</p>
+<p>这里笔者在两个地方加了这个才起作用的，分别是：根目录下的 package.json和主题下的package.json，添加如下：</p>
+<pre><code>&quot;dependencies&quot;: &#123;
+    &quot;babel-core&quot;: &quot;6.24.0&quot;,
+    &quot;babel-loader&quot;: &quot;6.4.0&quot;,
+    &quot;babel-plugin-transform-runtime&quot;: &quot;6.23.0&quot;,
+    &quot;babel-polyfill&quot;: &quot;^6.23.0&quot;,
+    &quot;babel-preset-es2015&quot;: &quot;6.24.0&quot;,
+    &quot;babel-preset-react&quot;: &quot;6.23.0&quot;,
+    &quot;babel-preset-stage-2&quot;: &quot;6.22.0&quot;,
+    &quot;badjs-report&quot;: &quot;^1.2.2&quot;,
+    &quot;es6-promise&quot;: &quot;^4.0.5&quot;,
+    &quot;fetch&quot;: &quot;^1.1.0&quot;,
+    &quot;fetch-ie8&quot;: &quot;^1.4.3&quot;,
+    &quot;file-loader&quot;: &quot;^0.9.0&quot;,
+    &quot;js-cookie&quot;: &quot;^2.1.3&quot;,
+    &quot;photoswipe&quot;: &quot;^4.1.1&quot;,
+    &quot;hexo-blog-encrypt&quot;: &quot;2.0.*&quot;
+  &#125;</code></pre>
+<p>在最后添加了这个：</p>
+<pre><code>&quot;hexo-blog-encrypt&quot;: &quot;2.0.*&quot;</code></pre>
+<p>然后在hexo的根目录下执行 npm install 命令。</p>
+<pre><code>npm install hexo-blog-encrypt</code></pre>
+<p>该插件会自动安装，完毕后，我们接着下一步。</p>
+<h2 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h2><p>首先在hexo的根目录下的 _config.yml 中启用该插件，为了万无一失，这里笔者也是分别在主题目录下和hexo的根目录下的 _config.yml 添加了如下代码:</p>
+<pre><code># Security
+##
+encrypt:
+    enable: true</code></pre>
+<blockquote>
+<p>事实证明，不需要在主题的目录下的_config.yml添加这段代码。</p>
+</blockquote>
+<p>然后在你的文章的头部添加上对应的字段，如 password, abstract等等描述信息，如果想对这篇文章加密password这个必不可少，记得冒号后面有一个空格。</p>
+<pre><code>---
+title: hello world
+date: 2018-04-30 20:22:16
+tags:
+    - werr,hexosd
+password: toms
+abstract: hello world.
+message: hello world.
+---</code></pre>
+<p><strong>对 TOC 进行加密</strong></p>
+<p>如果你有一篇文章使用了 TOC，你需要修改模板的部分代码。这里用 landscape 作为例子：</p>
+<p>你可以在 hexo/themes/landscape/layout/_partial/article.ejs 找到 article.ejs。</p>
+<p>然后找到 &lt;% post.content %&gt; 这段代码。</p>
+<p>使用如下的代码来替代它:</p>
+<pre><code>&lt;% if(post.toc == true)&#123; %&gt;
+    &lt;div id=&quot;toc-div&quot; class=&quot;toc-article&quot; &lt;% if (post.encrypt == true) &#123; %&gt;style=&quot;display:none&quot; &lt;% &#125; %&gt;&gt;
+        &lt;strong class=&quot;toc-title&quot;&gt;Index&lt;/strong&gt;
+        &lt;% if (post.encrypt == true) &#123; %&gt;
+            &lt;%- toc(post.origin, &#123;list_number: true&#125;) %&gt;
+        &lt;% &#125; else &#123; %&gt;
+            &lt;%- toc(post.content, &#123;list_number: true&#125;) %&gt;
+        &lt;% &#125; %&gt;
+    &lt;/div&gt;
+&lt;% &#125; %&gt;
+&lt;%- post.content %&gt;</code></pre>
+<p>好的，这里已经算是达到我们加密的目标了。把所有的修改都保存后，我们去看效果：</p>
+<p>最后提醒一下，这个修改顺序不要乱了，跟着这个顺序做，不会出错。流程：</p>
+<p>安装插件—启用插件—把控制加密的代码放入文章的post.content中—新建文章—添加密码—上传文章—查看效果</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/05/12/javascript%E5%88%B6%E4%BD%9C%E7%82%B9%E5%87%BB%E9%93%BE%E6%8E%A5%E6%88%96%E8%80%85%E5%9B%BE%E7%89%87%E5%BC%B9%E5%87%BA%E6%A8%A1%E6%80%81%E6%A1%86%E6%95%88%E6%9E%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/05/12/javascript%E5%88%B6%E4%BD%9C%E7%82%B9%E5%87%BB%E9%93%BE%E6%8E%A5%E6%88%96%E8%80%85%E5%9B%BE%E7%89%87%E5%BC%B9%E5%87%BA%E6%A8%A1%E6%80%81%E6%A1%86%E6%95%88%E6%9E%9C/" class="post-title-link" itemprop="url">javascript制作点击链接或者图片弹出模态框效果</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-05-12 12:03:59" itemprop="dateCreated datePublished" datetime="2018-05-12T12:03:59+08:00">2018-05-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:30" itemprop="dateModified" datetime="2020-10-11T11:53:30+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>参考代码如下：</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;close&lt;/title&gt;
+    &lt;style&gt;
+    #real&#123;
+        /*点击弹出模态框的图片*/
+        margin: 30px;
+        width: 250px;
+        border-radius:6px;
+    &#125;
+    #real:hover&#123;
+        opacity: 0.6;
+    &#125;
+    #mo&#123;
+        display: none;/*隐藏*/
+        width: 100%;
+        height: 100%;
+        position: fixed;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.7);
+        top: 0px;
+        left: 0px;
+        z-index: 1;
+    &#125;
+    #moimg&#123;
+        display: block;
+        margin:25px auto;
+        width: 60%;
+        max-width: 750px;
+    &#125;
+    #caption&#123;
+        text-align: center;
+        margin: 15px auto;
+        width: 60%;
+        max-height: 750px;
+        font-size: 20px;
+        color:#ccc;
+    &#125;
+    #moimg,#caption&#123;
+        -webkit-animation: first 1s;
+        -o-animation: first 1s;
+        animation: first 1s;
+    &#125;
+    @keyframes first&#123;
+        from&#123;transform: scale(0.1);&#125;
+        to&#123;transform: scale(1);&#125;
+    &#125;
+    .close&#123;
+        font-size: 40px;
+        font-weight: bold;
+        position: absolute;
+        top: 20px;
+        right: 14%;
+        color:#f1f1f1;
+    &#125;
+    .close:hover,
+    .close:focus&#123;
+        color:#bbb;
+        cursor:pointer;
+    &#125;
+    @media only screen and(max-width:750px ) &#123;
+        #moimg&#123;
+            width: 100%;
+        &#125;
+    &#125;
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;h2&gt;图片点击弹出模态框效果&lt;/h2&gt;
+&lt;img src=&quot;g.jpg&quot; id=&quot;real&quot; alt=&quot;model test picture&quot;&gt;
+
+&lt;!--图片模态框 --&gt;
+&lt;div class=&quot;motai&quot; id=&quot;mo&quot;&gt;
+    &lt;span class=&quot;close&quot; id=&quot;close&quot;&gt;×&lt;/span&gt;
+    &lt;img class=&quot;motaiimg&quot; id=&quot;moimg&quot;&gt;
+    &lt;div id=&quot;caption&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+    var motai=document.getElementById(&#39;mo&#39;);
+    var moimg=document.getElementById(&quot;moimg&quot;);
+    var realimg=document.getElementById(&quot;real&quot;);
+    var caption=document.getElementById(&quot;caption&quot;);
+
+    realimg.onclick=function()&#123;
+        motai.style.display=&quot;block&quot;;
+        moimg.src=this.src;
+        caption.innerHTML=this.alt
+    &#125;
+
+    var span=document.getElementById(&quot;close&quot;);
+
+    span.onclick=function()&#123;
+        motai.style.display=&quot;none&quot;;
+    &#125;
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/05/12/magento%E4%BA%A7%E5%93%81%E5%88%97%E8%A1%A8%E4%B8%AD%E6%98%BE%E7%A4%BA%E5%85%8D%E8%BF%90%E8%B4%B9%E5%92%8C%E5%90%8E%E5%8F%B0%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B1%9E%E6%80%A7%E6%98%BE%E7%A4%BA%E5%88%B0%E5%89%8D%E5%8F%B0%E4%BA%A7%E5%93%81%E4%BB%B7%E6%A0%BC%E5%8C%BA%E5%9F%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/05/12/magento%E4%BA%A7%E5%93%81%E5%88%97%E8%A1%A8%E4%B8%AD%E6%98%BE%E7%A4%BA%E5%85%8D%E8%BF%90%E8%B4%B9%E5%92%8C%E5%90%8E%E5%8F%B0%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B1%9E%E6%80%A7%E6%98%BE%E7%A4%BA%E5%88%B0%E5%89%8D%E5%8F%B0%E4%BA%A7%E5%93%81%E4%BB%B7%E6%A0%BC%E5%8C%BA%E5%9F%9F/" class="post-title-link" itemprop="url">magento产品列表中显示免运费和后台自定义属性显示到前台产品价格区域</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-05-12 11:13:44" itemprop="dateCreated datePublished" datetime="2018-05-12T11:13:44+08:00">2018-05-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:59" itemprop="dateModified" datetime="2020-10-11T11:57:59+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/magento1/" itemprop="url" rel="index"><span itemprop="name">magento1</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>笔者在收到一个朋友的求助后，问我能不能在magento的产品列表中添加一些额外的信息：</p>
+<ol>
+<li>能不能再产品列表页的产品价格下方都要加上“免运费”这三个字，提告诉客户我们是免运费的。</li>
+<li>能不能在后台产品添加页面那里，新增一个自定义属性，就是在产品添加页面中，类似添加产品属性（颜色、重量、尺寸之类的属性），这个属性可以根据自己的喜好，随便添加文字，如果想要的时候就添加不想要的时候就删除，然后显示到前台去。</li>
+</ol>
+<p>面对这两个问题，第一个问题我认为直接修改主题的模板就行了，我们找到对应的目录，根据源码搜索，我们确定了目标地址：</p>
+<pre><code>app/design/frontend/smartwave/porto/template/catalog/product/price.phtml</code></pre>
+<p>这里说明下，笔者的主题名字是smartwave，而magento的默认主题是default，这个是一个基础模板来的，自己的定义的主题是对原有的进行一个覆盖。明确了这个以后，我们就找到了这个文件。结合浏览器开发者工具，我们找到了这个<code>class=&quot;price-box&quot;</code>是控制这个价格的dom节点，既然在这个下面添加，那么我们找到相应的位置就行了，最后确定的位置如下：</p>
+<pre><code>    &lt;span class=&quot;label&quot;&gt;&lt;?php echo $this-&gt;__(&#39;As low as:&#39;) ?&gt;&lt;/span&gt;
+    &lt;span class=&quot;price&quot; id=&quot;product-minimal-price-&lt;?php echo $_id ?&gt;&lt;?php echo $this-&gt;getIdSuffix() ?&gt;&quot;&gt;
+            &lt;?php echo $_coreHelper-&gt;formatPrice($_minimalPriceDisplayValue, false) ?&gt;
+        &lt;/span&gt;
+    &lt;?php if ($this-&gt;getUseLinkForAsLowAs()): ?&gt;
+        &lt;/a&gt;
+    &lt;?php else: ?&gt;
+        &lt;/span&gt;
+    &lt;?php endif ?&gt;
+&lt;?php endif; /* if ($this-&gt;getDisplayMinimalPrice() &amp;&amp; $_minimalPrice &amp;&amp; $_minimalPrice &lt; $_finalPrice): */ ?&gt;    
+&lt;/div&gt;</code></pre>
+<p>加入内容后如下：</p>
+<pre><code>    &lt;span class=&quot;label&quot;&gt;&lt;?php echo $this-&gt;__(&#39;As low as:&#39;) ?&gt;&lt;/span&gt;
+    &lt;span class=&quot;price&quot; id=&quot;product-minimal-price-&lt;?php echo $_id ?&gt;&lt;?php echo $this-&gt;getIdSuffix() ?&gt;&quot;&gt;
+            &lt;?php echo $_coreHelper-&gt;formatPrice($_minimalPriceDisplayValue, false) ?&gt;
+        &lt;/span&gt;
+    &lt;?php if ($this-&gt;getUseLinkForAsLowAs()): ?&gt;
+        &lt;/a&gt;
+    &lt;?php else: ?&gt;
+        &lt;/span&gt;
+    &lt;?php endif ?&gt;
+&lt;?php endif; /* if ($this-&gt;getDisplayMinimalPrice() &amp;&amp; $_minimalPrice &amp;&amp; $_minimalPrice &lt; $_finalPrice): */ ?&gt;
+&lt;p class=&quot;free-shipping&quot; style=&quot;color:red&quot;&gt;&lt;i class=&quot;fa fa-plane&quot;&gt;&lt;/i&gt; 免运费&lt;/p&gt;    
+&lt;/div&gt;</code></pre>
+<p>然后保存上传，清楚缓存，刷新索引，去前台看到的效果如下：</p>
+<p>第二个问题，我们确定的是采用后台添加自定义属性的方式，然后把这个属性变量调用到前台模板的显示位置即可。因为不是每个产品都要有，这个注定了是要通过后台进行添加，如果有在后台添加了属性，就显示，没有添加属性的话，就不显示。</p>
+<p>好的，我们先去magento后台，添加一个自定义属性，步骤如下：</p>
+<p><img src="https://i.imgur.com/tyYdZ4S.jpg"></p>
+<p>接着就是新建一个属性：</p>
+<p><img src="https://i.imgur.com/XH0ykYk.jpg"></p>
+<p>这里假设新建一个：biaoqian</p>
+<p><img src="https://i.imgur.com/5ovC8XJ.jpg"></p>
+<p>然后，完成设置，把需要设置的都设置一下，保存。</p>
+<p>接着，我们找到管理属性设置组，截图如下：</p>
+<p><img src="https://i.imgur.com/Q7iMDcC.jpg"></p>
+<p>有一个是默认的，另外一个是自己设置的，这里我们选择自己添加的那个：Configurable Products，打开后我们就会看到类似如下的画面：</p>
+<p><img src="https://i.imgur.com/oHeEy5D.jpg"></p>
+<p>红色框框中是我们新建的一个自定义标签，我们想要让这个在产品添加的面板那里出现这个字段的设置，我们就用鼠标拖动过去，位置可以随便放。</p>
+<p>然后，保存，点击刷新一下索引和清除一下缓存。最后，我们来到添加产品或者是编辑产品页面：</p>
+<p><img src="https://i.imgur.com/2b6JaWw.jpg"></p>
+<p>这个就显示出来了，接下来我们让这个东西显示到前台去，假设我让这个显示在上面的那个免运费那里。我们就进行如下的操作：</p>
+<p>我们先把magento获取这个自定义属性的代码贴上：</p>
+<pre><code>&lt;div class=&quot;product-sku&quot;&gt;
+    //获取SKU
+    SKU:&lt;?php echo $_product-&gt;getSku();?&gt;
+    //获取brand这个属性值
+    Brand:&lt;?php
+    $attributes = $_product-&gt;getAttributes();  
+    echo $attributes[&#39;brand&#39;]-&gt;getFrontend()-&gt;getValue($_product);  
+    ?&gt;
+    //获取unit的值
+    UNIT:&lt;?php echo $_product-&gt;getUnit();?&gt;
+&lt;/div&gt;</code></pre>
+<p>好的，这个仅仅是一个示例，这个启发了我们获取我们刚才新建的那个biaoqian的自定义属性，所以我们获取biaoqian这个属性值的代码如下：</p>
+<pre><code>&lt;p&gt;自定义标签：
+    &lt;?php
+        $attributes = $_product-&gt;getAttributes();  
+        echo $attributes[&#39;biaoqian&#39;]-&gt;getFrontend()-&gt;getValue($_product);  
+    ?&gt;
+&lt;/p&gt;</code></pre>
+<p>好的，最后，我把代码贴一下：</p>
+<pre><code>    &lt;span class=&quot;label&quot;&gt;&lt;?php echo $this-&gt;__(&#39;As low as:&#39;) ?&gt;&lt;/span&gt;
+    &lt;span class=&quot;price&quot; id=&quot;product-minimal-price-&lt;?php echo $_id ?&gt;&lt;?php echo $this-&gt;getIdSuffix() ?&gt;&quot;&gt;
+            &lt;?php echo $_coreHelper-&gt;formatPrice($_minimalPriceDisplayValue, false) ?&gt;
+        &lt;/span&gt;
+    &lt;?php if ($this-&gt;getUseLinkForAsLowAs()): ?&gt;
+        &lt;/a&gt;
+    &lt;?php else: ?&gt;
+        &lt;/span&gt;
+    &lt;?php endif ?&gt;
+&lt;?php endif; /* if ($this-&gt;getDisplayMinimalPrice() &amp;&amp; $_minimalPrice &amp;&amp; $_minimalPrice &lt; $_finalPrice): */ ?&gt;
+//新添加的内容 开始
+&lt;p class=&quot;free-shipping&quot; style=&quot;color:red&quot;&gt;&lt;i class=&quot;fa fa-plane&quot;&gt;&lt;/i&gt; 免运费&lt;/p&gt;
+&lt;p&gt;自定义标签：
+    &lt;?php
+        $attributes = $_product-&gt;getAttributes();
+        if ($attributes[&#39;biaoqian&#39;]-&gt;getFrontend()-&gt;getValue($_product)) &#123;
+           echo $attributes[&#39;biaoqian&#39;]-&gt;getFrontend()-&gt;getValue($_product); 
+        &#125;            
+    ?&gt;
+&lt;/p&gt;
+//新添加的内容 结束
+&lt;/div&gt;</code></pre>
+<p>当然，我们可以根据这个思路衍生出很多定制magento的方法，如果这篇文章对你有所帮助，不妨关注笔者，大家一起进步。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/20/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/20/">20</a><span class="page-number current">21</span><a class="page-number" href="/page/22/">22</a><span class="space">&hellip;</span><a class="page-number" href="/page/43/">43</a><a class="extend next" rel="next" href="/page/22/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

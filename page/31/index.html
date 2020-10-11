@@ -1,23 +1,1249 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-{% block title %}{{ config.title }}{% if theme.index_with_subtitle and config.subtitle %} - {{config.subtitle }}{% endif %}{% endblock %}
+<link rel="stylesheet" href="/css/main.css">
 
-{% block page_class %}
-  {% if is_home() %}page-home{% endif -%}
-{% endblock %}
 
-{% block content %}
-  <section id="posts" class="posts-expand">
-    {% for post in page.posts %}
-      {{ post_template.render(post, true) }}
-    {% endfor %}
-  </section>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-  {% include '_partials/pagination.swig' %}
-{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
 
-{% block sidebar %}
-  {{ sidebar_template.render(false) }}
-{% endblock %}
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/page/31/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/page/31/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
+            
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/07/25/%E9%98%BF%E9%87%8C%E4%BA%91%E4%B8%80%E9%94%AEweb%E5%AE%89%E8%A3%85%E5%8C%85%E5%92%8CWDCP%E4%B9%8B%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E8%81%94%E7%B3%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/07/25/%E9%98%BF%E9%87%8C%E4%BA%91%E4%B8%80%E9%94%AEweb%E5%AE%89%E8%A3%85%E5%8C%85%E5%92%8CWDCP%E4%B9%8B%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E8%81%94%E7%B3%BB/" class="post-title-link" itemprop="url">阿里云一键web安装包和WDCP之间的区别和联系，以及phpmyadmin没法登录的问题</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-07-25 13:21:14" itemprop="dateCreated datePublished" datetime="2017-07-25T13:21:14+08:00">2017-07-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:06" itemprop="dateModified" datetime="2020-10-11T11:53:06+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>很长一段时间，我总是存在这么一个误区，在一个服务器上，先安装阿里云一键web环境安装包，然后安装WDCP，这是我一段时间内的常态，后来我发现这样是不对的，而且问题非常严重，因为这样重复安装了很多东西，因为他们两个的功能很接近，都是一个web服务环境，只是WDCP功能更完善，有一个可视化的界面。</p>
+<p>为此，很多人喜欢安装一个WDCP，每次我两个安装后，总是存在很多问题，比如Mysql重启后出错，原因很多，也许是因为两个都安装了的原因。真相是：只安装一个就够了。</p>
+<p>要么安装一个WDCP，要么安装阿里云的一键web安装包。</p>
+<p>这个误区写成一个说说，来时刻提醒自己。</p>
+<p>新装的WDCPv3,如果新建立网站，会出现phpMyAdmin登陆页面无法打开的情况。</p>
+<p>问题原因：新建网站占用80端口。phpMyAdmin 也是用80端口。</p>
+<p><strong>解决办法：</strong></p>
+<p>1、关闭新建网站。</p>
+<p>2、重新在后台访问phpMyAdmin </p>
+<p>3、完成phpMyAdmin 中的所需操作，退出phpMyAdmin 。</p>
+<p>4、重新打开网站。</p>
+<p><strong>更详细的解决方法，给大家贴一下：</strong></p>
+<p>wdCP v3以上版本无法打开phpMyAdmin解决办法！</p>
+<p>第1个：使用服务器IP登录wdCP</p>
+<p>第2个：wdCP为了安全把 这个登录phpMyAdmin网址变成很多pma_xxx每个人都不一样！</p>
+<p>例如我的138.189.26.145/pma_b51e8c78 访问就提示错误，找不到页面页面！</p>
+<p>我进入服务器这个目录才发现没问题，于是 /www/web/default/pma_b51e8c78 </p>
+<p>138.189.26.145/pma_b51e8c78/index.php </p>
+<p>没错 就后面加一个 /index.php 就可以访问了phpMyAdmin </p>
+<p>重点提醒：安装wdCP就有这个 default 为了服务器安全 该一下名字，不要删除 以后有用的！</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/07/25/WDCP%E5%AE%89%E8%A3%85%E5%A4%9APHP%E7%89%88%E6%9C%AC%E5%85%B1%E5%AD%98%E7%9A%84%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/07/25/WDCP%E5%AE%89%E8%A3%85%E5%A4%9APHP%E7%89%88%E6%9C%AC%E5%85%B1%E5%AD%98%E7%9A%84%E5%AE%89%E8%A3%85%E6%96%B9%E6%B3%95/" class="post-title-link" itemprop="url">WDCP安装多PHP版本共存的安装方法</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-07-25 12:49:35" itemprop="dateCreated datePublished" datetime="2017-07-25T12:49:35+08:00">2017-07-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:16" itemprop="dateModified" datetime="2020-10-11T11:53:16+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>我们在安装完WDCPv3.2后，发现PHP没有安装，这可急死我了，没有PHP咋搞，那就安装呗。</p>
+<p>自v3.2开始，wdcp支持多PHP版本共存共用和切换，可根据需求灵活选择和使用从v3.0/3.1升级的用户，还需要再安装下多版本的PHP环境，才可完全正常使用和切换。</p>
+<p><strong>安装方法如下：</strong></p>
+<pre><code>wget http://down.wdlinux.cn/in/phps.sh
+sh phps.sh</code></pre>
+<p>(共支持7个版本的PHP，如5.2.17/5.3.29/5.4.45/5.5.38/5.6.30/7.0.18/7.1.4)</p>
+<p>默认安装使用版本，可以针对或选择性安装某个版本，如</p>
+<pre><code>sh phps.sh 7.1.4</code></pre>
+<p>即可安装7.1.4</p>
+<p>多版本PHP的手动启动|停止|重起</p>
+<p>如:5.5</p>
+<pre><code>/www/wdlinux/phps/55/bin/php-fpm start
+/www/wdlinux/phps/55/bin/php-fpm stop
+/www/wdlinux/phps/55/bin/php-fpm restart</code></pre>
+<p>如是其它版本，把55替换为相应版本即可。</p>
+<p>如无特别求，可不必全部安装或启动，因为启动多一个，就会占资源多一份。</p>
+<p><strong>已知问题</strong></p>
+<p>CentOS 7.X系列系统，不再支持php-5.2/5.3的老版本PHP，可考虑使用CentOS 6.X</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/07/25/%E7%BD%91%E7%AB%99%E6%90%AC%E5%AE%B6%E5%90%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%AD%E4%B9%B1%E7%A0%81%E5%92%8C%E6%96%87%E7%AB%A0%E5%87%BA%E7%8E%B0404%E7%9A%84%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/07/25/%E7%BD%91%E7%AB%99%E6%90%AC%E5%AE%B6%E5%90%8E%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%AD%E4%B9%B1%E7%A0%81%E5%92%8C%E6%96%87%E7%AB%A0%E5%87%BA%E7%8E%B0404%E7%9A%84%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">网站搬家后数据库中乱码和文章出现404的问题</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-07-25 11:50:26" itemprop="dateCreated datePublished" datetime="2017-07-25T11:50:26+08:00">2017-07-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:52:54" itemprop="dateModified" datetime="2020-10-11T11:52:54+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>最近在进行网站搬家的时候，数据库文件的导入也是经过几番周折，终于导入了，根据个人新建数据库的习惯来说，绝对不是只写一个数据库名称，点击新建就行了，因为这个地方牵涉到一个编码的问题，也就是整理类型的问题，最开始为了拍错，我直接在phpadmin面板里面新建了一个数据库，没有选择整理类型，结果默认的类型是Latin的，随后我直接在另外一个服务器上导出数据库文件，然后倒入到这个新建的数据库中，原本的数据库文件里的中文是没问题的， 可是当我完成网站迁移后，访问网站后台的文章管理页的时候，发现所有有中文出现的标题都会变成了乱码，这咋回事？？</p>
+<p>于是，开始定位到编码的问题上，于是我打开了导入的这个.sql文件，然后查找是不是GB2312，没有！charset都是UTF-8，所以这应该不是数据表的问题，也不是我导入的这个数据文件的问题，于是我就找导入的这方，看下是不是我刚才新建的这个数据库编码问题，果不其然！找到了。就是整理方式没有选择，而是直接默认，这不行。</p>
+<p>后来，删除了这个数据库，新建了一个一模一样的数据库，然后整理方式选择utf8-generic-ci，大概就是这样，解决了乱码的问题。</p>
+<p>解决完了后，发现查看博客的时候，发现404页面，所有博客文章都是这样，我就纳闷了，这个时候，我开始想，我用的是阿里云的一键web安装，很多配置都是没有修改的，所以我定位到一个经典的问题：伪静态。</p>
+<p>伪静态这个问题，我们需要注意的是，伪静态这里，我们需要分清楚，是哪个服务器，有apache、nginx、IIS，不同服务器设置的伪静态不同。由于我这里选择的是nginx，这里我直接针对nginx做一个演示：</p>
+<p><strong>Nginx伪静态规则</strong></p>
+<p>Nginx环境一般是Linux 主机 VPS或服务器用户用的比较多，这些用户一般都会自己配置Nginx，或者有专门的人帮你配置，打开 nginx.conf 或者某个站点的配置环境，比如 wpdaxue.com.conf（不同人配置的不一样），在  server   { } 大括号里面添加下面的代码：</p>
+<pre><code>location / &#123;
+    if (-f $request_filename/index.html)&#123;
+    rewrite (.*) $1/index.html break;
+    &#125;
+    if (-f $request_filename/index.php)&#123;
+    rewrite (.*) $1/index.php;
+    &#125;
+    if (!-f $request_filename)&#123;
+    rewrite (.*) /index.php;
+    &#125;
+&#125;</code></pre>
+<p>保存，重启 Nginx （如果有必要也可以重启一下服务器再重启nginx）即可。</p>
+<p>重启nginx知道怎么重启吗？再来科普一下，在根目录下运行如下命令：</p>
+<pre><code>service nginx restart</code></pre>
+<p>然后在刷新下，搞定！如果还是不行，这个时候可以考虑去看下固定链接（我这个教程是针对wordpress的），修改下固定链接试试看。或者是直接点击保存，有的时候可能在数据库导入的时候，是这样的。</p>
+<p>另外一种情况可能就是一个权限的问题，由于权限，导致在后台设置了一点东西，保存后。全乱了，所以这个时候可以看下网站根目录的权限是否足够，最好设置为755或者是更高。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/07/25/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AE%89%E8%A3%85WDCP%E6%9C%80%E6%96%B0%E7%89%88%E6%95%99%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/07/25/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AE%89%E8%A3%85WDCP%E6%9C%80%E6%96%B0%E7%89%88%E6%95%99%E7%A8%8B/" class="post-title-link" itemprop="url">云服务器安装WDCP最新版教程</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-07-25 11:32:48" itemprop="dateCreated datePublished" datetime="2017-07-25T11:32:48+08:00">2017-07-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:52:51" itemprop="dateModified" datetime="2020-10-11T11:52:51+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>wdcp_v3.2正式版本，终于可以和大家见面了</p>
+<p>v3.2版本，最大的亮点，自然是大家期待以久的两大功能</p>
+<p>多版本PHP共存和SSL功能设置的支持，现已可以完美的支持</p>
+<p>其实还有一个大亮点，那就是同时支持N+A的组合，也就是说，wdcp的v3.2版本，可以同时支持N+A的组合，以及多版本PHP的共存，同时优化了部分内核代码，操作流程，界面等。功能更强大，使用更灵活，简洁，一如既往的免费。</p>
+<blockquote>
+<p>安装方法(请使用纯净系统，即不带任何其它WEB环境的系统)</p>
+</blockquote>
+<p><strong>1 只安装wdcp面板看看</strong></p>
+<pre><code>wget http://down.wdlinux.cn/in/install_v3.sh
+sh install_v3.sh</code></pre>
+<p><strong>2 和lanmp环境一起安装</strong></p>
+<pre><code>yum install -y wget
+wget http://dl.wdlinux.cn/files/lanmp_v3.2.tar.gz
+tar zxvf lanmp_v3.2.tar.gz
+chmod 755 lanmp.sh
+sh lanmp.sh</code></pre>
+<p>可选安装LNMP,LAMP,LNAMP,4全部安装(可切换)</p>
+<p>默认安装软件版本为：</p>
+<pre><code>nginx-1.8.1
+apache-2.2.31
+mysql-5.5.54
+php-5.5.38
+memcache
+redis
+zend</code></pre>
+<p>如需要自定义软件版本，后加cus,如下</p>
+<pre><code>sh lanmp.sh cus</code></pre>
+<p>如需PHP多版本共存指定使用功能，也需安装，如</p>
+<pre><code>sh lib/phps.sh</code></pre>
+<p>(共支持7个版本的PHP，如5.2.17/5.3.29/5.4.45/5.5.38/5.6.30/7.0.18/7.1.4)</p>
+<p>也可指定安装某一版本，如sh lib/phps.sh 5.2.17</p>
+<p>多版本的zend,redis,memcache,opcache.sh扩展支持安装</p>
+<pre><code>sh lib/phps_zend.sh
+sh lib/phps_redis.sh
+sh lib/phps_memcache.sh</code></pre>
+<p>默认安装全部PHP版本，也可指定安装某PHP版本，同上</p>
+<p>软件安装目录</p>
+<pre><code>/www/wdlinux</code></pre>
+<p>数据库文件目录</p>
+<pre><code>/www/wdlinux/mysql/data</code></pre>
+<p>支持组件</p>
+<p>zend,memcache,rewrite,pdo_mysql,mysqli等常用组件</p>
+<p>支持系统</p>
+<p>wdcp_v3 支持wdOS/CentOS5.x/6.x/7.x</p>
+<p><strong>3 升级</strong>(3.0/3.1的升级)</p>
+<p>可后台直接升级或使用如下手动升级</p>
+<pre><code>wget http://down.wdlinux.cn/in/update_v3.sh
+sh update_v3.sh</code></pre>
+<p>备注：</p>
+<p>此升级只是升级wdcp的后台面板及功能，对于WEB环境的软件需另外升级(无特别需求，WEB环境可不升级或根据需求有针对性的升级)(2.X的升级)，可用安装方法1中所说方法。</p>
+<p><strong>关于从v2的升级</strong></p>
+<p>对于使用v2的用户，可以单独升级wdcp后台到v3的版本(只安装v3的后台系统就可以,千万不要全新安装，否则很麻烦)，v2/v3升级到v3.2的单独安装多PHP的方法：<a target="_blank" rel="noopener" href="http://www.wdlinux.cn/bbs/thread-57646-1-1.html">http://www.wdlinux.cn/bbs/thread-57646-1-1.html</a></p>
+<p><strong>卸载方法</strong></p>
+<pre><code>rm -fr /www/wdlinux
+reboot</code></pre>
+<p><strong>wdcp后台的启动，重起，关闭方法</strong></p>
+<pre><code>service wdcp start
+service wdcp restart
+service wdcp stop</code></pre>
+<p><strong>多版本PHP的手动启动|停止|重起</strong></p>
+<p>如:5.5</p>
+<pre><code>/www/wdlinux/phps/55/bin/php-fpm start
+/www/wdlinux/phps/55/bin/php-fpm stop
+/www/wdlinux/phps/55/bin/php-fpm restart</code></pre>
+<p>如是其它版本，把55替换为相应版本即可。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/07/25/wdcp%E8%BF%81%E7%A7%BB%E8%87%B3%E6%95%B0%E6%8D%AE%E7%9B%98%E6%95%99%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/07/25/wdcp%E8%BF%81%E7%A7%BB%E8%87%B3%E6%95%B0%E6%8D%AE%E7%9B%98%E6%95%99%E7%A8%8B/" class="post-title-link" itemprop="url">wdcp迁移至数据盘教程</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-07-25 11:26:15" itemprop="dateCreated datePublished" datetime="2017-07-25T11:26:15+08:00">2017-07-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:16" itemprop="dateModified" datetime="2020-10-11T11:53:16+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>如果未挂载数据盘就安装wdcp的话，wdcp会默认安装在系统盘的/www目录，<br>系统盘大小是8G，无法扩容，时间长了系统盘的空间可能会被占满，那么如果有数据盘的话，如何将/www目录迁移至数据盘中呢？</p>
+<p>首先要先将数据盘挂载到系统中，比如挂载到/mydata目录 （注意千万不要直接挂载到/www，直接挂载到/www会导致原先/www中的数据被隐藏，挂载后的/www是个空目录，影响业务正常访问。)</p>
+<p><strong>1、挂载数据盘</strong></p>
+<p>假设数据盘设备是/dev/vdb, 已经创建了分区并进行了格式化，格式化后的设备名称是/dev/vdb1<br>有些用户的数据盘可能不是/dev/vdb, 具体以fdisk -l 看到的结果为准，假如设备是/dev/xvdb ，那下面都要对应修改成xvdb</p>
+<pre><code>mkdir /mydata
+mount /dev/vdb1 /mydata</code></pre>
+<p><strong>2、停止业务程序</strong></p>
+<p>程序一定要停止，要不数据移动时可能会有异常</p>
+<pre><code>service mysqld stop 
+service wdapache stop
+service httpd stop
+service nginxd stop
+service pureftpd stop</code></pre>
+<p><strong>3、移动数据</strong></p>
+<pre><code>mv /www/*  /mydata/</code></pre>
+<p><strong>4、umount 数据盘</strong></p>
+<p>umount时不要进入到/mydata目录或者子目录中，否则会提示设备忙，无法卸载</p>
+<pre><code>cd /  &amp;&amp; umount  /mydata</code></pre>
+<p><strong>5、编辑 /etc/fstab文件, 以便服务器重启后也能自动挂载数据盘</strong></p>
+<pre><code>vi /etc/fstab</code></pre>
+<p>增加一行:</p>
+<pre><code>/dev/vdb1                  /www                ext3    defaults        0 0</code></pre>
+<p><strong>6、重新挂载数据盘</strong></p>
+<pre><code>mount -a    //此命令起到了检查/etc/fstab文件的作用，会挂载此文件中未挂载的设备</code></pre>
+<p>也可以执行</p>
+<pre><code>mount /dev/vdb1 /www </code></pre>
+<p><strong>7、df检查</strong></p>
+<p>此时再执行df -h 命令，就可以看到数据盘设备 /dev/vdb1 挂载到 /www目录中了</p>
+<p><strong>8、启动业务程序</strong></p>
+<pre><code>service mysqld start 
+service wdapache start 
+service httpd start 
+service nginxd start 
+service pureftpd start </code></pre>
+<p><strong>9、最后打开管理后台，部署的网站进行查看，确认是否正常恢复业务。</strong></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/07/24/centos%E4%B8%8B%E6%8C%82%E8%BD%BD%E7%A3%81%E7%9B%98%E7%9A%84%E6%96%B9%E6%B3%95(1)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/07/24/centos%E4%B8%8B%E6%8C%82%E8%BD%BD%E7%A3%81%E7%9B%98%E7%9A%84%E6%96%B9%E6%B3%95(1)/" class="post-title-link" itemprop="url">美橙云服务器centos下挂载磁盘的方法</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-07-24 21:39:04" itemprop="dateCreated datePublished" datetime="2017-07-24T21:39:04+08:00">2017-07-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:35" itemprop="dateModified" datetime="2020-10-11T11:53:35+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Linux磁盘挂载是比较常见的管理操作之一。橙云预装的linux系统有2块盘，一块为系统盘，另外一块磁盘是数据盘，默认没有挂载，需要手动挂载到系统中。具体操作是：需要对磁盘进行格式化，格式化后挂载到需要的挂载点，最后还需要添加分区启动表，以便下次系统启动随机自动挂载。<br>详细操作步骤为：</p>
+<p>1、首先查看系统中磁盘信息，命令为：fdisk -l 输入后显示的：”Disk /dev/vda: 21.5 GB”,即为系统盘，名称为vda，另外还有一块磁盘是没有格式化，没有分区，没有在使用中的：”Disk /dev/vdb: 32.2 GB”，如图1所示:</p>
+<p><img src="http://i.imgur.com/1Ign1LR.jpg"></p>
+<p>2、将未使用的磁盘进行格式化，操作数据盘符前，请自行确认磁盘是否有使用过，如有重要数据请谨慎操作，以免导致数据丢失，带来不必要的麻烦。具体格式化命令为： mkfs.ext3 /dev/vdb 如图2所示，即为正在格式化中。这个时候请耐心等待格式化完毕。</p>
+<p><img src="http://i.imgur.com/0PPf6Hh.jpg"></p>
+<p>3、将格式化完的磁盘进行挂载，挂载前，先在服务器上创建一个需要挂载的挂载点，如可以在根目录下创建一个wwwroot目录。创建目录命令为： mkdir /wwwroot</p>
+<p>挂载磁盘到wwwroot目录，挂载命令： mount /dev/vdb /wwwroot/</p>
+<p>4、修改fstab，以便系统启动时自动挂载磁盘，编辑fstab默认启动文件命令： vi /etc/fstab 回车在其中添加一行： /dev/vdb /wwwroot ext3 defaults 0 0 如图3所示，在fstab中添加的一行,添加后，保存。</p>
+<p><img src="http://i.imgur.com/Bp5o3TP.jpg"></p>
+<p>请注意，若系统为Centos 7以上，写入fstab时必须使用nofail参数。</p>
+<p><img src="https://i.imgur.com/5MmT7Rs.png"></p>
+<p>然后如图4所示，输入：sync 将缓存写入服务器，并执行：init -6 进行优雅重启服务器。</p>
+<p><img src="http://i.imgur.com/C75irLy.jpg"></p>
+<p>5、重启服务器后，输入命令： df -lh 查看第2块磁盘是否有正常挂载，正常情况您会看到如图5所示，这样第2块盘就挂载好了。</p>
+<p><img src="http://i.imgur.com/BBWGi9D.jpg"></p>
+<p>强烈建议您将重要数据均存放到第2块盘，以免因系统崩溃或重装导致数据丢失！虽然，这个是这家服务商的磁盘挂载方式，但是一般的磁盘挂载方式基本差不多。作为借鉴。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/07/24/centos%E4%B8%8B%E6%8C%82%E8%BD%BD%E7%A3%81%E7%9B%98%E7%9A%84%E6%96%B9%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/07/24/centos%E4%B8%8B%E6%8C%82%E8%BD%BD%E7%A3%81%E7%9B%98%E7%9A%84%E6%96%B9%E6%B3%95/" class="post-title-link" itemprop="url">美橙云服务器centos下挂载磁盘的方法</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-07-24 21:39:04" itemprop="dateCreated datePublished" datetime="2017-07-24T21:39:04+08:00">2017-07-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:35" itemprop="dateModified" datetime="2020-10-11T11:53:35+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Linux磁盘挂载是比较常见的管理操作之一。橙云预装的linux系统有2块盘，一块为系统盘，另外一块磁盘是数据盘，默认没有挂载，需要手动挂载到系统中。具体操作是：需要对磁盘进行格式化，格式化后挂载到需要的挂载点，最后还需要添加分区启动表，以便下次系统启动随机自动挂载。<br>详细操作步骤为：</p>
+<p>1、首先查看系统中磁盘信息，命令为：fdisk -l 输入后显示的：”Disk /dev/vda: 21.5 GB”,即为系统盘，名称为vda，另外还有一块磁盘是没有格式化，没有分区，没有在使用中的：”Disk /dev/vdb: 32.2 GB”，如图1所示:</p>
+<p><img src="http://i.imgur.com/1Ign1LR.jpg"></p>
+<p>2、将未使用的磁盘进行格式化，操作数据盘符前，请自行确认磁盘是否有使用过，如有重要数据请谨慎操作，以免导致数据丢失，带来不必要的麻烦。具体格式化命令为： mkfs.ext3 /dev/vdb 如图2所示，即为正在格式化中。这个时候请耐心等待格式化完毕。</p>
+<p><img src="http://i.imgur.com/0PPf6Hh.jpg"></p>
+<p>3、将格式化完的磁盘进行挂载，挂载前，先在服务器上创建一个需要挂载的挂载点，如可以在根目录下创建一个wwwroot目录。创建目录命令为： mkdir /wwwroot</p>
+<p>挂载磁盘到wwwroot目录，挂载命令： mount /dev/vdb /wwwroot/</p>
+<p>4、修改fstab，以便系统启动时自动挂载磁盘，编辑fstab默认启动文件命令： vi /etc/fstab 回车在其中添加一行： /dev/vdb /wwwroot ext3 defaults 0 0 如图3所示，在fstab中添加的一行,添加后，保存。</p>
+<p><img src="http://i.imgur.com/Bp5o3TP.jpg"></p>
+<p>然后如图4所示，输入：sync 将缓存写入服务器，并执行：init -6 进行优雅重启服务器。</p>
+<p><img src="http://i.imgur.com/C75irLy.jpg"></p>
+<p>5、重启服务器后，输入命令： df -lh 查看第2块磁盘是否有正常挂载，正常情况您会看到如图5所示，这样第2块盘就挂载好了。</p>
+<p><img src="http://i.imgur.com/BBWGi9D.jpg"></p>
+<p>强烈建议您将重要数据均存放到第2块盘，以免因系统崩溃或重装导致数据丢失！虽然，这个是这家服务商的磁盘挂载方式，但是一般的磁盘挂载方式基本差不多。作为借鉴。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/07/24/MySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9C%A8%E5%AF%BC%E5%85%A5%E5%88%B0%E6%96%B0%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%97%B6%E5%80%99%E6%8A%A5%E9%94%99%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/07/24/MySQL%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9C%A8%E5%AF%BC%E5%85%A5%E5%88%B0%E6%96%B0%E7%9A%84%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%97%B6%E5%80%99%E6%8A%A5%E9%94%99%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95/" class="post-title-link" itemprop="url">MySQL数据库在导入到新的服务器时候报错解决办法</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-07-24 21:01:41" itemprop="dateCreated datePublished" datetime="2017-07-24T21:01:41+08:00">2017-07-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:18" itemprop="dateModified" datetime="2020-10-11T11:53:18+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>这个问题困惑了我很久，说来话长，在帮公司官网搬迁的过程中，公司旧网的数据库文件有大概9M，这个算是较大的文件，开始的时候报错是Nginx出现413 Request Entity Too Large错误，这个错误，我百度了下，Nginx出现的413 Request Entity Too Large错误,这个错误一般在上传文件的时候出现。</p>
+<p><strong>解决方法：</strong></p>
+<p>打开nginx主配置文件nginx.conf，一般在/usr/local/nginx/conf/nginx.conf这个位置，找到http{}段，修改或者添加</p>
+<p>client_max_body_size 2m; #修改此处上传大小为自己实际需要的大小</p>
+<p>然后重启nginx或者重新加载nginx配置文件即可    </p>
+<p>以php运行下，这个大小client_max_body_size要和php.ini中的如下值的最大值差不多或者更大一点，这样就不会因为NGINX提交数据大小与PHP大小不一致出现错误。</p>
+<pre><code>post_max_size = 2M
+upload_max_filesize = 2M</code></pre>
+<p>phpmyadmin导入mysql数据库提示,您想上传更大的文件/您可能想上传更大的文件，请参考文档来寻找解决方法。</p>
+<p>解决方法：</p>
+<p>检查php.ini 配置文件中的以下三个地方，upload_max_filesize, memory_limit 和post_max_size，并且推荐修改的值要稍大于导入的巨大sql数据库文件；依照这个提示，修改后，重启php环境 。</p>
+<p>这个过程中，由于我使用的是一键web环境安装包，所以开始不清楚php.ini在哪个目录下，找了半天，后来也是百度了一下，还是感觉这个方式寻找文件比较快捷：</p>
+<pre><code>sudo find / -name &#39;php.ini&#39;</code></pre>
+<p>这个语句则会在你整个系统盘中查找php.ini的位置，如果系统很大的话这个可能速度就比较慢，所有如果你确定php.ini是在/etc的话，则可以把bash脚本中的’/‘换成“/etc”.</p>
+<p><strong>各操作系统中php.ini的位置</strong></p>
+<p><img src="http://i.imgur.com/xBBjLeM.png"></p>
+<p>这里还是恶补一下：</p>
+<p>首先PHP.ini文件并不是隐藏文件，寻找php.ini文件的方法有很多种，这里介绍两种最快的方法吧。</p>
+<pre><code>&lt;?  
+phpinfo();  
+?&gt; </code></pre>
+<p>这里说了这么多，主要就是说如何快速的寻找这个php.ini配置文件的地方。</p>
+<p>既然修改完了我就重启服务器呗，由于用apache多了，总是喜欢运行命令：</p>
+<pre><code>service httpd restart</code></pre>
+<p>随之带来的问题就是，提示命令不存在，</p>
+<pre><code>httpd: unrecognized service</code></pre>
+<p>后来我又陷入了一阵折腾，后来我发现我使用的并不是apache，而是nginx，所以命令不能是这样跑的，而是：</p>
+<pre><code>service nginx restart</code></pre>
+<p>就这样一个简单的修改配置，重启服务就这样被我艰难的完成了。</p>
+<p>最主要的是这个重头戏：</p>
+<pre><code>#1064 - You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near &#39;TYPE=MyISAM AUTO_INCREMENT=2&#39; at line 6</code></pre>
+<p>导入的时候发现，居然报错了，我看了下报错的意思，大概就是版本问题，然后百度，就是因为这么一百度，我半天时间就被耗尽了，后来终于在<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/21937789/mysql-type-myisam-error">stackoverflow</a>上找到了灵感：</p>
+<pre><code>you must change this
+
+  TYPE=MyISAM
+
+to
+
+ ENGINE=MyISAM</code></pre>
+<p>这里给出案例：参考地址 <a target="_blank" rel="noopener" href="http://dev.mysql.com/doc/refman/5.6/en/create-table.html">http://dev.mysql.com/doc/refman/5.6/en/create-table.html</a></p>
+<p>就是说，把.sql文件里的<code>TYPE=MyISAM</code>全部替换成<code>ENGINE=MyISAM</code></p>
+<p>后来，我在修改好配置（为了让服务器支持上传大文件，而不报错）后，然后修改了脚本文件的<code>TYPE=MyISAM</code>我终于见证了，一次完美的数据库搬迁。</p>
+<p>有的时候对于导入数据文件过大的，中途可能报错，这个时候不要惊慌失措，先看报错的代码，然后可以考虑这样执行，如果原服务器的数据库还能访问的话，可以分批导出，然后分批导入，把没问题的数据表导入，然后针对有问题的数据表单独导出来，再导入到目标服务器的数据库中，有的时候数据的导入尤其要注意数据库的整理规则，使用编辑器可以批量修改，我见过最多情况的是TYPE换成ENGINE，采集规则有utf8mb4的也有其他很多种类的，我建议是先更换TYPE变成ENGINE，如果能够解决问题了，就不管，如果还是报错可以先看下是否采集规则，然后批量修改一下，比如变成utf8_generic_ci等。再导入试试看。</p>
+<p>当然，如果你的问题类似，这篇文章可以救你了，当然，也会碰到其他的问题，逐个击破，不要轻易的重装。这个很费时间。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/07/23/WordPress-%E7%A6%81%E7%94%A8%E6%88%96%E7%A6%81%E6%AD%A2%E6%94%B6%E5%BD%95%E5%AA%92%E4%BD%93%E9%A1%B5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/07/23/WordPress-%E7%A6%81%E7%94%A8%E6%88%96%E7%A6%81%E6%AD%A2%E6%94%B6%E5%BD%95%E5%AA%92%E4%BD%93%E9%A1%B5/" class="post-title-link" itemprop="url">WordPress 禁用或禁止收录媒体页</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-07-23 16:52:03" itemprop="dateCreated datePublished" datetime="2017-07-23T16:52:03+08:00">2017-07-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:14" itemprop="dateModified" datetime="2020-10-11T11:53:14+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>默认情况下，WordPress 会为媒体库中的每一个媒体创建单独的网页，包括图片、视频和 PDF 文档等。我相信很多同学甚至都不知道这种页面的存在，你可以在媒体库中随便找一个媒体，鼠标悬浮上去，点击「查看」链接就能进入媒体页了。</p>
+<p>这个功能对于大多数人来说的是无用的，除非你是摄影作品展示之类的网站，否则访客只看插入到文章中的图片或视频就行。</p>
+<p>而且，大部分主题都没有针对媒体页做出优化，看起来也是巨丑无比，非常不协调，这种无用的垃圾页面我们还是直接想办法干掉好了。</p>
+<p><strong>方法一、使用插件</strong></p>
+<p>最简单也是我推荐的方法就是直接安装一个插件，它叫做 Attachment Pages Redirect，安装并启用之后，如果再访问媒体页，会被强制跳转到媒体所属的文章页，如果媒体没有归于任何文章，就会跳到首页。</p>
+<p>这种方法弄起来非常快，只需要你在网站后台搜索插件，一键安装，再轻轻按下启用按钮就好，而且插件本身只有一个小函数，对于服务器的性能消耗几乎可以忽略不计。</p>
+<p><strong>方法二、利用现有插件</strong></p>
+<p>如果你安装了热门的 Yoast SEO 插件，可以直接使用插件提供的功能来禁用媒体页面。在后台管理菜单进入「SEO」目录下的「Advanced」页面，点击「Permalinks」选项卡，找到「Redirect attachment URLs to parent post URL.」选项，设置为开启的「Redirect」状态即可。</p>
+<p><img src="http://i.imgur.com/3r2GVcI.png"></p>
+<p>效果和上边说的 Attachment Pages Redirect 插件一样，都是直接跳转到媒体所属的文章页。</p>
+<p><strong>方法三、修改主题文件</strong></p>
+<p>找到主题根目录下的 attachment.php 文件（如果没有就创建一个），在最开头加入下列代码：</p>
+<pre><code>&lt;?php
+/**
+ * 跳转到媒体所属的文章页
+ *
+ * @link https://www.endskin.com/disable-attachment-pages/
+ */
+function Bing_disable_attachment_pages() &#123;
+    if ( ( $post_parent = wp_get_post_parent_id() ) &gt; 0 )
+        $redirect = get_permalink( $post_parent );
+    else
+        $redirect = home_url();
+
+    wp_redirect( $redirect );
+    die;
+&#125;
+Bing_disable_attachment_pages();
+?&gt;</code></pre>
+<p>如果你担心主题升级导致文件被覆盖的话，可以直接使用方法一里介绍的，效果一模一样的插件，或者在子主题里添加 attachment.php 文件，只放入这段代码即可。</p>
+<p><strong>方法四、禁止收录</strong></p>
+<p>如果你不想禁止媒体页的访问，但是想阻止搜索引擎收录它的话，可以把下边的代码加入到主题的 functions.php 里：</p>
+<pre><code>/**
+ * 禁止搜索引擎收录媒体页
+ *
+ * @link https://www.endskin.com/disable-attachment-pages/
+ */
+function Bing_disable_robots_index_attachment_pages() &#123;
+    if ( is_attachment() )
+        wp_no_robots();
+&#125;
+add_action( &#39;wp_head&#39;, &#39;Bing_disable_robots_index_attachment_pages&#39; );</code></pre>
+<p>这样做的话，媒体页的 <head> 标签里会输出一条 <meta> 标签指令，告诉搜索引擎不收录这个页面。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/07/23/WordPress-%E4%B8%BA%E4%B8%8D%E5%90%8C%E7%9A%84%E8%AF%AD%E8%A8%80%E6%B7%BB%E5%8A%A0%E4%B8%8D%E5%90%8C%E7%9A%84%E6%A0%B7%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/07/23/WordPress-%E4%B8%BA%E4%B8%8D%E5%90%8C%E7%9A%84%E8%AF%AD%E8%A8%80%E6%B7%BB%E5%8A%A0%E4%B8%8D%E5%90%8C%E7%9A%84%E6%A0%B7%E5%BC%8F/" class="post-title-link" itemprop="url">WordPress 为不同的语言添加不同的样式</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-07-23 16:41:27" itemprop="dateCreated datePublished" datetime="2017-07-23T16:41:27+08:00">2017-07-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:14" itemprop="dateModified" datetime="2020-10-11T11:53:14+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>WordPress 是一个多语言的内容管理系统，有完善的多语言发开 API。在开发多语言的主题或插件时，只需要使用语言包即可实现语言本地化。</p>
+<p>但是，在实际开发中，只有语言包可能无法保证 100% 的兼容。因为语种、字体的不同，可能需要给某些语言单独添加 CSS 样式。</p>
+<p>给不同的语言添加不同的样式只需要把下边的代码放到主题的 functions.php 或者插件之中：</p>
+<pre><code>/**
+    *WordPress 为不同的语言添加不同的样式
+    *https://www.endskin.com/body-class-locale-language/
+*/
+function Bing_body_class_add_locale( $classes )&#123;
+    $classes[] = &#39;locale-&#39; . sanitize_html_class( get_locale() );
+    return $classes;
+&#125;
+add_filter( &#39;body_class&#39;, &#39;Bing_body_class_add_locale&#39; );</code></pre>
+<p>这样，body 标签就会在不同的语种出现不同的 Class 类。比如简体中文就会有 “locale-zh_CN”、美式英语就会有 “locale-en_US”。</p>
+<p><img src="http://i.imgur.com/K4k709a.png"></p>
+<p>这样，利用这个 Class 类，就可以给不同的语种添加不同的样式，比如下边的 CSS 代码，为简体中文单独设置了字体：</p>
+<pre><code>body.locale-zh_CN &#123;
+    font-family: &#39;Hiragino Sans GB&#39;, &#39;Microsoft Yahei&#39;, &#39;宋体&#39;, Helvetica, Arial, Sans-serif;
+&#125;</code></pre>
+<p>如果wordpress新版本的话，可以转换下，新版本wordpress的这个class的名称已经变成了locale-zh-cn这种写法，如果是这样的话，我们可以通过：</p>
+<pre><code>$admin_body_class .= &#39; locale-&#39; . sanitize_html_class( strtolower( str_replace( &#39;_&#39;, &#39;-&#39;, get_locale() ) ) );</code></pre>
+<p>强制转换一下。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/30/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/30/">30</a><span class="page-number current">31</span><a class="page-number" href="/page/32/">32</a><span class="space">&hellip;</span><a class="page-number" href="/page/43/">43</a><a class="extend next" rel="next" href="/page/32/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

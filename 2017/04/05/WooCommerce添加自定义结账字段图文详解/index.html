@@ -1,37 +1,552 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="向WooCommerce的结账表单添加自定义字段，可以使用插件WooCommerce checkout manager或者filter:woocommerce_checkout_fields，本文介绍的方法非上述两种，而是使用woocommerce_form_field()函数在订单备注之后添加自定义字段，并将字段显示在订单详情、订单邮件和后台中的方法 代码测试环境和使用方法 WordPress">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WooCommerce添加自定义结账字段图文详解">
+<meta property="og:url" content="http://example.com/2017/04/05/WooCommerce%E6%B7%BB%E5%8A%A0%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BB%93%E8%B4%A6%E5%AD%97%E6%AE%B5%E5%9B%BE%E6%96%87%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="向WooCommerce的结账表单添加自定义字段，可以使用插件WooCommerce checkout manager或者filter:woocommerce_checkout_fields，本文介绍的方法非上述两种，而是使用woocommerce_form_field()函数在订单备注之后添加自定义字段，并将字段显示在订单详情、订单邮件和后台中的方法 代码测试环境和使用方法 WordPress">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://i.imgur.com/Kwm0rza.png">
+<meta property="og:image" content="http://i.imgur.com/mZi8Wrb.png">
+<meta property="og:image" content="http://i.imgur.com/yJOHIep.png">
+<meta property="og:image" content="http://i.imgur.com/iPEkvAu.png">
+<meta property="og:image" content="http://i.imgur.com/Cavi4Df.png">
+<meta property="article:published_time" content="2017-04-05T04:56:24.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:53:15.065Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="WooCommerce,送货日期">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://i.imgur.com/Kwm0rza.png">
+
+<link rel="canonical" href="http://example.com/2017/04/05/WooCommerce%E6%B7%BB%E5%8A%A0%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BB%93%E8%B4%A6%E5%AD%97%E6%AE%B5%E5%9B%BE%E6%96%87%E8%AF%A6%E8%A7%A3/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>WooCommerce添加自定义结账字段图文详解 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/04/05/WooCommerce%E6%B7%BB%E5%8A%A0%E8%87%AA%E5%AE%9A%E4%B9%89%E7%BB%93%E8%B4%A6%E5%AD%97%E6%AE%B5%E5%9B%BE%E6%96%87%E8%AF%A6%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          WooCommerce添加自定义结账字段图文详解
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-04-05 12:56:24" itemprop="dateCreated datePublished" datetime="2017-04-05T12:56:24+08:00">2017-04-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:15" itemprop="dateModified" datetime="2020-10-11T11:53:15+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>向WooCommerce的结账表单添加自定义字段，可以使用插件WooCommerce checkout manager或者filter:woocommerce_checkout_fields，本文介绍的方法非上述两种，而是使用woocommerce_form_field()函数在订单备注之后添加自定义字段，并将字段显示在订单详情、订单邮件和后台中的方法</p>
+<p>代码测试环境和使用方法</p>
+<p>WordPress 3.9.1 + WooCommerce 2.1.2 + 主题Twentytwelve</p>
+<p>所有代码放在主题的functions.php中执行，每段代码后面的图片为改代码的执行效果。</p>
+<p>本文原代码下载<a target="_blank" rel="noopener" href="http://pan.baidu.com/s/1ceoPmm">WooCommerce添加自定义结账字段源代码</a></p>
+<h2 id="代码段1-–-在订单备注后添加自定义选项"><a href="#代码段1-–-在订单备注后添加自定义选项" class="headerlink" title="代码段1 – 在订单备注后添加自定义选项"></a>代码段1 – 在订单备注后添加自定义选项</h2><p>注意在最开头输出了带有my_custom_section class的div，可以用该class修改这个区域的样式，突出该区域。</p>
+<pre><code>/**
+ * 代码段1 - 在订单备注后添加自定义选项
+ */
+function my_custom_checkout_section( $checkout )&#123;
+    // $checkout stores all checkout fields
+
+    // Section starts, output wrapper or header
+    echo &#39;&lt;div class=&quot;my_custom_section&quot;&gt;&#39;;
+
+    // Create a select field
+    $options = array(
+        &#39;只工作日送货&#39; =&gt; &#39;只工作日送货&#39;,
+        &#39;只双休日送&#39; =&gt; &#39;只双休日送货&#39;,
+        &#39;工作日、双休日均可送货&#39; =&gt; &#39;工作日、双休日均可送货&#39;
+    );
+    woocommerce_form_field(&quot;my_custom_field_1&quot;, array(
+        &#39;type&#39;     =&gt; &#39;select&#39;,
+        &#39;class&#39;    =&gt; array(&#39;form-row-wide my_custom_field&#39;),
+        &#39;label&#39;    =&gt; &#39;送货时间: &#39;,
+        &#39;options&#39;  =&gt; array( &#39;&#39; =&gt; &#39;-----选择送货时间-----&#39;) + $options,
+        &#39;required&#39; =&gt; true
+    ), $checkout-&gt;get_value( &#39;my_custom_field_1&#39; ) );
+
+    echo &#39;&lt;/div&gt;&#39;;
+&#125;
+add_action( &#39;woocommerce_after_order_notes&#39;, &#39;my_custom_checkout_section&#39; );</code></pre>
+<p><img src="http://i.imgur.com/Kwm0rza.png"></p>
+<p>在订单备注后面添加送货时间字段</p>
+<h2 id="代码段2-–-验证自定义字段"><a href="#代码段2-–-验证自定义字段" class="headerlink" title="代码段2 – 验证自定义字段"></a>代码段2 – 验证自定义字段</h2><p>虽然第一步中强调了required=true，但只是改变了长相，真正的验证还得自己来。这里只验证是否有值。</p>
+<pre><code>/**
+ * 代码段2 - 验证自定义字段
+ *
+ * required=true只改变了长相，验证还得自己写代码
+ */
+function my_custom_checkout_field_process()&#123;
+    global $woocommerce;
+ 
+    if( empty($_POST[&#39;my_custom_field_1&#39;]) )
+        $woocommerce-&gt;add_error( &#39;&lt;strong&gt;请选择送货时间&lt;/strong&gt;&#39; );
+&#125;
+add_action(&#39;woocommerce_checkout_process&#39;, &#39;my_custom_checkout_field_process&#39; );</code></pre>
+<p><img src="http://i.imgur.com/mZi8Wrb.png"></p>
+<p>验证送货时间是否选择，如果没选，提交订单时会有错误提示</p>
+<h2 id="代码段3-–-存储自定义字段的值"><a href="#代码段3-–-存储自定义字段的值" class="headerlink" title="代码段3 – 存储自定义字段的值"></a>代码段3 – 存储自定义字段的值</h2><p>用户选择后还要把值存到订单中方便以后查询。order的本质是post，所以order meta就是post meta，用update_post_meta存储，用get_post_meta查询。</p>
+<pre><code>/**
+ * 代码段3 - 存储自定义字段的值
+ *
+ * 如果和用户属性相关，存到usermeta表里，否则存在order meta（postmeta）里即可
+ */
+function my_custom_checkout_field_save( $order_id )&#123;
+    // custom field名称，最前面的下划线的作用是使该custom field在后台不可见，必须通过自定义程序显示
+    $ordermeta_name = &#39;_my_custom_field_1&#39;;
+    // 将送货时间存到订单的custom field里
+    if( !empty($_POST[&#39;my_custom_field_1&#39;] ) )
+        update_post_meta( $order_id, $ordermeta_name, wc_clean( $_POST[&#39;my_custom_field_1&#39;] ) );
+&#125;
+add_action(&#39;woocommerce_checkout_update_order_meta&#39;, &#39;my_custom_checkout_field_save&#39; );</code></pre>
+<h2 id="代码段4-1-4-3-–-在成功下单页面不同位置显示自定义值"><a href="#代码段4-1-4-3-–-在成功下单页面不同位置显示自定义值" class="headerlink" title="代码段4.1-4.3 – 在成功下单页面不同位置显示自定义值"></a>代码段4.1-4.3 – 在成功下单页面不同位置显示自定义值</h2><p>提供三个位置显示，一般只需要选择其中一个即可。</p>
+<p>代码段4.1 – 在订单详情之后，customer details之前显示</p>
+<pre><code>/**
+ * 代码段4.1 - 在order-received页面显示自定义字段的值
+ *
+ * 在订单详情之后，customer details之前显示
+ */
+function my_custom_field_display_on_order_received( $order )&#123;
+    $my_custom_field_1 = get_post_meta( $order-&gt;id, &#39;_my_custom_field_1&#39;, true );
+    if( !empty($my_custom_field_1) )&#123;
+        echo &#39;&lt;h2&gt;送货时间&lt;/h2&gt;&#39;;
+        echo &#39;&lt;p&gt;&lt;strong&gt;送货时间:&lt;/strong&gt;&#39; .$my_custom_field_1. &#39;&lt;/p&gt;&#39;;
+    &#125;
+&#125;
+add_action(&#39;woocommerce_order_details_after_order_table&#39;, &#39;my_custom_field_display_on_order_received&#39; );</code></pre>
+<h2 id="代码段4-2-–-在产品列表后显示"><a href="#代码段4-2-–-在产品列表后显示" class="headerlink" title="代码段4.2 – 在产品列表后显示"></a>代码段4.2 – 在产品列表后显示</h2><pre><code>/**
+ * 代码段4.2在产品列表后显示
+ *
+ * 在tbody内、产品列表后显示
+ */
+function my_custom_field_display_after_product_list( $order )&#123;
+    $my_custom_field_1 = get_post_meta( $order-&gt;id, &#39;_my_custom_field_1&#39;, true );
+    if( !empty($my_custom_field_1) )&#123;
+        ?&gt;
+        &lt;tr&gt;&lt;td&gt;送货时间&lt;/td&gt;&lt;td&gt;&lt;?php echo $my_custom_field_1; ?&gt;&lt;/td&gt;&lt;/tr&gt;
+        &lt;?php
+    &#125;
+&#125;
+add_action( &#39;woocommerce_order_items_table&#39;, &#39;my_custom_field_display_after_product_list&#39; );</code></pre>
+<h2 id="代码段4-3-–-在配送方式前面显示"><a href="#代码段4-3-–-在配送方式前面显示" class="headerlink" title="代码段4.3 – 在配送方式前面显示"></a>代码段4.3 – 在配送方式前面显示</h2><pre><code>/**
+ * 代码段4.3 - 在配送方式前面显示
+ *
+ * 在tfoot内、shipping方式前显示
+ */
+function my_custom_field_display_before_shipping( $total_rows, $order )&#123;
+
+    $my_custom_field_1 = get_post_meta( $order-&gt;id, &#39;_my_custom_field_1&#39;, true );
+    $new_total_rows = array();
+    if( !empty($my_custom_field_1) )&#123;
+        $new_row[&#39;my_custom_field_1&#39;] = array(
+            &#39;label&#39; =&gt; &#39;送货时间:&#39;,
+            &#39;value&#39; =&gt; $my_custom_field_1
+        );
+
+        // Insert $new_row after shipping field
+        $total_rows = array_merge( array_splice( $total_rows,0,2), $new_row, $total_rows );
+    &#125;
+    return $total_rows;
+&#125;
+add_filter( &#39;woocommerce_get_order_item_totals&#39;, &#39;my_custom_field_display_before_shipping&#39;, 10, 2 );</code></pre>
+<p><img src="http://i.imgur.com/yJOHIep.png"></p>
+<p>在order-received页面的不同位置显示自定义字段</p>
+<h2 id="代码段5-–-在订单邮件中显示"><a href="#代码段5-–-在订单邮件中显示" class="headerlink" title="代码段5 – 在订单邮件中显示"></a>代码段5 – 在订单邮件中显示</h2><p>若选择代码段4.2将字段加入订单详情页面，则字段也会自动加到邮件中，就不需要代码段5了。</p>
+<pre><code>/**
+ * 代码段5 - 在email中显示
+ *
+ * 在email的订单详情表格之后显示
+ * 若使用woocommerce_get_order_item_totals添加字段，
+ * 无需下面的代码，就可以在订单详情表格里显示
+ *
+ * $sent_to_admin - 为true表示该邮件发送给管理员
+ */
+function my_custom_field_order_email( $order, $sent_to_admin )&#123;
+
+    $my_custom_field_1 = get_post_meta( $order-&gt;id, &#39;_my_custom_field_1&#39;, true );
+    if( !empty($my_custom_field_1) )&#123;
+        echo &#39;&lt;h3&gt;送货时间&lt;/h3&gt;&#39;;
+        echo &quot;&lt;p&gt;送货时间: $my_custom_field_1 &lt;/p&gt;&quot;;
+
+        if( $sent_to_admin ) &#123;
+            echo &#39;这是发给管理员的通知邮件&#39;;
+        &#125;
+    &#125;
+&#125;
+add_action( &#39;woocommerce_email_after_order_table&#39;, &#39;my_custom_field_order_email&#39;, 10, 2 );</code></pre>
+<p><img src="http://i.imgur.com/iPEkvAu.png"></p>
+<p>将字段加到order email notification中</p>
+<h2 id="代码段6-–-在后台订单详情中显示自定义字段"><a href="#代码段6-–-在后台订单详情中显示自定义字段" class="headerlink" title="代码段6 – 在后台订单详情中显示自定义字段"></a>代码段6 – 在后台订单详情中显示自定义字段</h2><pre><code>/**
+ * 代码段6 - 在后台订单详情中显示自定义字段
+ */
+function my_custom_field_admin_info( $order )&#123;
+    $my_custom_field_1 = get_post_meta( $order-&gt;id, &#39;_my_custom_field_1&#39;, true );
+    if( !empty($my_custom_field_1) )&#123;  
+        echo &#39;&lt;h4&gt;送货时间&lt;/h4&gt;&#39;;
+        echo &quot;&lt;p&gt;$my_custom_field_1&lt;/p&gt;&quot;;      
+    &#125;
+&#125;
+add_action( &#39;woocommerce_admin_order_data_after_shipping_address&#39;, &#39;my_custom_field_admin_info&#39; );</code></pre>
+<p><img src="http://i.imgur.com/Cavi4Df.png"></p>
+<p>将字段加到order email notification中</p>
+<p>更多帮助信息，可以参考这个大神的，地址：<a target="_blank" rel="noopener" href="http://www.solagirl.net/woocommerce-custom-checkout-field.html">http://www.solagirl.net/woocommerce-custom-checkout-field.html</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/WooCommerce-%E9%80%81%E8%B4%A7%E6%97%A5%E6%9C%9F/" rel="tag"># WooCommerce,送货日期</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/04/05/%E7%94%A8sublime-server-%E5%90%AF%E5%8A%A8%E6%9C%AC%E5%9C%B0%E6%9C%8D%E5%8A%A1%E5%99%A8%EF%BC%88%E6%89%8B%E6%9C%BA%E8%AE%BF%E9%97%AE%E7%94%B5%E8%84%91%E9%A1%B5%E9%9D%A2%EF%BC%89/" rel="prev" title="用sublime server 启动本地服务器（手机访问电脑页面）">
+      <i class="fa fa-chevron-left"></i> 用sublime server 启动本地服务器（手机访问电脑页面）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/04/06/%E4%BD%BF%E7%94%A8-WordPress-%E7%9A%84%E5%AD%90%E4%B8%BB%E9%A2%98%EF%BC%88Child-Themes%EF%BC%89%E5%8A%9F%E8%83%BD%E5%BF%AB%E9%80%9F%E5%88%B6%E4%BD%9C%E8%87%AA%E5%B7%B1%E7%9A%84%E4%B8%BB%E9%A2%98/" rel="next" title="使用 WordPress 的子主题（Child Themes）功能快速制作自己的主题">
+      使用 WordPress 的子主题（Child Themes）功能快速制作自己的主题 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E6%AE%B51-%E2%80%93-%E5%9C%A8%E8%AE%A2%E5%8D%95%E5%A4%87%E6%B3%A8%E5%90%8E%E6%B7%BB%E5%8A%A0%E8%87%AA%E5%AE%9A%E4%B9%89%E9%80%89%E9%A1%B9"><span class="nav-number">1.</span> <span class="nav-text">代码段1 – 在订单备注后添加自定义选项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E6%AE%B52-%E2%80%93-%E9%AA%8C%E8%AF%81%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AD%97%E6%AE%B5"><span class="nav-number">2.</span> <span class="nav-text">代码段2 – 验证自定义字段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E6%AE%B53-%E2%80%93-%E5%AD%98%E5%82%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AD%97%E6%AE%B5%E7%9A%84%E5%80%BC"><span class="nav-number">3.</span> <span class="nav-text">代码段3 – 存储自定义字段的值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E6%AE%B54-1-4-3-%E2%80%93-%E5%9C%A8%E6%88%90%E5%8A%9F%E4%B8%8B%E5%8D%95%E9%A1%B5%E9%9D%A2%E4%B8%8D%E5%90%8C%E4%BD%8D%E7%BD%AE%E6%98%BE%E7%A4%BA%E8%87%AA%E5%AE%9A%E4%B9%89%E5%80%BC"><span class="nav-number">4.</span> <span class="nav-text">代码段4.1-4.3 – 在成功下单页面不同位置显示自定义值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E6%AE%B54-2-%E2%80%93-%E5%9C%A8%E4%BA%A7%E5%93%81%E5%88%97%E8%A1%A8%E5%90%8E%E6%98%BE%E7%A4%BA"><span class="nav-number">5.</span> <span class="nav-text">代码段4.2 – 在产品列表后显示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E6%AE%B54-3-%E2%80%93-%E5%9C%A8%E9%85%8D%E9%80%81%E6%96%B9%E5%BC%8F%E5%89%8D%E9%9D%A2%E6%98%BE%E7%A4%BA"><span class="nav-number">6.</span> <span class="nav-text">代码段4.3 – 在配送方式前面显示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E6%AE%B55-%E2%80%93-%E5%9C%A8%E8%AE%A2%E5%8D%95%E9%82%AE%E4%BB%B6%E4%B8%AD%E6%98%BE%E7%A4%BA"><span class="nav-number">7.</span> <span class="nav-text">代码段5 – 在订单邮件中显示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E6%AE%B56-%E2%80%93-%E5%9C%A8%E5%90%8E%E5%8F%B0%E8%AE%A2%E5%8D%95%E8%AF%A6%E6%83%85%E4%B8%AD%E6%98%BE%E7%A4%BA%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AD%97%E6%AE%B5"><span class="nav-number">8.</span> <span class="nav-text">代码段6 – 在后台订单详情中显示自定义字段</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,37 +1,440 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="前端设计菜鸟变身之路 对于菜鸟，没有设计能力怎么办？抄！ 对于菜鸟，没有审美怎么办？抄！ 去哪里抄？去行业顶尖网站抄。 配色，去哪个网站找灵感，去国外或者优秀的行业顶尖网站 设计去哪里抄？去网站的demo抄。抄格式，抄样式。 如何做到抄的最高水准呢？就是一摸一样，除了内容不一样，其他的尽量一样，这是一个天大的体会。 在某个深夜，开着电脑，为了达到抄的最高水准，做了一个图层，然后把要抄的那个图片连同">
+<meta property="og:type" content="article">
+<meta property="og:title" content="抄的境界+日常小笔记">
+<meta property="og:url" content="http://example.com/2016/09/03/%E6%8A%84%E7%9A%84%E5%A2%83%E7%95%8C/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="前端设计菜鸟变身之路 对于菜鸟，没有设计能力怎么办？抄！ 对于菜鸟，没有审美怎么办？抄！ 去哪里抄？去行业顶尖网站抄。 配色，去哪个网站找灵感，去国外或者优秀的行业顶尖网站 设计去哪里抄？去网站的demo抄。抄格式，抄样式。 如何做到抄的最高水准呢？就是一摸一样，除了内容不一样，其他的尽量一样，这是一个天大的体会。 在某个深夜，开着电脑，为了达到抄的最高水准，做了一个图层，然后把要抄的那个图片连同">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://i.imgur.com/xcdP3f0.png">
+<meta property="og:image" content="http://i.imgur.com/jmGxNTT.jpg">
+<meta property="og:image" content="http://i.imgur.com/yK9OHM3.jpg">
+<meta property="og:image" content="http://i.imgur.com/MzBI2nP.jpg">
+<meta property="article:published_time" content="2016-09-03T10:06:17.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:53:04.929Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="dede,抄">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://i.imgur.com/xcdP3f0.png">
+
+<link rel="canonical" href="http://example.com/2016/09/03/%E6%8A%84%E7%9A%84%E5%A2%83%E7%95%8C/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>抄的境界+日常小笔记 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/09/03/%E6%8A%84%E7%9A%84%E5%A2%83%E7%95%8C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          抄的境界+日常小笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-09-03 18:06:17" itemprop="dateCreated datePublished" datetime="2016-09-03T18:06:17+08:00">2016-09-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:04" itemprop="dateModified" datetime="2020-10-11T11:53:04+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>前端设计菜鸟变身之路</strong></p>
+<p>对于菜鸟，没有设计能力怎么办？抄！</p>
+<p>对于菜鸟，没有审美怎么办？抄！</p>
+<p>去哪里抄？去行业顶尖网站抄。</p>
+<p>配色，去哪个网站找灵感，去国外或者优秀的行业顶尖网站</p>
+<p>设计去哪里抄？去网站的demo抄。抄格式，抄样式。</p>
+<p>如何做到抄的最高水准呢？就是一摸一样，除了内容不一样，其他的尽量一样，这是一个天大的体会。</p>
+<p>在某个深夜，开着电脑，为了达到抄的最高水准，做了一个图层，然后把要抄的那个图片连同图片中的文字一起截图下来，放在Photoshop上一一对应，连字体、字间距、字高度、颜色、以及在图片中的位置都要一一对应，这样真的让我惊讶和犹如醍醐灌顶，原来是可以这样做到快速变身的。</p>
+<p><strong>今日事今日毕，强迫症来袭，不写下来我会死</strong></p>
+<p>很久没碰过dede了，感觉有点不适应，最近接到一个任务，说要修改一些东西，前提条件是没有账户名，没有密码，有什么呢？有源代码，有提供服务器信息，数据库和数据库密码。</p>
+<p>原主人为了保证网站安全，估计是做了一个安全策略，把默认的/dede文件夹，改成了其他文件，这样面对几十个文件夹，我找得颇费时间，终于找到了<a target="_blank" rel="noopener" href="http://mywebsiteurl/xxx">http://mywebsiteurl/xxx</a></p>
+<p>这样，我顺利的进入到一个熟悉的界面：</p>
+<p><img src="http://i.imgur.com/xcdP3f0.png"></p>
+<p>可是，没有密码怎么办？这个时候，猜已经不是办法的情况下，我来了一个简单粗暴的方法：直接去数据库里面，找到存储这个登录信息的数据表，思路已经确定下来了，就开始行动，第一，找到网站的配置文件，跟其他网站有点不一样，不是config.php，而是common.inc.php（dede数据库配置文件所在路径为:/data/common.inc.php）。这样我就找到了这个文件，下载下来。里面的内容大致如下：</p>
+<pre><code>&lt;?php
+
+//数据库连接信息
+
+$cfg_dbhost = &#39;HostName&#39;;
+
+$cfg_dbname = &#39;DatabaseName&#39;;
+
+$cfg_dbuser = &#39;DatabaseUsername&#39;;
+
+$cfg_dbpwd = &#39;DatabasePassword&#39;;
+
+$cfg_dbprefix = &#39;dede_&#39;;
+
+$cfg_db_language = &#39;utf8&#39;;
+
+?&gt;</code></pre>
+<p>这样就可以知道这个网站跟哪个服务器以及服务器中的哪个数据库连接在一起，然后，获取数据库的登录地址，登录即可，这样我们就来到了数据表中，找到一个名叫：dede_admin的数据表，编辑，请看截图如下：</p>
+<p><img src="http://i.imgur.com/jmGxNTT.jpg"></p>
+<p><img src="http://i.imgur.com/yK9OHM3.jpg"></p>
+<p><img src="http://i.imgur.com/MzBI2nP.jpg"></p>
+<p>这样就可以找到登录名字和密码的，很不幸的是，这个密码被加密了，意思就是不能直接拿来就用，还得先初始化一下，根据上面的截图：</p>
+<p>将“pwd”后面的这项值修改为<code>f297a57a5a743894a0e4</code>，这串数字就是织梦的默认密码admin，或者是改为<code>c3949ba59abbe56e057f</code>，这样初始密码就变成了123456。</p>
+<p>点击运行，保存一下就行了。</p>
+<p>这样，就成功的获得到了网站的登录密码和后台登录地址了。</p>
+<blockquote>
+<p>值得提醒的是，当你用初始化的账号登录到dede后台后，不要忘了修改密码。为了安全。</p>
+</blockquote>
+<p>现在回想起来，这些笔记真的是不值得一提，但笔者总觉得写下来感觉好多了，长期的习惯让我养成了这么一个爱好，喜欢自己的一些经历写下来，写给老了后的自己，作为闲暇时光的回忆。</p>
+<p>如果我的任何笔记能够引起读者的共鸣，请联系我，QQ:791447771,欢迎一起论道。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/dede-%E6%8A%84/" rel="tag"># dede,抄</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2016/08/18/web%E5%89%8D%E7%AB%AF%E7%9A%84hack%E6%96%B9%E6%B3%95%E5%BF%83%E5%BE%97%E4%B8%80/" rel="prev" title="web前端的hack方法心得一">
+      <i class="fa fa-chevron-left"></i> web前端的hack方法心得一
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2016/09/22/AI%E5%9B%BE%E5%B1%82%E5%92%8C%E4%B8%BA%E6%A0%87%E9%A2%98%E6%96%87%E5%AD%97%E6%B7%BB%E5%8A%A0%E4%B8%8B%E5%88%92%E7%BA%BF%E6%A0%B7%E5%BC%8F%E7%9A%84%E9%97%AE%E9%A2%98/" rel="next" title="为AI图层填充颜色和为标题文字添加下划线样式的问题">
+      为AI图层填充颜色和为标题文字添加下划线样式的问题 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

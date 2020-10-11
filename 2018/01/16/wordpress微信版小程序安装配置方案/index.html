@@ -1,37 +1,453 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="首先声明一下，这篇文章转载自守望轩，这篇文章主要是方便日后查阅需要，想要了解更多专业的内容，请访问：https:&#x2F;&#x2F;www.watch-life.net。 1.安装WordPress 这个步骤感觉说出来是废话，我想说的是建议你使用WordPress4.7级以上的版本，因为需要使用rest json api ，这个版本后这个api就包含在WordPress里了，不必通过插件来安装。 这里说明一下，在">
+<meta property="og:type" content="article">
+<meta property="og:title" content="wordpress微信版小程序安装配置方案">
+<meta property="og:url" content="http://example.com/2018/01/16/wordpress%E5%BE%AE%E4%BF%A1%E7%89%88%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE%E6%96%B9%E6%A1%88/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="首先声明一下，这篇文章转载自守望轩，这篇文章主要是方便日后查阅需要，想要了解更多专业的内容，请访问：https:&#x2F;&#x2F;www.watch-life.net。 1.安装WordPress 这个步骤感觉说出来是废话，我想说的是建议你使用WordPress4.7级以上的版本，因为需要使用rest json api ，这个版本后这个api就包含在WordPress里了，不必通过插件来安装。 这里说明一下，在">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/1xmGWH8.png">
+<meta property="og:image" content="https://i.imgur.com/9abQjti.png">
+<meta property="og:image" content="https://i.imgur.com/q1r0OtY.png">
+<meta property="og:image" content="https://i.imgur.com/P0C1fsY.png">
+<meta property="og:image" content="https://i.imgur.com/Cqfs3P0.jpg">
+<meta property="og:image" content="https://i.imgur.com/9xqYgZQ.png">
+<meta property="og:image" content="https://i.imgur.com/bthXbH0.png">
+<meta property="article:published_time" content="2018-01-16T09:54:11.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:53:10.467Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="wordpress,小程序,配置,安装">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/1xmGWH8.png">
+
+<link rel="canonical" href="http://example.com/2018/01/16/wordpress%E5%BE%AE%E4%BF%A1%E7%89%88%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE%E6%96%B9%E6%A1%88/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>wordpress微信版小程序安装配置方案 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/01/16/wordpress%E5%BE%AE%E4%BF%A1%E7%89%88%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE%E6%96%B9%E6%A1%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          wordpress微信版小程序安装配置方案
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-01-16 17:54:11" itemprop="dateCreated datePublished" datetime="2018-01-16T17:54:11+08:00">2018-01-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:10" itemprop="dateModified" datetime="2020-10-11T11:53:10+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>首先声明一下，这篇文章转载自<a target="_blank" rel="noopener" href="https://www.watch-life.net/wordpress/weixin-app-install.html">守望轩</a>，这篇文章主要是方便日后查阅需要，想要了解更多专业的内容，请访问：<a target="_blank" rel="noopener" href="https://www.watch-life.net./">https://www.watch-life.net。</a></p>
+<p><strong>1.安装WordPress</strong></p>
+<p>这个步骤感觉说出来是废话，我想说的是建议你使用WordPress4.7级以上的版本，因为需要使用rest json api ，这个版本后这个api就包含在WordPress里了，不必通过插件来安装。</p>
+<p>这里说明一下，在WordPress的插件里，有个json api 的插件，和官方的rest json api是不一样的，无法使用在本小程序里。</p>
+<p>当然，如果你熟悉json api 可以修改本小程序去对接json api的接口也是可以的。</p>
+<p>再次强调使用WordPress4.7级以上的版本无需安装rest json api的插件。</p>
+<p>rest json api 需要在wordpress设置固定链接和伪静态才可以正常使用。</p>
+<p>有关rest json api 的使用以及固定链接、伪静态可以参考文章：<a target="_blank" rel="noopener" href="https://www.watch-life.net/wordpress/wordpress-rest-api.html">WordPress版微信小程序开发系列(一)：WordPress REST API</a></p>
+<p><strong>2.配置微信小程序的服务器域名和业务域名</strong></p>
+<p>在微信小程序公众平台的后台里，选择“设置”=&gt;“开发设置”，对“服务器域名”和“业务域名”进行配置，如下图：</p>
+<p><img src="https://i.imgur.com/1xmGWH8.png"></p>
+<p>其中request合法域名必须配置，这个参数保证了小程序可以正常发送request请求，程序才能运行起来。同时，这个域名必须备案。</p>
+<p>“业务域名”主要用于web-view内嵌网页时，用作域名白名单，如果不是业务域名里的域名，在web-view内嵌里访问网页时，就会报无法访问的错误。</p>
+<p>注意：个人小程序是没有“业务域名”这个配置的。</p>
+<p><strong>3.配置HTTPS</strong></p>
+<p>如果你的网站支持HTTS就可以忽略这步，由于小程序的request等请求是需要HTTPS的，因此需要网站支持HTTPS，关于WordPress网站开启请参考我写过的文章：<a target="_blank" rel="noopener" href="http://helongquan.github.io/2018/01/12/%E6%9C%80%E7%AE%80%E5%8D%95%E7%9A%84wordpress%E7%BD%91%E7%AB%99%E9%85%8D%E7%BD%AEssl%E8%AF%81%E4%B9%A6%E5%85%A8%E9%83%A8%E8%BF%87%E7%A8%8B/">WordPress整站轻松开启HTTPS</a>。</p>
+<p>注意：一定要保证https和http两种方式都能正常访问网站，才能改这个配置，否则可能导致网站无法访问。</p>
+<p><strong>4.安装WordPress插件：wp-rest-api-for-app</strong></p>
+<p>之所以开发这个插件，是因为WordPress 官方的rest json api 不能满足小程序定制化的需求，我开发了插件作为官方api的补充，这个插件基本是按官方api二次开发的规范定制的。</p>
+<p>由于插件部分数据的获取是通过直接访问数据库的方式，这样很可能无法提交到Wordpress的官方插件库，所以只能通过github下载。因此安装的方式是，直接上传文件夹到wordpress的插件目录，然后启用。</p>
+<p>注意：从github下载的插件包，文件夹变成了wp-rest-api-for-app-master，在安装插件的时候，插件目录的名称要改成：wp-rest-api-for-app</p>
+<p>插件的下载地址：<a target="_blank" rel="noopener" href="https://github.com/iamxjb/wp-rest-api-for-app%EF%BC%8C%E6%88%96%E8%80%85%E6%98%AF%E4%BB%8E[%E8%BF%99%E9%87%8C%E4%B8%8B%E8%BD%BD](https://pan.baidu.com/s/1nwLhQWx)%EF%BC%8C%E5%AF%86%E7%A0%81%EF%BC%9Ar8cm">https://github.com/iamxjb/wp-rest-api-for-app，或者是从[这里下载](https://pan.baidu.com/s/1nwLhQWx)，密码：r8cm</a></p>
+<p>插件安装启用后，需要在后台配置一些参数：</p>
+<p>1）wordpress后台 =&gt; 设置 =&gt;微信小程序设置</p>
+<p>在这个配置界面配置AppID,AppSecret,小程序首页滑动文章ID,  前面两个参数在微信小程序的后台可以查到，这里就不赘述。“小程序首页滑动文章ID”这个参数是为了显示首页滑动轮播的文章。这里的设计我偷了懒，良好的设计应该弹出一个选择框，让用户来选择文章，而不是给个输入框输入id。</p>
+<p><img src="https://i.imgur.com/9abQjti.png"></p>
+<p>文章id如何在wordpress后台找到呢？其实很简单，看下图你就明白了：</p>
+<p><img src="https://i.imgur.com/q1r0OtY.png"></p>
+<p>2）wordpress后台 =&gt; 分类目录 =&gt;选择一个分类进行编辑</p>
+<p><img src="https://i.imgur.com/P0C1fsY.png"></p>
+<p>这里设置后，在小程序里“专题”页就会看到封面图片了。</p>
+<p><strong>5.安装Wordpress版微信小程序：winxin-app-watch-life.net</strong></p>
+<p>下载的地址：<a target="_blank" rel="noopener" href="https://github.com/iamxjb/winxin-app-watch-life.net">https://github.com/iamxjb/winxin-app-watch-life.net</a></p>
+<p>有关在微信小程序的开发工具新建项目，导入程序，先去下载一个微信的开发者工具，然后先去微信小程序那里注册一个小程序，相信这一步应该提前就完成了的，然后新建的时候有个AppId，这个是小程序的，不是微信公众号的APPID，这个要区分开来，然后就是命名，然后就是事先在电脑本地新建一个目录，截图如下：</p>
+<p><img src="https://i.imgur.com/Cqfs3P0.jpg"></p>
+<p>这个目录就是存放这个小程序的源码的路径，然后把下载好的winxin-app-watch-life.net这个里面的源码放进去，在开发者工具那里编译一下就看到效果了。这个就是本地调试的效果，远程不能访问的，要修改一些东西，我们继续往下看。</p>
+<p>微信小程序项目创建好了后，打开config.js文件，config.js文件的路径如下图：</p>
+<p><img src="https://i.imgur.com/9xqYgZQ.png"></p>
+<pre><code>var DOMAIN = &quot;www.watch-life.net&quot;;//配置域名,域名只修改此处，这个就是我们自己的域名了，这个域名需要备案，还要有ssl证书
+var WEBSITENAME=&quot;守望轩&quot;; //网站名称，根据自己网站的名字写就行了
+var ABOUTID= 1136; //wordpress网站 “关于” 页面的id
+var TEMPPLATEID = &#39;hzKpxuPF2rw7O-qTElkeoE0lMwr0O4t9PJkLyt6v8rk&#39;;//模版消息id</code></pre>
+<p>配置好以上参数，可以让小程序正常运行。其中：</p>
+<p>DOMAIN就是wordpress所在服务器的域名；</p>
+<p>ABOUTID是wordpress的“页面”的id，这个页面id的获取和上面说的文章id类似。</p>
+<p>TEMPPLATEID是模版消息的id ，是发送模版消息的必须使用的id，有关模版消息参看文档：<a target="_blank" rel="noopener" href="https://www.watch-life.net/wordpress/wordpress-weixin-2-4.html">WordPress版微信小程序2.4版发布</a> ，这篇文章里有如何设置模版消息的说明。</p>
+<p>如果想要修改其他内容，可以在微信开发者工具里面进行调试，调试完毕后，进行编译，编译完成后查看自己的修改是否无误，没有的话就上传，上传完了后，可以通过手机扫描 “预览” 那里的二维码，只有管理员才能够查看，等我们明确我们的网站服务领域后，在符合小程序发布规则，不违规，然后提交审核自己的小程序，审核成功后，就可以让别人查看了。</p>
+<p>建议：在微信开发者工具调试阶段，不要频繁的上传，调试一个阶段后再上传会好点，不然被微信那边惩罚的。</p>
+<p><strong>5.安装微信支付服务端程序</strong></p>
+<p>如果你开通了微信支付，并使用WordPress版微信小程序的“赞赏”共功能，就需要安装微信支付服务端程序</p>
+<p><img src="https://i.imgur.com/bthXbH0.png"></p>
+<p>微信支付服务端程序下载地址：<a target="_blank" rel="noopener" href="https://github.com/iamxjb/weixin-app-wxpay">https://github.com/iamxjb/weixin-app-wxpay</a></p>
+<p>有关此程序的详细安装和配置见文档:WordPress版微信小程序2.2.8版发布里的相关说明。</p>
+<p>最后，我觉得很重要的一点就是，在做一个小程序之前，先想好为什么要做这个，要提供一些什么服务，满足什么需求，以便接下来，在wordpress网站中放什么内容。这个是我最大的感悟，因为最开始，我觉得做一个小程序就是为了满足一下个人成就感，就这样随随便便的折腾了一个，在提交审核的时候，发现不知道自己的这个网站主要是做什么，提供什么服务。显得特别尴尬。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/wordpress-%E5%B0%8F%E7%A8%8B%E5%BA%8F-%E9%85%8D%E7%BD%AE-%E5%AE%89%E8%A3%85/" rel="tag"># wordpress,小程序,配置,安装</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/01/15/%E5%90%91wordpress%E7%BD%91%E7%AB%99%E4%B8%AD%E6%9C%AC%E5%9C%B0%E5%BC%95%E7%94%A8font-awesome%E7%9A%84%E5%AD%97%E4%BD%93%E5%9B%BE%E6%A0%87/" rel="prev" title="向wordpress网站中本地引用font awesome的字体图标">
+      <i class="fa fa-chevron-left"></i> 向wordpress网站中本地引用font awesome的字体图标
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/01/16/%E8%BD%AC%EF%BC%9AWordPress%E7%89%88%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91%E7%B3%BB%E5%88%97-%E4%B8%80-%EF%BC%9AWordPress-REST-API/" rel="next" title="转：WordPress版微信小程序开发系列(一)：WordPress REST API">
+      转：WordPress版微信小程序开发系列(一)：WordPress REST API <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

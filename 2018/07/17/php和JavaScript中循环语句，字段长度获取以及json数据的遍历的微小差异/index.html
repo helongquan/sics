@@ -1,37 +1,484 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="由于平时经常用到循环语句，在php中以及在JavaScript中还是存在一些差别的。 在JavaScript中的for循环语句写法如下： htmlobjusercount &#x3D; $.ajax(&amp;#123;       url: &quot;data.json&quot;,       type: &quot;get&quot;,       dataType: &quot;json&quot;,">
+<meta property="og:type" content="article">
+<meta property="og:title" content="php和JavaScript中循环语句，字段长度获取以及json数据的遍历的微小差异">
+<meta property="og:url" content="http://example.com/2018/07/17/php%E5%92%8CJavaScript%E4%B8%AD%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5%EF%BC%8C%E5%AD%97%E6%AE%B5%E9%95%BF%E5%BA%A6%E8%8E%B7%E5%8F%96%E4%BB%A5%E5%8F%8Ajson%E6%95%B0%E6%8D%AE%E7%9A%84%E9%81%8D%E5%8E%86%E7%9A%84%E5%BE%AE%E5%B0%8F%E5%B7%AE%E5%BC%82/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="由于平时经常用到循环语句，在php中以及在JavaScript中还是存在一些差别的。 在JavaScript中的for循环语句写法如下： htmlobjusercount &#x3D; $.ajax(&amp;#123;       url: &quot;data.json&quot;,       type: &quot;get&quot;,       dataType: &quot;json&quot;,">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/bsMdhqo.png">
+<meta property="article:published_time" content="2018-07-17T12:55:50.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:02.460Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="php,javascript,循环,length,json,数据遍历,for">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/bsMdhqo.png">
+
+<link rel="canonical" href="http://example.com/2018/07/17/php%E5%92%8CJavaScript%E4%B8%AD%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5%EF%BC%8C%E5%AD%97%E6%AE%B5%E9%95%BF%E5%BA%A6%E8%8E%B7%E5%8F%96%E4%BB%A5%E5%8F%8Ajson%E6%95%B0%E6%8D%AE%E7%9A%84%E9%81%8D%E5%8E%86%E7%9A%84%E5%BE%AE%E5%B0%8F%E5%B7%AE%E5%BC%82/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>php和JavaScript中循环语句，字段长度获取以及json数据的遍历的微小差异 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/07/17/php%E5%92%8CJavaScript%E4%B8%AD%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5%EF%BC%8C%E5%AD%97%E6%AE%B5%E9%95%BF%E5%BA%A6%E8%8E%B7%E5%8F%96%E4%BB%A5%E5%8F%8Ajson%E6%95%B0%E6%8D%AE%E7%9A%84%E9%81%8D%E5%8E%86%E7%9A%84%E5%BE%AE%E5%B0%8F%E5%B7%AE%E5%BC%82/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          php和JavaScript中循环语句，字段长度获取以及json数据的遍历的微小差异
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-07-17 20:55:50" itemprop="dateCreated datePublished" datetime="2018-07-17T20:55:50+08:00">2018-07-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:02" itemprop="dateModified" datetime="2020-10-11T11:58:02+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>由于平时经常用到循环语句，在php中以及在JavaScript中还是存在一些差别的。</p>
+<p>在JavaScript中的for循环语句写法如下：</p>
+<pre><code>htmlobjusercount = $.ajax(&#123;
+      url: &quot;data.json&quot;,
+      type: &quot;get&quot;,
+      dataType: &quot;json&quot;,
+      contentType: &quot;application/json&quot;,
+      success: function (res) &#123;
+          if (typeof res === &#39;string&#39;) &#123;
+              res = JSON.parse(res);
+          &#125;
+          var usercount = new Array();
+          for (var i = 0; i &lt; res.length; i++) &#123;
+              usercount.push(res[i].usertotal);
+          &#125;
+          $(&quot;#accessusertotalcount&quot;).append(usercount);
+      &#125;,
+      error: function (xhr, err, exception) &#123;
+          console.log(err);
+      &#125;
+  &#125;);</code></pre>
+<p>看这个里面的for循环：</p>
+<pre><code>for (var i = 0; i &lt; res.length; i++) &#123;
+    usercount.push(res[i].usertotal);
+&#125;</code></pre>
+<p>我们来剖析这句话，这里的变量i，需要定义一下，<code>var i=0;</code>，而<code>res</code>是json数据格式的数据。如果想要获取键为usertotal的值得列表，那么就这样写：<code>res[i].usertotal</code>。</p>
+<p>好的，那么我们再来看下在php中是如何写循环，以及如何遍历json数据的呢？</p>
+<pre><code>public function huilv()&#123;
+    $url = &quot;http://web.juhe.cn:8080/finance/exchange/frate&quot;;
+    $params = array(
+          &quot;key&quot; =&gt; &quot;***********************&quot;,
+          &quot;type&quot; =&gt; &quot;0&quot;,//两种格式(0或者1,默认为0)
+    );
+    $paramstring = http_build_query($params);
+    $content = juhecurl($url,$paramstring);
+    $result = json_decode($content,true);
+    if($result)&#123;
+        if($result[&#39;error_code&#39;]==&#39;0&#39;)&#123;
+            echo &#39;&lt;table class=&quot;biaoge&quot;&gt;
+                        &lt;th&gt;最低价&lt;/th&gt;
+                        &lt;th&gt;最高价&lt;/th&gt;
+                        &lt;th&gt;开盘价&lt;/th&gt;
+                        &lt;th&gt;收盘价&lt;/th&gt;
+                        &lt;th&gt;日期&lt;/th&gt;
+                        &lt;th&gt;当前汇率&lt;/th&gt;&#39;;
+            for($i=1;$i&lt;count($result[&#39;result&#39;][0]);$i++)&#123;
+                echo &#39;&lt;tr&gt;&#39;;
+                echo &#39;&lt;td&gt;&#39;.$result[&quot;result&quot;][0][&quot;data&quot;.&quot;$i&quot;][&quot;lowPic&quot;].&#39;&lt;/td&gt;&#39;;
+                echo &#39;&lt;td&gt;&#39;.$result[&quot;result&quot;][0][&quot;data&quot;.&quot;$i&quot;][&quot;highPic&quot;].&#39;&lt;/td&gt;&#39;;
+                echo &#39;&lt;td&gt;&#39;.$result[&quot;result&quot;][0][&quot;data&quot;.&quot;$i&quot;][&quot;buyPic&quot;].&#39;&lt;/td&gt;&#39;;
+                echo &#39;&lt;td&gt;&#39;.$result[&quot;result&quot;][0][&quot;data&quot;.&quot;$i&quot;][&quot;closePri&quot;].&#39;&lt;/td&gt;&#39;;
+                echo &#39;&lt;td&gt;&#39;.$result[&quot;result&quot;][0][&quot;data&quot;.&quot;$i&quot;][&quot;date&quot;].&#39;&lt;/td&gt;&#39;;
+                echo &#39;&lt;td&gt;&#39;.$result[&quot;result&quot;][0][&quot;data&quot;.&quot;$i&quot;][&quot;currency&quot;].&#39;&lt;/td&gt;&#39;;
+                echo &#39;&lt;/tr&gt;&#39;;
+            &#125;
+            echo &quot;&lt;/table&gt;&quot;;
+        &#125;else&#123;
+            echo $result[&#39;error_code&#39;].&quot;:&quot;.$result[&#39;reason&#39;];
+        &#125;
+    &#125;else&#123;
+        echo &quot;请求失败&quot;;
+    &#125;
+&#125;</code></pre>
+<p>好的，我们重点看循环那里，php中的循环：</p>
+<pre><code>for($i=1;$i&lt;count($result[&#39;result&#39;][0]);$i++)&#123;
+    echo &#39;&lt;tr&gt;&#39;;
+    echo &#39;&lt;td&gt;&#39;.$result[&quot;result&quot;][0][&quot;data&quot;.&quot;$i&quot;][&quot;lowPic&quot;].&#39;&lt;/td&gt;&#39;;
+    echo &#39;&lt;td&gt;&#39;.$result[&quot;result&quot;][0][&quot;data&quot;.&quot;$i&quot;][&quot;highPic&quot;].&#39;&lt;/td&gt;&#39;;
+    echo &#39;&lt;td&gt;&#39;.$result[&quot;result&quot;][0][&quot;data&quot;.&quot;$i&quot;][&quot;buyPic&quot;].&#39;&lt;/td&gt;&#39;;
+    echo &#39;&lt;td&gt;&#39;.$result[&quot;result&quot;][0][&quot;data&quot;.&quot;$i&quot;][&quot;closePri&quot;].&#39;&lt;/td&gt;&#39;;
+    echo &#39;&lt;td&gt;&#39;.$result[&quot;result&quot;][0][&quot;data&quot;.&quot;$i&quot;][&quot;date&quot;].&#39;&lt;/td&gt;&#39;;
+    echo &#39;&lt;td&gt;&#39;.$result[&quot;result&quot;][0][&quot;data&quot;.&quot;$i&quot;][&quot;currency&quot;].&#39;&lt;/td&gt;&#39;;
+    echo &#39;&lt;/tr&gt;&#39;;
+&#125;</code></pre>
+<p>相比于JavaScript，php的是<code>$i</code>，而且不需要定义。还有一个就是数据的长度不是length，而是count。接着由于这里的$result的数据格式如下：</p>
+<pre><code>Array ( [data1] =&gt; Array ( [buyPic] =&gt; 0.7397 [closePri] =&gt; 0.7397 [code] =&gt; AUDUSD [color] =&gt; [currency] =&gt; 澳元美元 [datatime] =&gt; 21:34:56 [date] =&gt; 2018-07-17 [diffAmo] =&gt; -0.0024 [diffPer] =&gt; -0.3234% [highPic] =&gt; 0.7438 [lowPic] =&gt; 0.7391 [openPri] =&gt; 0.7420 [range] =&gt; 0.64% [sellPic] =&gt; 0.7398 [yesPic] =&gt; 0.7421 ) [data2] =&gt; Array ( [buyPic] =&gt; 94.6951 [closePri] =&gt; 94.6951 [code] =&gt; DINIW [color] =&gt; [currency] =&gt; 美元指数 [datatime] =&gt; 21:34:56 [date] =&gt; 2018-07-17 [diffAmo] =&gt; 0.1755 [diffPer] =&gt; 0.1857% [highPic] =&gt; 94.7575 [lowPic] =&gt; 94.2929 [openPri] =&gt; 94.5143 [range] =&gt; 0.49% [sellPic] =&gt; 94.6951 [yesPic] =&gt; 94.5196 ) [data3] =&gt; Array ( [buyPic] =&gt; 1.1697 [closePri] =&gt; 1.1697 [code] =&gt; EURUSD [color] =&gt; [currency] =&gt; 欧元美元 [datatime] =&gt; 21:34:56 [date] =&gt; 2018-07-17 [diffAmo] =&gt; -0.0012 [diffPer] =&gt; -0.1025% [highPic] =&gt; 1.1745 [lowPic] =&gt; 1.1689 [openPri] =&gt; 1.1710 [range] =&gt; 0.48% [sellPic] =&gt; 1.1698 [yesPic] =&gt; 1.1709 ) [data4] =&gt; Array ( [buyPic] =&gt; 1.3162 [closePri] =&gt; 1.3162 [code] =&gt; GBPUSD [color] =&gt; [currency] =&gt; 英镑美元 [datatime] =&gt; 21:34:56 [date] =&gt; 2018-07-17 [diffAmo] =&gt; -0.0075 [diffPer] =&gt; -0.5666% [highPic] =&gt; 1.3269 [lowPic] =&gt; 1.3144 [openPri] =&gt; 1.3238 [range] =&gt; 0.95% [sellPic] =&gt; 1.3165 [yesPic] =&gt; 1.3237 ) [data5] =&gt; Array ( [buyPic] =&gt; 0.6796 [closePri] =&gt; 0.6796 [code] =&gt; NZDUSD [color] =&gt; [currency] =&gt; 新西兰元美元 [datatime] =&gt; 21:34:52 [date] =&gt; 2018-07-17 [diffAmo] =&gt; 0.0021 [diffPer] =&gt; 0.31% [highPic] =&gt; 0.6840 [lowPic] =&gt; 0.6755 [openPri] =&gt; 0.6775 [range] =&gt; 1.25% [sellPic] =&gt; 0.6799 [yesPic] =&gt; 0.6775 ) [data6] =&gt; Array ( [buyPic] =&gt; 1.3175 [closePri] =&gt; 1.3175 [code] =&gt; USDCAD [color] =&gt; [currency] =&gt; 美元加元 [datatime] =&gt; 21:34:56 [date] =&gt; 2018-07-17 [diffAmo] =&gt; 0.0037 [diffPer] =&gt; 0.2816% [highPic] =&gt; 1.3182 [lowPic] =&gt; 1.3110 [openPri] =&gt; 1.3139 [range] =&gt; 0.55% [sellPic] =&gt; 1.3175 [yesPic] =&gt; 1.3138 ) [data7] =&gt; Array ( [buyPic] =&gt; 0.9958 [closePri] =&gt; 0.9958 [code] =&gt; USDCHF [color] =&gt; [currency] =&gt; 美元瑞郎 [datatime] =&gt; 21:34:56 [date] =&gt; 2018-07-17 [diffAmo] =&gt; -0.001 [diffPer] =&gt; -0.1003% [highPic] =&gt; 0.9974 [lowPic] =&gt; 0.9926 [openPri] =&gt; 0.9965 [range] =&gt; 0.48% [sellPic] =&gt; 0.9959 [yesPic] =&gt; 0.9968 ) [data8] =&gt; Array ( [buyPic] =&gt; 6.7013 [closePri] =&gt; 6.7016 [code] =&gt; USDCNY [color] =&gt; [currency] =&gt; 美元人民币 [datatime] =&gt; 21:34:06 [date] =&gt; 2018-07-17 [diffAmo] =&gt; 0.0105 [diffPer] =&gt; 0.1569% [highPic] =&gt; 6.7043 [lowPic] =&gt; 6.6707 [openPri] =&gt; 6.6869 [range] =&gt; 0.5% [sellPic] =&gt; 6.7013 [yesPic] =&gt; 6.6911 ) [data9] =&gt; Array ( [buyPic] =&gt; 7.8488 [closePri] =&gt; 7.8488 [code] =&gt; USDHKD [color] =&gt; [currency] =&gt; 美元港元 [datatime] =&gt; 21:34:38 [date] =&gt; 2018-07-17 [diffAmo] =&gt; 0.00050 [diffPer] =&gt; 0.0064% [highPic] =&gt; 7.8489 [lowPic] =&gt; 7.8469 [openPri] =&gt; 7.8483 [range] =&gt; 0.03% [sellPic] =&gt; 7.8494 [yesPic] =&gt; 7.8483 ) [data10] =&gt; Array ( [buyPic] =&gt; 112.67 [closePri] =&gt; 112.67 [code] =&gt; USDJPY [color] =&gt; [currency] =&gt; 美元日元 [datatime] =&gt; 21:34:56 [date] =&gt; 2018-07-17 [diffAmo] =&gt; 0.4 [diffPer] =&gt; 0.3563% [highPic] =&gt; 112.68 [lowPic] =&gt; 112.22 [openPri] =&gt; 112.26 [range] =&gt; 0.41% [sellPic] =&gt; 112.67 [yesPic] =&gt; 112.27 ) [data11] =&gt; Array ( [buyPic] =&gt; 4.0445 [closePri] =&gt; 4.0445 [code] =&gt; USDMYR [color] =&gt; [currency] =&gt; 美元马币 [datatime] =&gt; 17:42:05 [date] =&gt; 2018-07-17 [diffAmo] =&gt; 0.0045 [diffPer] =&gt; 0.1114% [highPic] =&gt; 4.0470 [lowPic] =&gt; 4.0400 [openPri] =&gt; 4.0400 [range] =&gt; 0.17% [sellPic] =&gt; 0.0000 [yesPic] =&gt; 4.0400 ) [data12] =&gt; Array ( [buyPic] =&gt; 1.3625 [closePri] =&gt; 1.3625 [code] =&gt; USDSGD [color] =&gt; [currency] =&gt; 美元新加坡元 [datatime] =&gt; 21:34:55 [date] =&gt; 2018-07-17 [diffAmo] =&gt; 0.00060 [diffPer] =&gt; 0.0441% [highPic] =&gt; 1.3633 [lowPic] =&gt; 1.3585 [openPri] =&gt; 1.3619 [range] =&gt; 0.35% [sellPic] =&gt; 1.3627 [yesPic] =&gt; 1.3619 ) [data13] =&gt; Array ( [buyPic] =&gt; 30.5510 [closePri] =&gt; 30.5510 [code] =&gt; USDTWD [color] =&gt; [currency] =&gt; 美元台币 [datatime] =&gt; 21:34:51 [date] =&gt; 2018-07-17 [diffAmo] =&gt; 0.072 [diffPer] =&gt; 0.2362% [highPic] =&gt; 30.5700 [lowPic] =&gt; 30.4340 [openPri] =&gt; 30.4940 [range] =&gt; 0.45% [sellPic] =&gt; 30.6510 [yesPic] =&gt; 30.4790 ) )</code></pre>
+<p>由此可以看出<code>$result[&#39;result&#39;][0]</code>才是我们最关心的数据，所以我们要找的是这个部分的，注意写法。</p>
+<p>这里有个比较巧妙的是，由于这个数据里面的键不是相同的，而是data1,data2,data3…这样的类似递增的，因此这里写法如下：</p>
+<pre><code>$result[&quot;result&quot;][0][&quot;data&quot;.&quot;$i&quot;]</code></pre>
+<p>好的，来到这里之后，我们就观察一下上面的那个数据格式，通常有json格式，也有数组格式的。这里既然有了数据，那么我们就可以根据结构进行逐个的遍历了。</p>
+<p>最后的结果就是：</p>
+<pre><code>echo &#39;&lt;tr&gt;&#39;;
+echo &#39;&lt;td&gt;&#39;.$result[&quot;result&quot;][0][&quot;data&quot;.&quot;$i&quot;][&quot;lowPic&quot;].&#39;&lt;/td&gt;&#39;;
+echo &#39;&lt;td&gt;&#39;.$result[&quot;result&quot;][0][&quot;data&quot;.&quot;$i&quot;][&quot;highPic&quot;].&#39;&lt;/td&gt;&#39;;
+echo &#39;&lt;td&gt;&#39;.$result[&quot;result&quot;][0][&quot;data&quot;.&quot;$i&quot;][&quot;buyPic&quot;].&#39;&lt;/td&gt;&#39;;
+echo &#39;&lt;td&gt;&#39;.$result[&quot;result&quot;][0][&quot;data&quot;.&quot;$i&quot;][&quot;closePri&quot;].&#39;&lt;/td&gt;&#39;;
+echo &#39;&lt;td&gt;&#39;.$result[&quot;result&quot;][0][&quot;data&quot;.&quot;$i&quot;][&quot;date&quot;].&#39;&lt;/td&gt;&#39;;
+echo &#39;&lt;td&gt;&#39;.$result[&quot;result&quot;][0][&quot;data&quot;.&quot;$i&quot;][&quot;currency&quot;].&#39;&lt;/td&gt;&#39;;
+echo &#39;&lt;/tr&gt;&#39;;</code></pre>
+<p>最后效果：</p>
+<p><img src="https://i.imgur.com/bsMdhqo.png"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/php-javascript-%E5%BE%AA%E7%8E%AF-length-json-%E6%95%B0%E6%8D%AE%E9%81%8D%E5%8E%86-for/" rel="tag"># php,javascript,循环,length,json,数据遍历,for</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/07/17/magento%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A8%A1%E5%9D%97%E5%BC%80%E5%8F%91%EF%BC%8C%E6%A8%A1%E5%9D%97%E5%8A%9F%E8%83%BD%E5%A6%82%E4%BD%95%E6%98%BE%E7%A4%BA%E5%88%B0%E5%89%8D%E5%8F%B0%EF%BC%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9B%AE%E5%BD%95%E5%A6%82%E4%BD%95%E8%AF%BB%E5%8F%96%E6%95%B0%E6%8D%AE%EF%BC%8C%E5%A6%82%E4%BD%95%E8%BF%90%E7%94%A8%E6%A8%A1%E5%9D%97%E7%9A%84%E6%A8%A1%E5%9E%8B%E6%96%87%E4%BB%B6%E7%9A%84%E5%BF%83%E5%BE%97%E5%92%8C%E6%97%A5%E8%AE%B0/" rel="prev" title="magento自定义模块开发，模块功能如何显示到前台，数据库目录如何读取数据，如何运用模块的模型文件的心得和日记">
+      <i class="fa fa-chevron-left"></i> magento自定义模块开发，模块功能如何显示到前台，数据库目录如何读取数据，如何运用模块的模型文件的心得和日记
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/07/21/WordPress%E6%96%87%E7%AB%A0%E6%B7%BB%E5%8A%A0%E9%98%85%E8%AF%BB%E9%87%8F%E7%9A%84%E6%96%B9%E6%B3%95%E6%80%BB%E7%BB%93/" rel="next" title="WordPress文章添加阅读量的方法总结">
+      WordPress文章添加阅读量的方法总结 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

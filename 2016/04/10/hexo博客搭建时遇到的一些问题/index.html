@@ -1,37 +1,459 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="之前的WP博客荒废了好久之后终于感觉该做点正事了，所以这几天花了点时间重新弄了下hexo，毕竟是比较符合前端的一个博客框架。比起wp来说，hexo轻量级的多，而且易部署（指速度优化方面），也不需要一个专门的服务器来放置（这个其实是我选择hexo的最终原因。手里虽然有vps，但是因为跑着ss加上国内ping值太高，最终肯定影响国内速度，所以就一直没用来放blog）当然没有后台也就意味着不能随时随地写">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hexo博客搭建时遇到的一些问题">
+<meta property="og:url" content="http://example.com/2016/04/10/hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%97%B6%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="之前的WP博客荒废了好久之后终于感觉该做点正事了，所以这几天花了点时间重新弄了下hexo，毕竟是比较符合前端的一个博客框架。比起wp来说，hexo轻量级的多，而且易部署（指速度优化方面），也不需要一个专门的服务器来放置（这个其实是我选择hexo的最终原因。手里虽然有vps，但是因为跑着ss加上国内ping值太高，最终肯定影响国内速度，所以就一直没用来放blog）当然没有后台也就意味着不能随时随地写">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2016-04-10T11:13:11.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:53:33.541Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2016/04/10/hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%97%B6%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>hexo博客搭建时遇到的一些问题 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/04/10/hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%97%B6%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          hexo博客搭建时遇到的一些问题
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-04-10 19:13:11" itemprop="dateCreated datePublished" datetime="2016-04-10T19:13:11+08:00">2016-04-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:33" itemprop="dateModified" datetime="2020-10-11T11:53:33+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>之前的WP博客荒废了好久之后终于感觉该做点正事了，所以这几天花了点时间重新弄了下hexo，毕竟是比较符合前端的一个博客框架。比起wp来说，hexo轻量级的多，而且易部署（指速度优化方面），也不需要一个专门的服务器来放置（这个其实是我选择hexo的最终原因。手里虽然有vps，但是因为跑着ss加上国内ping值太高，最终肯定影响国内速度，所以就一直没用来放blog）当然没有后台也就意味着不能随时随地写了就发，这个相对WP来说是弱势，但我感觉还好，毕竟不会常常在外面跑，而且写博客基本都是在电脑前，再不济也可以先把MD文件写完后拷回去发布。</p>
+<p>先大概说下我目前blog的部署方式：</p>
+<ul>
+<li>github和gitcafe双线路部署，国内线路解析到gitcafe，国外线路解析到github。</li>
+<li>自己的域名且未备案（个人博客不建议备案）</li>
+<li>域名解析采用dnspod国际版（这个很重要，后面会解释）</li>
+<li>使用QQ的自定义域名邮箱</li>
+<li>图片采用七牛存储分流</li>
+<li>多说评论有一定优化（显UA以及自定义样式等）</li>
+</ul>
+<p>然后下面说下我部署过程中遇到的部分问题以及相应的解决方法,由于我自己是Windows 7环境，所以下面很多解决方法可能对*nix党不适用，还请注意。问题的排列按照最基础的node安装，git配置，域名配置，hexo安装，hexo优化美化的顺序来，不过会跳过很多可以直接百度到的内容，所以建议参考Hexo常见问题解决方案以及hexo你的博客如果你遇到的问题我这里没提到的话，你可以去这两篇文章搜下解决方案。</p>
+<p><strong>npm安装hexo速度过慢</strong></p>
+<p>由于某些大家都知道的缘故，npm官方源在国内的下载速度极其慢，用官网的npm install hexo-cli -g速度非常感人，所以不推荐这种方式。这里我推荐用淘宝的npm分流——cnpm<br>安装过程很简单：</p>
+<pre><code>npm install -g cnpm --registry=https://registry.npm.taobao.org</code></pre>
+<p>然后等着装完即可，之后的用法和npm一样，无非是把npm install改成cnpm install,但是速度比之前快了不止一个数量级(不过下文为了方便理解，还是会用默认的npm安装，如果你发现速度不好的话，请自行替换成’cnpm’)</p>
+<p><strong>npm安装tips</strong></p>
+<p>1、npm安装的时候有时候会出各种错，而最常见的无非是权限问题、网络连接、包名输错。注意看cmd窗口的报错信息即可。<br>windows党请注意安装的时候将cmd用管理员方式打开（这个是我见过报错最多的），想必npm ERR! Please try running this command again as root/Administrator.各位也不是第一次见了</p>
+<p>2、hexo插件安装的时候先cd到blog根目录，并且安装参数不要带-g。 （即不要全局安装，因为全局安装的时候插件会被装到node的根目录下去，而不是blog目录），<strong>hexo的插件需要在blog目录下才能工作</strong></p>
+<p>3、有部分hexo插件用普通的install可能会出现安装完的版本和最新版本有区别，而且怎么也升级不上去的情况(npm update无效)，这种情况下请手动指定版本安装：</p>
+<p>语法：</p>
+<pre><code>npm install [@&lt;scope&gt;/]&lt;name&gt;@&lt;version&gt;</code></pre>
+<p>例子：</p>
+<pre><code>npm install hexo@3.1.1 --save</code></pre>
+<p><strong>git多网站ssh部署方案</strong></p>
+<p>因为是gitcafe和github多线路部署，加上不想每次更新的时候都输帐号密码，所以https传输肯定不行了，只能是ssh传输。不过大部分教程都是单网站部署。所以特地把这个单独拿出来。建议参考gitcafe的这篇部署教程，一般人看完应该就不需要看我这底下的内容了，我这里步骤都复制以上教程，仅对部分地方加点我个人感觉比较重要的注释。</p>
+<p>git客户端安装的时候可以选择要不要集成到cmd里，有些人可能和我一样没有集成，导致cmd对部分linux下的命令无法解析（比如~)</p>
+<pre><code>强烈建议以下操作在git bash里进行。不要在cmd里敲git命令！
+强烈建议以下操作在git bash里进行。不要在cmd里敲git命令！x2
+强烈建议以下操作在git bash里进行。不要在cmd里敲git命令！x3</code></pre>
+<p>因为很重要所以说三遍</p>
+<p><strong>1、生成新的 SSH 秘钥</strong></p>
+<p>记得把以下命令中的 <a href="mailto:&#89;&#x4f;&#85;&#82;&#95;&#x45;&#x4d;&#x41;&#73;&#76;&#64;&#89;&#79;&#x55;&#x52;&#x45;&#77;&#x41;&#73;&#76;&#46;&#x43;&#x4f;&#x4d;">&#89;&#x4f;&#85;&#82;&#95;&#x45;&#x4d;&#x41;&#73;&#76;&#64;&#89;&#79;&#x55;&#x52;&#x45;&#77;&#x41;&#73;&#76;&#46;&#x43;&#x4f;&#x4d;</a> 改为你的 Email 地址</p>
+<pre><code>ssh-keygen -t rsa -C &quot;YOUR_EMAIL@YOUREMAIL.COM&quot; -f ~/.ssh/gitcafe</code></pre>
+<p>上面最末尾的./ssh/gitcafe中的’gitcafe’即为存在本地的密钥文件名，所以这里是可以自定义的。</p>
+<p>密钥文件本地存放路径为git的home参数对应路径下的.ssh文件夹，一般是”C:/Users/[username]/.ssh”，如果没有找到的话到git bash里输入$HOME回车然后自行去对应目录查找即可。</p>
+<p><strong>2、生成过程中会出现以下信息，按屏幕提示操作，并记得输入 passphrase 口令。</strong></p>
+<pre><code>$ ssh-keygen -t rsa -C &quot;YOUR_EMAIL@YOUREMAIL.COM&quot; -f ~/.ssh/gitcafe
+Generating public/private rsa key pair.
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in /c/Users/username/.ssh/gitcafe.
+Your public key has been saved in /c/Users/username/.ssh/gitcafe.pub.
+The key fingerprint is:
+15:81:d2:7a:c6:6c:0f:ec:b0:b6:d4:18:b8:d1:41:48 YOUR_EMAIL@YOUREMAIL.COM</code></pre>
+<p>这将在 ~/.ssh/ 目录下生成 gitcafe 和 gitcafe.pub 文件，记住千万不要把私钥文件 gitcafe 透露给任何人。</p>
+<blockquote>
+<p>passphrase的作用是在密钥传输的过程中加一个解密钥的过程，使得即使密钥文件不小心泄露了，别人也不能直接利用密钥操作你的git帐号，但是由于我个人处理不了ssh-agent自动填充的问题，导致每次更新git都要输passphrase，所以我就没加了，上面的过程里是直接两次回车过去了。</p>
+</blockquote>
+<p><strong>3、在 SSH 用户配置文件 ~/.ssh/config 中指定对应服务所使用的公秘钥名称(config文件的作用就是告诉git程序在同步认证的时候该使用哪个密钥），如果没有 config 文件的话就新建一个，并输入以下内容：</strong></p>
+<pre><code>Host gitcafe.com www.gitcafe.com
+  IdentityFile ~/.ssh/gitcafe</code></pre>
+<blockquote>
+<p>由于是gitcafe和github双站，所以这里需要再参考上面的语法另外建立一个github的规则(贴下我个人的config文件内容供参考)</p>
+</blockquote>
+<pre><code>Host gitcafe.com
+IdentityFile ~/.ssh/gitcafe
+
+Host github.com
+IdentityFile ~/.ssh/id_rsa
+
+Host git.oschina.net
+IdentityFile ~/.ssh/chitanda_osc</code></pre>
+<p><strong>4、添加 gitcafe.pub 中的内容到 GitCafe 网站。<br>具体请参考如何安装和设置 Git中的第三节。</strong></p>
+<p><strong>5、最后测试配置文件是否正常工作</strong></p>
+<pre><code>ssh -T git@gitcafe.com</code></pre>
+<p>如果连接成功的话，会出现以下信息。</p>
+<pre><code>Hi USERNAME! You&#39;ve successfully authenticated, but GitCafe does not provide shell access.</code></pre>
+<p>对于这一步，我的建议是测试命令里再加个-v参数,即</p>
+<pre><code>ssh -vT git@gitcafe.com</code></pre>
+<p>因为比起”ssh -T”返回的模糊信息相比，”-v”会把整个传输过程中的操作都显示出来，哪一步出错很明显就可以看出来，利于出现问题的调试</p>
+<p><strong>6、完成测试通过后，你就可以使用独立的一套公秘钥来使用 GitCafe 了，Enjoy！</strong></p>
+<p>这篇文章转自：<a target="_blank" rel="noopener" href="http://chitanda.me/2015/06/11/tips-for-setup-hexo">我很好奇</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2016/04/10/hexo%E7%BA%A0%E9%94%99%E7%AC%94%E8%AE%B0/" rel="prev" title="hexo纠错笔记">
+      <i class="fa fa-chevron-left"></i> hexo纠错笔记
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2016/04/11/WordPress%E6%9D%A1%E4%BB%B6%E6%A0%87%E7%AD%BE%EF%BC%88Conditional-Tags%EF%BC%89/" rel="next" title="WordPress条件标签（Conditional Tags）">
+      WordPress条件标签（Conditional Tags） <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

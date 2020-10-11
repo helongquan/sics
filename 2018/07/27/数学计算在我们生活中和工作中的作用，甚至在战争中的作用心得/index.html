@@ -1,37 +1,423 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="最近重温了少年包青天的电视后得出的新感悟： 1. 第七具干尸 根据剧情我们已经知道了，这第七具干尸是从前面六具干尸中合成出来的，牺牲前面六具干尸的完整性，来创造出第七具干尸出来。每一具干尸贡献出某一部分，组合成第七具。 我们利用运算的习惯来想这个问题会变得很容易理解，如何产生新的东西，那可以通过从原有的东西里面重构催生新的变化来达到这个效果。发挥我们的想象力，我们在设计新的东西的时候，我们在设计新">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数学计算思维在我们生活中和工作中，甚至在战争中的作用心得">
+<meta property="og:url" content="http://example.com/2018/07/27/%E6%95%B0%E5%AD%A6%E8%AE%A1%E7%AE%97%E5%9C%A8%E6%88%91%E4%BB%AC%E7%94%9F%E6%B4%BB%E4%B8%AD%E5%92%8C%E5%B7%A5%E4%BD%9C%E4%B8%AD%E7%9A%84%E4%BD%9C%E7%94%A8%EF%BC%8C%E7%94%9A%E8%87%B3%E5%9C%A8%E6%88%98%E4%BA%89%E4%B8%AD%E7%9A%84%E4%BD%9C%E7%94%A8%E5%BF%83%E5%BE%97/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="最近重温了少年包青天的电视后得出的新感悟： 1. 第七具干尸 根据剧情我们已经知道了，这第七具干尸是从前面六具干尸中合成出来的，牺牲前面六具干尸的完整性，来创造出第七具干尸出来。每一具干尸贡献出某一部分，组合成第七具。 我们利用运算的习惯来想这个问题会变得很容易理解，如何产生新的东西，那可以通过从原有的东西里面重构催生新的变化来达到这个效果。发挥我们的想象力，我们在设计新的东西的时候，我们在设计新">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-07-27T06:15:56.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:05.469Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="计算，运算，生活，战争">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2018/07/27/%E6%95%B0%E5%AD%A6%E8%AE%A1%E7%AE%97%E5%9C%A8%E6%88%91%E4%BB%AC%E7%94%9F%E6%B4%BB%E4%B8%AD%E5%92%8C%E5%B7%A5%E4%BD%9C%E4%B8%AD%E7%9A%84%E4%BD%9C%E7%94%A8%EF%BC%8C%E7%94%9A%E8%87%B3%E5%9C%A8%E6%88%98%E4%BA%89%E4%B8%AD%E7%9A%84%E4%BD%9C%E7%94%A8%E5%BF%83%E5%BE%97/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>数学计算思维在我们生活中和工作中，甚至在战争中的作用心得 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/07/27/%E6%95%B0%E5%AD%A6%E8%AE%A1%E7%AE%97%E5%9C%A8%E6%88%91%E4%BB%AC%E7%94%9F%E6%B4%BB%E4%B8%AD%E5%92%8C%E5%B7%A5%E4%BD%9C%E4%B8%AD%E7%9A%84%E4%BD%9C%E7%94%A8%EF%BC%8C%E7%94%9A%E8%87%B3%E5%9C%A8%E6%88%98%E4%BA%89%E4%B8%AD%E7%9A%84%E4%BD%9C%E7%94%A8%E5%BF%83%E5%BE%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          数学计算思维在我们生活中和工作中，甚至在战争中的作用心得
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-07-27 14:15:56" itemprop="dateCreated datePublished" datetime="2018-07-27T14:15:56+08:00">2018-07-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:05" itemprop="dateModified" datetime="2020-10-11T11:58:05+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>最近重温了少年包青天的电视后得出的新感悟：</p>
+<p><strong>1. 第七具干尸</strong></p>
+<p>根据剧情我们已经知道了，这第七具干尸是从前面六具干尸中合成出来的，牺牲前面六具干尸的完整性，来创造出第七具干尸出来。每一具干尸贡献出某一部分，组合成第七具。</p>
+<p>我们利用运算的习惯来想这个问题会变得很容易理解，如何产生新的东西，那可以通过从原有的东西里面重构催生新的变化来达到这个效果。发挥我们的想象力，我们在设计新的东西的时候，我们在设计新的特效的时候，我们可以利用残缺的部分来创造新的意想不到的效果。日常情况下，我们很难想象到还可以这样玩。</p>
+<p><strong>2. 战争（诸葛亮和司马懿在上方谷的决战）</strong></p>
+<p>诸葛亮进行了充分的计算，上方谷里面埋藏多少火药，多少燃油（才能让司马懿的军队全军被炸死），多少粮草（才能吸引司马懿全军过来），用多少士兵埋伏（才能确保司马懿的逃兵被歼灭）。这样才能够在最少资源的情况下做更多的事，达到利润最大化。</p>
+<p>同样的道理，我们在进行竞争和比赛的时候，有了计算我们会让剧情变得不一样，甚至出现反转的情况发生，这里笔者举个例子，田忌赛马的故事想必我们都听过了，这个就是一个典型的通过计算来获得胜利的例子。把对象量化，然后重新编排，这些经典的例子都是我们需要深刻思考的。</p>
+<p><strong>3. 网页设计的美感需要计算</strong></p>
+<p>我们在网页设计或者前端设计的时候，我们有的时候发现为什么很多时候，我们为什么看到别人的网站很舒服，可是我们却很难说出为什么舒服。</p>
+<p>我们这里就需要一个审美的计算在里面，我们可以结合设计审美学进行一个分析，什么样的距离是符合不同人群的审美需求的。</p>
+<p>比如，我们设计一个针对国内的用户的网站的前端，这个时候根据笔者在这个行业的经验，个人认为国人还是不太习惯国外的那种间距很大，很大字体，或者极简风格的。所以针对国内的用户的网站我们就要设计变得紧缩点。</p>
+<p>标题文字和内容文字多少间距是OK的，标题文字多大是OK的，内容文字多大是OK的，手机版的时候，标题大小控制在一个什么样的像素是最优的。内容字体大小多少就够了。这些都是需要计算的。</p>
+<p>而这些计算的理论基础是通过心理学，社会学，艺术审美方面获得数据。比如我们可以把黄金分割法则用在网页设计上面，用构图法则用在图片上面，有的时候，我们找的图片为了迎合排版需要而不得不把图片裁剪一下，就因为这么一裁剪，我们的图片已经被裁剪得完全不符合一张图的审美了，还不如不要。</p>
+<p>还有，我们在进行网页设计的时候，文字离屏幕边距多少是合理的，底部离边缘多少是合理的。我们通常的做法就是看心情，觉得这样放就行了。我们会经常看到我们的css的代码里面有各种字体大小，我们也因此看到了我们的图片离文字，标题里内容，标题离图片，按钮离内容，按钮大小这些尺寸的设置我们都变得随心所欲。</p>
+<p>就像，我们对一个按钮设置一个padding值。</p>
+<pre><code>padding:5px 15px;</code></pre>
+<p>跟</p>
+<pre><code>padding:5px 18px;</code></pre>
+<p>看起来如果相差不大的话，那么最好确保按钮大小一致。至于一个看起来很舒服的按钮大小是需要点艺术审美的，也需要计算。</p>
+<p><strong>4. JavaScript的压缩问题以及JavaScript的动画</strong></p>
+<p>总所周知，以往用js实现浏览器上的动画，会使用setTimeout或者setInterval定时器设定时间间隔；碰到有多个动画的需求，可能会使用setInterval创建单一的动画循环，来管理页面上所有的动画，但这都会面临一些问题。</p>
+<p>首先这个时间间隔不是表示何时代码会执行，而是表示何时代码会添加进UI队列（如果队列中有其他工作排在前面，那代码将会等到其他完成才会执行），无法精确知道下一帧何时被执行，然而平滑动画的关键是理解下一帧何时被执行，这样的动画就不够平滑。同时大多数浏览器的刷新频率为60HZ（即每秒60次刷新），任何超过这个频率的都不能带来显著的用户体验上的提升，时间间隔为1000毫秒/ 60，约17ms，间隔时间越接近这个频率动画越流畅。</p>
+<p>所以，在我们不知道的领域，在我们日常网页设计当中的很多例子，比如行高，字间距等等，这些需要计算的工作中，我们是需要很多计算思维在里面的。经过精确计算后我们做出来的效果相对来说是更加好的。</p>
+<p>话说，笔者在阅读JavaScript的压缩那里的时候，心得颇深，通过压缩我们可以让网站响应速度大大提升，如何做到的呢？我们来看下：</p>
+<p>比如我们通过浏览器队服务器资源进行请求，通常请求的资源大小理论上是跟响应的请求大小是一样的。那么现在情况可能是不一样的，为了加快响应速度，我们要做的是在服务器端在响应请求之前先压缩文件，然后发送压缩过的资源，到达浏览器的时候，解压缩文件，然后渲染到浏览器屏幕。这里有个配重的概念，大家有兴趣可以去了解下。</p>
+<p>有兴趣的小伙伴们可以通过开发者工具或者抓包工具进行分析和验证是不是请求的资源大于或者等于响应的资源。</p>
+<p><strong>5. 运筹学中的计算</strong></p>
+<p>在我们的生产活动中，进行精密的计算会帮我们节省很多成本，生产一个产品会有多个材料的组合，如何组合是最合适的，这里就需要运筹一下。希望以后在生活中把计算的思维运用得更加深入。</p>
+<p><strong>6. 利用计算思维游戏中取胜</strong></p>
+<p>曾经一段时间，笔者很喜欢玩星际争霸这个游戏，很古老的一款游戏，但是很经典，笔者总是喜欢把厉害的武器集合起来去攻击敌方，可是很多时候总是失败而告终，经过多次尝试发现这样一个问题：敌方采用非对称与我方进行对抗，比如一个原子弹兵，去对抗一架大飞机，很显然单挑的话是不行的，那么我们可以利用原子弹兵能够加锁和隐身这个特性获得非对称的胜利，先隐身，然后锁定大飞机，让其失去还击的能力，然后调遣其他防控能力很强的武器进行摧毁大飞机。这样我们只需要两个小目标就能够对抗一架大飞机。</p>
+<p>同样的道理，我们还可以举例，我们用闪电兵来对一群敌人进行闪电，每一次闪电，敌人都会大面积受伤，而生产一个闪电兵的成本却很少，这样我们就可以通过非对称获得胜利。看到了吧，计算是很精妙和神奇的东西。</p>
+<p>最后，笔者说的一句话就是：拥抱计算，拥抱运算，拥抱算法。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AE%A1%E7%AE%97%EF%BC%8C%E8%BF%90%E7%AE%97%EF%BC%8C%E7%94%9F%E6%B4%BB%EF%BC%8C%E6%88%98%E4%BA%89/" rel="tag"># 计算，运算，生活，战争</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/07/27/magento%E8%AE%BF%E9%97%AE%E6%8A%A5%E9%94%99-There-has-been-an-error-processing-your-request%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" rel="prev" title="magento访问报错:There has been an error processing your request的解决方案">
+      <i class="fa fa-chevron-left"></i> magento访问报错:There has been an error processing your request的解决方案
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/07/30/%E7%94%A8magento%E5%B8%83%E5%B1%80%E7%BB%99%E7%89%B9%E5%AE%9ACMS%E9%A1%B5%E9%9D%A2%E6%B7%BB%E5%8A%A0%E9%9D%99%E6%80%81%E5%9D%97-%E6%88%96%E8%80%85%E6%98%AF%E8%AF%B4%E9%80%9A%E8%BF%87%E9%9D%99%E6%80%81%E6%A8%A1%E5%9D%97%E5%B5%8C%E5%85%A5%E5%88%B0%E9%A1%B5%E9%9D%A2%E4%B8%AD%E5%8E%BB/" rel="next" title="用magento布局给特定CMS页面添加静态块,或者是说通过静态模块嵌入到页面中去">
+      用magento布局给特定CMS页面添加静态块,或者是说通过静态模块嵌入到页面中去 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

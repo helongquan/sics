@@ -1,37 +1,479 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="这里需要转载一篇文章，因为这正是我最近需要的，也希望更多人受益。 通常我们发布博客代码到vps上，按顺序执行下面的git命令： git pull origin test git push origin master 类似这样的命令，我们可能每天都要重复好几遍 在已经记住了这两个git命令的情况下，没有必要每次发布都敲这么多代码。我需要一个shell脚本，一次性执行多条命令。 由于我把每篇文章数据都">
+<meta property="og:type" content="article">
+<meta property="og:title" content="采用shell的方式为git编写脚本，提高效率">
+<meta property="og:url" content="http://example.com/2017/11/29/%E9%87%87%E7%94%A8shell%E7%9A%84%E6%96%B9%E5%BC%8F%E4%B8%BAgit%E7%BC%96%E5%86%99%E8%84%9A%E6%9C%AC%EF%BC%8C%E6%8F%90%E9%AB%98%E6%95%88%E7%8E%87/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="这里需要转载一篇文章，因为这正是我最近需要的，也希望更多人受益。 通常我们发布博客代码到vps上，按顺序执行下面的git命令： git pull origin test git push origin master 类似这样的命令，我们可能每天都要重复好几遍 在已经记住了这两个git命令的情况下，没有必要每次发布都敲这么多代码。我需要一个shell脚本，一次性执行多条命令。 由于我把每篇文章数据都">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/8S3kliy.png">
+<meta property="article:published_time" content="2017-11-29T10:36:24.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:53:04.766Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="shell,git,脚本">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/8S3kliy.png">
+
+<link rel="canonical" href="http://example.com/2017/11/29/%E9%87%87%E7%94%A8shell%E7%9A%84%E6%96%B9%E5%BC%8F%E4%B8%BAgit%E7%BC%96%E5%86%99%E8%84%9A%E6%9C%AC%EF%BC%8C%E6%8F%90%E9%AB%98%E6%95%88%E7%8E%87/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>采用shell的方式为git编写脚本，提高效率 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/11/29/%E9%87%87%E7%94%A8shell%E7%9A%84%E6%96%B9%E5%BC%8F%E4%B8%BAgit%E7%BC%96%E5%86%99%E8%84%9A%E6%9C%AC%EF%BC%8C%E6%8F%90%E9%AB%98%E6%95%88%E7%8E%87/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          采用shell的方式为git编写脚本，提高效率
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-11-29 18:36:24" itemprop="dateCreated datePublished" datetime="2017-11-29T18:36:24+08:00">2017-11-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:04" itemprop="dateModified" datetime="2020-10-11T11:53:04+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这里需要转载一篇文章，因为这正是我最近需要的，也希望更多人受益。</p>
+<p>通常我们发布博客代码到vps上，按顺序执行下面的git命令：</p>
+<pre><code>git pull origin test
+git push origin master</code></pre>
+<p>类似这样的命令，我们可能每天都要重复好几遍</p>
+<p>在已经记住了这两个git命令的情况下，没有必要每次发布都敲这么多代码。我需要一个shell脚本，一次性执行多条命令。</p>
+<p>由于我把每篇文章数据都存储到了文件缓存中，每次编辑旧文章重新发布后，并不能看到最新数据，需要到服务器<br>上手工清理缓存。这也很麻烦。</p>
+<p>删除缓存的linux命令是：</p>
+<pre><code>rm -rvf /usr/local/nginx/html/blog/runtime/cache</code></pre>
+<p>编写shell脚本</p>
+<pre><code>#! /bin/bash
+# 保存当前目录
+currentDir=$PWD
+echo &quot;Start to publish...\n&quot;
+# 切换到项目目录
+cd /usr/local/nginx/html/blog
+# 执行git命令
+git pull origin test
+git push origin master
+# 切换回原来的目录
+cd $currentDir
+# 删除缓存 
+rm -rvf /usr/local/nginx/html/blog/runtime/cache
+echo &quot;Success\n&quot;;</code></pre>
+<p><strong>执行脚本</strong></p>
+<p>假设写好的脚本文件名为git.sh，若直接运行该脚本，会提示无权限。那就必须让执行脚本的用户具有执行这个脚本的权限，使用命令：</p>
+<pre><code>chmod +x ./test.sh #使脚本具有执行权限</code></pre>
+<p>以后每次发布项目的时候，直接使用执行脚本就可以了。</p>
+<pre><code>./git.sh</code></pre>
+<p>具体可以去学习下<a target="_blank" rel="noopener" href="http://www.runoob.com/linux/linux-shell.html">shell教程</a></p>
+<p>这里我分享下我平时编写代码后，然后提交到github上的一个脚本push.sh</p>
+<pre><code>#!/bin/bash
+git pull
+echo &quot;Start to pull from remote...\n&quot;
+git add .
+echo &quot;add the change file to local reposit&quot;
+git commit -m &quot;update&quot;
+echo &quot;commit the change to version reposit&quot;
+git push origin master
+echo &quot;finished !&quot;</code></pre>
+<p>当我们把代码修改完成后，想要推送到github上去的时候，或是远程地址的时候，我们只需要把这个文件放在跟.git同一个目录下运行这个脚本就行了，这里需要说下，就是我们不用脚本的时候，我们在哪个目录下运行脚本里的命令，那么我们就把这个shell脚本命令放在哪个目录，当然有建设软链接的情况除外。</p>
+<p>运行这个脚本后，那么就会根据顺序从上到下运行下去，期间会输入我们echo里的内容。</p>
+<p>大家都知道，为了方便跟踪我们每次的修改，我们会在git commit那里写一些描述性的语句，以方便我们理解这次提交是改了哪些内容。</p>
+<p>好的，我这里就对上面的代码进行一个修改，就修改一个地方：</p>
+<pre><code>#!/bin/bash
+git pull
+echo &quot;Start to pull from remote...\n&quot;
+git add .
+echo &quot;add the change file to local reposit&quot;
+git commit -m &quot;$1&quot;
+echo &quot;commit the change to version reposit&quot;
+git push origin master
+echo &quot;finished !&quot;</code></pre>
+<p>这个时候我们运行如下命令：</p>
+<pre><code>./push.sh 对必读文件进行了一个修改</code></pre>
+<p>执行完这个脚本后，我们去github上面打开我们的目标仓库我们就会找到：</p>
+<p><img src="https://i.imgur.com/8S3kliy.png"></p>
+<p>看到没？这个就是commit -m 里面的内容了。</p>
+<p>新手可能很好奇，为啥是$1呢？而不是$0，这个就要看教程了：</p>
+<blockquote>
+<p><strong>Shell 传递参数</strong></p>
+</blockquote>
+<blockquote>
+<p>我们可以在执行 Shell 脚本时，向脚本传递参数，脚本内获取参数的格式为：$n。n 代表一个数字，1 为执&gt; 行脚本的第一个参数，2 为执行脚本的第二个参数，以此类推……</p>
+<p><strong>实例</strong></p>
+<p>以下实例我们向脚本传递三个参数，并分别输出，其中 $0 为执行的文件名：</p>
+</blockquote>
+<pre><code>#!/bin/bash
+# author:菜鸟教程
+# url:www.runoob.com</code></pre>
+<blockquote>
+<p>echo “Shell 传递参数实例！”;</p>
+<p>echo “执行的文件名：$0”;</p>
+<p>echo “第一个参数为：$1”;</p>
+<p>echo “第二个参数为：$2”;</p>
+<p>echo “第三个参数为：$3”;</p>
+</blockquote>
+<pre><code>$ chmod +x test.sh 
+$ ./test.sh 1 2 3</code></pre>
+<p>输出结果：</p>
+<p>Shell 传递参数实例！</p>
+<p>执行的文件名：./test.sh</p>
+<p>第一个参数为：1</p>
+<p>第二个参数为：2</p>
+<p>第三个参数为：3</p>
+<p>同理，如果我们想要在我们的shell脚本里面添加一些参数，根据这个顺序走，就行了。当然还有更复杂的，比如流程控制，这个自己去参考shell的教程即可。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/shell-git-%E8%84%9A%E6%9C%AC/" rel="tag"># shell,git,脚本</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/11/29/%E7%94%9F%E6%88%90SSH%E5%AF%86%E9%92%A5%EF%BC%88Linux%EF%BC%89/" rel="prev" title="生成SSH密钥（Linux）">
+      <i class="fa fa-chevron-left"></i> 生成SSH密钥（Linux）
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/12/11/html%E8%A1%A8%E5%8D%95%E7%94%B5%E9%82%AE%E8%BE%93%E5%85%A5%E5%90%8E%E7%BC%80%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8/" rel="next" title="html表单电邮输入后缀自动补全">
+      html表单电邮输入后缀自动补全 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

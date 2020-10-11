@@ -1,37 +1,568 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="没有联系表单，对于商城网站而言是不完整的。这通常是客户可以轻松删除&#x2F;询问商店相关查询的唯一方法。因此，联系表单是在线商店成功的重要因素之一。 在本教程中，我将讨论如何在Magento 2联系表单中轻松添加自定义字段。出于本教程的目的，我将在联系人表单中添加一个Subject字段。不过，您可以使用本教程将自己的字段添加到商店的联系表单中。 为了遵循Magento的最佳开发实践，我将创建一个模块来重写">
+<meta property="og:type" content="article">
+<meta property="og:title" content="magento2重写模块之重写联系表单的字段信息(添加字段，修改字段)">
+<meta property="og:url" content="http://example.com/2019/07/15/magento2%E9%87%8D%E5%86%99%E6%A8%A1%E5%9D%97%E4%B9%8B%E9%87%8D%E5%86%99%E8%81%94%E7%B3%BB%E8%A1%A8%E5%8D%95%E7%9A%84%E5%AD%97%E6%AE%B5%E4%BF%A1%E6%81%AF-%E6%B7%BB%E5%8A%A0%E5%AD%97%E6%AE%B5%EF%BC%8C%E4%BF%AE%E6%94%B9%E5%AD%97%E6%AE%B5/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="没有联系表单，对于商城网站而言是不完整的。这通常是客户可以轻松删除&#x2F;询问商店相关查询的唯一方法。因此，联系表单是在线商店成功的重要因素之一。 在本教程中，我将讨论如何在Magento 2联系表单中轻松添加自定义字段。出于本教程的目的，我将在联系人表单中添加一个Subject字段。不过，您可以使用本教程将自己的字段添加到商店的联系表单中。 为了遵循Magento的最佳开发实践，我将创建一个模块来重写">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/KZiuFeW.png">
+<meta property="og:image" content="https://i.imgur.com/4KxhCPu.png">
+<meta property="og:image" content="https://i.imgur.com/6sYpdlI.png">
+<meta property="og:image" content="https://i.imgur.com/RhX8X46.png">
+<meta property="og:image" content="https://i.imgur.com/Jx5iGaX.png">
+<meta property="og:image" content="https://i.imgur.com/vAyJ74G.png">
+<meta property="og:image" content="https://i.imgur.com/yYSyHk4.png">
+<meta property="article:published_time" content="2019-07-15T09:48:56.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:57:59.602Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="magento2,contact form,重写,添加字段,联系表单,上传文件">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/KZiuFeW.png">
+
+<link rel="canonical" href="http://example.com/2019/07/15/magento2%E9%87%8D%E5%86%99%E6%A8%A1%E5%9D%97%E4%B9%8B%E9%87%8D%E5%86%99%E8%81%94%E7%B3%BB%E8%A1%A8%E5%8D%95%E7%9A%84%E5%AD%97%E6%AE%B5%E4%BF%A1%E6%81%AF-%E6%B7%BB%E5%8A%A0%E5%AD%97%E6%AE%B5%EF%BC%8C%E4%BF%AE%E6%94%B9%E5%AD%97%E6%AE%B5/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>magento2重写模块之重写联系表单的字段信息(添加字段，修改字段) | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/07/15/magento2%E9%87%8D%E5%86%99%E6%A8%A1%E5%9D%97%E4%B9%8B%E9%87%8D%E5%86%99%E8%81%94%E7%B3%BB%E8%A1%A8%E5%8D%95%E7%9A%84%E5%AD%97%E6%AE%B5%E4%BF%A1%E6%81%AF-%E6%B7%BB%E5%8A%A0%E5%AD%97%E6%AE%B5%EF%BC%8C%E4%BF%AE%E6%94%B9%E5%AD%97%E6%AE%B5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          magento2重写模块之重写联系表单的字段信息(添加字段，修改字段)
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-07-15 17:48:56" itemprop="dateCreated datePublished" datetime="2019-07-15T17:48:56+08:00">2019-07-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:59" itemprop="dateModified" datetime="2020-10-11T11:57:59+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/magento2/" itemprop="url" rel="index"><span itemprop="name">magento2</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>没有联系表单，对于商城网站而言是不完整的。这通常是客户可以轻松删除/询问商店相关查询的唯一方法。因此，联系表单是在线商店成功的重要因素之一。</p>
+<p>在本教程中，我将讨论如何在Magento 2联系表单中轻松添加自定义字段。出于本教程的目的，我将在联系人表单中添加一个Subject字段。不过，您可以使用本教程将自己的字段添加到商店的联系表单中。</p>
+<p>为了遵循Magento的最佳开发实践，我将创建一个模块来重写核心文件。如果您不熟悉Magento 2自定义模块的创建过程，请参阅这篇优秀的指南:<a target="_blank" rel="noopener" href="https://magenticians.com/create-module-in-magento-2/">如何在Magento 2中创建自定义模块</a>。</p>
+<p><strong>创建模块</strong></p>
+<p>先来的magento2根目录，然后进入app/code，然后新建一个商家目录(vendor)，这里比如为<strong>Nocti</strong>，然后新建一个模块名：<strong>Modulecontact</strong>。</p>
+<p>配置模块，在app/code/Nocti/Modulecontact/etc中创建module.xml，module.xml代码如下:</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;config xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:noNamespaceSchemaLocation=&quot;urn:magento:framework:Module/etc/module.xsd&quot;&gt;
+&lt;module name=&quot;Nocti_Modulecontact&quot; setup_version=&quot;1.0.1&quot;&gt;
+&lt;/module&gt;
+&lt;/config&gt;</code></pre>
+<p>注册模块，在app/code/Nocti/Modulecontact/中创建registration.php，粘贴如下代码到这个文件中。</p>
+<pre><code>&lt;?php
+
+\Magento\Framework\Component\ComponentRegistrar::register(
+\Magento\Framework\Component\ComponentRegistrar::MODULE,
+&#39;Nocti_Modulecontact&#39;,
+__DIR__
+);</code></pre>
+<h2 id="重写并在Magento-2联系表单中添加自定义字段"><a href="#重写并在Magento-2联系表单中添加自定义字段" class="headerlink" title="重写并在Magento 2联系表单中添加自定义字段"></a>重写并在Magento 2联系表单中添加自定义字段</h2><p>从<strong>vendor/magento/module-contact/view/frontend/templates</strong>中复制form.phtml文件到<strong>app/code/Nocti/Modulecontact/view/frontend/templates</strong>目录中。</p>
+<p>现在，要向联系表单添加一个名为<strong>Subject</strong>的新字段，打开拷贝过来的表单文件（<strong>form.phtml</strong>），并添加以下代码:</p>
+<pre><code>&lt;div class=&quot;field subject&quot;&gt;
+    &lt;label class=&quot;label&quot; for=&quot;subject&quot;&gt;&lt;span&gt;&lt;?php /* @escapeNotVerified */ echo __(&#39;Subject&#39;) ?&gt;&lt;/span&gt;&lt;/label&gt;
+    &lt;div class=&quot;control&quot;&gt;
+        &lt;input name=&quot;subject&quot; id=&quot;subject&quot; title=&quot;&lt;?php /* @escapeNotVerified */ echo __(&#39;Subject&#39;) ?&gt;&quot; value=&quot;&quot; class=&quot;input-text&quot; type=&quot;text&quot; data-validate=&quot;&#123;required:true&#125;&quot;/&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<p>最后你的这个form.phtml文件应该类似如下：</p>
+<pre><code>&lt;?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+// @codingStandardsIgnoreFile
+
+?&gt;
+&lt;form class=&quot;form contact&quot;
+      action=&quot;&lt;?php /* @escapeNotVerified */ echo $block-&gt;getFormAction(); ?&gt;&quot;
+      id=&quot;contact-form&quot;
+      method=&quot;post&quot;
+      data-hasrequired=&quot;&lt;?php /* @escapeNotVerified */ echo __(&#39;* Required Fields&#39;) ?&gt;&quot;
+      data-mage-init=&#39;&#123;&quot;validation&quot;:&#123;&#125;&#125;&#39;&gt;
+    &lt;fieldset class=&quot;fieldset&quot;&gt;
+        &lt;legend class=&quot;legend&quot;&gt;&lt;span&gt;&lt;?php /* @escapeNotVerified */ echo __(&#39;Write Us&#39;) ?&gt;&lt;/span&gt;&lt;/legend&gt;&lt;br /&gt;
+        &lt;div class=&quot;field note no-label&quot;&gt;&lt;?php /* @escapeNotVerified */ echo __(&#39;Jot us a note and we’ll get back to you as quickly as possible.&#39;) ?&gt;&lt;/div&gt;
+        &lt;div class=&quot;field name required&quot;&gt;
+            &lt;label class=&quot;label&quot; for=&quot;name&quot;&gt;&lt;span&gt;&lt;?php /* @escapeNotVerified */ echo __(&#39;Name&#39;) ?&gt;&lt;/span&gt;&lt;/label&gt;
+            &lt;div class=&quot;control&quot;&gt;
+                &lt;input name=&quot;name&quot; id=&quot;name&quot; title=&quot;&lt;?php /* @escapeNotVerified */ echo __(&#39;Name&#39;) ?&gt;&quot; value=&quot;&lt;?php echo $block-&gt;escapeHtml($this-&gt;helper(&#39;Magento\Contact\Helper\Data&#39;)-&gt;getPostValue(&#39;name&#39;) ?: $this-&gt;helper(&#39;Magento\Contact\Helper\Data&#39;)-&gt;getUserName()) ?&gt;&quot; class=&quot;input-text&quot; type=&quot;text&quot; data-validate=&quot;&#123;required:true&#125;&quot;/&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;field email required&quot;&gt;
+            &lt;label class=&quot;label&quot; for=&quot;email&quot;&gt;&lt;span&gt;&lt;?php /* @escapeNotVerified */ echo __(&#39;Email&#39;) ?&gt;&lt;/span&gt;&lt;/label&gt;
+            &lt;div class=&quot;control&quot;&gt;
+                &lt;input name=&quot;email&quot; id=&quot;email&quot; title=&quot;&lt;?php /* @escapeNotVerified */ echo __(&#39;Email&#39;) ?&gt;&quot; value=&quot;&lt;?php echo $block-&gt;escapeHtml($this-&gt;helper(&#39;Magento\Contact\Helper\Data&#39;)-&gt;getPostValue(&#39;email&#39;) ?: $this-&gt;helper(&#39;Magento\Contact\Helper\Data&#39;)-&gt;getUserEmail()) ?&gt;&quot; class=&quot;input-text&quot; type=&quot;email&quot; data-validate=&quot;&#123;required:true, &#39;validate-email&#39;:true&#125;&quot;/&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;field telephone&quot;&gt;
+            &lt;label class=&quot;label&quot; for=&quot;telephone&quot;&gt;&lt;span&gt;&lt;?php /* @escapeNotVerified */ echo __(&#39;Phone Number&#39;) ?&gt;&lt;/span&gt;&lt;/label&gt;
+            &lt;div class=&quot;control&quot;&gt;
+                &lt;input name=&quot;telephone&quot; id=&quot;telephone&quot; title=&quot;&lt;?php /* @escapeNotVerified */ echo __(&#39;Phone Number&#39;) ?&gt;&quot; value=&quot;&lt;?php echo $block-&gt;escapeHtml($this-&gt;helper(&#39;Magento\Contact\Helper\Data&#39;)-&gt;getPostValue(&#39;telephone&#39;)) ?&gt;&quot; class=&quot;input-text&quot; type=&quot;text&quot; /&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+
+        // 刚刚添加的新的字段 开始
+        &lt;div class=&quot;field subject&quot;&gt;
+            &lt;label class=&quot;label&quot; for=&quot;subject&quot;&gt;&lt;span&gt;&lt;?php /* @escapeNotVerified */ echo __(&#39;Subject&#39;) ?&gt;&lt;/span&gt;&lt;/label&gt;
+            &lt;div class=&quot;control&quot;&gt;
+                &lt;input name=&quot;subject&quot; id=&quot;subject&quot; title=&quot;&lt;?php /* @escapeNotVerified */ echo __(&#39;Subject&#39;) ?&gt;&quot; value=&quot;&quot; class=&quot;input-text&quot; type=&quot;text&quot; data-validate=&quot;&#123;required:true&#125;&quot;/&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        // 刚刚添加的新的字段 结束
+
+        &lt;div class=&quot;field file required&quot;&gt;
+            &lt;label class=&quot;label&quot; for=&quot;file&quot;&gt;&lt;span&gt;&lt;?php /* @escapeNotVerified */ echo __(&#39;File&#39;) ?&gt;&lt;/span&gt;&lt;/label&gt;
+            &lt;div class=&quot;control&quot;&gt;
+                &lt;input name=&quot;file&quot; id=&quot;file&quot; title=&quot;&lt;?php echo __(&#39;File&#39;) ?&gt;&quot; value=&quot;&quot; class=&quot;input-text&quot; type=&quot;file&quot; data-validate=&quot;&#123;required:true&#125;&quot;/&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;field comment required&quot;&gt;
+            &lt;label class=&quot;label&quot; for=&quot;comment&quot;&gt;&lt;span&gt;&lt;?php /* @escapeNotVerified */ echo __(&#39;What’s on your mind?&#39;) ?&gt;&lt;/span&gt;&lt;/label&gt;
+            &lt;div class=&quot;control&quot;&gt;
+                &lt;textarea name=&quot;comment&quot; id=&quot;comment&quot; title=&quot;&lt;?php /* @escapeNotVerified */ echo __(&#39;What’s on your mind?&#39;) ?&gt;&quot; class=&quot;input-text&quot; cols=&quot;5&quot; rows=&quot;3&quot; data-validate=&quot;&#123;required:true&#125;&quot;&gt;&lt;?php echo $block-&gt;escapeHtml($this-&gt;helper(&#39;Magento\Contact\Helper\Data&#39;)-&gt;getPostValue(&#39;comment&#39;)) ?&gt;&lt;/textarea&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;?php echo $block-&gt;getChildHtml(&#39;form.additional.info&#39;); ?&gt;
+    &lt;/fieldset&gt;
+    &lt;div class=&quot;actions-toolbar&quot;&gt;
+        &lt;div class=&quot;primary&quot;&gt;
+            &lt;input type=&quot;hidden&quot; name=&quot;hideit&quot; id=&quot;hideit&quot; value=&quot;&quot; /&gt;
+            &lt;button type=&quot;submit&quot; title=&quot;&lt;?php /* @escapeNotVerified */ echo __(&#39;Submit&#39;) ?&gt;&quot; class=&quot;action submit primary&quot;&gt;
+                &lt;span&gt;&lt;?php /* @escapeNotVerified */ echo __(&#39;Submit&#39;) ?&gt;&lt;/span&gt;
+            &lt;/button&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/form&gt;</code></pre>
+<p>接下来，在<strong>app/code/Nocti/Modulecontact/view/frontend/layout</strong>中创建<strong>contact_index_index.xml</strong>文件，并粘贴下面代码以重写原始表单文件form.phtml的代码。</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;page xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; layout=&quot;1column&quot; xsi:noNamespaceSchemaLocation=&quot;urn:magento:framework:View/Layout/etc/page_configuration.xsd&quot;&gt;    
+   &lt;body&gt;     
+      &lt;referenceBlock name=&quot;contactForm&quot; remove=&quot;true&quot;/&gt;   
+       &lt;referenceContainer name=&quot;content&quot;&gt;
+           &lt;block class=&quot;Magento\Contact\Block\ContactForm&quot; name=&quot;customContactForm&quot; template=&quot;Nocti_Modulecontact::form.phtml&quot; /&gt;
+       &lt;/referenceContainer&gt;
+   &lt;/body&gt;
+&lt;/page&gt;</code></pre>
+<p>最后文件的目录结构应该如下：</p>
+<pre><code>app/code/Nocti/Modulecontact/etc/module.xml
+app/code/Nocti/Modulecontact/registration.php
+app/code/Nocti/Modulecontact/view/frontend/layout/contact_index_index.xml
+app/code/Nocti/Modulecontact/view/frontend/templates/form.phtml</code></pre>
+<p>直观点就是这样的（目录树结构）</p>
+<pre><code>├── etc
+│   └── module.xml
+├── registration.php
+└── view
+    └── frontend
+        ├── layout
+        │   └── contact_index_index.xml
+        └── templates
+            └── form.phtml</code></pre>
+<p>然后，可以登录到magento2所在的服务器中，来到magento2网站的根目录下，然后运行如下命令：</p>
+<pre><code>php bin/magento setup:upgrade
+php bin/magento setup:di:compile
+php bin/magento setup:static-content:deploy
+php bin/magento cache:clean
+php bin/magento cache:flush</code></pre>
+<p>然后，添加新的Magento 2电子邮件模板</p>
+<p>打开店铺管理面板，进入<strong>MARKETING</strong>→<strong>Email Templates</strong>:</p>
+<p><img src="https://i.imgur.com/KZiuFeW.png"></p>
+<p>点击 Add New Template 按钮，现在进入Load default template部分，从template下拉菜单中选择Contact Form，点击Load template按钮:</p>
+<p><img src="https://i.imgur.com/4KxhCPu.png"></p>
+<p>输入您选择的模板名称。我使用我自己定义的表单名称:<strong>nocti custom contact form 1</strong></p>
+<p><img src="https://i.imgur.com/6sYpdlI.png"></p>
+<p>现在，为了能够收到从刚才新建的那个form.phtml表单中新添加的自定义字段（subject）的值，我们来到到<strong>Template Content</strong>字段那里，并在其中添加以下代码:</p>
+<pre><code>&#123;&#123;trans "Subject: %subject" subject=$data.subject&#125;&#125;</code></pre>
+<p><img src="https://i.imgur.com/RhX8X46.png"></p>
+<p>原先已经有了一些字段，只需要拷贝其中的一条，然后把信息改成subject即可。当然不同的主题或者不同的版本有所不同，最好的办法就是复制已有的字段，然后把内容改成自己自定义的字段即可。</p>
+<p>比如已有的可能有这么一些：</p>
+<pre><code>&#123;&#123;trans "Name: %name" name=$data.name&#125;&#125;
+&#123;&#123;trans "Email: %email" email=$data.email&#125;&#125;
+&#123;&#123;trans "Phone Number: %telephone" telephone=$data.telephone&#125;&#125;
+
+&#123;&#123;trans "Comment: %comment" comment=$data.comment&#125;&#125;</code></pre>
+<p>最后，点击页面顶部的 Save Template.</p>
+<h2 id="更改Magento-2电子邮件模板"><a href="#更改Magento-2电子邮件模板" class="headerlink" title="更改Magento 2电子邮件模板"></a>更改Magento 2电子邮件模板</h2><p>现在导航到<strong>STORES</strong>→<strong>Configuration</strong>，点击<strong>General</strong>选项卡下的<strong>Contacts</strong>:</p>
+<p><img src="https://i.imgur.com/Jx5iGaX.png"></p>
+<p>进入电子邮件选项部分，从电子邮件模板下拉选项中选择刚才新建的自定义联系表单模板:<strong>nocti custom contact form 1</strong></p>
+<p><img src="https://i.imgur.com/vAyJ74G.png"></p>
+<p>然后，点击页面顶部的 Save Config 按钮，保存。</p>
+<p>要查看新修改后的表单，请在网站前台访问联系表单所在的页面，您将看到新添加的字段（subject）:</p>
+<p><img src="https://i.imgur.com/yYSyHk4.png"></p>
+<p>根据这个方法，我们可以根据自己的需要自定义的添加其他的字段，比如当选，多选，下拉等等。</p>
+<blockquote>
+<p>值得一起探讨的地方：笔者尝试着添加一个能够让用户在网站前台上传文件的字段，也就是<code>type=&quot;file&quot;</code>的字段，可是在电邮中没有收到这个字段上传的文件，这个可能需要另外做一些修改与设置，这个笔者将会在下一次更新中处理这个问题。</p>
+</blockquote>
+<p>当然，如果你财力雄厚，可以直接购买插件，笔者已经寻觅到了一个相对来说便宜的插件：<a target="_blank" rel="noopener" href="https://www.magesolution.com/advanced-form-for-magento-2.html">ADVANCED FORM FOR MAGENTO 2</a>，这个可以节省我们折腾的时间，安装好了就能用。</p>
+<p>本文到此结束，后续会持续更新，敬请关注。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/magento2-contact-form-%E9%87%8D%E5%86%99-%E6%B7%BB%E5%8A%A0%E5%AD%97%E6%AE%B5-%E8%81%94%E7%B3%BB%E8%A1%A8%E5%8D%95-%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6/" rel="tag"># magento2,contact form,重写,添加字段,联系表单,上传文件</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/07/15/javascript%E5%9C%A8wordpress%E7%9A%84enfold%E4%B8%BB%E9%A2%98%E4%B8%8A%E7%94%A8%E4%BA%8E%E5%9B%BA%E5%AE%9A%E9%A1%B6%E9%83%A8%E6%A0%8F%E4%BF%A1%E6%81%AF%E7%9A%84%E8%BF%90%E7%94%A8%E8%AF%A6%E8%A7%A3/" rel="prev" title="javascript在wordpress的enfold主题上用于固定顶部栏信息的运用详解">
+      <i class="fa fa-chevron-left"></i> javascript在wordpress的enfold主题上用于固定顶部栏信息的运用详解
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/07/17/%E5%AE%9E%E9%AA%8C%E7%BD%AE%E7%89%A9%E6%9E%B6%E8%A3%85%E7%BD%AE%E8%B4%AD%E7%BD%AE%E5%92%8C%E5%AE%89%E8%A3%85%E6%97%A5%E8%AE%B0/" rel="next" title="实验置物架装置购置和安装日记">
+      实验置物架装置购置和安装日记 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E5%86%99%E5%B9%B6%E5%9C%A8Magento-2%E8%81%94%E7%B3%BB%E8%A1%A8%E5%8D%95%E4%B8%AD%E6%B7%BB%E5%8A%A0%E8%87%AA%E5%AE%9A%E4%B9%89%E5%AD%97%E6%AE%B5"><span class="nav-number">1.</span> <span class="nav-text">重写并在Magento 2联系表单中添加自定义字段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9B%B4%E6%94%B9Magento-2%E7%94%B5%E5%AD%90%E9%82%AE%E4%BB%B6%E6%A8%A1%E6%9D%BF"><span class="nav-number">2.</span> <span class="nav-text">更改Magento 2电子邮件模板</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

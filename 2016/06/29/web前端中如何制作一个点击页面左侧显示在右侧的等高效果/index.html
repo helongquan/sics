@@ -1,37 +1,935 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="随着不断折腾网站的过程中，遇到过很多使用率很高的小模块，今天我就来根据自己制定的要求，一步一步的制作出一个很帅的、点击左边显示在右边的、等高度显示的自适应网页来。 先把制作的要求贴出来： 要求一：制作一个效果非常帅的手风琴效果侧边栏 要求二：能够点击左侧垂直菜单的链接在同一页面的右侧显示 要求三：能够左右两栏高度一致 要求四：能够自适应各种屏幕的显示效果 要求五：能够点击左边的链接，在右边显示外部">
+<meta property="og:type" content="article">
+<meta property="og:title" content="web前端中如何制作一个点击页面左侧显示在右侧的等高效果">
+<meta property="og:url" content="http://example.com/2016/06/29/web%E5%89%8D%E7%AB%AF%E4%B8%AD%E5%A6%82%E4%BD%95%E5%88%B6%E4%BD%9C%E4%B8%80%E4%B8%AA%E7%82%B9%E5%87%BB%E9%A1%B5%E9%9D%A2%E5%B7%A6%E4%BE%A7%E6%98%BE%E7%A4%BA%E5%9C%A8%E5%8F%B3%E4%BE%A7%E7%9A%84%E7%AD%89%E9%AB%98%E6%95%88%E6%9E%9C/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="随着不断折腾网站的过程中，遇到过很多使用率很高的小模块，今天我就来根据自己制定的要求，一步一步的制作出一个很帅的、点击左边显示在右边的、等高度显示的自适应网页来。 先把制作的要求贴出来： 要求一：制作一个效果非常帅的手风琴效果侧边栏 要求二：能够点击左侧垂直菜单的链接在同一页面的右侧显示 要求三：能够左右两栏高度一致 要求四：能够自适应各种屏幕的显示效果 要求五：能够点击左边的链接，在右边显示外部">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://i.imgur.com/k0FqCmr.png">
+<meta property="og:image" content="http://i.imgur.com/ho7EAqf.png">
+<meta property="article:published_time" content="2016-06-29T15:26:17.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:53:15.746Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="web前端,左右侧等高效果">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://i.imgur.com/k0FqCmr.png">
+
+<link rel="canonical" href="http://example.com/2016/06/29/web%E5%89%8D%E7%AB%AF%E4%B8%AD%E5%A6%82%E4%BD%95%E5%88%B6%E4%BD%9C%E4%B8%80%E4%B8%AA%E7%82%B9%E5%87%BB%E9%A1%B5%E9%9D%A2%E5%B7%A6%E4%BE%A7%E6%98%BE%E7%A4%BA%E5%9C%A8%E5%8F%B3%E4%BE%A7%E7%9A%84%E7%AD%89%E9%AB%98%E6%95%88%E6%9E%9C/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>web前端中如何制作一个点击页面左侧显示在右侧的等高效果 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/06/29/web%E5%89%8D%E7%AB%AF%E4%B8%AD%E5%A6%82%E4%BD%95%E5%88%B6%E4%BD%9C%E4%B8%80%E4%B8%AA%E7%82%B9%E5%87%BB%E9%A1%B5%E9%9D%A2%E5%B7%A6%E4%BE%A7%E6%98%BE%E7%A4%BA%E5%9C%A8%E5%8F%B3%E4%BE%A7%E7%9A%84%E7%AD%89%E9%AB%98%E6%95%88%E6%9E%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          web前端中如何制作一个点击页面左侧显示在右侧的等高效果
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-06-29 23:26:17" itemprop="dateCreated datePublished" datetime="2016-06-29T23:26:17+08:00">2016-06-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:15" itemprop="dateModified" datetime="2020-10-11T11:53:15+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>随着不断折腾网站的过程中，遇到过很多使用率很高的小模块，今天我就来根据自己制定的要求，一步一步的制作出一个很帅的、点击左边显示在右边的、等高度显示的自适应网页来。</p>
+<p>先把制作的要求贴出来：</p>
+<pre><code>要求一：制作一个效果非常帅的手风琴效果侧边栏
+要求二：能够点击左侧垂直菜单的链接在同一页面的右侧显示
+要求三：能够左右两栏高度一致
+要求四：能够自适应各种屏幕的显示效果
+要求五：能够点击左边的链接，在右边显示外部页面的内容</code></pre>
+<p>第一步新建一个html文件：index.html</p>
+<pre><code>&lt;!doctype html&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;title&gt;很帅的手风琴模块&lt;/title&gt;
+
+&lt;link rel=&quot;stylesheet&quot; href=&quot;css/reset.css&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;css/bootstrap.min.css&quot;&gt;
+&lt;script src=&quot;js/jquery-2.1.1.min.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;js/bootstrap.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;js/modernizr.js&quot;&gt;&lt;/script&gt;
+&lt;style type=&quot;text/css&quot;&gt;
+    .zb-shoufengqin-left&#123;
+        width: 30%;
+        float: left;
+    &#125;
+    .zb-shoufengqin-right&#123;
+        width: 69%;
+        float: left;
+        height: auto;
+        margin: 57px 10px 10px 0px;
+        padding: 20px 10px;
+        background: #6A4040;
+        color: #fff;
+    &#125;
+
+    @media screen and (max-width: 760px) &#123;
+    .zb-shoufengqin-left&#123;
+        width: 100%;
+    &#125;
+    .zb-shoufengqin-right&#123;
+        width: 100%;
+        padding: 10px;
+        margin: 0px 10px 10px 0px;
+    &#125;
+    &#125;
+&lt;/style&gt;
+
+
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div&gt;
+&lt;!-- 左侧手风琴折叠菜单 开始 --&gt;
+    &lt;div class=&quot;zb-shoufengqin-left&quot; id=&quot;zb-shoufengqin-left&quot;&gt;
+
+    &lt;/div&gt;
+&lt;!-- 左侧手风琴折叠菜单 结束 --&gt;
+
+&lt;!-- 页面右侧内容 开始--&gt;
+    &lt;div class=&quot;zb-shoufengqin-right&quot; id=&quot;zb-shoufengqin-right&quot;&gt;
+
+    &lt;/div&gt;
+&lt;!-- 页面右侧内容 结束 --&gt;
+&lt;/div&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>这里需要引入必要的文件，文件结构如下：</p>
+<p><img src="http://i.imgur.com/k0FqCmr.png"></p>
+<p>其中，aa.html文件主要用来实现等高效果的</p>
+<p>home.html文件用来实现点击左边显示在右边的效果的</p>
+<p>第二步：在第一步的基础上制作手风琴垂直菜单效果，那么第一步的代码就变成如下：</p>
+<pre><code>&lt;!doctype html&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;title&gt;很帅的手风琴模块&lt;/title&gt;
+
+&lt;link rel=&quot;stylesheet&quot; href=&quot;css/reset.css&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;css/bootstrap.min.css&quot;&gt;
+&lt;script src=&quot;js/jquery-2.1.1.min.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;js/bootstrap.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;js/modernizr.js&quot;&gt;&lt;/script&gt;
+&lt;style type=&quot;text/css&quot;&gt;
+    .zb-shoufengqin-left&#123;
+        width: 30%;
+        float: left;
+    &#125;
+    .zb-shoufengqin-right&#123;
+        width: 69%;
+        float: left;
+        height: auto;
+        margin: 57px 10px 10px 0px;
+        padding: 20px 10px;
+        background: #6A4040;
+        color: #fff;
+    &#125;
+
+    @media screen and (max-width: 760px) &#123;
+    .zb-shoufengqin-left&#123;
+        width: 100%;
+    &#125;
+    .zb-shoufengqin-right&#123;
+        width: 100%;
+        padding: 10px;
+        margin: 0px 10px 10px 0px;
+    &#125;
+    &#125;
+&lt;/style&gt;
+
+
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div&gt;
+&lt;!-- 左侧手风琴折叠菜单 开始 --&gt;
+&lt;div class=&quot;zb-shoufengqin-left&quot; id=&quot;zb-shoufengqin-left&quot;&gt;
+    &lt;ul class=&quot;cd-accordion-menu animated&quot;&gt;
+    &lt;li class=&quot;has-children&quot;&gt;
+        &lt;input type=&quot;checkbox&quot; name =&quot;group-1&quot; id=&quot;group-1&quot; checked&gt;
+        &lt;label for=&quot;group-1&quot;&gt;Group 1&lt;/label&gt;
+        &lt;ul&gt;
+            &lt;li class=&quot;has-children&quot;&gt;
+                &lt;input type=&quot;checkbox&quot; name =&quot;sub-group-1&quot; id=&quot;sub-group-1&quot;&gt;
+                &lt;label for=&quot;sub-group-1&quot;&gt;Sub Group 1&lt;/label&gt;
+                &lt;ul&gt;
+                    &lt;li&gt;
+                        &lt;a href=&quot;javascript:funcShow(1)&quot;&gt;荷塘月色第一段&lt;/a&gt;
+                    &lt;/li&gt;
+                    &lt;li&gt;
+                        &lt;a href=&quot;javascript:funcShow(2)&quot;&gt;荷塘月色第二段&lt;/a&gt;
+                    &lt;/li&gt;
+                    &lt;li&gt;
+                        &lt;a href=&quot;javascript:funcShow(3)&quot;&gt;荷塘月色第三段&lt;/a&gt;
+                    &lt;/li&gt;
+                &lt;/ul&gt;
+            &lt;/li&gt;
+            &lt;li class=&quot;has-children&quot;&gt;
+                &lt;input type=&quot;checkbox&quot; name =&quot;sub-group-2&quot; id=&quot;sub-group-2&quot;&gt;
+                &lt;label for=&quot;sub-group-2&quot;&gt;Sub Group 2&lt;/label&gt;
+                &lt;ul&gt;
+                    &lt;li class=&quot;has-children&quot;&gt;
+                        &lt;input type=&quot;checkbox&quot; name =&quot;sub-group-level-3&quot; id=&quot;sub-group-level-3&quot;&gt;
+                        &lt;label for=&quot;sub-group-level-3&quot;&gt;Sub Group Level 3&lt;/label&gt;
+                        &lt;ul&gt;
+                            &lt;li&gt;&lt;a href=&quot;javascript:funcShow(4)&quot;&gt;荷塘月色第四段&lt;/a&gt;&lt;/li&gt;
+                            &lt;li&gt;&lt;a href=&quot;javascript:funcShow(5)&quot;&gt;荷塘月色第五段&lt;/a&gt;&lt;/li&gt;
+                        &lt;/ul&gt;
+                    &lt;/li&gt;
+                    &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image3&lt;/a&gt;&lt;/li&gt;
+                &lt;/ul&gt;
+            &lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image4&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image5&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li class=&quot;has-children&quot;&gt;
+        &lt;input type=&quot;checkbox&quot; name =&quot;group-2&quot; id=&quot;group-2&quot;&gt;
+        &lt;label for=&quot;group-2&quot;&gt;Group 2&lt;/label&gt;
+        &lt;ul&gt;
+            &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image6&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image7&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li class=&quot;has-children&quot;&gt;
+        &lt;input type=&quot;checkbox&quot; name =&quot;group-3&quot; id=&quot;group-3&quot;&gt;
+        &lt;label for=&quot;group-3&quot;&gt;Group 3&lt;/label&gt;
+        &lt;ul&gt;
+            &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image8&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image9&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li class=&quot;has-children&quot;&gt;
+        &lt;input type=&quot;checkbox&quot; name =&quot;group-4&quot; id=&quot;group-4&quot;&gt;
+        &lt;label for=&quot;group-4&quot;&gt;Group 4&lt;/label&gt;
+        &lt;ul&gt;
+            &lt;li class=&quot;has-children&quot;&gt;
+                &lt;input type=&quot;checkbox&quot; name =&quot;sub-group-3&quot; id=&quot;sub-group-3&quot;&gt;
+                &lt;label for=&quot;sub-group-3&quot;&gt;Sub Group 3&lt;/label&gt;
+                &lt;ul&gt;
+                    &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image10&lt;/a&gt;&lt;/li&gt;
+                    &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image11&lt;/a&gt;&lt;/li&gt;
+                &lt;/ul&gt;
+            &lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image12&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image13&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/div&gt;
+&lt;!-- 左侧手风琴折叠菜单 结束 --&gt;
+
+&lt;!-- 页面右侧内容 开始--&gt;
+    &lt;div class=&quot;zb-shoufengqin-right&quot; id=&quot;zb-shoufengqin-right&quot;&gt;
+
+    &lt;/div&gt;
+&lt;!-- 页面右侧内容 结束 --&gt;
+&lt;/div&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>接着我们继续往下实现点击页面的左侧垂直菜单链接，在同一页面的右侧显示，也就是home.html文件中实现的效果，那么index.html文件代码就变成如下：</p>
+<pre><code>&lt;!doctype html&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;title&gt;很帅的手风琴模块&lt;/title&gt;
+
+&lt;link rel=&quot;stylesheet&quot; href=&quot;css/reset.css&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;css/bootstrap.min.css&quot;&gt;
+&lt;script src=&quot;js/jquery-2.1.1.min.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;js/bootstrap.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;js/modernizr.js&quot;&gt;&lt;/script&gt;
+&lt;style type=&quot;text/css&quot;&gt;
+    .zb-shoufengqin-left&#123;
+        width: 30%;
+        float: left;
+    &#125;
+    .zb-shoufengqin-right&#123;
+        width: 69%;
+        float: left;
+        height: auto;
+        margin: 57px 10px 10px 0px;
+        padding: 20px 10px;
+        background: #6A4040;
+        color: #fff;
+    &#125;
+
+    @media screen and (max-width: 760px) &#123;
+    .zb-shoufengqin-left&#123;
+        width: 100%;
+    &#125;
+    .zb-shoufengqin-right&#123;
+        width: 100%;
+        padding: 10px;
+        margin: 0px 10px 10px 0px;
+    &#125;
+    &#125;
+&lt;/style&gt;
+
+&lt;!-- 以下的这段js代码用来实现页面左右两个部分内容的绑定，即点击左边的链接在右边显示相应的内容 --&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+function funcShow(id)&#123;
+for(var i=0;i&lt;16;i++)&#123;
+var divInfo =document.getElementById(&#39;div&#39;+(i+1));
+divInfo.style.display=&#39;none&#39;;
+&#125;
+var div =document.getElementById(&#39;div&#39;+id);
+div.style.display=&#39;block&#39;;
+&#125;
+&lt;/script&gt;
+
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div&gt;
+&lt;!-- 左侧手风琴折叠菜单 开始 --&gt;
+&lt;div class=&quot;zb-shoufengqin-left&quot; id=&quot;zb-shoufengqin-left&quot;&gt;
+    &lt;ul class=&quot;cd-accordion-menu animated&quot;&gt;
+    &lt;li class=&quot;has-children&quot;&gt;
+        &lt;input type=&quot;checkbox&quot; name =&quot;group-1&quot; id=&quot;group-1&quot; checked&gt;
+        &lt;label for=&quot;group-1&quot;&gt;Group 1&lt;/label&gt;
+        &lt;ul&gt;
+            &lt;li class=&quot;has-children&quot;&gt;
+                &lt;input type=&quot;checkbox&quot; name =&quot;sub-group-1&quot; id=&quot;sub-group-1&quot;&gt;
+                &lt;label for=&quot;sub-group-1&quot;&gt;Sub Group 1&lt;/label&gt;
+                &lt;ul&gt;
+                    &lt;li&gt;
+                        &lt;a href=&quot;javascript:funcShow(1)&quot;&gt;荷塘月色第一段&lt;/a&gt;
+                    &lt;/li&gt;
+                    &lt;li&gt;
+                        &lt;a href=&quot;javascript:funcShow(2)&quot;&gt;荷塘月色第二段&lt;/a&gt;
+                    &lt;/li&gt;
+                    &lt;li&gt;
+                        &lt;a href=&quot;javascript:funcShow(3)&quot;&gt;荷塘月色第三段&lt;/a&gt;
+                    &lt;/li&gt;
+                &lt;/ul&gt;
+            &lt;/li&gt;
+            &lt;li class=&quot;has-children&quot;&gt;
+                &lt;input type=&quot;checkbox&quot; name =&quot;sub-group-2&quot; id=&quot;sub-group-2&quot;&gt;
+                &lt;label for=&quot;sub-group-2&quot;&gt;Sub Group 2&lt;/label&gt;
+                &lt;ul&gt;
+                    &lt;li class=&quot;has-children&quot;&gt;
+                        &lt;input type=&quot;checkbox&quot; name =&quot;sub-group-level-3&quot; id=&quot;sub-group-level-3&quot;&gt;
+                        &lt;label for=&quot;sub-group-level-3&quot;&gt;Sub Group Level 3&lt;/label&gt;
+                        &lt;ul&gt;
+                            &lt;li&gt;&lt;a href=&quot;javascript:funcShow(4)&quot;&gt;荷塘月色第四段&lt;/a&gt;&lt;/li&gt;
+                            &lt;li&gt;&lt;a href=&quot;javascript:funcShow(5)&quot;&gt;荷塘月色第五段&lt;/a&gt;&lt;/li&gt;
+                        &lt;/ul&gt;
+                    &lt;/li&gt;
+                    &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image3&lt;/a&gt;&lt;/li&gt;
+                &lt;/ul&gt;
+            &lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image4&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image5&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li class=&quot;has-children&quot;&gt;
+        &lt;input type=&quot;checkbox&quot; name =&quot;group-2&quot; id=&quot;group-2&quot;&gt;
+        &lt;label for=&quot;group-2&quot;&gt;Group 2&lt;/label&gt;
+        &lt;ul&gt;
+            &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image6&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image7&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li class=&quot;has-children&quot;&gt;
+        &lt;input type=&quot;checkbox&quot; name =&quot;group-3&quot; id=&quot;group-3&quot;&gt;
+        &lt;label for=&quot;group-3&quot;&gt;Group 3&lt;/label&gt;
+        &lt;ul&gt;
+            &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image8&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image9&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li class=&quot;has-children&quot;&gt;
+        &lt;input type=&quot;checkbox&quot; name =&quot;group-4&quot; id=&quot;group-4&quot;&gt;
+        &lt;label for=&quot;group-4&quot;&gt;Group 4&lt;/label&gt;
+        &lt;ul&gt;
+            &lt;li class=&quot;has-children&quot;&gt;
+                &lt;input type=&quot;checkbox&quot; name =&quot;sub-group-3&quot; id=&quot;sub-group-3&quot;&gt;
+                &lt;label for=&quot;sub-group-3&quot;&gt;Sub Group 3&lt;/label&gt;
+                &lt;ul&gt;
+                    &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image10&lt;/a&gt;&lt;/li&gt;
+                    &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image11&lt;/a&gt;&lt;/li&gt;
+                &lt;/ul&gt;
+            &lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image12&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image13&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/div&gt;
+&lt;!-- 左侧手风琴折叠菜单 结束 --&gt;
+
+&lt;!-- 页面右侧内容 开始--&gt;
+&lt;div class=&quot;zb-shoufengqin-right&quot; id=&quot;zb-shoufengqin-right&quot;&gt;
+    &lt;div id=&quot;div1&quot; style=&quot;display:block&quot;&gt;
+        &lt;p&gt;
+            这几天心里颇不宁静。今晚在院子里坐着乘凉，忽然想起日日走过的荷塘，在这满月的月光里，总该另有一番样子吧。月亮渐渐地升高了，墙外马路上孩子们的欢笑，已经听不见了；妻在屋里拍着闰儿，迷迷糊糊地哼着眠歌。我悄悄地披了大衫，带上门出去。沿着荷塘，是一条曲折的小煤屑路。这是一条幽僻的路；白天也少人走，夜晚更加寂寞。荷塘四面，长着许多树，蓊蓊(wěng)郁郁的。路的一旁，是些杨柳，和一些不知道名字的树。没有月光的晚上，这路上阴森森的，有些怕人。今晚却很好，虽然月光也还是淡淡的。路上只我一个人，背着手踱着。这一片天地好像是我的；我也像超出了平常的自己，到了另一世界里。我爱热闹，也爱冷静；爱群居，也爱独处。像今晚上，一个人在这苍茫的月下，什么都可以想，什么都可以不想，便觉是个自由的人。白天里一定要做的事，一定要说的话，现在都可不理。这是独处的妙处，我且受用这无边的荷香月色好了。
+        &lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;div2&quot; style=&quot;display:none&quot;&gt;
+        &lt;p&gt;
+            曲曲折折的荷塘上面，弥望的是田田的叶子。叶子出水很高，像亭亭的舞女的裙。层层的叶子中间，零星地点缀着些白花，有袅娜(niǎo,nuó)地开着的，有羞涩地打着朵儿的；正如一粒粒的明珠，又如碧天里的星星，又如刚出浴的美人。微风过处，送来缕缕清香，仿佛远处高楼上渺茫的歌声似的。这时候叶子与花也有一丝的颤动，像闪电一般，霎时传过荷塘的那边去了。叶子本是肩并肩密密地挨着，这便宛然有了一道凝碧的波痕。叶子底下是脉脉(mò)的流水，遮住了，不能见一些颜色；而叶子却更见风致了。月光如流水一般，静静地泻在这一片叶子和花上。薄薄的青雾浮起在荷塘里。叶子和花仿佛在牛乳中洗过一 样；又像笼着轻纱的梦。虽然是满月，天上却有一层淡淡的云，所以不能朗照；但我以为这恰是到了好处——酣眠固不可少，小睡也别有风味的。月光是隔了树照过来的，高处丛生的灌木，落下参差的斑驳的黑影，峭楞楞如鬼一般；弯弯的杨柳的稀疏的倩影，却又像是画在荷叶上。塘中的月色并不均匀；但光与影有着和谐的旋律，如梵婀(ē)玲(英语violin小提琴的译音)上奏着的名曲。
+        &lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;div3&quot; style=&quot;display:none&quot;&gt;
+        &lt;p&gt;
+            荷塘的四面，远远近近，高高低低都是树，而杨柳最多。这些树将一片荷塘重重围住；只在小路一旁，漏着几段空隙，像是特为月光留下的。树色一例是阴阴的，乍看像一团烟雾；但杨柳的丰姿，便在烟雾里也辨得出。树梢上隐隐约约的是一带远山，只有些大意罢了。树缝里也漏着一两点路灯光，没精打采的，是渴睡人的眼。这时候最热闹的，要数树上的蝉声与水里的蛙声；但热闹是他们的，我什么也没有。
+        &lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;div4&quot; style=&quot;display:none&quot;&gt;
+        &lt;p&gt;
+            忽然想起采莲的事情来了。采莲是江南的旧俗，似乎很早就有，而六朝时为盛；从诗歌里可以约略知道。采莲的是少年的女子，她们是荡着小船，唱着艳歌去的。采莲人不用说很多，还有看采莲的人。那是一个热闹的季节，也是一个风流的季节。梁元帝《采莲赋》里说得好：于是妖童媛(yuán)女，荡舟心许；鷁(yì)首徐回，兼传羽杯；欋(zhào)将移而藻挂，船欲动而萍开。尔其纤腰束素，迁延顾步；夏始春余，叶嫩花初，恐沾裳而浅笑，畏倾船而敛裾(jū)见当时嬉游的光景了。这真是有趣的事，可惜我们现在早已无福消受了。
+        &lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;div5&quot; style=&quot;display:none&quot;&gt;
+        &lt;p&gt;
+            于是又记起《西洲曲》里的句子：采莲南塘秋，莲花过人头；低头弄莲子，莲子清如水。今晚若有采莲人，这儿的莲花也算得“过人头”了；只不见一些流水的影子，是不行的。这令我到底惦着江南了。这样想着，猛一抬头，不觉已是自己的门前；轻轻地推门进去，什么声息也没有，妻已睡熟好久了。
+        &lt;/p&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- 页面右侧内容 结束 --&gt;
+&lt;/div&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>到这里我们基本能够实现前面的几个效果，可是页面看起来很寒碜，高度不一致，那么如何让这两个区域显示的高度一致呢？我们继续往下，我们需要写一段js代码，来让他们判断左右的高度，然后以较高的那个为准，那么index.html代码将会变成如下：</p>
+<pre><code>&lt;!doctype html&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;title&gt;很帅的手风琴模块&lt;/title&gt;
+
+&lt;link rel=&quot;stylesheet&quot; href=&quot;css/reset.css&quot;&gt;
+&lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;css/bootstrap.min.css&quot;&gt;
+&lt;script src=&quot;js/jquery-2.1.1.min.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;js/bootstrap.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;js/modernizr.js&quot;&gt;&lt;/script&gt;
+&lt;style type=&quot;text/css&quot;&gt;
+    .zb-shoufengqin-left&#123;
+        width: 30%;
+        float: left;
+    &#125;
+    .zb-shoufengqin-right&#123;
+        width: 69%;
+        float: left;
+        height: auto;
+        margin: 57px 10px 10px 0px;
+        padding: 20px 10px;
+        background: #6A4040;
+        color: #fff;
+    &#125;
+
+    @media screen and (max-width: 760px) &#123;
+    .zb-shoufengqin-left&#123;
+        width: 100%;
+    &#125;
+    .zb-shoufengqin-right&#123;
+        width: 100%;
+        padding: 10px;
+        margin: 0px 10px 10px 0px;
+    &#125;
+    &#125;
+&lt;/style&gt;
+
+&lt;!-- 以下的这段js代码用来实现页面左右两个部分内容的绑定，即点击左边的链接在右边显示相应的内容 --&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+function funcShow(id)&#123;
+for(var i=0;i&lt;16;i++)&#123;
+var divInfo =document.getElementById(&#39;div&#39;+(i+1));
+divInfo.style.display=&#39;none&#39;;
+&#125;
+var div =document.getElementById(&#39;div&#39;+id);
+div.style.display=&#39;block&#39;;
+&#125;
+&lt;/script&gt;
+
+&lt;!-- 以下的脚本代码用来确保左右两列的高度一致，始终以最高的那个为准 --&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+    $(function()&#123;
+        var heightleft= $(&quot;#zb-shoufengqin-left&quot;).height();
+        var heightright= $(&quot;#zb-shoufengqin-right&quot;).height();
+        if (heightleft&gt;heightright) &#123;
+            $(&quot;#zb-shoufengqin-right&quot;).height(heightleft);
+        &#125;
+        else&#123;
+            $(&quot;#zb-shoufengqin-left&quot;).height(heightright);
+        &#125;
+    &#125;)
+&lt;/script&gt;
+
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div&gt;
+&lt;!-- 左侧手风琴折叠菜单 开始 --&gt;
+&lt;div class=&quot;zb-shoufengqin-left&quot; id=&quot;zb-shoufengqin-left&quot;&gt;
+    &lt;ul class=&quot;cd-accordion-menu animated&quot;&gt;
+    &lt;li class=&quot;has-children&quot;&gt;
+        &lt;input type=&quot;checkbox&quot; name =&quot;group-1&quot; id=&quot;group-1&quot; checked&gt;
+        &lt;label for=&quot;group-1&quot;&gt;Group 1&lt;/label&gt;
+        &lt;ul&gt;
+            &lt;li class=&quot;has-children&quot;&gt;
+                &lt;input type=&quot;checkbox&quot; name =&quot;sub-group-1&quot; id=&quot;sub-group-1&quot;&gt;
+                &lt;label for=&quot;sub-group-1&quot;&gt;Sub Group 1&lt;/label&gt;
+                &lt;ul&gt;
+                    &lt;li&gt;
+                        &lt;a href=&quot;javascript:funcShow(1)&quot;&gt;荷塘月色第一段&lt;/a&gt;
+                    &lt;/li&gt;
+                    &lt;li&gt;
+                        &lt;a href=&quot;javascript:funcShow(2)&quot;&gt;荷塘月色第二段&lt;/a&gt;
+                    &lt;/li&gt;
+                    &lt;li&gt;
+                        &lt;a href=&quot;javascript:funcShow(3)&quot;&gt;荷塘月色第三段&lt;/a&gt;
+                    &lt;/li&gt;
+                &lt;/ul&gt;
+            &lt;/li&gt;
+            &lt;li class=&quot;has-children&quot;&gt;
+                &lt;input type=&quot;checkbox&quot; name =&quot;sub-group-2&quot; id=&quot;sub-group-2&quot;&gt;
+                &lt;label for=&quot;sub-group-2&quot;&gt;Sub Group 2&lt;/label&gt;
+                &lt;ul&gt;
+                    &lt;li class=&quot;has-children&quot;&gt;
+                        &lt;input type=&quot;checkbox&quot; name =&quot;sub-group-level-3&quot; id=&quot;sub-group-level-3&quot;&gt;
+                        &lt;label for=&quot;sub-group-level-3&quot;&gt;Sub Group Level 3&lt;/label&gt;
+                        &lt;ul&gt;
+                            &lt;li&gt;&lt;a href=&quot;javascript:funcShow(4)&quot;&gt;荷塘月色第四段&lt;/a&gt;&lt;/li&gt;
+                            &lt;li&gt;&lt;a href=&quot;javascript:funcShow(5)&quot;&gt;荷塘月色第五段&lt;/a&gt;&lt;/li&gt;
+                        &lt;/ul&gt;
+                    &lt;/li&gt;
+                    &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image3&lt;/a&gt;&lt;/li&gt;
+                &lt;/ul&gt;
+            &lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image4&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image5&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li class=&quot;has-children&quot;&gt;
+        &lt;input type=&quot;checkbox&quot; name =&quot;group-2&quot; id=&quot;group-2&quot;&gt;
+        &lt;label for=&quot;group-2&quot;&gt;Group 2&lt;/label&gt;
+        &lt;ul&gt;
+            &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image6&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image7&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li class=&quot;has-children&quot;&gt;
+        &lt;input type=&quot;checkbox&quot; name =&quot;group-3&quot; id=&quot;group-3&quot;&gt;
+        &lt;label for=&quot;group-3&quot;&gt;Group 3&lt;/label&gt;
+        &lt;ul&gt;
+            &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image8&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image9&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li class=&quot;has-children&quot;&gt;
+        &lt;input type=&quot;checkbox&quot; name =&quot;group-4&quot; id=&quot;group-4&quot;&gt;
+        &lt;label for=&quot;group-4&quot;&gt;Group 4&lt;/label&gt;
+        &lt;ul&gt;
+            &lt;li class=&quot;has-children&quot;&gt;
+                &lt;input type=&quot;checkbox&quot; name =&quot;sub-group-3&quot; id=&quot;sub-group-3&quot;&gt;
+                &lt;label for=&quot;sub-group-3&quot;&gt;Sub Group 3&lt;/label&gt;
+                &lt;ul&gt;
+                    &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image10&lt;/a&gt;&lt;/li&gt;
+                    &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image11&lt;/a&gt;&lt;/li&gt;
+                &lt;/ul&gt;
+            &lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image12&lt;/a&gt;&lt;/li&gt;
+            &lt;li&gt;&lt;a href=&quot;#0&quot;&gt;Image13&lt;/a&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/div&gt;
+&lt;!-- 左侧手风琴折叠菜单 结束 --&gt;
+
+&lt;!-- 页面右侧内容 开始--&gt;
+&lt;div class=&quot;zb-shoufengqin-right&quot; id=&quot;zb-shoufengqin-right&quot;&gt;
+    &lt;div id=&quot;div1&quot; style=&quot;display:block&quot;&gt;
+        &lt;p&gt;
+            这几天心里颇不宁静。今晚在院子里坐着乘凉，忽然想起日日走过的荷塘，在这满月的月光里，总该另有一番样子吧。月亮渐渐地升高了，墙外马路上孩子们的欢笑，已经听不见了；妻在屋里拍着闰儿，迷迷糊糊地哼着眠歌。我悄悄地披了大衫，带上门出去。沿着荷塘，是一条曲折的小煤屑路。这是一条幽僻的路；白天也少人走，夜晚更加寂寞。荷塘四面，长着许多树，蓊蓊(wěng)郁郁的。路的一旁，是些杨柳，和一些不知道名字的树。没有月光的晚上，这路上阴森森的，有些怕人。今晚却很好，虽然月光也还是淡淡的。路上只我一个人，背着手踱着。这一片天地好像是我的；我也像超出了平常的自己，到了另一世界里。我爱热闹，也爱冷静；爱群居，也爱独处。像今晚上，一个人在这苍茫的月下，什么都可以想，什么都可以不想，便觉是个自由的人。白天里一定要做的事，一定要说的话，现在都可不理。这是独处的妙处，我且受用这无边的荷香月色好了。
+        &lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;div2&quot; style=&quot;display:none&quot;&gt;
+        &lt;p&gt;
+            曲曲折折的荷塘上面，弥望的是田田的叶子。叶子出水很高，像亭亭的舞女的裙。层层的叶子中间，零星地点缀着些白花，有袅娜(niǎo,nuó)地开着的，有羞涩地打着朵儿的；正如一粒粒的明珠，又如碧天里的星星，又如刚出浴的美人。微风过处，送来缕缕清香，仿佛远处高楼上渺茫的歌声似的。这时候叶子与花也有一丝的颤动，像闪电一般，霎时传过荷塘的那边去了。叶子本是肩并肩密密地挨着，这便宛然有了一道凝碧的波痕。叶子底下是脉脉(mò)的流水，遮住了，不能见一些颜色；而叶子却更见风致了。月光如流水一般，静静地泻在这一片叶子和花上。薄薄的青雾浮起在荷塘里。叶子和花仿佛在牛乳中洗过一 样；又像笼着轻纱的梦。虽然是满月，天上却有一层淡淡的云，所以不能朗照；但我以为这恰是到了好处——酣眠固不可少，小睡也别有风味的。月光是隔了树照过来的，高处丛生的灌木，落下参差的斑驳的黑影，峭楞楞如鬼一般；弯弯的杨柳的稀疏的倩影，却又像是画在荷叶上。塘中的月色并不均匀；但光与影有着和谐的旋律，如梵婀(ē)玲(英语violin小提琴的译音)上奏着的名曲。
+        &lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;div3&quot; style=&quot;display:none&quot;&gt;
+        &lt;p&gt;
+            荷塘的四面，远远近近，高高低低都是树，而杨柳最多。这些树将一片荷塘重重围住；只在小路一旁，漏着几段空隙，像是特为月光留下的。树色一例是阴阴的，乍看像一团烟雾；但杨柳的丰姿，便在烟雾里也辨得出。树梢上隐隐约约的是一带远山，只有些大意罢了。树缝里也漏着一两点路灯光，没精打采的，是渴睡人的眼。这时候最热闹的，要数树上的蝉声与水里的蛙声；但热闹是他们的，我什么也没有。
+        &lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;div4&quot; style=&quot;display:none&quot;&gt;
+        &lt;p&gt;
+            忽然想起采莲的事情来了。采莲是江南的旧俗，似乎很早就有，而六朝时为盛；从诗歌里可以约略知道。采莲的是少年的女子，她们是荡着小船，唱着艳歌去的。采莲人不用说很多，还有看采莲的人。那是一个热闹的季节，也是一个风流的季节。梁元帝《采莲赋》里说得好：于是妖童媛(yuán)女，荡舟心许；鷁(yì)首徐回，兼传羽杯；欋(zhào)将移而藻挂，船欲动而萍开。尔其纤腰束素，迁延顾步；夏始春余，叶嫩花初，恐沾裳而浅笑，畏倾船而敛裾(jū)见当时嬉游的光景了。这真是有趣的事，可惜我们现在早已无福消受了。
+        &lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div id=&quot;div5&quot; style=&quot;display:none&quot;&gt;
+        &lt;p&gt;
+            于是又记起《西洲曲》里的句子：采莲南塘秋，莲花过人头；低头弄莲子，莲子清如水。今晚若有采莲人，这儿的莲花也算得“过人头”了；只不见一些流水的影子，是不行的。这令我到底惦着江南了。这样想着，猛一抬头，不觉已是自己的门前；轻轻地推门进去，什么声息也没有，妻已睡熟好久了。
+        &lt;/p&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- 页面右侧内容 结束 --&gt;
+&lt;/div&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>最后，我们如何让这个漂亮的效果能够适应各种终端设备呢？其实这是个样式的问题，我们可以通过媒体查询来实现，这里我已经简单的在style中写了，在max-width:760px中显示的样式，原理很简单，这里就不再重复了。</p>
+<p>最终的效果如下图：</p>
+<p><img src="http://i.imgur.com/ho7EAqf.png"></p>
+<p>效果代码可以在这里<a target="_blank" rel="noopener" href="http://pan.baidu.com/s/1eSoaVq6">下载</a></p>
+<p>如果有深入探讨的，请随时与我取得联系，我的QQ:791447771</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/web%E5%89%8D%E7%AB%AF-%E5%B7%A6%E5%8F%B3%E4%BE%A7%E7%AD%89%E9%AB%98%E6%95%88%E6%9E%9C/" rel="tag"># web前端,左右侧等高效果</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2016/06/04/%E5%88%86%E4%BA%AB%E5%87%A0%E6%AC%BE%E4%BC%98%E7%A7%80%E7%9A%84web%E5%89%8D%E7%AB%AF%E6%A1%86%E6%9E%B6/" rel="prev" title="分享几款优秀的web前端框架">
+      <i class="fa fa-chevron-left"></i> 分享几款优秀的web前端框架
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2016/07/16/WOW-Slider%E5%A6%82%E4%BD%95%E5%8E%BB%E9%99%A4%E6%B0%B4%E5%8D%B0%E6%95%B4%E7%90%86/" rel="next" title="WOW Slider如何去除水印整理">
+      WOW Slider如何去除水印整理 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

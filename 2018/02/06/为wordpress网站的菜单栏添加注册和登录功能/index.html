@@ -1,37 +1,544 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="长话短说，这个是基于wordpress的一个小功能，需要修改源码： 核心代码如下： &lt;?php if ( is_user_logged_in() ) &amp;#123; ?&gt; &lt;a href&#x3D;&quot;&lt;?php echo wp_logout_url(); ?&gt;&quot;&gt;注销&lt;&#x2F;a&gt; &lt;?php &amp;#125; else &amp;#123; ?&gt;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="为wordpress网站的菜单栏添加注册和登录功能">
+<meta property="og:url" content="http://example.com/2018/02/06/%E4%B8%BAwordpress%E7%BD%91%E7%AB%99%E7%9A%84%E8%8F%9C%E5%8D%95%E6%A0%8F%E6%B7%BB%E5%8A%A0%E6%B3%A8%E5%86%8C%E5%92%8C%E7%99%BB%E5%BD%95%E5%8A%9F%E8%83%BD/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="长话短说，这个是基于wordpress的一个小功能，需要修改源码： 核心代码如下： &lt;?php if ( is_user_logged_in() ) &amp;#123; ?&gt; &lt;a href&#x3D;&quot;&lt;?php echo wp_logout_url(); ?&gt;&quot;&gt;注销&lt;&#x2F;a&gt; &lt;?php &amp;#125; else &amp;#123; ?&gt;">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/fzpn50S.png">
+<meta property="og:image" content="https://i.imgur.com/AFGBLcj.png">
+<meta property="og:image" content="https://i.imgur.com/CQ5P94x.png">
+<meta property="article:published_time" content="2018-02-06T07:16:12.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:52:53.600Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="wordpress,登录,菜单栏">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/fzpn50S.png">
+
+<link rel="canonical" href="http://example.com/2018/02/06/%E4%B8%BAwordpress%E7%BD%91%E7%AB%99%E7%9A%84%E8%8F%9C%E5%8D%95%E6%A0%8F%E6%B7%BB%E5%8A%A0%E6%B3%A8%E5%86%8C%E5%92%8C%E7%99%BB%E5%BD%95%E5%8A%9F%E8%83%BD/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>为wordpress网站的菜单栏添加注册和登录功能 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/02/06/%E4%B8%BAwordpress%E7%BD%91%E7%AB%99%E7%9A%84%E8%8F%9C%E5%8D%95%E6%A0%8F%E6%B7%BB%E5%8A%A0%E6%B3%A8%E5%86%8C%E5%92%8C%E7%99%BB%E5%BD%95%E5%8A%9F%E8%83%BD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          为wordpress网站的菜单栏添加注册和登录功能
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-02-06 15:16:12" itemprop="dateCreated datePublished" datetime="2018-02-06T15:16:12+08:00">2018-02-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:52:53" itemprop="dateModified" datetime="2020-10-11T11:52:53+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>长话短说，这个是基于wordpress的一个小功能，需要修改源码：</p>
+<p>核心代码如下：</p>
+<pre><code>&lt;?php if ( is_user_logged_in() ) &#123; ?&gt;
+&lt;a href=&quot;&lt;?php echo wp_logout_url(); ?&gt;&quot;&gt;注销&lt;/a&gt;
+&lt;?php &#125; else &#123; ?&gt;
+&lt;a href=&quot;/wp-login.php&quot; title=&quot;Members Area Login&quot; rel=&quot;home&quot;&gt;用户登录&lt;/a&gt;
+&lt;?php &#125; ?&gt;</code></pre>
+<p>is_user_logged_in()函数没有参数，一个简单的用法示例，如果用户已登录，输出用户头像及昵称：</p>
+<pre><code>&lt;?php
+if( is_user_logged_in() ) &#123;
+$current_user = wp_get_current_user();
+echo get_avatar( $current_user-&gt;user_email, 36 );
+echo &#39;&lt;br /&gt;&#39; . $current_user-&gt;display_name;
+&#125;
+?&gt;</code></pre>
+<p>接下来就是根据我们个人的需求，看放在什么位置的问题了，如果不关心放的位置，那么我们还可以更加简化一下，wordpress有注册和登录的标签可以调用的，代码如下：</p>
+<pre><code>&lt;?php wp_register(); ?&gt; //显示注册链接
+&lt;?php wp_loginout(); ?&gt; //显示登入/登出链接</code></pre>
+<p>这里我以wordpress默认的主题作为测试，我想把让用户没有登录的时候显示用户登录，如果登录后显示用户头像和显示注销按钮，好的，我的思路是通过开发者工具找到导航菜单对应的文件，然后加入以下代码：</p>
+<pre><code>&lt;li class=&quot;menu-item menu-item-type-post_type menu-item-object-page&quot;&gt;
+&lt;?php if ( is_user_logged_in() ) &#123; ?&gt;
+&lt;?php
+$current_user = wp_get_current_user();
+echo get_avatar( $current_user-&gt;user_email, 36 );
+?&gt;
+&lt;a href=&#39;&lt;?php echo site_url(&quot;/wp-admin/&quot;) ?&gt;&#39;&gt; &lt;?php echo $current_user-&gt;display_name ;?&gt;&lt;/a&gt;
+&lt;a href=&quot;&lt;?php echo wp_logout_url(); ?&gt;&quot;&gt;注销&lt;/a&gt;
+&lt;?php &#125; else &#123; ?&gt;
+&lt;a href=&quot;/wp-login.php&quot; title=&quot;Members Area Login&quot; rel=&quot;home&quot;&gt;用户登录&lt;/a&gt;
+&lt;?php &#125; ?&gt;
+&lt;/li&gt;</code></pre>
+<p>保存后，网站登录后的效果如下：</p>
+<p><img src="https://i.imgur.com/fzpn50S.png"></p>
+<p>没有登录的效果如下：</p>
+<p><img src="https://i.imgur.com/AFGBLcj.png"></p>
+<p>这里我需要补充下，因为上面我用的是wordpress的默认主题实现的，可能我们找到头部的菜单代码轻而易举就完成了，但是当我们采用其他主题，比如enfold的时候，可能找到这个头部菜单的位置可能不是那么容易。今天我就来说下这个问题：</p>
+<p>我的思路是先去这个主题的header.php主题当中找，发现这个header.php里面并没有，而是调用了另外的模块，然后又去了其他的模块找，后来我索性不这样找了，因为很多都是封装起来的。我就直接找搜索功能，根据上面的截图我们可以看到我只是想把这个用户登录的功能加到搜索的后面，所以我就直接找到搜索的这个，在后面加上一个不就可以了嘛，好的。经过这个思路我在functions-enfold.php这个文件中找到了控制搜索框的代码，位置在这里：</p>
+<pre><code>    if ((is_object($args) &amp;&amp; $args-&gt;theme_location == &#39;avia&#39;) || (is_string($args) &amp;&amp; $args = &quot;fallback_menu&quot;))
+    &#123;
+        global $avia_config;
+        ob_start();
+        get_search_form();
+        $form =  htmlspecialchars(ob_get_clean()) ;
+
+        $items .= &#39;&lt;li id=&quot;menu-item-search&quot; class=&quot;noMobile menu-item menu-item-search-dropdown menu-item-avia-special&quot;&gt;
+                        &lt;a href=&quot;?s=&quot; data-avia-search-tooltip=&quot;&#39;.$form.&#39;&quot; &#39;.av_icon_string(&#39;search&#39;).&#39;&gt;&lt;span class=&quot;avia_hidden_link_text&quot;&gt;&#39;.__(&#39;Search&#39;,&#39;avia_framework&#39;).&#39;&lt;/span&gt;&lt;/a&gt;
+                   &lt;/li&gt;&#39;;
+    &#125;
+    return $items;</code></pre>
+<p>截图如下：</p>
+<p><img src="https://i.imgur.com/CQ5P94x.png"></p>
+<p>然后我把控制用户登录的代码</p>
+<pre><code>&lt;?php if ( is_user_logged_in() ) &#123; ?&gt;
+&lt;a href=&quot;&lt;?php echo wp_logout_url(); ?&gt;&quot;&gt;注销&lt;/a&gt;
+&lt;?php &#125; else &#123; ?&gt;
+&lt;a href=&quot;/wp-login.php&quot; title=&quot;Members Area Login&quot; rel=&quot;home&quot;&gt;用户登录&lt;/a&gt;
+&lt;?php &#125; ?&gt;</code></pre>
+<p>加进去的时候，最后是这样的：</p>
+<pre><code>    if ((is_object($args) &amp;&amp; $args-&gt;theme_location == &#39;avia&#39;) || (is_string($args) &amp;&amp; $args = &quot;fallback_menu&quot;))
+    &#123;
+        global $avia_config;
+        ob_start();
+        get_search_form();
+        $form =  htmlspecialchars(ob_get_clean()) ;
+
+        ?&gt;
+
+        &lt;ul class=&quot;meign&quot;&gt;
+            &lt;li class=&quot;userlogin&quot;&gt;
+                &lt;?php if ( is_user_logged_in() ) &#123; ?&gt;
+                &lt;?php
+                $current_user = wp_get_current_user();
+                // echo get_avatar( $current_user-&gt;user_email, 36 );
+                ?&gt;
+                &lt;a href=&quot;&lt;?php echo wp_logout_url(); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa-sign-out&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+                &lt;?php &#125; else &#123; ?&gt;
+                &lt;a href=&quot;/wp-login.php&quot; title=&quot;Members Area Login&quot; rel=&quot;home&quot;&gt;&lt;i class=&quot;fa fa-user&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+                &lt;?php &#125; ?&gt;
+            &lt;/li&gt;
+        &lt;/ul&gt;
+
+        &lt;?php
+
+        $items .= &#39;&lt;li id=&quot;menu-item-search&quot; class=&quot;noMobile menu-item menu-item-search-dropdown menu-item-avia-special&quot;&gt;
+                        &lt;a href=&quot;?s=&quot; data-avia-search-tooltip=&quot;&#39;.$form.&#39;&quot; &#39;.av_icon_string(&#39;search&#39;).&#39;&gt;&lt;span class=&quot;avia_hidden_link_text&quot;&gt;&#39;.__(&#39;Search&#39;,&#39;avia_framework&#39;).&#39;&lt;/span&gt;&lt;/a&gt;
+                   &lt;/li&gt;&#39;;
+    &#125;
+    return $items;</code></pre>
+<p>其实，最开始我加进去的时候不是这样的，因为加进入会把样式弄个得很乱，所以旁边的购物车引起了我的注意，我在想干嘛不直接套用购物车的样式呢？好的根据这个思路，我进行了进一步的处理。在网站前端，我获取了购物车图标的代码：</p>
+<pre><code>&lt;ul class=&quot;cart_dropdown &quot; data-success=&quot;was added to the cart&quot;&gt;
+    &lt;li class=&quot;cart_dropdown_first&quot;&gt;&lt;a class=&quot;cart_dropdown_link&quot; href=&quot;http://dig.nocticlub.com/cart/&quot;&gt;&lt;span aria-hidden=&quot;true&quot; data-av_icon=&quot;&quot; data-av_iconfont=&quot;entypo-fontello&quot;&gt;&lt;/span&gt;&lt;span class=&quot;av-cart-counter&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;avia_hidden_link_text&quot;&gt;Shopping Cart&lt;/span&gt;&lt;/a&gt;
+        &lt;!--&lt;span class=&#39;cart_subtotal&#39;&gt;&lt;span class=&quot;woocommerce-Price-amount amount&quot;&gt;&lt;span class=&quot;woocommerce-Price-currencySymbol&quot;&gt;&amp;pound;&lt;/span&gt;0.00&lt;/span&gt;&lt;/span&gt;--&gt;
+        &lt;div class=&quot;dropdown_widget dropdown_widget_cart&quot; style=&quot;display: none; opacity: 0;&quot;&gt;
+            &lt;div class=&quot;avia-arrow&quot;&gt;&lt;/div&gt;
+            &lt;div class=&quot;widget_shopping_cart_content&quot;&gt;
+                &lt;p class=&quot;woocommerce-mini-cart__empty-message&quot;&gt;No products in the cart.&lt;/p&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+<p>看到没？这个就是购物车小图标的所有代码，因为购物车代码里面绑定了一些事件，我们不需要这些绑定的事件，比如鼠标悬浮在小购物车上的时候，会显示购物车里的产品列表，但是用户登录和这个图标不需要，如果我们采用了所有的代码，将会产生跟鼠标悬浮在购物车上的效果一样的。好的，经过排除，我把修改后的代码粘贴如下：</p>
+<pre><code>&lt;ul class=&quot;meign&quot;&gt;
+    &lt;li class=&quot;userlogin&quot;&gt;
+        &lt;?php if ( is_user_logged_in() ) &#123; ?&gt;
+        &lt;?php
+        $current_user = wp_get_current_user();
+        // echo get_avatar( $current_user-&gt;user_email, 36 );
+        ?&gt;
+        &lt;a href=&quot;&lt;?php echo wp_logout_url(); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa-sign-out&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;?php &#125; else &#123; ?&gt;
+        &lt;a href=&quot;/wp-login.php&quot; title=&quot;Members Area Login&quot; rel=&quot;home&quot;&gt;&lt;i class=&quot;fa fa-user&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;?php &#125; ?&gt;
+    &lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+<p>对比一下，你就可以看到其实我用meign这个class代替了cart_dropdown，然后把多余的东西删除，然后把用户登录的代码放进去：</p>
+<pre><code>&lt;?php if ( is_user_logged_in() ) &#123; ?&gt;
+&lt;a href=&quot;&lt;?php echo wp_logout_url(); ?&gt;&quot;&gt;注销&lt;/a&gt;
+&lt;?php &#125; else &#123; ?&gt;
+&lt;a href=&quot;/wp-login.php&quot; title=&quot;Members Area Login&quot; rel=&quot;home&quot;&gt;用户登录&lt;/a&gt;
+&lt;?php &#125; ?&gt;</code></pre>
+<p>这个时候你可以发现其实我这里只是添加了：</p>
+<pre><code>&lt;ul class=&quot;meign&quot;&gt;
+    &lt;li class=&quot;userlogin&quot;&gt;
+        功能代码写在这里
+    &lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+<p>然后我在浏览器开发者工具的帮助下，我把.meign的样式写得跟.cart_dropdown一模一样，这样不就是可以顺利取代了购物车小图标的样式了吗，然后又不用绑定购物车的鼠标悬浮事件。补充下.cart_dropdown的样式代码为：</p>
+<pre><code>.cart_dropdown&#123;
+    right: 30px !important;
+    position: absolute;
+    right: -60px;
+    line-height: 46px;
+    text-decoration: none;
+    text-align: center;
+    top: 50%;
+    margin: -23px 0 0 0;
+    border-radius: 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-weight: normal;
+    z-index: 101;
+    -webkit-transition: all ease-in-out 0.8s;
+    transition: all ease-in-out 0.8s;
+    height: 16px !important;
+    width: 16px !important;
+    border-width: 0px !important;
+&#125;</code></pre>
+<p>所以.meign样式代码也是如此。</p>
+<p>这篇文章写得很啰嗦，但是重点不在于此，而在于我们碰到问题了，解决问题的思路很重要，这里我有两个地方采用一些跟常规的方法不一样的做法，最终把问题解决了。如果你是一个跟笔者一样的热爱wordpress，热爱编程的人，可以与我取得联系，我们一起改造这个时代，QQ:791447771</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/wordpress-%E7%99%BB%E5%BD%95-%E8%8F%9C%E5%8D%95%E6%A0%8F/" rel="tag"># wordpress,登录,菜单栏</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/02/03/%E9%87%87%E7%94%A8.htaccess%E5%92%8C.htpasswd%E4%B8%BAwordpress%E5%92%8Cmagento%E7%BD%91%E7%AB%99%E8%AE%BE%E7%BD%AE%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6/" rel="prev" title="采用.htaccess和.htpasswd为wordpress和magento网站设置访问控制">
+      <i class="fa fa-chevron-left"></i> 采用.htaccess和.htpasswd为wordpress和magento网站设置访问控制
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/02/06/magento%E5%90%8E%E5%8F%B0%E6%93%8D%E4%BD%9C%E4%B9%8B%E4%BA%A7%E5%93%81%E6%B7%BB%E5%8A%A0/" rel="next" title="magento后台操作之产品添加">
+      magento后台操作之产品添加 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

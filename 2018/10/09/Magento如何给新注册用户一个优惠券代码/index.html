@@ -1,37 +1,588 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="在一些网站中，都想让用户去注册，所以增加了一些促销政策，例如，新用户注册之后就送一个优惠券。 有2种做法。  在发给注册用户的邮件中，将优惠券代码写进去  在用户注册完之后显示给用户。   我们就说下方式2. 因为注册用户成功和用户登陆成功返回的都是同一个界面，所以必须修改代码来分辨出哪些是新注册的，哪些是老用户。 找到文件目录：app&#x2F;code&#x2F;core&#x2F;Mage&#x2F;Customer&#x2F;contro">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Magento如何给新注册用户一个优惠券代码">
+<meta property="og:url" content="http://example.com/2018/10/09/Magento%E5%A6%82%E4%BD%95%E7%BB%99%E6%96%B0%E6%B3%A8%E5%86%8C%E7%94%A8%E6%88%B7%E4%B8%80%E4%B8%AA%E4%BC%98%E6%83%A0%E5%88%B8%E4%BB%A3%E7%A0%81/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="在一些网站中，都想让用户去注册，所以增加了一些促销政策，例如，新用户注册之后就送一个优惠券。 有2种做法。  在发给注册用户的邮件中，将优惠券代码写进去  在用户注册完之后显示给用户。   我们就说下方式2. 因为注册用户成功和用户登陆成功返回的都是同一个界面，所以必须修改代码来分辨出哪些是新注册的，哪些是老用户。 找到文件目录：app&#x2F;code&#x2F;core&#x2F;Mage&#x2F;Customer&#x2F;contro">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/qdtef9c.jpg">
+<meta property="article:published_time" content="2018-10-09T11:20:54.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:00.460Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="magento,优惠券">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/qdtef9c.jpg">
+
+<link rel="canonical" href="http://example.com/2018/10/09/Magento%E5%A6%82%E4%BD%95%E7%BB%99%E6%96%B0%E6%B3%A8%E5%86%8C%E7%94%A8%E6%88%B7%E4%B8%80%E4%B8%AA%E4%BC%98%E6%83%A0%E5%88%B8%E4%BB%A3%E7%A0%81/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>Magento如何给新注册用户一个优惠券代码 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/10/09/Magento%E5%A6%82%E4%BD%95%E7%BB%99%E6%96%B0%E6%B3%A8%E5%86%8C%E7%94%A8%E6%88%B7%E4%B8%80%E4%B8%AA%E4%BC%98%E6%83%A0%E5%88%B8%E4%BB%A3%E7%A0%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Magento如何给新注册用户一个优惠券代码
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-10-09 19:20:54" itemprop="dateCreated datePublished" datetime="2018-10-09T19:20:54+08:00">2018-10-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:00" itemprop="dateModified" datetime="2020-10-11T11:58:00+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/magento1/" itemprop="url" rel="index"><span itemprop="name">magento1</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>在一些网站中，都想让用户去注册，所以增加了一些促销政策，例如，新用户注册之后就送一个优惠券。</p>
+<p><strong>有2种做法。</strong></p>
+<ol>
+<li><p>在发给注册用户的邮件中，将优惠券代码写进去</p>
+</li>
+<li><p>在用户注册完之后显示给用户。</p>
+</li>
+</ol>
+<p>我们就说下方式2.</p>
+<p>因为注册用户成功和用户登陆成功返回的都是同一个界面，所以必须修改代码来分辨出哪些是新注册的，哪些是老用户。</p>
+<p>找到文件目录：app/code/core/Mage/Customer/controllers/AccountController.php，打开该文件，找到</p>
+<pre><code>createPostAction()</code></pre>
+<p>方法，在这个方法里面找到</p>
+<pre><code>$customer-&gt;save();</code></pre>
+<p>在这个代码下面增加</p>
+<pre><code>$this-&gt;_getSession()-&gt;setIsNewUser(true);</code></pre>
+<p>然后来到模板文件目录，在/app/design/frontend/base/default/template/customer/account/dashboard.phtml适当位置增加如下代码，这里可能不一定是这个目录，如果有的主题重写了这个base，那么就在自己的主题模板下面找到这个进行修改，</p>
+<pre><code>&lt;?php
+if (Mage::getSingleton(&#39;customer/session&#39;)-&gt;getIsNewUser())&#123;
+echo “Coupon is:xxxxxx“;
+&#125;
+?&gt;</code></pre>
+<p>效果如下：</p>
+<p><img src="https://i.imgur.com/qdtef9c.jpg"></p>
+<p>当然，你可以利用这个方法来为新注册的用户增加更多的内容。</p>
+<p>比如可以添加新用户的问候语，新用户的初始内容等，这个就需要发挥大家的想象力了。</p>
+<p>**更新：2019/1/31 16:54:27 **</p>
+<p>优惠券跟邀请码的配合方案：</p>
+<h2 id="邀请码在网站后台设置，用户填写的邀请码只要在后台设置的邀请码列表中的将会获得一条优惠券"><a href="#邀请码在网站后台设置，用户填写的邀请码只要在后台设置的邀请码列表中的将会获得一条优惠券" class="headerlink" title="邀请码在网站后台设置，用户填写的邀请码只要在后台设置的邀请码列表中的将会获得一条优惠券"></a>邀请码在网站后台设置，用户填写的邀请码只要在后台设置的邀请码列表中的将会获得一条优惠券</h2><p>这个我们需要现在后台新建一个静态的CMS块，然后在dashbord.phtml（笔者以这个页面作为演示）或者其他想要调用的页面调用这个新建的CMS块，</p>
+<blockquote>
+<p>Block Title *   license code</p>
+<p>Identifier *     license-code</p>
+</blockquote>
+<pre><code>&lt;div class=&quot;license_number_list&quot;&gt;
+  &lt;?php
+      if ($this-&gt;getLayout()-&gt;createBlock(&#39;cms/block&#39;)-&gt;setBlockId(&#39;license-code&#39;)-&gt;toHtml()) &#123;
+          echo $this-&gt;getLayout()-&gt;createBlock(&#39;cms/block&#39;)-&gt;setBlockId(&#39;license-code&#39;)-&gt;toHtml();
+      &#125;
+  ?&gt;
+&lt;/div&gt;</code></pre>
+<p>在magento后台新建的邀请码列表的html代码结构如下：</p>
+<pre><code>&lt;ul&gt;
+&lt;li&gt;789&lt;/li&gt;
+&lt;li&gt;788&lt;/li&gt;
+&lt;li&gt;786&lt;/li&gt;
+&lt;li&gt;787&lt;/li&gt;
+&lt;li&gt;785&lt;/li&gt;
+&lt;li&gt;784&lt;/li&gt;
+&lt;li&gt;110&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+<p>好的，我们需要对这个进行遍历，然后逐个跟用户的邀请码进行比对，如果有合适的就显示出来。完整的代码如下：</p>
+<pre><code>&lt;script&gt;
+    jQuery(document).ready(function() &#123;
+        var all_license = jQuery(&quot;.license_number_list li&quot;);
+        var lists = new Array();
+        for (var i = 0; i &lt; all_license.length; i++) &#123;
+            console.log(all_license[i]);
+            lists.push(jQuery(all_license[i]).text());
+            if (lists[i] == &lt;?php echo $this-&gt;htmlEscape($this-&gt;getCustomer()-&gt;getLicenseNumber()) ?&gt;) &#123;
+                jQuery(&quot;.license_number_list&quot;).append(&quot;&lt;p&gt;你是邀请用户，赠送你一张优惠券，券码：16868681688&lt;/p&gt;&quot;);
+                break;
+            &#125;
+        &#125;
+        // console.log(lists);
+    &#125;);
+&lt;/script&gt;</code></pre>
+<p>这样确实很方便地进行在magento进行设置，当然如果不是经常更改的话，也可以通过if语句或者switch来实现，代码如下：</p>
+<pre><code>&lt;?php 
+        if ($this-&gt;htmlEscape($this-&gt;getCustomer()-&gt;getLicenseNumber()) == 123123) &#123;
+            if (Mage::getSingleton(&#39;customer/session&#39;)-&gt;getIsNewUser())&#123;
+                echo &quot;你是邀请用户，赠送你一张优惠券，券码：16868681688&quot;;
+            &#125;
+        &#125;else&#123;
+            if (Mage::getSingleton(&#39;customer/session&#39;)-&gt;getIsNewUser())&#123;
+                echo &quot;你是非邀请用户，赠送你一张优惠券，券码：1314521&quot;;
+            &#125;
+        &#125;
+?&gt;</code></pre>
+<p>如果用switch来实现的话，</p>
+<pre><code>&lt;?php
+    switch ($this-&gt;htmlEscape($this-&gt;getCustomer()-&gt;getLicenseNumber()))
+    &#123;
+    case 123122:
+        if (Mage::getSingleton(&#39;customer/session&#39;)-&gt;getIsNewUser())&#123;
+            echo &quot;你是邀请用户，赠送你一张优惠券，券码：16868681688&quot;;
+        &#125;
+        break;
+    case 123123:
+        if (Mage::getSingleton(&#39;customer/session&#39;)-&gt;getIsNewUser())&#123;
+            echo &quot;你是邀请用户，赠送你一张优惠券，券码：16868681688&quot;;
+        &#125;
+        break;
+    case 123125:
+        if (Mage::getSingleton(&#39;customer/session&#39;)-&gt;getIsNewUser())&#123;
+            echo &quot;你是邀请用户，赠送你一张优惠券，券码：16868681688&quot;;
+        &#125;
+        break;
+    default:
+        if (Mage::getSingleton(&#39;customer/session&#39;)-&gt;getIsNewUser())&#123;
+            echo &quot;你是非邀请用户，赠送你一张优惠券，券码：1314521&quot;;
+        &#125;
+    &#125;
+?&gt;</code></pre>
+<p>当然，最符合生产环境的，个人觉得还是用js的方式实现的那种。最后笔者的dashbord.phtml里面的代码如下：</p>
+<pre><code>&lt;div class=&quot;dashboard&quot;&gt;
+    &lt;div class=&quot;page-title&quot;&gt;
+        &lt;h1&gt;&lt;?php echo $this-&gt;__(&#39;My Dashboard&#39;) ?&gt;&lt;/h1&gt;
+    &lt;/div&gt;
+    &lt;?php echo $this-&gt;getMessagesBlock()-&gt;toHtml() ?&gt;
+    &lt;?php echo $this-&gt;getChildHtml(&#39;hello&#39;) ?&gt;
+    &lt;?php echo $this-&gt;getChildHtml(&#39;top&#39;) ?&gt;
+
+    &lt;div class=&quot;license_number_list&quot;&gt;
+        &lt;?php
+            if ($this-&gt;getLayout()-&gt;createBlock(&#39;cms/block&#39;)-&gt;setBlockId(&#39;license-code&#39;)-&gt;toHtml()) &#123;
+                echo $this-&gt;getLayout()-&gt;createBlock(&#39;cms/block&#39;)-&gt;setBlockId(&#39;license-code&#39;)-&gt;toHtml();
+            &#125;
+        ?&gt;
+     &lt;/div&gt;
+    &lt;p&gt;您的邀请码为：&lt;?php echo $this-&gt;htmlEscape($this-&gt;getCustomer()-&gt;getLicenseNumber()) ?&gt;&lt;/p&gt;
+    &lt;script&gt;
+    jQuery(document).ready(function() &#123;
+        var all_license = jQuery(&quot;.license_number_list li&quot;);
+        var lists = new Array();
+        for (var i = 0; i &lt; all_license.length; i++) &#123;
+            console.log(all_license[i]);
+            lists.push(jQuery(all_license[i]).text());
+            if (lists[i] == &lt;?php echo $this-&gt;htmlEscape($this-&gt;getCustomer()-&gt;getLicenseNumber()) ?&gt;) &#123;
+                jQuery(&quot;.license_number_list&quot;).append(&quot;&lt;p&gt;你是邀请用户，赠送你一张优惠券，券码：16868681688&lt;/p&gt;&quot;);
+                break;
+            &#125;
+        &#125;
+        // console.log(lists);
+    &#125;);
+    &lt;/script&gt;
+    &lt;?php 
+
+        // if ($this-&gt;htmlEscape($this-&gt;getCustomer()-&gt;getLicenseNumber()) == 123123) &#123;
+        //     if (Mage::getSingleton(&#39;customer/session&#39;)-&gt;getIsNewUser())&#123;
+        //         echo &quot;你是邀请用户，赠送你一张优惠券，券码：16868681688&quot;;
+        //     &#125;
+        // &#125;else&#123;
+        //     if (Mage::getSingleton(&#39;customer/session&#39;)-&gt;getIsNewUser())&#123;
+        //         echo &quot;你是非邀请用户，赠送你一张优惠券，券码：1314521&quot;;
+        //     &#125;
+        // &#125;
+
+        // switch ($this-&gt;htmlEscape($this-&gt;getCustomer()-&gt;getLicenseNumber()))
+        // &#123;
+        // case 123122:
+        //     if (Mage::getSingleton(&#39;customer/session&#39;)-&gt;getIsNewUser())&#123;
+        //         echo &quot;你是邀请用户，赠送你一张优惠券，券码：16868681688&quot;;
+        //     &#125;
+        //     break;
+        // case 123123:
+        //     if (Mage::getSingleton(&#39;customer/session&#39;)-&gt;getIsNewUser())&#123;
+        //         echo &quot;你是邀请用户，赠送你一张优惠券，券码：16868681688&quot;;
+        //     &#125;
+        //     break;
+        // case 123125:
+        //     if (Mage::getSingleton(&#39;customer/session&#39;)-&gt;getIsNewUser())&#123;
+        //         echo &quot;你是邀请用户，赠送你一张优惠券，券码：16868681688&quot;;
+        //     &#125;
+        //     break;
+        // default:
+        //     if (Mage::getSingleton(&#39;customer/session&#39;)-&gt;getIsNewUser())&#123;
+        //         echo &quot;你是非邀请用户，赠送你一张优惠券，券码：1314521&quot;;
+        //     &#125;
+        // &#125;
+
+     ?&gt;
+
+    &lt;div class=&quot;box-account box-info&quot;&gt;
+        &lt;div class=&quot;box-head&quot;&gt;
+            &lt;h2&gt;&lt;?php echo $this-&gt;__(&#39;Account Information&#39;) ?&gt;&lt;/h2&gt;
+        &lt;/div&gt;
+        &lt;?php /* Extensions placeholder */ ?&gt;
+        &lt;?php echo $this-&gt;getChildHtml(&#39;customer.account.dashboard.extra&#39;) ?&gt;
+        &lt;?php echo $this-&gt;getChildHtml(&#39;info&#39;) ?&gt;
+        &lt;?php echo $this-&gt;getChildHtml(&#39;address&#39;) ?&gt;
+    &lt;/div&gt;
+    &lt;?php echo $this-&gt;getChildHtml(&#39;info1&#39;) ?&gt;
+    &lt;?php echo $this-&gt;getChildHtml(&#39;info2&#39;) ?&gt;
+&lt;/div&gt;</code></pre>
+<p>好的，这样就可以根据用户注册的邀请码来自行判断是否发送优惠券了，符合邀请码的就会得到优惠券了。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/magento-%E4%BC%98%E6%83%A0%E5%88%B8/" rel="tag"># magento,优惠券</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/10/08/%E5%88%A9%E7%94%A8jquery%E5%92%8Ccss%E5%B7%A7%E5%A6%99%E5%9C%B0%E6%8A%8A%E9%BC%A0%E6%A0%87%E6%82%AC%E6%B5%AE%E5%A4%B4%E9%83%A8%E8%8F%9C%E5%8D%95%E7%9A%84%E6%97%B6%E5%80%99logo%E5%9B%BE%E7%89%87%E6%9B%BF%E6%8D%A2%E4%BB%A5%E5%8F%8A%E5%A4%B4%E9%83%A8%E5%9B%BA%E5%AE%9A%E7%9A%84%E6%97%B6%E5%80%99%E5%8F%98%E6%88%90%E5%8F%A6%E5%A4%96%E4%B8%80%E7%A7%8D%E9%A2%9C%E8%89%B2/" rel="prev" title="利用jquery和css巧妙地把鼠标悬浮头部菜单的时候logo图片替换以及头部固定的时候变成另外一种颜色">
+      <i class="fa fa-chevron-left"></i> 利用jquery和css巧妙地把鼠标悬浮头部菜单的时候logo图片替换以及头部固定的时候变成另外一种颜色
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/10/13/%E6%96%87%E7%AB%A0%E5%88%97%E8%A1%A8%E6%88%96%E8%80%85%E5%BE%AA%E7%8E%AF%E5%88%97%E8%A1%A8%E4%B8%AD%E4%B8%A4%E4%B8%AAdom%E5%85%83%E7%B4%A0%E7%9A%84%E4%BD%8D%E7%BD%AE%E4%BA%92%E6%8D%A2-%E7%BC%A9%E7%95%A5%E5%9B%BE%E5%92%8C%E6%96%87%E7%AB%A0%E6%A0%87%E9%A2%98-%E7%9A%84%E7%96%91%E9%9A%BE%E9%97%AE%E9%A2%98%E7%9A%84%E6%96%B9%E6%A1%88/" rel="next" title="文章列表或者循环列表中两个dom元素的位置互换(缩略图和文章标题)的疑难问题的方案">
+      文章列表或者循环列表中两个dom元素的位置互换(缩略图和文章标题)的疑难问题的方案 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%82%80%E8%AF%B7%E7%A0%81%E5%9C%A8%E7%BD%91%E7%AB%99%E5%90%8E%E5%8F%B0%E8%AE%BE%E7%BD%AE%EF%BC%8C%E7%94%A8%E6%88%B7%E5%A1%AB%E5%86%99%E7%9A%84%E9%82%80%E8%AF%B7%E7%A0%81%E5%8F%AA%E8%A6%81%E5%9C%A8%E5%90%8E%E5%8F%B0%E8%AE%BE%E7%BD%AE%E7%9A%84%E9%82%80%E8%AF%B7%E7%A0%81%E5%88%97%E8%A1%A8%E4%B8%AD%E7%9A%84%E5%B0%86%E4%BC%9A%E8%8E%B7%E5%BE%97%E4%B8%80%E6%9D%A1%E4%BC%98%E6%83%A0%E5%88%B8"><span class="nav-number">1.</span> <span class="nav-text">邀请码在网站后台设置，用户填写的邀请码只要在后台设置的邀请码列表中的将会获得一条优惠券</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

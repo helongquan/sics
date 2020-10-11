@@ -1,37 +1,482 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="一、Docker是什么 docker直译为码头工人。当它成为一种技术时，做的也是码头工人的事。官网是这样描述它的：“Docker是一个开发的平台，用来为开发者和系统管理员构建、发布和运行分布式应用。”也就是说，如果把你的应用比喻为货物，那么码头工人（Docker）就会迅速的用集装箱将它们装上船。快速、简单而有效率。 它是用Go语言写的，是程序运行的“容器”（Linux containers），实现">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker实践">
+<meta property="og:url" content="http://example.com/2017/10/18/Docker%E5%AE%9E%E8%B7%B5/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="一、Docker是什么 docker直译为码头工人。当它成为一种技术时，做的也是码头工人的事。官网是这样描述它的：“Docker是一个开发的平台，用来为开发者和系统管理员构建、发布和运行分布式应用。”也就是说，如果把你的应用比喻为货物，那么码头工人（Docker）就会迅速的用集装箱将它们装上船。快速、简单而有效率。 它是用Go语言写的，是程序运行的“容器”（Linux containers），实现">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-10-18T01:32:45.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:53:34.428Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2017/10/18/Docker%E5%AE%9E%E8%B7%B5/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>Docker实践 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/10/18/Docker%E5%AE%9E%E8%B7%B5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Docker实践
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-10-18 09:32:45" itemprop="dateCreated datePublished" datetime="2017-10-18T09:32:45+08:00">2017-10-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:34" itemprop="dateModified" datetime="2020-10-11T11:53:34+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>一、Docker是什么</p>
+<p>docker直译为码头工人。当它成为一种技术时，做的也是码头工人的事。官网是这样描述它的：“Docker是一个开发的平台，用来为开发者和系统管理员构建、发布和运行分布式应用。”也就是说，如果把你的应用比喻为货物，那么码头工人（Docker）就会迅速的用集装箱将它们装上船。快速、简单而有效率。</p>
+<p>它是用Go语言写的，是程序运行的“容器”（Linux containers），实现了应用级别的隔离（沙箱）。多个容器运行时互补影响，安全而稳定。</p>
+<p>我喜欢它的原因就是快速部署，安全运行，不污染我的系统。</p>
+<p>二、试用 Try it！</p>
+<p>官方提供一个互动的小教程，让你很容易的了解Docker的基本用法，快去试试吧！</p>
+<p>三、安装</p>
+<p>官方直接支持64位Linux系统安装Docker，但如果想在32位系统中运行，有人也进行了一些尝试，比如32Ubuntu下，参考点击打开链接。</p>
+<p>其他系统的安装请参考官网，下面说说我在Ubuntu14.04下的安装。 </p>
+<p>1.将镜像加入到程序源中：</p>
+<pre><code>~$ sudo sh -c &quot;echo deb http://mirror.yandex.ru/mirrors/docker/ docker main &gt; /etc/apt/sources.list.d/docker.list&quot;  </code></pre>
+<p>2.接着update</p>
+<pre><code>$ sudo apt-get update  </code></pre>
+<p>3.如果报错就fix掉它：</p>
+<pre><code>W: GPG error: http://mirror.yandex.ru docker Release: The following signatures couldn&#39;t be verified because the public key is not available: NO_PUBKEY D8576A8BA88D21E9  </code></pre>
+<p>解决此错误：</p>
+<pre><code>$ sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys D8576A8BA88D21E9  
+Executing: gpg --ignore-time-conflict --no-options --no-default-keyring --secret-keyring /tmp/tmp.RmJ1SUpsXX --trustdb-name /etc/apt/trustdb.gpg --keyring /etc/apt/trusted.gpg --primary-keyring /etc/apt/trusted.gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys D8576A8BA88D21E9  
+gpg: requesting key A88D21E9 from hkp server keyserver.ubuntu.com  
+gpg: key A88D21E9: public key &quot;Docker Release Tool (releasedocker) &lt;docker@dotcloud.com&gt;&quot; imported  
+gpg: Total number processed: 1  
+gpg:               imported: 1  (RSA: 1)  </code></pre>
+<p>4.下载docker：</p>
+<pre><code>$ sudo apt-get install lxc-docker  </code></pre>
+<p>静静的等待它下载完成吧。<br>另外，这个命令也许会有帮助：<br>    $ curl -sSL <a target="_blank" rel="noopener" href="https://get.docker.com/ubuntu/">https://get.docker.com/ubuntu/</a> | sudo sh<br>四、初步使用</p>
+<p>终端中输入docker，打印出docker的命令列表：</p>
+<pre><code>Commands:  
+attach    Attach to a running container  
+build     Build an image from a Dockerfile  
+commit    Create a new image from a container&#39;s changes  
+cp        Copy files/folders from a container&#39;s filesystem to the host path  
+create    Create a new container  
+diff      Inspect changes on a container&#39;s filesystem  
+events    Get real time events from the server  
+exec      Run a command in a running container  
+export    Stream the contents of a container as a tar archive  
+history   Show the history of an image  
+images    List images  
+import    Create a new filesystem image from the contents of a tarball  
+info      Display system-wide information  
+inspect   Return low-level information on a container  
+kill      Kill a running container  
+load      Load an image from a tar archive  
+login     Register or log in to a Docker registry server  
+logout    Log out from a Docker registry server  
+logs      Fetch the logs of a container  
+port      Lookup the public-facing port that is NAT-ed to PRIVATE_PORT  
+pause     Pause all processes within a container  
+ps        List containers  
+pull      Pull an image or a repository from a Docker registry server  
+push      Push an image or a repository to a Docker registry server  
+restart   Restart a running container  
+rm        Remove one or more containers  
+rmi       Remove one or more images  
+run       Run a command in a new container  
+save      Save an image to a tar archive  
+search    Search for an image on the Docker Hub  
+start     Start a stopped container  
+stop      Stop a running container  
+tag       Tag an image into a repository  
+top       Lookup the running processes of a container  
+unpause   Unpause a paused container  
+version   Show the Docker version information  
+wait      Block until a container stops, then print its exit code  </code></pre>
+<p>接下来就可以尝试使用这些命令了，不过在进行下一步之前，我们要先了解几个概念。</p>
+<p><strong>五、重要概念</strong></p>
+<p>1.image 镜像</p>
+<p>镜像就是一个只读的模板。比如，一个镜像可以包含一个完整的Ubuntu系统，并且安装了apache。</p>
+<p>镜像可以用来创建Docker容器。</p>
+<p>其他人制作好镜像，我们可以拿过来轻松的使用。这就是吸引我的特性。</p>
+<p>2.Docker container 容器</p>
+<p>Docker用容器来运行应用。容器是从镜像创建出来的实例（好有面向对象的感觉，类和对象），它可以被启动、开始、停止和删除。</p>
+<p>3.仓库</p>
+<p>这个好理解了，就是放镜像的文件的场所。比如最大的公开仓库是Docker Hub。</p>
+<p><strong>六、几个简单的实践</strong></p>
+<p>1.search</p>
+<p>搜索仓库中是否有wordpress这个博客镜像，如下：</p>
+<pre><code>$ docker search wordpress  
+NAME                                   DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED  
+wordpress                              The WordPress rich content management syst...   185       [OK]   </code></pre>
+<p>2.下载这个镜像</p>
+<pre><code>$ docker pull wordpress  
+wordpress:latest: The image you are pulling has been verified  </code></pre>
+<p>3.查看自己的镜像</p>
+<pre><code>$ docker images  
+REPOSITORY               TAG                 IMAGE ID            CREATED             VIRTUAL SIZE  
+linc-wiki                latest              b5a1e34b01c2        27 hours ago        689.7 MB  
+ubuntu                   latest              5ba9dab47459        5 days ago          188.3 MB  
+wordpress                latest              ecc04d6d638c        6 days ago          470 MB  </code></pre>
+<p>4.简单的运行</p>
+<p>运行wordpress要进行mysql的配置，为了演示run，将ubuntu跑起来吧。</p>
+<pre><code>$ docker run -it ubuntu /bin/bash  
+root@46ff2a695ce1:/# echo &quot;I am linc&quot;  
+I am linc  </code></pre>
+<p>至此，体验结束。后续会有更加精彩的实践等着我们，Docker，我们来了！</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/10/18/Docker%E5%AE%9E%E8%B7%B54%EF%BC%9A%E6%90%AD%E5%BB%BAwordpress/" rel="prev" title="Docker实践4：搭建wordpress">
+      <i class="fa fa-chevron-left"></i> Docker实践4：搭建wordpress
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/10/20/docker%E4%B8%8B%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%88%96%E8%80%85%E5%A4%9A%E4%B8%AA%E7%AB%99%E7%82%B9/" rel="next" title="docker下创建一个或者多个站点">
+      docker下创建一个或者多个站点 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,37 +1,467 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="安装的插件越多，网站速度就会越慢。这种说法其实并不完全正确。有些插件只是给网站添加了一个小调用，对网站速度并不造成影响。而有些插件会在每次页面加载时加入jQuery和CSS文件（在网站的区域）。假设每个插件都会添加一个jQuery文件和一个CSS文件，而你安装了八个这样的插件，那么就相当于添加了16个HTTP请求。如果插件向页面添加的样式表或jQuery文件数量不止一个，那就相当可怕了。这篇文章我">
+<meta property="og:type" content="article">
+<meta property="og:title" content="wordpress网站如何让javascript和css选择性的加载">
+<meta property="og:url" content="http://example.com/2017/07/14/wordpress%E7%BD%91%E7%AB%99%E5%A6%82%E4%BD%95%E8%AE%A9javascript%E5%92%8Ccss%E9%80%89%E6%8B%A9%E6%80%A7%E7%9A%84%E5%8A%A0%E8%BD%BD/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="安装的插件越多，网站速度就会越慢。这种说法其实并不完全正确。有些插件只是给网站添加了一个小调用，对网站速度并不造成影响。而有些插件会在每次页面加载时加入jQuery和CSS文件（在网站的区域）。假设每个插件都会添加一个jQuery文件和一个CSS文件，而你安装了八个这样的插件，那么就相当于添加了16个HTTP请求。如果插件向页面添加的样式表或jQuery文件数量不止一个，那就相当可怕了。这篇文章我">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-07-14T08:40:51.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:53:10.868Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="wordpress,javascript,css,选择性加载,网站加速">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2017/07/14/wordpress%E7%BD%91%E7%AB%99%E5%A6%82%E4%BD%95%E8%AE%A9javascript%E5%92%8Ccss%E9%80%89%E6%8B%A9%E6%80%A7%E7%9A%84%E5%8A%A0%E8%BD%BD/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>wordpress网站如何让javascript和css选择性的加载 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/07/14/wordpress%E7%BD%91%E7%AB%99%E5%A6%82%E4%BD%95%E8%AE%A9javascript%E5%92%8Ccss%E9%80%89%E6%8B%A9%E6%80%A7%E7%9A%84%E5%8A%A0%E8%BD%BD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          wordpress网站如何让javascript和css选择性的加载
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-07-14 16:40:51" itemprop="dateCreated datePublished" datetime="2017-07-14T16:40:51+08:00">2017-07-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:10" itemprop="dateModified" datetime="2020-10-11T11:53:10+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>安装的插件越多，网站速度就会越慢。这种说法其实并不完全正确。有些插件只是给网站添加了一个小调用，对网站速度并不造成影响。而有些插件会在每次页面加载时加入jQuery和CSS文件（在网站的<head></head>区域）。假设每个插件都会添加一个jQuery文件和一个CSS文件，而你安装了八个这样的插件，那么就相当于添加了16个HTTP请求。如果插件向页面添加的样式表或jQuery文件数量不止一个，那就相当可怕了。这篇文章我们就介绍如何在避免多余HTTP请求的情况下使用所有需要的WordPress插件。</p>
+<p>注意：进行以下操作最好具备若干PHP知识。</p>
+<p>本文目标：禁用插件在页面加载时添加的所有附加脚本和样式表。</p>
+<p>可是为什么这些插件要向页面添加脚本和样式表呢？这会影响插件的正常运行吗？很高兴你会这样想。对插件的开发目的来说这些CSS代码和JS代码可能相当重要，不过为了更好地管理自己的网站，让网站拥有更快的访问速度，我们可以删除这些代码。通过删除这些CSS文件和JS文件，我们可以：</p>
+<pre><code>将多个文件整合到一个单独文件里
+
+只在需要使用脚本或样式的页面上加载这些文件</code></pre>
+<p><strong>禁用WordPress里的脚本和样式</strong></p>
+<p>WordPress有一个内置系统，通过这个系统我们可以取消注册插件所添加的脚本和样式。但同时WordPress是一个开源软件，其插件由WordPress用户自行开发。这些插件开发者里有专家级开发者，也有开发新手。这意味着，不是所有插件都使用正确的方法加载脚本和样式，这就增加了禁用脚本和样式的难度。正确的方式是利用wp_enqueue_script()和wp_enqueue_style()这两个WordPress函数注册样式表和脚本。</p>
+<p>要确定你希望禁用的脚本或样式，你需要进一步查看插件代码。</p>
+<p><strong>禁用CSS（样式表）</strong></p>
+<p>这里我们以插件Cleaner Gallery为例。这个插件在会每次页面加载时加入自己的CSS文件。首先你需要确认这款插件添加样式表的方法是否正确。你可以打开插件文件gallery.php（gallery.php是插件Cleaner Gallery的文件），然后在其中查找“wp_enqueue_style”，搜索到的结果如下：</p>
+<pre><code>//Code from http://seavia.com/
+wp_enqueue_style( &#39;cleaner-gallery&#39;, CLEANER_GALLERY_URL .
+&#39;cleaner-gallery.css&#39;, false, 0.8, &#39;all&#39; );</code></pre>
+<p>从代码中可以看出负责样式表的句柄为“cleaner-gallery”。然后打开主题中的functions.php文件，添加以下代码：</p>
+<pre><code>add_action( &#39;wp_print_styles&#39;, &#39;my_deregister_styles&#39;, 100 );  
+function my_deregister_styles() &#123;  
+wp_deregister_style( &#39;cleaner-gallery&#39; );  
+&#125;</code></pre>
+<p>你可以利用这个函数决定所取消的样式表操作次数。如果你需要取消注册多个插件的样式表，那么可以使用下面这段代码：</p>
+<pre><code>add_action( &#39;wp_print_styles&#39;, &#39;my_deregister_styles&#39;, 100 );
+function my_deregister_styles() &#123;  
+wp_deregister_style( &#39;cleaner-gallery&#39; );  
+wp_deregister_style( &#39;Plugin Style Handle&#39; );  
+wp_deregister_style( &#39;Plugin Style Handle&#39; );  &#125;</code></pre>
+<p>但是删除本该加载到所有页面的样式表后，Cleaner Gallery插件的功能就会受到影响。例如你的图集的样式和结构会崩坏。要修复这个问题，请打开主题的style.css文件，将插件的CSS代码粘贴到文件的最下方。这里我们用的是Cleaner Gallery插件，那么就将插件文件夹中的cleaner-gallery.css文件复制到主题的style.css文件里。这样不仅可以定制图集的样式，也减少了一次HTTP请求。</p>
+<p>理想状态:分页插件WP-PageNavi在后台的设置页提供了一个删除样式表的选项。</p>
+<p>大多数时候你需要修改这款插件的显示效果以符合网站的色调。因此很多用户最终都会把代码粘贴到style.css文件。现在插件作者给出了一个简单的复选框选项，让用户选择是否取消注册样式表。</p>
+<p>希望越来越多的插件开发者采取这种做法，为WordPress用户提供更多方便。</p>
+<p><strong>禁用JavaScripts</strong></p>
+<p>出于对功能性的考虑，有些插件会向页面添加JavaScript文件，例如Contact Form 7。</p>
+<p>和处理样式文件一样，我们需要在插件文件里找到JS脚本句柄。在Contact Form 7里，脚本句柄为”contact-form-7″。复制以下函数并粘贴到主题的functions.php文件：</p>
+<pre><code>add_action( &#39;wp_print_scripts&#39;, &#39;my_deregister_javascript&#39;, 100 );    
+function my_deregister_javascript() &#123;  
+wp_deregister_script( &#39;contact-form-7&#39; );  
+&#125;</code></pre>
+<p>如果有必要，你也可以在这个函数里取消注册多个脚本。删除JS脚本后会影响插件的功能。你可以把所有JS组合在一起，但有时未必起作用，所以请谨慎操作。</p>
+<p><strong>在特定页面加载脚本</strong></p>
+<p>如果你确实需要Contact Form脚本文件，而又不愿意将它和其他脚本混合。你可以选择只在联系页面加载这些脚本，只需要用到下面这个函数：</p>
+<pre><code>add_action( &#39;wp_print_scripts&#39;, &#39;my_deregister_javascript&#39;, 100 );    
+function my_deregister_javascript() &#123;  
+if ( !is_page(&#39;Contact&#39;) ) &#123;  
+wp_deregister_script( &#39;contact-form-7&#39; );  
+&#125;  
+&#125;</code></pre>
+<p>这样就可以避免在非联系表单页面上加载多余脚本了。对提高网站速度来说这是个实用的方法。我们也可以使用!is_single等其他参数。</p>
+<p>其实按需加载JS还有一个好处就是可以加快WordPress的运行速度，试想一般情况下每个页面需要调用的 JS 不都一样，如果我们强制一些不需要所有 JS 文件的页面也加载整个all.js，那岂不是浪费资源拖慢速度？所以，让不同的页面加载不同js还可以对WordPress进行提速，一举两得。</p>
+<p>按需加载CSS其实道理也和按需加载JS一样：</p>
+<p>加载CSS文件也是同理：</p>
+<pre><code>&lt;?php if (is_home()) &#123; ?&gt;
+
+&lt;?php &#125; elseif( is_single() ) &#123; ?&gt;
+
+&lt;?php &#125; elseif( is_category() || is_archive() || is_search() ) &#123; ?&gt;
+
+&lt;?php &#125; elseif( is_page(1072) ) &#123; ?&gt;
+
+&lt;?php &#125; else &#123; ?&gt;
+
+&lt;?php &#125; ?&gt;</code></pre>
+<p>上面这段代码什么意思呢？就是当打开的是首页时加载style-index.css这个CSS文件，打开文章页时加载style-single.css，打开文章页、归档页或者搜索结果页时加载style-category.css，打开页面且其ID=1072时加载style-links.css，其它页面加载style.css。</p>
+<p>这里作为补充，列举一个网友的提问：wordpress如何禁止插件输出js与css到所有页面？</p>
+<p>针对这个插件：portfolio-slideshow，做以下的回答。</p>
+<p>这里采用这个方法搞定的，没有修改插件内容，直接主题function.php添加下面代码：</p>
+<pre><code>function load_portfolio_slideshow() &#123;
+    // 如果 portfolio-slideshow 之前已注册...
+    if( wp_script_is( &#39;portfolio-slideshow&#39;, &#39;registered&#39; ) ) &#123;
+        // ...取消注册...
+        wp_deregister_style( &#39;portfolio_slideshow&#39; );
+        wp_deregister_script( &#39;portfolio-slideshow&#39; );
+        // 后面根据自己需要自定义......
+    &#125;
+&#125;
+add_action( &#39;wp_enqueue_scripts&#39;, &#39;load_portfolio_slideshow&#39; );</code></pre>
+<p>用来聚合一些专业的问题，专业的回答。如果有不完善的地方，希望斧正。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/wordpress-javascript-css-%E9%80%89%E6%8B%A9%E6%80%A7%E5%8A%A0%E8%BD%BD-%E7%BD%91%E7%AB%99%E5%8A%A0%E9%80%9F/" rel="tag"># wordpress,javascript,css,选择性加载,网站加速</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/07/13/javascript%E5%8E%9F%E7%94%9F%E6%96%B9%E6%B3%95%E5%88%B6%E4%BD%9C%E5%9C%A8%E7%BA%BF%E5%AE%A2%E6%9C%8D%E6%82%AC%E6%B5%AE%E6%8A%98%E5%8F%A0%E6%95%88%E6%9E%9C/" rel="prev" title="javascript原生方法制作在线客服悬浮折叠效果">
+      <i class="fa fa-chevron-left"></i> javascript原生方法制作在线客服悬浮折叠效果
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/07/14/wordpress%E4%B8%AD%E8%BF%90%E7%94%A8layer%E7%9A%84%E6%97%B6%E5%80%99%EF%BC%8C%E6%B7%BB%E5%8A%A0%E7%82%B9%E5%87%BB%E4%BA%8B%E4%BB%B6%E9%98%BB%E6%AD%A2%E9%BB%98%E8%AE%A4%E4%BA%8B%E4%BB%B6%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" rel="next" title="wordpress中运用layer的时候，添加点击事件阻止默认事件的解决方案">
+      wordpress中运用layer的时候，添加点击事件阻止默认事件的解决方案 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

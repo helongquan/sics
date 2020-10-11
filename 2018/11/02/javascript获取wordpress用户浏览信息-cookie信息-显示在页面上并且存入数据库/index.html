@@ -1,37 +1,1352 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="在阅读这篇文章之前可以阅读以下另外一篇文章：http:&#x2F;&#x2F;phpstudy.php.cn&#x2F;b.php&#x2F;54085.html，因为笔者的是以这篇文章进行扩展的，怎么说呢，支持大家的原创，站在巨人的肩上才能看得更远，但是也得尊重那些坚持创作的人，尽管不知道这个链接是否是原创者的博客，但是留个链接是干这行的从业人员的一个良好品德。 好的，笔者的思路是这样的，  监控网站的所有页面。所以需要把这个js代码">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javascript获取wordpress用户浏览信息(cookie信息)显示在页面上并且存入数据库">
+<meta property="og:url" content="http://example.com/2018/11/02/javascript%E8%8E%B7%E5%8F%96wordpress%E7%94%A8%E6%88%B7%E6%B5%8F%E8%A7%88%E4%BF%A1%E6%81%AF-cookie%E4%BF%A1%E6%81%AF-%E6%98%BE%E7%A4%BA%E5%9C%A8%E9%A1%B5%E9%9D%A2%E4%B8%8A%E5%B9%B6%E4%B8%94%E5%AD%98%E5%85%A5%E6%95%B0%E6%8D%AE%E5%BA%93/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="在阅读这篇文章之前可以阅读以下另外一篇文章：http:&#x2F;&#x2F;phpstudy.php.cn&#x2F;b.php&#x2F;54085.html，因为笔者的是以这篇文章进行扩展的，怎么说呢，支持大家的原创，站在巨人的肩上才能看得更远，但是也得尊重那些坚持创作的人，尽管不知道这个链接是否是原创者的博客，但是留个链接是干这行的从业人员的一个良好品德。 好的，笔者的思路是这样的，  监控网站的所有页面。所以需要把这个js代码">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/WJ9hT5G.png">
+<meta property="article:published_time" content="2018-11-02T13:16:37.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:57:58.030Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="javascript,wordpress,用户浏览信息,用户历史记录,cookie,存入数据库">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/WJ9hT5G.png">
+
+<link rel="canonical" href="http://example.com/2018/11/02/javascript%E8%8E%B7%E5%8F%96wordpress%E7%94%A8%E6%88%B7%E6%B5%8F%E8%A7%88%E4%BF%A1%E6%81%AF-cookie%E4%BF%A1%E6%81%AF-%E6%98%BE%E7%A4%BA%E5%9C%A8%E9%A1%B5%E9%9D%A2%E4%B8%8A%E5%B9%B6%E4%B8%94%E5%AD%98%E5%85%A5%E6%95%B0%E6%8D%AE%E5%BA%93/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>javascript获取wordpress用户浏览信息(cookie信息)显示在页面上并且存入数据库 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/11/02/javascript%E8%8E%B7%E5%8F%96wordpress%E7%94%A8%E6%88%B7%E6%B5%8F%E8%A7%88%E4%BF%A1%E6%81%AF-cookie%E4%BF%A1%E6%81%AF-%E6%98%BE%E7%A4%BA%E5%9C%A8%E9%A1%B5%E9%9D%A2%E4%B8%8A%E5%B9%B6%E4%B8%94%E5%AD%98%E5%85%A5%E6%95%B0%E6%8D%AE%E5%BA%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          javascript获取wordpress用户浏览信息(cookie信息)显示在页面上并且存入数据库
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-11-02 21:16:37" itemprop="dateCreated datePublished" datetime="2018-11-02T21:16:37+08:00">2018-11-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:58" itemprop="dateModified" datetime="2020-10-11T11:57:58+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/wordpress/" itemprop="url" rel="index"><span itemprop="name">wordpress</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>在阅读这篇文章之前可以阅读以下另外一篇文章：<a target="_blank" rel="noopener" href="http://phpstudy.php.cn/b.php/54085.html">http://phpstudy.php.cn/b.php/54085.html</a>，因为笔者的是以这篇文章进行扩展的，怎么说呢，支持大家的原创，站在巨人的肩上才能看得更远，但是也得尊重那些坚持创作的人，尽管不知道这个链接是否是原创者的博客，但是留个链接是干这行的从业人员的一个良好品德。</p>
+<p>好的，笔者的思路是这样的，</p>
+<blockquote>
+<p>监控网站的所有页面。所以需要把这个js代码放在公共部分，比如wordpress的公共头部或者公共底部。然后，获取登录用户的基本信息，不让它显示在页面上，但是必须要有dom节点，以便jquery能够获取得到。确保这些信息获取到了后，然后对浏览信息进行遍历，遍历的同时把想要获取的信息保存在数据库中，然后对用户的浏览信息处理后，等下次用户登录的时候进行判断，如果当前用户的信息已经在这个用户信息收集表中，那么就对这个用户的信息进行查询，把浏览记录推送到前台。</p>
+</blockquote>
+<p>有了这个思路后，剩下的就是开干的问题了。</p>
+<p>笔者在主题根目录下找到header.php，在<code>&lt;/head&gt;</code>标签前面添加如下代码：</p>
+<pre><code>//引入必要依赖库文件
+&lt;script src=&quot;https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.js&quot;&gt;&lt;/script&gt;
+
+//主要实现的逻辑代码
+&lt;script type=&quot;text/javascript&quot;&gt;
+$(document).ready(function()&#123;
+    var art_title = $(&quot;article .entry-content-header .post-title a&quot;).text(); //文章标题 
+    var art_url = document.URL; //页面地址
+    console.log(art_title);
+    console.log(art_url);
+
+    var canAdd = true; //初始可以插入cookie信息 
+    var hisArt = $.cookie(&quot;hisArt&quot;);
+    var len = 0;
+    if(hisArt)&#123;
+        hisArt = eval(&quot;(&quot;+hisArt+&quot;)&quot;);
+        len = hisArt.length;
+    &#125;
+
+    $(hisArt).each(function()&#123;
+        if(this.title == art_title)&#123;
+            canAdd = false; //已经存在，不能插入 
+            return false;
+        &#125;
+    &#125;);
+
+    if(canAdd==true)&#123;
+        var json = &quot;[&quot;;
+        var start = 0;
+        if(len&gt;10)&#123;
+            start = 1;
+        &#125;
+        for(var i=start;i&lt;len;i++)&#123;
+        json = json + &quot;&#123;\&quot;title\&quot;:\&quot;&quot;+hisArt[i].title+&quot;\&quot;,\&quot;url\&quot;:\&quot;&quot;+hisArt[i].url+&quot;\&quot;&#125;,&quot;;
+        &#125;
+        json = json + &quot;&#123;\&quot;title\&quot;:\&quot;&quot;+art_title+&quot;\&quot;,\&quot;url\&quot;:\&quot;&quot;+art_url+&quot;\&quot;&#125;]&quot;;
+        $.cookie(&quot;hisArt&quot;,json,&#123;
+            expires:1
+        &#125;);
+    &#125;
+
+    //定义一个存放php文件的地址，这个地方根据自己的实际情况来,笔者在主题为nocti的目录下的fenleisousuo文件夹
+    //$website_url = &quot;http://localhost:8080/wordpress/wp-content/themes/nocti/fenleisousuo&quot;;
+    //域名协议的获取这里不用写死的方式，而是采用获取当前协议和域名的方式，这样可以防止当http协议更换到https的时候不能访问的问题
+    var host = window.location.host;
+    var protocol = window.location.protocol;
+    var port = window.location.port;
+    $website_url = protocol+&quot;//&quot;+host+&quot;:&quot;+port+&quot;/wordpress/wp-content/themes/nocti/fenleisousuo&quot;;
+    $(function()&#123;
+        var json = eval(&quot;(&quot;+$.cookie(&quot;hisArt&quot;)+&quot;)&quot;);
+        var list = &quot;&quot;;
+        for(var i=0; i&lt;json.length;i++)&#123;
+           //对浏览记录进行遍历
+            list = list + &quot;&lt;li&gt;&lt;a href=&#39;&quot;+json[i].url+&quot;&#39; target=&#39;_blank&#39;&gt;&quot;+json[i].title+&quot;&lt;/a&gt;&lt;/li&gt;&quot;; 
+
+            //获取用户信息，以及cookie中的信息
+            var user = new Object();
+            user.name = $(&quot;#userinf .username&quot;).text();
+            user.title = json[i].title;
+            user.url = json[i].url;
+            user.userID = $(&quot;#userinf .userID&quot;).text();
+            user.email = $(&quot;#userinf .useremail&quot;).text();
+
+            //发起ajax请求，把获取的信息保存到数据库
+            save_user_info = $.ajax(&#123;
+                url: $website_url+&quot;/add_info.php&quot;,
+                type: &quot;get&quot;,
+                dataType: &quot;json&quot;,
+                data: user,
+                contentType: &quot;application/json&quot;,
+                success: function (res) &#123;
+                    console.log(res);
+                &#125;,
+                error: function (xhr, err, exception) &#123;
+                    console.log(err);
+                &#125;
+            &#125;);
+
+        &#125;
+
+        //把遍历的历史记录显示在id为list的位置
+        $(&quot;#list&quot;).html(list);
+    &#125;);
+
+    //对用户的浏览记录进行获取，然后显示到前台页面来，这有待完善
+    var userInfor = new Object();
+    user.userID = $(&quot;#userinf .userID&quot;).text();
+    get_user_inf = $.ajax(&#123;
+        url: $website_url+&quot;/get_user_history.php&quot;,
+        type: &quot;get&quot;,
+        dataType: &quot;json&quot;,
+        data: userInfor,
+        contentType: &quot;application/json&quot;,
+        success: function (res) &#123;
+            console.log(res);
+
+        &#125;,
+        error: function (xhr, err, exception) &#123;
+            console.log(err);
+        &#125;
+    &#125;);
+
+
+&#125;)
+&lt;/script&gt;</code></pre>
+<p>把这里弄清楚后，我们就来看下这两个后端的文件：add_info.php和get_user_history_info.php</p>
+<p><strong>add_info.php代码</strong></p>
+<pre><code>&lt;?php
+//字符编码设置，以及处理跨域的问题
+header(&quot;Content-type:text/html;charset=utf-8;Access-Control-Allow-Origin:*;Access-Control-Allow-Methods:GET,POST&quot;);
+//获取当前文件所在目录
+$gen=$_SERVER[&#39;DOCUMENT_ROOT&#39;];
+require_once(&quot;$gen/wordpress/wp-config.php&quot;);
+
+//链接mysql服务器 开始
+$con = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD);
+mysqli_select_db($con, DB_NAME);
+
+// 检测连接
+$name = $_GET[&#39;name&#39;];
+$title = $_GET[&#39;title&#39;];
+$url = $_GET[&#39;url&#39;];
+$email = $_GET[&#39;email&#39;];
+$userID = $_GET[&#39;userID&#39;];
+$created_time = date(&#39;Y-m-d G:i:s&#39;, time());
+
+$getold = &quot;SELECT url FROM user_cookie WHERE url = &#39;$url&#39; and userid = &#39;$userID&#39;&quot;;
+if ($getold == &#39;&#39;) &#123;
+    $sql = &quot;UPDATE user_cookie SET create_time = &#39;$created_time&#39;&quot;;
+&#125;else&#123;
+    $sql = &quot;INSERT INTO user_cookie (user,title,url,email,userid,create_time) VALUES (&#39;$name&#39;,&#39;$title&#39;,&#39;$url&#39;,&#39;$email&#39;,&#39;$userID&#39;,&#39;$created_time&#39;)&quot;;
+&#125;
+$result = mysqli_query($con,$sql);
+if (!$result) &#123;
+    printf(&quot;Error: %s\n&quot;, mysqli_error($con));
+    exit();
+&#125;
+
+$jarr = array();
+while ($rows=mysqli_fetch_array($result,MYSQL_ASSOC))&#123;
+    $count=count($rows);//不能在循环语句中，由于每次删除 row数组长度都减小  
+    for($i=0;$i&lt;$count;$i++)&#123;
+        unset($rows[$i]);//删除冗余数据  
+    &#125;
+    array_push($jarr,$rows);
+&#125;
+//查看数组
+// print_r($jarr);
+echo $str=json_encode($jarr,JSON_UNESCAPED_UNICODE);//将数组进行json编码，并且解决中文乱码的问题
+mysqli_close($con);
+?&gt;</code></pre>
+<p>这里面自己看下，这里大家最好先看下笔者的另外一篇关于连接wordpress配置文件的文章，以及另外一篇获取mysql数据，并且以json格式返回数据的文章。这样就能理解这里面的代码了。</p>
+<p><strong>get_user_history_info.php代码</strong></p>
+<pre><code>&lt;?php
+//字符编码设置，以及处理跨域的问题
+header(&quot;Content-type:text/html;charset=utf-8;Access-Control-Allow-Origin:*;Access-Control-Allow-Methods:GET,POST&quot;);
+
+//获取当前文件所在目录
+$gen=$_SERVER[&#39;DOCUMENT_ROOT&#39;];
+require_once(&quot;$gen/wordpress/wp-config.php&quot;);
+
+//链接mysql服务器 开始
+$con = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD);
+mysqli_select_db($con, DB_NAME);
+
+$userID = $_GET[&#39;userID&#39;];
+// 检测连接
+$sql = &quot;SELECT title,url FROM user_cookie WHERE userid = &#39;$userID&#39;&quot;;
+$result = mysqli_query($con,$sql);
+if (!$result) &#123;
+    printf(&quot;Error: %s\n&quot;, mysqli_error($con));
+    exit();
+&#125;
+
+$jarr = array();
+while ($rows=mysqli_fetch_array($result,MYSQL_ASSOC))&#123;
+    $count=count($rows);//不能在循环语句中，由于每次删除 row数组长度都减小  
+    for($i=0;$i&lt;$count;$i++)&#123;
+        unset($rows[$i]);//删除冗余数据  
+    &#125;
+    array_push($jarr,$rows);
+&#125;
+//查看数组
+// print_r($jarr);
+echo $str=json_encode($jarr,JSON_UNESCAPED_UNICODE);//将数组进行json编码，并且解决中文乱码的问题
+mysqli_close($con);
+?&gt;</code></pre>
+<p>然后就是在header.php里面添加获取用户的基本信息的代码：</p>
+<pre><code>&lt;div id=&quot;userinf&quot; style=&quot;display: none&quot;&gt;
+    &lt;?php global $current_user;
+         get_currentuserinfo();
+         echo &#39;用户名：&lt;span class=&quot;username&quot;&gt; &#39; . $current_user-&gt;user_login . &quot;&lt;/span&gt;&lt;br&gt;&quot;;
+         echo &#39;用户邮箱：&lt;span class=&quot;useremail&quot;&gt; &#39; . $current_user-&gt;user_email . &quot;&lt;/span&gt;&lt;br&gt;&quot;;
+         echo &#39;公开显示名：&lt;span class=&quot;nikename&quot;&gt; &#39; . $current_user-&gt;display_name . &quot;&lt;/span&gt;&lt;br&gt;&quot;;
+         echo &#39;用户 ID：&lt;span class=&quot;userID&quot;&gt;&#39; . $current_user-&gt;ID . &quot;&lt;/span&gt;&quot;;
+    ?&gt;
+&lt;/div&gt;</code></pre>
+<p>这样才能获取用户的dom值。</p>
+<p>完成这些后，我们再把数据库表（user_cookie）创建一下：</p>
+<pre><code>SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for user_cookie
+-- ----------------------------
+DROP TABLE IF EXISTS `user_cookie`;
+CREATE TABLE `user_cookie` (
+  `user` varchar(64) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `userid` int(11) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;</code></pre>
+<p>有了这些基本就完成了雏形了，剩下的就需要我们处理一些细节，本文还没有彻底完成，后面会持续更新，敬请关注。</p>
+<p>2018/11/5 17:42:39 更新</p>
+<p>更新位置：</p>
+<p>在header.php那里做记录的字段添加了两个：thumbnail和ip;然后对获取标题的方式做了一下变化，不获取文章详情页的dom元素，而是直接获取页面的title的值，并且对获取的字符串进行了截取。</p>
+<p>我们先看下js部分，这部分跟前面一样，都是写在header.php里面。所有代码如下：</p>
+<pre><code>&lt;script src=&quot;https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+$(document).ready(function()&#123;
+     //文章的标题 
+    // var art_title = $(&quot;.post-template-default article .entry-content-header .post-title a&quot;).text();
+    // 获取页面的标题值,然后截取并保留 “-”前面的内容
+    var art_title = $(document).attr(&quot;title&quot;).split(&#39; – &#39;)[0];
+    var art_url = document.URL; //页面地址
+    var art_thumbnail = $(&quot;.big-preview a img&quot;)[0].src;
+    var art_ip = $(&quot;.userip&quot;).text();
+
+    var canAdd = true; //初始可以插入cookie信息 
+    var hisArt = $.cookie(&quot;hisArt&quot;);
+    var len = 0;
+    if(hisArt)&#123;
+        hisArt = eval(&quot;(&quot;+hisArt+&quot;)&quot;);
+        len = hisArt.length;
+    &#125;
+
+    $(hisArt).each(function()&#123;
+        if(this.title == art_title)&#123;
+            canAdd = false; //已经存在，不能插入 
+            return false;
+        &#125;
+    &#125;);
+
+    if(canAdd==true)&#123;
+        var json = &quot;[&quot;;
+        var start = 0;
+        if(len&gt;10)&#123;
+            start = 1;
+        &#125;
+        for(var i=start;i&lt;len;i++)&#123;
+        json = json + &quot;&#123;\&quot;title\&quot;:\&quot;&quot;+hisArt[i].title+&quot;\&quot;,\&quot;url\&quot;:\&quot;&quot;+hisArt[i].url+&quot;\&quot;,\&quot;thumbnail\&quot;:\&quot;&quot;+hisArt[i].thumbnail+&quot;\&quot;,\&quot;ip\&quot;:\&quot;&quot;+hisArt[i].ip+&quot;\&quot;&#125;,&quot;;
+        &#125;
+        json = json + &quot;&#123;\&quot;title\&quot;:\&quot;&quot;+art_title+&quot;\&quot;,\&quot;url\&quot;:\&quot;&quot;+art_url+&quot;\&quot;,\&quot;thumbnail\&quot;:\&quot;&quot;+art_thumbnail+&quot;\&quot;,\&quot;ip\&quot;:\&quot;&quot;+art_ip+&quot;\&quot;&#125;]&quot;;
+        $.cookie(&quot;hisArt&quot;,json,&#123;
+            expires:1
+        &#125;);
+    &#125;
+
+    //$website_url = &quot;http://localhost:8080/wordpress/wp-content/themes/nocti/fenleisousuo&quot;;
+    //域名协议的获取这里不用写死的方式，而是采用获取当前协议和域名的方式，这样可以防止当http协议更换到https的时候不能访问的问题
+    var host = window.location.host;
+    var protocol = window.location.protocol;
+    var port = window.location.port;
+    $website_url = protocol+&quot;//&quot;+host+&quot;:&quot;+port+&quot;/wordpress/wp-content/themes/nocti/fenleisousuo&quot;;
+    $(function()&#123;
+        var json = eval(&quot;(&quot;+$.cookie(&quot;hisArt&quot;)+&quot;)&quot;);
+        console.log(json);
+        var list = &quot;&quot;;
+        for(var i=0; i&lt;json.length;i++)&#123;
+            list = list + &quot;&lt;li&gt;&lt;a href=&#39;&quot;+json[i].url+&quot;&#39; target=&#39;_blank&#39;&gt;&quot;+json[i].title+&quot;&lt;/a&gt;&lt;/li&gt;&quot;; 
+
+            var user = new Object();
+            user.name = $(&quot;#userinf .username&quot;).text();
+            user.title = json[i].title;
+            user.url = json[i].url;
+            user.img = json[i].thumbnail;
+            user.userip = json[i].ip;
+            user.userID = $(&quot;#userinf .userID&quot;).text();
+            user.email = $(&quot;#userinf .useremail&quot;).text();
+
+            save_user_info = $.ajax(&#123;
+                url: $website_url+&quot;/add_info.php&quot;,
+                type: &quot;get&quot;,
+                dataType: &quot;json&quot;,
+                data: user,
+                contentType: &quot;application/json&quot;,
+                success: function (res) &#123;
+                    console.log(res);
+
+                &#125;,
+                error: function (xhr, err, exception) &#123;
+                    console.log(err);
+                &#125;
+            &#125;);
+
+        &#125;
+        $(&quot;#list&quot;).html(list);
+
+
+        var userInfor = new Object();
+        userInfor.userID = $(&quot;#userinf .userID&quot;).text();
+        var item = &#39;&lt;div class=&quot;favorite&quot;&gt;&#39;;
+        get_user_inf = $.ajax(&#123;
+            url: $website_url+&quot;/get_user_history_info.php&quot;,
+            type: &quot;get&quot;,
+            dataType: &quot;json&quot;,
+            data: userInfor,
+            contentType: &quot;application/json&quot;,
+            success: function (res) &#123;
+                $(&quot;.entry-content&quot;).append(&quot;&lt;h4&gt;你已经阅读过以下的内容&lt;/h4&gt;&quot;);
+                for (var i = res.length - 1; i &gt;= 0; i--) &#123;
+                    item = item + &quot;&lt;div clas=&#39;favoItem&#39; style=&#39;width:calc(100%/4);float: left;padding: 5px;&#39;&gt;&lt;img src=&quot;+res[i].thumbnail+&quot;&gt;&lt;p&gt;&lt;a href=&#39;&quot;+res[i].url+&quot;&#39; target=&#39;_blank&#39;&gt;&quot;+res[i].title+&quot;&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;&quot;;
+                &#125;
+                item = item + &quot;&lt;/div&gt;&quot;;
+                $(&quot;.av-share-box&quot;).html(item);
+            &#125;,
+            error: function (xhr, err, exception) &#123;
+                console.log(err);
+            &#125;
+        &#125;);
+
+    &#125;);
+
+
+&#125;)
+&lt;/script&gt;</code></pre>
+<p>这个里面已经写了些注释了，变化不是很大，看下差异就行。这里说下遇到的问题的地方，问题：每次访问一个新页面的时候，获取的缩略图总是同一张，这个让我困惑了很久，后来发现在json这个里面，只有title和url这两个字段的信息，而笔者采用的是jquery获取缩略图的地址，这个是错误的做法，应该写成：</p>
+<pre><code>var art_thumbnail = $(&quot;.big-preview a img&quot;)[0].src;</code></pre>
+<p>而这个要直接添加进：</p>
+<pre><code>for(var i=start;i&lt;len;i++)&#123;
+json = json + &quot;&#123;\&quot;title\&quot;:\&quot;&quot;+hisArt[i].title+&quot;\&quot;,\&quot;url\&quot;:\&quot;&quot;+hisArt[i].url+&quot;\&quot;,\&quot;thumbnail\&quot;:\&quot;&quot;+hisArt[i].thumbnail+&quot;\&quot;,\&quot;ip\&quot;:\&quot;&quot;+hisArt[i].ip+&quot;\&quot;&#125;,&quot;;
+&#125;
+json = json + &quot;&#123;\&quot;title\&quot;:\&quot;&quot;+art_title+&quot;\&quot;,\&quot;url\&quot;:\&quot;&quot;+art_url+&quot;\&quot;,\&quot;thumbnail\&quot;:\&quot;&quot;+art_thumbnail+&quot;\&quot;,\&quot;ip\&quot;:\&quot;&quot;+art_ip+&quot;\&quot;&#125;]&quot;;
+$.cookie(&quot;hisArt&quot;,json,&#123;
+    expires:1
+&#125;);</code></pre>
+<p>这个里面，这个是一个遍历，就是记录的每一条信息的相关字段，如果这个里面没有加入，只是在发起ajax请求那里写</p>
+<pre><code>$(&quot;.big-preview a img&quot;)[0].src;</code></pre>
+<p>把这个值提交到数据库是不行的，道理很简单，这个只是获取当前页面的img，然后再持续遍历完，</p>
+<pre><code>for(var i=0; i&lt;json.length;i++)&#123;
+    list = list + &quot;&lt;li&gt;&lt;a href=&#39;&quot;+json[i].url+&quot;&#39; target=&#39;_blank&#39;&gt;&quot;+json[i].title+&quot;&lt;/a&gt;&lt;/li&gt;&quot;; 
+
+    var user = new Object();
+    user.name = $(&quot;#userinf .username&quot;).text();
+    more...
+
+
+    save_user_info = $.ajax(&#123;
+        url: $website_url+&quot;/add_info.php&quot;,
+        type: &quot;get&quot;,
+        dataType: &quot;json&quot;,
+        data: user,
+        contentType: &quot;application/json&quot;,
+        success: function (res) &#123;
+            console.log(res);
+
+        &#125;,
+        error: function (xhr, err, exception) &#123;
+            console.log(err);
+        &#125;
+    &#125;);
+
+&#125;</code></pre>
+<p>看到这个代码想必已经明白了，这个里面有个循环遍历，每循环一次获取的图片是同一张，这个就不难理解为何刷新了当前页面，数据库里面获取的图片居然是同一张。</p>
+<p>另外碰到的一个问题就是，在后端做判断的那里出现的问题，就是判断不起作用。先看后端的其中一个（add_info.php）修改后的完整代码：</p>
+<pre><code>&lt;?php
+//字符编码设置，以及处理跨域的问题
+header(&quot;Content-type:text/html;charset=utf-8;Access-Control-Allow-Origin:*;Access-Control-Allow-Methods:GET,POST&quot;);
+//获取当前文件所在目录
+$gen=$_SERVER[&#39;DOCUMENT_ROOT&#39;];
+require_once(&quot;$gen/wordpress/wp-config.php&quot;);
+
+//链接mysql服务器 开始
+$con = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD);
+mysqli_select_db($con, DB_NAME);
+
+// 检测连接
+$name = $_GET[&#39;name&#39;];
+$title = $_GET[&#39;title&#39;];
+$url = $_GET[&#39;url&#39;];
+$email = $_GET[&#39;email&#39;];
+$userID = $_GET[&#39;userID&#39;];
+$created_time = date(&#39;Y-m-d G:i:s&#39;, time());
+$img = $_GET[&#39;img&#39;];
+$ip = $_GET[&#39;userip&#39;];
+
+$getold = mysqli_query($con,&quot;SELECT * FROM user_cookie WHERE url = &#39;$url&#39; and userid = &#39;$userID&#39;&quot;);
+// 删除表中旧的数据
+// mysqli_query($con,&quot;DELETE FROM user_cookie WHERE url = &#39;$url&#39;&quot;);
+
+if ($userID == 0) &#123;   //如果用户没有登录那么，不记录浏览信息
+    exit();
+&#125;else if (mysqli_num_rows($getold) &lt; 1) &#123;
+$sql = &quot;INSERT INTO user_cookie (user,title,url,email,userid,create_time,thumbnail,ip) VALUES (&#39;$name&#39;,&#39;$title&#39;,&#39;$url&#39;,&#39;$email&#39;,&#39;$userID&#39;,&#39;$created_time&#39;,&#39;$img&#39;,&#39;$ip&#39;)&quot;;
+&#125;else&#123;
+    $sql = &quot;UPDATE user_cookie SET create_time = &#39;$created_time&#39;&quot;;
+&#125;
+$result = mysqli_query($con,$sql);
+if (!$result) &#123;
+    printf(&quot;Error: %s\n&quot;, mysqli_error($con));
+    exit();
+&#125;
+
+$jarr = array();
+while ($rows=mysqli_fetch_array($result,MYSQL_ASSOC))&#123;
+    $count=count($rows);//不能在循环语句中，由于每次删除 row数组长度都减小  
+    for($i=0;$i&lt;$count;$i++)&#123;
+        unset($rows[$i]);//删除冗余数据  
+    &#125;
+    array_push($jarr,$rows);
+&#125;
+//查看数组
+// print_r($jarr);
+echo $str=json_encode($jarr,JSON_UNESCAPED_UNICODE);//将数组进行json编码，并且解决中文乱码的问题
+mysqli_close($con);
+?&gt;</code></pre>
+<p>其实在快解决这个问题之前笔者已经快走到极端了，就是每次刷新页面的时候，先把数据表里面的都清空一次，然后再把新的数据插入。这样很显然是下下策了，你想想每次打开一个页面都要删除一遍数据然后再插入一遍，而且万一有点风吹草动，其他用户的浏览信息会被删除了。</p>
+<p>我们看下笔者是如何解决的，还是跟着最开始的那个来，先对数据查询一下，如果这个用户没有登录，那么就不进行下一步了，直接退出（因为这里笔者仅仅想获取已经登录用户的浏览信息，当然如果想要获取非登录用户的浏览信息，只能通过结合IP来进行了，事实上通过IP来判断这个用户是否是老用户不是很准确，因为IP经常会变化）。</p>
+<p>如果用户已经登录，这个时候进一步做判断，如果这个用户已经浏览了这个新闻或者这个商品，那么就不需要再次记录了，而是更新一下时间即可。如果这个用户从来没有阅读过这个信息，那么就执行插入操作。笔者没有错在逻辑，而是错在写法：</p>
+<pre><code>$getold = mysqli_query(&quot;SELECT * FROM user_cookie WHERE url = &#39;$url&#39; and userid = &#39;$userID&#39;&quot;);      //错误的写法</code></pre>
+<p>很显然，这样写是不对的，因为还没连上数据库配置信息。</p>
+<pre><code>$getold = mysqli_query($con,&quot;SELECT * FROM user_cookie WHERE url = &#39;$url&#39; and userid = &#39;$userID&#39;&quot;);   //正确的写法</code></pre>
+<p>这个就是获取符合条件的记录是否存在，如果存在就干啥，不存在就干啥。</p>
+<p>补充一下：</p>
+<pre><code>// 删除表中旧的数据
+// mysqli_query($con,&quot;DELETE FROM user_cookie WHERE url = &#39;$url&#39;&quot;);</code></pre>
+<p>这个是被笔者注释掉的，这个不要用了，作为参考而已。</p>
+<p>搞清楚这个之后，基本就达到目的了。</p>
+<p>我们再把另外一个api对应的文件（get_user_history_info.php）完整代码贴一下：</p>
+<pre><code>&lt;?php
+//字符编码设置，以及处理跨域的问题
+header(&quot;Content-type:text/html;charset=utf-8;Access-Control-Allow-Origin:*;Access-Control-Allow-Methods:GET,POST&quot;);
+
+//获取当前文件所在目录
+$gen=$_SERVER[&#39;DOCUMENT_ROOT&#39;];
+require_once(&quot;$gen/wordpress/wp-config.php&quot;);
+
+//链接mysql服务器 开始
+$con = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD);
+mysqli_select_db($con, DB_NAME);
+
+$userID = $_GET[&#39;userID&#39;];
+// 检测连接
+
+if ($userID == 0) &#123;
+    exit();
+&#125;else&#123;
+    $sql = &quot;SELECT DISTINCT(title),url,thumbnail,email,userid FROM user_cookie WHERE userid = &#39;$userID&#39;&quot;;
+&#125;
+
+$result = mysqli_query($con,$sql);
+if (!$result) &#123;
+    printf(&quot;Error: %s\n&quot;, mysqli_error($con));
+    exit();
+&#125;
+
+$jarr = array();
+while ($rows=mysqli_fetch_array($result,MYSQL_ASSOC))&#123;
+    $count=count($rows);//不能在循环语句中，由于每次删除 row数组长度都减小  
+    for($i=0;$i&lt;$count;$i++)&#123;
+        unset($rows[$i]);//删除冗余数据  
+    &#125;
+    array_push($jarr,$rows);
+&#125;
+//查看数组
+// print_r($jarr);
+echo $str=json_encode($jarr,JSON_UNESCAPED_UNICODE);//将数组进行json编码，并且解决中文乱码的问题
+mysqli_close($con);
+?&gt;</code></pre>
+<p>这个就是一个获取数据表中数据的api，这个里面有个判断，如果是非登录（userid:0）那么，就直接退出程序，不继续执行，否则就进行一个查询操作，查询当前用户浏览过的数据，然后显示到合适的位置。</p>
+<p>其实就三部分，数据库那边笔者更新了下字段，user_cookie.sql代码：</p>
+<pre><code>SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for user_cookie
+-- ----------------------------
+DROP TABLE IF EXISTS `user_cookie`;
+CREATE TABLE `user_cookie` (
+  `user` varchar(64) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `userid` int(11) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `thumbnail` varchar(255) DEFAULT NULL,
+  `ip` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;</code></pre>
+<hr>
+<p>笔者把这个部署到在线网站去，稍作修改即可。</p>
+<p>主题是一样的，这里还是加在header.php那里，</p>
+<pre><code>&lt;script src=&quot;https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+$(document).ready(function()&#123;
+     //文章的标题 
+    // var art_title = $(&quot;.post-template-default article .entry-content-header .post-title a&quot;).text();
+    // 获取页面的标题值,然后截取并保留 “-”前面的内容
+    var art_title = $(document).attr(&quot;title&quot;).split(&#39; – &#39;)[0];
+    // console.log(art_title);
+    var art_url = document.URL; //页面地址
+    var art_thumbnail = $(&quot;.post-template-default article .big-preview a img&quot;)[0].src;
+    var art_ip = $(&quot;.userip&quot;).text();
+
+    // console.log(art_title);
+    // console.log(art_url);
+
+    var canAdd = true; //初始可以插入cookie信息 
+    var hisArt = $.cookie(&quot;hisArt&quot;);
+    var len = 0;
+    if(hisArt)&#123;
+        hisArt = eval(&quot;(&quot;+hisArt+&quot;)&quot;);
+        len = hisArt.length;
+    &#125;
+
+    $(hisArt).each(function()&#123;
+        if(this.title == art_title)&#123;
+            canAdd = false; //已经存在，不能插入 
+            return false;
+        &#125;
+    &#125;);
+
+    if(canAdd==true)&#123;
+        var json = &quot;[&quot;;
+        var start = 0;
+        if(len&gt;10)&#123;
+            start = 1;
+        &#125;
+        for(var i=start;i&lt;len;i++)&#123;
+        json = json + &quot;&#123;\&quot;title\&quot;:\&quot;&quot;+hisArt[i].title+&quot;\&quot;,\&quot;url\&quot;:\&quot;&quot;+hisArt[i].url+&quot;\&quot;,\&quot;thumbnail\&quot;:\&quot;&quot;+hisArt[i].thumbnail+&quot;\&quot;,\&quot;ip\&quot;:\&quot;&quot;+hisArt[i].ip+&quot;\&quot;&#125;,&quot;;
+        &#125;
+        json = json + &quot;&#123;\&quot;title\&quot;:\&quot;&quot;+art_title+&quot;\&quot;,\&quot;url\&quot;:\&quot;&quot;+art_url+&quot;\&quot;,\&quot;thumbnail\&quot;:\&quot;&quot;+art_thumbnail+&quot;\&quot;,\&quot;ip\&quot;:\&quot;&quot;+art_ip+&quot;\&quot;&#125;]&quot;;
+        $.cookie(&quot;hisArt&quot;,json,&#123;
+            expires:1
+        &#125;);
+    &#125;
+
+    //$website_url = &quot;http://yourdomain.com/wp-content/themes/nocti/fenleisousuo&quot;;
+    //域名协议的获取这里不用写死的方式，而是采用获取当前协议和域名的方式，这样可以防止当http协议更换到https的时候不能访问的问题
+    var host = window.location.host;
+    var protocol = window.location.protocol;
+    var port = window.location.port;
+    $website_url = protocol+&quot;//&quot;+host+&quot;:&quot;+port+&quot;/wordpress/wp-content/themes/nocti/fenleisousuo&quot;;
+    $(function()&#123;
+        var json = eval(&quot;(&quot;+$.cookie(&quot;hisArt&quot;)+&quot;)&quot;);
+        console.log(json);
+        var list = &quot;&quot;;
+        for(var i=0; i&lt;json.length;i++)&#123;
+            list = list + &quot;&lt;li&gt;&lt;a href=&#39;&quot;+json[i].url+&quot;&#39; target=&#39;_blank&#39;&gt;&quot;+json[i].title+&quot;&lt;/a&gt;&lt;/li&gt;&quot;; 
+
+            var user = new Object();
+            user.name = $(&quot;#userinf .username&quot;).text();
+            user.title = json[i].title;
+            user.url = json[i].url;
+            user.img = json[i].thumbnail;
+            user.userip = json[i].ip;
+            user.userID = $(&quot;#userinf .userID&quot;).text();
+            user.email = $(&quot;#userinf .useremail&quot;).text();
+
+            save_user_info = $.ajax(&#123;
+                url: $website_url+&quot;/add_info.php&quot;,
+                type: &quot;get&quot;,
+                dataType: &quot;json&quot;,
+                data: user,
+                contentType: &quot;application/json&quot;,
+                success: function (res) &#123;
+                    console.log(res);
+
+                &#125;,
+                error: function (xhr, err, exception) &#123;
+                    console.log(err);
+                &#125;
+            &#125;);
+
+        &#125;
+        $(&quot;#list&quot;).html(list);
+
+
+        var userInfor = new Object();
+        userInfor.userID = $(&quot;#userinf .userID&quot;).text();
+        var item = &#39;&lt;div class=&quot;favorite&quot;&gt;&#39;;
+        get_user_inf = $.ajax(&#123;
+            url: $website_url+&quot;/get_user_history_info.php&quot;,
+            type: &quot;get&quot;,
+            dataType: &quot;json&quot;,
+            data: userInfor,
+            contentType: &quot;application/json&quot;,
+            success: function (res) &#123;
+                $(&quot;.entry-content&quot;).append(&quot;&lt;h4&gt;你已经阅读过以下的内容&lt;/h4&gt;&quot;);
+                for (var i = res.length - 1; i &gt;= 0; i--) &#123;
+                    item = item + &quot;&lt;div clas=&#39;favoItem&#39; style=&#39;width:calc(100%/4);float: left;padding: 5px;&#39;&gt;&lt;a href=&#39;&quot;+res[i].url+&quot;&#39; target=&#39;_blank&#39;&gt;&lt;img src=&quot;+res[i].thumbnail+&quot;&gt;&lt;/a&gt;&lt;p&gt;&lt;a href=&#39;&quot;+res[i].url+&quot;&#39; target=&#39;_blank&#39;&gt;&quot;+res[i].title+&quot;&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;&quot;;
+                &#125;
+                item = item + &quot;&lt;/div&gt;&quot;;
+                $(&quot;.av-share-box&quot;).html(item);  //把遍历结果插入到博客分享链接那
+            &#125;,
+            error: function (xhr, err, exception) &#123;
+                console.log(err);
+            &#125;
+        &#125;);
+
+    &#125;);
+
+
+&#125;)
+&lt;/script&gt;</code></pre>
+<p><strong>add_info.php代码：</strong></p>
+<pre><code>&lt;?php
+//字符编码设置，以及处理跨域的问题
+header(&quot;Content-type:text/html;charset=utf-8;Access-Control-Allow-Origin:*;Access-Control-Allow-Methods:GET,POST&quot;);
+//获取当前文件所在目录
+$gen=$_SERVER[&#39;DOCUMENT_ROOT&#39;];
+require_once(&quot;$gen/wp-config.php&quot;);
+
+//链接mysql服务器 开始
+$con = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD);
+mysqli_select_db($con, DB_NAME);
+
+// 检测连接
+$name = $_GET[&#39;name&#39;];
+$title = $_GET[&#39;title&#39;];
+$url = $_GET[&#39;url&#39;];
+$email = $_GET[&#39;email&#39;];
+$userID = $_GET[&#39;userID&#39;];
+$created_time = date(&#39;Y-m-d G:i:s&#39;, time());
+$img = $_GET[&#39;img&#39;];
+$ip = $_GET[&#39;userip&#39;];
+
+$getold = mysqli_query($con,&quot;SELECT * FROM user_cookie WHERE url = &#39;$url&#39; and userid = &#39;$userID&#39;&quot;);
+// 删除表中旧的数据
+// mysqli_query($con,&quot;DELETE FROM user_cookie WHERE url = &#39;$url&#39;&quot;);
+
+if ($userID == 0) &#123;   //如果用户没有登录那么，不记录浏览信息
+    exit();
+&#125;else if (mysqli_num_rows($getold) &lt; 1) &#123;
+$sql = &quot;INSERT INTO user_cookie (user,title,url,email,userid,create_time,thumbnail,ip) VALUES (&#39;$name&#39;,&#39;$title&#39;,&#39;$url&#39;,&#39;$email&#39;,&#39;$userID&#39;,&#39;$created_time&#39;,&#39;$img&#39;,&#39;$ip&#39;)&quot;;
+&#125;else&#123;
+    $sql = &quot;UPDATE user_cookie SET create_time = &#39;$created_time&#39;&quot;;
+&#125;
+$result = mysqli_query($con,$sql);
+if (!$result) &#123;
+    printf(&quot;Error: %s\n&quot;, mysqli_error($con));
+    exit();
+&#125;
+
+$jarr = array();
+while ($rows=mysqli_fetch_array($result,MYSQL_ASSOC))&#123;
+    $count=count($rows);//不能在循环语句中，由于每次删除 row数组长度都减小  
+    for($i=0;$i&lt;$count;$i++)&#123;
+        unset($rows[$i]);//删除冗余数据  
+    &#125;
+    array_push($jarr,$rows);
+&#125;
+//查看数组
+// print_r($jarr);
+echo $str=json_encode($jarr,JSON_UNESCAPED_UNICODE);//将数组进行json编码，并且解决中文乱码的问题
+mysqli_close($con);
+?&gt;</code></pre>
+<p>这个跟在本地调试的代码基本一样的，唯一不一样的地方：</p>
+<pre><code>require_once(&quot;$gen/wp-config.php&quot;);</code></pre>
+<p>因为这个在线wordpress网站不是放在服务器的子目录下，而是根目录下。</p>
+<p><strong>get_user_history_info.php代码：</strong></p>
+<pre><code>&lt;?php
+//字符编码设置，以及处理跨域的问题
+header(&quot;Content-type:text/html;charset=utf-8&quot;);
+
+//获取当前文件所在目录
+$gen=$_SERVER[&#39;DOCUMENT_ROOT&#39;];
+require_once(&quot;$gen/wp-config.php&quot;);
+
+//链接mysql服务器 开始
+$con = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD);
+mysqli_select_db($con, DB_NAME);
+
+$userID = $_GET[&#39;userID&#39;];
+// 检测连接
+
+if ($userID == 0) &#123;
+    exit();
+&#125;else&#123;
+    $sql = &quot;SELECT DISTINCT(title),url,thumbnail,email,userid FROM user_cookie WHERE userid = &#39;$userID&#39;&quot;;
+&#125;
+
+$result = mysqli_query($con,$sql);
+if (!$result) &#123;
+    printf(&quot;Error: %s\n&quot;, mysqli_error($con));
+    exit();
+&#125;
+
+$jarr = array();
+while ($rows=mysqli_fetch_array($result,MYSQL_ASSOC))&#123;
+    $count=count($rows);//不能在循环语句中，由于每次删除 row数组长度都减小  
+    for($i=0;$i&lt;$count;$i++)&#123;
+        unset($rows[$i]);//删除冗余数据  
+    &#125;
+    array_push($jarr,$rows);
+&#125;
+//查看数组
+// print_r($jarr);
+echo $str=json_encode($jarr,JSON_UNESCAPED_UNICODE);//将数组进行json编码，并且解决中文乱码的问题
+mysqli_close($con);
+?&gt;</code></pre>
+<p>这个也是一样的。</p>
+<p>本文还会持续更新，敬请期待下一次更新。</p>
+<hr>
+<p>更新：2018/11/15 14:25:59 </p>
+<p>前面都是获取文章，然后进行存储并且对浏览历史记录显示出来，但是对于历史记录研究的价值在商品浏览上会更有价值，好的现在笔者就以woocommerce商品为例进行一个演示。</p>
+<p>通过开发者工具，获取产品详情页的要获取的相关dom节点的值保存到数据库中。然后查询数据表中收集的数据，然后显示在合适的位置即可。</p>
+<p>为了管理，笔者把js的代码保存在一个文件中：history_for_product.js</p>
+<p>代码如下：</p>
+<pre><code>//引入必要依赖库文件
+&lt;script src=&quot;https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.js&quot;&gt;&lt;/script&gt;
+$(document).ready(function()&#123;
+     //文章的标题 
+    // var art_title = $(&quot;.post-template-default article .entry-content-header .post-title a&quot;).text();
+    // 获取页面的标题值,然后截取并保留 “-”前面的内容
+    var art_title = $(&quot;.product-template-default .single-product-summary .product_title&quot;).text();
+    console.log(art_title);
+    var art_url = document.URL; //页面地址
+    var art_thumbnail = $(&quot;.product-template-default .single-product-main-image figure.woocommerce-product-gallery__wrapper&gt;a&quot;).attr(&quot;href&quot;);
+    var art_sku = $(&quot;.sku&quot;).text();
+    var product_cate_categories = $(&quot;.product-template-default .single-product-summary .posted_in a&quot;).text();
+    var product_cate_link = $(&quot;.product-template-default .single-product-summary .posted_in a&quot;).attr(&quot;href&quot;);
+    console.log(art_sku);
+    var art_ip = $(&quot;.userip&quot;).text();
+
+    var canAddProduct = true; //初始可以插入cookie信息 
+    var histProduct = $.cookie(&quot;histProduct&quot;);
+    var len = 0;
+    if(histProduct)&#123;
+        histProduct = eval(&quot;(&quot;+histProduct+&quot;)&quot;);
+        len = histProduct.length;
+    &#125;
+
+    $(histProduct).each(function()&#123;
+        if(this.title == art_title)&#123;
+            canAddProduct = false; //已经存在，不能插入 
+            return false;
+        &#125;
+    &#125;);
+
+    if(canAddProduct==true)&#123;
+        var cookiejson = &quot;[&quot;;
+        var start = 0;
+        if(len&gt;10)&#123;
+            start = 1;
+        &#125;
+        for(var i=start;i&lt;len;i++)&#123;
+        cookiejson = cookiejson + &quot;&#123;\&quot;title\&quot;:\&quot;&quot;+histProduct[i].title+&quot;\&quot;,\&quot;url\&quot;:\&quot;&quot;+histProduct[i].url+&quot;\&quot;,\&quot;categories\&quot;:\&quot;&quot;+histProduct[i].categories+&quot;\&quot;,\&quot;cate_link\&quot;:\&quot;&quot;+histProduct[i].cate_link+&quot;\&quot;,\&quot;sku\&quot;:\&quot;&quot;+histProduct[i].sku+&quot;\&quot;,\&quot;thumbnail\&quot;:\&quot;&quot;+histProduct[i].thumbnail+&quot;\&quot;,\&quot;ip\&quot;:\&quot;&quot;+histProduct[i].ip+&quot;\&quot;&#125;,&quot;;
+        &#125;
+        cookiejson = cookiejson + &quot;&#123;\&quot;title\&quot;:\&quot;&quot;+art_title+&quot;\&quot;,\&quot;url\&quot;:\&quot;&quot;+art_url+&quot;\&quot;,\&quot;categories\&quot;:\&quot;&quot;+product_cate_categories+&quot;\&quot;,\&quot;cate_link\&quot;:\&quot;&quot;+product_cate_link+&quot;\&quot;,\&quot;sku\&quot;:\&quot;&quot;+art_sku+&quot;\&quot;,\&quot;thumbnail\&quot;:\&quot;&quot;+art_thumbnail+&quot;\&quot;,\&quot;ip\&quot;:\&quot;&quot;+art_ip+&quot;\&quot;&#125;]&quot;;
+        $.cookie(&quot;histProduct&quot;,cookiejson,&#123;
+            expires:1
+        &#125;);
+    &#125;
+
+    //$website_url = &quot;http://localhost:8080/wordpress/wp-content/themes/nocti/fenleisousuo/product&quot;;
+    //域名协议的获取这里不用写死的方式，而是采用获取当前协议和域名的方式，这样可以防止当http协议更换到https的时候不能访问的问题
+    var host = window.location.host;
+    var protocol = window.location.protocol;
+    var port = window.location.port;
+    $website_url = protocol+&quot;//&quot;+host+&quot;:&quot;+port+&quot;/wordpress/wp-content/themes/nocti/fenleisousuo&quot;;
+    $(function()&#123;
+        var cookiejson = eval(&quot;(&quot;+$.cookie(&quot;histProduct&quot;)+&quot;)&quot;);
+        console.log(cookiejson);
+        var list = &quot;&quot;;
+        for(var i=0; i&lt;cookiejson.length;i++)&#123;
+            list = list + &quot;&lt;li&gt;&lt;a href=&#39;&quot;+cookiejson[i].url+&quot;&#39; target=&#39;_blank&#39;&gt;&quot;+cookiejson[i].title+&quot;&lt;/a&gt;&lt;/li&gt;&quot;; 
+            var user = new Object();
+            user.name = $(&quot;#userinf .username&quot;).text();
+            user.title = cookiejson[i].title;
+            user.url = cookiejson[i].url;
+            user.img = cookiejson[i].thumbnail;
+            user.sku = cookiejson[i].sku;
+            user.categories = cookiejson[i].categories;
+            user.cate_link = cookiejson[i].cate_link;
+            user.userip = cookiejson[i].ip;
+            user.userID = $(&quot;#userinf .userID&quot;).text();
+            user.email = $(&quot;#userinf .useremail&quot;).text();
+            save_user_info = $.ajax(&#123;
+                url: $website_url+&quot;/add_info.php&quot;,
+                type: &quot;get&quot;,
+                dataType: &quot;json&quot;,
+                data: user,
+                contentType: &quot;application/json&quot;,
+                success: function (res) &#123;
+                    console.log(res);  
+                &#125;,
+                error: function (xhr, err, exception) &#123;
+                    console.log(err);
+                &#125;
+            &#125;);
+        &#125;
+        $(&quot;#list&quot;).html(list);
+
+        var porductinfo = new Object();
+        porductinfo.userID = $(&quot;#userinf .userID&quot;).text();
+        var item = &#39;&lt;div class=&quot;favorite&quot;&gt;&#39;;
+        get_user_inf = $.ajax(&#123;
+            url: $website_url+&quot;/get_user_history_info.php&quot;,
+            type: &quot;get&quot;,
+            dataType: &quot;json&quot;,
+            data: porductinfo,
+            contentType: &quot;application/json&quot;,
+            success: function (res) &#123;
+                $(&quot;.related&quot;).after(&quot;&lt;div class=&#39;history&#39;&gt;&lt;/div&gt;&quot;);
+                $(&quot;.history&quot;).before(&quot;&lt;h4 style=&#39;clear:both&#39;&gt;你已经浏览过以下内容&lt;/h4&gt;&quot;);
+                for (var i = res.length - 1; i &gt;= 0; i--) &#123;
+                    item = item + &quot;&lt;div clas=&#39;favoItem&#39; style=&#39;width:calc(100%/6);float: left;padding: 5px;&#39;&gt;&lt;img src=&quot;+res[i].thumbnail+&quot;&gt;&lt;p&gt;&lt;a href=&#39;&quot;+res[i].url+&quot;&#39; target=&#39;_blank&#39;&gt;&quot;+res[i].title+&quot;&lt;/a&gt;&lt;/p&gt;&lt;/div&gt;&quot;;
+                &#125;
+                item = item + &quot;&lt;/div&gt;&quot;;
+                $(&quot;.history&quot;).html(item);
+            &#125;,
+            error: function (xhr, err, exception) &#123;
+                console.log(err);
+            &#125;
+        &#125;);
+    &#125;);
+
+&#125;);</code></pre>
+<p>然后，把这个文件加在wordpress的公共底部或者公共头部，笔者这里添加在头部吧：</p>
+<pre><code>&lt;script src=&quot;&lt;?php bloginfo(&#39;template_url&#39;); ?&gt;/fenleisousuo/js/history_for_product.js&quot;&gt;&lt;/script&gt;</code></pre>
+<p>这个文件是笔者基于enfold主题进行的一个抓取，其他主题或者系统的dom结构可能不同，当这里完成之后，当然是js里面的两个文件了：<code>get_user_history_info.php</code>和<code>add_info.php</code></p>
+<p>其中add_info.php的代码：</p>
+<pre><code>&lt;?php
+//字符编码设置，以及处理跨域的问题
+header(&quot;Content-type:text/html;charset=utf-8;Access-Control-Allow-Origin:*;Access-Control-Allow-Methods:GET,POST&quot;);
+//获取当前文件所在目录
+$gen=$_SERVER[&#39;DOCUMENT_ROOT&#39;];
+require_once(&quot;$gen/wordpress/wp-config.php&quot;);
+
+//链接mysql服务器 开始
+$con = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD);
+mysqli_select_db($con, DB_NAME);
+
+// 检测连接
+$name = $_GET[&#39;name&#39;];
+$title = $_GET[&#39;title&#39;];
+$sku = $_GET[&#39;sku&#39;];
+$url = $_GET[&#39;url&#39;];
+$email = $_GET[&#39;email&#39;];
+$categories = $_GET[&#39;categories&#39;];
+$cate_link = $_GET[&#39;cate_link&#39;];
+$userID = $_GET[&#39;userID&#39;];
+$created_time = date(&#39;Y-m-d G:i:s&#39;, time());
+$img = $_GET[&#39;img&#39;];
+$ip = $_GET[&#39;userip&#39;];
+
+$getold = mysqli_query($con,&quot;SELECT * FROM product_history_cookie WHERE url = &#39;$url&#39; and userid = &#39;$userID&#39;&quot;);
+// 删除表中旧的数据
+// mysqli_query($con,&quot;DELETE FROM product_history_cookie WHERE url = &#39;$url&#39;&quot;);
+
+if ($userID == 0) &#123;   //如果用户没有登录那么，不记录浏览信息
+    exit();
+&#125;else if ($title == &#39;&#39;)&#123;
+    exit();   //如果没有标题，不记录浏览信息
+&#125;else if (mysqli_num_rows($getold) &lt; 1) &#123;
+$sql = &quot;INSERT INTO product_history_cookie (user,title,sku,url,categories,cate_link,email,userid,create_time,thumbnail,ip) VALUES (&#39;$name&#39;,&#39;$title&#39;,&#39;$sku&#39;,&#39;$url&#39;,&#39;$categories&#39;,&#39;$cate_link&#39;,&#39;$email&#39;,&#39;$userID&#39;,&#39;$created_time&#39;,&#39;$img&#39;,&#39;$ip&#39;)&quot;;
+&#125;else&#123;
+    $sql = &quot;UPDATE product_history_cookie SET create_time = &#39;$created_time&#39;&quot;;
+&#125;
+$result = mysqli_query($con,$sql);
+if (!$result) &#123;
+    printf(&quot;Error: %s\n&quot;, mysqli_error($con));
+    exit();
+&#125;
+
+$jarr = array();
+while ($rows=mysqli_fetch_array($result,MYSQL_ASSOC))&#123;
+    $count=count($rows);//不能在循环语句中，由于每次删除 row数组长度都减小  
+    for($i=0;$i&lt;$count;$i++)&#123;
+        unset($rows[$i]);//删除冗余数据  
+    &#125;
+    array_push($jarr,$rows);
+&#125;
+//查看数组
+// print_r($jarr);
+echo $str=json_encode($jarr,JSON_UNESCAPED_UNICODE);//将数组进行json编码，并且解决中文乱码的问题
+mysqli_close($con);
+?&gt;</code></pre>
+<p>大家可以仔细阅读一下这个代码，这里笔者新添加了一些字段的收集，以及如果收集的信息有缺陷就不存入数据库中。接着就是get_user_history_info.php的代码：</p>
+<pre><code>&lt;?php
+//字符编码设置，以及处理跨域的问题
+header(&quot;Content-type:text/html;charset=utf-8;Access-Control-Allow-Origin:*;Access-Control-Allow-Methods:GET,POST&quot;);
+
+//获取当前文件所在目录
+$gen=$_SERVER[&#39;DOCUMENT_ROOT&#39;];
+require_once(&quot;$gen/wordpress/wp-config.php&quot;);
+
+//链接mysql服务器 开始
+$con = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD);
+mysqli_select_db($con, DB_NAME);
+
+$userID = $_GET[&#39;userID&#39;];
+// 检测连接
+
+if ($userID == 0) &#123;
+    exit();
+&#125;else&#123;
+    $sql = &quot;SELECT DISTINCT(title),url,thumbnail,email,userid FROM product_history_cookie WHERE userid = &#39;$userID&#39; and title != &#39;&#39;&quot;;
+&#125;
+
+$result = mysqli_query($con,$sql);
+if (!$result) &#123;
+    printf(&quot;Error: %s\n&quot;, mysqli_error($con));
+    exit();
+&#125;
+
+$jarr = array();
+while ($rows=mysqli_fetch_array($result,MYSQL_ASSOC))&#123;
+    $count=count($rows);//不能在循环语句中，由于每次删除 row数组长度都减小  
+    for($i=0;$i&lt;$count;$i++)&#123;
+        unset($rows[$i]);//删除冗余数据  
+    &#125;
+    array_push($jarr,$rows);
+&#125;
+//查看数组
+// print_r($jarr);
+echo $str=json_encode($jarr,JSON_UNESCAPED_UNICODE);//将数组进行json编码，并且解决中文乱码的问题
+mysqli_close($con);
+?&gt;</code></pre>
+<p>这个是查询保存在数据库中的用户浏览信息。为了显示的信息更加完整好看，笔者这里添加一个过滤，就是如果数据记录收集不完整的，这里是指如果标题内容没有的，就不查询出来。</p>
+<pre><code>title != &#39;&#39;</code></pre>
+<p>其他的没啥变化。</p>
+<p>最后，数据库表（product_history_cookie）的字段：</p>
+<pre><code>DROP TABLE IF EXISTS `product_history_cookie`;
+CREATE TABLE `product_history_cookie` (
+  `user` varchar(64) DEFAULT NULL,
+  `title` varchar(255) DEFAULT NULL,
+  `sku` varchar(255) DEFAULT NULL,
+  `url` varchar(255) DEFAULT NULL,
+  `categories` varchar(64) DEFAULT NULL,
+  `cate_link` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
+  `userid` int(11) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `thumbnail` varchar(255) DEFAULT NULL,
+  `ip` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;</code></pre>
+<p>大家可以自行拿一个wordpress网站进行测试了。最后的效果：</p>
+<p><img src="https://i.imgur.com/WJ9hT5G.png"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/javascript-wordpress-%E7%94%A8%E6%88%B7%E6%B5%8F%E8%A7%88%E4%BF%A1%E6%81%AF-%E7%94%A8%E6%88%B7%E5%8E%86%E5%8F%B2%E8%AE%B0%E5%BD%95-cookie-%E5%AD%98%E5%85%A5%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag"># javascript,wordpress,用户浏览信息,用户历史记录,cookie,存入数据库</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/11/02/%E5%A4%84%E7%90%86wordpress%E6%96%87%E7%AB%A0%E5%88%97%E8%A1%A8%E6%88%96%E8%80%85%E9%A1%B5%E9%9D%A2%E5%88%97%E8%A1%A8%E6%88%96%E8%80%85portfolio%E5%88%97%E8%A1%A8%E5%88%86%E9%A1%B5%E6%98%BE%E7%A4%BA%E7%9A%84%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" rel="prev" title="处理wordpress文章分页或者页面列表分页或者portfolio列表分页显示的问题解决方案">
+      <i class="fa fa-chevron-left"></i> 处理wordpress文章分页或者页面列表分页或者portfolio列表分页显示的问题解决方案
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/11/06/magento%E5%8E%BB%E6%8E%89%E7%BD%91%E5%9D%80url%E4%B8%AD%E7%9A%84index-php/" rel="next" title="magento去掉网址url中的index.php">
+      magento去掉网址url中的index.php <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

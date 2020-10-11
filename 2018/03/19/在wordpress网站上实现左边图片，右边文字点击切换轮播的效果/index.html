@@ -1,37 +1,416 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="实现的效果类似  根据图片可以看出，在网站中全屏显示，左边是图片右边是文字区域和按钮的切换区域，这个通过js是可以实现的，笔者这里实现了一个html版本，下载地址：https:&#x2F;&#x2F;pan.baidu.com&#x2F;s&#x2F;1jYLSQwvVC0JTkOXeZlAkVg  密码：m53a 但是，当我们运用到wordpress主题中去的时候，类似enfold主题的时候，那么会产生一些样式问题，看起来特别乱，怎么">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在wordpress网站上实现左边图片，右边文字点击切换轮播的效果">
+<meta property="og:url" content="http://example.com/2018/03/19/%E5%9C%A8wordpress%E7%BD%91%E7%AB%99%E4%B8%8A%E5%AE%9E%E7%8E%B0%E5%B7%A6%E8%BE%B9%E5%9B%BE%E7%89%87%EF%BC%8C%E5%8F%B3%E8%BE%B9%E6%96%87%E5%AD%97%E7%82%B9%E5%87%BB%E5%88%87%E6%8D%A2%E8%BD%AE%E6%92%AD%E7%9A%84%E6%95%88%E6%9E%9C/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="实现的效果类似  根据图片可以看出，在网站中全屏显示，左边是图片右边是文字区域和按钮的切换区域，这个通过js是可以实现的，笔者这里实现了一个html版本，下载地址：https:&#x2F;&#x2F;pan.baidu.com&#x2F;s&#x2F;1jYLSQwvVC0JTkOXeZlAkVg  密码：m53a 但是，当我们运用到wordpress主题中去的时候，类似enfold主题的时候，那么会产生一些样式问题，看起来特别乱，怎么">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/wbcxobN.png">
+<meta property="og:image" content="https://i.imgur.com/17lTjv3.png">
+<meta property="og:image" content="https://i.imgur.com/5Cik9Rc.png">
+<meta property="og:image" content="https://i.imgur.com/DHl2Hfk.png">
+<meta property="og:image" content="https://i.imgur.com/A7L9WZH.png">
+<meta property="article:published_time" content="2018-03-19T09:10:33.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:52:49.174Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="wordpress,轮播,切换,图文切换">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/wbcxobN.png">
+
+<link rel="canonical" href="http://example.com/2018/03/19/%E5%9C%A8wordpress%E7%BD%91%E7%AB%99%E4%B8%8A%E5%AE%9E%E7%8E%B0%E5%B7%A6%E8%BE%B9%E5%9B%BE%E7%89%87%EF%BC%8C%E5%8F%B3%E8%BE%B9%E6%96%87%E5%AD%97%E7%82%B9%E5%87%BB%E5%88%87%E6%8D%A2%E8%BD%AE%E6%92%AD%E7%9A%84%E6%95%88%E6%9E%9C/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>在wordpress网站上实现左边图片，右边文字点击切换轮播的效果 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/03/19/%E5%9C%A8wordpress%E7%BD%91%E7%AB%99%E4%B8%8A%E5%AE%9E%E7%8E%B0%E5%B7%A6%E8%BE%B9%E5%9B%BE%E7%89%87%EF%BC%8C%E5%8F%B3%E8%BE%B9%E6%96%87%E5%AD%97%E7%82%B9%E5%87%BB%E5%88%87%E6%8D%A2%E8%BD%AE%E6%92%AD%E7%9A%84%E6%95%88%E6%9E%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          在wordpress网站上实现左边图片，右边文字点击切换轮播的效果
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-03-19 17:10:33" itemprop="dateCreated datePublished" datetime="2018-03-19T17:10:33+08:00">2018-03-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:52:49" itemprop="dateModified" datetime="2020-10-11T11:52:49+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>实现的效果类似</p>
+<p><img src="https://i.imgur.com/wbcxobN.png"></p>
+<p>根据图片可以看出，在网站中全屏显示，左边是图片右边是文字区域和按钮的切换区域，这个通过js是可以实现的，笔者这里实现了一个html版本，下载地址：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1jYLSQwvVC0JTkOXeZlAkVg">https://pan.baidu.com/s/1jYLSQwvVC0JTkOXeZlAkVg</a>  密码：m53a</p>
+<p>但是，当我们运用到wordpress主题中去的时候，类似enfold主题的时候，那么会产生一些样式问题，看起来特别乱，怎么办呢？</p>
+<p>这里为了不影响其他的样式问题，这里我们再页面中添加一个ID，只针对这个区块进行处理。</p>
+<p>好的，我们新建一个colorsection,或者是别的，只要能够让container变成全宽即可。</p>
+<p>我为这个区块设置一个ID命名为：specialet，</p>
+<p>那么我把对这个特效的控制的js代码和css代码放在wordpress主题的对应的css和js文件中，目的是为了方便调用，不会因为网站的搬迁而引用失效。</p>
+<p>下载地址：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1EGfRNH6poVI5RbnMR5VuJw">https://pan.baidu.com/s/1EGfRNH6poVI5RbnMR5VuJw</a>   密码：ylqs</p>
+<blockquote>
+<p>温馨提示：先查看必读部分</p>
+</blockquote>
+<p>这个是处理后，能够兼容多终端的效果，PC版效果：</p>
+<p><img src="https://i.imgur.com/17lTjv3.png"></p>
+<p><img src="https://i.imgur.com/5Cik9Rc.png"></p>
+<p><img src="https://i.imgur.com/DHl2Hfk.png"></p>
+<p>手机版：</p>
+<p><img src="https://i.imgur.com/A7L9WZH.png"></p>
+<p>好的，本案例到此结束，如果还有更多疑问和需要探讨的，可以与笔者取得联系，QQ:791447771</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/wordpress-%E8%BD%AE%E6%92%AD-%E5%88%87%E6%8D%A2-%E5%9B%BE%E6%96%87%E5%88%87%E6%8D%A2/" rel="tag"># wordpress,轮播,切换,图文切换</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/03/15/%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%B9%B3%E5%8F%B0%E5%BC%80%E5%8F%91%E7%9A%84%E7%AC%94%E8%AE%B0/" rel="prev" title="微信公众平台开发的笔记">
+      <i class="fa fa-chevron-left"></i> 微信公众平台开发的笔记
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/03/19/javascript%E8%84%9A%E6%9C%AC%E5%9C%A8%E5%A4%84%E7%90%86%E6%89%93%E5%8D%B0%E9%A1%B5%E9%9D%A2%E7%9A%84%E6%97%B6%E5%80%99%E9%BB%98%E8%AE%A4%E6%A8%AA%E5%90%91%E6%89%93%E5%8D%B0/" rel="next" title="javascript脚本在处理打印页面的时候默认横向打印">
+      javascript脚本在处理打印页面的时候默认横向打印 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

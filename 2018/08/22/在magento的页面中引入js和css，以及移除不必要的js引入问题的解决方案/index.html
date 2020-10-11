@@ -1,37 +1,516 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="曾几何时，笔者在折腾magento1.x的时候，想要引入外部的一些js库，比如bootstrap，layerui等等这些框架，我们该怎么做呢？忘记在wordpress中采用的方法。我们开始吧 引入js和css比如笔者在magento后台新建了一个页面：test page one 然后，来到design这里。  在后面添加代码（笔者这里以layui这个框架为例）： &lt;reference nam">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在magento的页面中引入js和css，以及移除不必要的js引入问题的解决方案">
+<meta property="og:url" content="http://example.com/2018/08/22/%E5%9C%A8magento%E7%9A%84%E9%A1%B5%E9%9D%A2%E4%B8%AD%E5%BC%95%E5%85%A5js%E5%92%8Ccss%EF%BC%8C%E4%BB%A5%E5%8F%8A%E7%A7%BB%E9%99%A4%E4%B8%8D%E5%BF%85%E8%A6%81%E7%9A%84js%E5%BC%95%E5%85%A5%E9%97%AE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="曾几何时，笔者在折腾magento1.x的时候，想要引入外部的一些js库，比如bootstrap，layerui等等这些框架，我们该怎么做呢？忘记在wordpress中采用的方法。我们开始吧 引入js和css比如笔者在magento后台新建了一个页面：test page one 然后，来到design这里。  在后面添加代码（笔者这里以layui这个框架为例）： &lt;reference nam">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/znXcsU2.png">
+<meta property="og:image" content="https://i.imgur.com/C7Uldh5.png">
+<meta property="og:image" content="https://i.imgur.com/9fAnYpr.png">
+<meta property="og:image" content="https://i.imgur.com/e9UqGzQ.png">
+<meta property="og:image" content="https://i.imgur.com/uspyztc.png">
+<meta property="article:published_time" content="2018-08-22T06:50:06.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:04.702Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="magento,js,css,引入,移除">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/znXcsU2.png">
+
+<link rel="canonical" href="http://example.com/2018/08/22/%E5%9C%A8magento%E7%9A%84%E9%A1%B5%E9%9D%A2%E4%B8%AD%E5%BC%95%E5%85%A5js%E5%92%8Ccss%EF%BC%8C%E4%BB%A5%E5%8F%8A%E7%A7%BB%E9%99%A4%E4%B8%8D%E5%BF%85%E8%A6%81%E7%9A%84js%E5%BC%95%E5%85%A5%E9%97%AE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>在magento的页面中引入js和css，以及移除不必要的js引入问题的解决方案 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/08/22/%E5%9C%A8magento%E7%9A%84%E9%A1%B5%E9%9D%A2%E4%B8%AD%E5%BC%95%E5%85%A5js%E5%92%8Ccss%EF%BC%8C%E4%BB%A5%E5%8F%8A%E7%A7%BB%E9%99%A4%E4%B8%8D%E5%BF%85%E8%A6%81%E7%9A%84js%E5%BC%95%E5%85%A5%E9%97%AE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          在magento的页面中引入js和css，以及移除不必要的js引入问题的解决方案
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-08-22 14:50:06" itemprop="dateCreated datePublished" datetime="2018-08-22T14:50:06+08:00">2018-08-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:04" itemprop="dateModified" datetime="2020-10-11T11:58:04+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/magento1/" itemprop="url" rel="index"><span itemprop="name">magento1</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>曾几何时，笔者在折腾magento1.x的时候，想要引入外部的一些js库，比如bootstrap，layerui等等这些框架，我们该怎么做呢？忘记在wordpress中采用的方法。我们开始吧</p>
+<h2 id="引入js和css"><a href="#引入js和css" class="headerlink" title="引入js和css"></a>引入js和css</h2><p>比如笔者在magento后台新建了一个页面：test page one</p>
+<p>然后，来到design这里。</p>
+<p><img src="https://i.imgur.com/znXcsU2.png"></p>
+<p>在后面添加代码（笔者这里以layui这个框架为例）：</p>
+<pre><code>&lt;reference name=&quot;head&quot;&gt;
+    &lt;!-- 添加css layui.css 文件在 /skin/frontend/主题包文件夹/主题文件夹/css --&gt;
+    &lt;action method=&quot;addCss&quot;&gt;&lt;stylesheet&gt;css/layui/css/layui.css&lt;/stylesheet&gt;&lt;/action&gt;
+    &lt;!-- 添加layui.js 文件在 /skin/frontend/主题包文件夹/主题文件夹/js --&gt;
+    &lt;action method=&quot;addItem&quot;&gt;&lt;type&gt;skin_js&lt;/type&gt;&lt;name&gt;js/layui/layui.js&lt;/name&gt;&lt;/action&gt;
+&lt;/reference&gt;</code></pre>
+<p>好的，这里添加完成后我们来到源码位置：</p>
+<pre><code>magento_root/skin/frontend/yourtheme/default/js/        //这个是js目录
+magento_root/skin/frontend/yourtheme/default/css/     //这个是css目录</code></pre>
+<p>我们顺腾摸瓜，找到这个目录把下载好的layui文件夹放入这两个目录，这里需要说明下，因为layui这个东西css的目录和js目录的相对位置需要一致，所以笔者不得不这样重复放置在两个目录下。</p>
+<p>好的，我们添加完毕后，我们打开这个页面的前台。查看源码：</p>
+<p><img src="https://i.imgur.com/C7Uldh5.png"></p>
+<p>我们搜索layui.js</p>
+<p><img src="https://i.imgur.com/9fAnYpr.png"></p>
+<p>这样，我们就做的了在这个页面中引入了css和js了。为了验证这个是否生效，我们去layui的官网找一个示例代码放入这个页面的content区：</p>
+<pre><code>&lt;button class=&quot;layui-btn layui-btn-fluid&quot;&gt;流体按钮（最大化适应）&lt;/button&gt;
+&lt;hr&gt;
+&lt;div class=&quot;layui-collapse&quot;&gt;
+  &lt;div class=&quot;layui-colla-item&quot;&gt;
+    &lt;h2 class=&quot;layui-colla-title&quot;&gt;杜甫&lt;/h2&gt;
+    &lt;div class=&quot;layui-colla-content layui-show&quot;&gt;内容区域&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;layui-colla-item&quot;&gt;
+    &lt;h2 class=&quot;layui-colla-title&quot;&gt;李清照&lt;/h2&gt;
+    &lt;div class=&quot;layui-colla-content layui-show&quot;&gt;内容区域&lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;layui-colla-item&quot;&gt;
+    &lt;h2 class=&quot;layui-colla-title&quot;&gt;鲁迅&lt;/h2&gt;
+    &lt;div class=&quot;layui-colla-content layui-show&quot;&gt;内容区域&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+//注意：折叠面板 依赖 element 模块，否则无法进行功能性操作
+layui.use(&#39;element&#39;, function()&#123;
+  var element = layui.element;
+
+  //…
+&#125;);
+&lt;/script&gt;</code></pre>
+<p>我们在前台看到的效果：</p>
+<p><img src="https://i.imgur.com/e9UqGzQ.png"></p>
+<p>为了有更大的对比，我们来到首页，然后查看首页的源代码，然后Ctrl+F，是没法搜索到layui.js和layui.css的，因为我们仅仅是在test page one这个页面中引入了而已。</p>
+<h2 id="移除js"><a href="#移除js" class="headerlink" title="移除js"></a>移除js</h2><p>好的，我们进一步来操作一下，test page one这个页面内容本身不多，其实没有要引入太多的不必要的js，以免影响页面的加载速度,那么这个时候我们怎么处理呢？</p>
+<p>其实也很简单，我们在test page one这个页面的design那里，加入代码（笔者这里以移除prototype.js为例）：</p>
+<pre><code>&lt;reference name=&quot;head&quot;&gt;
+    &lt;!-- 删除js 此prototype.js文件在magento根目录的 js文件夹 --&gt;
+    &lt;action method=&quot;removeItem&quot;&gt;&lt;type&gt;js&lt;/type&gt;&lt;name&gt;prototype/prototype.js&lt;/name&gt;&lt;/action&gt;
+&lt;/reference&gt;</code></pre>
+<p>当然这个可以跟前面的引入js和css那里写在一起的，像这样，</p>
+<pre><code>&lt;reference name=&quot;head&quot;&gt;
+    &lt;!-- 添加css layui.css 文件在 /skin/frontend/主题包文件夹/主题文件夹/css --&gt;
+    &lt;action method=&quot;addCss&quot;&gt;&lt;stylesheet&gt;css/layui/css/layui.css&lt;/stylesheet&gt;&lt;/action&gt;
+    &lt;!-- 添加layui.js 文件在 /skin/frontend/主题包文件夹/主题文件夹/js --&gt;
+    &lt;action method=&quot;addItem&quot;&gt;&lt;type&gt;skin_js&lt;/type&gt;&lt;name&gt;js/layui/layui.js&lt;/name&gt;&lt;/action&gt;
+    &lt;!-- 删除js 此prototype.js文件在magento根目录的 js文件夹 --&gt;
+    &lt;action method=&quot;removeItem&quot;&gt;&lt;type&gt;js&lt;/type&gt;&lt;name&gt;prototype/prototype.js&lt;/name&gt;&lt;/action&gt;
+&lt;/reference&gt;</code></pre>
+<p>大家注意移除和引入的写法是有点不一样的，目录也不一样。</p>
+<p>好的，添加完毕后，我们再次查看test page one这个页面的源代码，搜索prototype.js，我们将找不到这个js文件的引用了，因为被我们移除了，这个时候，我们再来到首页，然后查看首页的源代码，这个搜索prototype.js，这个时候我们是可以找到的。</p>
+<hr>
+<h2 id="引入静态模块然后在页面这边引入针对静态模块的样式表"><a href="#引入静态模块然后在页面这边引入针对静态模块的样式表" class="headerlink" title="引入静态模块然后在页面这边引入针对静态模块的样式表"></a>引入静态模块然后在页面这边引入针对静态模块的样式表</h2><p>这里，我们继续前面的来，比如笔者想在test page one这个页面引入一个叫做static block 1的静态模块。</p>
+<pre><code>Block Title *    static block 1
+Identifier *     static-block-1</code></pre>
+<p>操作方法，在test page one这个页面的design那里添加如下代码：</p>
+<pre><code>&lt;reference name=&quot;root&quot;&gt;
+      &lt;block type=&quot;cms/block&quot; name=&quot;myelement&quot;&gt;
+          &lt;action method=&quot;setBlockId&quot;&gt;&lt;block_id&gt;static-block-1&lt;/block_id&gt;&lt;/action&gt;
+      &lt;/block&gt;
+&lt;/reference&gt;</code></pre>
+<p>然后，我们看下这个test page one页面是用的什么布局结构：比如这里笔者选择的是<code>2 columns with left bar</code>，好的，我们就找到这个模板文件：magento_root/app/design/frontend/yourtheme/default/template/page/2columns-left.phtml</p>
+<p>然后，通过开发者工具，找到显示内容区的位置，然后大致确定添加代码的位置，添加如下代码：</p>
+<pre><code>&lt;!-- add new custom block start--&gt;
+&lt;?php if( $this-&gt;getChildHtml(&#39;myelement&#39;) )&#123;?&gt;
+  &lt;div&gt;
+      &lt;?php
+       echo $this-&gt;getChildHtml(&#39;myelement&#39;)
+       ?&gt;
+  &lt;/div&gt;
+&lt;?php &#125;?&gt;
+&lt;!-- add new custom block end--&gt;</code></pre>
+<p>好的，这样就完成了一个引入静态模块到一个页面，然后，通过一个判断函数来判断，如果有这个静态模块的引入，那么就加载这个静态模块。</p>
+<p>好的，我们再来对这个静态模块添加一些内容：</p>
+<pre><code>&lt;div class=&quot;element-blue&quot;&gt;
+      &lt;h3&gt;Static Block 1&lt;/h3&gt;
+      &lt;p&gt;This is blue static element 1 &lt;/p&gt;
+&lt;/div&gt;</code></pre>
+<p>这个时候，在前台显示的内容是没有样式的。我们需要把样式放在一个叫做custom.css的样式表中。</p>
+<pre><code>file:magento_root/skin/frontend/yourtheme/default/css/custom.css</code></pre>
+<p>在这个目录下新建这个文件，然后加上代码：</p>
+<pre><code>.element-blue&#123;
+    background:#8BC34A;
+    padding:15px;
+    color:#fff;
+&#125;</code></pre>
+<p>浅绿色背景，白色字体，有15像素的内边距。</p>
+<p>好的，接下来我们就要在test page one页面引入这个自定义的样式表了，还记得前面说的引入样式表的方法吧，我们在test page one页面的design那里加入代码：</p>
+<pre><code>&lt;reference name=&quot;head&quot;&gt;
+    &lt;!-- 添加css custom.css 文件在 /skin/frontend/主题包文件夹/主题文件夹/css --&gt;
+    &lt;action method=&quot;addCss&quot;&gt;&lt;stylesheet&gt;css/custom.css&lt;/stylesheet&gt;&lt;/action&gt;
+&lt;/reference&gt;</code></pre>
+<p>然后保存，刷新这个页面的前台，</p>
+<p><img src="https://i.imgur.com/uspyztc.png"></p>
+<p>果然达到了预期。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/magento-js-css-%E5%BC%95%E5%85%A5-%E7%A7%BB%E9%99%A4/" rel="tag"># magento,js,css,引入,移除</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/08/20/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Magento-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E8%87%AA%E5%AE%9A%E4%B9%89Magento%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AE/" rel="prev" title="深入理解Magento(第七章)自定义magento后台定制以及自定义系统后台配置">
+      <i class="fa fa-chevron-left"></i> 深入理解Magento(第七章)自定义magento后台定制以及自定义系统后台配置
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/08/31/javascript%E5%AE%9E%E7%8E%B0%E4%B8%8D%E5%90%8Cip%E8%AE%BF%E9%97%AE%E4%B8%8D%E5%90%8C%E7%9A%84%E7%BD%91%E5%9D%80%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" rel="next" title="javascript实现不同ip访问不同的网址的解决方案">
+      javascript实现不同ip访问不同的网址的解决方案 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E5%85%A5js%E5%92%8Ccss"><span class="nav-number">1.</span> <span class="nav-text">引入js和css</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%A7%BB%E9%99%A4js"><span class="nav-number">2.</span> <span class="nav-text">移除js</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E5%85%A5%E9%9D%99%E6%80%81%E6%A8%A1%E5%9D%97%E7%84%B6%E5%90%8E%E5%9C%A8%E9%A1%B5%E9%9D%A2%E8%BF%99%E8%BE%B9%E5%BC%95%E5%85%A5%E9%92%88%E5%AF%B9%E9%9D%99%E6%80%81%E6%A8%A1%E5%9D%97%E7%9A%84%E6%A0%B7%E5%BC%8F%E8%A1%A8"><span class="nav-number">3.</span> <span class="nav-text">引入静态模块然后在页面这边引入针对静态模块的样式表</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

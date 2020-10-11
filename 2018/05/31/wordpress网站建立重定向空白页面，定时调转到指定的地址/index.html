@@ -1,37 +1,472 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="笔者有的时候很懒，对于这种常用又没有多大深入研究的东西喜欢写成成品，以后直接复制粘贴，快速解决问题。 HTML代码： &lt;h3 style&#x3D;&quot;text-align: center;&quot;&gt;Thank you for your massage. Leader Display will be in contact with you as soon as possible&amp;lt">
+<meta property="og:type" content="article">
+<meta property="og:title" content="wordpress网站建立重定向空白页面，定时调转到指定的地址">
+<meta property="og:url" content="http://example.com/2018/05/31/wordpress%E7%BD%91%E7%AB%99%E5%BB%BA%E7%AB%8B%E9%87%8D%E5%AE%9A%E5%90%91%E7%A9%BA%E7%99%BD%E9%A1%B5%E9%9D%A2%EF%BC%8C%E5%AE%9A%E6%97%B6%E8%B0%83%E8%BD%AC%E5%88%B0%E6%8C%87%E5%AE%9A%E7%9A%84%E5%9C%B0%E5%9D%80/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="笔者有的时候很懒，对于这种常用又没有多大深入研究的东西喜欢写成成品，以后直接复制粘贴，快速解决问题。 HTML代码： &lt;h3 style&#x3D;&quot;text-align: center;&quot;&gt;Thank you for your massage. Leader Display will be in contact with you as soon as possible&amp;lt">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/bKUi1fQ.jpg">
+<meta property="article:published_time" content="2018-05-31T06:15:27.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:03.400Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="wordpress,重定向,url,跳转,定时跳转">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/bKUi1fQ.jpg">
+
+<link rel="canonical" href="http://example.com/2018/05/31/wordpress%E7%BD%91%E7%AB%99%E5%BB%BA%E7%AB%8B%E9%87%8D%E5%AE%9A%E5%90%91%E7%A9%BA%E7%99%BD%E9%A1%B5%E9%9D%A2%EF%BC%8C%E5%AE%9A%E6%97%B6%E8%B0%83%E8%BD%AC%E5%88%B0%E6%8C%87%E5%AE%9A%E7%9A%84%E5%9C%B0%E5%9D%80/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>wordpress网站建立重定向空白页面，定时调转到指定的地址 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/05/31/wordpress%E7%BD%91%E7%AB%99%E5%BB%BA%E7%AB%8B%E9%87%8D%E5%AE%9A%E5%90%91%E7%A9%BA%E7%99%BD%E9%A1%B5%E9%9D%A2%EF%BC%8C%E5%AE%9A%E6%97%B6%E8%B0%83%E8%BD%AC%E5%88%B0%E6%8C%87%E5%AE%9A%E7%9A%84%E5%9C%B0%E5%9D%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          wordpress网站建立重定向空白页面，定时调转到指定的地址
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-05-31 14:15:27" itemprop="dateCreated datePublished" datetime="2018-05-31T14:15:27+08:00">2018-05-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:03" itemprop="dateModified" datetime="2020-10-11T11:58:03+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>笔者有的时候很懒，对于这种常用又没有多大深入研究的东西喜欢写成成品，以后直接复制粘贴，快速解决问题。</p>
+<p><strong>HTML代码：</strong></p>
+<pre><code>&lt;h3 style=&quot;text-align: center;&quot;&gt;Thank you for your massage. Leader Display will be in contact with you as soon as possible&lt;/h3&gt;
+&lt;div style=&quot;text-align: center;&quot;&gt;
+&lt;a href=&quot;http://lddisplay.com&quot;&gt;Back to Home&lt;/a&gt;
+&lt;/div&gt;
+&lt;p style=&quot;text-align: center;&quot;&gt;After &lt;span id=&quot;totalSecond&quot;&gt;3&lt;/span&gt; seconds will redirect to home page.&lt;/p&gt;</code></pre>
+<p><strong>样式代码：</strong></p>
+<pre><code>&lt;style&gt;
+.container_wrap&#123;
+   border:0px solid !important;
+&#125;
+.a2a_kit&#123;
+   display:none !important;
+&#125;
+h3&#123;
+   text-align: center;
+    display: block;
+    margin-bottom: 50px;
+    font-weight: 100;
+    line-height: 1.5em;
+&#125;
+a&#123;
+   background: #eee; color: #333; padding: 10px 30px;margin:20px auto;display: inline-block; text-decoration: none;
+&#125;
+#totalSecond&#123;
+   display:inline-block;
+   text-align:center;
+   color:red;
+&#125;
+&lt;/style&gt;</code></pre>
+<p><strong>控制定时跳转的javascript代码：</strong></p>
+<pre><code>&lt;script language=&quot;javascript&quot; type=&quot;text/javascript&quot;&gt; 
+var second = document.getElementById(&#39;totalSecond&#39;).textContent; 
+if (navigator.appName.indexOf(&quot;Explorer&quot;) &gt; -1)  &#123; 
+    second = document.getElementById(&#39;totalSecond&#39;).innerText; 
+&#125; else &#123; 
+    second = document.getElementById(&#39;totalSecond&#39;).textContent; 
+&#125;
+setInterval(&quot;redirect()&quot;, 3000); 
+function redirect() &#123; 
+if (second &lt; 0) &#123; 
+    location.href = &#39;这里填写要跳转的目标地址（url）&#39;; 
+&#125; else &#123;
+    if (navigator.appName.indexOf(&quot;Explorer&quot;) &gt; -1) &#123; 
+        document.getElementById(&#39;totalSecond&#39;).innerText = second--; 
+    &#125; else &#123; 
+        document.getElementById(&#39;totalSecond&#39;).textContent = second--; 
+    &#125;
+&#125;
+&#125;
+&lt;/script&gt;</code></pre>
+<p>把以上所有的代码都放在一起，然后在worpress的后台新建一个空白页面，进入code模式，或者在可视化编辑器里面添加一个code区块，在模板那里选择：blank-no header no footer.</p>
+<p>这样的话就可以直接显示一个空白的页面，建立好了以后就把代码丢进去。最后的效果：</p>
+<p><img src="https://i.imgur.com/bKUi1fQ.jpg"></p>
+<p>通过排版，就好看了很多了，3秒钟后跳转。</p>
+<p><span style="color:red">PS:</span>这里的核心代码是javascript，原本是这样的：</p>
+<pre><code>&lt;span id=&quot;totalSecond&quot;&gt;3&lt;/span&gt;
+&lt;script language=&quot;javascript&quot; type=&quot;text/javascript&quot;&gt; 
+var second = document.getElementById(&#39;totalSecond&#39;).textContent; 
+if (navigator.appName.indexOf(&quot;Explorer&quot;) &gt; -1)  &#123; 
+    second = document.getElementById(&#39;totalSecond&#39;).innerText; 
+&#125; else &#123; 
+    second = document.getElementById(&#39;totalSecond&#39;).textContent; 
+&#125;
+setInterval(&quot;redirect()&quot;, 3000); 
+function redirect() &#123; 
+if (second &lt; 0) &#123; 
+    location.href = &#39;这里填写要跳转的目标地址（url）&#39;; 
+&#125; else &#123;
+    if (navigator.appName.indexOf(&quot;Explorer&quot;) &gt; -1) &#123; 
+        document.getElementById(&#39;totalSecond&#39;).innerText = second--; 
+    &#125; else &#123; 
+        document.getElementById(&#39;totalSecond&#39;).textContent = second--; 
+    &#125;
+&#125;
+&#125;
+&lt;/script&gt;</code></pre>
+<p>里面的<code>totalSecond</code>是用来计数的。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/wordpress-%E9%87%8D%E5%AE%9A%E5%90%91-url-%E8%B7%B3%E8%BD%AC-%E5%AE%9A%E6%97%B6%E8%B7%B3%E8%BD%AC/" rel="tag"># wordpress,重定向,url,跳转,定时跳转</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/05/31/%E5%8E%9F%E7%94%9Fjavascript%E5%AE%9E%E7%8E%B0%E4%BD%BF%E6%BB%9A%E5%8A%A8%E6%9D%A1%E7%BC%93%E6%85%A2%E5%9B%9E%E5%88%B0%E9%A1%B6%E9%83%A8%E7%9A%84%E6%95%88%E6%9E%9C/" rel="prev" title="原生javascript和jquery实现使滚动条缓慢回到顶部的效果">
+      <i class="fa fa-chevron-left"></i> 原生javascript和jquery实现使滚动条缓慢回到顶部的效果
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/06/06/jquery%E6%88%96%E8%80%85javascript%E5%AE%9E%E7%8E%B0div%E6%BB%9A%E5%8A%A8%E8%87%B3%E6%B5%8F%E8%A7%88%E5%99%A8%E9%A1%B6%E9%83%A8%E4%BD%8D%E7%BD%AE%E5%9B%BA%E5%AE%9A%EF%BC%8C%E5%BD%93div%E6%BB%9A%E5%8A%A8%E4%B8%8B%E6%9D%A5%E5%90%8E%E5%8F%88%E5%9B%9E%E5%88%B0%E5%8E%9F%E5%A7%8B%E7%8A%B6%E6%80%81/" rel="next" title="jquery或者javascript实现div滚动至浏览器顶部位置固定，以及横向滚动条和表格手机版美化的问题">
+      jquery或者javascript实现div滚动至浏览器顶部位置固定，以及横向滚动条和表格手机版美化的问题 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

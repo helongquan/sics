@@ -1,37 +1,601 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="先确保启用了newsletter这个模块： system -&gt; configuration -&gt; advanced from there enable newsletter module . and then you can use the above code to call it anywhere. 然后把如下代码粘贴到模板文件自己想要放置的位置即可： &lt;?php echo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="magento1.x调用newsletter显示到页面的任何地方，然后通过设置服务器的cron向订阅用户定时提供订阅服务">
+<meta property="og:url" content="http://example.com/2018/11/06/magento1.x%E8%B0%83%E7%94%A8newsletter%E6%98%BE%E7%A4%BA%E5%88%B0%E9%A1%B5%E9%9D%A2%E7%9A%84%E4%BB%BB%E4%BD%95%E5%9C%B0%E6%96%B9%EF%BC%8C%E7%84%B6%E5%90%8E%E9%80%9A%E8%BF%87%E8%AE%BE%E7%BD%AE%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84cron%E5%90%91%E8%AE%A2%E9%98%85%E7%94%A8%E6%88%B7%E5%AE%9A%E6%97%B6%E6%8F%90%E4%BE%9B%E8%AE%A2%E9%98%85%E6%9C%8D%E5%8A%A1/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="先确保启用了newsletter这个模块： system -&gt; configuration -&gt; advanced from there enable newsletter module . and then you can use the above code to call it anywhere. 然后把如下代码粘贴到模板文件自己想要放置的位置即可： &lt;?php echo">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/mzxOSWa.jpg">
+<meta property="og:image" content="https://i.imgur.com/oSNyMzM.jpg">
+<meta property="og:image" content="https://i.imgur.com/GvxoyDi.jpg">
+<meta property="og:image" content="https://i.imgur.com/B1urXeM.jpg">
+<meta property="og:image" content="https://i.imgur.com/ThIwWnC.jpg">
+<meta property="og:image" content="https://i.imgur.com/00PWCju.jpg">
+<meta property="og:image" content="https://i.imgur.com/zgFWl4S.jpg">
+<meta property="og:image" content="https://i.imgur.com/e9Ib4xH.jpg">
+<meta property="og:image" content="https://i.imgur.com/6WY0MlA.jpg">
+<meta property="og:image" content="https://i.imgur.com/pMeqQxo.jpg">
+<meta property="og:image" content="https://i.imgur.com/EnSt05S.jpg">
+<meta property="og:image" content="https://i.imgur.com/VKcGWKj.jpg">
+<meta property="article:published_time" content="2018-11-06T07:54:15.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:57:59.320Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="magento1,newsletter,cron,订阅,crontab">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/mzxOSWa.jpg">
+
+<link rel="canonical" href="http://example.com/2018/11/06/magento1.x%E8%B0%83%E7%94%A8newsletter%E6%98%BE%E7%A4%BA%E5%88%B0%E9%A1%B5%E9%9D%A2%E7%9A%84%E4%BB%BB%E4%BD%95%E5%9C%B0%E6%96%B9%EF%BC%8C%E7%84%B6%E5%90%8E%E9%80%9A%E8%BF%87%E8%AE%BE%E7%BD%AE%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84cron%E5%90%91%E8%AE%A2%E9%98%85%E7%94%A8%E6%88%B7%E5%AE%9A%E6%97%B6%E6%8F%90%E4%BE%9B%E8%AE%A2%E9%98%85%E6%9C%8D%E5%8A%A1/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>magento1.x调用newsletter显示到页面的任何地方，然后通过设置服务器的cron向订阅用户定时提供订阅服务 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/11/06/magento1.x%E8%B0%83%E7%94%A8newsletter%E6%98%BE%E7%A4%BA%E5%88%B0%E9%A1%B5%E9%9D%A2%E7%9A%84%E4%BB%BB%E4%BD%95%E5%9C%B0%E6%96%B9%EF%BC%8C%E7%84%B6%E5%90%8E%E9%80%9A%E8%BF%87%E8%AE%BE%E7%BD%AE%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84cron%E5%90%91%E8%AE%A2%E9%98%85%E7%94%A8%E6%88%B7%E5%AE%9A%E6%97%B6%E6%8F%90%E4%BE%9B%E8%AE%A2%E9%98%85%E6%9C%8D%E5%8A%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          magento1.x调用newsletter显示到页面的任何地方，然后通过设置服务器的cron向订阅用户定时提供订阅服务
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-11-06 15:54:15" itemprop="dateCreated datePublished" datetime="2018-11-06T15:54:15+08:00">2018-11-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:59" itemprop="dateModified" datetime="2020-10-11T11:57:59+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/magento1/" itemprop="url" rel="index"><span itemprop="name">magento1</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>先确保启用了newsletter这个模块：</p>
+<pre><code>system -&gt; configuration -&gt; advanced</code></pre>
+<p>from there enable newsletter module . and then you can use the above code to call it anywhere.</p>
+<p>然后把如下代码粘贴到模板文件自己想要放置的位置即可：</p>
+<pre><code>&lt;?php echo $this-&gt;getLayout()-&gt;createBlock(&#39;newsletter/subscribe&#39;)-&gt;setTemplate(&#39;newsletter/subscribe.phtml&#39;)-&gt;toHtml(); ?&gt;</code></pre>
+<p>比如笔者找到magento网站的地步模板文件：footer.phtml，文件位置：</p>
+<p>/app/design/frontend/yourtheme/default/template/page/html/footer.phtml</p>
+<p>添加一个订阅的表单在底部：</p>
+<p><img src="https://i.imgur.com/mzxOSWa.jpg"></p>
+<p>如果想要修改这个订阅的表单样式和内容，直接进入到<code>newsletter/subscribe.phtml</code>这个里面编辑这个文件即可。</p>
+<p>当然，如果不想深入到源码里面去，那么可以调用newsletter这个布局，在自定义布局那里添加代码：</p>
+<pre><code>&lt;reference name=&quot;left&quot;&gt;
+       &lt;block type=&quot;newsletter/subscribe&quot; name=&quot;left.newsletter&quot; template=&quot;newsletter/subscribe.phtml&quot;/&gt;
+&lt;/reference&gt;</code></pre>
+<p>这个代码可以在<code>layout/newsletter.xml</code>里面找到，这里是显示在左边侧边栏，如果你还有更加个性化的需求当然自己也可以稍作修改，从page.xml里面找个合适的挂载点引用这个模板文件即可，大家可以试试。</p>
+<p><img src="https://i.imgur.com/oSNyMzM.jpg"></p>
+<p>最后效果：</p>
+<p><img src="https://i.imgur.com/GvxoyDi.jpg"></p>
+<p>当然，通常newsletter有好几个模板文件可供选择调用，有默认的<code>subscribe.phtml</code>，有放在底部的<code>subscribe-footer.phtml</code>，也有以弹窗形式出现的<code>subscribe-popup.phtml</code>，当然这个根据采用的magento的主题不同而有所不同。</p>
+<hr>
+<p>新闻订阅（Newsletter） 无论在国内还是国外现在都是相当流行的功能，我自己就订阅了玛萨玛索的团购信息。Magento本身就自带新闻订阅 （Newsletter） ，而且功能相当完整和强大，下面就我的使用经验来描述下新闻订阅（Newsletter） 的使用流程。</p>
+<p>首先看前台，订阅的方式一般都很简单，一个简单的文本框加一个按钮，输入自己的邮件地址就可以订阅，一般也不会限定是否是登录的会员。</p>
+<p>订阅成功的邮件地址会出现在后台新闻订阅-&gt;邮件列表订阅人菜单下</p>
+<p><img src="https://i.imgur.com/B1urXeM.jpg"></p>
+<p>客户要退订有两种途径，一种是登录商城，进“我的账户”页面，取消订阅前的√并保存，另一种是在收到商城发来的新闻邮件时，在邮件里会提供退订的链接，这种在后面会有另外描述。</p>
+<p>在有订阅人之后，后台管理可以开始准备要发送给客户的内容，进入新闻订阅-&gt;邮件列表模板菜单，新增一个模板或者修改原有的邮件模板，填上需要的信息，如下图所示</p>
+<p><img src="https://i.imgur.com/ThIwWnC.jpg"></p>
+<p>这里请注意，在Magento的邮件模板都可以使用Magento提供的一套变量，变量的形式为</p>
+<pre><code>&#123;&#123; **** &#125;&#125;</code></pre>
+<p>而新建订阅模板时内容中默认自带的</p>
+<pre><code>&#123;&#123;var subscriber.getUnsubscriptionLink()&#125;&#125;</code></pre>
+<p>就是提供给客户退订的链接，客户可以在自己的邮件中点击这个链接来退订，以下是邮件中退订的效果</p>
+<p><img src="https://i.imgur.com/00PWCju.jpg"></p>
+<p>新建完模板后，需要把模板加入带发送的队列中，在操作中选择Queue Newsletter…，填写要发送的日期时间，保存，一个模板就添加到了队列中</p>
+<p><img src="https://i.imgur.com/zgFWl4S.jpg"></p>
+<p><img src="https://i.imgur.com/e9Ib4xH.jpg"></p>
+<p>到这一步，可以发送邮件了，是不是发现没有可以点发送的地方，这就是Magento的新闻订阅功能的强大之处，只要设定好要发送的日期时间，Magento会自动向所以订阅了的客户发送对应的邮件，这意味着你可以一次性把一星期要发的新闻邮件的模板全部建好，一起添加到列表里，为每一封分别设置时间为星期一到星期天，这样，每天设定的时间一到，系统会自动把当天需要发送的新闻邮件发给客户。</p>
+<p><img src="https://i.imgur.com/6WY0MlA.jpg"></p>
+<p>到这里，新闻订阅的操作和设置讲完了，不过实现最关键的自动发送还少一步，这就是在服务器上为你的Magento项目设置定时任务（cron job），完成之后，你就可以真正的使用这个功能了。定时任务（cron job）是Magento另一项强大的功能，这里我们来说下，笔者采用的是bluehost的主机，我们可以进入到这个后台，开启一下ssh（SSH/Shell Access），以便我们通过ssh客户端对bluehost进行管理。</p>
+<p><img src="https://i.imgur.com/pMeqQxo.jpg"></p>
+<p>进入到这个里面开启一下这个，然后设置一下SSH的登录密码，即可以开启。开启成功后的样子类似如下图：</p>
+<p><img src="https://i.imgur.com/EnSt05S.jpg"></p>
+<p>这个时候，我们就可以通过terminal工具（比如Xshell）进行管理网站了。我们通过ssh登录后，我们来到web根目录，通常是public_html下，找到magento所在的根目录，比如笔者这里的是magento1，进来后运行命令：</p>
+<pre><code>crontab -e</code></pre>
+<p>这个时候，我们就可以设置一个定时任务了，比如笔者这里设置一个每隔5分钟的定时任务。</p>
+<pre><code>    */5 * * * * php /home/noctiuni/public_html/magento1/cron.php</code></pre>
+<p>当然，我们也可以设置一个频率小点的，比如每个礼拜，每天执行一个特定的任务。比如每周备份，每周推送电邮消息。</p>
+<p>具体的设置方法需要大家去了解下cron的表达式，也有<a target="_blank" rel="noopener" href="http://cron.qqe2.com/">cron生成器</a>。这里科普一下cron表达是的用法以及意思：</p>
+<hr>
+<p>|-|-|-|<br>|字段|允许值|允许的特殊字符|<br>|<code>秒（Seconds）</code>|<code>0~59的整数</code>|<code>, - * /    四个字符</code>|<br>|<code>分（Minutes）</code>|<code>0~59的整数</code>|<code>, - * /    四个字符</code>|<br>|<code>小时（Hours）</code>|<code>0~23的整数</code>|<code>, - * /    四个字符</code>|<br>|<code>日期（DayofMonth）</code>|<code>1~31的整数（但是你需要考虑你月的天数）</code>|<code>,- * ? / L W C     八个字符</code>|<br>|<code>月份（Month）</code>|<code>1~12的整数或者 JAN-DEC</code>|<code>, - * /    四个字符</code>|<br>|<code>星期（DayofWeek）</code>|<code>1~7的整数或者 SUN-SAT （1=SUN）</code>|<code>, - * ? / L C #     八个字符</code>|<br>|<code>年(可选，留空)（Year）</code>|<code>1970~2099</code>|<code>, - * /    四个字符</code>|</p>
+<pre><code>（1）*：表示匹配该域的任意值。假如在Minutes域使用*, 即表示每分钟都会触发事件。
+
+（2）?：只能用在DayofMonth和DayofWeek两个域。它也匹配域的任意值，但实际不会。因为DayofMonth和DayofWeek会相互影响。例如想在每月的20日触发调度，不管20日到底是星期几，则只能使用如下写法： 13 13 15 20 * ?, 其中最后一位只能用？，而不能使用*，如果使用*表示不管星期几都会触发，实际上并不是这样。
+
+（3）-：表示范围。例如在Minutes域使用5-20，表示从5分到20分钟每分钟触发一次 
+
+（4）/：表示起始时间开始触发，然后每隔固定时间触发一次。例如在Minutes域使用5/20,则意味着5分钟触发一次，而25，45等分别触发一次. 
+
+（5）,：表示列出枚举值。例如：在Minutes域使用5,20，则意味着在5和20分每分钟触发一次。 
+
+（6）L：表示最后，只能出现在DayofWeek和DayofMonth域。如果在DayofWeek域使用5L,意味着在最后的一个星期四触发。 
+
+（7）W:表示有效工作日(周一到周五),只能出现在DayofMonth域，系统将在离指定日期的最近的有效工作日触发事件。例如：在 DayofMonth使用5W，如果5日是星期六，则将在最近的工作日：星期五，即4日触发。如果5日是星期天，则在6日(周一)触发；如果5日在星期一到星期五中的一天，则就在5日触发。另外一点，W的最近寻找不会跨过月份 。
+
+（8）LW:这两个字符可以连用，表示在某个月最后一个工作日，即最后一个星期五。 
+
+（9）#:用于确定每个月第几个星期几，只能出现在DayofMonth域。例如在4#2，表示某月的第二个星期三。</code></pre>
+<p><strong>三、常用表达式例子</strong></p>
+<pre><code>（1）0 0 2 1 * ? *   表示在每月的1日的凌晨2点调整任务
+
+（2）0 15 10 ? * MON-FRI   表示周一到周五每天上午10:15执行作业
+
+（3）0 15 10 ? 6L 2002-2006   表示2002-2006年的每个月的最后一个星期五上午10:15执行作
+
+（4）0 0 10,14,16 * * ?   每天上午10点，下午2点，4点 
+
+（5）0 0/30 9-17 * * ?   朝九晚五工作时间内每半小时 
+
+（6）0 0 12 ? * WED    表示每个星期三中午12点 
+
+（7）0 0 12 * * ?   每天中午12点触发 
+
+（8）0 15 10 ? * *    每天上午10:15触发 
+
+（9）0 15 10 * * ?     每天上午10:15触发 
+
+（10）0 15 10 * * ? *    每天上午10:15触发 
+
+（11）0 15 10 * * ? 2005    2005年的每天上午10:15触发 
+
+（12）0 * 14 * * ?     在每天下午2点到下午2:59期间的每1分钟触发 
+
+（13）0 0/5 14 * * ?    在每天下午2点到下午2:55期间的每5分钟触发 
+
+（14）0 0/5 14,18 * * ?     在每天下午2点到2:55期间和下午6点到6:55期间的每5分钟触发 
+
+（15）0 0-5 14 * * ?    在每天下午2点到下午2:05期间的每1分钟触发 
+
+（16）0 10,44 14 ? 3 WED    每年三月的星期三的下午2:10和2:44触发 
+
+（17）0 15 10 ? * MON-FRI    周一至周五的上午10:15触发 
+
+（18）0 15 10 15 * ?    每月15日上午10:15触发 
+
+（19）0 15 10 L * ?    每月最后一日的上午10:15触发 
+
+（20）0 15 10 ? * 6L    每月的最后一个星期五上午10:15触发 
+
+（21）0 15 10 ? * 6L 2002-2005   2002年至2005年的每月的最后一个星期五上午10:15触发 
+
+（22）0 15 10 ? * 6#3   每月的第三个星期五上午10:15触发</code></pre>
+<p><strong>注：</strong></p>
+<pre><code>（1）有些子表达式能包含一些范围或列表
+
+例如：子表达式（天（星期））可以为 &quot;MON-FRI&quot;，&quot;MON&quot;，&quot;WED，FRI&quot;，&quot;MON-WED,SAT&quot;
+
+&quot;*&quot;字符代表所有可能的值
+
+因此，&quot;*&quot;在子表达式（月）里表示每个月的含义，&quot;*&quot;在子表达式（天（星期））表示星期的每一天
+
+&quot;/&quot;字符用来指定数值的增量 
+
+例如：在子表达式（分钟）里的&quot;0/15&quot;表示从第0分钟开始，每15分钟 
+
+在子表达式（分钟）里的&quot;3/20&quot;表示从第3分钟开始，每20分钟（它和&quot;3，23，43&quot;）的含义一样
+
+&quot;？&quot;字符仅被用于天（月）和天（星期）两个子表达式，表示不指定值 
+
+当2个子表达式其中之一被指定了值以后，为了避免冲突，需要将另一个子表达式的值设为&quot;？&quot;
+
+&quot;L&quot; 字符仅被用于天（月）和天（星期）两个子表达式，它是单词&quot;last&quot;的缩写 
+
+但是它在两个子表达式里的含义是不同的。
+
+在天（月）子表达式中，&quot;L&quot;表示一个月的最后一天 
+
+在天（星期）自表达式中，&quot;L&quot;表示一个星期的最后一天，也就是SAT
+
+如果在&quot;L&quot;前有具体的内容，它就具有其他的含义了
+
+例如：&quot;6L&quot;表示这个月的倒数第６天，&quot;FRIL&quot;表示这个月的最一个星期五 
+
+注意：在使用&quot;L&quot;参数时，不要指定列表或范围，因为这会导致问题</code></pre>
+<hr>
+<p>好的，明确了这些之后呢，我们就可以来实践一下了。保存好上面的那个定时任务后，我们就可以在magento后台看到：</p>
+<p><img src="https://i.imgur.com/VKcGWKj.jpg"></p>
+<p>这里笔者设置好服务器那边的crontab后，直接执行crontab里面的规则。而magento后台的newsletter template那里的Queue Newsletter设定的时间，只是让这个订阅模板什么时候执行，如果选择当前时间，那么在crontab那边设置了每五分钟执行一次，那么就会在五分钟后会执行一次，如果在magento后台的newsletter template那里的Queue Newsletter设定的时间为明天的某个时间，那么就会到明天制定的某个时间才执行这个newsletter的发送。</p>
+<p>这份发送成功了，根据笔者的实践，我们在服务器下添加两个的脚本：<code>database_backup.sh</code>和<code>source_backup.sh</code></p>
+<p><strong><code>database_backup.sh</code>代码：</strong></p>
+<pre><code>#!/bin/bash
+# Name:bakmysql.sh
+# This is a ShellScript For Auto DB Backup and Delete old Backup
+#
+backupdir=&quot;/home/noctiuni/public_html/website_backup/db_bak&quot;
+password=&quot;yourpassword&quot;
+time=`date &quot;+%Y-%m-%d-%H:%M:%S&quot;`
+# backup database file to local
+rm -rf $backupdir/*
+mysqldump -u databaseusername -p$password noctiuni_www | gzip &gt; $backupdir/noctiuni_www_$time.sql.gz</code></pre>
+<p><strong><code>source_backup.sh</code>代码：</strong></p>
+<pre><code>#!/bin/bash
+# Name:bakmysql.sh
+# This is a ShellScript For Auto DB Backup and Delete old Backup
+#
+backupdir=&quot;/home/noctiuni/public_html/website_backup/magento1&quot;
+magento1_dir=&quot;/home/noctiuni/public_html/magento1&quot;
+time=`date &quot;+%Y-%m-%d-%H:%M:%S&quot;`
+# backup database file to local
+rm -rf $backupdir/*
+zip -r $backupdir/magento1_$time.zip $magento1_dir/*</code></pre>
+<p>接着，很重要的地方，要给这两个脚本文件设置执行权限</p>
+<pre><code>chmod -R 777 database_backup.sh
+chmod -R 777 source_backup.sh</code></pre>
+<p>然后，就是编写crontab了。在任意一个目录下运行命令：</p>
+<pre><code>crontab -e</code></pre>
+<p>添加：</p>
+<pre><code>    */5 * * * * php /home/noctiuni/public_html/magento1/cron.php
+    */10 17-20 * * * /home/noctiuni/public_html/website_backup/database_backup.sh
+    */13 17-20 * * * /home/noctiuni/public_html/website_backup/source_backup.sh</code></pre>
+<p>第一行就是说，每隔五分钟执行一次magento根目录下的cron.php文件。</p>
+<p>第二行就是每天下午的17点到20点，每隔10分钟执行一次脚本database_backup.sh</p>
+<p>第三行就是每天下午的17点到20点之间每隔13分钟执行一次脚本source_backup.sh</p>
+<p>当然可能不会成功，你可以找一个成功的，然后测试，笔者就是这样测试的，第一行笔者是测试成功的了，但是第二行和第三行不确定是否成功。那么就改成如下</p>
+<pre><code>    */5 * * * * php /home/noctiuni/public_html/magento1/cron.php
+    */6 * * * * /home/noctiuni/public_html/website_backup/database_backup.sh
+    */8 * * * * /home/noctiuni/public_html/website_backup/source_backup.sh</code></pre>
+<p>这样果然，三个都成功了。</p>
+<p>如果不成功，大家可以直接手动执行这些脚本，看下是否本身有问题，如果脚本没有问题那么就排查，crontab里面的写法是否有问题，如果没有问题再重启下linux的cron。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/magento1-newsletter-cron-%E8%AE%A2%E9%98%85-crontab/" rel="tag"># magento1,newsletter,cron,订阅,crontab</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/11/06/magento%E5%8E%BB%E6%8E%89%E7%BD%91%E5%9D%80url%E4%B8%AD%E7%9A%84index-php/" rel="prev" title="magento去掉网址url中的index.php">
+      <i class="fa fa-chevron-left"></i> magento去掉网址url中的index.php
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/11/07/bluehost%E4%B8%BB%E6%9C%BA%E4%B8%8A%E9%9D%A2%E5%AE%89%E8%A3%85magento1-x%E5%87%BA%E7%8E%B0Whoops-it-looks-like-you-have-an-invalid-PHP-version-%E9%94%99%E8%AF%AF/" rel="next" title="bluehost主机上面安装magento1.x出现Whoops, it looks like you have an invalid PHP version错误">
+      bluehost主机上面安装magento1.x出现Whoops, it looks like you have an invalid PHP version错误 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

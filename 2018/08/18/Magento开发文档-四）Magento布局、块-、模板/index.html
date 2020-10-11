@@ -1,37 +1,710 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="原文地址：https:&#x2F;&#x2F;devdocs.magento.com&#x2F;guides&#x2F;m1x&#x2F;magefordev&#x2F;mage-for-dev-4.html 刚入门magento的开发者容易吧布局和视图给混淆. 本文将看看Magento的Layout&#x2F;Block的做法, 并告诉您如何将其融入Magento的MVC的世界观。 与许多流行的MVC系统相比，Magento的执行控制器不通过数据对象到视图或在视图">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Magento开发文档(四）Magento布局、块 、模板">
+<meta property="og:url" content="http://example.com/2018/08/18/Magento%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3-%E5%9B%9B%EF%BC%89Magento%E5%B8%83%E5%B1%80%E3%80%81%E5%9D%97-%E3%80%81%E6%A8%A1%E6%9D%BF/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="原文地址：https:&#x2F;&#x2F;devdocs.magento.com&#x2F;guides&#x2F;m1x&#x2F;magefordev&#x2F;mage-for-dev-4.html 刚入门magento的开发者容易吧布局和视图给混淆. 本文将看看Magento的Layout&#x2F;Block的做法, 并告诉您如何将其融入Magento的MVC的世界观。 与许多流行的MVC系统相比，Magento的执行控制器不通过数据对象到视图或在视图">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-08-18T03:06:13.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:00.980Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="magento,布局,块,模板">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2018/08/18/Magento%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3-%E5%9B%9B%EF%BC%89Magento%E5%B8%83%E5%B1%80%E3%80%81%E5%9D%97-%E3%80%81%E6%A8%A1%E6%9D%BF/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>Magento开发文档(四）Magento布局、块 、模板 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/08/18/Magento%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3-%E5%9B%9B%EF%BC%89Magento%E5%B8%83%E5%B1%80%E3%80%81%E5%9D%97-%E3%80%81%E6%A8%A1%E6%9D%BF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Magento开发文档(四）Magento布局、块 、模板
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-08-18 11:06:13" itemprop="dateCreated datePublished" datetime="2018-08-18T11:06:13+08:00">2018-08-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:00" itemprop="dateModified" datetime="2020-10-11T11:58:00+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/magento1/" itemprop="url" rel="index"><span itemprop="name">magento1</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>原文地址：<a target="_blank" rel="noopener" href="https://devdocs.magento.com/guides/m1x/magefordev/mage-for-dev-4.html">https://devdocs.magento.com/guides/m1x/magefordev/mage-for-dev-4.html</a></p>
+<p>刚入门magento的开发者容易吧布局和视图给混淆. 本文将看看Magento的Layout/Block的做法, 并告诉您如何将其融入Magento的MVC的世界观。</p>
+<p>与许多流行的MVC系统相比，Magento的执行控制器不通过数据对象到视图或在视图对象中设置属性（只有少数例外）。相反，视图组件直接引用系统模型来获得它需要显示的信息。</p>
+<p>这样的设计决策的后果之一是，视图分成块和模板。块是PHP对象，模板是包含HTML和PHP（在这里PHP作为模板语言）“原始”的PHP文件（带.phtml扩展名）的组合。每一个块都和一个唯一的模板文件绑定。在模板文件phtml中，“$this”就是指该模板文件对应的块对象。</p>
+<p>来一个快速的例子吧：</p>
+<pre><code>app/design/frontend/base/default/template/catalog/product/list.phtml</code></pre>
+<p>你将会看到下列的php代码：</p>
+<pre><code>&lt;?php $_productCollection=$this-&gt;getLoadedProductCollection() ?&gt;
+&lt;?php if(!$_productCollection-&gt;count()): ?&gt; &lt;div class=&quot;note-msg&quot;&gt;
+    &lt;?php echo $this-&gt;__(&quot;There are no products matching the selection.&quot;) ?&gt;
+&lt;/div&gt; &lt;?php else: ?&gt;
+...</code></pre>
+<p><code>getLoadedProductCollection</code> 方法可以在该模板的Block的类中找到。<code>Mage_Catalog_Block_Product_List</code>找到下面的地址，</p>
+<pre><code>File: app/code/core/Mage/Catalog/Block/Product/List.php</code></pre>
+<p>打开这个文件，我们找到下列这段代码：</p>
+<pre><code>...
+public function getLoadedProductCollection()
+&#123;
+    return $this-&gt;_getProductCollection();
+&#125;
+...</code></pre>
+<p>块的<code>_getProductCollection</code>方法实例化模型，并读取它们的数据，其结果返回给模板。</p>
+<h2 id="嵌套块"><a href="#嵌套块" class="headerlink" title="嵌套块"></a>嵌套块</h2><p>Magento 把视图分离成块和模板的真正强大之处在于“<code>getChildHtml</code>”方法。这个方法可以让你实现在块中嵌套块的功能。顶层的块调用第二层的块，然后是第三层……这就是 Magento如何输出 HTML的。让我们来看一下单列的顶层模板</p>
+<pre><code>File: app/design/frontend/base/default/template/page/1column.phtml</code></pre>
+<p>打开这个文件，</p>
+<pre><code>&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Strict//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd&quot;&gt;  
+&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot; xml:lang=&quot;&lt;?php echo $this-&gt;getLang() ?&gt;&quot; lang=&quot;&lt;?php echo $this-&gt;getLang() ?&gt;&quot;&gt;  
+&lt;head&gt;  
+&lt;?php echo $this-&gt;getChildHtml(&#39;head&#39;) ?&gt;  
+&lt;/head&gt;  
+&lt;body&lt;?php echo $this-&gt;getBodyClass()?&#39; class=&quot;&#39;.$this-&gt;getBodyClass().&#39;&quot;&#39;:&#39;&#39; ?&gt;&gt;  
+&lt;?php echo $this-&gt;getChildHtml(&#39;after_body_start&#39;) ?&gt;  
+&lt;div class=&quot;wrapper&quot;&gt;  
+    &lt;?php echo $this-&gt;getChildHtml(&#39;global_notices&#39;) ?&gt;  
+    &lt;div class=&quot;page&quot;&gt;  
+        &lt;?php echo $this-&gt;getChildHtml(&#39;header&#39;) ?&gt;  
+        &lt;div class=&quot;main-container col1-layout&quot;&gt;  
+            &lt;div class=&quot;main&quot;&gt;  
+                &lt;?php echo $this-&gt;getChildHtml(&#39;breadcrumbs&#39;) ?&gt;  
+                &lt;div class=&quot;col-main&quot;&gt;  
+                    &lt;?php echo $this-&gt;getChildHtml(&#39;global_messages&#39;) ?&gt;  
+                    &lt;?php echo $this-&gt;getChildHtml(&#39;content&#39;) ?&gt;  
+                &lt;/div&gt;  
+            &lt;/div&gt;  
+        &lt;/div&gt;  
+        &lt;?php echo $this-&gt;getChildHtml(&#39;footer&#39;) ?&gt;  
+        &lt;?php echo $this-&gt;getChildHtml(&#39;before_body_end&#39;) ?&gt;  
+    &lt;/div&gt;  
+&lt;/div&gt;  
+&lt;?php echo $this-&gt;getAbsoluteFooter() ?&gt;  
+&lt;/body&gt;  
+&lt;/html&gt;</code></pre>
+<p>我们可以看到这个模板里面很多地调用了“$this-&gt;getChildHtml(…)”。每次调用都会引入另外一个块的HTML内容，直到最底层的块。</p>
+<h2 id="布局对象"><a href="#布局对象" class="headerlink" title="布局对象"></a>布局对象</h2><p>看到这里，你可能有这样的疑问</p>
+<ul>
+<li>Magento怎么知道在一个页面上要用那些块？</li>
+<li>Magento怎么知道哪一个块是顶层块？</li>
+<li>“<code>$this-&gt;getChildHtml(…)</code>”里面的参数是什么意思？块的名字吗？</li>
+</ul>
+<p>Magento引入了布局对象（Layout Object）来解决上面的那些问题。布局对象（或者说布局文件）就是一个XML文件，定义了一个页面包含了哪些块，并且定义了哪个块是顶层块。</p>
+<p>在第二章的时候我们在执行方法（Action Method）里面直接输出了HTML内容。现在我们要为我们的Hello World模块创建一个简单的HTML模板。首先我们要创建如下文件 </p>
+<p>首先，在如下路径创建一个文件：local.xml</p>
+<pre><code>app/design/frontend/yourtheme/default/layout/local.xml</code></pre>
+<p>文件内容如下：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;layout version=&quot;0.1.0&quot;&gt;
+   &lt;default&gt;
+        &lt;reference name=&quot;root&quot;&gt;
+            &lt;block type=&quot;page/html&quot; name=&quot;root&quot; output=&quot;toHtml&quot; template=&quot;magentotutorial/helloworld/simple_page.phtml&quot; /&gt;
+        &lt;/reference&gt;
+    &lt;/default&gt;
+&lt;/layout&gt;</code></pre>
+<p>然后，在以下目录创建一个文件：simple_page.phtml</p>
+<pre><code>app/design/frontend/yourtheme/default/template/magentotutorial/helloworld/simple_page.phtml</code></pre>
+<p>文件内容如下：</p>
+<pre><code>&lt;!DOCTYPE&gt;
+&lt;html xmlns=&quot;http://www.w3.org/1999/xhtml&quot;&gt;
+&lt;head&gt;
+    &lt;title&gt;Hello World&lt;/title&gt;
+    &lt;style type=&quot;text/css&quot;&gt;
+        body &#123;
+            background-color:#f00;
+        &#125;
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>最后，我们要在执行控制器里面调用布局文件，开始输出HTML。修改执行方法如下</p>
+<pre><code>public function indexAction() &#123;  
+    //remove our previous echo  
+    //echo &#39;Hello Index!&#39;;  
+    $this-&gt;loadLayout();  
+    $this-&gt;renderLayout();  
+&#125;</code></pre>
+<p>清空Magento缓存，访问URL “<a target="_blank" rel="noopener" href="http://exmaple.com/helloworld/index/index%E2%80%9D%E3%80%82%E4%BD%A0%E5%BA%94%E8%AF%A5%E7%9C%8B%E5%88%B0%E4%B8%80%E4%B8%AA%E7%BA%AF%E7%BA%A2%E8%89%B2%E8%83%8C%E6%99%AF%E7%9A%84%E9%A1%B5%E9%9D%A2%E3%80%82%E8%BF%99%E4%B8%AA%E9%A1%B5%E9%9D%A2%E7%9A%84%E6%BA%90%E4%BB%A3%E7%A0%81%E5%BA%94%E8%AF%A5%E5%92%8C%E6%88%91%E4%BB%AC%E5%88%9B%E5%BB%BA%E7%9A%84%E6%96%87%E4%BB%B6%E2%80%9Csimple_page.phtml%E2%80%9D%E4%B8%80%E6%A8%A1%E4%B8%80%E6%A0%B7%E3%80%82">http://exmaple.com/helloworld/index/index”。你应该看到一个纯红色背景的页面。这个页面的源代码应该和我们创建的文件“simple_page.phtml”一模一样。</a></p>
+<h2 id="这到底发生什么事？"><a href="#这到底发生什么事？" class="headerlink" title="这到底发生什么事？"></a>这到底发生什么事？</h2><p>也许你看到这里一头雾水，没关系，我们来慢慢解释。首先你得安装一个 <a target="_blank" rel="noopener" href="https://pan.baidu.com/s/17i8JMR_4adeWGy3SCKgsnw">Layout Viewer</a> 模块（密码：tbzd），这和我们第一章讲的 <a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1F1bwCnfV4V5o5ARxRjorDQ">Config Viewer</a> 模块（密码：jjlh）很相似，都是查看Magento的内部信息。安装完这个模块之后【译者注：你需要参照第一章的内容，为这个模块创建“<code>app/etc/modules/Magentotutorial_Layoutviewer.xml</code>”】，打开如下URL  <a href="http://example.com/helloworld/index/index?showLayout=page">http://example.com/helloworld/index/index?showLayout=page</a> 你看到的是你正在请求的页面的布局文件。它是由<code>&lt;block /&gt;</code>，<code>&lt;reference /&gt;</code>和<code>&lt;remove /&gt;</code>组成的。当你在执行方法中调用“loadLayout”时，Magento会做如下处理生成这个布局文件为每一个<code>&lt;block /&gt;</code>和<code>&lt;reference /&gt;</code>标签实例化一个块对象。</p>
+<p>块对象的类名是通过标签的name属性来查找的。这些块对象被存储在布局对象的<code>_blocks</code>数组中如果<code>&lt;block /&gt;</code>标签包含了output属性，那么这个块的名字和output属性的值会被添加到布局对象的<code>_output</code>数组中然后，当你在执行方法中调用“<code>renderLayout</code>”方法时，Magento会遍历<code>_output</code>数组中所有的块名字，从<code>_blocks</code>数组中获得该名字的块，并调用块对象中使用output属性的值作为名字的函数。这个函数往往是“<code>toHtml</code>”。这个output属性也告诉Magento这里就是输出HTML的起点，也就是顶层块。【译者注：直接阅读Layout类的代码应该比较容易理解这里的逻辑 <code>File: app/code/core/Mage/Core/Model/Layout.php</code></p>
+<pre><code>public function getOutput()  
+&#123;  
+    $out = &#39;&#39;;  
+    if (!emptyempty($this-&gt;_output)) &#123;          
+        foreach ($this-&gt;_output as $callback) &#123;  
+            $out .= $this-&gt;getBlock($callback[0])-&gt;$callback[1]();  
+        &#125;  
+    &#125;  
+    return $out;  
+&#125;  </code></pre>
+<p>从这里我们也可以看出，一个页面的布局文件时可以拥有多个顶层块。</p>
+<p>下面我们要讲解块对象是如何被实例化的，这个布局文件时如何被生成的，最后我们将动手做一个例子来实践这一章讲的内容。</p>
+<h2 id="实例化块对象"><a href="#实例化块对象" class="headerlink" title="实例化块对象"></a>实例化块对象</h2><p>在布局文件中，<code>&lt;block /&gt;</code>和<code>&lt;reference /&gt;</code>标签有一个“type”属性，这个属性其实是一个URI</p>
+<pre><code>&lt;block type=&quot;page/html&quot; ...
+&lt;block type=&quot;page/template_links&quot; ...</code></pre>
+<p>Magento就是通过这个URI是用来查找块对应的类名。这个URI分为两部分，第一部分“page”是用来在全局配置中查找一个基本类名，第二部分“html”或者“<code>template_link</code>”将被添加到基本类名后面生成一个具体的将被实例化的类名。</p>
+<p>我们以“<code>page/html</code>”为例。首先Magento在以下目录找到全局配置节点，</p>
+<pre><code>app/code/core/Mage/Page/etc/config.xml</code></pre>
+<p>打开文件，找到，</p>
+<pre><code>&lt;page&gt;
+    &lt;class&gt;Mage_Page_Block&lt;/class&gt;
+&lt;/page&gt;</code></pre>
+<p>这里我们拿到了一个基本类名“<code>Mage_Page_Block</code>”，然后添加URI的第二部分“html”到基本类名后面，我们就得到最终的块对象的类名 “<code>Mage_Page_Block_Html</code>”。块的类名在Magento中被称为“分组类名”（Grouped Class Names），这些类都用相似的方法被实例化。如果我们创建一个与现有块同名的块，则新块实例将替换原始实例。这就是我们在上面的local.xml文件中所做的。</p>
+<pre><code>&lt;layout version=&quot;0.1.0&quot;&gt;
+    &lt;default&gt;
+        &lt;block type=&quot;page/html&quot; name=&quot;root&quot; output=&quot;toHtml&quot; template=&quot;magentotutorial/helloworld/simple_page.phtml&quot; /&gt;
+    &lt;/default&gt;
+&lt;/layout&gt;</code></pre>
+<p>name为root的块已替换为我们的Block。</p>
+<h2 id="lt-block-gt-和-lt-reference-gt-的区别"><a href="#lt-block-gt-和-lt-reference-gt-的区别" class="headerlink" title="&lt;block /&gt;和&lt;reference /&gt;的区别"></a><code>&lt;block /&gt;</code>和<code>&lt;reference /&gt;</code>的区别</h2><p>我们上面提到<code>&lt;block /&gt;</code>和<code>&lt;reference /&gt;</code>都会实例化块对象，那么它们究竟有什么区别呢？ <code>&lt;reference /&gt;</code>在布局文件中是用来表示替换一个已经存在的块，举个例子</p>
+<pre><code>&lt;block type=&quot;page/html&quot; name=&quot;root&quot; output=&quot;toHtml&quot; template=&quot;page/2columns-left.phtml&quot;&gt;  
+    &lt;!-- ... sub blocks ... --&gt;  
+&lt;/block&gt;  
+&lt;!-- ... --&gt;  
+&lt;reference name=&quot;root&quot;&gt;  
+    &lt;block type=&quot;page/someothertype&quot; name=&quot;root&quot; template=&quot;path/to/some/other/template&quot; /&gt;  
+    &lt;!-- ... sub blocks ... --&gt;  
+    &lt;/block&gt;  
+&lt;/reference&gt;</code></pre>
+<p>Magento首先创建了一个名叫“root”的块。然后，它有发现了一个引用（reference）的名字也叫“root”，Magento会把原来那个“root”块替换成<code>&lt;reference /&gt;</code>标签里面的那个块。</p>
+<p>再来看看我们之前创建那个local.xml</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;layout version=&quot;0.1.0&quot;&gt;
+   &lt;default&gt;
+        &lt;reference name=&quot;root&quot;&gt;
+            &lt;block type=&quot;page/html&quot; name=&quot;root&quot; output=&quot;toHtml&quot; template=&quot;magentotutorial/helloworld/simple_page.phtml&quot; /&gt;
+        &lt;/reference&gt;
+    &lt;/default&gt;
+&lt;/layout&gt;</code></pre>
+<p>在这里，块“root”被我们用<code>&lt;reference /&gt;</code>替换了，指向了一个不同的模板文件。</p>
+<h2 id="布局文件是如何生成的"><a href="#布局文件是如何生成的" class="headerlink" title="布局文件是如何生成的"></a>布局文件是如何生成的</h2><p>现在我们对布局文件已经有所了解了，但是这个布局文件是那里来的呢？要回答这个问题，我们得引入Magento中的另外两个概念，操作（<strong>Handle</strong>）和包布局（<strong>Package Layout</strong>）。</p>
+<h2 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h2><p>Magento会为每一个页面请求生成几个不同的操作。我们的Layout View模块可以显示这些操作。在浏览器上输入如下地址：</p>
+<pre><code>http://example.com/helloworld/index/index?showLayout=handles</code></pre>
+<p>你应该看到类似如下列表的内容（显示的内容和你的网站配置有关）</p>
+<pre><code>default
+
+STORE_bare_us
+
+THEME_frontend_default_default
+
+helloworld_index_index
+
+customer_logged_out</code></pre>
+<p>它们每一个都是一个操作的名字。我们可以在Magento系统的不同的地方配置操作。在这里我们需要关注两个操作 “default” 和 “<code>helloworld_index_index</code>”。“default”操作是Magento的默认处理器，参与每一个请求的处理。 “<code>helloworld_index_index</code>”操作的名字是frontname （helloworld）加上执行控制器的名字（index）再加上执行方法的名字（index）。这说明执行控制器的每一个执行方法都有一个相应的操作。</p>
+<p>我们说过“index”是Magento默认的执行控制器和执行方法的名字，所以以下请求的操作名字也是“<code>helloworld_index_index</code>”。</p>
+<pre><code>http://example.com/helloworld/?showLayout=handles</code></pre>
+<h2 id="包布局"><a href="#包布局" class="headerlink" title="包布局"></a>包布局</h2><p>包布局和我们以前讲过的全局配置有些相似。它是一个巨大的XML文档包含了Magento所有的布局配置。我们可以通过以Layout View模块来查看包布局，请求一下URL</p>
+<pre><code>http://example.com/helloworld/index/index?showLayout=package</code></pre>
+<p>你可能要等一会儿才能看到输出，因为文件很大。如果你的浏览器在渲染XML的时候卡死了，建议你换成text格式的。</p>
+<pre><code>http://example.com/helloworld/index/index?showLayout=package&amp;showLayoutFormat=text</code></pre>
+<p>假设你选择的是XML格式输出，那么你应该看到一个巨大的XML文件，这就是包布局。这个文件时Magento动态生成的，合并了当前主题（theme）下面所有的布局文件。如果你用的是默认安装的话，这些布局文件在以下目录</p>
+<pre><code>app/design/frontend/base/default/layout/</code></pre>
+<p>其实在全局配置文件中，有一个<code>&lt;updates /&gt;</code>节点下面定义了所有将被装载的布局文件</p>
+<p>Xml代码</p>
+<pre><code>&lt;layout&gt;  
+    &lt;updates&gt;  
+        &lt;core&gt;  
+            &lt;file&gt;core.xml&lt;/file&gt;  
+        &lt;/core&gt;  
+        &lt;page&gt;  
+            &lt;file&gt;page.xml&lt;/file&gt;  
+        &lt;/page&gt;  
+        ...  
+    &lt;/updates&gt;  
+&lt;/layout&gt;  </code></pre>
+<p>当这些文件被装载以后，Magento还会装载最后一个布局文件：<strong>local.xml</strong>，也就是我们之前新建的那个文件。我们可以通过这个文件来<strong>定制</strong>Magento的布局。</p>
+<h2 id="结合操作和包布局"><a href="#结合操作和包布局" class="headerlink" title="结合操作和包布局"></a>结合操作和包布局</h2><p>在包布局文件中，我们可以看到一些熟悉的标签<code>&lt;block /&gt;</code>，<code>&lt;reference /&gt;</code>等等，但是他们都包含在一下这些标签中</p>
+<p>Xml代码</p>
+<pre><code>&lt;default /&gt;  
+&lt;catalogsearch_advanced_index /&gt;  
+etc...  </code></pre>
+<p>这些就是操作标签。对于每个特定的请求来说，针对这个请求的布局文件是由包布局中所有和这个请求相关的操作标签组成的。比如我们上面的例子，和请求相关的操作标签如下</p>
+<p>Xml代码</p>
+<pre><code>&lt;default /&gt;  
+&lt;STORE_bare_us /&gt;  
+&lt;THEME_frontend_default_default /&gt;  
+&lt;helloworld_index_index /&gt;  
+&lt;customer_logged_out /&gt;  </code></pre>
+<p>所以，通过在浏览器中请求如下地址：</p>
+<pre><code>http://example.com/helloworld/index/index</code></pre>
+<p>布局文件就是包布局中上面这些标签的内容组合。在包布局文件中，还有一个标签<code>&lt;update /&gt;</code>值得我们注意。我们可以通过这个标签引入另外一个操作标签。比如</p>
+<p>Xml代码</p>
+<pre><code>&lt;customer_account_index&gt;
+    &lt;!-- ... --&gt;  
+    &lt;update handle=&quot;customer_account&quot;/&gt;  
+    &lt;!-- ... --&gt;  
+&lt;/customer_account_index&gt;</code></pre>
+<p>这段代码的意思是，如果一个请求包含了“<code>customer_acount_index</code>”操作，那么这个请求的布局文件也应该包含“<code>customer_account</code>”操作标签下面的<code>&lt;block /&gt;</code>和<code>&lt;reference /&gt;</code>。</p>
+<h2 id="更新我们的例子"><a href="#更新我们的例子" class="headerlink" title="更新我们的例子"></a>更新我们的例子</h2><p>好了，理论讲完了，让我们来修改我们的例子，把这一章的内容实践一下。我们重新来看local.xml</p>
+<p>Xml代码</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;layout version=&quot;0.1.0&quot;&gt;
+   &lt;default&gt;
+        &lt;reference name=&quot;root&quot;&gt;
+            &lt;block type=&quot;page/html&quot; name=&quot;root&quot; output=&quot;toHtml&quot; template=&quot;magentotutorial/helloworld/simple_page.phtml&quot; /&gt;
+        &lt;/reference&gt;
+    &lt;/default&gt;
+&lt;/layout&gt;</code></pre>
+<p>我们用一个引用（reference）覆盖了名为“root”的块。然后定义了一个新的块，指向了一个不同的模板文件。我们把这个引用放在<code>&lt;default /&gt;</code>操作标签下面，那就说明这个Layout将对所有的请求有效。如果你访问Magento自带的一些页面，比如aboutus，contact us页面，你会发现报错或者空白，要么就是和我们“hello world”例子的红色背景，但这并不是我们想要的效果。我们来修改一下local.xml，让我们的模板仅对“hello world”的请求有效。</p>
+<p>Xml代码</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;layout version=&quot;0.1.0&quot;&gt;
+   &lt;helloworld_index_index&gt;
+        &lt;reference name=&quot;root&quot;&gt;
+            &lt;block type=&quot;page/html&quot; name=&quot;root&quot; output=&quot;toHtml&quot; template=&quot;magentotutorial/helloworld/simple_page.phtml&quot; /&gt;
+        &lt;/reference&gt;
+    &lt;/helloworld_index_index&gt;
+&lt;/layout&gt;</code></pre>
+<p>我们把操作标签换成了“<code>helloworld_index_index</code>”。清空Magento缓存，重新访问Magento的各个页面，你应该发现都恢复了正常，但是针对”hello world”模块的请求页面还是我们自定义的那个：一片红色背景。</p>
+<p>目前我们只实现了一个“index”执行函数，现在我们来实现“goodbye”执行函数。修改我们的执行控制器（IndexController.php）代码如下</p>
+<p>Php代码</p>
+<pre><code>public function goodbyeAction() &#123;  
+    $this-&gt;loadLayout();  
+    $this-&gt;renderLayout();           
+&#125;        </code></pre>
+<p>但是你访问一下页面的时候你还是会看到Magento的默认布局</p>
+<pre><code>http://example.com/helloworld/index/goodbye</code></pre>
+<p>那是因为我们没有为这个请求定义布局。我们需要在local.xml中添加“<code>helloworld_index_goodbye</code>”标签。由于 “index”请求和“goodbye”请求我们要套用的布局是一样的，所以我们将用<code>&lt;update&gt;</code>标签来重用已有的配置</p>
+<p>Xml代码</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;layout version=&quot;0.1.0&quot;&gt;
+   &lt;helloworld_index_index&gt;
+        &lt;reference name=&quot;root&quot;&gt;
+            &lt;block type=&quot;page/html&quot; name=&quot;root&quot; output=&quot;toHtml&quot; template=&quot;magentotutorial/helloworld/simple_page.phtml&quot; /&gt;
+        &lt;/reference&gt;
+    &lt;/helloworld_index_index&gt;
+    &lt;helloworld_index_goodbye&gt;  
+        &lt;update handle=&quot;helloworld_index_index&quot; /&gt;  
+    &lt;/helloworld_index_goodbye&gt;
+&lt;/layout&gt;</code></pre>
+<p>清空Magento缓存，请求以下两个URL</p>
+<pre><code>http://example.com/helloworld/index/index
+
+http://example.com/helloworld/index/goodbye</code></pre>
+<p>你将会得到两个完全相同的页面。</p>
+<h2 id="开始输出和getChildHtml方法"><a href="#开始输出和getChildHtml方法" class="headerlink" title="开始输出和getChildHtml方法"></a>开始输出和getChildHtml方法</h2><p>在Magento默认的配置下，HTML输出是从名为“root”的块开始（其实是因为这个块拥有output属性【译者注：<strong>任何一个拥有 output属性的块都是顶层块，在拥有多个顶层块的情况下Magento将按照块定义的先后顺序输出HTML</strong>】）。我们覆盖了“root”块的模板<br>template=”magentotutorial/helloworld/simple_page.phtml”</p>
+<p>模板文件的查找路径是当前主题（theme）的根目录，Magento默认设置时这里</p>
+<pre><code>app/design/frontend/yourtheme/default</code></pre>
+<h2 id="为页面加入内容"><a href="#为页面加入内容" class="headerlink" title="为页面加入内容"></a>为页面加入内容</h2><p>到目前为止，我们的页面都比较无聊，啥也没有。我们来为页面加点有意义的内容。修改local.xml如下</p>
+<p>Xml代码</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;layout version=&quot;0.1.0&quot;&gt;
+   &lt;helloworld_index_index&gt;
+        &lt;reference name=&quot;root&quot;&gt;  
+            &lt;block type=&quot;page/html&quot; name=&quot;root&quot; template=&quot;magentotutorial/helloworld/simple_page.phtml&quot;&gt;
+                &lt;block type=&quot;customer/form_register&quot; name=&quot;customer_form_register&quot; template=&quot;customer/form/register.phtml&quot;/&gt;  
+            &lt;/block&gt;  
+        &lt;/reference&gt;
+    &lt;/helloworld_index_index&gt;
+    &lt;helloworld_index_goodbye&gt;  
+        &lt;update handle=&quot;helloworld_index_index&quot; /&gt;  
+    &lt;/helloworld_index_goodbye&gt;
+&lt;/layout&gt;  </code></pre>
+<p>我们在“root”块里面嵌套了一个块“customer_form_register”。这个块是Magento本来就有的，包含了一张用户注册表单。 我们把这个块嵌套进来，那么我们在模板文件里面就能用这个块的内容。使用方法如下，修改simple_page.phtml</p>
+<p>Html代码</p>
+<pre><code>&lt;body&gt;
+    &lt;?php echo $this-&gt;getChildHtml(&#39;customer_form_register&#39;); ?&gt;  
+&lt;/body&gt;</code></pre>
+<p>这里“<code>getChildHtml</code>”的参数就是要引入的块的名字，使用起来相当方便。清空Magento缓存，刷新hello world页面，你应该在红色背景上看到用户注册表单。Magento还有一个块，叫做“<code>top.links</code>”，让我们把它也加进来。修改simple_page.html</p>
+<p>Html代码</p>
+<pre><code>&lt;body&gt;
+    &lt;h1&gt;Links&lt;/h1&gt;  
+    &lt;?php echo $this-&gt;getChildHtml(&#39;top.links&#39;); ?&gt;  
+    &lt;?php echo $this-&gt;getChildHtml(&#39;customer_form_register&#39;); ?&gt;  
+&lt;/body&gt;</code></pre>
+<p>刷新页面，你会发现<h1>Links</h1>显示出来了，但是“top.links”什么都没有显示。那是因为我们并没有把这个块引入到local.xml，所以Magento找不到这个块。“getChildHtml”的参数一定要是当前页面的布局文件中声明过的块。这样的话Magento就可以只实例化需要用到的块，节省了资源，我们也可以根据需要为块设置不同的模板文件。</p>
+<p>我们修改local.xml文件如下</p>
+<p>Xml代码</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;layout version=&quot;0.1.0&quot;&gt;
+    &lt;helloworld_index_index&gt;
+        &lt;reference name=&quot;root&quot;&gt;  
+            &lt;block type=&quot;page/html&quot; name=&quot;root&quot; template=&quot;magentotutorial/helloworld/simple_page.phtml&quot;&gt;
+                &lt;block type=&quot;page/template_links&quot; name=&quot;top.links&quot;/&gt;
+                &lt;block type=&quot;customer/form_register&quot; name=&quot;customer_form_register&quot; template=&quot;customer/form/register.phtml&quot;/&gt;  
+            &lt;/block&gt;  
+        &lt;/reference&gt;
+    &lt;/helloworld_index_index&gt;
+
+    &lt;helloworld_index_goodbye&gt;  
+        &lt;update handle=&quot;helloworld_index_index&quot; /&gt;  
+    &lt;/helloworld_index_goodbye&gt;
+&lt;/layout&gt;</code></pre>
+<p>清空Magento缓存，刷新页面，你会看到一排链接显示出来了。【译者注：如果你细心一点的话你会发现“top.links”块没有template属性，那是因为这个块的类中一定定义了默认的模板</p>
+<p>Php代码</p>
+<pre><code>protected function _construct() 
+&#123;  
+    $this-&gt;setTemplate(&#39;page/template/links.phtml&#39;);  
+&#125;</code></pre>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这一章我们讲解了布局的基础知识。你可能会觉得这个很复杂，但是你也不必过分担心，因为平常使用Magento是不会用到这些知识的，Magento提供的默认布局应该可以满足大部分需求。对于想要深入研究Magento的开发者来说，理解Magento的布局是至关重要的。布局， 块和模板构成了Magento MVC架构中的View，这也是Magento的特色之一。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/magento-%E5%B8%83%E5%B1%80-%E5%9D%97-%E6%A8%A1%E6%9D%BF/" rel="tag"># magento,布局,块,模板</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/08/18/Magento%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3-%E4%B8%89-Magento%E6%8E%A7%E5%88%B6%E5%99%A8/" rel="prev" title="Magento开发文档(三):Magento控制器">
+      <i class="fa fa-chevron-left"></i> Magento开发文档(三):Magento控制器
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/08/20/%E5%A6%82%E4%BD%95%E6%8A%8A%E5%AD%97%E5%86%99%E5%A5%BD%E7%9A%84%E4%B8%80%E4%BA%9B%E4%B8%AA%E4%BA%BA%E5%BF%83%E5%BE%97/" rel="next" title="如何把字写好的一些个人心得">
+      如何把字写好的一些个人心得 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B5%8C%E5%A5%97%E5%9D%97"><span class="nav-number">1.</span> <span class="nav-text">嵌套块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%83%E5%B1%80%E5%AF%B9%E8%B1%A1"><span class="nav-number">2.</span> <span class="nav-text">布局对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%99%E5%88%B0%E5%BA%95%E5%8F%91%E7%94%9F%E4%BB%80%E4%B9%88%E4%BA%8B%EF%BC%9F"><span class="nav-number">3.</span> <span class="nav-text">这到底发生什么事？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B%E5%8C%96%E5%9D%97%E5%AF%B9%E8%B1%A1"><span class="nav-number">4.</span> <span class="nav-text">实例化块对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lt-block-gt-%E5%92%8C-lt-reference-gt-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">5.</span> <span class="nav-text">&lt;block &#x2F;&gt;和&lt;reference &#x2F;&gt;的区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%83%E5%B1%80%E6%96%87%E4%BB%B6%E6%98%AF%E5%A6%82%E4%BD%95%E7%94%9F%E6%88%90%E7%9A%84"><span class="nav-number">6.</span> <span class="nav-text">布局文件是如何生成的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C"><span class="nav-number">7.</span> <span class="nav-text">操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8C%85%E5%B8%83%E5%B1%80"><span class="nav-number">8.</span> <span class="nav-text">包布局</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BB%93%E5%90%88%E6%93%8D%E4%BD%9C%E5%92%8C%E5%8C%85%E5%B8%83%E5%B1%80"><span class="nav-number">9.</span> <span class="nav-text">结合操作和包布局</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9B%B4%E6%96%B0%E6%88%91%E4%BB%AC%E7%9A%84%E4%BE%8B%E5%AD%90"><span class="nav-number">10.</span> <span class="nav-text">更新我们的例子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%80%E5%A7%8B%E8%BE%93%E5%87%BA%E5%92%8CgetChildHtml%E6%96%B9%E6%B3%95"><span class="nav-number">11.</span> <span class="nav-text">开始输出和getChildHtml方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BA%E9%A1%B5%E9%9D%A2%E5%8A%A0%E5%85%A5%E5%86%85%E5%AE%B9"><span class="nav-number">12.</span> <span class="nav-text">为页面加入内容</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number"></span> <span class="nav-text">Links</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.</span> <span class="nav-text">总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

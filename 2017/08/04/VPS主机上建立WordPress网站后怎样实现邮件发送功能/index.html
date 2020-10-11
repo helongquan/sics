@@ -1,37 +1,579 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="VPS主机上建立WordPress网站后怎样实现邮件发送功能Wordpress通过mail()函数来实现邮件发送，而mail函数需要sendmail模块支持才能正常工作。  这里请先把整篇文章阅读完了，再开始实操。  一般来说大多数人都是直接购买虚拟主机来搭建wordpress博客，而虚拟主机一般都默认安装了senmail模块，因此缺省的建在直接购买的虚拟主机上的wordpress的邮件发送功能是">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VPS主机上建立WordPress网站后怎样实现邮件发送功能">
+<meta property="og:url" content="http://example.com/2017/08/04/VPS%E4%B8%BB%E6%9C%BA%E4%B8%8A%E5%BB%BA%E7%AB%8BWordPress%E7%BD%91%E7%AB%99%E5%90%8E%E6%80%8E%E6%A0%B7%E5%AE%9E%E7%8E%B0%E9%82%AE%E4%BB%B6%E5%8F%91%E9%80%81%E5%8A%9F%E8%83%BD/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="VPS主机上建立WordPress网站后怎样实现邮件发送功能Wordpress通过mail()函数来实现邮件发送，而mail函数需要sendmail模块支持才能正常工作。  这里请先把整篇文章阅读完了，再开始实操。  一般来说大多数人都是直接购买虚拟主机来搭建wordpress博客，而虚拟主机一般都默认安装了senmail模块，因此缺省的建在直接购买的虚拟主机上的wordpress的邮件发送功能是">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://i.imgur.com/kOsyIgA.jpg">
+<meta property="og:image" content="http://i.imgur.com/MYTFHq0.jpg">
+<meta property="og:image" content="http://i.imgur.com/Fn7a7LJ.jpg">
+<meta property="og:image" content="http://i.imgur.com/gdrhPkS.jpg">
+<meta property="article:published_time" content="2017-08-04T02:22:43.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:53:16.681Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="服务器,VPS,wordpress,邮件,邮件收发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://i.imgur.com/kOsyIgA.jpg">
+
+<link rel="canonical" href="http://example.com/2017/08/04/VPS%E4%B8%BB%E6%9C%BA%E4%B8%8A%E5%BB%BA%E7%AB%8BWordPress%E7%BD%91%E7%AB%99%E5%90%8E%E6%80%8E%E6%A0%B7%E5%AE%9E%E7%8E%B0%E9%82%AE%E4%BB%B6%E5%8F%91%E9%80%81%E5%8A%9F%E8%83%BD/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>VPS主机上建立WordPress网站后怎样实现邮件发送功能 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/08/04/VPS%E4%B8%BB%E6%9C%BA%E4%B8%8A%E5%BB%BA%E7%AB%8BWordPress%E7%BD%91%E7%AB%99%E5%90%8E%E6%80%8E%E6%A0%B7%E5%AE%9E%E7%8E%B0%E9%82%AE%E4%BB%B6%E5%8F%91%E9%80%81%E5%8A%9F%E8%83%BD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          VPS主机上建立WordPress网站后怎样实现邮件发送功能
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-08-04 10:22:43" itemprop="dateCreated datePublished" datetime="2017-08-04T10:22:43+08:00">2017-08-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:16" itemprop="dateModified" datetime="2020-10-11T11:53:16+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>VPS主机上建立WordPress网站后怎样实现邮件发送功能<br>Wordpress通过mail()函数来实现邮件发送，而mail函数需要sendmail模块支持才能正常工作。</p>
+<blockquote>
+<p>这里请先把整篇文章阅读完了，再开始实操。</p>
+</blockquote>
+<p>一般来说大多数人都是直接购买虚拟主机来搭建wordpress博客，而虚拟主机一般都默认安装了senmail模块，因此缺省的建在直接购买的虚拟主机上的wordpress的邮件发送功能是直接可以正常工作的。而在VPS上，需要手工安装sendmail模块予以实现。</p>
+<p>一般情况下，VPS是需要安装VPS控制面板的，以便于对主机环境进行配置、方便建站和网站维护。有的VPS面板的安装程序已经集成了sendmail模块的安装，当vps控制面板安装完成后，wordpress的邮件发送也就可以直接使用了。如果sendmail模块没有被一起安装，则需要手工安装。</p>
+<p>下面以Ubuntu为例说明如何安装sendmail：</p>
+<p>1、安装：apt-get install sendmail</p>
+<p>2、启动服务：service sendmail start</p>
+<p>3、设置sendmail开机自动运行：</p>
+<pre><code>apt-get install chkconfig
+chkconfig sendmail on</code></pre>
+<p>4.修改下php.ini的配置，调用sendmail功能：</p>
+<pre><code>vim /usr/local/php/etc/php.ini </code></pre>
+<p>找到有关sendmail_path的那一行，去掉行首注释，并改成如下的样子：</p>
+<pre><code>sendmail_path = /usr/sbin/sendmail -t –i</code></pre>
+<p>下面是centos下安装和配置sendmail：</p>
+<p><strong>1、 Sendmail安装</strong></p>
+<p>在CentOS下，sendmail一般默认是随操作系统一起安装的。如果安装系统时没有安装sendmail服务，手动安装sendmail也很简单：</p>
+<pre><code># yum install -y sendmail 
+# yum install -y sendmail-cf </code></pre>
+<p>2、 Senmail的SMTP认证配置（不需要认证的可忽略此步）</p>
+<p>首先确认saslauthd服务是否安装或启动。</p>
+<p>安装saslauthd服务：# yum install -y saslauthd</p>
+<p>启动saslauthd服务：# service saslauthd start</p>
+<p><strong>(1) 配置Senmail的SMTP认证</strong></p>
+<pre><code># vi /etc/mail/sendmail.mc</code></pre>
+<p>然后找到以下两行代码</p>
+<pre><code>dnl TRUST_AUTH_MECH(`EXTERNAL DIGEST-MD5 CRAM-MD5 LOGIN PLAIN&#39;)dnl 
+dnl define(`confAUTH_MECHANISMS&#39;, `EXTERNAL GSSAPI DIGEST-MD5 CRAM-MD5 LOGIN PLAIN&#39;)dnl </code></pre>
+<p>将上面两行的dnl去掉。在sendmail文件中，dnl表示该行为注释行，是无效的，因此通过去除行首的dnl字符串可以开启相应的设置行。</p>
+<p><strong>(2) 设置Sendmail服务的网络访问权限</strong></p>
+<pre><code># vi /etc/mail/sendmail.mc</code></pre>
+<p>找到以下这句代码</p>
+<pre><code>DAEMON_OPTIONS(`Port=smtp,Addr=127.0.0.1, Name=MTA&#39;)dnl </code></pre>
+<p>将127.0.0.1改为0.0.0.0，意思是任何主机都可以访问Sendmail服务。如果仅让某一个网段能够访问到Sendmail服务，将127.0.0.1改为形如192.168.1.0/24的一个特定网段地址。</p>
+<p><strong>3、 生成Sendmail配置文件</strong></p>
+<p>Sendmail的配置文件由m4来生成，m4工具在sendmail-cf包中。如果系统无法识别m4命令，说明sendmail-cf软件包没有安装。</p>
+<p>生成Sendmail的配置文件：</p>
+<pre><code>m4 /etc/mail/sendmail.mc &gt; /etc/mail/sendmail.cf </code></pre>
+<p>需要重启Sendmail才能使配置文件生效。</p>
+<p><strong>4、 Sendmail邮件域名配置</strong></p>
+<p>配置sendmail使用合法的域名分两步，修改sendmail的配置文件和添加域名MX记录。</p>
+<p>sendmail可以直接使用 “-r <a href="mailto:&#97;&#x63;&#x63;&#111;&#x75;&#110;&#x74;&#x40;&#x64;&#111;&#x6d;&#97;&#x69;&#110;&#46;&#99;&#x6f;&#109;">&#97;&#x63;&#x63;&#111;&#x75;&#110;&#x74;&#x40;&#x64;&#111;&#x6d;&#97;&#x69;&#110;&#46;&#99;&#x6f;&#109;</a>” 参数来以任意源地址发送邮件，但目前主流的邮箱都会将源地址和反向解析IP进行比较，如果解析不到或是解析的IP不匹配，轻则将邮件直接归为SPAM，严重的就直接拒绝接收。</p>
+<p>MX记录（Mail Exchanger Record）主要是接收邮件时使用，即当投递一封新邮件时，会查询收件人域名的MX记录，然后通过MX记录得到的IP地址进行投递。同时邮件厂商在接收邮件的时候也会将源地址和MX记录进行比较，作为垃圾邮件的判断标准之一。</p>
+<p>第一步：添加域名</p>
+<p>(1) 将域名加入到local-host-names文件</p>
+<p>vi /etc/mail/local-host-names，添加</p>
+<pre><code>abc123.com </code></pre>
+<p>(2) 修改submit.cf文件</p>
+<p> vi /etc/mail/submit.cf，找到行 #Dj$w.Foo.COM，修改为</p>
+<pre><code>Djabc123.com </code></pre>
+<p>至此，sendmail邮件命名配置完毕，重启sendmail使配置生效。</p>
+<p>要使建在VPS上的wordpress能够发送邮件，还需要设定PHP.ini：</p>
+<pre><code>vi /usr/local/php/etc/php.ini </code></pre>
+<p>找到有关sendmail_path的那一行，去掉行首注释，并改成如下的样子：</p>
+<pre><code>sendmail_path = /usr/sbin/sendmail</code></pre>
+<p>这里虽然完成了，我还是不能解决这个问题，怎么办？</p>
+<p>首先我需要说下的是，我的云服务器是centos的，版本6.5，然后呢，我是在WDCP的环境下出现的这个问题，最开始我请教了下服务器商家那边的人，那边说要把开启一个服务iptables，把这个服务启动，如果没有被启动的话。</p>
+<p>然后，把25端口开启，开启办法如下：</p>
+<p><img src="http://i.imgur.com/kOsyIgA.jpg"></p>
+<p>然后查看下是否已经有了</p>
+<p><img src="http://i.imgur.com/MYTFHq0.jpg"></p>
+<p>如果没有这个，那么我们就添加一条规则，怎么添加呢？进入到安全管理模块</p>
+<p><img src="http://i.imgur.com/Fn7a7LJ.jpg"></p>
+<p>点击进入：</p>
+<p><img src="http://i.imgur.com/gdrhPkS.jpg"></p>
+<p>前面都不填，把目标端口填上25就行了，点击保存。</p>
+<p>然后重启一下服务。</p>
+<p>这是我在解决这个问题之前所做的，可是然并卵，还是收不到电邮。</p>
+<p>然后，重点来了：</p>
+<p>解决思路就是先不管WDCP默认系统中是否已经安装sendmail组件，我们先卸载，然后再重新安装就可以。</p>
+<p>第一、卸载sendmail组件</p>
+<pre><code>yum -y remove sendmail</code></pre>
+<p>第二、重新安装sendmail组件</p>
+<pre><code>yum -y install sendmail</code></pre>
+<p>第三、启动sendmail组件</p>
+<pre><code>service sendmail restart</code></pre>
+<p>为了确保可以发送，我们可以查看下php.ini文件中的sendmail_path=文件路径，必须为/usr/sbin/sendmail才正确。</p>
+<p>在服务器根目录下运行命令：</p>
+<pre><code>sudo find / -name &#39;php.ini&#39;</code></pre>
+<p>当然可能会搜索出很多，找到这个目录（这个是针对WDCP，如果是其他的环境，大家可以找到php.ini这个配置文件）：</p>
+<pre><code>/www/wdlinux/etc/php.ini</code></pre>
+<p>然后找到sendmail_path，一般情况是被注释的，找到有关sendmail_path的那一行，去掉行首注释，并改成如下的样子：</p>
+<pre><code>sendmail_path = /usr/sbin/sendmail</code></pre>
+<p>为了确保路径是对的，可以去这个路径下看看有木有这个sendmail，一般是有的。</p>
+<p>最后一步，我们重启VPS。</p>
+<p>这样我们就可以解决通过PHP的mail()函数进行电邮的发送了。</p>
+<p>这里科普一下，通过PHP发送电邮的两种方式：</p>
+<p><strong>一、使用PHP内置的mail()函数</strong></p>
+<pre><code>&lt;?php 
+$to = &quot;test@163.com&quot;; //收件人 
+$subject = &quot;Test&quot;; //主题 
+$message = &quot;This is a test mail!&quot;; //正文 
+mail($to,$subject,$message);
+?&gt;</code></pre>
+<p>不过这种方式报错的几率会很大，我们可以改善一下：</p>
+<pre><code>&lt;?php 
+$to = &quot;test@163.com&quot;;//收件人 
+$subject = &quot;Test&quot;;//邮件主题 
+$message = &quot;This is a test mail!&quot;;//邮件正文 
+ini_set(&#39;SMTP&#39;,&#39;smtp.163.com&#39;);//发件SMTP服务器 
+ini_set(&#39;smtp_port&#39;,25);//发件SMTP服务器端口 
+ini_set(&#39;sendmail_from&#39;,&quot;admin@163.com&quot;);//发件人邮箱 
+mail($to,$subject,$message);
+?&gt;</code></pre>
+<p>看到没？简单的几行代码就能发送电邮了,根据自己的测试，很遗憾还是不能发送电邮，这是需要验证信息，怎么写验证信息呢？在哪里配置呢？带着这些疑问参考一些技术文章后得出结论，使用mail()函数发送邮件就必须要有一台无需SMTP验证就可以发信的邮件服务器。但现在的SMTP邮件服务器基本上都是需要验证的，所以要想使用它发邮件就只能自己在本地搭一个不需要验证的SMTP服务器。</p>
+<p><strong>二、使用封装SMTP协议的邮件类</strong></p>
+<p>这种方法就比较常见了，尤其对于广大自己没有服务器，从网上购买虚拟主机的同学，第一种方法不现实，所以还是自己使用SMTP协议来发送邮件吧。</p>
+<p>不过要完成这项工作的话，就需要你对SMTP协议有一定的了解，喜欢事必躬亲的同学可以自己动手写一个，喜欢拿来主义的同学就可以从网上下载了，有很多。</p>
+<p>不过我比较推荐使用PEAR扩展中的Mail类，功能强大：可以支持纯文本、HTML格式的邮件；各字段都可设置编码，正确配置不会出现中文乱码情况；可以支持附件等等。</p>
+<p>在服务器可以使用pear install Mail 命令快速安装，没有足够服务器权限的同学也可以直接下载类的PHP源码包含进来就可以了。</p>
+<p>注：Mail类依赖  Net/SMTP.php  和 Mail/mime.php ，要一块下载，使用时一块包含进来。</p>
+<p>下面我举例说明一下在Mail类发送邮件的方法吧，网上其他SMTP邮件类使用方法一块也类似，可以参考：</p>
+<pre><code>&lt;?php 
+
+// Pear Mail 扩展 
+require_once(&#39;Mail.php&#39;); 
+require_once(&#39;Mail/mime.php&#39;); 
+require_once(&#39;Net/SMTP.php&#39;); 
+
+$smtpinfo = array(); 
+$smtpinfo[&quot;host&quot;] = &quot;smtp.163.com&quot;;//SMTP服务器 
+$smtpinfo[&quot;port&quot;] = &quot;25&quot;; //SMTP服务器端口 
+$smtpinfo[&quot;username&quot;] = &quot;username@163.com&quot;; //发件人邮箱 
+$smtpinfo[&quot;password&quot;] = &quot;password&quot;;//发件人邮箱密码 
+$smtpinfo[&quot;timeout&quot;] = 10;//网络超时时间，秒 
+$smtpinfo[&quot;auth&quot;] = true;//登录验证 
+//$smtpinfo[&quot;debug&quot;] = true;//调试模式 
+
+// 收件人列表 
+$mailAddr = array(&#39;receiver@163.com&#39;); 
+
+// 发件人显示信息 
+$from = &quot;Name &lt;username@163.com&gt;&quot;; 
+
+// 收件人显示信息 
+$to = implode(&#39;,&#39;,$mailAddr); 
+
+// 邮件标题 
+$subject = &quot;这是一封测试邮件&quot;; 
+
+// 邮件正文 
+$content = &quot;&lt;h3&gt;随便写点什么&lt;/h3&gt;&quot;; 
+
+// 邮件正文类型，格式和编码 
+$contentType = &quot;text/html; charset=utf-8&quot;; 
+
+//换行符号 Linux: \n Windows: \r\n 
+$crlf = &quot;\n&quot;; 
+$mime = new Mail_mime($crlf); 
+$mime-&gt;setHTMLBody($content); 
+
+$param[&#39;text_charset&#39;] = &#39;utf-8&#39;; 
+$param[&#39;html_charset&#39;] = &#39;utf-8&#39;; 
+$param[&#39;head_charset&#39;] = &#39;utf-8&#39;; 
+$body = $mime-&gt;get($param); 
+
+$headers = array(); 
+$headers[&quot;From&quot;] = $from; 
+$headers[&quot;To&quot;] = $to; 
+$headers[&quot;Subject&quot;] = $subject; 
+$headers[&quot;Content-Type&quot;] = $contentType; 
+$headers = $mime-&gt;headers($headers); 
+
+$smtp =&amp; Mail::factory(&quot;smtp&quot;, $smtpinfo); 
+
+
+$mail = $smtp-&gt;send($mailAddr, $headers, $body); 
+$smtp-&gt;disconnect(); 
+
+if (PEAR::isError($mail)) &#123; 
+  //发送失败 
+  echo &#39;Email sending failed: &#39; . $mail-&gt;getMessage().&quot;\n&quot;; 
+&#125; 
+else&#123; 
+  //发送成功 
+  echo &quot;success!\n&quot;; 
+&#125;
+?&gt;</code></pre>
+<p>结论：这种方式发送邮件无需装任何软件，只需要包含进来一个PHP类，然后多写几行配置代码，就可以了。并且网上有很多示例的代码，很多时候只要复制过来然后修改个别的几个参数就可以用了，所以会很方便，推荐使用此方法。</p>
+<p>后面的这三段来自网友的努力，这里被我引用了，仅仅当做一种笔记，也算是一种参考。大家共同学习，如果有侵犯成果，请联系我。</p>
+<p>结语：在云服务器上搭建wordpress的时候，不能发送电邮的问题，当你认真读完这篇文章后相信你已经解决了这个问题了，如果还有其他问题，可以与我一起交流，我的QQ：791447771</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8-VPS-wordpress-%E9%82%AE%E4%BB%B6-%E9%82%AE%E4%BB%B6%E6%94%B6%E5%8F%91/" rel="tag"># 服务器,VPS,wordpress,邮件,邮件收发</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/07/28/WordPress%E4%B8%8A%E4%BC%A0%E4%B8%AD%E6%96%87%E6%96%87%E4%BB%B6%E5%90%8D%E6%88%96%E5%9B%BE%E7%89%87%E5%90%8D%E4%B9%B1%E7%A0%81%E9%97%AE%E9%A2%98/" rel="prev" title="WordPress上传中文文件名或图片名乱码问题">
+      <i class="fa fa-chevron-left"></i> WordPress上传中文文件名或图片名乱码问题
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/08/05/woocommerce%E5%AE%9A%E5%88%B6/" rel="next" title="woocommerce定制">
+      woocommerce定制 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

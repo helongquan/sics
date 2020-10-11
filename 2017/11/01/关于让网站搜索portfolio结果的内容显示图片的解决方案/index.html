@@ -1,37 +1,743 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="我们以Avada主题为例，进行讲解。 首先我们需要有网站的FTP账号，进入到主题的根目录下，找到search.php，这个是用来控制搜索结果的php文件，我们用浏览器开发者工具可以看到 &lt;main class&#x3D;&#39;content template-search &lt;?php avia_layout_class( &#39;content&#39; ); ?&gt; units&amp;#3">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于让网站搜索portfolio结果的内容显示图片的解决方案">
+<meta property="og:url" content="http://example.com/2017/11/01/%E5%85%B3%E4%BA%8E%E8%AE%A9%E7%BD%91%E7%AB%99%E6%90%9C%E7%B4%A2portfolio%E7%BB%93%E6%9E%9C%E7%9A%84%E5%86%85%E5%AE%B9%E6%98%BE%E7%A4%BA%E5%9B%BE%E7%89%87%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="我们以Avada主题为例，进行讲解。 首先我们需要有网站的FTP账号，进入到主题的根目录下，找到search.php，这个是用来控制搜索结果的php文件，我们用浏览器开发者工具可以看到 &lt;main class&#x3D;&#39;content template-search &lt;?php avia_layout_class( &#39;content&#39; ); ?&gt; units&amp;#3">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/7mXLzhg.png">
+<meta property="og:image" content="https://i.imgur.com/nbUT7Bz.png">
+<meta property="og:image" content="https://i.imgur.com/XcQogdU.jpg">
+<meta property="article:published_time" content="2017-11-01T09:18:54.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:53:02.150Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="portfolio,wordpress,缩略图">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/7mXLzhg.png">
+
+<link rel="canonical" href="http://example.com/2017/11/01/%E5%85%B3%E4%BA%8E%E8%AE%A9%E7%BD%91%E7%AB%99%E6%90%9C%E7%B4%A2portfolio%E7%BB%93%E6%9E%9C%E7%9A%84%E5%86%85%E5%AE%B9%E6%98%BE%E7%A4%BA%E5%9B%BE%E7%89%87%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>关于让网站搜索portfolio结果的内容显示图片的解决方案 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/11/01/%E5%85%B3%E4%BA%8E%E8%AE%A9%E7%BD%91%E7%AB%99%E6%90%9C%E7%B4%A2portfolio%E7%BB%93%E6%9E%9C%E7%9A%84%E5%86%85%E5%AE%B9%E6%98%BE%E7%A4%BA%E5%9B%BE%E7%89%87%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          关于让网站搜索portfolio结果的内容显示图片的解决方案
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-11-01 17:18:54" itemprop="dateCreated datePublished" datetime="2017-11-01T17:18:54+08:00">2017-11-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:02" itemprop="dateModified" datetime="2020-10-11T11:53:02+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>我们以Avada主题为例，进行讲解。</p>
+<p>首先我们需要有网站的FTP账号，进入到主题的根目录下，找到search.php，这个是用来控制搜索结果的php文件，我们用浏览器开发者工具可以看到</p>
+<pre><code>&lt;main class=&#39;content template-search &lt;?php avia_layout_class( &#39;content&#39; ); ?&gt; units&#39; &lt;?php avia_markup_helper(array(&#39;context&#39; =&gt; &#39;content&#39;));?&gt;&gt;
+
+&lt;div class=&#39;page-heading-container clearfix&#39;&gt;
+    &lt;section class=&quot;search_form_field&quot;&gt;
+        &lt;?php
+        echo &quot;&lt;h4&gt;&quot;.__(&#39;New Search&#39;,&#39;avia_framework&#39;).&quot;&lt;/h4&gt;&quot;;
+        echo &quot;&lt;p&gt;&quot;.__(&#39;If you are not happy with the results below please do another search&#39;,&#39;avia_framework&#39;).&quot;&lt;/p&gt;&quot;;
+
+        get_search_form();
+        echo &quot;&lt;span class=&#39;author-extra-border&#39;&gt;&lt;/span&gt;&quot;;
+        ?&gt;
+    &lt;/section&gt;
+&lt;/div&gt;
+
+
+&lt;?php
+if(!empty($_GET[&#39;s&#39;]) || have_posts())
+&#123;
+    echo &quot;&lt;h4 class=&#39;extra-mini-title widgettitle&#39;&gt;你搜出了&#123;$results&#125;&lt;/h4&gt;&quot;;
+
+    /* Run the loop to output the posts.
+    * If you want to overload this in a child theme then include a file
+    * called loop-search.php and that will be used instead.
+    */
+    $more = 0;
+    get_template_part( &#39;includes/loop&#39;, &#39;search&#39; );
+
+&#125;
+
+?&gt;
+
+&lt;!--end content--&gt;
+&lt;/main&gt;</code></pre>
+<p>这里是控制显示的区域，由<main></main>标签包含着。这里我们通过观察，可以看到</p>
+<pre><code>get_template_part( &#39;includes/loop&#39;, &#39;search&#39; );</code></pre>
+<p>是控制搜索结果的循环输出的地方，这里有个路径，我们顺藤摸瓜，可以找到includes文件夹下的，loop-search.php文件，这个可能不是很好理解，这个是wordpress的一个写法，具体可以参考<a target="_blank" rel="noopener" href="https://developer.wordpress.org/reference/functions/get_template_part/">这里</a>，他的写法如下：</p>
+<pre><code>get_template_part( $slug, $name );</code></pre>
+<p>意思就是$slug是前面部分，后面的$name是非必须的。官网给出一个很好的例子。</p>
+<p>Assuming the theme folder is wp-content/themes, that the parent theme is twentyten, and the child theme is twentytenchild, then the following code —</p>
+<pre><code>&lt;?php get_template_part( &#39;loop&#39;, &#39;index&#39; ); ?&gt;</code></pre>
+<p>will do a PHP require() for the first file that exists among these, in this priority:</p>
+<ul>
+<li>wp-content/themes/twentytenchild/loop-index.php</li>
+</ul>
+<ul>
+<li>wp-content/themes/twentyten/loop-index.php</li>
+</ul>
+<ul>
+<li>wp-content/themes/twentytenchild/loop.php</li>
+</ul>
+<ul>
+<li>wp-content/themes/twentyten/loop.php</li>
+</ul>
+<p>已经说得很明白了，我们现在要找的是在includes文件夹下的loop-search.php这个文件。并且打开这个文件。配合浏览器开发者工具定位到：</p>
+<pre><code>&lt;article &lt;?php post_class(&#39;post-entry post-entry-type-&#39;.$post_format . &quot; &quot; . $post_class . &quot; &quot;); avia_markup_helper(array(&#39;context&#39; =&gt; &#39;entry&#39;)); ?&gt;&gt;
+    &lt;div class=&quot;entry-content-wrapper clearfix &lt;?php echo $post_format; ?&gt;-content&quot;&gt;
+
+&lt;header class=&quot;entry-content-header&quot;&gt;
+
+            &lt;?php
+            echo &quot;&lt;span class=&#39;search-result-counter &#123;$counterclass&#125;&#39;&gt;&#123;$post_loop_count&#125;&lt;/span&gt;&quot;;
+            //echo the post title
+            $markup = avia_markup_helper(array(&#39;context&#39; =&gt; &#39;entry_title&#39;,&#39;echo&#39;=&gt;false));
+            echo &quot;&lt;h2 class=&#39;post-title entry-title&#39;&gt;&lt;a title=&#39;&quot;.the_title_attribute(&#39;echo=0&#39;).&quot;&#39; href=&#39;&quot;.get_permalink().&quot;&#39; $markup&gt;&quot;.get_the_title().&quot;&lt;/a&gt;&lt;/h2&gt;&quot;;
+
+            ?&gt;
+            &lt;span class=&#39;post-meta-infos&#39;&gt;
+                &lt;time class=&#39;date-container minor-meta updated&#39; &lt;?php avia_markup_helper(array(&#39;context&#39; =&gt; &#39;entry_time&#39;)); ?&gt;&gt;
+                    &lt;?php the_time(&#39;d M Y&#39;); ?&gt;
+                &lt;/time&gt;
+                &lt;?php
+                if(get_post_type() !== &quot;page&quot;)
+                &#123;
+                    if ( get_comments_number() != &quot;0&quot; || comments_open() )
+                    &#123;
+                        echo &quot;&lt;span class=&#39;text-sep&#39;&gt;/&lt;/span&gt;&quot;;
+                        echo &quot;&lt;span class=&#39;comment-container minor-meta&#39;&gt;&quot;;
+                        comments_popup_link(  &quot;0 &quot;.__(&#39;Comments&#39;,&#39;avia_framework&#39;),
+                                              &quot;1 &quot;.__(&#39;Comment&#39; ,&#39;avia_framework&#39;),
+                                              &quot;% &quot;.__(&#39;Comments&#39;,&#39;avia_framework&#39;),&#39;comments-link&#39;,
+                                              &quot;&quot;.__(&#39;Comments Disabled&#39;,&#39;avia_framework&#39;));
+                        echo &quot;&lt;/span&gt;&quot;;
+                    &#125;
+                &#125;
+
+
+                $taxonomies  = get_object_taxonomies(get_post_type($the_id));
+                $cats = &#39;&#39;;
+                $excluded_taxonomies = array_merge( get_taxonomies( array( &#39;public&#39; =&gt; false ) ), array(&#39;post_tag&#39;,&#39;post_format&#39;) );
+                $excluded_taxonomies = apply_filters(&#39;avf_exclude_taxonomies&#39;, $excluded_taxonomies, get_post_type($the_id), $the_id);
+
+                if(!empty($taxonomies))
+                &#123;
+                    foreach($taxonomies as $taxonomy)
+                    &#123;
+                        if(!in_array($taxonomy, $excluded_taxonomies))
+                        &#123;
+                            $cats .= get_the_term_list($the_id, $taxonomy, &#39;&#39;, &#39;, &#39;,&#39;&#39;).&#39; &#39;;
+                        &#125;
+                    &#125;
+                &#125;
+
+                if(!empty($cats))
+                &#123;
+                    echo &quot;&lt;span class=&#39;text-sep&#39;&gt;/&lt;/span&gt;&quot;;
+                    echo &#39;&lt;span class=&quot;blog-categories minor-meta&quot;&gt;&#39;.__(&#39;in&#39;,&#39;avia_framework&#39;).&quot; &quot;;
+                    echo $cats;
+                    echo &#39;&lt;/span&gt;&#39;;
+                &#125;
+
+                ?&gt;
+
+            &lt;/span&gt;
+      &lt;/header&gt;
+   &lt;/div&gt;
+
+    &lt;footer class=&quot;entry-footer&quot;&gt;&lt;/footer&gt;
+
+    &lt;?php do_action(&#39;ava_after_content&#39;, $the_id, &#39;loop-search&#39;); ?&gt;
+&lt;/article&gt;&lt;!--end post-entry--&gt;</code></pre>
+<p>然后我们的原来是搜索出来的效果是：</p>
+<p><img src="https://i.imgur.com/7mXLzhg.png"></p>
+<p>我们把上面的代码添加一个显示缩略图的功能，找到合适的位置把以下代码：</p>
+<pre><code>&lt;?php include( TEMPLATEPATH . &#39;/thumbnail.php&#39; ); ?&gt;</code></pre>
+<p>其中我们准备一个thumbnail.php文件，放在主题跟目录下，里面的代码内容如下：</p>
+<pre><code>&lt;div class=&quot;thumbnail_t&quot;&gt;
+    &lt;?php if ( get_post_meta($post-&gt;ID, &#39;thumbnail&#39;, true) ) : ?&gt;
+    &lt;?php $image = get_post_meta($post-&gt;ID, &#39;thumbnail&#39;, true); ?&gt;
+    &lt;a href=&quot;&lt;?php the_permalink() ?&gt;&quot; rel=&quot;bookmark&quot; title=&quot;&lt;?php the_title(); ?&gt;&quot;&gt;&lt;img src=&quot;&lt;?php echo $image; ?&gt;&quot; alt=&quot;&lt;?php the_title(); ?&gt;&quot;/&gt;&lt;/a&gt;
+    &lt;?php else: ?&gt;
+&lt;/div&gt;
+&lt;!-- 截图 --&gt;
+&lt;div class=&quot;thumbnail&quot;&gt;
+&lt;a href=&quot;&lt;?php the_permalink() ?&gt;&quot; rel=&quot;bookmark&quot; title=&quot;&lt;?php the_title(); ?&gt;&quot;&gt;
+&lt;?php if (has_post_thumbnail()) &#123; the_post_thumbnail(&#39;thumbnail&#39;); &#125;
+else &#123; ?&gt;
+&lt;img class=&quot;home-thumb&quot; src=&quot;&lt;?php echo catch_first_image() ?&gt;&quot; width=&quot;100%&quot; height=&quot;auto&quot; alt=&quot;&lt;?php the_title(); ?&gt;&quot;/&gt;
+&lt;?php &#125; ?&gt;
+&lt;/a&gt;
+&lt;?php endif; ?&gt;
+&lt;/div&gt;</code></pre>
+<p>添加到标题前面，显示标题的代码是：</p>
+<pre><code>&lt;h2 class=&#39;post-title entry-title&#39;&gt;&lt;a title=&#39;&quot;.the_title_attribute(&#39;echo=0&#39;).&quot;&#39; href=&#39;&quot;.get_permalink().&quot;&#39; $markup&gt;&quot;.get_the_title().&quot;&lt;/a&gt;&lt;/h2&gt;</code></pre>
+<p>所以在前面添加即可，最后的代码为：</p>
+<pre><code>&lt;article &lt;?php post_class(&#39;post-entry post-entry-type-&#39;.$post_format . &quot; &quot; . $post_class . &quot; &quot;); avia_markup_helper(array(&#39;context&#39; =&gt; &#39;entry&#39;)); ?&gt;&gt;
+    &lt;div class=&quot;entry-content-wrapper clearfix &lt;?php echo $post_format; ?&gt;-content&quot;&gt;
+&lt;header class=&quot;entry-content-header&quot;&gt;
+            &lt;?php include( TEMPLATEPATH . &#39;/thumbnail.php&#39; ); ?&gt;  //新添加的显示缩略图的标签
+            &lt;?php
+            echo &quot;&lt;span class=&#39;search-result-counter &#123;$counterclass&#125;&#39;&gt;&#123;$post_loop_count&#125;&lt;/span&gt;&quot;;
+            //echo the post title
+            $markup = avia_markup_helper(array(&#39;context&#39; =&gt; &#39;entry_title&#39;,&#39;echo&#39;=&gt;false));
+            echo &quot;&lt;h2 class=&#39;post-title entry-title&#39;&gt;&lt;a title=&#39;&quot;.the_title_attribute(&#39;echo=0&#39;).&quot;&#39; href=&#39;&quot;.get_permalink().&quot;&#39; $markup&gt;&quot;.get_the_title().&quot;&lt;/a&gt;&lt;/h2&gt;&quot;;
+
+            ?&gt;
+            &lt;span class=&#39;post-meta-infos&#39;&gt;
+                &lt;time class=&#39;date-container minor-meta updated&#39; &lt;?php avia_markup_helper(array(&#39;context&#39; =&gt; &#39;entry_time&#39;)); ?&gt;&gt;
+                    &lt;?php the_time(&#39;d M Y&#39;); ?&gt;
+                &lt;/time&gt;
+                &lt;?php
+                if(get_post_type() !== &quot;page&quot;)
+                &#123;
+                    if ( get_comments_number() != &quot;0&quot; || comments_open() )
+                    &#123;
+                        echo &quot;&lt;span class=&#39;text-sep&#39;&gt;/&lt;/span&gt;&quot;;
+                        echo &quot;&lt;span class=&#39;comment-container minor-meta&#39;&gt;&quot;;
+                        comments_popup_link(  &quot;0 &quot;.__(&#39;Comments&#39;,&#39;avia_framework&#39;),
+                                              &quot;1 &quot;.__(&#39;Comment&#39; ,&#39;avia_framework&#39;),
+                                              &quot;% &quot;.__(&#39;Comments&#39;,&#39;avia_framework&#39;),&#39;comments-link&#39;,
+                                              &quot;&quot;.__(&#39;Comments Disabled&#39;,&#39;avia_framework&#39;));
+                        echo &quot;&lt;/span&gt;&quot;;
+                    &#125;
+                &#125;
+
+
+                $taxonomies  = get_object_taxonomies(get_post_type($the_id));
+                $cats = &#39;&#39;;
+                $excluded_taxonomies = array_merge( get_taxonomies( array( &#39;public&#39; =&gt; false ) ), array(&#39;post_tag&#39;,&#39;post_format&#39;) );
+                $excluded_taxonomies = apply_filters(&#39;avf_exclude_taxonomies&#39;, $excluded_taxonomies, get_post_type($the_id), $the_id);
+
+                if(!empty($taxonomies))
+                &#123;
+                    foreach($taxonomies as $taxonomy)
+                    &#123;
+                        if(!in_array($taxonomy, $excluded_taxonomies))
+                        &#123;
+                            $cats .= get_the_term_list($the_id, $taxonomy, &#39;&#39;, &#39;, &#39;,&#39;&#39;).&#39; &#39;;
+                        &#125;
+                    &#125;
+                &#125;
+
+                if(!empty($cats))
+                &#123;
+                    echo &quot;&lt;span class=&#39;text-sep&#39;&gt;/&lt;/span&gt;&quot;;
+                    echo &#39;&lt;span class=&quot;blog-categories minor-meta&quot;&gt;&#39;.__(&#39;in&#39;,&#39;avia_framework&#39;).&quot; &quot;;
+                    echo $cats;
+                    echo &#39;&lt;/span&gt;&#39;;
+                &#125;
+
+                ?&gt;
+
+            &lt;/span&gt;
+     &lt;/header&gt;
+   &lt;/div&gt;
+
+    &lt;footer class=&quot;entry-footer&quot;&gt;&lt;/footer&gt;
+
+    &lt;?php do_action(&#39;ava_after_content&#39;, $the_id, &#39;loop-search&#39;); ?&gt;
+&lt;/article&gt;&lt;!--end post-entry--&gt;</code></pre>
+<p>然后保存，上传覆盖原来的文件即可。</p>
+<p>最后的效果是：</p>
+<p><img src="https://i.imgur.com/nbUT7Bz.png"></p>
+<p>如果想要显示的样式好看点，我们可以在添加一些类，进行优化，我们把上面的代码修改下，改成如下：</p>
+<pre><code>&lt;article &lt;?php post_class(&#39;post-entry post-entry-type-&#39;.$post_format . &quot; &quot; . $post_class . &quot; &quot;); avia_markup_helper(array(&#39;context&#39; =&gt; &#39;entry&#39;)); ?&gt;&gt;
+    &lt;div class=&quot;entry-content-wrapper clearfix &lt;?php echo $post_format; ?&gt;-content nocti_customsearch&quot;&gt;   //额外新添加一个nocti_customsearch类,以美化显示搜索结果
+
+        &lt;header class=&quot;entry-content-header&quot;&gt;
+            &lt;span class=&#39;search-result-counter&#39;&gt;    //新添加的显示缩略图的标签
+                &lt;?php include( TEMPLATEPATH . &#39;/thumbnail.php&#39; ); ?&gt;   //新添加的显示缩略图的标签
+            &lt;/span&gt;    //新添加的显示缩略图的标签
+            &lt;?php
+            // echo &quot;&lt;span class=&#39;search-result-counter &#123;$counterclass&#125;&#39;&gt;&#123;$post_loop_count&#125;&lt;/span&gt;&quot;;  //把显示序号的标签注销或者隐藏
+            //echo the post title
+            $markup = avia_markup_helper(array(&#39;context&#39; =&gt; &#39;entry_title&#39;,&#39;echo&#39;=&gt;false));
+            echo &quot;&lt;h2 class=&#39;post-title entry-title&#39;&gt;&lt;a title=&#39;&quot;.the_title_attribute(&#39;echo=0&#39;).&quot;&#39; href=&#39;&quot;.get_permalink().&quot;&#39; $markup&gt;&quot;.get_the_title().&quot;&lt;/a&gt;&lt;/h2&gt;&quot;;
+
+            ?&gt;
+            &lt;span class=&#39;post-meta-infos&#39;&gt;
+                &lt;time class=&#39;date-container minor-meta updated&#39; &lt;?php avia_markup_helper(array(&#39;context&#39; =&gt; &#39;entry_time&#39;)); ?&gt;&gt;
+                    &lt;?php the_time(&#39;d M Y&#39;); ?&gt;
+                &lt;/time&gt;
+                &lt;?php
+                if(get_post_type() !== &quot;page&quot;)
+                &#123;
+                    if ( get_comments_number() != &quot;0&quot; || comments_open() )
+                    &#123;
+                        echo &quot;&lt;span class=&#39;text-sep&#39;&gt;/&lt;/span&gt;&quot;;
+                        echo &quot;&lt;span class=&#39;comment-container minor-meta&#39;&gt;&quot;;
+                        comments_popup_link(  &quot;0 &quot;.__(&#39;Comments&#39;,&#39;avia_framework&#39;),
+                                              &quot;1 &quot;.__(&#39;Comment&#39; ,&#39;avia_framework&#39;),
+                                              &quot;% &quot;.__(&#39;Comments&#39;,&#39;avia_framework&#39;),&#39;comments-link&#39;,
+                                              &quot;&quot;.__(&#39;Comments Disabled&#39;,&#39;avia_framework&#39;));
+                        echo &quot;&lt;/span&gt;&quot;;
+                    &#125;
+                &#125;
+
+
+                $taxonomies  = get_object_taxonomies(get_post_type($the_id));
+                $cats = &#39;&#39;;
+                $excluded_taxonomies = array_merge( get_taxonomies( array( &#39;public&#39; =&gt; false ) ), array(&#39;post_tag&#39;,&#39;post_format&#39;) );
+                $excluded_taxonomies = apply_filters(&#39;avf_exclude_taxonomies&#39;, $excluded_taxonomies, get_post_type($the_id), $the_id);
+
+                if(!empty($taxonomies))
+                &#123;
+                    foreach($taxonomies as $taxonomy)
+                    &#123;
+                        if(!in_array($taxonomy, $excluded_taxonomies))
+                        &#123;
+                            $cats .= get_the_term_list($the_id, $taxonomy, &#39;&#39;, &#39;, &#39;,&#39;&#39;).&#39; &#39;;
+                        &#125;
+                    &#125;
+                &#125;
+
+                if(!empty($cats))
+                &#123;
+                    echo &quot;&lt;span class=&#39;text-sep&#39;&gt;/&lt;/span&gt;&quot;;
+                    echo &#39;&lt;span class=&quot;blog-categories minor-meta&quot;&gt;&#39;.__(&#39;in&#39;,&#39;avia_framework&#39;).&quot; &quot;;
+                    echo $cats;
+                    echo &#39;&lt;/span&gt;&#39;;
+                &#125;
+
+                ?&gt;
+
+            &lt;/span&gt;
+        &lt;/header&gt;
+
+        &lt;?php
+            echo &#39;&lt;div class=&quot;entry-content&quot; &#39;.avia_markup_helper(array(&#39;context&#39; =&gt; &#39;entry_content&#39;,&#39;echo&#39;=&gt;false)).&#39;&gt;&#39;;
+            $excerpt = trim(get_the_excerpt());
+            if(!empty($excerpt))
+            &#123;
+                the_excerpt();
+            &#125;
+            else
+            &#123;
+                $excerpt = strip_shortcodes( get_the_content() );
+                $excerpt = apply_filters(&#39;the_excerpt&#39;, $excerpt);
+                $excerpt = str_replace(&#39;]]&gt;&#39;, &#39;]]&amp;gt;&#39;, $excerpt);
+                echo $excerpt;
+            &#125;
+            echo &#39;&lt;/div&gt;&#39;;
+        ?&gt;
+    &lt;/div&gt;
+
+    &lt;footer class=&quot;entry-footer&quot;&gt;&lt;/footer&gt;
+
+    &lt;?php do_action(&#39;ava_after_content&#39;, $the_id, &#39;loop-search&#39;); ?&gt;
+&lt;/article&gt;&lt;!--end post-entry--&gt;</code></pre>
+<p>前台优化代码：</p>
+<pre><code>#top .template-search.content .nocti_customsearch &#123;
+    padding-left: 100px;
+&#125;
+
+.nocti_customsearch .search-result-counter &#123;
+    height: auto;
+    padding: 0px !important;
+    border-radius: 0px;
+    width: 80px !important;
+    background: transparent !important;
+    border-color: transparent !important;
+    border: 0px solid transparent;
+    box-shadow: none !important;
+&#125;
+
+.nocti_customsearch .entry-content p&#123;
+    padding: 0px !important;
+    margin: 0px !important;
+&#125;</code></pre>
+<p>这个时候我们可能会发现摘要这里显示得有点长，显得不美观，那么怎么办呢？我们可以参考wordpress的官网，限制摘要显示的长度，参考：<a target="_blank" rel="noopener" href="https://developer.wordpress.org/reference/functions/the_excerpt/">https://developer.wordpress.org/reference/functions/the_excerpt/</a></p>
+<p><strong>使用过滤器控制摘录长度</strong></p>
+<p>默认情况下，摘录长度设置为50个字。要使用excerpt_length过滤器，将摘录长度更改为50个字，请将以下代码添加到functions.php文件中。</p>
+<pre><code>/**
+ * Filter the except length to 50 words.
+ *
+ * @param int $length Excerpt length.
+ * @return int (Maybe) modified excerpt length.
+ */
+function wpdocs_custom_excerpt_length( $length ) &#123;
+    return 50;
+&#125;
+add_filter( &#39;excerpt_length&#39;, &#39;wpdocs_custom_excerpt_length&#39;, 999 );</code></pre>
+<p>这个时候我们如果想要修改显示的字符串，怎么办呢？我们继续往下看：</p>
+<p><strong>[…]使用过滤器修改字符串</strong></p>
+<p>默认情况下，最后的摘录“read more”字符串设置为“[…]”。要使用excerpt_more过滤器更改摘录“阅读更多”字符串，请将以下代码添加到functions.php主题中的文件中：</p>
+<pre><code>/**
+ * Filter the excerpt &quot;read more&quot; string.
+ *
+ * @param string $more &quot;Read more&quot; excerpt string.
+ * @return string (Maybe) modified &quot;read more&quot; excerpt string.
+ */
+function wpdocs_excerpt_more( $more ) &#123;
+    return &#39;[.....]&#39;;
+&#125;
+add_filter( &#39;excerpt_more&#39;, &#39;wpdocs_excerpt_more&#39; );</code></pre>
+<p>美化后的效果如下：</p>
+<p><img src="https://i.imgur.com/XcQogdU.jpg"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/portfolio-wordpress-%E7%BC%A9%E7%95%A5%E5%9B%BE/" rel="tag"># portfolio,wordpress,缩略图</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/10/31/%E7%BD%91%E7%AB%99%E5%BA%95%E9%83%A8%E6%B7%BB%E5%8A%A0%E8%81%94%E7%B3%BB%E8%A1%A8%E5%8D%95%E6%95%99%E7%A8%8B/" rel="prev" title="wordpress网站底部添加联系表单教程">
+      <i class="fa fa-chevron-left"></i> wordpress网站底部添加联系表单教程
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/11/06/2017-11-06-ubuntu%E4%B8%8B%E5%91%BD%E4%BB%A4%E5%BD%A2%E5%BC%8F%E5%AE%89%E8%A3%85teamviewer_20190826_183127/" rel="next" title="Ubuntu下命令形式安装TeamViewer">
+      Ubuntu下命令形式安装TeamViewer <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

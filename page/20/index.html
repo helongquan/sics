@@ -1,23 +1,1680 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-{% block title %}{{ config.title }}{% if theme.index_with_subtitle and config.subtitle %} - {{config.subtitle }}{% endif %}{% endblock %}
+<link rel="stylesheet" href="/css/main.css">
 
-{% block page_class %}
-  {% if is_home() %}page-home{% endif -%}
-{% endblock %}
 
-{% block content %}
-  <section id="posts" class="posts-expand">
-    {% for post in page.posts %}
-      {{ post_template.render(post, true) }}
-    {% endfor %}
-  </section>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-  {% include '_partials/pagination.swig' %}
-{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
 
-{% block sidebar %}
-  {{ sidebar_template.render(false) }}
-{% endblock %}
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/page/20/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/page/20/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
+            
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/05/25/Magento%E6%A8%A1%E5%9D%97%E4%B8%AD%E6%B7%BB%E5%8A%A0%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1Cron-Job/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/05/25/Magento%E6%A8%A1%E5%9D%97%E4%B8%AD%E6%B7%BB%E5%8A%A0%E8%AE%A1%E5%88%92%E4%BB%BB%E5%8A%A1Cron-Job/" class="post-title-link" itemprop="url">Magento模块中添加计划任务Cron Job</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-05-25 20:35:29" itemprop="dateCreated datePublished" datetime="2018-05-25T20:35:29+08:00">2018-05-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:01" itemprop="dateModified" datetime="2020-10-11T11:58:01+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Magento提供了强大的计划任务功能(Cron Job)，使用计划任务，我们可以方便的按照一定的时间规律生成Google网站地图，更新汇率，清除日志，降价通知等等，此外我们还可以根据需要在自己开发的模块中添加计划任务的功能，下面我们将介绍怎样在自己的模块中添加计划任务。</p>
+<p>首先我们需要开启Cron功能，在服务器上添加Cron，如果你用的cPanel面板，在面板中可以直接添加，如果是自己的主机，比如Linux主机，我们可以这样添加：</p>
+<pre><code>#crontab -e</code></pre>
+<p>添加</p>
+<pre><code>*/5 * * * * /bin/sh /var/www/magento1510/cron.sh</code></pre>
+<p>其中 */5 * * * * 表示系统将每5分钟执行一次这个脚本</p>
+<p>/var/www/magento1510/cron.sh 是Magento网站根目录下的cron.sh文件的绝对地址，请根据自己的配置修改。</p>
+<p>然后重启Cron</p>
+<pre><code>#service cron restart</code></pre>
+<p>Magento将每五分钟检查各模块下的计划任务，并生成计划任务表，保存在cron_schedule表中，当某个计划任务符合时间条件，Magento便执行该计划任务，并把执行的情况记录在该表中，下面我们看以下怎样在模块中添加计划任务。</p>
+<p>一个典型的例子是newsletter，我们在/app/code/core/Mage/Newsletter/etc/config.xml中发现了下面一些配置：</p>
+<pre><code>&lt;config&gt;
+    &lt;crontab&gt;
+        &lt;jobs&gt;
+            &lt;newsletter_send_all&gt;
+                &lt;schedule&gt;&lt;cron_expr&gt;*/5 * * * *&lt;/cron_expr&gt;&lt;/schedule&gt;
+                &lt;run&gt;&lt;model&gt;newsletter/observer::scheduledSend&lt;/model&gt;&lt;/run&gt;
+            &lt;/newsletter_send_all&gt;
+        &lt;/jobs&gt;
+    &lt;/crontab&gt;
+&lt;/config&gt;</code></pre>
+<p>上面的配置指定了一个计划任务newsletter_send_all，它每五分钟执行一次，将执行Mage_Newsletter_Model_Observer类中的scheduledSend()函数，该文件位于/app/code/Mage/Newsletter/Model/Observer.php，打开该文件就可以看到该计划任务执行的内容，如果我们要在自己的模块中添加计划任务，按照上面的例子在config.xml添加相应的contab即可。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/05/25/%E5%BD%93Magento%E4%BA%A7%E5%93%81%E5%B1%9E%E6%80%A7%E6%88%96%E8%80%85%E6%98%AF%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B1%9E%E6%80%A7%E4%B8%BA%E7%A9%BA%E6%97%B6%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%AF%A5%E5%B1%9E%E6%80%A7%E7%9A%84%E5%80%BC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/05/25/%E5%BD%93Magento%E4%BA%A7%E5%93%81%E5%B1%9E%E6%80%A7%E6%88%96%E8%80%85%E6%98%AF%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B1%9E%E6%80%A7%E4%B8%BA%E7%A9%BA%E6%97%B6%E4%B8%8D%E6%98%BE%E7%A4%BA%E8%AF%A5%E5%B1%9E%E6%80%A7%E7%9A%84%E5%80%BC/" class="post-title-link" itemprop="url">当Magento产品属性或者是自定义属性为空时不显示该属性的值</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-05-25 20:21:08" itemprop="dateCreated datePublished" datetime="2018-05-25T20:21:08+08:00">2018-05-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:05" itemprop="dateModified" datetime="2020-10-11T11:58:05+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>当Magento中的产品的某个属性为空时，前台将显示为NO，如果需要隐藏此属性，可以按照以下方法做出修改：</p>
+<p>打开 app/code/core/Mage/Catalog/Block/Product/View/Attributes.php</p>
+<p>将 getAdditionalData 函数中</p>
+<pre><code>if (!$product-&gt;hasData($attribute-&gt;getAttributeCode())) &#123;
+    $value = Mage::helper(&#39;catalog&#39;)-&gt;__(&#39;N/A&#39;);
+&#125; elseif ((string)$value == &#39;&#39;) &#123;
+    $value = Mage::helper(&#39;catalog&#39;)-&gt;__(&#39;No&#39;);
+&#125; elseif ($attribute-&gt;getFrontendInput() == &#39;price&#39; &amp;&amp; is_string($value)) &#123;
+    $value = Mage::app()-&gt;getStore()-&gt;convertPrice($value, true);
+&#125;</code></pre>
+<p>修改为</p>
+<pre><code>if (!$product-&gt;hasData($attribute-&gt;getAttributeCode())) &#123;
+    $value = &#39;&#39;;
+&#125; elseif ((string)$value == &#39;&#39;) &#123;
+    $value = &#39;&#39;;
+&#125; elseif ($attribute-&gt;getFrontendInput() == &#39;price&#39; &amp;&amp; is_string($value)) &#123;
+    $value = Mage::app()-&gt;getStore()-&gt;convertPrice($value, true);
+&#125;</code></pre>
+<p>刷新前台产品页面，所有值为空的属性将不再显示。</p>
+<p>修改之前是这样的：</p>
+<p><img src="https://i.imgur.com/4acTKIq.jpg"></p>
+<p>修改之后：</p>
+<p><img src="https://i.imgur.com/DQT0vJB.jpg"></p>
+<p>这样看起来就美观多了。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/05/25/%E5%A6%82%E4%BD%95%E8%AE%BE%E7%BD%AEMagento%E6%89%B9%E5%8F%91%E4%BB%B7%E6%A0%BC%EF%BC%8C%E6%A0%B9%E6%8D%AE%E4%B8%8D%E5%90%8C%E9%87%87%E8%B4%AD%E9%87%8F%E6%9C%89%E4%B8%8D%E5%90%8C%E7%9A%84%E6%8A%98%E6%89%A3%E4%BB%B7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/05/25/%E5%A6%82%E4%BD%95%E8%AE%BE%E7%BD%AEMagento%E6%89%B9%E5%8F%91%E4%BB%B7%E6%A0%BC%EF%BC%8C%E6%A0%B9%E6%8D%AE%E4%B8%8D%E5%90%8C%E9%87%87%E8%B4%AD%E9%87%8F%E6%9C%89%E4%B8%8D%E5%90%8C%E7%9A%84%E6%8A%98%E6%89%A3%E4%BB%B7/" class="post-title-link" itemprop="url">如何设置Magento批发价格，根据不同采购量有不同的折扣价</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-05-25 20:03:02" itemprop="dateCreated datePublished" datetime="2018-05-25T20:03:02+08:00">2018-05-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:05" itemprop="dateModified" datetime="2020-10-11T11:58:05+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>登录Magento网站后台，鼠标移动到Catalog，点击下来菜单里的 Manager Products，然后编辑对应的产品，点击左边Price选项卡，设置 Tier Price ，可以对不同的会员等级设置不同的批发价格.</p>
+<p>登录Magento网站后台，鼠标移动到Catalog，点击下来菜单里的 Manager Products，然后编辑对应的产品，点击左边Price选项卡，设置 Tier Price ，可以对不同的会员等级设置不同的批发价格，这个是Magento比较强大的地方，Zencart等其他网店系统是无法实现对不同的会员等级设置不同的批发价格，或者是需要二次开发才行。</p>
+<p>最后上张直观的图片来看下效果</p>
+<p><img src="https://i.imgur.com/45y5lHk.jpg"></p>
+<p>这里选择对所有用户组起作用，5个以上100以下享受便宜3美元的优惠，后面的以此类推。</p>
+<p>前台的效果：</p>
+<p><img src="https://i.imgur.com/eo6O3FS.jpg"></p>
+<p>当我们选择的产品数符合某个区间的时候，将会享受不同的折扣。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/05/25/%E8%8E%B7%E5%8F%96Magento%E5%BD%93%E5%89%8D%E5%88%86%E7%B1%BB%E9%A1%B5%E7%9A%84%E9%A1%B6%E7%BA%A7%E7%88%B6%E5%88%86%E7%B1%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/05/25/%E8%8E%B7%E5%8F%96Magento%E5%BD%93%E5%89%8D%E5%88%86%E7%B1%BB%E9%A1%B5%E7%9A%84%E9%A1%B6%E7%BA%A7%E7%88%B6%E5%88%86%E7%B1%BB/" class="post-title-link" itemprop="url">获取Magento当前分类页的顶级父分类</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-05-25 19:47:14" itemprop="dateCreated datePublished" datetime="2018-05-25T19:47:14+08:00">2018-05-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:06" itemprop="dateModified" datetime="2020-10-11T11:58:06+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>有些时候，我们可能希望Magento获取到当前分类最顶层的分类。比如说，网站中包含一个类似如下的分类结构。无论是访问Apple还是3G的时候，我们都希望能获取到Cellphone这个顶级的父分类。</p>
+<pre><code>Cellphone/3G/Apple/</code></pre>
+<p>Magento默认有个getParentCategory()方法，该方法用于获取当前访问分类的直接父分类，如在访问apple的时候，使用该方法获取到的是3G，访问3G分类的时候，获取到的分类为Cellphone。</p>
+<p>当我们希望获取顶层分类的时候，下面这段代码就可以实现。</p>
+<pre><code>$category = Mage::registry(&#39;current_category&#39;);
+$it = 10;
+if ($category) &#123;
+    while($category-&gt;getLevel() != 2 &amp;&amp; $it &gt; 0) &#123;
+        $category = $category-&gt;getParentCategory();
+        if (!$category) &#123;
+           break;
+        &#125;
+    &#125;
+
+    if ($category) &#123;
+        echo $category-&gt;getName();
+    &#125; else &#123;
+        echo &#39;Cannot find parent category&#39;;
+    &#125;
+&#125;</code></pre>
+<p>这是一个很简单的逻辑。希望获得更多的启发。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/05/25/%E8%8E%B7%E5%8F%96Magento%E8%B4%AD%E7%89%A9%E8%BD%A6%E4%BF%A1%E6%81%AF%E5%92%8C%E5%BD%93%E5%89%8D%E7%BD%91%E7%AB%99%E5%BA%97%E9%93%BA%E7%9A%84%E4%BF%A1%E6%81%AF%EF%BC%8C%E4%BB%A5%E5%8F%8A%E8%8E%B7%E5%8F%96%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E7%8A%B6%E6%80%81%E5%8F%8A%E7%99%BB%E5%BD%95%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/05/25/%E8%8E%B7%E5%8F%96Magento%E8%B4%AD%E7%89%A9%E8%BD%A6%E4%BF%A1%E6%81%AF%E5%92%8C%E5%BD%93%E5%89%8D%E7%BD%91%E7%AB%99%E5%BA%97%E9%93%BA%E7%9A%84%E4%BF%A1%E6%81%AF%EF%BC%8C%E4%BB%A5%E5%8F%8A%E8%8E%B7%E5%8F%96%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E7%8A%B6%E6%80%81%E5%8F%8A%E7%99%BB%E5%BD%95%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF/" class="post-title-link" itemprop="url">获取Magento购物车信息和当前网站店铺的信息，以及获取用户登录状态及登录用户信息</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-05-25 18:56:58" itemprop="dateCreated datePublished" datetime="2018-05-25T18:56:58+08:00">2018-05-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:06" itemprop="dateModified" datetime="2020-10-11T11:58:06+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><strong>Magento 获取购物车信息常用代码</strong></p>
+<p>我们在做magento模板过程中，常常希望得到购物车的金额，货币信息等。</p>
+<p>获取magento网店当前货币code：</p>
+<pre><code>echo $currency_code = Mage::app()-&gt;getStore()-&gt;getCurrentCurrencyCode();</code></pre>
+<p>获取magento网店当前货币符号信息：</p>
+<pre><code>echo Mage::app()-&gt;getLocale()-&gt;currency(Mage::app()-&gt;getStore()-&gt;getCurrentCurrencyCode())-&gt;getSymbol();</code></pre>
+<p>得到当前购物车中的全部产品的金额：</p>
+<pre><code>$grandTotal = Mage::getModel(&#39;checkout/cart&#39;)-&gt;getQuote()-&gt;getGrandTotal();</code></pre>
+<p>这样货币符号加上金额我们就得到了具体的当前金额了</p>
+<p>得到当前购物的所在货币方式的全部金额</p>
+<pre><code>getQuote()-&gt;getGrandTotal();
+getLocale()-&gt;currency(Mage::app()-&gt;getStore()-&gt;getCurrentCurrencyCode())-&gt;getSymbol().$grandTotal</code></pre>
+<p>在Magento购物车应用开发中，也经常需要判断当前用户的登录状态，并获取当前登录用户的相关信息。</p>
+<p>首先，我们需要判断当前用户的登录状态，通过如下方式。如果用户已登录，则返回真，否则返回假。</p>
+<pre><code>Mage::getSingleton(&#39;customer/session&#39;)-&gt;isLoggedIn();</code></pre>
+<p>当判断用户已经登录的情况下，即可获取当前登录用户的相关信息。如用户名，姓名，邮件等。</p>
+<pre><code>$customer = Mage::getSingleton(&#39;customer/session&#39;)-&gt;getCustomer();
+echo $customer-&gt;getName();
+echo $customer-&gt;getEmail();</code></pre>
+<p>这里不仅可以通过getAttribute()的方式获取系统内置属性，如果你添加了一个customer的自定义属性，也可以通过此种方式获取该值。</p>
+<pre><code>$customer = Mage::getSingleton(&#39;customer/session&#39;)-&gt;getCustomer();
+echo $customer-&gt;getFacebookUid();</code></pre>
+<p><strong>店铺的信息获取方式</strong></p>
+<p>Magento的多店铺功能非常强大，通过多店铺功能，我们可以在一个Magento应用当中创建在外观上看来完全不相关联的多个店铺，并且可以绑定不同的域名。在Magento的开发当中，经常需要获取当前所在店铺的一些相关信息，例如店铺id，店铺名称及当前店铺所属Website的ID值。通过Magento的Mage类，我们可以获取到关于店铺的所有信息。</p>
+<pre><code>//获取店铺对象
+&lt;?php echo Mage::app()-&gt;getStore();?&gt;
+
+//获取当前店铺ID
+&lt;?php echo Mage::app()-&gt;getStore()-&gt;getStoreId();?&gt;
+
+//获取当前店铺Code，该Code在创建店铺时填写
+&lt;?php echo Mage::app()-&gt;getStore()-&gt;getCode();?&gt;
+
+//获取当前店铺所属的Website ID
+&lt;?php echo Mage::app()-&gt;getStore()-&gt;getWebsiteId();?&gt;
+
+//获取当前店铺的Name
+&lt;?php echo Mage::app()-&gt;getStore()-&gt;getName();?&gt;
+
+//获取当前店铺的状态
+&lt;?php echo Mage::app()-&gt;getStore()-&gt;getIsActive();?&gt;
+
+//获取当前店铺的URL
+&lt;?php echo Mage::app()-&gt;getStore()-&gt;getHomeUrl();?&gt;</code></pre>
+<p>这样就得到当前购物车中的全部金额了！</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/05/25/Magento%E4%B8%AD%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%AD%E4%B8%80%E4%B8%AA%E7%94%A8%E6%88%B7%E6%98%AF%E5%90%A6%E5%B7%B2%E7%BB%8F%E7%99%BB%E9%99%86%E4%BB%A5%E5%8F%8A%E8%8E%B7%E5%8F%96%E7%BD%91%E7%AB%99%E7%9A%84%E5%9F%9F%E5%90%8D%E5%9C%B0%E5%9D%80%E5%8C%85%E6%8B%AC%E5%AD%90%E7%9B%AE%E5%BD%95%E5%9C%A8%E5%86%85/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/05/25/Magento%E4%B8%AD%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%AD%E4%B8%80%E4%B8%AA%E7%94%A8%E6%88%B7%E6%98%AF%E5%90%A6%E5%B7%B2%E7%BB%8F%E7%99%BB%E9%99%86%E4%BB%A5%E5%8F%8A%E8%8E%B7%E5%8F%96%E7%BD%91%E7%AB%99%E7%9A%84%E5%9F%9F%E5%90%8D%E5%9C%B0%E5%9D%80%E5%8C%85%E6%8B%AC%E5%AD%90%E7%9B%AE%E5%BD%95%E5%9C%A8%E5%86%85/" class="post-title-link" itemprop="url">Magento中如何判断一个用户是否已经登陆以及获取网站的域名地址包括子目录在内</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-05-25 16:09:49" itemprop="dateCreated datePublished" datetime="2018-05-25T16:09:49+08:00">2018-05-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:59" itemprop="dateModified" datetime="2020-10-11T11:57:59+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>经常用的功能，比如你的促销中使用了优惠券，可是你只想让已注册用户使用，人可以使用</p>
+<pre><code>Mage::getSingleton( &#39;customer/session&#39; )-&gt;isLoggedIn()</code></pre>
+<p>来判断用户是否已经登陆</p>
+<pre><code>&lt;?php
+if(Mage::getSingleton( &#39;customer/session&#39; )-&gt;isLoggedIn()) &#123;
+    echo &#39;You must logged in to use the cupon!.&#39;; 
+&#125;
+?&gt;</code></pre>
+<p>比如笔者就经常这样用（因为这个有个判断的，如果没有登录就显示用户登录的文字，如果用户已经登录了，那么就显示退出的文字）：</p>
+<pre><code>&lt;?php
+    // add customer custom start
+    if(Mage::getSingleton( &#39;customer/session&#39; )-&gt;isLoggedIn()) &#123;  
+        echo &#39;&lt;div class=&quot;custom-block&quot;&gt;&lt;span&gt;&lt;i class=&quot;fa fa-user&quot;&gt;&lt;/i&gt; &lt;a href=&quot;/index.php/customer/account/login/&quot;&gt;logout&lt;/a&gt;&lt;/span&gt;&lt;span&gt;&lt;i class=&quot;fa fa-heart&quot;&gt;&lt;/i&gt; &lt;a href=&quot;/index.php/wishlist/&quot;&gt;Favorite&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&#39;;
+    &#125;
+    else&#123;
+        echo &#39;&lt;div class=&quot;custom-block&quot;&gt;&lt;span&gt;&lt;i class=&quot;fa fa-user&quot;&gt;&lt;/i&gt; &lt;a href=&quot;/index.php/customer/account/logout/&quot;&gt;login&lt;/a&gt;&lt;/span&gt;&lt;span&gt;&lt;i class=&quot;fa fa-heart&quot;&gt;&lt;/i&gt; &lt;a href=&quot;/index.php/wishlist/&quot;&gt;Favorite&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&#39;;
+    &#125;
+    // add customer custom start
+?&gt;</code></pre>
+<p>本来开始是把这个地址写死的，后来又换成相对地址，但是这个不是最高明的方法，我在想应该把域名写成一个变量，然后，后面跟上目录地址即可。引起这个启发的是笔者在logo那里的链接地址：</p>
+<pre><code>&lt;?php echo $this-&gt;getUrl(&#39;&#39;); ?&gt;</code></pre>
+<p>这个不就是首页的地址了嘛，好的，于是就有了这个写法：</p>
+<pre><code>&lt;?php
+    // add customer custom start
+    if(Mage::getSingleton( &#39;customer/session&#39; )-&gt;isLoggedIn()) &#123;  
+        echo &#39;&lt;div class=&quot;custom-block&quot;&gt;&lt;span&gt;&lt;i class=&quot;fa fa-user&quot;&gt;&lt;/i&gt; &lt;a href=&quot;&#39;;
+        echo $this-&gt;getUrl(&#39;&#39;).&#39;customer/account/logout/&#39;;
+        echo &#39;&quot;&gt;logout&lt;/a&gt;&lt;/span&gt;&lt;span&gt;&lt;i class=&quot;fa fa-heart&quot;&gt;&lt;/i&gt; &lt;a href=&quot;&#39;;
+        echo $this-&gt;getUrl(&#39;&#39;).&#39;wishlist/&#39;;
+        echo &#39;&quot;&gt;Favorite&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&#39;;
+    &#125;
+    else&#123;
+        echo &#39;&lt;div class=&quot;custom-block&quot;&gt;&lt;span&gt;&lt;i class=&quot;fa fa-user&quot;&gt;&lt;/i&gt; &lt;a href=&quot;&#39;;
+        echo $this-&gt;getUrl(&#39;&#39;).&#39;customer/account/login/&#39;;
+        echo &#39;&quot;&gt;login&lt;/a&gt;&lt;/span&gt;&lt;span&gt;&lt;i class=&quot;fa fa-heart&quot;&gt;&lt;/i&gt; &lt;a href=&quot;&#39;;
+        echo $this-&gt;getUrl(&#39;&#39;).&#39;wishlist/&#39;;
+        echo &#39;&quot;&gt;Favorite&lt;/a&gt;&lt;/span&gt;&lt;/div&gt;&#39;;
+    &#125;
+    // add customer custom start
+?&gt;</code></pre>
+<p>这就是笔者解决把用户登录和心愿单的这个文字移动到自己设定的位置的经常用的方法，还有的是客户也喜欢把热门关键词什么的加在搜索框下方，这个本来是不太好的，这个时候怎么办呢？还是一样的，找到控制头部的模板文件，这里笔者采用的是porto的<code>header_type3.phtml</code>，控制的路径在：app/design/frontend/smartwave/porto/template/page/html/，找到搜索框的代码，在下方添加自己的文字即可。最后的总体效果如下：</p>
+<p><img src="https://i.imgur.com/sekhTzL.jpg"></p>
+<p>看到了吗，通常magento的用户登录的不是在这里，可是偏偏有个客户死磕到底，笔者只能想方设法的帮他们这样解决这个问题。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/05/23/wordress%E7%BD%91%E7%AB%99enfold%E4%B8%BB%E9%A2%98%E5%A4%B4%E9%83%A8%E8%8F%9C%E5%8D%95%E5%8C%BA%E5%9F%9F%E6%B7%BB%E5%8A%A0%E8%AF%AD%E8%A8%80%E5%88%87%E6%8D%A2%E5%8A%9F%E8%83%BD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/05/23/wordress%E7%BD%91%E7%AB%99enfold%E4%B8%BB%E9%A2%98%E5%A4%B4%E9%83%A8%E8%8F%9C%E5%8D%95%E5%8C%BA%E5%9F%9F%E6%B7%BB%E5%8A%A0%E8%AF%AD%E8%A8%80%E5%88%87%E6%8D%A2%E5%8A%9F%E8%83%BD/" class="post-title-link" itemprop="url">wordress网站enfold主题头部菜单区域添加语言切换功能</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-05-23 14:44:59" itemprop="dateCreated datePublished" datetime="2018-05-23T14:44:59+08:00">2018-05-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:03" itemprop="dateModified" datetime="2020-10-11T11:58:03+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>经常看到有客户问，能不能帮我把语言切换功能这个加到wordpress网站的菜单那里，就在菜单旁边就好，放右边，没错….看到这个，可能很多客户会觉得这个不就是很容易的嘛，对于专业人士来说这个不难，但是对于不懂的人来说也不容易。今天就来说说wordpress的头部菜单栏添加语言切换功能的问题。</p>
+<p><strong>第一步：定位目标</strong></p>
+<p>首先，还是一样的思路，我们通过开发者工具定位到这个是在nav这个标签旁边：</p>
+<p><img src="https://i.imgur.com/ZZMamrj.jpg"></p>
+<p>好的，通过多次确认，我们要在这个div的邻居放一个语言切换的功能。</p>
+<p><strong>第二步：找到目标对应的源码文件</strong></p>
+<p>为了比较精准的搜索到目标，我这里往上走了一级，我把定位定在main_menu这个class上，通过对主题的全源码搜索，我找到了文件：\themes\enfold\includes\helper-main-menu.php，好的，我们来到这个文件所在的目录，打开它：</p>
+<p>大概的位置在：</p>
+<p><img src="https://i.imgur.com/QKxsV0f.jpg"></p>
+<pre><code>$output .= &quot;&lt;nav class=&#39;main_menu&#39; data-selectname=&#39;&quot;.__(&#39;Select a page&#39;,&#39;avia_framework&#39;).&quot;&#39; &quot;.avia_markup_helper(array(&#39;context&#39; =&gt; &#39;nav&#39;, &#39;echo&#39; =&gt; false)).&quot;&gt;&quot;;
+    $avia_theme_location = &#39;avia&#39;;
+    $avia_menu_class = $avia_theme_location . &#39;-menu&#39;;
+    $args = array(
+        &#39;theme_location&#39;    =&gt; $avia_theme_location,
+        &#39;menu_id&#39;             =&gt; $avia_menu_class,
+        &#39;menu_class&#39;        =&gt; &#39;menu av-main-nav&#39;,
+        &#39;container_class&#39;    =&gt; $avia_menu_class.&#39; av-main-nav-wrap&#39;.$icon_beside,
+        &#39;fallback_cb&#39;         =&gt; &#39;avia_fallback_menu&#39;,
+        &#39;echo&#39;                 =&gt;    false, 
+        &#39;walker&#39;             =&gt; new avia_responsive_mega_menu()
+    );
+    $main_nav = wp_nav_menu($args);
+    $output .= $main_nav;
+/*
+* Hook that can be used for plugins and theme extensions
+*/
+ob_start();
+do_action(&#39;ava_inside_main_menu&#39;); // todo: replace action with filter, might break user customizations
+$output .= ob_get_clean();
+if($icon_beside)
+&#123;
+    $output .= $icons; 
+&#125;
+$output .= &#39;&lt;/nav&gt;&#39;;</code></pre>
+<p>好的，代码如上，我们将要在这里添加一个select的东西上去。</p>
+<p>我们把这个加在$main_nav后面。代码已经准备好了：</p>
+<pre><code>&lt;div class=&quot;country&quot;&gt;
+    &lt;select onchange=&quot;window.location=options[(this.selectedIndex)].value&quot;&gt;
+        &lt;option value=&quot;/#en&quot;&gt;EN&lt;/option&gt;
+        &lt;option value=&quot;/#cn&quot;&gt;CN&lt;/option&gt;
+        &lt;option value=&quot;/#fr&quot;&gt;FR&lt;/option&gt;
+    &lt;/select&gt;
+&lt;/div&gt;</code></pre>
+<p><span style="color:red">这里需要说明一下的是</span>：笔者最开始不是这样加的，最开始的代码是：</p>
+<pre><code>&lt;div class=&quot;country&quot;&gt;
+    &lt;select&gt;
+        &lt;option value=&quot;&quot;&gt;&lt;a href=&quot;#&quot;&gt;EN&lt;/a&gt;&lt;/option&gt;
+        &lt;option value=&quot;&quot;&gt;&lt;a href=&quot;#&quot;&gt;CN&lt;/a&gt;&lt;/option&gt;
+        &lt;option value=&quot;&quot;&gt;&lt;a href=&quot;#&quot;&gt;FR&lt;/a&gt;&lt;/option&gt;
+    &lt;/select&gt;
+&lt;/div&gt;</code></pre>
+<p>可是去前台一调试发现这个根本没法加上链接，后来在一篇文章中，得到了答案，大概是说不能这样加链接的，只能这样加：</p>
+<pre><code>&lt;select onchange=&quot;window.location=options[(this.selectedIndex)].value&quot;&gt;
+    &lt;option value=&quot;http://www.163.com&quot;&gt;232&lt;/option&gt;
+    &lt;option value=&quot;http://www.baidu.com&quot;&gt;231&lt;/option&gt;
+&lt;/select&gt;</code></pre>
+<p>确定好这个以后，我才改成上面的那种，采用js进行跳转。</p>
+<p>好的，最后添加代码后是这样的：</p>
+<pre><code>$output .= &quot;&lt;nav class=&#39;main_menu&#39; data-selectname=&#39;&quot;.__(&#39;Select a page&#39;,&#39;avia_framework&#39;).&quot;&#39; &quot;.avia_markup_helper(array(&#39;context&#39; =&gt; &#39;nav&#39;, &#39;echo&#39; =&gt; false)).&quot;&gt;&quot;;
+    $avia_theme_location = &#39;avia&#39;;
+    $avia_menu_class = $avia_theme_location . &#39;-menu&#39;;
+    $args = array(
+        &#39;theme_location&#39;    =&gt; $avia_theme_location,
+        &#39;menu_id&#39;             =&gt; $avia_menu_class,
+        &#39;menu_class&#39;        =&gt; &#39;menu av-main-nav&#39;,
+        &#39;container_class&#39;    =&gt; $avia_menu_class.&#39; av-main-nav-wrap&#39;.$icon_beside,
+        &#39;fallback_cb&#39;         =&gt; &#39;avia_fallback_menu&#39;,
+        &#39;echo&#39;                 =&gt;    false, 
+        &#39;walker&#39;             =&gt; new avia_responsive_mega_menu()
+    );
+    $main_nav = wp_nav_menu($args);
+    $output .= $main_nav;
+    $output .= &#39;&lt;div class=&quot;country&quot;&gt;&#39;;
+    $output .= &#39;&lt;select onchange=&quot;window.location=options[(this.selectedIndex)].value&quot;&gt;&#39;;
+    $output .= &#39;&lt;option value=&quot;/#en&quot;&gt;EN&lt;/option&gt;&#39;;
+    $output .= &#39;&lt;option value=&quot;/#cn&quot;&gt;CN&lt;/option&gt;&#39;;
+    $output .= &#39;&lt;option value=&quot;/#fr&quot;&gt;FR&lt;/option&gt;&#39;;
+    $output .= &#39;&lt;/select&gt;&#39;;
+    $output .= &#39;&lt;/div&gt;&#39;;
+/*
+* Hook that can be used for plugins and theme extensions
+*/
+ob_start();
+do_action(&#39;ava_inside_main_menu&#39;); // todo: replace action with filter, might break user customizations
+$output .= ob_get_clean();
+if($icon_beside)
+&#123;
+    $output .= $icons; 
+&#125;
+$output .= &#39;&lt;/nav&gt;&#39;;</code></pre>
+<p>最后，这个样式还是得自己调整一下，顺便把css样式也贴一下：</p>
+<pre><code>//父级设置相对定位
+.av-logo-container .inner-container&#123;
+       position: relative !important;
+&#125;
+//目标设置绝对定位
+.country select&#123;
+    display: inline-block !important;
+    width: 60px !important;
+    top: 28px;
+    position: absolute !important;
+    margin-bottom: 0px !important;
+&#125;
+//手机版样式设置一下
+@media (max-width:767px)&#123;
+    .responsive .logo img &#123;
+        max-height: 55px !important;
+    &#125;
+    .responsive #top .av-logo-container .avia-menu &#123;
+        margin-right: 45px;
+    &#125;
+    .country select &#123;
+        top: 25px !important;
+        right: -20px !important;
+    &#125;
+&#125;</code></pre>
+<p>当然，这个是基于enfold这个主题设置的样式，之所以写得如此详细是想让以后自己能够快速的解决这个问题。而不用再费脑子去折腾。最后的效果贴一下：</p>
+<p><img src="https://i.imgur.com/ZsQnRVG.jpg"></p>
+<p>手机版样式：</p>
+<p><img src="https://i.imgur.com/MaEP6lX.jpg"></p>
+<p>后来经过客户的苛刻要求，笔者进行了进一步的修改，其中css样式代码最后的状态如下。包括自适应：</p>
+<pre><code>.responsive #header_main .container&#123;
+    max-width: 100% !important;
+&#125;
+#top #header .avia-font-entypo-fontello, body #header .avia-font-entypo-fontello, html body #header [data-av_iconfont=&#39;entypo-fontello&#39;]:before &#123;
+    background: red !important;
+    color: #fff !important;
+    padding: 10px 12px !important;
+    border-radius: 3px;
+    font-size: 24px;
+&#125;
+#top #menu-item-search &#123;
+    background: red;
+&#125;
+.country&#123;
+    z-index: 999;
+    position: relative !important;
+&#125;
+.country select &#123;
+    display: inline-block !important;
+    width: 100% !important;
+    max-width: 70px;
+    top: 24px;
+    position: absolute !important;
+    margin-bottom: 0px !important;
+&#125;
+.country select option&#123;
+    padding-top:15px !important;
+    padding-bottom:15px !important;
+&#125;
+#top #header .av-main-nav &gt; li &gt; a .avia-menu-text&#123;
+    color:#515151 !important;
+    font-weight:400 !important;
+    padding: 0px 12px;
+    font-size: 15px !important;
+    transition:0.5s ease;
+&#125;
+#top #header .av-main-nav &gt; li &gt; a .avia-menu-text:hover&#123;
+    color:#FF0000 !important;
+&#125;
+.av-main-nav &gt; li:after&#123;
+    content: &quot;\FFDC&quot;;
+    padding-left: 12px;
+    color: rgba(129, 129, 129, 0.3);
+    display: inline-block;
+    position: absolute;
+    right: -3.5px;
+    top: 24px;
+    line-height: 32px;
+&#125;
+.av-main-nav &gt; li:last-child:after,.av-main-nav &gt; li:nth-last-child(2):after,.av-main-nav &gt; li:nth-last-child(3):after&#123;
+    content:&#39;&#39;;
+    display:none !important;
+&#125;
+#top .header_color select &#123;
+    border-color: rgba(225, 225, 225, 0) !important;
+    background-color: transparent !important;
+    color: #515151 !important;
+    padding: 8px 23px !important;
+    appearance:none;  
+    -moz-appearance:none;  
+    -webkit-appearance:none;
+    background: url(&quot;/wp-content/uploads/2018/06/cnen.png&quot;) no-repeat scroll right center transparent;
+&#125;
+.main_menu &#123;
+    right: 3% !important;
+&#125;
+#top #header .inner_tooltip .avia-font-entypo-fontello, body #header .inner_tooltip .avia-font-entypo-fontello &#123;
+    padding: 3px 12px !important;
+&#125;
+
+@media only screen and (max-width: 1210px) and (min-width: 768px)&#123;
+.responsive #top .av_mobile_menu_tablet .av-main-nav .menu-item &#123;
+    display: none !important;
+&#125;
+.responsive #top .av_mobile_menu_tablet .av-main-nav #menu-item-search &#123;
+    display: block !important;
+&#125;
+.responsive #top .av-main-nav .menu-item-avia-special &#123;
+    display: block !important;
+&#125;
+&#125;
+
+@media (max-width:990px)&#123;
+.responsive #top .av-logo-container .avia-menu &#123;
+    margin-right: 50px;
+&#125;
+.country select &#123;
+    top: 28px;
+&#125;
+#top #menu-item-search &#123;
+    background: transparent !important;
+&#125;
+#top #header .avia-font-entypo-fontello, body #header .avia-font-entypo-fontello, html body #header [data-av_iconfont=&#39;entypo-fontello&#39;]:before&#123;
+    font-size:16px !important;
+&#125;
+.country select &#123;
+    right: -30px !important;
+&#125;
+&#125;
+
+@media (max-width:767px)&#123;
+.responsive #top .av-logo-container .avia-menu &#123;
+    margin-right: 50px !important;
+&#125;
+.country select &#123;
+    top: 25px !important;
+    right: -20px !important;
+&#125;
+&#125;</code></pre>
+<p>最后的效果如下：</p>
+<p><img src="https://i.imgur.com/Y21kc3L.jpg"></p>
+<p>后来客户又变卦了，说这个下拉框那里的样式不是跟他参考的一模一样，后来尝试着用css改变这个样式，可是用css改变option的样式貌似都没啥用，这个时候找到一个方法，放弃采用select的方法去解决这个问题。转用jquery的方式。</p>
+<p><strong>方法如下：</strong></p>
+<p>第一步：在header.php文件中引入：</p>
+<pre><code>&lt;script src=&quot;https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+    $(document).ready(function()&#123;
+            $(&quot;.select_box&quot;).click(function(event)&#123;   
+                event.stopPropagation();
+                $(this).find(&quot;.option&quot;).toggle();
+                $(this).parent().siblings().find(&quot;.option&quot;).hide();
+            &#125;);
+            $(document).click(function(event)&#123;
+                var eo=$(event.target);
+                if($(&quot;.select_box&quot;).is(&quot;:visible&quot;) &amp;&amp; eo.attr(&quot;class&quot;)!=&quot;option&quot; &amp;&amp; !eo.parent(&quot;.option&quot;).length)
+                $(&#39;.option&#39;).hide();                                      
+            &#125;);
+            /*赋值给文本框*/
+            $(&quot;.option a&quot;).click(function()&#123;
+                var value=$(this).text();
+                $(this).parent().siblings(&quot;.select_txt&quot;).text(value);
+                $(&quot;#select_value&quot;).val(value)
+             &#125;)
+        &#125;)
+&lt;/script&gt;</code></pre>
+<p>意思就是：引入jquery库，然后运用select插件。好的完成引入第三方库后，我们来到这个网站头部，好的控制语言切换的文件，还是跟前面那样：\themes\enfold\includes\helper-main-menu.php，打开文件。</p>
+<p>把原来的那个代码：</p>
+<pre><code>&lt;div class=&quot;country&quot;&gt;
+    &lt;select onchange=&quot;window.location=options[(this.selectedIndex)].value&quot;&gt;
+        &lt;option value=&quot;/#en&quot;&gt;EN&lt;/option&gt;
+        &lt;option value=&quot;/#cn&quot;&gt;CN&lt;/option&gt;
+        &lt;option value=&quot;/#fr&quot;&gt;FR&lt;/option&gt;
+    &lt;/select&gt;
+&lt;/div&gt;</code></pre>
+<p>换成：</p>
+<pre><code>$output .= &#39;&lt;div class=&quot;country&quot;&gt;&#39;;
+    $output .= &#39;&lt;div class=&quot;mod_select&quot;&gt;&#39;;
+        $output .= &#39;&lt;ul&gt;&#39;;
+            $output .= &#39;&lt;li&gt;&#39;;
+                $output .= &#39;&lt;div class=&quot;select_box&quot;&gt;&#39;;
+                    $output .= &#39;&lt;span class=&quot;select_txt&quot;&gt;EN&lt;/span&gt;&lt;a class=&quot;selet_open&quot;&gt;&lt;b&gt;&lt;/b&gt;&lt;/a&gt;&#39;;
+                    $output .= &#39;&lt;div class=&quot;option&quot;&gt;&#39;;
+                        $output .= &#39;&lt;a href=&quot;/#en&quot;&gt;EN&lt;/a&gt;&#39;;
+                        $output .= &#39;&lt;a href=&quot;/#cn&quot;&gt;CN&lt;/a&gt;&#39;;
+                        $output .= &#39;&lt;a href=&quot;/#fr&quot;&gt;FR&lt;/a&gt;&#39;;
+                     $output .= &#39;&lt;/div&gt;&#39;;
+                $output .= &#39;&lt;/div&gt;&#39;;
+            $output .= &#39;&lt;/li&gt;&#39;;
+        $output .= &#39;&lt;/ul&gt;&#39;;
+    $output .= &#39;&lt;/div&gt;&#39;;
+$output .= &#39;&lt;/div&gt;&#39;;</code></pre>
+<p>剩下的就是css代码控制样式了，笔者在经过多次的测试后，总结的代码如下：</p>
+<pre><code>.responsive #header_main .container &#123;
+    max-width: 100% !important;
+    padding: 0px 20px !important;
+&#125;
+#top #header .avia-font-entypo-fontello, body #header .avia-font-entypo-fontello, html body #header [data-av_iconfont=&#39;entypo-fontello&#39;]:before &#123;
+    background: red !important;
+    color: #fff !important;
+    padding: 10px 12px !important;
+    border-radius: 3px;
+    font-size: 24px;
+&#125;
+#top #menu-item-search &#123;
+    background: red;
+&#125;
+.country&#123;
+    z-index: 9999;
+&#125;
+#top #header .av-main-nav &gt; li &gt; a .avia-menu-text&#123;
+    color:#515151 !important;
+    font-weight:400 !important;
+    padding: 0px 12px;
+    font-size: 15px !important;
+    transition:0.5s ease;
+&#125;
+#top #header .av-main-nav &gt; li &gt; a .avia-menu-text:hover&#123;
+    color:#FF0000 !important;
+&#125;
+.av-main-nav &gt; li:after&#123;
+    content: &quot;\FFDC&quot;;
+    padding-left: 12px;
+    color: rgba(129, 129, 129, 0.3);
+    display: inline-block;
+    position: absolute;
+    right: -3.5px;
+    top: 24px;
+    line-height: 32px;
+&#125;
+.av-main-nav &gt; li:last-child:after,.av-main-nav &gt; li:nth-last-child(2):after,.av-main-nav &gt; li:nth-last-child(3):after&#123;
+    content:&#39;&#39;;
+    display:none !important;
+&#125;
+#top .header_color select &#123;
+    border-color: rgba(225, 225, 225, 0) !important;
+    background-color: transparent !important;
+    color: #515151 !important;
+    padding: 8px 23px !important;
+    appearance:none;  
+    -moz-appearance:none;  
+    -webkit-appearance:none;
+    background: url(&quot;/wp-content/uploads/2018/06/cnen.png&quot;) no-repeat scroll right center transparent;
+&#125;
+.main_menu &#123;
+    right: 0% !important;
+&#125;
+#top #header .inner_tooltip .avia-font-entypo-fontello, body #header .inner_tooltip .avia-font-entypo-fontello &#123;
+    padding: 3px 12px !important;
+&#125;
+#av_section_1 .av-section-color-overlay&#123;
+   background-color: rgba(10, 10, 10, 0.6) !important;
+&#125;
+.avia_ajax_form .button &#123;
+    padding: 25px 50px 23px !important;
+&#125;
+.mod_select ul&#123;margin:0;padding:0;&#125;
+.mod_select ul li&#123;list-style-type:none;height:24px;&#125;
+.mod_select .select_label&#123;float:left;line-height:24px;padding-right:10px;font-weight:700;&#125;
+.mod_select .select_box&#123;float:left;position:relative;cursor:pointer;background:url(http://icar.samitadil.com/wp-content/uploads/2018/06/cnen2.png) no-repeat;&#125;
+.mod_select .selet_open&#123;display:inline-block;position:absolute;right:0;top:0;width:30px;height:24px !important;background:url(http://icar.samitadil.com/wp-content/uploads/2018/06/cnen.png) no-repeat center center;&#125;
+.mod_select .select_txt&#123;display:inline-block;padding-left:23px;width:79px;line-height:24px !important;height:24px !important;cursor:text;overflow:hidden;&#125;
+.mod_select .option&#123;border: 1px solid #dfdfdf !important;position:absolute;top:52px;left:-1px;z-index:2;overflow:hidden;display:none;&#125;
+.mod_select .option a&#123;display:inline-block;height:50px !important;line-height:50px !important;text-align:center;padding:0px 10px;width:100%;background:#fff;border-bottom: 1px solid #dfdfdf;text-decoration: none;transition:0.5s ease;&#125;
+.mod_select .option a:last-child&#123;
+    border-bottom: 0px solid !important;
+&#125;
+.mod_select .option a:hover&#123;
+    color:red !important;
+&#125;
+#header_main .inner-container&#123;
+    position:relative !important;
+&#125;
+.country&#123;
+    position: absolute !important;
+    right: 0;
+    top: 28px;
+&#125;
+#header_main .avia-menu&#123;
+    right:10%;
+&#125;
+
+@media only screen and (max-width: 1210px) and (min-width: 768px)&#123;
+.responsive #top .av_mobile_menu_tablet .av-main-nav .menu-item &#123;
+    display: none !important;
+&#125;
+.responsive #top .av_mobile_menu_tablet .av-main-nav #menu-item-search &#123;
+    display: block !important;
+&#125;
+.responsive #top .av-main-nav .menu-item-avia-special &#123;
+    display: block !important;
+&#125;
+#header_main .avia-menu&#123;
+    right:80%;
+&#125;
+&#125;
+
+@media (max-width:990px)&#123;
+.responsive #top .av-logo-container .avia-menu &#123;
+    margin-right: 10px;
+&#125;
+.country &#123;
+    position: absolute !important;
+    right: 10% !important;
+    top: 33px !important;
+&#125;
+.country select &#123;
+    top: 28px;
+&#125;
+#top #menu-item-search &#123;
+    background: transparent !important;
+&#125;
+#top #header .avia-font-entypo-fontello, body #header .avia-font-entypo-fontello, html body #header [data-av_iconfont=&#39;entypo-fontello&#39;]:before&#123;
+    font-size:16px !important;
+&#125;
+.country select &#123;
+    right: -30px !important;
+&#125;
+&#125;
+
+@media (max-width:767px)&#123;
+.responsive #top .av-logo-container .avia-menu &#123;
+    margin-right: 10px !important;
+&#125;
+.country &#123;
+    position: absolute !important;
+    right: -50% !important;
+    top: 28px !important;
+&#125;
+.mod_select .select_txt &#123;
+    width: 70px !important;
+&#125;
+&#125;</code></pre>
+<p>这个代码可以放在custom css里面，最后粘贴一下最终的效果：</p>
+<p><img src="https://i.imgur.com/UcQO4wV.jpg"></p>
+<p>手机版：</p>
+<p><img src="https://i.imgur.com/3cGT9wT.jpg"></p>
+<p>看到没，通常默认的select的那种下拉框样式都很丑，现在采用的方式可以尽情的对这个进行美化。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/05/22/%E9%87%87%E7%94%A8css3%E7%9A%84flex%E5%92%8Cgrid%E7%9A%84order%E5%B1%9E%E6%80%A7%E8%BF%9B%E8%A1%8C%E5%85%83%E7%B4%A0%E7%9A%84%E6%98%BE%E7%A4%BA%E4%BD%8D%E7%BD%AE%E4%BC%98%E5%85%88%E6%8E%92%E5%BA%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/05/22/%E9%87%87%E7%94%A8css3%E7%9A%84flex%E5%92%8Cgrid%E7%9A%84order%E5%B1%9E%E6%80%A7%E8%BF%9B%E8%A1%8C%E5%85%83%E7%B4%A0%E7%9A%84%E6%98%BE%E7%A4%BA%E4%BD%8D%E7%BD%AE%E4%BC%98%E5%85%88%E6%8E%92%E5%BA%8F/" class="post-title-link" itemprop="url">采用css3的flex和grid的order属性进行元素的显示位置优先排序</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-05-22 16:08:40" itemprop="dateCreated datePublished" datetime="2018-05-22T16:08:40+08:00">2018-05-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:06" itemprop="dateModified" datetime="2020-10-11T11:58:06+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>通常在设计一个网站的时候，有的时候会有一些列表类的，也有图文混排的那种布局，PC版倒是没有什么，可是当我们在打开手机版的时候，发现，文字跟文字在一起，图片跟图片在一起了，显得不是很好看，这个时候，我们又不能对网站的布局进行修改，尤其是在wordpress中那种可视化编辑里面，直接左右布局的那种。</p>
+<p><img src="https://i.imgur.com/DNbtfxU.jpg"></p>
+<p>PC端类似这样的排版布局。当我们用手机打开的时候，就是这样的：</p>
+<p><img src="https://i.imgur.com/zkT91DY.jpg"></p>
+<p><img src="https://i.imgur.com/ajUaOzc.jpg"></p>
+<p>看到没，这个看起来体验就不是很好，我们更喜欢的应该是一行图片，下面是这个图片的说明文字，这个时候我们总不可能直接去网站的后台把这个东西再重新排版吧，即使重新排版将就了手机版，可是PC版又不是我们想要的样子，因此这种想法不是很好。</p>
+<p>正解如下：</p>
+<p>PC保持默认，手机版呢，我们对每个PC版的区块进行设定一个ID或者class，然后进行媒体查询语句，运用order这个属性。</p>
+<p>好的，我们科普一下order这个属性：</p>
+<p>order:用整数值来定义排列顺序，数值小的排在前面。可以为负值。</p>
+<p>以下的css的写法：</p>
+<blockquote>
+<p>order:-1;</p>
+<p>order:0;</p>
+<p>order:1;</p>
+<p>order:2;</p>
+<p>…</p>
+</blockquote>
+<p>哪个对象的这个值越小，排序就越靠前。</p>
+<p>因为PC版是采用两列式布局，假如代码结构如下：</p>
+<pre><code>&lt;ul id=&quot;box&quot; class=&quot;box&quot;&gt;
+    //A区
+    &lt;li class=&quot;a&quot;&gt;A图片区&lt;/li&gt;
+    &lt;li class=&quot;aa&quot;&gt;A文字区&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;ul id=&quot;box2&quot; class=&quot;box&quot;&gt;
+    //B区
+    &lt;li class=&quot;b&quot;&gt;B文字区&lt;/li&gt;
+    &lt;li class=&quot;bb&quot;&gt;B图片区&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+<p>这里算是两个区块，手机版的话，就是呈现的是：A文字区跟B文字区靠在一起。不是很好看，我们需要做的是手机版是A图片区A文字区，B图片区B文字区；或者是B区不动，只需要把A区的文字区跟图片区重新排序即可。这个可是不改动整体内容的情况下进行的。</p>
+<p>好的，我们的css代码就是：</p>
+<p><strong>方式一：B区不动，只需要把A区的文字区跟图片区重新排序即可</strong></p>
+<pre><code>@media (max-width:767px)&#123;
+ .box&#123;
+    display:grid;
+&#125;
+.aa&#123;
+    order:-1 !important;
+&#125;
+&#125;</code></pre>
+<p><strong>方式二：A区不动，只需要把B区的文字区跟图片区重新排序即可</strong></p>
+<pre><code>@media (max-width:767px)&#123;
+ .box&#123;
+    display:grid;
+&#125;
+.bb&#123;
+    order:-1 !important;
+&#125;
+&#125;</code></pre>
+<p><span style="color:red">记住：这个<code>display:grid</code>是在作用对象 (li) 的直属父级那里添加的，如果不是，可能达不到预期效果</span>，比如以下的代码结构：</p>
+<pre><code>&lt;div class=&quot;testa&quot;&gt;
+    &lt;ul id=&quot;box&quot; class=&quot;box&quot;&gt;
+        &lt;li class=&quot;a&quot;&gt;A图片区&lt;/li&gt;
+        &lt;li class=&quot;aa&quot;&gt;A文字区&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;testb&quot;&gt;
+    &lt;ul id=&quot;box2&quot; class=&quot;box&quot;&gt;
+        &lt;li class=&quot;b&quot;&gt;B文字区&lt;/li&gt;
+        &lt;li class=&quot;bb&quot;&gt;B图片区&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/div&gt;</code></pre>
+<p>如果以上的媒体查询代码：</p>
+<pre><code>@media (max-width:767px)&#123;
+ .testa&#123;
+    display:grid;
+&#125;
+.aa&#123;
+    order:-1 !important;
+&#125;
+&#125;</code></pre>
+<p>好的这个插曲到此结束，最后贴出最后的效果：</p>
+<p><img src="https://i.imgur.com/zTXkdWt.jpg"></p>
+<p>效果是不是好了很多？</p>
+<p>如果这样写的话，可能A文字区不会把排序优先级往上提，也就是没有效果。这个笔者在处理一个手机版的样式美化的过程中实践过，写此文章仅仅用作笔记，如果针对这类问题有更好的建议，不妨加以斧正。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/05/21/wordpress%E7%BD%91%E7%AB%99%E4%B8%8D%E5%90%8C%E6%96%B9%E5%BC%8F%E7%9A%84%E5%BD%BB%E5%BA%95%E8%BF%81%E7%A7%BB%E6%B3%A8%E6%84%8F%E7%BB%86%E8%8A%82/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/05/21/wordpress%E7%BD%91%E7%AB%99%E4%B8%8D%E5%90%8C%E6%96%B9%E5%BC%8F%E7%9A%84%E5%BD%BB%E5%BA%95%E8%BF%81%E7%A7%BB%E6%B3%A8%E6%84%8F%E7%BB%86%E8%8A%82/" class="post-title-link" itemprop="url">wordpress网站不同方式的彻底迁移注意细节</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-05-21 11:16:18" itemprop="dateCreated datePublished" datetime="2018-05-21T11:16:18+08:00">2018-05-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:03" itemprop="dateModified" datetime="2020-10-11T11:58:03+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><strong>方式一</strong></p>
+<p>源码+数据库的迁移方式</p>
+<p>优点：这种方式最彻底，最完整</p>
+<p>缺点：风险较大，迁移成功则好；不成功的话，将会导致网站数据不完整，网站没法访问。</p>
+<p><strong>方式二</strong></p>
+<p>这个是通过后台数据导入导出的方式进行一个数据迁移。</p>
+<p>优点：方便，简单，报错几率低。即使导入失败也不会危及网站的访问。</p>
+<p>缺点：导入不彻底，媒体文件还需要重新上传到目标网站的upload中去。一些菜单和设置都不会被迁移，需要手动拷贝粘贴。工作量较大 。</p>
+<p><span style="color:red">备注</span> :在媒体文件从upload下载的时候，建议排查下，看下是否有多余的图片，因为wordpress会产生很多的缩略图，这些缩略图会占据很大的空间。这个是不得不考虑的因素。</p>
+<p>笔者建议：如果是专业人士，建议采用方式一；如果不是专业人士，只是部分页面迁移的话，建议采用方式二。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/05/17/Magento%E9%A6%96%E9%A1%B5%EF%BC%88%E5%AD%90%E9%A1%B5%EF%BC%89%E6%98%BE%E7%A4%BA%E7%89%B9%E4%BB%B7%E4%BA%A7%E5%93%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/05/17/Magento%E9%A6%96%E9%A1%B5%EF%BC%88%E5%AD%90%E9%A1%B5%EF%BC%89%E6%98%BE%E7%A4%BA%E7%89%B9%E4%BB%B7%E4%BA%A7%E5%93%81/" class="post-title-link" itemprop="url">Magento首页（子页）显示特价产品</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-05-17 15:02:42" itemprop="dateCreated datePublished" datetime="2018-05-17T15:02:42+08:00">2018-05-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:02" itemprop="dateModified" datetime="2020-10-11T11:58:02+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>1,建立文件app/code/core/Mage/Catalog/Block/Product/Special.php</p>
+<pre><code>class Mage_Catalog_Block_Product_Special extends Mage_Catalog_Block_Product_Abstract  
+&#123;  
+    protected $_productsCount = null;  
+
+    const DEFAULT_PRODUCTS_COUNT = 6;//默认显示数量  
+
+    protected function _beforeToHtml()  
+    &#123;  
+        $todayDate = Mage::app()-&gt;getLocale()-&gt;date()-&gt;toString(Varien_Date::DATETIME_INTERNAL_FORMAT);  
+
+        $collection = Mage::getResourceModel(&#39;catalog/product_collection&#39;);  
+        Mage::getSingleton(&#39;catalog/product_status&#39;)-&gt;addVisibleFilterToCollection($collection);  
+        Mage::getSingleton(&#39;catalog/product_visibility&#39;)-&gt;addVisibleInCatalogFilterToCollection($collection);  
+
+        $collection = $this-&gt;_addProductAttributesAndPrices($collection)  
+        -&gt;addStoreFilter()  
+        -&gt;addAttributeToFilter(&#39;special_from_date&#39;, array(&#39;date&#39; =&gt; true, &#39;to&#39; =&gt; $todayDate))  
+        -&gt;addAttributeToFilter(&#39;special_to_date&#39;, array(&#39;or&#39;=&gt; array(  
+        0 =&gt; array(&#39;date&#39; =&gt; true, &#39;from&#39; =&gt; $todayDate),  
+        1 =&gt; array(&#39;is&#39; =&gt; new Zend_Db_Expr(&#39;null&#39;)))  
+        ), &#39;left&#39;)  
+        -&gt;addAttributeToSort(&#39;special_from_date&#39;, &#39;desc&#39;)  
+        -&gt;setPageSize($this-&gt;getProductsCount())  
+        -&gt;setCurPage(1);  
+        $this-&gt;setProductCollection($collection);  
+
+        return parent::_beforeToHtml();  
+    &#125;  
+
+    public function setProductsCount($count)  
+    &#123;  
+        $this-&gt;_productsCount = $count;  
+        return $this;  
+    &#125;  
+
+    public function getProductsCount()  
+    &#123;  
+        if (null === $this-&gt;_productsCount) &#123;  
+            $this-&gt;_productsCount = self::DEFAULT_PRODUCTS_COUNT;  
+        &#125;  
+        return $this-&gt;_productsCount;  
+    &#125;  
+&#125;</code></pre>
+<p>2.建立/app/design/frontend/package/theme/template/catalog/product/special.phtml</p>
+<p>这个文件copy这个目录下的new.phtml文件里的内容，标题改下就好了</p>
+<p>3.后台CMS-&gt;Page-&gt;Home page-&gt;Content中添加</p>
+<pre><code>&#123;&#123;block type="catalog/product_special" template="catalog/product/special.phtml"&#125;&#125;</code></pre>
+<p>ps：如想在其他页面显示，直接建个Page复制代码</p>
+<pre><code>&#123;&#123;block type="catalog/product_special" template="catalog/product/special.phtml"&#125;&#125;</code></pre>
+<p>至Content即可。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/19/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/19/">19</a><span class="page-number current">20</span><a class="page-number" href="/page/21/">21</a><span class="space">&hellip;</span><a class="page-number" href="/page/43/">43</a><a class="extend next" rel="next" href="/page/21/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

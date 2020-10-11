@@ -1,23 +1,2623 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-{% block title %}{{ config.title }}{% if theme.index_with_subtitle and config.subtitle %} - {{config.subtitle }}{% endif %}{% endblock %}
+<link rel="stylesheet" href="/css/main.css">
 
-{% block page_class %}
-  {% if is_home() %}page-home{% endif -%}
-{% endblock %}
 
-{% block content %}
-  <section id="posts" class="posts-expand">
-    {% for post in page.posts %}
-      {{ post_template.render(post, true) }}
-    {% endfor %}
-  </section>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-  {% include '_partials/pagination.swig' %}
-{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
 
-{% block sidebar %}
-  {{ sidebar_template.render(false) }}
-{% endblock %}
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/page/3/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/page/3/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
+            
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/05/15/%E8%BF%90%E7%94%A8gulp%E6%89%93%E5%8C%85%E9%A1%B9%E7%9B%AE%E7%9A%84%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95-%E5%90%84%E7%A7%8D%E6%8A%A5%E9%94%99%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/05/15/%E8%BF%90%E7%94%A8gulp%E6%89%93%E5%8C%85%E9%A1%B9%E7%9B%AE%E7%9A%84%E6%8A%98%E8%85%BE%E8%AE%B0%E5%BD%95-%E5%90%84%E7%A7%8D%E6%8A%A5%E9%94%99%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" class="post-title-link" itemprop="url">运用gulp打包项目的折腾记录(各种报错的解决方案)</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-05-15 19:51:07" itemprop="dateCreated datePublished" datetime="2019-05-15T19:51:07+08:00">2019-05-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:06" itemprop="dateModified" datetime="2020-10-11T11:58:06+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/gulp/" itemprop="url" rel="index"><span itemprop="name">gulp</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>根据网上的<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/e62da564c440">一篇文章</a>走，遇到的第一个问题就是：</p>
+<blockquote>
+<p>Did you forget to signal async completion?</p>
+<p>以及：没有引入包的命令报错</p>
+</blockquote>
+<p>解决方案的链接如下：</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/tinyphp/p/4991238.html%EF%BC%88%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96%E5%8C%85%EF%BC%89">https://www.cnblogs.com/tinyphp/p/4991238.html（安装依赖包）</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/e62da564c440%EF%BC%88%E6%89%93%E5%8C%85%E5%B7%A5%E5%85%B7%E7%9A%84%E7%A4%BA%E4%BE%8B%EF%BC%89">https://www.jianshu.com/p/e62da564c440（打包工具的示例）</a></li>
+</ol>
+<p><strong>重点：先初始化项目，然后安装依赖的包。在项目目录下往下走。</strong></p>
+<p>正确的使用方法如下：</p>
+<p>笔者这里的项目根目录为：gulp-test文件夹</p>
+<p>第一步：在项目根目录下创建：gulpfile.js，然后把要打包的东西以及规则都写好，这里粘贴些示例代码。</p>
+<pre><code>var gulp = require(&#39;gulp&#39;);
+var autoprefixer = require(&#39;gulp-autoprefixer&#39;);
+var minifycss = require(&#39;gulp-minify-css&#39;);
+var uglify = require(&#39;gulp-uglify&#39;);
+var imagemin = require(&#39;gulp-imagemin&#39;);
+var rename = require(&#39;gulp-rename&#39;);
+var concat = require(&#39;gulp-concat&#39;);
+var notify = require(&#39;gulp-notify&#39;);
+var gutil = require(&#39;gulp-util&#39;);
+var babel = require(&#39;gulp-babel&#39;);
+var del = require(&#39;del&#39;);
+var htmlmin = require(&#39;gulp-htmlmin&#39;);
+var runSequence = require(&#39;gulp-sequence&#39;);
+
+// Clean 
+gulp.task(&#39;clean&#39;, function () &#123;
+   return del([&#39;dist/**/*&#39;])
+&#125;);
+
+// Styles
+gulp.task(&#39;styles&#39;, function () &#123;
+    return gulp.src(&#39;src/assets/css/*.css&#39;)
+        .pipe(autoprefixer(&#123;
+            browsers: [&#39;last 2 versions&#39;],
+            cascade: false
+        &#125;))
+        .pipe(minifycss())
+        .pipe(gulp.dest(&#39;dist/assets/css&#39;))
+&#125;);
+//  htmlmin
+gulp.task(&#39;htmlmin&#39;, function () &#123;
+    return gulp.src(&#39;src/**/*.html&#39;)
+        .pipe(htmlmin(&#123;
+            collapseWhitespace: true
+        &#125;))
+        .pipe(gulp.dest(&#39;dist&#39;))
+&#125;);
+// Scripts
+gulp.task(&#39;scripts&#39;, function () &#123;
+    return gulp.src(&#39;src/assets/js/**/*.js&#39;)
+        .pipe(uglify())
+        .pipe(gulp.dest(&#39;dist/assets/js&#39;))
+&#125;);
+// fonts
+gulp.task(&#39;fonts&#39;, function () &#123;
+    return gulp.src(&#39;src/assets/fonts/*&#39;)
+        .pipe(gulp.dest(&#39;dist/assets/fonts&#39;))
+&#125;);
+// Images
+gulp.task(&#39;images&#39;, function () &#123;
+    return gulp.src(&#39;src/assets/i/**/*&#39;)
+        .pipe(imagemin())
+        .pipe(gulp.dest(&#39;dist/assets/img&#39;))
+&#125;);
+
+gulp.task(&#39;default&#39;, function(cb) &#123;  
+    runSequence(&#39;clean&#39;, [&#39;styles&#39;, &#39;scripts&#39;, &#39;images&#39;, &#39;fonts&#39;, &#39;htmlmin&#39;], cb);
+&#125;);</code></pre>
+<p>第二步：在项目根目录下创建package.json</p>
+<pre><code>npm init</code></pre>
+<p>第三步：在项目根目录运行如下命令，安装gulp到项目中，这样安装是针对目前这个项目的。</p>
+<pre><code>npm install --save-dev gulp</code></pre>
+<p>如果这个文件夹下有多个项目都要打包，那么可以采用全局安装，全局安装的代码，运行如下命令：</p>
+<pre><code>npm install --global gulp</code></pre>
+<p>第四步：安装插件到项目，就是上面那个示例代码里面引入的依赖，比如：gulp-autoprefixer，gulp-minify-css</p>
+<p>这些都是需要一个个的安装的，笔者当时就不知道还要安装插件，导致总是报错，根据以上的示例代码，那么这里就要安装所有的这些插件，运行命令：</p>
+<pre><code>npm install --save-dev gulp  //这个前面已经安装了，就无需再次安装
+npm install --save-dev gulp-autoprefixer
+npm install --save-dev gulp-minify-css
+npm install --save-dev gulp-uglify
+npm install --save-dev gulp-imagemin
+npm install --save-dev gulp-rename
+npm install --save-dev gulp-concat
+npm install --save-dev gulp-notify
+npm install --save-dev del
+npm install --save-dev gulp-htmlmin
+npm install --save-dev gulp-sequence
+npm install --save-dev gulp-util
+npm install --save-dev gulp-babel</code></pre>
+<p>当把这些插件都安装完毕后，我们在根目录下运行命令：</p>
+<pre><code>gulp</code></pre>
+<p>如果不出错的话就会看到打包成功，可以在项目根目录下看到一个dist文件夹，里面有打包的文件。</p>
+<pre><code>[19:07:08] Using gulpfile N:\nginx\html\gulp-test\gulpfile.js
+[19:07:08] Starting &#39;default&#39;...
+[19:07:08] Starting &#39;clean&#39;...
+[19:07:08] Finished &#39;clean&#39; after 4.1 ms
+[19:07:08] Starting &#39;styles&#39;...
+[19:07:08] Starting &#39;scripts&#39;...
+[19:07:08] Starting &#39;images&#39;...
+[19:07:08] Starting &#39;fonts&#39;...
+[19:07:08] Starting &#39;htmlmin&#39;...
+[19:07:08] Starting &#39;commm&#39;...
+[19:07:08] Starting &#39;copy&#39;...
+[19:07:18] Finished &#39;commm&#39; after 9.24 s
+[19:07:18] Finished &#39;copy&#39; after 10 s
+[19:07:21] gulp-imagemin: Minified 8 images (saved 28.1 kB - 3.7%)</code></pre>
+<p>笔者在这里遇到的问题：</p>
+<blockquote>
+<p>gulp 遇到TypeError: gulp.on(…).on(…).on(…).on(…).start is not a function</p>
+<p>今天在运行gulp的时候一直报TypeError: gulp.on(…).on(…).on(…).on(…).start is not a function这个错误，以为安装模块的时候有问题，重新npm install也不行，最后google了一下，找到了问题根源，主要就是gulp本地是Local version 4.0.0，可能是新版的原因，所以不能执行，解决办法有两种：第一，降低gulp版本，第二，改代码。</p>
+</blockquote>
+<p>方法一：降低版本，运行如下命令（笔者建议采用这种方法）：</p>
+<pre><code>npm install --save-dev gulp@3.9.1</code></pre>
+<p>方法二：不降低版本，改下代码，这个代码也是笔者在参考链接里面粘贴过来的：</p>
+<pre><code>gulp.task(&#39;task1&#39;, gulp.series(&#39;task1-1&#39;, function (done) &#123;
+   // task 1 code here
+    done();
+&#125;));
+
+gulp.task(&#39;task2&#39;, gulp.series(&#39;task2-1&#39;, function (done) &#123;
+   // task 2 code here
+    done();
+&#125;));
+
+// Similarly Tasks 3 and 4 Code here
+
+gulp.task(&#39;main&#39;, gulp.series(&#39;task1&#39;, &#39;task2&#39;, &#39;task3&#39;, &#39;task4&#39;, function (done) &#123;
+    done();
+&#125;));</code></pre>
+<p>具体看解决方案：<a target="_blank" rel="noopener" href="https://blog.csdn.net/cssking0/article/details/85340014">https://blog.csdn.net/cssking0/article/details/85340014</a></p>
+<p>又遇到了另外的一个问题：</p>
+<blockquote>
+<p>GulpUglifyError: unable to minify JavaScript</p>
+</blockquote>
+<p>解决方案：<a target="_blank" rel="noopener" href="https://my.oschina.net/johnsken/blog/1796169">https://my.oschina.net/johnsken/blog/1796169</a></p>
+<p>原本自己的代码如下：</p>
+<pre><code>gulp.task(&#39;scripts&#39;, function () &#123;
+     return gulp.src(&#39;assets/js/*.js&#39;)
+         .pipe(uglify())
+         .pipe(gulp.dest(&#39;dist/assets/js&#39;))
+&#125;);</code></pre>
+<p>添加日志代码进去就可以看到哪个地方出现问题了。添加代码后如下：</p>
+<pre><code>gulp.task(&#39;scripts&#39;, function () &#123;
+     return gulp.src(&#39;assets/js/*.js&#39;)
+         .pipe(uglify())
+         .on(&#39;error&#39;, function(err) &#123;
+                gutil.log(gutil.colors.red(&#39;[Error]&#39;), err.toString());
+          &#125;)
+         .pipe(gulp.dest(&#39;dist/assets/js&#39;))
+&#125;);</code></pre>
+<p>这样就可以看到问题在哪里了：</p>
+<pre><code>...
+[19:42:36] gulp-imagemin: Minified 8 images (saved 28.1 kB - 3.7%)
+[19:42:37] [Error] GulpUglifyError: unable to minify JavaScript
+Caused by: SyntaxError: Unexpected token: operator «&gt;»
+File: N:\nginx\html\gulp-test\assets\js\bootstrap-table-en-US.js
+...</code></pre>
+<p>原来是这个文件里面有个符号<code>&gt;</code>，经历过多次的报错，终于打包完毕。当然还可能会遇到新的问题，这里给gulp一个小小的总结：gulp是一个用来快速打包的工具。</p>
+<p>本文会持续更新，敬请关注。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/05/14/%E5%88%9B%E6%84%8F%E5%BF%83%E5%BE%97%E4%B9%8B%E9%80%9A%E8%BF%87css%E7%9A%84%E7%9B%B8%E9%82%BB%E5%85%84%E5%BC%9F%E9%80%89%E6%8B%A9%E5%99%A8%E6%9D%A5%E8%BE%BE%E5%88%B0%E9%BC%A0%E6%A0%87%E6%82%AC%E6%B5%AE%E7%9A%84%E6%97%B6%E5%80%99%EF%BC%8C%E5%86%85%E5%AE%B9%E4%B9%8B%E9%97%B4%E7%9A%84%E4%B8%AD%E9%97%B4%E7%BA%BF%E6%B6%88%E5%A4%B1%E7%9A%84%E7%9B%AE%E7%9A%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/05/14/%E5%88%9B%E6%84%8F%E5%BF%83%E5%BE%97%E4%B9%8B%E9%80%9A%E8%BF%87css%E7%9A%84%E7%9B%B8%E9%82%BB%E5%85%84%E5%BC%9F%E9%80%89%E6%8B%A9%E5%99%A8%E6%9D%A5%E8%BE%BE%E5%88%B0%E9%BC%A0%E6%A0%87%E6%82%AC%E6%B5%AE%E7%9A%84%E6%97%B6%E5%80%99%EF%BC%8C%E5%86%85%E5%AE%B9%E4%B9%8B%E9%97%B4%E7%9A%84%E4%B8%AD%E9%97%B4%E7%BA%BF%E6%B6%88%E5%A4%B1%E7%9A%84%E7%9B%AE%E7%9A%84/" class="post-title-link" itemprop="url">创意心得之通过css的相邻兄弟选择器来达到鼠标悬浮的时候，内容之间的中间线消失的目的</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-05-14 19:23:15" itemprop="dateCreated datePublished" datetime="2019-05-14T19:23:15+08:00">2019-05-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:04" itemprop="dateModified" datetime="2020-10-11T11:58:04+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%88%9B%E6%84%8F%E5%BF%83%E5%BE%97/" itemprop="url" rel="index"><span itemprop="name">创意心得</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>通常笔者在解决一排文本列表的时候，总有一个这样的需求，就是在文本于文本之间添加一个线隔开，看起来舒服点。</p>
+<p>HTML代码片段：</p>
+<pre><code>&lt;div id=&quot;avia-menu&quot;&gt;
+    ...
+    &lt;div class=&quot;avia_mega_div avia_mega5 twelve units&quot;&gt;
+      &lt;ul class=&quot;sub-menu&quot;&gt;
+        &lt;li id=&quot;menu-item-2215&quot;&gt;&lt;span &gt;&lt;a href=&quot;/contact-us/&quot;&gt;Contact Us&lt;/a&gt;&lt;/span&gt;&lt;/li&gt;
+        &lt;li id=&quot;menu-item-2218&quot;&gt;&lt;span &gt;&lt;a href=&quot;/activity/&quot;&gt;Activity&lt;/a&gt;&lt;/span&gt;&lt;/li&gt;
+        &lt;li id=&quot;menu-item-2216&quot;&gt;&lt;span &gt;&lt;a href=&quot;/video/&quot;&gt;Video&lt;/a&gt;&lt;/span&gt;&lt;/li&gt;
+        &lt;li id=&quot;menu-item-2213&quot;&gt;&lt;span &gt;&lt;a href=&quot;/contact-us/&quot;&gt;test5&lt;/a&gt;&lt;/span&gt;&lt;/li&gt;
+        &lt;li id=&quot;menu-item-2214&quot;&gt;&lt;span &gt;&lt;a href=&quot;/contact-us/&quot;&gt;test6&lt;/a&gt;&lt;/span&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+      &lt;ul class=&quot;sub-menu avia_mega_hr&quot;&gt;
+        &lt;li id=&quot;menu-item-2229&quot;&gt;&lt;span &gt;&lt;a href=&quot;/contact-us/&quot;&gt;Contact Us&lt;/a&gt;&lt;/span&gt;&lt;/li&gt;
+        &lt;li id=&quot;menu-item-2231&quot;&gt;&lt;span &gt;&lt;a href=&quot;/activity/&quot;&gt;Activity&lt;/a&gt;&lt;/span&gt;&lt;/li&gt;
+        &lt;li id=&quot;menu-item-2217&quot;&gt;&lt;span &gt;&lt;a href=&quot;/industry-news/&quot;&gt;Industry News&lt;/a&gt;&lt;/span&gt;&lt;/li&gt;
+        &lt;li id=&quot;menu-item-2232&quot;&gt;&lt;span &gt;&lt;a href=&quot;/faq/&quot;&gt;FAQ&lt;/a&gt;&lt;/span&gt;&lt;/li&gt;
+        &lt;li id=&quot;menu-item-2230&quot;&gt;&lt;span &gt;&lt;a href=&quot;/industry-news/&quot;&gt;Industry News&lt;/a&gt;&lt;/span&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+    ...
+&lt;/div&gt;</code></pre>
+<p>客户想要的效果是：Contact Us  |   Activity  |  Video  |  test5  |  test6 </p>
+<p>类似这样的，其实这个很简单，直接在每个li后面添加一个<code>border-right:1px solid</code>，然后把最后一个设置为<code>border-right:0px solid</code>即可。这样确实已经解决了问题，可是，笔者想要鼠标悬浮的时候，当前的这个显示背景颜色，然后把当前的这个旁边的线隐藏掉。</p>
+<p>笔者找了一下发现有处理同胞元素的方案：<code>+</code>号选择器和<code>~</code>选择器。</p>
+<p><code>+</code>号选择器是相邻选择器：选择指定元素相邻的下一个元素，是下一个元素而不是上一个元素。</p>
+<p><code>~</code>号选择器是匹配选择器：选择指定元素之后的同级的相同的所有元素</p>
+<p>举例：</p>
+<p>HTML代码：</p>
+<pre><code>&lt;p&gt;这里是第一个P标签&lt;/p&gt;
+&lt;p&gt;这里是第二个P标签&lt;/p&gt;
+&lt;h2 class = &#39;h2&#39;&gt;标题H2&lt;/h2&gt;
+&lt;p&gt;这里是第一个P标签&lt;/p&gt;
+&lt;p&gt;这里是第二个P标签&lt;/p&gt;
+&lt;p&gt;这里是第三个P标签&lt;/p&gt;
+&lt;p&gt;这里是第四个P标签&lt;/p&gt;</code></pre>
+<p>css代码：</p>
+<pre><code>.h2 ~ p&#123;
+    color: red;
+&#125;</code></pre>
+<p>那么标题H2后面的所有p标签的内容都变红了。</p>
+<p>而相邻选择器我们也来一个例子：</p>
+<p>HTML代码：</p>
+<pre><code>&lt;p&gt;这里是第一个P标签&lt;/p&gt;
+&lt;p&gt;这里是第二个P标签&lt;/p&gt;
+&lt;h2 class = &#39;h2&#39;&gt;标题H2&lt;/h2&gt;
+&lt;p&gt;这里是第一个P标签&lt;/p&gt;
+&lt;p&gt;这里是第二个P标签&lt;/p&gt;
+&lt;p&gt;这里是第三个P标签&lt;/p&gt;
+&lt;p&gt;这里是第四个P标签&lt;/p&gt;</code></pre>
+<p>css代码：</p>
+<pre><code>.h2 ~ p&#123;
+    color: red;
+&#125;</code></pre>
+<p>结果：标题H2后面的那一个p段落的文字变红了，其他段落的还是没有变红。</p>
+<hr>
+<p>这只是一个小插曲，我们言归正传，笔者要是对这些文字就在右边添加了线，那么鼠标悬浮的时候可以隐藏当前元素的线，却没法隐藏前一个元素的线。</p>
+<blockquote>
+<p>重点来了：笔者一想，干嘛不换成对所有元素左边添加线，然后把第一个元素的左边线隐藏掉，一样可以实现上面的那种效果。接着就是鼠标悬浮了，悬浮的时候隐藏当前的这个元素的左边的线，同时可以运用相邻选择器也可以把下一个同胞元素的左边线给隐藏了。</p>
+</blockquote>
+<pre><code>#avia-menu .avia_mega_div&gt;.sub-menu&gt;li:hover+li&gt;span&gt;a&#123;
+    border-left:0px solid !important;
+&#125;</code></pre>
+<p>这就是笔者最前面说的那个：相邻选择器是下一个，而不是上一个。<strong>至理名言：既然在没有选择的时候，就换位思考，工具不够用那就把目标进行改造，以迎合工具，让工具发挥最大的作用。</strong></p>
+<p>根据这个理论，笔者对enfold主题中的megamenu进行了美化，就是二级菜单采用megamenu的时候，如果有多行，那么行于行之间用横线隔开，那么就可以应用这个方法了。</p>
+<pre><code>#avia-menu .avia_mega_div&gt;.sub-menu+.sub-menu.avia_mega_hr&#123;
+   border-top:1px solid rgba(255, 255, 255, 0.3) !important;
+&#125;</code></pre>
+<p>最后笔者粘贴下css代码：</p>
+<pre><code>#avia-menu .avia_mega_div&gt;.sub-menu&#123;
+    display:flex !important;
+    justify-content: space-between;
+&#125;
+#avia-menu .avia_mega_div&gt;.sub-menu&gt;li&#123;
+   padding:20px 0px !important;
+   transition:0.6s ease;
+&#125;
+#avia-menu .avia_mega_div&gt;.sub-menu&gt;li:hover&#123;
+    background: #a90722;
+&#125;
+#avia-menu .avia_mega_div&gt;.sub-menu&gt;li:hover&gt;span&gt;a&#123;
+    border-left:0px solid !important;
+&#125;
+#avia-menu .avia_mega_div&gt;.sub-menu&gt;li:hover+li&gt;span&gt;a&#123;
+    border-left:0px solid !important;
+&#125;
+#avia-menu .avia_mega_div&gt;.sub-menu&gt;li&gt;span&gt;a&#123;
+    flex: 1;
+    text-align: center;
+    font-size: 18px !important;
+    line-height: 20px !important;
+    padding-top: 0px !important;
+    height: 16px;
+    border-left: 1px solid rgba(255, 255, 255, 0.3) !important;
+&#125;
+#avia-menu .avia_mega_div&gt;.sub-menu+.sub-menu.avia_mega_hr&#123;
+   border-top:1px solid rgba(255, 255, 255, 0.3) !important;
+&#125;
+#avia-menu .avia_mega_div&gt;.sub-menu&gt;li:first-child&gt;span&gt;a&#123;
+    border-left: 0px solid #fff !important;
+&#125;</code></pre>
+<p>最后效果：</p>
+<p><img src="https://i.imgur.com/q832OZh.jpg"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/05/13/web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E4%B8%AD%E8%A7%A3%E5%86%B3%E4%BA%8B%E4%BB%B6%E5%86%92%E6%B3%A1%E7%9A%84%E6%96%B0%E6%80%9D%E8%B7%AF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/05/13/web%E5%89%8D%E7%AB%AF%E5%BC%80%E5%8F%91%E4%B8%AD%E8%A7%A3%E5%86%B3%E4%BA%8B%E4%BB%B6%E5%86%92%E6%B3%A1%E7%9A%84%E6%96%B0%E6%80%9D%E8%B7%AF/" class="post-title-link" itemprop="url">web前端开发中解决事件冒泡的新思路</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-05-13 11:47:39" itemprop="dateCreated datePublished" datetime="2019-05-13T11:47:39+08:00">2019-05-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:02" itemprop="dateModified" datetime="2020-10-11T11:58:02+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">web前端</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>把每天遇到的一些问题记录下来，是一件很快乐的事，哪怕看起来是那么不起眼。</p>
+<p>今天我们说说事件冒泡，本文不是讲这个概念的理论，因为关于这个问题网上已经说得很明白了，今天笔者的主要目的是换一种思路解决这个问题。</p>
+<p>事情是这样的：</p>
+<p>笔者通过js的方式把bootstrap的折叠框动态输出到前端，结果发现居然不能响应点击事件。于是就手动编写了一个js代码让他们变得正常了，代码片段如下：</p>
+<pre><code>$(&quot;#cep&quot;).on(&quot;click&quot;,&quot;.am-accordion&quot;,function(event)&#123;
+      event.stopPropagation();
+      if ($(this).hasClass(&#39;open&#39;)) &#123;
+          $(this).removeClass(&#39;open&#39;);
+          $(this).find(&quot;.am-accordion-bd&quot;).hide();
+      &#125;else&#123;
+          $(this).addClass(&#39;open&#39;);
+          $(this).find(&quot;.am-accordion-bd&quot;).show();
+          $(this).siblings().find(&#39;.am-accordion-title&#39;).removeClass(&#39;open&#39;);
+          $(this).siblings().find(&#39;.am-accordion-bd&#39;).hide();
+      &#125;
+  &#125;);</code></pre>
+<p>HTML代码结构：</p>
+<pre><code>&lt;div id=&quot;cep&quot;&gt;
+    ...
+    &lt;section data-am-widget=&quot;accordion&quot; class=&quot;am-accordion am-accordion-gapped&quot;&gt;
+        &lt;dl class=&quot;am-accordion-item&quot;&gt;
+            &lt;dt class=&quot;am-accordion-title&quot;&gt;
+             ...some code...
+            &lt;/dt&gt;
+            &lt;dd class=&quot;am-accordion-bd am-collapse&quot;&gt;
+             ...some code...
+            &lt;/dd&gt;
+        &lt;/dl&gt;
+    &lt;/section&gt;
+    &lt;section data-am-widget=&quot;accordion&quot; class=&quot;am-accordion am-accordion-gapped&quot;&gt;
+        &lt;dl class=&quot;am-accordion-item&quot;&gt;
+            &lt;dt class=&quot;am-accordion-title&quot;&gt;
+             ...some code...
+            &lt;/dt&gt;
+            &lt;dd class=&quot;am-accordion-bd am-collapse&quot;&gt;
+             ...some code...
+            &lt;/dd&gt;
+        &lt;/dl&gt;
+    &lt;/section&gt;
+    ...
+&lt;/div&gt;</code></pre>
+<p>结构很明确，如果按照上面那种方式来写js，可以解决折叠框如果默认展开，那么点击的时候就收起来，如果收起来了，点击就会展开，可是会碰到一个问题：就是点击展开里面的内容的时候，也就是<code>.am-accordion-bd</code>里面的内容的时候，就会折叠起来，也就是把父级<code>.am-accordion</code>这个点击事件也触发了，这个很不好啊。那么怎么办呢？</p>
+<p>笔者的思路就是不用<code>.am-accordion</code>这个作为点击事件的目标元素了，而是找一个跟展示内容同胞的元素作为点击事件的目标元素，而此处用来展示内容的是<code>.am-accordion-bd</code>，为了不让点击这个里面的内容冒泡到它的上级，我直接把点击事件换成它的兄弟，也就是同一级，嘿嘿！也就是<code>.am-accordion-title</code>。</p>
+<p>事实证明这个的思路是对的，从此笔者悟出这么一个哲理：<strong>搞不定老大就想办法搞定它老二，如果老二也难以搞定，就弄他小弟</strong>。</p>
+<p>这绝非段子，而是笔者另外一个事情的启发。请往下看：</p>
+<p>曾几何时，笔者在处理一个箭头旋转的问题，苦苦难以解决，就是有很多个折叠框，折叠后面不是都有一个箭头符号嘛，而这种箭头符号通常都是通过伪类的方式加上去的，而这个伪类偏偏用jquery处理特别麻烦，比如代码如下：</p>
+<p>HTML代码：</p>
+<pre><code>&lt;dl class=&quot;am-accordion-item&quot;&gt;
+    &lt;dt class=&quot;am-accordion-title&quot;&gt;
+     天涯何处无芳草
+    &lt;/dt&gt;
+    &lt;dd class=&quot;am-accordion-bd am-collapse&quot;&gt;
+     ...some code...
+    &lt;/dd&gt;
+&lt;/dl&gt;</code></pre>
+<p>在这个标题后面有个箭头符合，当我点击这个标题的时候，那个箭头就向下指，默认情况下是向右指的。那这个时候怎么办呢？很多人可能就直接粗暴的用jquery直接操作这个<code>:after</code>，事实上用这种方法实在是太难了。笔者的方法就是：<strong>用老大来搞定老二</strong></p>
+<p>既然不能操作目标，那么操作目标的父级是可以的，于是我在<code>.am-accordion-title</code>这里动态添加一个class，然后再通过css来操作<code>:after</code>，这样就容易多了，比如点击这个<code>.am-accordion-title</code>的时候，添加一个open，然后css如下：</p>
+<pre><code>.am-accordion-title.open:after&#123;
+    transform: rotate(90deg) !important;
+&#125;</code></pre>
+<p>如果默认已经展开了，再次点击的时候，就移除open，那么就回到正常，默认情况下箭头就是向右的了，如果不是那就自己写个css即可，比如：</p>
+<pre><code>.am-accordion-title:after&#123;
+    transform: rotate(90deg) !important;
+&#125;</code></pre>
+<p>笔者用了一个小小的示例来诠释了这个深奥的哲理，同时总结了一点：让合适的对象做他们擅长自己的事情，css控制样式可是一流的，而js对dom的操作也是一流的，两者配合起来，就可以解决很多问题，思路很重要，转变一下会豁然开朗。</p>
+<p>本文分享到此结束。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/05/10/javascript%E5%8E%9F%E7%94%9F%E6%96%B9%E6%B3%95%E5%A4%84%E7%90%86dom%E5%85%83%E7%B4%A0%E7%9A%84%E5%8A%A8%E6%80%81%E6%8F%92%E5%85%A5-%E6%8F%92%E5%85%A5%E5%88%B0%E7%9B%AE%E6%A0%87%E5%85%83%E7%B4%A0%E7%9A%84%E5%89%8D%E9%9D%A2%E6%88%96%E8%80%85%E5%90%8E%E9%9D%A2%E7%AD%89%E9%97%AE%E9%A2%98%E7%9A%84%E6%B1%87%E6%80%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/05/10/javascript%E5%8E%9F%E7%94%9F%E6%96%B9%E6%B3%95%E5%A4%84%E7%90%86dom%E5%85%83%E7%B4%A0%E7%9A%84%E5%8A%A8%E6%80%81%E6%8F%92%E5%85%A5-%E6%8F%92%E5%85%A5%E5%88%B0%E7%9B%AE%E6%A0%87%E5%85%83%E7%B4%A0%E7%9A%84%E5%89%8D%E9%9D%A2%E6%88%96%E8%80%85%E5%90%8E%E9%9D%A2%E7%AD%89%E9%97%AE%E9%A2%98%E7%9A%84%E6%B1%87%E6%80%BB/" class="post-title-link" itemprop="url">javascript原生方法处理dom元素的动态插入,插入到目标元素的前面(before,insertBefore)或者后面(after,appendChild)，遍历插入，节点搬移，以及不规则形状等问题的汇总</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-05-10 09:20:39" itemprop="dateCreated datePublished" datetime="2019-05-10T09:20:39+08:00">2019-05-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:57" itemprop="dateModified" datetime="2020-10-11T11:57:57+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript/" itemprop="url" rel="index"><span itemprop="name">javascript</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>通常，对于这种操作dom元素的问题，笔者更倾向于用jquery来操作，因为它简单快速，代码简洁。可是有的时候仅仅是为了处理少部分的dom插入或者其他操作的话，为了在项目中更少的引入第三方库而造成的不可预知的问题发生，笔者可能会选择采用javascript原生的写法。那么今天就来说说用javascript来操作dom的基本问题：插入元素。</p>
+<p>我们以这个HTML代码片段为例：</p>
+<pre><code>&lt;ul class=&quot;tabs wc-tabs&quot; role=&quot;tablist&quot;&gt;
+    &lt;li class=&quot;description_tab active&quot; id=&quot;tab-title-description&quot; role=&quot;tab&quot; aria-controls=&quot;tab-description&quot;&gt;
+        &lt;a href=&quot;#tab-description&quot;&gt;Description&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&quot;additional_information_tab&quot; id=&quot;tab-title-additional_information&quot; role=&quot;tab&quot; aria-controls=&quot;tab-additional_information&quot;&gt;
+        &lt;a href=&quot;#tab-additional_information&quot;&gt;Additional information&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&quot;how-to-use_tab&quot; id=&quot;tab-title-how-to-use&quot; role=&quot;tab&quot; aria-controls=&quot;tab-how-to-use&quot;&gt;
+        &lt;a href=&quot;#tab-how-to-use&quot;&gt;how to use&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&quot;video_tab&quot; id=&quot;tab-title-video&quot; role=&quot;tab&quot; aria-controls=&quot;tab-video&quot;&gt;
+        &lt;a href=&quot;#tab-video&quot;&gt;video&lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class=&quot;reviews_tab&quot; id=&quot;tab-title-reviews&quot; role=&quot;tab&quot; aria-controls=&quot;tab-reviews&quot;&gt;
+        &lt;a href=&quot;#tab-reviews&quot;&gt;Reviews (2)&lt;/a&gt;
+    &lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+<p>这个是woocommerce产品详情页里面的tab那里，这里就以这个作为讲解示例。</p>
+<p>为了更好的讲解，笔者就把自己已经写好的js代码也粘贴在这里，以便大家能够理解后面的js片段：</p>
+<pre><code>&lt;script&gt;
+if (document.querySelector(&quot;.wc-tabs li a&quot;)) &#123;
+    var tabs = document.querySelectorAll(&quot;.wc-tabs li a&quot;);
+    console.log(tabs);
+    for (var i = 0; i &lt; tabs.length; i++) &#123;
+        switch (tabs[i].textContent) &#123;
+            case &#39;Description&#39;:
+                var imgss = document.createElement(&quot;img&quot;);
+                // tabs[i].appendChild(imgss);
+                imgss.setAttribute(&quot;class&quot;,&quot;woo_tab_title_img&quot;);
+                imgss.setAttribute(&#39;src&#39;,&#39;https://www.easyicon.net/api/resizeApi.php?id=26043&amp;size=24&#39;);
+                tabs[i].insertBefore(imgss,tabs[i].firstChild);//把imgss插入到tabs[i]元素内部的第一个字节点的前面
+                break;
+            case &#39;Additional information&#39;:
+               var imgss = document.createElement(&quot;img&quot;);
+                // tabs[i].appendChild(imgss);
+                imgss.setAttribute(&quot;class&quot;,&quot;woo_tab_title_img&quot;);
+                imgss.setAttribute(&#39;src&#39;,&#39;https://www.easyicon.net/api/resizeApi.php?id=1159834&amp;size=72&#39;);
+                tabs[i].insertBefore(imgss,tabs[i].firstChild);//把imgss插入到tabs[i]元素内部的第一个字节点的前面
+                break;
+            case &#39;how to use&#39;:
+               var imgss = document.createElement(&quot;img&quot;);
+                // tabs[i].appendChild(imgss);
+                imgss.setAttribute(&quot;class&quot;,&quot;woo_tab_title_img&quot;);
+                imgss.setAttribute(&#39;src&#39;,&#39;https://www.easyicon.net/api/resizeApi.php?id=1138512&amp;size=64&#39;);
+                tabs[i].insertBefore(imgss,tabs[i].firstChild);//把imgss插入到tabs[i]元素内部的第一个字节点的前面
+                break;
+            case &#39;video&#39;:
+                var imgss = document.createElement(&quot;img&quot;);
+                // tabs[i].appendChild(imgss);
+                imgss.setAttribute(&quot;class&quot;,&quot;woo_tab_title_img&quot;);
+                imgss.setAttribute(&#39;src&#39;,&#39;https://www.easyicon.net/api/resizeApi.php?id=1233139&amp;size=72&#39;);
+                tabs[i].insertBefore(imgss,tabs[i].firstChild);//把imgss插入到tabs[i]元素内部的第一个字节点的前面
+                break;
+            default:
+                var imgss = document.createElement(&quot;img&quot;);
+                // tabs[i].appendChild(imgss);
+                imgss.setAttribute(&quot;class&quot;,&quot;woo_tab_title_img&quot;);
+                imgss.setAttribute(&#39;src&#39;,&#39;https://www.easyicon.net/api/resizeApi.php?id=1230195&amp;size=72&#39;);
+                tabs[i].insertBefore(imgss,tabs[i].firstChild);//把imgss插入到tabs[i]元素内部的第一个字节点的前面
+                break;
+        &#125;
+    &#125;
+&#125;
+&lt;/script&gt;</code></pre>
+<h2 id="如何在tab标题文字前面插入图片"><a href="#如何在tab标题文字前面插入图片" class="headerlink" title="如何在tab标题文字前面插入图片"></a>如何在tab标题文字前面插入图片</h2><p><strong>需求</strong>：就是在a标签里面插入一个dom元素，并且这个dom是插入在a标签里面的文字的最前面。这个我们就要去了解下javascript最基本的一些api了，其中就有这么一个专门处理这个需求的：<code>insertBefore()</code>；</p>
+<p>这个就类似jquery里面的<code>prepend()</code>方法。</p>
+<p>代码片段如下：</p>
+<pre><code>...
+// 先创建一个dom标签img
+var imgss = document.createElement(&quot;img&quot;);
+// 可以为这个img标签设置必要的一些属性
+imgss.setAttribute(&quot;class&quot;,&quot;woo_tab_title_img&quot;);
+imgss.setAttribute(&#39;src&#39;,&#39;https://www.easyicon.net/api/resizeApi.php?id=26043&amp;size=24&#39;);
+//把imgss插入到tabs[i]元素内部的第一个字节点的前面
+tabs[i].insertBefore(imgss,tabs[i].firstChild);
+...</code></pre>
+<p>这样的话就会在这个tab选项卡中的每一个tab文字前面插入了一张图片。根据开发者工具查看我们就可以看到代码如下：</p>
+<pre><code>&lt;li class=&quot;description_tab&quot; id=&quot;tab-title-description&quot; role=&quot;tab&quot; aria-controls=&quot;tab-description&quot;&gt;
+    &lt;a href=&quot;#tab-description&quot;&gt;&lt;img class=&quot;woo_tab_title_img&quot; src=&quot;https://www.easyicon.net/api/resizeApi.php?id=26043&amp;amp;size=24&quot;&gt;Description&lt;/a&gt;
+&lt;/li&gt;</code></pre>
+<h2 id="如何在tab标题文字后面插入图片"><a href="#如何在tab标题文字后面插入图片" class="headerlink" title="如何在tab标题文字后面插入图片"></a>如何在tab标题文字后面插入图片</h2><p><strong>需求</strong>：就是在a标签里面插入一个dom元素，并且这个dom是插入在a标签里面的文字的最后面。这个我们就要去了解下javascript最基本的一些api了，其中就有这么一个专门处理这个需求的：<code>appendChild()</code>；</p>
+<p>这个就类似jquery里面的<code>append()</code>方法。</p>
+<p>代码片段如下：</p>
+<pre><code>...
+// 先创建一个dom标签img
+var imgss = document.createElement(&quot;img&quot;);
+// 可以为这个img标签设置必要的一些属性
+imgss.setAttribute(&quot;class&quot;,&quot;woo_tab_title_img&quot;);
+imgss.setAttribute(&#39;src&#39;,&#39;https://www.easyicon.net/api/resizeApi.php?id=26043&amp;size=24&#39;);
+//把imgss插入到tabs[i]元素内部的字节点的最后位置
+tabs[i].appendChild(imgss);
+...</code></pre>
+<p>这样的话就会在这个tab选项卡中的每一个tab文字后面面插入了一张图片。根据开发者工具查看我们就可以看到代码如下：</p>
+<pre><code>&lt;li class=&quot;description_tab&quot; id=&quot;tab-title-description&quot; role=&quot;tab&quot; aria-controls=&quot;tab-description&quot;&gt;
+    &lt;a href=&quot;#tab-description&quot;&gt;Description&lt;img class=&quot;woo_tab_title_img&quot; src=&quot;https://www.easyicon.net/api/resizeApi.php?id=26043&amp;amp;size=24&quot;&gt;&lt;/a&gt;
+&lt;/li&gt;</code></pre>
+<p>大家可以看到，根据这两个需求区别就是一个方法的问题，其他的都是一样的。</p>
+<h2 id="如何在dom元素外部的前面插入图片，而不是dom元素的内部的前面插入图片"><a href="#如何在dom元素外部的前面插入图片，而不是dom元素的内部的前面插入图片" class="headerlink" title="如何在dom元素外部的前面插入图片，而不是dom元素的内部的前面插入图片"></a>如何在dom元素外部的前面插入图片，而不是dom元素的内部的前面插入图片</h2><p>这个跟前面还是有区别的，举个例子：比如我想在a标签前面插入一张图片，我希望的样是这样的：</p>
+<pre><code>&lt;li class=&quot;description_tab&quot; id=&quot;tab-title-description&quot; role=&quot;tab&quot; aria-controls=&quot;tab-description&quot;&gt;
+    &lt;img class=&quot;woo_tab_title_img&quot; src=&quot;https://www.easyicon.net/api/resizeApi.php?id=26043&amp;amp;size=24&quot;&gt;
+    &lt;a href=&quot;#tab-description&quot;&gt;Description&lt;/a&gt;
+&lt;/li&gt;</code></pre>
+<p>这个怎么实现呢？请看如下代码片段：</p>
+<pre><code>...
+// 先创建一个dom标签img
+var imgss = document.createElement(&quot;img&quot;);
+// 可以为这个img标签设置必要的一些属性
+imgss.setAttribute(&quot;class&quot;,&quot;woo_tab_title_img&quot;);
+imgss.setAttribute(&#39;src&#39;,&#39;https://www.easyicon.net/api/resizeApi.php?id=26043&amp;size=24&#39;);
+//把imgss插入到tabs[i]元素节点外部的前面
+tabs[i].before(imgss);
+...</code></pre>
+<p>这个代码的最终效果就是在a标签前面插入了一张图片。</p>
+<h2 id="如何在dom元素外部的后面插入图片，而不是dom元素的内部的后面插入图片"><a href="#如何在dom元素外部的后面插入图片，而不是dom元素的内部的后面插入图片" class="headerlink" title="如何在dom元素外部的后面插入图片，而不是dom元素的内部的后面插入图片"></a>如何在dom元素外部的后面插入图片，而不是dom元素的内部的后面插入图片</h2><p>这个跟前面还是有区别的，举个例子：比如我想在a标签后面插入一张图片，我希望的样是这样的：</p>
+<pre><code>&lt;li class=&quot;description_tab&quot; id=&quot;tab-title-description&quot; role=&quot;tab&quot; aria-controls=&quot;tab-description&quot;&gt;
+    &lt;a href=&quot;#tab-description&quot;&gt;Description&lt;/a&gt;
+    &lt;img class=&quot;woo_tab_title_img&quot; src=&quot;https://www.easyicon.net/api/resizeApi.php?id=26043&amp;amp;size=24&quot;&gt;
+&lt;/li&gt;</code></pre>
+<p>这个怎么实现呢？请看如下代码片段：</p>
+<pre><code>...
+// 先创建一个dom标签img
+var imgss = document.createElement(&quot;img&quot;);
+// 可以为这个img标签设置必要的一些属性
+imgss.setAttribute(&quot;class&quot;,&quot;woo_tab_title_img&quot;);
+imgss.setAttribute(&#39;src&#39;,&#39;https://www.easyicon.net/api/resizeApi.php?id=26043&amp;size=24&#39;);
+//把imgss插入到tabs[i]元素节点外部的后面
+tabs[i].after(imgss);
+...</code></pre>
+<p>这个代码的最终效果就是在a标签后面插入了一张图片。</p>
+<p>当然还有很多：比如替换节点，删除节点等等。</p>
+<p>参考链接：</p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/alice-shan/p/5287652.html">https://www.cnblogs.com/alice-shan/p/5287652.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/mixiu/p/5851878.html">https://www.cnblogs.com/mixiu/p/5851878.html</a></p>
+<hr>
+<p>**更新：2019/5/14 17:56:56 **</p>
+<p>有个客户说想要把某个元素标签（比如：博客标签）移动到图片的上方，我当时想，这个很简单，直接通过css定位的方式即可，后来通过开发者工具定位后发现，这个元素标签所在的父级dom跟图片的父级不是从属关系，而是同胞关系。这个时候虽然通过css定位可以解决这个问题，那么会带来很多麻烦，以及自适应也不一定兼容得很好，所以笔者打算用javascript的方式把dom移动到图片所在的父级元素下方，然后把元素标签跟图片放在共同的父级里面再处理，这个不失为一种好的方法。</p>
+<p>最开始的HTML片段如下：</p>
+<pre><code>&lt;div id=&quot;home_latest_news&quot;&gt;
+    ... some code ...
+    &lt;article&gt;
+      &lt;a href=&quot;#&quot;&gt;
+        &lt;img src=&quot;i.jpg&quot;&gt;
+      &lt;/a&gt;
+        &lt;div class=&quot;slide-content&quot;&gt;
+            &lt;header class=&quot;entry-content-header&quot;&gt;
+                &lt;h3&gt;&lt;a href=&quot;#&quot;&gt;Morbi class a&lt;/a&gt;&lt;/h3&gt;
+                &lt;span class=&quot;blog-categories&quot;&gt;
+                  &lt;a href=&quot;/personal/&quot; rel=&quot;tag&quot;&gt;Personal&lt;/a&gt;
+                &lt;/span&gt;
+            &lt;/header&gt;
+        &lt;/div&gt;
+    &lt;/article&gt;
+     ... some code ...
+ &lt;/div&gt;</code></pre>
+<p>开始的情况截图如下：</p>
+<p><img src="https://i.imgur.com/fYCMx8B.jpg"></p>
+<p>看看这个结构：元素标签为：</p>
+<pre><code>&lt;span class=&quot;blog-categories&quot;&gt;
+  &lt;a href=&quot;/personal/&quot; rel=&quot;tag&quot;&gt;Personal&lt;/a&gt;
+&lt;/span&gt;</code></pre>
+<p>图片所在的dom为：</p>
+<pre><code>&lt;a href=&quot;#&quot;&gt;
+  &lt;img src=&quot;i.jpg&quot;&gt;
+&lt;/a&gt;</code></pre>
+<p>笔者的<strong>最终目标</strong>是把以上的那个HTML片段变成如下的结构：</p>
+<pre><code>&lt;div id=&quot;home_latest_news&quot;&gt;
+    ... some code ...
+    &lt;article&gt;
+      &lt;a href=&quot;#&quot;&gt;
+        &lt;img src=&quot;i.jpg&quot;&gt;
+        &lt;span class=&quot;nocti_new_tag&quot;&gt;&lt;a href=&quot;/personal/&quot;&gt;Personal&lt;/a&gt;&lt;/span&gt;
+      &lt;/a&gt;
+        &lt;div class=&quot;slide-content&quot;&gt;
+            &lt;header class=&quot;entry-content-header&quot;&gt;
+                &lt;h3&gt;&lt;a href=&quot;#&quot;&gt;Morbi class a&lt;/a&gt;&lt;/h3&gt;
+                &lt;span class=&quot;blog-categories&quot;&gt;
+
+                &lt;/span&gt;
+            &lt;/header&gt;
+        &lt;/div&gt;
+    &lt;/article&gt;
+         ... some code ...
+ &lt;/div&gt;</code></pre>
+<p>效果如如下：</p>
+<p><img src="https://i.imgur.com/7FZnugG.jpg"></p>
+<p>明确这个目标后，我们开始实践一下。</p>
+<p>首先，这个是一个博客列表页，就是动态抓取出来的，所以这里会有多篇文章，所以这个需要用到循环来解决，为了减少对第三方库的引入，那么这里用JavaScript原生方法实现。</p>
+<p>最后js代码如下：</p>
+<pre><code>&lt;script&gt;
+window.onload = function()&#123;
+    if (document.getElementById(&quot;home_latest_news&quot;)) &#123;
+        var article_thumbnail_number = document.querySelectorAll(&quot;.slide-image&quot;);
+
+        for (var i = 0; i &lt; article_thumbnail_number.length; i++) &#123;
+
+            var nocti_tags = document.createElement(&quot;span&quot;);
+            nocti_tags.setAttribute(&quot;class&quot;,&quot;nocti_new_tag&quot;);
+
+            console.log(article_thumbnail_number[i].nextElementSibling);
+
+            var blog_tag = article_thumbnail_number[i].nextElementSibling.querySelector(&quot;.blog-categories&gt;a&quot;);
+
+            article_thumbnail_number[i].appendChild(nocti_tags);
+            nocti_tags.appendChild(blog_tag);
+        &#125;
+    &#125;
+&#125;
+&lt;/script&gt;</code></pre>
+<p><strong>说明：</strong></p>
+<p>首先，笔者希望这个js代码在整个页面都加载完毕后执行所以这里就用</p>
+<pre><code>window.onload = function()&#123;
+...
+&#125;</code></pre>
+<p>这个包起来，想要了解这个更多的话大家可以去网上了解下。</p>
+<p>接着就是来个判断，为什么这样写呢？是因为笔者把这个代码放在一个网站的公共底部，也就是网站的公共部分，而这个公共部分就意味着每个页面都要执行这个代码，如果不做判断，那么会有两个隐患：</p>
+<ol>
+<li>每个页面都执行就会影响性能。</li>
+<li>另外就是如果某个页面没有这个dom，那么js就会报错，会提示找不到这个目标元素，进而会影响其他页面的其他js函数的正常运行。</li>
+</ol>
+<blockquote>
+<p>所以：写函数的时候，如果不是通过通过鼠标或者其他外部设备进行触发的事件的函数尽量用if语句判断下，这是编码的一个好习惯。</p>
+</blockquote>
+<p>所以这里就用如下函数包含一下：</p>
+<pre><code>if (document.getElementById(&quot;home_latest_news&quot;)) &#123;
+ ... some code ...
+&#125;</code></pre>
+<p>明确了这两个问题后我们就接着往下看，接下来我们要找到要操作的几个对象，一个是目标元素（也就是笔者说的元素标签），另外一个就是目标对象（也就是图片）。</p>
+<p>因为每篇文章有一张图片，所以这里可以这样说：<strong>缩略图的个数等于文章的个数。</strong>当然也不一定，有时候别人不为文章分配缩略图的。</p>
+<p>所以我们先要获取缩略图的个数：</p>
+<pre><code>var article_thumbnail_number = document.querySelectorAll(&quot;.slide-image&quot;);</code></pre>
+<p>好的，这个是个数组，那么我们可以对这个数组进行循环遍历了。于是就有了for循环：</p>
+<pre><code>for (var i = 0; i &lt; article_thumbnail_number.length; i++) &#123;
+    ... some code ...
+&#125;</code></pre>
+<p>接着我们就要这样做，每循环一次，插入一个dom到图片的后面去（JavaScript跟jquery还是有些不一样，习惯了jquery的同学可能觉得原生的写法太折腾），所以我们就在每个循环里面新建一个dom，于是就有了：</p>
+<pre><code>for (var i = 0; i &lt; article_thumbnail_number.length; i++) &#123;
+
+    var nocti_tags = document.createElement(&quot;span&quot;);
+    nocti_tags.setAttribute(&quot;class&quot;,&quot;nocti_new_tag&quot;);
+
+&#125;</code></pre>
+<blockquote>
+<p>这里有个小插曲：笔者当时居然把这个写在了这个循环外面，结果就是最后一篇文章的缩略图的后面插入了这个dom，百思不得其解之余发现如果写在循环外面那么循环没法重复创建dom。</p>
+</blockquote>
+<p>好的，笔者已经实现了在每一次循环的时候，新建一个dom节点，然后并且为这个dom节点设置了一个class，以便后面用来处理样式。</p>
+<p>我们接着往下看，根据前面的HTML片段，那么我们就要获取图片同胞元素的个数了，因为获取了同胞个数之后，我们才能够获取同胞元素的子集。所以代码就演化成了如下的样子：</p>
+<pre><code>for (var i = 0; i &lt; article_thumbnail_number.length; i++) &#123;
+
+    var nocti_tags = document.createElement(&quot;span&quot;);
+    nocti_tags.setAttribute(&quot;class&quot;,&quot;nocti_new_tag&quot;);
+    // 缩略图的下一个同胞元素
+    console.log(article_thumbnail_number[i].nextElementSibling);
+&#125;</code></pre>
+<p>当然了，有下一个就有上一个，这里顺便说一下上一个同胞元素是：previousElementSibling，想要了解更多可以百度一下。</p>
+<p>确定能够获取到同胞元素后，我们就开始获取同胞元素的后代元素，这个后代元素可能不是子类，所以笔者经过探索发现，获取后台有很多中方法，笔者的写法如下：</p>
+<pre><code>article_thumbnail_number[i].nextElementSibling.querySelector(&quot;.blog-categories&gt;a&quot;);</code></pre>
+<p>用这种链式写法，笔者以前很少用这种，并且对这种写法持怀疑态度，所以习惯性的不愿意尝试新方法，事实上还是很方便的。当然您还可以用如下方法获取，比如：</p>
+<pre><code>article_thumbnail_number[i].nextElementSibling.getElementByTagname(&quot;a&quot;);</code></pre>
+<p>但是这个方法你的确保这个里面就一个a标签。</p>
+<p>好的，这个就是循环一次获取一次下个同胞元素的后代为a的dom，直到循环结束。</p>
+<p>完成这个之后，剩下的就是插入了，目标元素是<code>article_thumbnail_number[i]</code>，而要插入的dom也已经获取到了: <code>article_thumbnail_number[i].nextElementSibling.getElementByTagname(&quot;a&quot;)</code></p>
+<p>那么接下来就用<code>appendChild()</code>这个方法。</p>
+<pre><code>article_thumbnail_number[i].appendChild(nocti_tags);  //先在图片后面插入动态创建的dom
+nocti_tags.appendChild(blog_tag);  //接着在dom内部的后面插入获取的元素标签</code></pre>
+<p>这里分两步走，当然也是可以优化为一步的，笔者为了讲解，就啰嗦点吧。</p>
+<p>最后完整的js代码如下：</p>
+<pre><code>&lt;script&gt;
+window.onload = function()&#123;
+    if (document.getElementById(&quot;home_latest_news&quot;)) &#123;
+        var article_thumbnail_number = document.querySelectorAll(&quot;.slide-image&quot;);
+
+        for (var i = 0; i &lt; article_thumbnail_number.length; i++) &#123;
+
+            var nocti_tags = document.createElement(&quot;span&quot;);
+            nocti_tags.setAttribute(&quot;class&quot;,&quot;nocti_new_tag&quot;);
+
+            console.log(article_thumbnail_number[i].nextElementSibling);
+
+            var blog_tag = article_thumbnail_number[i].nextElementSibling.querySelector(&quot;.blog-categories&gt;a&quot;);
+
+            article_thumbnail_number[i].appendChild(nocti_tags);
+            nocti_tags.appendChild(blog_tag);
+        &#125;
+    &#125;
+&#125;
+
+&lt;/script&gt;</code></pre>
+<p>剩下的就是css的问题，这个就不多说了，也很简单。</p>
+<p>这里值得一提的是当时说要一个不规则的背景，笔者一想就想到了伪类，用css的伪类来解决不规则背景。</p>
+<p>笔者的css代码如下：</p>
+<pre><code>.nocti_new_tag a&#123;
+    color: #fff !important;
+    text-decoration: none;
+    font-size: 12px;
+&#125;
+.nocti_new_tag&#123;
+    position: absolute;
+    z-index:999;
+    top: 5px;
+    left: 20px;
+    background: rgba(50, 156, 59, 0.66);
+    padding: 0px 8px;
+&#125;
+.nocti_new_tag:after&#123;
+    content: &quot;&quot;;
+    width: 0px;
+    height: 0px;
+    top: 0px;
+    left: -15px;
+    z-index: 99999;
+    position: absolute;
+    border-width: 15px 15px 16px 0;
+    border-style: solid;
+    border-color: transparent rgba(50, 156, 59, 0.66) transparent transparent;
+&#125;</code></pre>
+<p>最后的效果如下：</p>
+<p><img src="https://i.imgur.com/KVKBbsp.jpg"></p>
+<p>看起来就像是一个尖尖的标签那样。</p>
+<p>这里笔者也是为了抛砖引玉，让大家自己发挥想象力，样式的调整都是很简单的。</p>
+<p>本文到此结束，敬请关注。</p>
+<hr>
+<p>**更新：2019/6/10 10:29:05 **</p>
+<p>今天来说一下javascript的替换功能，笔者曾经傻傻的到处找方法，然后自己写方法，让我不得不怀疑，一个简单的替换用得着这么大费周章吗？很显然这个是不合逻辑的。</p>
+<p>其实，笔者仅仅想让替换dom变得跟jquery替换元素一样方便。方法就是：<strong>innerHTML</strong></p>
+<p>不得不说笔者还是很差的，这些常用的都被遗忘了。</p>
+<p>来一个场景：把网站的某个icon改成另外一个icon.</p>
+<p>原生javascript写法：</p>
+<pre><code>&lt;script&gt;
+//先获取目标元素的dom
+var old_dom = document.getElementById(&quot;header_meta&quot;).querySelector(&quot;.social_bookmarks_pinterest&quot;);
+old_dom.innerHTML = &#39;&lt;a href=&quot;#&quot;&gt;&lt;i class=&quot;fa fa-weibo&quot;&gt;&lt;/i&gt;&lt;/a&gt;&#39;;
+&lt;/script&gt;</code></pre>
+<p>说明：获取到的old_dom是：</p>
+<pre><code>&lt;li class=&quot;social_bookmarks_pinterest av-social-link-pinterest social_icon_4&quot;&gt;
+    &lt;a href=&quot;#&quot; aria-hidden=&quot;true&quot; data-av_icon=&quot;&quot; data-av_iconfont=&quot;entypo-fontello&quot; title=&quot;Linkedin&quot;&gt;
+        &lt;span class=&quot;avia_hidden_link_text&quot;&gt;Linkedin&lt;/span&gt;
+    &lt;/a&gt;
+&lt;/li&gt;</code></pre>
+<p>笔者的目的就是把<code>li</code>标签里的东西替换成：</p>
+<pre><code>&lt;a href=&quot;#&quot;&gt;&lt;i class=&quot;fa fa-weibo&quot;&gt;&lt;/i&gt;&lt;/a&gt;</code></pre>
+<p>是不是很简单的一件事情。</p>
+<p>这里顺便再提一下与之相似的是：<strong>innerText，outerHTML</strong>，他们之间的区别是什么呢？</p>
+<p>使用innerHTML，获得的是根元素div内包含的所有节点，所以获得的内容比如为<code>&lt;div&gt;my didi&lt;/div&gt;hello world</code>。</p>
+<p>用innerText时，所获得的仅仅是文本节点，于是得到的内容不包含DOM节点，得到的内容为纯文本“my didi hello world”。</p>
+<p>test.innerHTML: 也就是从对象的起始位置到终止位置的全部内容,包括Html标签。 test.innerHTML的值也就是“<code>&lt;span style=&quot;color:red&quot;&gt;test1&lt;/span&gt; test2 </code>”。</p>
+<p>test.innerText: 从起始位置到终止位置的内容, 但它去除Html标签 text.innerTest的值也就是“test1 test2”, 其中span标签去除了。</p>
+<p>test.outerHTML: 除了包含innerHTML的全部内容外, 还包含对象标签本身。 text.outerHTML的值也就是</p>
+<pre><code>&lt;div id=&quot;test&quot;&gt;&lt;span style=&quot;color:red&quot;&gt;test1&lt;/span&gt; test2&lt;/div&gt;</code></pre>
+<p>这回清楚了吧。更多可以网上搜索下。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/05/09/web%E5%89%8D%E7%AB%AF%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84%E9%97%AE%E9%A2%98%E7%AC%94%E8%AE%B0-js%E5%92%8Ccss%E6%B7%BB%E5%8A%A0%E7%89%88%E6%9C%AC%E5%8F%B7-bootstrap-table-bootstrap-multiselect%E7%AD%89%E7%9B%B8%E5%85%B3%E7%9A%84%E4%B8%80%E4%BA%9B%E7%94%A8%E6%B3%95%E5%BF%83%E5%BE%97-%E5%87%BD%E6%95%B0%E9%87%8C%E9%9D%A2%E6%9C%89ajax%E5%BC%82%E6%AD%A5%E8%AF%B7%E6%B1%82%E7%9A%84%E6%97%B6%E5%80%99%E8%BF%94%E5%9B%9E%E5%80%BC-%E6%95%B0%E7%BB%84%E5%BE%AA%E7%8E%AF%E6%B1%82%E5%92%8C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/05/09/web%E5%89%8D%E7%AB%AF%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84%E9%97%AE%E9%A2%98%E7%AC%94%E8%AE%B0-js%E5%92%8Ccss%E6%B7%BB%E5%8A%A0%E7%89%88%E6%9C%AC%E5%8F%B7-bootstrap-table-bootstrap-multiselect%E7%AD%89%E7%9B%B8%E5%85%B3%E7%9A%84%E4%B8%80%E4%BA%9B%E7%94%A8%E6%B3%95%E5%BF%83%E5%BE%97-%E5%87%BD%E6%95%B0%E9%87%8C%E9%9D%A2%E6%9C%89ajax%E5%BC%82%E6%AD%A5%E8%AF%B7%E6%B1%82%E7%9A%84%E6%97%B6%E5%80%99%E8%BF%94%E5%9B%9E%E5%80%BC-%E6%95%B0%E7%BB%84%E5%BE%AA%E7%8E%AF%E6%B1%82%E5%92%8C/" class="post-title-link" itemprop="url">web前端中常见的问题笔记:js和css添加版本号,bootstrap table,bootstrap multiselect等相关的一些用法心得,函数里面有ajax异步请求的时候返回值,数组循环求和等等一些朴素的概念</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-05-09 10:27:17" itemprop="dateCreated datePublished" datetime="2019-05-09T10:27:17+08:00">2019-05-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:02" itemprop="dateModified" datetime="2020-10-11T11:58:02+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/web%E5%89%8D%E7%AB%AF/" itemprop="url" rel="index"><span itemprop="name">web前端</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>声明：本文没有特别难理解的地方，都是一些平时使用频率比较高的东西，写下来仅仅是作为启发，作为一个重新出发的起点，用最朴素的东西来理解一些看起来难以理解的概念，不喜勿喷。</p>
+<h2 id="html里script标签src自动加上时间戳，降低缓存影响"><a href="#html里script标签src自动加上时间戳，降低缓存影响" class="headerlink" title="html里script标签src自动加上时间戳，降低缓存影响"></a>html里script标签src自动加上时间戳，降低缓存影响</h2><p>为了强制加载，在文件名后加上类似于hash串的时间戳或者随机数。</p>
+<pre><code>&lt;script&gt;document.write(&quot;&lt;script type=&#39;text/javascript&#39; src=&#39;//site.com/js.js?v=&quot; + Date.now() + &quot;&#39;&gt;&lt;\/script&gt;&quot;);&lt;/script&gt;</code></pre>
+<p>添加后的效果就是类似如下:</p>
+<pre><code>https://site.com/js.js?v=150046823465545</code></pre>
+<p>这个是最好用最省事的。当然自己完全可以写一个随机数来作为参数v的值。</p>
+<h2 id="bootstrap-multiselect的默认选中某些项"><a href="#bootstrap-multiselect的默认选中某些项" class="headerlink" title="bootstrap multiselect的默认选中某些项"></a>bootstrap multiselect的默认选中某些项</h2><p>方案：方案就是在option标签里面添加一个selected属性即可</p>
+<pre><code>var dius = &quot;&quot;;
+for (var i = 0; i &lt; res.data.length; i++) &#123;
+    if (res.data[i].szss == &#39;苹果&#39;) &#123;
+        var diu = &#39;&lt;option value=&quot;&#39; + res.data[i].sz + &#39;&quot; selected&gt;&#39; + res.data[i].sz + &#39;&lt;/option&gt;&#39;;
+    &#125;else&#123;
+        var diu = &#39;&lt;option value=&quot;&#39; + res.data[i].sz + &#39;&quot;&gt;&#39; + res.data[i].sz + &#39;&lt;/option&gt;&#39;;
+    &#125;
+    dius = dius + diu;
+&#125;
+$(&quot;#search_fo&quot;).html(dius);
+$(&#39;#search_fo&#39;).multiselect();</code></pre>
+<p>如果，想要在里面添加一个全部选中的项，那么做如下配置即可：</p>
+<pre><code>$(&#39;#search_fo&#39;).multiselect(&#123;
+    includeSelectAllOption: true   //添加全选功能
+&#125;);</code></pre>
+<p>更多的bootstrap multiseletc配置，可以参考以下链接：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/whq19890827/article/details/74834324">https://blog.csdn.net/whq19890827/article/details/74834324</a></p>
+<p><a target="_blank" rel="noopener" href="http://davidstutz.de/bootstrap-multiselect/">http://davidstutz.de/bootstrap-multiselect/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/hgj123/p/4682280.html">https://www.cnblogs.com/hgj123/p/4682280.html</a></p>
+<h2 id="重载bootstrap-table的数据"><a href="#重载bootstrap-table的数据" class="headerlink" title="重载bootstrap table的数据"></a>重载bootstrap table的数据</h2><p>笔者经常使用bootstrap table这个插件，感觉非常好用，而且功能很丰富，设计非常合理。只需要稍作配置即可满足大部分要求。其中有一个问题就卡着一段时间：就是当我把表格里面的内容删除或者添加内容的时候，如何重载数据，否则的话需要刷新整个页面才会看到变化，体验会大打折扣。查了很久发现只需要一条代码即可搞定：</p>
+<pre><code>$(&quot;#table&quot;).bootstrapTable(&#39;destroy&#39;);</code></pre>
+<p>笔者的项目使用场景如下，这里有一个下拉框，通过选中的内容来控制表格内容的变化，比如下拉框里面有：苹果，香蕉。</p>
+<p>当我选中苹果的时候，发起一条ajax请求，然后下方的表格中显示苹果相关的数据；当我选中香蕉的时候，发起一条ajax请求，然后下方表格的数据会变化成香蕉的相关数据，整个页面无需刷新，请看代码片段：</p>
+<pre><code>function fruit_data(a) &#123;
+    $(&#39;#sropdown&#39;).text(a);
+    $(&#39;.noselected&#39;).hide();
+
+    var obj = new Object();
+    obj.kl = $(&#39;#sropdown&#39;).text();
+
+    $.ajax(&#123;
+        url: &quot;data.json&quot;,
+        type: &quot;get&quot;,
+        data: obj,
+        dataType: &quot;json&quot;,
+        contentType: &quot;application/json&quot;,
+        success: function (res) &#123;
+            if (typeof res === &#39;string&#39;) &#123;
+                res = JSON.parse(res);
+            &#125;
+            if (res.code == 0) &#123;
+
+                // 选中内容后销毁表格数据，不然切换后的数据没法显示出来
+                $(&quot;#table&quot;).bootstrapTable(&#39;destroy&#39;);
+                // 再次获取数据填充到里面去，不然就没有数据被显示出来了。
+                getUserScoresByKemu(obj.kl);
+            &#125;
+        &#125;,
+        error: function (xhr, err, exception) &#123;
+            console.log(err);
+        &#125;
+    &#125;);
+&#125;</code></pre>
+<p><strong>值得提醒的是</strong>：前面的bootstrap multiseletct也有这个配置，类似的还有如下：</p>
+<pre><code>$(&#39;#your_id&#39;).multiselect(&#39;rebuild&#39;);
+$(&quot;#your_id&quot;).multiselect( &#39;refresh&#39; );
+$(&#39;#your_id&#39;).multiselect(&#39;destroy&#39;);
+...</code></pre>
+<p>更多的配置可以查看这个插件的官网以及网上的相关资源，如下列出几个不错的链接：</p>
+<p><a target="_blank" rel="noopener" href="https://bootstrap-table.com/docs/api/table-options/">https://bootstrap-table.com/docs/api/table-options/</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/laowangc/p/8875526.html">https://www.cnblogs.com/laowangc/p/8875526.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/5ce3a271eb4a">https://www.jianshu.com/p/5ce3a271eb4a</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/cs4380/article/details/80585378">https://blog.csdn.net/cs4380/article/details/80585378</a></p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/pengjunlee/article/details/80630172">https://blog.csdn.net/pengjunlee/article/details/80630172</a></p>
+<h2 id="js对象和jquery对象的一些认识"><a href="#js对象和jquery对象的一些认识" class="headerlink" title="js对象和jquery对象的一些认识"></a>js对象和jquery对象的一些认识</h2><p>笔者在获取某个页面的所有图片然后把所有图片的alt属性的值获取出来人，然后插入到图片的后面，就这么一个简单的问题，笔者居然出错了。请看我的代码：</p>
+<pre><code>var jQuery = $.noConflict(true);
+jQuery(document).ready(function() &#123;
+    var imgs = jQuery(&quot;#suk_home_slider img&quot;);
+    console.log(imgs.length);
+    for (var i = 0; i &lt; imgs.length; i++) &#123;
+        imgs[i].after(&#39;&lt;span class=&quot;&quot;&gt;&#39;+jQuery(imgs[i]).attr(&quot;alt&quot;)+&#39;&lt;/span&gt;&#39;);
+    &#125;
+&#125;);</code></pre>
+<p>结果在页面中显示的是这样的：</p>
+<p><img src="https://i.imgur.com/uzPFr1Z.jpg"></p>
+<p>它直接把标签也显示出来了。原因如下：</p>
+<p>里面的代码<code>imgs[i]</code>是一个js对象而不是jquery对象，而我们使用的<code>.after()</code>是jquery方法，所以先把js对象转成jquery对象才能使用jquery方法。关于这两个区别大家可以网上找找，这里摘录如下：</p>
+<blockquote>
+<p><strong>js对象转成jQuery对象:</strong> </p>
+<p>对于已经是一个js对象，只需要用<code>$()</code>把DOM对象包装起来，就可以获得一个jQuery对象了。<code>$(js对象) </code></p>
+<p>如：<code>var v=document.getElementById(&quot;v&quot;); //js对象 </code></p>
+<p><code>var $v=$(v); //jQuery对象</code>   </p>
+</blockquote>
+<p>所以正确的写法如下：</p>
+<pre><code>var jQuery = $.noConflict(true);
+jQuery(document).ready(function() &#123;
+    var imgs = jQuery(&quot;#suk_home_slider img&quot;);
+    console.log(imgs.length);
+    for (var i = 0; i &lt; imgs.length; i++) &#123;
+        jQuery(imgs[i]).after(&#39;&lt;span class=&quot;&quot;&gt;&#39;+jQuery(imgs[i]).attr(&quot;alt&quot;)+&#39;&lt;/span&gt;&#39;);
+    &#125;
+&#125;);</code></pre>
+<p>最后效果就是不会出现HTML标签了，而是直接显示文字。小细节大学问。</p>
+<p><code>html()</code>方法不是javascript的，而是jquery的，所以如果想要在一个dom中插入东西，javascript中是这样操作的：</p>
+<pre><code>var ps = document.querySelector(&quot;p&quot;);
+var para = document.createElement(&#39;p&#39;);
+para.textContent = &#39;We hope you enjoyed the ride.&#39;;
+ps.appendChild(para);</code></pre>
+<p>而在jquery里面的操作就是我们经常用的，先找到选择器，就是要插入的dom容器，这个是一个jquery对象，然后把要插入的东西插入，请看如下示例：</p>
+<pre><code>var par = &quot;hello world !&quot;;
+$(&quot;#main&quot;).html(par);</code></pre>
+<h2 id="如何把ajax请求返回的值回到上层函数里面呢？"><a href="#如何把ajax请求返回的值回到上层函数里面呢？" class="headerlink" title="如何把ajax请求返回的值回到上层函数里面呢？"></a>如何把ajax请求返回的值回到上层函数里面呢？</h2><p>当把ajax请求写在一个函数里面，如何把ajax请求返回的值回到上层函数里面呢？比如：</p>
+<pre><code>function isMember() &#123;
+    var memberCode = &#39;&#39;;
+    htmlobj = $.ajax(&#123;
+        url: &quot;data.json&quot;,
+        type: &quot;get&quot;,
+        dataType: &quot;json&quot;,
+        contentType: &quot;application/json&quot;,
+        success: function (res) &#123;
+            if (typeof res === &#39;string&#39;) &#123;
+                res = JSON.parse(res);
+            &#125;
+            memberCode = res.code;
+        &#125;,
+        error: function (xhr, err, exception) &#123;
+            console.log(err);
+        &#125;
+    &#125;);
+    return memberCode;
+&#125;</code></pre>
+<p>如何让这个函数执行的结果为ajax的返回值呢？如果根据上面这种方式写是不行的，因为ajax是异步，<strong>只有把ajax的异步取消才能把值传出来</strong>。改成如下：</p>
+<pre><code>function isMember() &#123;
+    var memberCode = &#39;&#39;;
+    htmlobj = $.ajax(&#123;
+        url: &quot;data.json&quot;,
+        type: &quot;get&quot;,
+        async:false,    //取消异步，默认为同步，然后把值传给函数的memberCode.
+        dataType: &quot;json&quot;,
+        contentType: &quot;application/json&quot;,
+        success: function (res) &#123;
+            if (typeof res === &#39;string&#39;) &#123;
+                res = JSON.parse(res);
+            &#125;
+            memberCode = res.code;
+        &#125;,
+        error: function (xhr, err, exception) &#123;
+            console.log(err);
+        &#125;
+    &#125;);
+    return memberCode;
+&#125;</code></pre>
+<h2 id="数组循环求和"><a href="#数组循环求和" class="headerlink" title="数组循环求和"></a>数组循环求和</h2><p>这个在项目中使用也是比较频繁的。给一个案例吧：</p>
+<pre><code>function getsum()
+&#123;
+  //数组求和函数
+  Array.prototype.sum = function()&#123;
+     var sum = 0;
+      for(var i = 0;i&lt;this.length;i++)
+      &#123;
+        sum += parseInt(this[i]);
+      &#125;
+      return sum;
+  &#125;
+  &#125;
+
+  //用于装对应值的数组
+  var count = [];
+  for(var i=0;i&lt;grid1.Rows-1;i++)
+  &#123;  
+      var type=grid1.tab.rows[i+1].cells[1].innerText;//类别  
+      var cont=grid1.tab.rows[i+1].cells[2].innerText;//数量
+      if(type==a)
+      count.push(cont);
+   &#125;
+   //计算
+   alert(count.sum());
+&#125;</code></pre>
+<p>当然还有很多，篇幅有限，笔者会持续更新本文，有兴趣的可以关注笔者。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/05/07/woocommerce%E4%BA%A7%E5%93%81%E8%AF%A6%E6%83%85%E9%A1%B5%E7%9A%84%E5%9B%BE%E7%89%87%E7%BC%A9%E7%95%A5%E5%9B%BE-gallery-image-%E5%9E%82%E7%9B%B4%E6%96%B9%E5%90%91%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E5%92%8C%E5%BF%83%E5%BE%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/05/07/woocommerce%E4%BA%A7%E5%93%81%E8%AF%A6%E6%83%85%E9%A1%B5%E7%9A%84%E5%9B%BE%E7%89%87%E7%BC%A9%E7%95%A5%E5%9B%BE-gallery-image-%E5%9E%82%E7%9B%B4%E6%96%B9%E5%90%91%E6%98%BE%E7%A4%BA%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E5%92%8C%E5%BF%83%E5%BE%97/" class="post-title-link" itemprop="url">woocommerce产品详情页的图片缩略图(gallery image)垂直方向显示解决方案和心得</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-05-07 11:30:29" itemprop="dateCreated datePublished" datetime="2019-05-07T11:30:29+08:00">2019-05-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:02" itemprop="dateModified" datetime="2020-10-11T11:58:02+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/woocommerce/" itemprop="url" rel="index"><span itemprop="name">woocommerce</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>今天笔者分享一个关于解决wordpress中的woocomerce产品详情页的产品图片缩略图垂直方向显示的问题，大家都知道默认情况下，产品的缩略图的显示方向都是在大图的下方的，也就是横向排列的，可是有些人就喜欢纵向排列的。那么该怎么做呢？</p>
+<p><strong>这里分成两步走</strong>：这里说明一下：（笔者基于enfold主题作为讲解例子，其他的主题也是一样的。）</p>
+<p>1.把如下代码粘贴到主题functions.php文件的最后，</p>
+<pre><code>/**
+ * @snippet       Change Gallery Columns @ Single Product Page
+ * @how-to        Watch tutorial @ https://businessbloomer.com/?p=19055
+ * @sourcecode    https://businessbloomer.com/?p=20518
+ * @author        Rodolfo Melogli
+ * @compatible    WooCommerce 3.5.4
+ * @donate $9     https://businessbloomer.com/bloomer-armada/
+ */
+
+add_filter ( &#39;woocommerce_product_thumbnails_columns&#39;, &#39;bbloomer_change_gallery_columns&#39; );
+
+function bbloomer_change_gallery_columns() &#123;
+     return 1; 
+&#125;</code></pre>
+<p>当然，如果是woocommerce他们家默认的主题，也就是：Storefront主题的话，就用如下代码替代上面的代码，</p>
+<pre><code>/**
+ * @snippet       CSS to Move Gallery Columns @ Single Product Page
+ * @sourcecode    https://businessbloomer.com/?p=20518
+ * @author        Rodolfo Melogli
+ * @compatible    WooCommerce 3.5.4
+ * @donate $9     https://businessbloomer.com/bloomer-armada/
+ */
+
+add_filter ( &#39;storefront_product_thumbnail_columns&#39;, &#39;bbloomer_change_gallery_columns_storefront&#39; );
+
+function bbloomer_change_gallery_columns_storefront() &#123;
+     return 1; 
+&#125;</code></pre>
+<p>好的，把php代码添加到functions.php里面后，保存。我们再来看第二步。</p>
+<p>2.把如下代码添加到主题后台的quick css里面，当然你也可以添加到主题的style.css里面，</p>
+<pre><code>/* Make image 75% width to make room to its right */
+
+.single-product div.product .woocommerce-product-gallery .flex-viewport &#123;
+    width: 75%;
+    float: left;
+&#125;
+
+/* Make Gallery 25% width and place it beside the image */
+
+.single-product div.product .woocommerce-product-gallery .flex-control-thumbs &#123;
+    width: 25%;
+    float: left;
+&#125;
+
+/* Style each Thumbnail with width and margins */
+
+.single-product div.product .woocommerce-product-gallery .flex-control-thumbs li img &#123;
+    width: 90%;
+    float: none;
+    margin: 0 0 10% 10%;
+&#125;</code></pre>
+<p>完成这两步之后，我们刷新下woocommerce的产品详情页，会看到缩略图会是纵向显示的了。至于美观度，大家可以通过css进一步美化即可，根据自己的需求来美化。</p>
+<p>最后，粘贴一下效果图：</p>
+<p><img src="https://i.imgur.com/mGA4YaC.jpg"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/04/30/wordpress%E7%9A%84enfold%E4%B8%BB%E9%A2%98%E7%9A%84%E7%BD%91%E9%A1%B5%E5%89%8D%E5%8F%B0%E8%8F%9C%E5%8D%95%E5%89%8D%E9%9D%A2%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E7%9A%84%E6%96%B9%E6%B3%95%E4%BB%A5%E5%8F%8A%E5%BF%83%E5%BE%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/04/30/wordpress%E7%9A%84enfold%E4%B8%BB%E9%A2%98%E7%9A%84%E7%BD%91%E9%A1%B5%E5%89%8D%E5%8F%B0%E8%8F%9C%E5%8D%95%E5%89%8D%E9%9D%A2%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E7%9A%84%E6%96%B9%E6%B3%95%E4%BB%A5%E5%8F%8A%E5%BF%83%E5%BE%97/" class="post-title-link" itemprop="url">wordpress的enfold主题的网页前台菜单前面插入图片的方法以及心得</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-04-30 16:59:15" itemprop="dateCreated datePublished" datetime="2019-04-30T16:59:15+08:00">2019-04-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:03" itemprop="dateModified" datetime="2020-10-11T11:58:03+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/wordpress/" itemprop="url" rel="index"><span itemprop="name">wordpress</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>笔者在wordpress的二次开发中经常碰到这样的一个问题，客户经常问能否在一级菜单那里的菜单项文字前面添加一张图片，用过wordpress的人都知道，这个没法在wordpress的菜单管理那里添加图片，除非这个主题有定制的入口。</p>
+<p>这个问题，笔者的思路是用js动态插入图片。虽然不是最上上策略，但是可以达到很好的效果。接下来我将会逐步解释清楚，直到读者明白位置。</p>
+<p><strong>声明</strong>：笔者是以wordpress的enfold主题为例进行讲解的，其他主题类似。</p>
+<p>最开始笔者的菜单是这样的，就是一些纯文本：</p>
+<p><img src="https://i.imgur.com/sM3jySA.jpg"></p>
+<p>理想中的样子应该是这样的，在每一个菜单项文字的前面有一张小图片：</p>
+<p><img src="https://i.imgur.com/Y2TCNFo.jpg"></p>
+<p>开始着手处理。</p>
+<p>首先，我们登录到wordpress的网站后台，来到Appearance–Editor，然后进入到公共部分（公共底部或者是公共头部），笔者就以公共底部来说吧。我们打开footer.php，然后在<code>&lt;/body&gt;</code>前面添加代码：</p>
+<pre><code>&lt;script src=&quot;https://code.jquery.com/jquery-3.2.1.min.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+    var jQuery = $.noConflict(true);
+    jQuery(document).ready(function()&#123;
+
+        var menu_text = jQuery(&quot;#avia-menu&gt;li&gt;a&gt;span.avia-menu-text&quot;);
+        for (var i = 0; i &lt; menu_text.length; i++) &#123;
+            switch (jQuery(menu_text[i]).text())
+            &#123;
+            case &#39;Products&#39;:
+              jQuery(menu_text[i]).before(&quot;&lt;img src=&#39;/wp-content/uploads/2019/04/icon-p.png&#39;&gt;&quot;);
+              break;
+            case &#39;Why Oilax&#39;:
+              jQuery(menu_text[i]).before(&quot;&lt;img src=&#39;/wp-content/uploads/2019/04/icon-why.png&#39;&gt;&quot;);
+              break;
+            case &#39;Distributor&#39;:
+              jQuery(menu_text[i]).before(&quot;&lt;img src=&#39;/wp-content/uploads/2019/04/icon-company.png&#39;&gt;&quot;);
+              break;
+            case &#39;News&#39;:
+              jQuery(menu_text[i]).before(&quot;&lt;img src=&#39;/wp-content/uploads/2019/04/icon-news.png&#39;&gt;&quot;);
+              break;
+            case &#39;Shows&#39;:
+              jQuery(menu_text[i]).before(&quot;&lt;img src=&#39;/wp-content/uploads/2019/04/shows.png&#39;&gt;&quot;);
+              break;
+            default:
+            jQuery(menu_text[i]).before();
+              break;
+            &#125;
+
+        &#125;
+
+    &#125;);
+
+&lt;/script&gt;</code></pre>
+<p><strong>说明：</strong>这里其实很简单，先引入依赖，这里是jquery，然后就是为了避免冲突，然后把<code>$</code>用jQuery代替。</p>
+<p>接着就是在网站前台通过开发者工具来定位到菜单项名称的位置：</p>
+<pre><code>#avia-menu&gt;li&gt;a&gt;span.avia-menu-text</code></pre>
+<p>确定了位置以后就计数，就是把所有菜单项的个数记录下来：</p>
+<pre><code>var menu_text = jQuery(&quot;#avia-menu&gt;li&gt;a&gt;span.avia-menu-text&quot;);</code></pre>
+<p>然后就是一个循环了，这个很容易理解，通过循环才能逐个的去插入。明白了这个以后还得有个判断，不同菜单项对应的图片是不一样的，所以这里需要一个判断。笔者这里用的是switch，没有使用if，其实道理是一样的。</p>
+<pre><code>switch (jQuery(menu_text[i]).text())
+&#123;
+case &#39;Products&#39;:
+  jQuery(menu_text[i]).before(&quot;&lt;img src=&#39;/wp-content/uploads/2019/04/icon-p.png&#39;&gt;&quot;);
+  break;
+case &#39;Why Oilax&#39;:
+  jQuery(menu_text[i]).before(&quot;&lt;img src=&#39;/wp-content/uploads/2019/04/icon-why.png&#39;&gt;&quot;);
+  break;
+case &#39;Distributor&#39;:
+  jQuery(menu_text[i]).before(&quot;&lt;img src=&#39;/wp-content/uploads/2019/04/icon-company.png&#39;&gt;&quot;);
+  break;
+case &#39;News&#39;:
+  jQuery(menu_text[i]).before(&quot;&lt;img src=&#39;/wp-content/uploads/2019/04/icon-news.png&#39;&gt;&quot;);
+  break;
+case &#39;Shows&#39;:
+  jQuery(menu_text[i]).before(&quot;&lt;img src=&#39;/wp-content/uploads/2019/04/shows.png&#39;&gt;&quot;);
+  break;
+default:
+jQuery(menu_text[i]).before();
+  break;
+&#125;</code></pre>
+<p>这一块就是用来做判断的，笔者在这里犯了一个小小的错，但是是把case后面的文本忘记用引号了，这样做的后果就是里面的文本被当做了一个变量，加上引号就是一个字符串，所以忘记添加引号这是不对的，笔者纠正一下。</p>
+<p>以下这个是错误的写法：</p>
+<pre><code>case Products:     //错误的写法
+      jQuery(menu_text[i]).before(&quot;&lt;img src=&#39;/wp-content/uploads/2019/04/icon-p.png&#39;&gt;&quot;);
+      break;
+...</code></pre>
+<p>以下这个是正确的写法：</p>
+<pre><code>case &#39;Products&#39;:    //正确的写法
+      jQuery(menu_text[i]).before(&quot;&lt;img src=&#39;/wp-content/uploads/2019/04/icon-p.png&#39;&gt;&quot;);
+      break;
+...</code></pre>
+<p>明确了这个之后，加上去就完成了。</p>
+<hr>
+<p>**更新：2019/5/6 15:41:51 **</p>
+<p>这个时候客户又问道，如果希望在二级菜单的菜单项前面都添加一张图片，是否可以，这个时候怎么办？</p>
+<p>其实方法是一样的，只是笔者在当时的方法不对，当时是用了两个for循环，结果把一级菜单的名字给全部替换了，正确的写法是：</p>
+<pre><code>&lt;script&gt;
+var jQuery = $.noConflict(true);
+jQuery(document).ready(function()&#123;
+    var search_dom_pc = &#39;&lt;li id=&quot;menu-item-search&quot; class=&quot;noMobile menu-item menu-item-search-dropdown menu-item-avia-special pc-search-custom&quot;&gt;&lt;a href=&quot;?s=&quot; data-avia-search-tooltip=&quot;&lt;form action=&amp;quot;/&amp;quot; id=&amp;quot;searchform&amp;quot; method=&amp;quot;get&amp;quot; class=&amp;quot;&amp;quot;&gt;&lt;div&gt;&lt;input type=&amp;quot;submit&amp;quot; value=&amp;quot;&amp;quot; id=&amp;quot;searchsubmit&amp;quot; class=&amp;quot;button avia-font-entypo-fontello&amp;quot; /&gt;&lt;input type=&amp;quot;text&amp;quot; id=&amp;quot;s&amp;quot; name=&amp;quot;s&amp;quot; value=&amp;quot;&amp;quot;/&gt;&lt;/div&gt;&lt;/form&gt;&quot; aria-hidden=&quot;true&quot; data-av_icon=&quot;&quot; data-av_iconfont=&quot;entypo-fontello&quot;&gt;&lt;span class=&quot;avia_hidden_link_text&quot;&gt;Search&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;&#39;;
+    jQuery(&quot;#avia-menu&quot;).prepend(search_dom_pc);
+&#125;);
+
+var menu_text = jQuery(&quot;#avia-menu&gt;li&gt;a&gt;span.avia-menu-text&quot;);
+for (var i = 0; i &lt; menu_text.length; i++) &#123;
+    switch (jQuery(menu_text[i]).text())
+    &#123;
+    case &#39;Products&#39;:
+        jQuery(menu_text[i]).before(&quot;&lt;img src=&#39;/wp-content/uploads/2019/04/icon-p.png&#39;&gt;&quot;);
+        // 新添加的部分 开始
+          var product_submenu_text = jQuery(menu_text[i]).parent().siblings().find(&#39;.menu-item&gt;a&gt;span.avia-menu-text&#39;);
+        for (var j = 0; j &lt; product_submenu_text.length; j++) &#123;
+            switch (jQuery(product_submenu_text[j]).text())
+            &#123;
+            case &#39;CBD Battery&#39;:
+              jQuery(product_submenu_text[j]).before(&quot;&lt;img class=&#39;submenu_imgs&#39; src=&#39;/wp-content/uploads/2019/04/icon-p.png&#39;&gt;&quot;);
+              break;
+            case &#39;Pod Vape&#39;:
+              jQuery(product_submenu_text[j]).before(&quot;&lt;img class=&#39;submenu_imgs&#39; src=&#39;/wp-content/uploads/2019/04/icon-why.png&#39;&gt;&quot;);
+              break;
+            case &#39;Flower Vape&#39;:
+              jQuery(product_submenu_text[j]).before(&quot;&lt;img class=&#39;submenu_imgs&#39; src=&#39;/wp-content/uploads/2019/04/icon-p.png&#39;&gt;&quot;);
+              break;
+            case &#39;Concentrate&#39;:
+              jQuery(product_submenu_text[j]).before(&quot;&lt;img class=&#39;submenu_imgs&#39; src=&#39;/wp-content/uploads/2019/04/icon-why.png&#39;&gt;&quot;);
+              break;
+            default:
+              jQuery(product_submenu_text[j]).before();
+              break;
+            &#125;
+        &#125;
+        // 新添加的部分 结束
+        break;
+    case &#39;Why Oilax&#39;:
+      jQuery(menu_text[i]).before(&quot;&lt;img src=&#39;/wp-content/uploads/2019/04/icon-why.png&#39;&gt;&quot;);
+      break;
+    case &#39;Distributor&#39;:
+      jQuery(menu_text[i]).before(&quot;&lt;img src=&#39;/wp-content/uploads/2019/04/icon-company.png&#39;&gt;&quot;);
+      break;
+    case &#39;News&#39;:
+      jQuery(menu_text[i]).before(&quot;&lt;img src=&#39;/wp-content/uploads/2019/04/icon-news.png&#39;&gt;&quot;);
+      break;
+    case &#39;Shows&#39;:
+      jQuery(menu_text[i]).before(&quot;&lt;img src=&#39;/wp-content/uploads/2019/04/shows.png&#39;&gt;&quot;);
+      break;
+    default:
+      jQuery(menu_text[i]).before();
+      break;
+    &#125;
+&#125;
+&lt;/script&gt;</code></pre>
+<p><strong>说明</strong>：这里是Products有个二级菜单，那么对二级菜单添加图片就应该是在Products这个菜单的判断里面执行循环，所以当时笔者把循环写在最外面，就像如下的这个写法。</p>
+<pre><code>var menu_text = jQuery(&quot;#avia-menu&gt;li&gt;a&gt;span.avia-menu-text&quot;);
+for (var i = 0; i &lt; menu_text.length; i++) &#123;
+    switch (jQuery(menu_text[i]).text())
+    &#123;
+    case &#39;Products&#39;:
+        jQuery(menu_text[i]).before(&quot;&lt;img src=&#39;/wp-content/uploads/2019/04/icon-p.png&#39;&gt;&quot;);
+        break;
+    case &#39;Why Oilax&#39;:
+      jQuery(menu_text[i]).before(&quot;&lt;img src=&#39;/wp-content/uploads/2019/04/icon-why.png&#39;&gt;&quot;);
+      break;
+    case &#39;Distributor&#39;:
+      jQuery(menu_text[i]).before(&quot;&lt;img src=&#39;/wp-content/uploads/2019/04/icon-company.png&#39;&gt;&quot;);
+      break;
+    case &#39;News&#39;:
+      jQuery(menu_text[i]).before(&quot;&lt;img src=&#39;/wp-content/uploads/2019/04/icon-news.png&#39;&gt;&quot;);
+      break;
+    case &#39;Shows&#39;:
+      jQuery(menu_text[i]).before(&quot;&lt;img src=&#39;/wp-content/uploads/2019/04/shows.png&#39;&gt;&quot;);
+      break;
+    default:
+      jQuery(menu_text[i]).before();
+      break;
+    &#125;
+&#125;
+
+var product_submenu_text = jQuery(&quot;#avia-menu&gt;li&gt;a&gt;span.avia-menu-text&quot;).text(&quot;Products&quot;).parent().siblings().find(&#39;.menu-item&gt;a&gt;span.avia-menu-text&#39;);
+for (var j = 0; j &lt; product_submenu_text.length; j++) &#123;
+    switch (jQuery(product_submenu_text[j]).text())
+    &#123;
+    case &#39;CBD Battery&#39;:
+      jQuery(product_submenu_text[j]).before(&quot;&lt;img class=&#39;submenu_imgs&#39; src=&#39;/wp-content/uploads/2019/04/icon-p.png&#39;&gt;&quot;);
+      break;
+    case &#39;Pod Vape&#39;:
+      jQuery(product_submenu_text[j]).before(&quot;&lt;img class=&#39;submenu_imgs&#39; src=&#39;/wp-content/uploads/2019/04/icon-why.png&#39;&gt;&quot;);
+      break;
+    case &#39;Flower Vape&#39;:
+      jQuery(product_submenu_text[j]).before(&quot;&lt;img class=&#39;submenu_imgs&#39; src=&#39;/wp-content/uploads/2019/04/icon-p.png&#39;&gt;&quot;);
+      break;
+    case &#39;Concentrate&#39;:
+      jQuery(product_submenu_text[j]).before(&quot;&lt;img class=&#39;submenu_imgs&#39; src=&#39;/wp-content/uploads/2019/04/icon-why.png&#39;&gt;&quot;);
+      break;
+    default:
+      jQuery(product_submenu_text[j]).before();
+      break;
+    &#125;
+&#125;</code></pre>
+<p><strong>注意：</strong>以上这个写法是错的，这个写法会把一级菜单项都替换为Products.问题就在这里：</p>
+<pre><code>jQuery(&quot;#avia-menu&gt;li&gt;a&gt;span.avia-menu-text&quot;).text(&quot;Products&quot;)</code></pre>
+<p>这个没有经过循环，没法指定是某一个，所以这也是笔者经常犯的错误，仅以此篇文章来告诫自己。</p>
+<p>本文会持续更新，敬请关注。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/04/24/%E5%9C%A8wordpress%E7%9A%84enfold%E4%B8%BB%E9%A2%98%E4%B8%AD%E9%80%9A%E8%BF%87js%E5%8A%A8%E6%80%81%E6%8F%92%E5%85%A5%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD%E5%88%B0%E8%8F%9C%E5%8D%95%E4%BD%8D%E7%BD%AE%E4%BB%A5%E8%A7%A3%E5%86%B3%E5%9E%82%E7%9B%B4%E8%8F%9C%E5%8D%95%E6%B2%A1%E6%9C%89%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD%E7%9A%84%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/04/24/%E5%9C%A8wordpress%E7%9A%84enfold%E4%B8%BB%E9%A2%98%E4%B8%AD%E9%80%9A%E8%BF%87js%E5%8A%A8%E6%80%81%E6%8F%92%E5%85%A5%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD%E5%88%B0%E8%8F%9C%E5%8D%95%E4%BD%8D%E7%BD%AE%E4%BB%A5%E8%A7%A3%E5%86%B3%E5%9E%82%E7%9B%B4%E8%8F%9C%E5%8D%95%E6%B2%A1%E6%9C%89%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD%E7%9A%84%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">在wordpress的enfold主题中通过js动态插入搜索功能到菜单位置以解决垂直菜单没有搜索功能，以及让搜索框显示在菜单位置的问题</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-04-24 17:10:47" itemprop="dateCreated datePublished" datetime="2019-04-24T17:10:47+08:00">2019-04-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:04" itemprop="dateModified" datetime="2020-10-11T11:58:04+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/wordpress/" itemprop="url" rel="index"><span itemprop="name">wordpress</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>用过wordpress的开发者都知道，wordpress有个搜索功能，通常我们采用主题的时候，会在菜单后面显示一个搜索icon。可是有的时候是没有搜索按钮的，该怎么办呢？</p>
+<p>横向菜单是有icon的，请看如下截图：</p>
+<p><img src="https://i.imgur.com/TGPbIkX.jpg"></p>
+<p>比如，当笔者在采用enfold主题的时候，就遇到这样的问题，通常情况是有的，也可以在网站的后天进行设置，开启或者关闭，当我采用垂直菜单的时候，发现无论我是否开启，这个搜索的icon始终不出现在菜单的后面或者前面。</p>
+<p><img src="https://i.imgur.com/W8bnEJ0.jpg"></p>
+<p>我希望这个搜索icon在这个位置出现，我们都知道如果仅仅是个搜索icon插入是很简单的，可是还要有输入框才行，不然没法查询。</p>
+<p>于是笔者采用了这样一个法子：</p>
+<blockquote>
+<p>既然横向菜单是有这个搜索icon的，那么为何不先启用横向菜单，或者找个enfold主题横向菜单的wordpress网站呢？又或者去enfold主题的官网找个demo页面参考即可。</p>
+</blockquote>
+<p>好的，这个思路是正确的，那么我们开始实践它。</p>
+<p>首先，我们去获取这个搜索icon的所有代码。通过开发者工具，我们获取到了代码如下：</p>
+<pre><code>&lt;li id=&quot;menu-item-search&quot; class=&quot;noMobile menu-item menu-item-search-dropdown menu-item-avia-special&quot;&gt;
+    &lt;a href=&quot;?s=&quot; data-avia-search-tooltip=&quot;&lt;form action=&amp;quot;https://nie-tech.com/&amp;quot; id=&amp;quot;searchform&amp;quot; method=&amp;quot;get&amp;quot; class=&amp;quot;&amp;quot;&gt;
+        &lt;div&gt;
+            &lt;input type=&amp;quot;submit&amp;quot; value=&amp;quot;&amp;quot; id=&amp;quot;searchsubmit&amp;quot; class=&amp;quot;button avia-font-entypo-fontello&amp;quot; /&gt;
+            &lt;input type=&amp;quot;text&amp;quot; id=&amp;quot;s&amp;quot; name=&amp;quot;s&amp;quot; value=&amp;quot;&amp;quot; placeholder=&#39;Search&#39; /&gt;
+        &lt;/div&gt;
+    &lt;/form&gt;&quot; aria-hidden=&quot;true&quot; data-av_icon=&quot;&quot; data-av_iconfont=&quot;entypo-fontello&quot;&gt;&lt;span class=&quot;avia_hidden_link_text&quot;&gt;Search&lt;/span&gt;&lt;/a&gt;
+&lt;/li&gt;</code></pre>
+<p>就是这个：</p>
+<p><img src="https://i.imgur.com/b9vCFJx.jpg"></p>
+<p>这个代码就是要插入到菜单某个位置的代码了。</p>
+<p>接着，我们要定位到要插入的dom位置，通过开发者工具我们定位到目标网站的垂直菜单的代码：</p>
+<pre><code>&lt;ul id=&quot;avia-menu&quot; class=&quot;menu av-main-nav&quot;&gt;
+...
+&lt;/ul&gt;</code></pre>
+<p>截图如下：</p>
+<p><img src="https://i.imgur.com/RgpNkXi.jpg"></p>
+<p>这两个地方解决后，那么剩下的就是写js代码了，这里笔者引用的是jquery，所以，先引入jquery这个库，然后js代码如下：</p>
+<pre><code>&lt;script&gt;
+var jQuery = $.noConflict(true);
+jQuery(document).ready(function()&#123;
+    var search_dom_pc = &#39;&lt;li id=&quot;menu-item-search&quot; class=&quot;noMobile menu-item menu-item-search-dropdown menu-item-avia-special pc-search-custom&quot;&gt;&lt;a href=&quot;?s=&quot; data-avia-search-tooltip=&quot;&lt;form action=&amp;quot;https://nietech.com/&amp;quot; id=&amp;quot;searchform&amp;quot; method=&amp;quot;get&amp;quot; class=&amp;quot;&amp;quot;&gt;&lt;div&gt;&lt;input type=&amp;quot;submit&amp;quot; value=&amp;quot;&amp;quot; id=&amp;quot;searchsubmit&amp;quot; class=&amp;quot;button avia-font-entypo-fontello&amp;quot; /&gt;&lt;input type=&amp;quot;text&amp;quot; id=&amp;quot;s&amp;quot; name=&amp;quot;s&amp;quot; value=&amp;quot;&amp;quot;/&gt;&lt;/div&gt;&lt;/form&gt;&quot; aria-hidden=&quot;true&quot; data-av_icon=&quot;&quot; data-av_iconfont=&quot;entypo-fontello&quot;&gt;&lt;span class=&quot;avia_hidden_link_text&quot;&gt;Search&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;&#39;;
+    jQuery(&quot;#avia-menu&quot;).prepend(search_dom_pc);
+&#125;);
+&lt;/script&gt;</code></pre>
+<p><strong>说明：</strong>虽然很简单，笔者在这里折腾了很久，问题就是在于双引号和单引号的问题，笔者当时觉得<code>&amp;quot;</code>这个东西看起来太乱了，就把他们一个一个的改成了双引号，看起来清爽点，就是这么一改让我痛苦了足足两个小时，这里顺便科普一下：</p>
+<blockquote>
+<p><code>&amp;apos;</code>—-单引号</p>
+<p><code>&amp;quot;</code>—–双引号</p>
+</blockquote>
+<p>为啥要用这个转义呢？是因为单我们单双引号层层嵌套的时候，会被当做拼接。在上面的这个代码里面就存在，请看片段：</p>
+<pre><code>var search_dom_pc = &#39;&lt;a href=&quot;?s=&quot; data-avia-search-tooltip=&quot;&lt;form action=&quot;https://nie-tech.com/&quot; id=&quot;searchform&quot; method=&quot;get&quot; class=&quot;&quot;&gt;
+    &lt;div&gt;
+        &lt;input type=&quot;submit&quot; value=&quot;&quot; id=&quot;searchsubmit&quot; class=&quot;button avia-font-entypo-fontello&quot; /&gt;
+        &lt;input type=&quot;text&quot; id=&quot;s&quot; name=&quot;s&quot; value=&quot;&quot; placeholder=&#39;Search&#39; /&gt;
+            &lt;/div&gt;
+&lt;/form&gt;&quot;
+...</code></pre>
+<p>这个里面最外层的是变量search_dom_pc的值，这个值被用一个单引号包起来的，第二层是a标签，a标签里面使用双引号把它的值抱起来的，第三层是自定义属性data-avia-search-tooltip，这个东西通过双引号把值包起来的，这个时候，无论我们用双引号或者是单引号都不行，因为都会发生拼接的情况，那这个时候怎么办呢？我们就要用转义的方式来解决第三层引号甚至是第四层引号的问题了。</p>
+<p>当你明白这个意思之后，我们就可以理解用回<code>&amp;quot;</code>是正确的。</p>
+<p>接着我们这里还有一个地方需要说，就是form里面的action属性，由于笔者是在另外一个网站上面把代码弄过来的，这个时候，连同域名（<code>https://nietech.com</code>）也被弄过来了，如果不把域名改成我们正在添加的搜索的这个域名的话，到时候输入东西搜索的时候会跳转到<code>https://nietech.com</code>，为了放子四海而皆准，我们需要把域名删除，只保留根目录<code>/</code>，最后正确的js代码如下：</p>
+<pre><code>&lt;script&gt;
+var jQuery = $.noConflict(true);
+jQuery(document).ready(function()&#123;
+    var search_dom_pc = &#39;&lt;li id=&quot;menu-item-search&quot; class=&quot;noMobile menu-item menu-item-search-dropdown menu-item-avia-special pc-search-custom&quot;&gt;&lt;a href=&quot;?s=&quot; data-avia-search-tooltip=&quot;&lt;form action=&amp;quot;/&amp;quot; id=&amp;quot;searchform&amp;quot; method=&amp;quot;get&amp;quot; class=&amp;quot;&amp;quot;&gt;&lt;div&gt;&lt;input type=&amp;quot;submit&amp;quot; value=&amp;quot;&amp;quot; id=&amp;quot;searchsubmit&amp;quot; class=&amp;quot;button avia-font-entypo-fontello&amp;quot; /&gt;&lt;input type=&amp;quot;text&amp;quot; id=&amp;quot;s&amp;quot; name=&amp;quot;s&amp;quot; value=&amp;quot;&amp;quot;/&gt;&lt;/div&gt;&lt;/form&gt;&quot; aria-hidden=&quot;true&quot; data-av_icon=&quot;&quot; data-av_iconfont=&quot;entypo-fontello&quot;&gt;&lt;span class=&quot;avia_hidden_link_text&quot;&gt;Search&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;&#39;;
+    jQuery(&quot;#avia-menu&quot;).prepend(search_dom_pc);
+&#125;);
+&lt;/script&gt;</code></pre>
+<p>这样就可以把这个搜索的icon插入了，然后点击搜索icon就可以显示出搜索框。截图：</p>
+<p><img src="https://i.imgur.com/8ySqKCF.jpg"></p>
+<p>剩下的就是通过css美化一下，比如客户想鼠标悬浮的时候就出现搜索，以及手机版如果不做处理会很丑，把菜单的折叠那里挤下去，笔者这里把css代码粘贴一下，因为笔者把垂直菜单的宽度也修改了，所以这个东西是基于修改之后的宽度来美化的：</p>
+<pre><code>.html_header_sidebar #top #header &#123;
+    width: 110px !important;
+&#125;
+.html_header_left #main &#123;
+    margin-left: 110px !important;
+&#125;
+.html_header_sidebar .logo &#123;
+    padding: 10px !important;
+&#125;
+.html_header_sidebar #header .av-main-nav &gt; li &gt; a .avia-menu-text &#123;
+    font-size: 14px !important;
+&#125;
+.responsive .container &#123;
+    max-width: 100% !important;
+&#125;
+
+.avia-search-tooltip&#123;
+   top:0px !important;
+   left:228px !important;
+&#125;
+#menu-item-search:hover .avia-search-tooltip&#123;
+   display:block !important;
+   opacity:1 !important;
+&#125;
+#top #menu-item-search &#123;
+    margin-right: -1px !important;
+    padding-left: 15%;
+    margin-left: 0px;
+&#125;
+.avia-search-tooltip .avia-arrow-wrap &#123;
+    display:none;
+&#125;
+#top #menu-item-search #s &#123;
+    border: 1px solid;
+&#125;
+
+@media (max-width:767px)&#123;
+.html_header_left #main &#123;
+    margin-left: 0px !important;
+&#125;
+.html_header_sidebar #top #header &#123;
+    width: 100% !important;
+&#125;
+#top #menu-item-search &#123;
+    right: 60px !important;
+    z-index: 999999;
+    position: absolute !important;
+&#125;
+.responsive #top .logo &#123;
+    display: contents !important;
+&#125;
+.avia-search-tooltip&#123;
+   max-width:300px !important;
+   position:fixed !important;
+   top:110px !important;
+   left:unset !important;
+   right:10px !important;
+&#125;
+#menu-item-search&gt;a&#123;
+   padding:0px 15px !important;
+&#125;
+&#125;</code></pre>
+<p>这个只是笔者自己的审美，大家可以自己美化。</p>
+<p>本文其实是解决了一个很简单的问题，笔者写本文旨在启发，通过一个小小的案例来引出很多值得启发的地方，笔者这个转义的地方就是一个很有启发的作用。</p>
+<hr>
+<p>**更新：2019/4/28 9:40:53 **</p>
+<p>这里我们接着上面继续扩展，如果我们想要把这个搜索框直接显示在菜单栏里面，以便用户直接搜索，而不是点击搜索icon才出来，这个时候怎么办呢？其实很简单，请看：</p>
+<p>首先，根据开发者工具，把菜单项的dom结构获取到，然后把class保留，其他的都删除；</p>
+<pre><code>&lt;li class=&quot;menu-item menu-item-type-custom menu-item-object-custom menu-item-top-level menu-item-top-level-5&quot;&gt;
+    //here is form code
+&lt;/li&gt;</code></pre>
+<p>接着，把搜索框的表单代码通过开发者工具找到。稍作处理（把action里面的域名去掉即可），此时不需要双引号转义了，因为没有太多的嵌套，最后form就是如下代码：</p>
+<pre><code>&lt;form action=&quot;/&quot; id=&quot;searchform&quot; method=&quot;get&quot; class=&quot;&quot;&gt;&lt;div&gt;&lt;input type=&quot;submit&quot; value=&quot;&quot; id=&quot;searchsubmit&quot; class=&quot;button avia-font-entypo-fontello&quot;&gt;&lt;input type=&quot;text&quot; id=&quot;s&quot; name=&quot;s&quot; placeholder=&quot;Search for installer or product&quot;&gt;&lt;/div&gt;&lt;/form&gt;</code></pre>
+<p>然后引入jquery，最后所有的js代码如下：</p>
+<pre><code>&lt;script src=&quot;http://libs.baidu.com/jquery/2.1.4/jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+var jQuery = $.noConflict();
+jQuery(document).ready(function()&#123;
+    var search_dom_pc = &#39;&lt;li class=&quot;menu-item menu-item-type-custom menu-item-object-custom menu-item-top-level menu-item-top-level-5 new_add_form&quot;&gt;&lt;form action=&quot;/&quot; id=&quot;searchform&quot; method=&quot;get&quot; class=&quot;&quot;&gt;&lt;div class=&quot;egweg&quot;&gt;&lt;input type=&quot;submit&quot; value=&quot;&quot; id=&quot;searchsubmit&quot; class=&quot;button avia-font-entypo-fontello&quot;&gt;&lt;input type=&quot;text&quot; id=&quot;s&quot; name=&quot;s&quot; placeholder=&quot;Search for installer or product&quot;&gt;&lt;/div&gt;&lt;/form&gt;&lt;/li&gt;&#39;;
+    jQuery(&quot;#avia-menu&quot;).append(search_dom_pc);
+&#125;);
+&lt;/script&gt;</code></pre>
+<blockquote>
+<p><strong>说明</strong>：因为笔者处理的网站没有ssl，所以这里的jquery也没有引入https的，如果网站只允许https的，那么最好不能用http协议的jquery的cdn。如果https和http相兼容，那么无论加哪一种都可以。</p>
+</blockquote>
+<p>笔者处理的这个网站头部菜单的高度是90px高度，滚动后菜单的高度是45px，由于搜索框很占位置，所以当稍微小点的屏幕打开的时候被挤得换行了，所以此时输入框应该隐藏，默认的搜索icon显示出来，这样就更加完美了，意思就是说这个输入框显示出来应该在大屏幕或者大于某个屏幕尺寸的时候，为了新添加的搜索框美观度，笔者整理的的代css码如下：</p>
+<pre><code>#menu-item-search&#123;
+   display:none;
+&#125;
+.new_add_form form&#123;
+    line-height:90px;
+    height:90px;
+    position:relative;
+&#125;
+.new_add_form form .egweg&#123;
+     display:inline-block;
+&#125;
+.header-scrolled .new_add_form form&#123;
+    line-height:45px;
+    height:45px;
+&#125;
+.new_add_form form div.ajax_search_response&#123;
+   position:absolute;
+   max-width:200px !important;
+&#125;
+@media (max-width:1360px)&#123;
+    #menu-item-search&#123;
+       display:block !important;
+    &#125;
+    .new_add_form form&#123;
+        display:none !important;
+    &#125;
+&#125;</code></pre>
+<p>最后的效果就是在头部菜单栏的菜单项后面有个搜索框，截图：</p>
+<p><img src="https://i.imgur.com/4NHSSFr.jpg"></p>
+<p>而当屏幕小于1360px的时候，输入框就隐藏了，取而代之的是icon，点击icon的时候显示输入框，截图如下：</p>
+<p><img src="https://i.imgur.com/tIiALTN.jpg"></p>
+<p>完美收工。本文会持续更新，敬请期待。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/04/19/wordpress%E7%BD%91%E7%AB%99%E9%92%88%E5%AF%B9%E5%88%86%E7%B1%BB%E8%BF%9B%E8%A1%8C%E6%90%9C%E7%B4%A2%EF%BC%8C%E5%9C%A8%E6%90%9C%E7%B4%A2%E7%BB%93%E6%9E%9C%E4%B8%AD%E8%BF%87%E6%BB%A4%E6%8E%89%E4%B8%8D%E9%9C%80%E8%A6%81%E7%9A%84%E7%B1%BB%E5%88%AB%EF%BC%8C%E6%AF%94%E5%A6%82%E6%96%87%E7%AB%A0%EF%BC%8C%E9%A1%B5%E9%9D%A2%E7%AD%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/04/19/wordpress%E7%BD%91%E7%AB%99%E9%92%88%E5%AF%B9%E5%88%86%E7%B1%BB%E8%BF%9B%E8%A1%8C%E6%90%9C%E7%B4%A2%EF%BC%8C%E5%9C%A8%E6%90%9C%E7%B4%A2%E7%BB%93%E6%9E%9C%E4%B8%AD%E8%BF%87%E6%BB%A4%E6%8E%89%E4%B8%8D%E9%9C%80%E8%A6%81%E7%9A%84%E7%B1%BB%E5%88%AB%EF%BC%8C%E6%AF%94%E5%A6%82%E6%96%87%E7%AB%A0%EF%BC%8C%E9%A1%B5%E9%9D%A2%E7%AD%89/" class="post-title-link" itemprop="url">wordpress网站针对分类进行搜索，在搜索结果中过滤掉不需要的类别，比如文章，页面等</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-04-19 15:22:21" itemprop="dateCreated datePublished" datetime="2019-04-19T15:22:21+08:00">2019-04-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:03" itemprop="dateModified" datetime="2020-10-11T11:58:03+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/wordpress/" itemprop="url" rel="index"><span itemprop="name">wordpress</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>用过wordpress的人都知道，这个系统的搜索是整站搜索，搜索的结果包括文章，页面等等。搜索结果往往很多，不精准。</p>
+<blockquote>
+<p>很多时候，我们希望搜索结果是精确的，比如笔者有个客户希望在wordpress里面能够输入维修师傅的所在的区域能够搜索出这个区域的所有维修师傅，那么这个时候用wordpress的默认的搜索功能就不行了。</p>
+</blockquote>
+<p>这里，笔者推荐一个wordpress插件：<a target="_blank" rel="noopener" href="https://wordpress.org/plugins/relevanssi/">Relevanssi</a></p>
+<p>这个插件可以对搜索进行重写，可以自己设定搜索的结果，比如笔者只允许搜索结果显示product，那么笔者输入某个关键词，而这个关键词可能在文章中，页面中，相册集中都存在，但是搜索结果只显示对产品的搜索。那么有了这个特性，那么我们就可以针对以上的那个问题给出方案了。</p>
+<p>我们可以以portfolio来作为方案，新建很多分类，把这些分类当做维修师傅所在的区域，维修师傅就是portfolio的单个内容，那么我们在这个插件里面设置一下只搜索portfolio即可。那么我们输入区域名称的话，那么属于这个区域的所有维修师傅就在搜索结果页面中显示了。</p>
+<p><img src="https://i.imgur.com/vw4q3hq.jpg"></p>
+<p>勾选了这个以后，然后重新创建这个索引即可，在Indexing—Build the index，点击这个按钮，会自动创建这个索引。</p>
+<p><img src="https://i.imgur.com/0jBBzMM.jpg"></p>
+<p>最后，保存一下：Save the options</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/03/29/%E5%88%A9%E7%94%A8magento2%E7%9A%84rest-api%E6%9D%A5%E8%8E%B7%E5%8F%96%E5%95%86%E5%9F%8E%E7%BD%91%E7%AB%99%E7%9A%84%E6%95%B0%E6%8D%AE%EF%BC%8C%E5%A6%82%E4%BA%A7%E5%93%81%EF%BC%8C%E7%94%A8%E6%88%B7%EF%BC%8C%E8%AE%A2%E5%8D%95%E7%AD%89%E7%AD%89%E4%BF%A1%E6%81%AF%EF%BC%8C%E4%BB%A5%E5%8F%8A%E5%80%9F%E5%8A%A9postman%E8%B0%83%E8%AF%95%E9%81%87%E5%88%B0%E7%9A%84%E5%90%84%E7%A7%8D%E5%9D%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2019/03/29/%E5%88%A9%E7%94%A8magento2%E7%9A%84rest-api%E6%9D%A5%E8%8E%B7%E5%8F%96%E5%95%86%E5%9F%8E%E7%BD%91%E7%AB%99%E7%9A%84%E6%95%B0%E6%8D%AE%EF%BC%8C%E5%A6%82%E4%BA%A7%E5%93%81%EF%BC%8C%E7%94%A8%E6%88%B7%EF%BC%8C%E8%AE%A2%E5%8D%95%E7%AD%89%E7%AD%89%E4%BF%A1%E6%81%AF%EF%BC%8C%E4%BB%A5%E5%8F%8A%E5%80%9F%E5%8A%A9postman%E8%B0%83%E8%AF%95%E9%81%87%E5%88%B0%E7%9A%84%E5%90%84%E7%A7%8D%E5%9D%91/" class="post-title-link" itemprop="url">利用magento2的rest api来获取商城网站的数据，如产品，用户，订单等等信息，以及借助postman调试遇到的各种坑</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-03-29 20:21:04" itemprop="dateCreated datePublished" datetime="2019-03-29T20:21:04+08:00">2019-03-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:04" itemprop="dateModified" datetime="2020-10-11T11:58:04+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/magento2/" itemprop="url" rel="index"><span itemprop="name">magento2</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>今天笔者分享下折腾magento2版本的rest api的各种问题，笔者以前写过关于通过wordpress的rest api的方式来获取woocommerce的产品，以及根据这个东西对数据的增删改查。<strong>笔者这里安装的是magento2.1.16版本</strong>。</p>
+<p>准备工作：</p>
+<ol>
+<li>postman，这个工具很适合调试api</li>
+<li>安装magento2版本</li>
+<li>为magento2安装ssl证书</li>
+<li>找到magento2的开发者文档，边看边做</li>
+</ol>
+<p>在这篇文章中，笔者要用到的几个必备的网址：</p>
+<ul>
+<li>magento2模块开发文档：<a target="_blank" rel="noopener" href="https://devdocs.magento.com/videos/fundamentals/create-a-new-module/">https://devdocs.magento.com/videos/fundamentals/create-a-new-module/</a></li>
+<li>magento2的rest api列表：<a target="_blank" rel="noopener" href="https://devdocs.magento.com/guides/v2.1/rest/list.html">https://devdocs.magento.com/guides/v2.1/rest/list.html</a>，或者是这个：<a target="_blank" rel="noopener" href="https://devdocs.magento.com/guides/v2.1/rest/list.html">https://devdocs.magento.com/guides/v2.1/rest/list.html</a></li>
+<li>magento2的OA认证文档：<a target="_blank" rel="noopener" href="https://devdocs.magento.com/guides/v2.1/get-started/authentication/gs-authentication-token.html">https://devdocs.magento.com/guides/v2.1/get-started/authentication/gs-authentication-token.html</a></li>
+</ul>
+<p>先把准备的工作完成后，相信当你看到这篇文章的时候，相信你已经完成了准备工作了。</p>
+<p>我们先去magento后台—系统（system）—扩展（Extensions）—集成（Integrations），如果没有就新建一个：</p>
+<p><img src="https://i.imgur.com/VgejdKv.jpg"></p>
+<p>为了测试方便，笔者就获取所有的了：</p>
+<p><img src="https://i.imgur.com/iBpOw4u.jpg"></p>
+<p><img src="https://i.imgur.com/lhzqeJP.jpg"></p>
+<p>然后就把这个新建的激活，这里就需要这个magento2网站拥有https协议，不然，没法激活。</p>
+<p><img src="https://i.imgur.com/PBi5Lkf.jpg"></p>
+<p>激活的时候，我们就可以看到，</p>
+<p><img src="https://i.imgur.com/4SDqTyC.jpg"></p>
+<p>这些信息，这个信息接下来我们会需要用到。</p>
+<h2 id="打开magento2的rest-api的列表"><a href="#打开magento2的rest-api的列表" class="headerlink" title="打开magento2的rest api的列表"></a>打开magento2的rest api的列表</h2><p><a target="_blank" rel="noopener" href="https://devdocs.magento.com/guides/v2.1/rest/list.html">https://devdocs.magento.com/guides/v2.1/rest/list.html</a></p>
+<p><a target="_blank" rel="noopener" href="https://devdocs.magento.com/guides/v2.1/rest/list.html">https://devdocs.magento.com/guides/v2.1/rest/list.html</a></p>
+<p>我们可以从这个里面选择我们要实验的对象。</p>
+<p>但是在实践之前，我们需要获取token。</p>
+<h2 id="获取magento2后台管理员的rest-api的token值"><a href="#获取magento2后台管理员的rest-api的token值" class="headerlink" title="获取magento2后台管理员的rest api的token值"></a>获取magento2后台管理员的rest api的token值</h2><p><a target="_blank" rel="noopener" href="https://devdocs.magento.com/guides/v2.1/get-started/authentication/gs-authentication-token.html">https://devdocs.magento.com/guides/v2.1/get-started/authentication/gs-authentication-token.html</a></p>
+<p>这个里面有详细的获取admin的token的。</p>
+<p><strong>值得提醒的是</strong>这个教程有点让人困惑，请求的地址不是<code>http://www.yourdomain.com/V1/integration/admin/token</code>，而是<code>http://www.noctiuniversity.com/rest/V1/integration/admin/token</code>，记得在这个教程里面的前面加个<code>/rest</code></p>
+<p>然后根据文档，把magento2网站后台管理员登录账号信息填入，这里必须是拥有所有权的，或者拥有获取某个api数据的权限的才行，笔者这里建议是拥有magento2网站后台的所有权的administrators角色。</p>
+<p>然后我们启动postman这个客户端。</p>
+<p>先在地址栏里面输入：<a target="_blank" rel="noopener" href="http://www.yourdomain.com/rest/V1/integration/admin/token%EF%BC%8C%E7%84%B6%E5%90%8E%E6%89%BE%E5%88%B0%EF%BC%9AAuthorization%E8%BF%99%E4%B8%AA%E9%80%89%E9%A1%B9%E5%8D%A1%E9%82%A3%E9%87%8C%EF%BC%8C%E5%A1%AB%E5%86%99%E5%89%8D%E9%9D%A2%E5%88%9B%E5%BB%BA%E7%9A%84%E9%82%A3%E4%B8%AA%E9%9B%86%E6%88%90%E7%9A%84%E7%A7%98%E9%92%A5Consumer">http://www.yourdomain.com/rest/V1/integration/admin/token，然后找到：Authorization这个选项卡那里，填写前面创建的那个集成的秘钥Consumer</a> Key，Consumer Secret，Access Token，Access Token Secret这四个：</p>
+<p><img src="https://i.imgur.com/raKnwRY.jpg"></p>
+<p>然后就是选择POST的方式，点击发送，就会出现以下的报错：</p>
+<pre><code>&#123;
+    &quot;message&quot;: &quot;One or more input exceptions have occurred.&quot;,
+    &quot;errors&quot;: [
+        &#123;
+            &quot;message&quot;: &quot;%fieldName is a required field.&quot;,
+            &quot;parameters&quot;: &#123;
+                &quot;fieldName&quot;: &quot;username&quot;
+            &#125;
+        &#125;,
+        &#123;
+            &quot;message&quot;: &quot;%fieldName is a required field.&quot;,
+            &quot;parameters&quot;: &#123;
+                &quot;fieldName&quot;: &quot;password&quot;
+            &#125;
+        &#125;
+    ]
+&#125;</code></pre>
+<p>这里很明显就是缺少两个字段：username和password，然后在Params那个选项卡里面添加这两个字段，然后用户名就是我们magento2网站后台的管理员的用户名，密码就是后台的登录密码。</p>
+<blockquote>
+<p><strong>这里更新下</strong>，当笔者第二天继续获取token的时候，用post的方式，然后其他都没有问题的情况下，居然一直报错上面的那个，提示username和password，后来笔者没有按照教程上的走（没有把username和password填写在Headers选项卡里面），而是直接在地址栏里面输入magento2网站的域名和rest api信息然后追加这两个参数：<code>http://www.yourdomain.com/rest/V1/integration/admin/token?username=admin&amp;password=abc123</code>，认证方式还是OA1.0，然后获取成功，如果还是不行，那么就试着把cookie删除。</p>
+</blockquote>
+<p><strong>总结获取网站后台的管理员token的方式就是</strong>：</p>
+<blockquote>
+<p>method: POST</p>
+<p>url: <a target="_blank" rel="noopener" href="http://www.yourdomain.com/rest/V1/integration/admin/token?username=yourusername&amp;password=yourpassword">http://www.yourdomain.com/rest/V1/integration/admin/token?username=yourusername&amp;password=yourpassword</a></p>
+</blockquote>
+<p>事实上，我们完全可以在那个链接后面手动写也可以的：<code>http://www.yourdomain.com/rest/V1/integration/admin/token?username=admin&amp;password=abc123</code></p>
+<p>然后，我们再次点击发送就可以获取到了token的值：</p>
+<p><img src="https://i.imgur.com/qL5wsci.jpg"></p>
+<blockquote>
+<p>记住这个是在测试获取rest api的数据之前的要做的，没有这一步就没法获得token的值，如果没法获取token的值，那么就没法接下来的测试工作了。</p>
+</blockquote>
+<h2 id="测试获取产品的数据信息"><a href="#测试获取产品的数据信息" class="headerlink" title="测试获取产品的数据信息"></a>测试获取产品的数据信息</h2><p>根据rest api列表来看，当初笔者也是迫不及待的去折腾了，可是总是报错，什么错误呢？</p>
+<p><img src="https://i.imgur.com/WunWqlj.jpg"></p>
+<p>正如这个列表说的，于是在postman里面输入：<a target="_blank" rel="noopener" href="http://www.yourdomain.com/V1/products%EF%BC%8C%E5%BE%97%E5%88%B0%E5%A6%82%E4%B8%8B%E7%9A%84%E9%94%99%E8%AF%AF%EF%BC%9A">http://www.yourdomain.com/V1/products，得到如下的错误：</a></p>
+<p><img src="https://i.imgur.com/5bzjiT1.jpg"></p>
+<p>道理很简单，我们什么也没设置，我们先认证，来到Authorization，这里选择认证方式：Bearer Token，然后输入我们前面获取的token值，</p>
+<p><img src="https://i.imgur.com/dlBey5p.jpg"></p>
+<p>完成这一步之后，我们继续点击发送，于是得到一样的报错，道理很简单，我们的url有问题，正确的应该是：<code>http://www.yourdomain.com/rest/V1/products</code>，所以不能照搬照抄，用点脑子想想。</p>
+<p>好的，纠正url之后，我们再次点击发送，又报错了，</p>
+<pre><code>&#123;
+    &quot;message&quot;: &quot;%fieldName is a required field.&quot;,
+    &quot;parameters&quot;: &#123;
+        &quot;fieldName&quot;: &quot;searchCriteria&quot;
+    &#125;
+&#125;</code></pre>
+<p>这个是什么鬼？参数值填写啥呢？不清楚，于是google了下，发现了解决方案：</p>
+<p><a target="_blank" rel="noopener" href="https://magento.stackexchange.com/questions/248520/how-to-get-all-product-details-using-rest-api-in-magento-2">https://magento.stackexchange.com/questions/248520/how-to-get-all-product-details-using-rest-api-in-magento-2</a></p>
+<p>网友答复：</p>
+<blockquote>
+<p>you can achieve this using catalogProductRepositoryV1</p>
+<p>method GET</p>
+<p>Authentication admin token</p>
+<p>url: <a target="_blank" rel="noopener" href="http://localhost.com/index.php/rest/V1/products">http://localhost.com/index.php/rest/V1/products</a></p>
+</blockquote>
+<p>In order to display all products, you need to have at least one criteria sent to the Rest endpoint. If you have more than 1000 items, you could loop through the pages (although any example with &gt; 1000 items would require more work to deal with that amount of data).</p>
+<p><strong>意思就是：</strong>为了显示所有产品，至少需要向Rest端点发送一个条件。如果您有超过1000个条目，您可以循环遍历页面(尽管使用&gt; 1000个条目的任何示例都需要更多的工作来处理这些数据)。</p>
+<p><strong>于是正解在这里：</strong></p>
+<blockquote>
+<p>You need to add searchCriteria field name at the end of your url as follows:</p>
+<p>$url = ‘<a target="_blank" rel="noopener" href="http://localhost.com/index.php/rest/V1/products?searchCriteria&#39;">http://localhost.com/index.php/rest/V1/products?searchCriteria&#39;</a>;</p>
+</blockquote>
+<p>所以笔者把url改成了如下：<code>http://www.yourdomain.com/rest/V1/products?searchCriteria</code></p>
+<p>点击再次发送，终于成功了。</p>
+<p><img src="https://i.imgur.com/L98qcwG.jpg"></p>
+<blockquote>
+<p>此处更新下：这里我们不禁会想，如果我的网站有成千上万个，会返回很多数据的，那么这个时候比如我想要获取自己定义的条数，比如获取5条，那么这个api的url怎么写？写法如下：<code>http://www.noctiuniversity.com/rest/V1/products?searchCriteria[pageSize]=5</code></p>
+</blockquote>
+<p>接着，我们再来测试一个试试。</p>
+<h2 id="获取产品分类的数据"><a href="#获取产品分类的数据" class="headerlink" title="获取产品分类的数据"></a>获取产品分类的数据</h2><p>url: <a target="_blank" rel="noopener" href="http://www.yourdomain.com/rest/V1/categories?searchCriteria">http://www.yourdomain.com/rest/V1/categories?searchCriteria</a></p>
+<p><img src="https://i.imgur.com/Nbk7THV.jpg"></p>
+<p>获取成功。</p>
+<h2 id="获取magento2网站的用户的token"><a href="#获取magento2网站的用户的token" class="headerlink" title="获取magento2网站的用户的token"></a>获取magento2网站的用户的token</h2><p>这个有点不一样，具体的敬请关注笔者的更新。</p>
+<p>我们根据教程走一下，还是一样的，我们先打开postman，然后我们在地址栏那里输入：<code>http://www.yourdomain.com/rest/V1/integration/customer/token</code>，请求方式采用POST，Authorization选项卡那里我们不需要设置任何方式，然后报错了，报错内容如下：</p>
+<pre><code>&#123;
+    &quot;message&quot;: &quot;One or more input exceptions have occurred.&quot;,
+    &quot;errors&quot;: [
+        &#123;
+            &quot;message&quot;: &quot;%fieldName is a required field.&quot;,
+            &quot;parameters&quot;: &#123;
+                &quot;fieldName&quot;: &quot;username&quot;
+            &#125;
+        &#125;,
+        &#123;
+            &quot;message&quot;: &quot;%fieldName is a required field.&quot;,
+            &quot;parameters&quot;: &#123;
+                &quot;fieldName&quot;: &quot;password&quot;
+            &#125;
+        &#125;
+    ]
+&#125;</code></pre>
+<p>这个很直观，就是缺少两个参数，username和password.</p>
+<blockquote>
+<p>这里要注意了，这个username不是用户名而是magento2网站中用户的登录邮箱，password就是登录的账号。这个一定要记住了，笔者就是在这个地方吃了不少亏。</p>
+</blockquote>
+<p>因此，正确的请求方式是：</p>
+<pre><code>http://www.yourdomain.com/rest/V1/integration/customer/token?username=zhangsan@qq.com&amp;password=123456</code></pre>
+<p>然后返回token字符串。</p>
+<p><img src="https://i.imgur.com/jnPiXP8.jpg"></p>
+<p><strong>总结获取网站后台的管理员token的方式就是：</strong></p>
+<blockquote>
+<p>method: POST</p>
+<p>url: <a target="_blank" rel="noopener" href="http://www.yourdomain.com/rest/V1/integration/customer/token?username=youremail&amp;password=yourpassword">http://www.yourdomain.com/rest/V1/integration/customer/token?username=youremail&amp;password=yourpassword</a></p>
+</blockquote>
+<h2 id="获取用户的数据"><a href="#获取用户的数据" class="headerlink" title="获取用户的数据"></a>获取用户的数据</h2><p>既然我们已经获取到了customer的token了，那么我们就可以接下来进行下一步的工作，来获取下用户的信息试试。比如获取某个用户的信息：</p>
+<p>根据api列表：</p>
+<pre><code>...
+POST   /V1/customers
+PUT    /V1/customers/:id
+PUT    /V1/customers/me
+GET    /V1/customers/me
+...</code></pre>
+<p>第一步：我们输入url地址：<code>http://www.yourdomain.com/rest/V1/customers/me</code></p>
+<p>第二步：选择method，那么选择get</p>
+<p>第三步：Authentication选项卡那里选择Bearer Token然后把前面获取的customer的token值填进去</p>
+<p><img src="https://i.imgur.com/AfbfFmK.jpg"></p>
+<p>第四步：这一步可以忽略，但是为了更加深刻的认识一下， 还是有必要说明，就是这里我们要设置一下token的过期时间，我们前往magento2网站的后台—店铺(stores)—设置(settings)—配置(configuration)—服务(services)—认证(OAuth)—Access Token Expiration，把这里留空或者设置更长的时间，这样以便测试。</p>
+<p>点击发送就可以获取到数据了：</p>
+<p><img src="https://i.imgur.com/LKIgzMO.jpg"></p>
+<h2 id="修改用户密码"><a href="#修改用户密码" class="headerlink" title="修改用户密码"></a>修改用户密码</h2><pre><code>method: PUT
+Authentication: Bearer Token(token的值就是前面获取的用户token)
+URL: http://www.noctiuniversity.com/rest/V1/customers/me/password</code></pre>
+<p>返回报错信息：</p>
+<pre><code>&#123;
+    &quot;message&quot;: &quot;One or more input exceptions have occurred.&quot;,
+    &quot;errors&quot;: [
+        &#123;
+            &quot;message&quot;: &quot;%fieldName is a required field.&quot;,
+            &quot;parameters&quot;: &#123;
+                &quot;fieldName&quot;: &quot;currentPassword&quot;
+            &#125;
+        &#125;,
+        &#123;
+            &quot;message&quot;: &quot;%fieldName is a required field.&quot;,
+            &quot;parameters&quot;: &#123;
+                &quot;fieldName&quot;: &quot;newPassword&quot;
+            &#125;
+        &#125;
+    ]
+&#125;</code></pre>
+<p>根据报错信息添加参数即可，这里很清楚，这是api是要设置用户密码，那么需要当前密码和新密码了。</p>
+<p><a target="_blank" rel="noopener" href="http://www.noctiuniversity.com/rest/V1/customers/me/password?currentPassword=123456&amp;newPassword=11223344">http://www.noctiuniversity.com/rest/V1/customers/me/password?currentPassword=123456&amp;newPassword=11223344</a></p>
+<blockquote>
+<p>同样的道理，我们不能仅仅只看rest api的列表，还要从调用这个api中报错中学习，报了哪些错误，需要补充什么参数，我们直接根据这个报错然后补充缺少的信息，即可获取到我们想要的数据了。</p>
+</blockquote>
+<h2 id="获取后台客户订单"><a href="#获取后台客户订单" class="headerlink" title="获取后台客户订单"></a>获取后台客户订单</h2><p>首先我们先看下这个是属于token的，后台订单，这个是跟后台管理员有关的，所以获取订单信息的时候，就先获取后台管理员的token，获取完毕后，我们就跟着api列表走了。</p>
+<pre><code>method: GET
+Authentication: Bearer Token(token的值就是前面获取的网站后台管理员的token)
+URL: http://www.noctiuniversity.com/rest/V1/orders</code></pre>
+<p>点击发送后也是报错，</p>
+<pre><code>&#123;
+    &quot;message&quot;: &quot;%fieldName is a required field.&quot;,
+    &quot;parameters&quot;: &#123;
+        &quot;fieldName&quot;: &quot;searchCriteria&quot;
+    &#125;
+&#125;</code></pre>
+<p><img src="https://i.imgur.com/HMfBDlr.jpg"></p>
+<p>这个正是前面我们碰到的，把这个参数追加到url后面即可。即：<code>http://www.noctiuniversity.com/rest/V1/orders?searchCriteria</code></p>
+<p>其他的方式相似，大家可以多尝试，如果有什么新的发现可以一起交流，本文会持续更新，敬请期待。</p>
+<hr>
+<p>**update:2019/3/30 18:09:55 **</p>
+<h2 id="获取产品的sku列表"><a href="#获取产品的sku列表" class="headerlink" title="获取产品的sku列表"></a>获取产品的sku列表</h2><p>我们前面实践的是很常规的那种，如果只是获取某一个字段的信息呢？比如获取所有产品的sku，那么怎么做？</p>
+<p>首先：我们查看rest api列表：</p>
+<pre><code>GET    /V1/products/:sku</code></pre>
+<p>单纯这样输入是不行的，会报错，后来google了下，<a target="_blank" rel="noopener" href="https://github.com/magento/magento2/issues/3463">找到答案</a>，正确请求地址应该这样写：</p>
+<pre><code>http://www.yourdomain.com/rest/V1/products?fields=items[sku]&amp;searchCriteria</code></pre>
+<p>结果就是一个sku的列表：</p>
+<pre><code>&#123;
+    &quot;items&quot;: [
+        &#123;
+            &quot;sku&quot;: &quot;rouguanludeng&quot;
+        &#125;,
+        &#123;
+            &quot;sku&quot;: &quot;WWER2224&quot;
+        &#125;,
+        &#123;
+            &quot;sku&quot;: &quot;KKLPUTY567&quot;
+        &#125;,
+        &#123;
+            &quot;sku&quot;: &quot;EEW99882&quot;
+        &#125;,
+        &#123;
+            &quot;sku&quot;: &quot;KKJ894&quot;
+        &#125;,
+        &#123;
+            &quot;sku&quot;: &quot;xlbbjb&quot;
+        &#125;,
+        &#123;
+            &quot;sku&quot;: &quot;gaoqingshexiangtou&quot;
+        &#125;,
+        &#123;
+            &quot;sku&quot;: &quot;ewrtweqingshexi&quot;
+        &#125;
+    ]
+&#125;</code></pre>
+<p>为了弄明白为啥这样写，我们不妨先获取所有产品列表，里面就会有个sku的字段，请看如下片段：</p>
+<pre><code>&#123;
+    &quot;items&quot;: [
+        &#123;
+            &quot;id&quot;: 1,
+            &quot;sku&quot;: &quot;rouguanludeng&quot;,
+            &quot;name&quot;: &quot;柔光路灯&quot;,
+            &quot;attribute_set_id&quot;: 4,
+            &quot;price&quot;: 0.1,
+            &quot;status&quot;: 1,
+            &quot;visibility&quot;: 4,
+            &quot;type_id&quot;: &quot;simple&quot;,
+            &quot;created_at&quot;: &quot;2019-03-13 03:14:28&quot;,
+            &quot;updated_at&quot;: &quot;2019-03-13 03:14:28&quot;,
+            &quot;extension_attributes&quot;: [],
+            ...
+      &#125;],
+    &quot;search_criteria&quot;: &#123;
+        &quot;filter_groups&quot;: []
+    &#125;,
+    &quot;total_count&quot;: 8
+&#125;</code></pre>
+<p>这样就不难理解这样调用的原因了。还有很重要的是如果好好思考以上的那个调用我们就可以明白老外说的：</p>
+<pre><code>http://www.yourdomain.com/rest/V1/orders?searchCriteria[filter_groups][0][filters][0][field]=entity_id</code></pre>
+<p>这个里面就有个参数的调用方式。逐渐的就能够学习文档中的参数调用方式了。</p>
+<h2 id="在调用rest-api的时候的报错"><a href="#在调用rest-api的时候的报错" class="headerlink" title="在调用rest api的时候的报错"></a>在调用rest api的时候的报错</h2><pre><code>Magento 2 did not sign in correctly or your account is temporarily disabled</code></pre>
+<p>这个报错通常是在获取用户token的时候发生的，首先我们先确保我们的这个用户没有被锁住，就是locked.</p>
+<p>google了下，找到这样的答复：</p>
+<blockquote>
+<p>After some search on internet i found that due to security reason Magento have introduced account disabled functionality with considering security of business.</p>
+</blockquote>
+<blockquote>
+<p>Here is how you can unlock and Go to your Magento root folder via FTP, SSH or SFTP</p>
+</blockquote>
+<blockquote>
+<p>Then Run following command</p>
+</blockquote>
+<blockquote>
+<p> php bin/magento admin:user:unlock ADMINUSERNAME</p>
+</blockquote>
+<blockquote>
+<p>Or jump in to bin directory from magento root: cd bin/</p>
+</blockquote>
+<blockquote>
+<p>and then run command</p>
+</blockquote>
+<blockquote>
+<p>php magento admin:user:unlock ADMINUSERNAME</p>
+</blockquote>
+<p>就是为这个用户解锁，当然我们可以在网站的后台进行设置解除锁定即可。大家可以参考这个网址：<a target="_blank" rel="noopener" href="http://devdocs.magento.com/guides/v2.0/install-gde/install/cli/install-cli-subcommands-admin.html">http://devdocs.magento.com/guides/v2.0/install-gde/install/cli/install-cli-subcommands-admin.html</a></p>
+<p>本文持续更新，敬请关注。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/43/">43</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

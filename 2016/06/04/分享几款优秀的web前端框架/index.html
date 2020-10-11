@@ -1,37 +1,446 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="从事web前端已经有一些时间了，解决过不少棘手的问题，现在回头想想曾经的麻烦都是因为缺少充分的准备，试想一下，如果当初能够准备好充分的UI库，充分的资源，能够多点时间去了解一些优秀的UI库是不是能够面临新的问题的时候能够快速地给出很好的解决方案，记得曾经就遇到过一个问题，结果客户那边催促得紧，这边还没找到一个良好的解决方案，这种心情就像热锅上的蚂蚁。 中间省略部分废话… 首先要推荐的就是的弹窗U">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分享几款优秀的web前端框架">
+<meta property="og:url" content="http://example.com/2016/06/04/%E5%88%86%E4%BA%AB%E5%87%A0%E6%AC%BE%E4%BC%98%E7%A7%80%E7%9A%84web%E5%89%8D%E7%AB%AF%E6%A1%86%E6%9E%B6/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="从事web前端已经有一些时间了，解决过不少棘手的问题，现在回头想想曾经的麻烦都是因为缺少充分的准备，试想一下，如果当初能够准备好充分的UI库，充分的资源，能够多点时间去了解一些优秀的UI库是不是能够面临新的问题的时候能够快速地给出很好的解决方案，记得曾经就遇到过一个问题，结果客户那边催促得紧，这边还没找到一个良好的解决方案，这种心情就像热锅上的蚂蚁。 中间省略部分废话… 首先要推荐的就是的弹窗U">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://i.imgur.com/Bb4WFUh.jpg">
+<meta property="article:published_time" content="2016-06-04T08:42:41.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:53:04.015Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="web前端框架">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://i.imgur.com/Bb4WFUh.jpg">
+
+<link rel="canonical" href="http://example.com/2016/06/04/%E5%88%86%E4%BA%AB%E5%87%A0%E6%AC%BE%E4%BC%98%E7%A7%80%E7%9A%84web%E5%89%8D%E7%AB%AF%E6%A1%86%E6%9E%B6/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>分享几款优秀的web前端框架 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/06/04/%E5%88%86%E4%BA%AB%E5%87%A0%E6%AC%BE%E4%BC%98%E7%A7%80%E7%9A%84web%E5%89%8D%E7%AB%AF%E6%A1%86%E6%9E%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          分享几款优秀的web前端框架
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-06-04 16:42:41" itemprop="dateCreated datePublished" datetime="2016-06-04T16:42:41+08:00">2016-06-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:04" itemprop="dateModified" datetime="2020-10-11T11:53:04+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="http://i.imgur.com/Bb4WFUh.jpg"></p>
+<p>从事web前端已经有一些时间了，解决过不少棘手的问题，现在回头想想曾经的麻烦都是因为缺少充分的准备，试想一下，如果当初能够准备好充分的UI库，充分的资源，能够多点时间去了解一些优秀的UI库是不是能够面临新的问题的时候能够快速地给出很好的解决方案，记得曾经就遇到过一个问题，结果客户那边催促得紧，这边还没找到一个良好的解决方案，这种心情就像热锅上的蚂蚁。</p>
+<p>中间省略部分废话…</p>
+<p>首先要推荐的就是的弹窗UI框架layerUI，用过的朋友会觉得非常省时间，尤其是在一些修改网站的局部效果的时候会用得上，与其各个地去添加js代码，还不如直接引用这个框架来得省事，当然这里提醒一下，对于初学者不建议过于依赖这些UI框架。</p>
+<p>参考网址：<a target="_blank" rel="noopener" href="http://layer.layui.com/">http://layer.layui.com/</a></p>
+<p>下载地址：<a target="_blank" rel="noopener" href="http://pan.baidu.com/s/1eSuLke2">http://pan.baidu.com/s/1eSuLke2</a>   密码：pp0z</p>
+<p>引用官网的话说：</p>
+<blockquote>
+<p>layer是一款近年来备受青睐的web弹层组件，她具备全方位的解决方案，致力于服务各水平段的开发人员，您的页面会轻松地拥有丰富友好的操作体验。<br>在与同类组件的比较中，layer总是能轻易获胜。她尽可能地在以更少的代码展现更强健的功能，且格外注重性能的提升、易用和实用性，正因如此，越来越多的开发者将媚眼投上了layer（已被2772810人次关注）。layer兼容了包括IE6在内的所有主流浏览器。 她数量可观的接口，使得您可以自定义太多您需要的风格，每一种弹层模式各具特色，广受欢迎。当然，这种“王婆卖瓜”的陈述听起来总是有点难受，因此你需要进一步了解她是否真的如你所愿。</p>
+</blockquote>
+<p>当我们在官网下载他们的demo后你就会发现，其实引用这个是相当方便的，头部需要的引用的文件如下：</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot; src=&quot;js/jquery-2.2.3.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;layer/layer.js&quot;&gt;&lt;/script&gt;</code></pre>
+<p>中间是一些HTML代码，当然其中也可以添加一些js代码，这里我以图片相册功能为例，添加三个ID中的图片相册功能，代码如下：</p>
+<pre><code>&lt;script&gt;
+    +!function()&#123;
+        layer.ready(function()&#123;
+            layer.photos(&#123;
+                photos:&#39;#LayerPhoto&#39;
+            &#125;);
+        &#125;);
+    &#125;()
+&lt;/script&gt;
+
+&lt;script&gt;
+    +!function()&#123;
+        layer.ready(function()&#123;
+            layer.photos(&#123;
+                photos:&#39;#zb-tupian&#39;
+            &#125;);
+        &#125;);
+    &#125;()
+&lt;/script&gt;
+
+&lt;script&gt;
+    +!function()&#123;
+        layer.ready(function()&#123;
+            layer.photos(&#123;
+                photos:&#39;#zb-zhaopian&#39;
+            &#125;);
+        &#125;);
+    &#125;()
+&lt;/script&gt;</code></pre>
+<p>完整的demo下载地址：<a target="_blank" rel="noopener" href="http://pan.baidu.com/s/1pL9vUCb">http://pan.baidu.com/s/1pL9vUCb</a>     密码：fivl</p>
+<p>中间的一些写法大家可以直接参考官网的文档，针对不同的弹窗效果遵守不同的写法。</p>
+<p><strong>第二个值得推荐的web前端框架是：jQuery WeUI</strong></p>
+<p>相对于bootstrap而言，这个框架算是比较轻量级的了，他们的功能大同小异，随着UI框架的使用，遵循的原则大致相同，即先去官网下载这个库，把下载的这个库根据官网的使用说明对这个库的引用，然后根据使用规则也就是所谓的API，把他们的API用在HTML文件的各个角落，然后在浏览器上打开这个html文件，刷新一下就可以看到奇迹发生了，用了一遍之后，你会发现你快爱上它了…</p>
+<p>好吧，废话少说，把这个库的官网给贴上：<a target="_blank" rel="noopener" href="http://lihongxun945.github.io/jquery-weui/">http://lihongxun945.github.io/jquery-weui/</a></p>
+<p>jQuery WeUI的下载地址：<a target="_blank" rel="noopener" href="http://pan.baidu.com/s/1jI4g2lK">http://pan.baidu.com/s/1jI4g2lK</a>     密码：wlwi</p>
+<p>这里再把这个库的demo地址贴上：<a target="_blank" rel="noopener" href="http://lihongxun945.github.io/jquery-weui/dist/demos/">http://lihongxun945.github.io/jquery-weui/dist/demos/</a></p>
+<p>先去体验一把，看看是不是自己想要的那种效果，然后再使用也不迟，嘻嘻<del>~</del></p>
+<p>第三个值得推荐的：还没被发现。如果看过这篇文章的读者，发现了有值得推荐的web前端框架，请打电话告诉我，我给你打赏。</p>
+<p>如果你觉得我是在你学习的道路上值得交往的同学，请把你更好的库发一份到我的邮箱：<a href="mailto:&#55;&#x39;&#x31;&#x34;&#52;&#x37;&#x37;&#55;&#49;&#x40;&#x71;&#113;&#46;&#x63;&#x6f;&#x6d;">&#55;&#x39;&#x31;&#x34;&#52;&#x37;&#x37;&#55;&#49;&#x40;&#x71;&#113;&#46;&#x63;&#x6f;&#x6d;</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/web%E5%89%8D%E7%AB%AF%E6%A1%86%E6%9E%B6/" rel="tag"># web前端框架</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2016/04/29/%E4%B8%BAwordpress%E8%AE%BE%E8%AE%A1%E5%90%8E%E5%8F%B0%E7%99%BB%E5%BD%95%E7%95%8C%E9%9D%A2%E5%92%8C%E6%9B%B4%E6%8D%A2logo/" rel="prev" title="为wordpress设计后台登录界面和更换logo">
+      <i class="fa fa-chevron-left"></i> 为wordpress设计后台登录界面和更换logo
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2016/06/29/web%E5%89%8D%E7%AB%AF%E4%B8%AD%E5%A6%82%E4%BD%95%E5%88%B6%E4%BD%9C%E4%B8%80%E4%B8%AA%E7%82%B9%E5%87%BB%E9%A1%B5%E9%9D%A2%E5%B7%A6%E4%BE%A7%E6%98%BE%E7%A4%BA%E5%9C%A8%E5%8F%B3%E4%BE%A7%E7%9A%84%E7%AD%89%E9%AB%98%E6%95%88%E6%9E%9C/" rel="next" title="web前端中如何制作一个点击页面左侧显示在右侧的等高效果">
+      web前端中如何制作一个点击页面左侧显示在右侧的等高效果 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,37 +1,450 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="这篇文章主要介绍了几个优化WordPress中JavaScript加载体验的插件,一般来说在WordPress中加载JavaScript最好使用wp_enqueue_script()函数以减少问题提高效率,需要的朋友可以参考下。 WordPress 本身以及主题和插件通常需要加载一些 JavaScript 来实现某些特殊功能。为了最大限度地保证兼容性，不至于出现 JavaScript 失效的情况，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="几个优化WordPress中JavaScript加载体验的插件介绍">
+<meta property="og:url" content="http://example.com/2017/02/14/%E5%87%A0%E4%B8%AA%E4%BC%98%E5%8C%96WordPress%E4%B8%ADJavaScript%E5%8A%A0%E8%BD%BD%E4%BD%93%E9%AA%8C%E7%9A%84%E6%8F%92%E4%BB%B6%E4%BB%8B%E7%BB%8D/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="这篇文章主要介绍了几个优化WordPress中JavaScript加载体验的插件,一般来说在WordPress中加载JavaScript最好使用wp_enqueue_script()函数以减少问题提高效率,需要的朋友可以参考下。 WordPress 本身以及主题和插件通常需要加载一些 JavaScript 来实现某些特殊功能。为了最大限度地保证兼容性，不至于出现 JavaScript 失效的情况，">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-02-14T14:52:34.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:53:01.585Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="优化WordPress,JavaScript加载">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2017/02/14/%E5%87%A0%E4%B8%AA%E4%BC%98%E5%8C%96WordPress%E4%B8%ADJavaScript%E5%8A%A0%E8%BD%BD%E4%BD%93%E9%AA%8C%E7%9A%84%E6%8F%92%E4%BB%B6%E4%BB%8B%E7%BB%8D/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>几个优化WordPress中JavaScript加载体验的插件介绍 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/02/14/%E5%87%A0%E4%B8%AA%E4%BC%98%E5%8C%96WordPress%E4%B8%ADJavaScript%E5%8A%A0%E8%BD%BD%E4%BD%93%E9%AA%8C%E7%9A%84%E6%8F%92%E4%BB%B6%E4%BB%8B%E7%BB%8D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          几个优化WordPress中JavaScript加载体验的插件介绍
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-02-14 22:52:34" itemprop="dateCreated datePublished" datetime="2017-02-14T22:52:34+08:00">2017-02-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:01" itemprop="dateModified" datetime="2020-10-11T11:53:01+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这篇文章主要介绍了几个优化WordPress中JavaScript加载体验的插件,一般来说在WordPress中加载JavaScript最好使用wp_enqueue_script()函数以减少问题提高效率,需要的朋友可以参考下。</p>
+<p>WordPress 本身以及主题和插件通常需要加载一些 JavaScript 来实现某些特殊功能。为了最大限度地保证兼容性，不至于出现 JavaScript 失效的情况，所以一般在页头加载 JavaScript 文件。但是根据 Yahoo 开发者论坛的建议，加载 JavaScript 应该尽量在页尾以提高页面的显示（响应、渲染）速度。本文根据作者的使用经验介绍几个相关插件，并说明如何在某些特殊页面仍然在页头加载 JavaScript。</p>
+<p>下面先简单介绍几个相关的优化 JavaScript 的 WordPress 插件及特点，然后演示如何处理一些特殊情况。</p>
+<p><strong>一. 优化JavaScript的WordPress插件</strong></p>
+<p>我曾经用过 WP Minify、Autoptimize、JavaScript to Footer这三个插件，下面一一介绍其特点。</p>
+<p><strong>1. WP Minify</strong></p>
+<p>这个插件将 Minify 引擎整合到 WordPress 中。一经启用，该插件就能够合并和压缩你的 JS 和 CSS 文件来提高页面的加载速度。</p>
+<p>WP Minify 能够抓取生成的 WordPress 页面中的 JS/CSS 文件，将文件列表传递给 Minify 引擎。</p>
+<p>Minify 引擎处理后返回一个加强、精简并经过压缩的 JavaScript 或样式表文件（CSS），由 WP Minify 将其替换到 WordPress 页头中。</p>
+<p>其主要特点是：</p>
+<pre><code>易于使用；
+对 JavaScript、CSS 和 HTML 均有效；
+提供了调试工具；
+能够处理外部 JS 和 CSS 文件；
+能够排除指定 JS 和 CSS 文件；
+能够指定处理后的 JS 和 CSS 文件的位置（页头或页尾，甚至别的地方）；
+可对处理后的 JS 和 CSS 文件添加过期时间等。</code></pre>
+<p>当 WordPress 3.1 测试版出来后，我发现 WP Minify 与之不兼容，会导致网站无法正确加载。</p>
+<p><strong>2. Autoptimize</strong></p>
+<p>也许将来 WP Minify 升级后会解决不兼容问题，但是我等不及了。后来找到了 Autoptimize 这个具有类似功能的插件，而且这个插件操作更简单。</p>
+<p>Autoptimize 整合、精简并压缩所有的 JS 和 样式表（CSS）文件，增加缓存过期标志。然后将样式表文件放到页头（同样是为了提高页面加载效率），并将 JS 文件放到页尾。它还能够精简 HTML 代码，给你的页面瘦身。不过我觉得给 HTML 页面瘦身作用不是很明显，只要你的服务器开启了 Gzip 压缩特性就没必要这么做了。</p>
+<p>默认情况下，Autoptimize 会按照上面介绍的方式优化所有 HTML/CSS/JavaScript 。</p>
+<p>我个人觉得，Autoptimize 是比 WP Minify 更好用的 WordPress 优化插件。</p>
+<p><strong>3. JavaScript to Footer</strong></p>
+<p>这个插件写的非常简洁。我查看了源代码，完成任务的代码只有 6 个 WordPress 函数（见下文），也就是 6 行。所以这个插件从创建之后就怎么更新过。我一开始就因为见它最后更改日期还停留在2009年9月22日，所以把它给忽略了。</p>
+<p>但是它仅仅优化 JavaScript 的加载位置，也就是将所有在 WordPress 中正确声明了的 Javascript 文件都给移到页面末尾来加载。它没有对 HTML 代码和 CSS 样式表文件作任何处理。<br>根据 JavaScript to Footer 的源代码，它使用下面的 6 行代码来完成工作：</p>
+<pre><code>remove_action(&#39;wp_head&#39;, &#39;wp_print_scripts&#39;);
+remove_action(&#39;wp_head&#39;, &#39;wp_print_head_scripts&#39;, 9);
+remove_action(&#39;wp_head&#39;, &#39;wp_enqueue_scripts&#39;, 1);
+add_action(&#39;wp_footer&#39;, &#39;wp_print_scripts&#39;, 5);
+add_action(&#39;wp_footer&#39;, &#39;wp_enqueue_scripts&#39;, 5);
+add_action(&#39;wp_footer&#39;, &#39;wp_print_head_scripts&#39;, 5);</code></pre>
+<p>如果有需要，可以在某个特定 WordPress 模板的 wp_head() 函数前加入下面的代码，将上述过程逆转过来，也就是使之失效，恢复成了本来的加载位置：</p>
+<pre><code>remove_action(&#39;wp_footer&#39;, &#39;wp_print_scripts&#39;, 5);
+remove_action(&#39;wp_footer&#39;, &#39;wp_enqueue_scripts&#39;, 5);
+remove_action(&#39;wp_footer&#39;, &#39;wp_print_head_scripts&#39;, 5);
+add_action(&#39;wp_head&#39;, &#39;wp_print_scripts&#39;);
+add_action(&#39;wp_head&#39;, &#39;wp_print_head_scripts&#39;, 9);
+add_action(&#39;wp_head&#39;, &#39;wp_enqueue_scripts&#39;, 1);</code></pre>
+<p>当然只是说某些特定的页面模板，如果是所有页面，那干脆禁用该插件好了。</p>
+<p><strong>二. 使用方法</strong></p>
+<p>相信对于大多数 WPer 来说，看了前面的介绍就知道如何选择自己需要的优化插件并合理使用了。无非是基于以下三个方面来考虑：</p>
+<p>你的页面模板中是否使用了大量的 HTML 注释、空格、空行等标记？如果没有，那么你就不需要为了一点点（开启 Gzip 压缩时通常 1% 以下）的带宽节省而使用 HTML 精简功能；</p>
+<p>你的页面中是否加载了多个 CSS 样式表文件？如果没有，你也不需要通过插件来精简和整合 CSS 样式表，手工精简和整合 CSS 样式表比使用插件更加简单有效；</p>
+<p>基于 WordPress 默认会在页头中加载 JavaScript，一般的 WordPress 网站都需要对 JS 的加载位置进行优化。但是如果你大部分的页面也都需要在页面头部加载 JS 以保证不会出现 JS 失效的情况，那你就不能进行这样的优化了。</p>
+<p>在我看来，WP Minify 就不需要了，原因在前面已经说过了。那么剩下的 Autoptimize 和 JavaScript to Footer 可以选用其一或者两者配合使用（如果是配合使用，当然是使用前者的 HTML 和 CSS 精简/整合功能，而使用后者的 JS 位置控制功能，因为后者就这一个功能）。我只需要控制 JS 的加载位置，所以就选择了 JavaScript to Footer。因为我的页面中也就四五个 JS 文件，又是放到页尾加载，我觉得没必要进行整合。</p>
+<p><strong>三. 特殊情况处理</strong></p>
+<p>虽然将 JavaScript 文件都放到页面末尾加载对于页面加载速度很有帮助，但是请注意，所谓页面末尾指的是在 WordPress 的 wp_footer() 函数中调用，这个函数通常刚好位于页面的 </body> 标签前面（当然是末尾了）。</p>
+<p>有时候我们可能会在 wp_footer 函数出现之前就需要用到某些 JavaScript，比如 jquery.js 文件。<br>这样的情况也是很常见的。比如我单独创建了一个链接页面，在这个页面中我使用了 jQuery 方法来获取链接网站的 favicon。很显然，我只需要在这唯一一个页面使用这部分代码，所以将这段代码直接放在这个页面模板中是最好的做法。问题来了：这部分内容显然是在 wp_footer 之前出现的，那么这段代码就在 jquery.js 文件之前出现了，导致该代码段实际上无法工作，因为调用 jQuery 方法的代码段必须比 jquery.js 文件后加载。</p>
+<p>那么如何处理这种特殊情况呢？其实也很简单。以上面的情景为例，既然我们需要先调用 jquery.js 文件，那我们就在该代码段之前直接输出需要的 jquery.js 文件，不使用 wp_enqueue_script() 函数，而改用 wp_print_scripts() 函数。</p>
+<p>wp_enqueue_script() 与 wp_print_scripts() 的区别是：wp_enqueue_script() 是告诉 WordPress “我在这个页面上需要用到某个 JavaScript 文件，你可要记得加载啊”。WordPress 默认在 wp_head() 中处理，而我们改为在 wp_footer() 中处理。wp_print_scripts() 则直接在你使用此方法的位置输出需要的 JavaScript 文件，而不是加入到 WordPress 的处理任务中。</p>
+<p>如果我们在页面的中间使用，</p>
+<pre><code>&lt;?php wp_print_scripts(&#39;jquery&#39;); ?&gt;</code></pre>
+<p>直接输出了 jquery.js 文件（通常是其压缩版本 jquery.min.js），那么即使其它的插件或者什么东西使用，</p>
+<pre><code>&lt;?php wp_enqueue_script(&#39;jquery&#39;); ?&gt;</code></pre>
+<p>告诉 WordPress 需要加载 jquery.js，WordPress 在 wp_footer() 中处理的时候也会先检查前面是不是已经有了，如果有了就不会再重新加载一次。</p>
+<p><strong>四. 结论</strong></p>
+<p>在 WordPress 中加载 JavaScript 最好使用 wp_enqueue_script() 函数以减少问题提高效率。如果不是有这些特殊情况要处理，使用 Autoptimize 显然比较好，它全面完成任务而且使用简单。</p>
+<p>但是如果使用的主题本身已经很简洁了，那么 JavaScript to Footer 更简单高效，也就更好。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E4%BC%98%E5%8C%96WordPress-JavaScript%E5%8A%A0%E8%BD%BD/" rel="tag"># 优化WordPress,JavaScript加载</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/02/14/%E9%98%BF%E9%87%8C%E4%BA%91ecs%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%80%9A%E8%BF%87WDCP%E6%80%8E%E4%B9%88%E5%88%9B%E5%BB%BA%E5%A4%9A%E4%B8%AA%E7%BD%91%E7%AB%99%EF%BC%9F/" rel="prev" title="阿里云ecs服务器通过WDCP怎么创建多个网站？">
+      <i class="fa fa-chevron-left"></i> 阿里云ecs服务器通过WDCP怎么创建多个网站？
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/02/17/%E9%98%BF%E9%87%8C%E4%BA%91Linux%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85web%E7%8E%AF%E5%A2%83%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B/" rel="next" title="阿里云Linux一键安装web环境使用教程">
+      阿里云Linux一键安装web环境使用教程 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

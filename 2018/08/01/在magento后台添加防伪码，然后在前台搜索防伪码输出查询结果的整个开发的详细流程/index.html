@@ -1,37 +1,1781 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="当写完这篇文章后，那么在笔者开发magento的历史上注定是一个里程碑的意义。笔者借助这个东西大致的明白了一个模块是如何开发的，又是如何在网站的后台添加数据到数据库的，然后又是如何被在前台读取出来的，整个过程很清楚的说明了这个模块是如何工作的。好的铺垫到此结束，我们开始吧。 1、首先在local下创建新的模块，依次创建如下文件或者文件夹： app&#x2F;code&#x2F;local&#x2F;Voodoo&#x2F;Fan&#x2F;Blo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在magento后台添加防伪码，然后在前台搜索防伪码输出查询结果，以及后台添加图片和上传文件等功能的整个开发的详细流程">
+<meta property="og:url" content="http://example.com/2018/08/01/%E5%9C%A8magento%E5%90%8E%E5%8F%B0%E6%B7%BB%E5%8A%A0%E9%98%B2%E4%BC%AA%E7%A0%81%EF%BC%8C%E7%84%B6%E5%90%8E%E5%9C%A8%E5%89%8D%E5%8F%B0%E6%90%9C%E7%B4%A2%E9%98%B2%E4%BC%AA%E7%A0%81%E8%BE%93%E5%87%BA%E6%9F%A5%E8%AF%A2%E7%BB%93%E6%9E%9C%E7%9A%84%E6%95%B4%E4%B8%AA%E5%BC%80%E5%8F%91%E7%9A%84%E8%AF%A6%E7%BB%86%E6%B5%81%E7%A8%8B/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="当写完这篇文章后，那么在笔者开发magento的历史上注定是一个里程碑的意义。笔者借助这个东西大致的明白了一个模块是如何开发的，又是如何在网站的后台添加数据到数据库的，然后又是如何被在前台读取出来的，整个过程很清楚的说明了这个模块是如何工作的。好的铺垫到此结束，我们开始吧。 1、首先在local下创建新的模块，依次创建如下文件或者文件夹： app&#x2F;code&#x2F;local&#x2F;Voodoo&#x2F;Fan&#x2F;Blo">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/0gaSJuO.png">
+<meta property="og:image" content="https://i.imgur.com/eha7Ccn.png">
+<meta property="og:image" content="https://i.imgur.com/eZc65nR.png">
+<meta property="og:image" content="https://i.imgur.com/KnDV1gI.png">
+<meta property="og:image" content="https://i.imgur.com/TldFj6A.png">
+<meta property="og:image" content="https://i.imgur.com/eha7Ccn.png">
+<meta property="og:image" content="https://i.imgur.com/qeI1A91.png">
+<meta property="og:image" content="https://i.imgur.com/mnx2LGr.png">
+<meta property="og:image" content="https://i.imgur.com/YStFLa7.png">
+<meta property="og:image" content="https://i.imgur.com/Jb6xNJa.png">
+<meta property="og:image" content="https://i.imgur.com/iFvzYFT.png">
+<meta property="og:image" content="https://i.imgur.com/iX31RFH.png">
+<meta property="og:image" content="https://i.imgur.com/QHQdrod.png">
+<meta property="og:image" content="https://i.imgur.com/OwZLBFw.png">
+<meta property="og:image" content="https://i.imgur.com/NemeAYT.png">
+<meta property="article:published_time" content="2018-08-01T08:05:58.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:04.664Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="magento,防伪码,后台添加内容,前台显示内容,文件上传,图片上传,模块开发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/0gaSJuO.png">
+
+<link rel="canonical" href="http://example.com/2018/08/01/%E5%9C%A8magento%E5%90%8E%E5%8F%B0%E6%B7%BB%E5%8A%A0%E9%98%B2%E4%BC%AA%E7%A0%81%EF%BC%8C%E7%84%B6%E5%90%8E%E5%9C%A8%E5%89%8D%E5%8F%B0%E6%90%9C%E7%B4%A2%E9%98%B2%E4%BC%AA%E7%A0%81%E8%BE%93%E5%87%BA%E6%9F%A5%E8%AF%A2%E7%BB%93%E6%9E%9C%E7%9A%84%E6%95%B4%E4%B8%AA%E5%BC%80%E5%8F%91%E7%9A%84%E8%AF%A6%E7%BB%86%E6%B5%81%E7%A8%8B/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>在magento后台添加防伪码，然后在前台搜索防伪码输出查询结果，以及后台添加图片和上传文件等功能的整个开发的详细流程 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/08/01/%E5%9C%A8magento%E5%90%8E%E5%8F%B0%E6%B7%BB%E5%8A%A0%E9%98%B2%E4%BC%AA%E7%A0%81%EF%BC%8C%E7%84%B6%E5%90%8E%E5%9C%A8%E5%89%8D%E5%8F%B0%E6%90%9C%E7%B4%A2%E9%98%B2%E4%BC%AA%E7%A0%81%E8%BE%93%E5%87%BA%E6%9F%A5%E8%AF%A2%E7%BB%93%E6%9E%9C%E7%9A%84%E6%95%B4%E4%B8%AA%E5%BC%80%E5%8F%91%E7%9A%84%E8%AF%A6%E7%BB%86%E6%B5%81%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          在magento后台添加防伪码，然后在前台搜索防伪码输出查询结果，以及后台添加图片和上传文件等功能的整个开发的详细流程
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-08-01 16:05:58" itemprop="dateCreated datePublished" datetime="2018-08-01T16:05:58+08:00">2018-08-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:04" itemprop="dateModified" datetime="2020-10-11T11:58:04+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>当写完这篇文章后，那么在笔者开发magento的历史上注定是一个里程碑的意义。笔者借助这个东西大致的明白了一个模块是如何开发的，又是如何在网站的后台添加数据到数据库的，然后又是如何被在前台读取出来的，整个过程很清楚的说明了这个模块是如何工作的。好的铺垫到此结束，我们开始吧。</p>
+<p>1、首先在local下创建新的模块，依次创建如下文件或者文件夹：</p>
+<pre><code>app/code/local/Voodoo/Fan/Block
+app/code/local/Voodoo/Fan/Block/Adminhtml
+app/code/local/Voodoo/Fan/Block/Adminhtml/Fan
+app/code/local/Voodoo/Fan/Block/Adminhtml/Fan/Edit
+app/code/local/Voodoo/Fan/Block/Adminhtml/Fan/Edit/Tab
+app/code/local/Voodoo/Fan/Block/Adminhtml/Fan/Edit/Tab/Form.php
+app/code/local/Voodoo/Fan/Block/Adminhtml/Fan/Edit/Form.php
+app/code/local/Voodoo/Fan/Block/Adminhtml/Fan/Edit/Tabs.php
+app/code/local/Voodoo/Fan/Block/Adminhtml/Fan/Edit.php
+app/code/local/Voodoo/Fan/Block/Adminhtml/Fan/Grid.php
+app/code/local/Voodoo/Fan/Block/Adminhtml/Edit.php
+app/code/local/Voodoo/Fan/Block/Adminhtml/Fan.php
+app/code/local/Voodoo/Fan/Block/Fan.php
+app/code/local/Voodoo/Fan/controllers
+app/code/local/Voodoo/Fan/controllers/Adminhtml
+app/code/local/Voodoo/Fan/controllers/Adminhtml/FanController.php
+app/code/local/Voodoo/Fan/controllers/IndexController.php
+app/code/local/Voodoo/Fan/etc
+app/code/local/Voodoo/Fan/etc/config.xml
+app/code/local/Voodoo/Fan/Helper
+app/code/local/Voodoo/Fan/Helper/Data.php
+app/code/local/Voodoo/Fan/Model
+app/code/local/Voodoo/Fan/Model/Mysql4
+app/code/local/Voodoo/Fan/Model/Mysql4/Fan
+app/code/local/Voodoo/Fan/Model/Mysql4/Fan/Collection.php
+app/code/local/Voodoo/Fan/Model/Mysql4/Fan.php
+app/code/local/Voodoo/Fan/Model/Fan.php
+app/code/local/Voodoo/Fan/Model/Status.php
+app/code/local/Voodoo/Fan/sql
+app/code/local/Voodoo/Fan/sql/fan_setup
+app/code/local/Voodoo/Fan/sql/fan_setup/mysql4-install-0.1.0.php</code></pre>
+<p>Voodoo是命名空间，Fan是模块名，通常一个标准的模块有六个文件夹：Block,controllers,etc,Model,Helper,sql</p>
+<p>另外，我们需要在magento的数据库中创建一个数据表，笔者这里命名为：fan，fan.sql语句如下：</p>
+<pre><code>SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for fan
+-- ----------------------------
+DROP TABLE IF EXISTS `fan`;
+CREATE TABLE `fan` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `bianma` varchar(255) NOT NULL DEFAULT &#39;&#39;,
+  `brand` text NOT NULL,
+  `content` text NOT NULL,
+  `company` text NOT NULL,
+  `filename` varchar(255) NOT NULL DEFAULT &#39;&#39;,
+  `user` text NOT NULL,
+  `status` smallint(6) NOT NULL DEFAULT &#39;0&#39;,
+  `created_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of fan
+-- ----------------------------
+INSERT INTO `fan` VALUES (&#39;1&#39;, &#39;234&#39;, &#39;naike&#39;, &#39;防伪码认证机构&#39;, &#39;三国集团&#39;,&#39;&#39;, &#39;刘备&#39;, &#39;1&#39;, &#39;2018-08-01 08:08:21&#39;, &#39;2018-08-01 08:08:21&#39;);
+INSERT INTO `fan` VALUES (&#39;2&#39;, &#39;235&#39;, &#39;nocti&#39;, &#39;防伪码认证机构&#39;, &#39;梁山集团&#39;,&#39;&#39;, &#39;宋江&#39;, &#39;1&#39;, &#39;2018-07-27 11:36:25&#39;, &#39;2018-07-27 11:36:25&#39;);</code></pre>
+<p>好的，我们创建好这些文件的时候，先在网站的配置目录下创建一个激活这个模块的配置文件，来到目录：</p>
+<pre><code>app/etc/modules/</code></pre>
+<p>创建文件：Voodoo_Fan.xml，添加代码：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;config&gt;
+    &lt;modules&gt;
+        &lt;Voodoo_Fan&gt;
+            &lt;active&gt;true&lt;/active&gt;
+            &lt;codePool&gt;local&lt;/codePool&gt;
+        &lt;/Voodoo_Fan&gt;
+    &lt;/modules&gt;
+&lt;/config&gt;</code></pre>
+<p>接着，我们打开app/code/local/Voodoo/Fan/etc/config.xml这个文件，加入代码：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;config&gt;
+    &lt;modules&gt;
+        &lt;Voodoo_Fan&gt;
+            &lt;version&gt;0.1.0&lt;/version&gt;
+        &lt;/Voodoo_Fan&gt;
+    &lt;/modules&gt;
+    &lt;frontend&gt;
+        &lt;routers&gt;
+            &lt;fan&gt;
+                &lt;use&gt;standard&lt;/use&gt;
+                &lt;args&gt;
+                    &lt;module&gt;Voodoo_Fan&lt;/module&gt;
+                    &lt;frontName&gt;fan&lt;/frontName&gt;
+                &lt;/args&gt;
+            &lt;/fan&gt;
+        &lt;/routers&gt;
+        &lt;layout&gt;
+            &lt;updates&gt;
+                &lt;fan&gt;
+                    &lt;file&gt;fan.xml&lt;/file&gt;
+                &lt;/fan&gt;
+            &lt;/updates&gt;
+        &lt;/layout&gt;
+    &lt;/frontend&gt;
+    &lt;admin&gt;
+        &lt;routers&gt;
+            &lt;fan&gt;
+                &lt;use&gt;admin&lt;/use&gt;
+                &lt;args&gt;
+                    &lt;module&gt;Voodoo_Fan&lt;/module&gt;
+                    &lt;frontName&gt;fan&lt;/frontName&gt;
+                &lt;/args&gt;
+            &lt;/fan&gt;
+        &lt;/routers&gt;
+    &lt;/admin&gt;
+    &lt;adminhtml&gt;
+        &lt;menu&gt;
+            &lt;fan module=&quot;fan&quot;&gt;
+                &lt;title&gt;防伪码&lt;/title&gt;
+                &lt;sort_order&gt;71&lt;/sort_order&gt;
+                &lt;children&gt;
+                    &lt;items module=&quot;fan&quot;&gt;
+                        &lt;title&gt;管理防伪码&lt;/title&gt;
+                        &lt;sort_order&gt;0&lt;/sort_order&gt;
+                        &lt;action&gt;fan/adminhtml_fan&lt;/action&gt;
+                    &lt;/items&gt;
+                &lt;/children&gt;
+            &lt;/fan&gt;
+        &lt;/menu&gt;
+        &lt;acl&gt;
+            &lt;resources&gt;
+                &lt;all&gt;
+                    &lt;title&gt;Allow Everything&lt;/title&gt;
+                &lt;/all&gt;
+                &lt;admin&gt;
+                    &lt;children&gt;
+                        &lt;Voodoo_Fan&gt;
+                            &lt;title&gt;防伪码模块&lt;/title&gt;
+                            &lt;sort_order&gt;10&lt;/sort_order&gt;
+                        &lt;/Voodoo_Fan&gt;
+                    &lt;/children&gt;
+                &lt;/admin&gt;
+            &lt;/resources&gt;
+        &lt;/acl&gt;
+        &lt;layout&gt;
+            &lt;updates&gt;
+                &lt;fan&gt;
+                    &lt;file&gt;fan.xml&lt;/file&gt;
+                &lt;/fan&gt;
+            &lt;/updates&gt;
+        &lt;/layout&gt;
+    &lt;/adminhtml&gt;
+    &lt;global&gt;
+        &lt;models&gt;
+            &lt;fan&gt;
+                &lt;class&gt;Voodoo_Fan_Model&lt;/class&gt;
+                &lt;resourceModel&gt;fan_mysql4&lt;/resourceModel&gt;
+            &lt;/fan&gt;
+            &lt;fan_mysql4&gt;
+                &lt;class&gt;Voodoo_Fan_Model_Mysql4&lt;/class&gt;
+                &lt;entities&gt;
+                    &lt;fan&gt;
+                        &lt;table&gt;fan&lt;/table&gt;
+                    &lt;/fan&gt;
+                &lt;/entities&gt;
+            &lt;/fan_mysql4&gt;
+        &lt;/models&gt;
+        &lt;resources&gt;
+            &lt;fan_setup&gt;
+                &lt;setup&gt;
+                    &lt;module&gt;Voodoo_Fan&lt;/module&gt;
+                &lt;/setup&gt;
+                &lt;connection&gt;
+                    &lt;use&gt;core_setup&lt;/use&gt;
+                &lt;/connection&gt;
+            &lt;/fan_setup&gt;
+            &lt;fan_write&gt;
+                &lt;connection&gt;
+                    &lt;use&gt;core_write&lt;/use&gt;
+                &lt;/connection&gt;
+            &lt;/fan_write&gt;
+            &lt;fan_read&gt;
+                &lt;connection&gt;
+                    &lt;use&gt;core_read&lt;/use&gt;
+                &lt;/connection&gt;
+            &lt;/fan_read&gt;
+        &lt;/resources&gt;
+        &lt;blocks&gt;
+            &lt;fan&gt;
+                &lt;class&gt;Voodoo_Fan_Block&lt;/class&gt;
+            &lt;/fan&gt;
+        &lt;/blocks&gt;
+        &lt;helpers&gt;
+            &lt;fan&gt;
+                &lt;class&gt;Voodoo_Fan_Helper&lt;/class&gt;
+            &lt;/fan&gt;
+        &lt;/helpers&gt;
+    &lt;/global&gt;
+&lt;/config&gt;</code></pre>
+<p>这个文件包含了我们的防伪码模块的不同组成部分，既为前端和后台信息。如果我们观察该配置文件的结构，会发现有五个组件：</p>
+<ol>
+<li>(module)模块：它包含版本信息</li>
+<li>(frontend)前端：这包含路由器和布局信息</li>
+<li>(admin)管理员：这是路由器的设置和管理部分的参数</li>
+<li>(adminhtml)后台界面：这是菜单，ACL和布局管理</li>
+<li>(global)全局：它包含配置的model, resources, blocks, and helpers等</li>
+</ol>
+<p>接着，我们打开app/code/local/Voodoo/Fan/Helper/Data.php这个文件：</p>
+<pre><code>&lt;?php
+class Voodoo_Fan_Helper_Data extends Mage_Core_Helper_Abstract
+&#123;
+
+&#125;</code></pre>
+<p>这里讲解一下：这个里面由于没有复杂的逻辑，所以直接保留为空即可。以后有新的业务逻辑可以添加在这里面。</p>
+<p>添加完毕后，我们打开app/code/local/Voodoo/Fan/controllers/IndexController.php这个文件，加入代码：</p>
+<pre><code>&lt;?php 
+class Voodoo_Fan_IndexController extends Mage_Core_Controller_Front_Action&#123;
+    public function indexAction()
+    &#123;
+        $resource = Mage::getSingleton(&#39;core/resource&#39;);
+        $read = $resource-&gt;getConnection(&#39;core_read&#39;);
+        $newsTable = $resource-&gt;getTableName(&#39;fan&#39;);
+        $select = $read-&gt;select()-&gt;from($newsTable, array(&#39;id&#39;,&#39;bianma&#39;,&#39;brand&#39;,&#39;content&#39;,&#39;company&#39;,&#39;filename&#39;,&#39;user&#39;,&#39;status&#39;))-&gt;where(&#39;status&#39;, 1)-&gt;order(&#39;created_time DESC&#39;);
+        $fan = $read-&gt;fetchAll($select);
+        Mage::register(&#39;list&#39;, $fan);
+        $this-&gt;loadLayout();
+        $this-&gt;renderLayout();
+    &#125;
+
+    public function viewAction()
+    &#123;
+        $fan_id = $this-&gt;getRequest()-&gt;getParam(&#39;id&#39;);
+        if ($fan_id != null &amp;&amp; $fan_id != &#39;&#39;) &#123;
+            $fan = Mage::getModel(&#39;fan/fan&#39;)-&gt;load($fan_id)-&gt;getData();
+        &#125; else &#123;
+            $fan = null;
+        &#125;
+        /**
+        * If no param we load a the last created item
+        */
+        if ($fan == null) &#123;
+            $resource = Mage::getSingleton(&#39;core/resource&#39;);
+            $read = $resource-&gt;getConnection(&#39;core_read&#39;);
+            $newsTable = $resource-&gt;getTableName(&#39;fan&#39;);
+            $select = $read-&gt;select()-&gt;from($newsTable, array(&#39;id&#39;,&#39;bianma&#39;,&#39;brand&#39;,&#39;content&#39;,&#39;company&#39;,&#39;filename&#39;,&#39;user&#39;,&#39;status&#39;))-&gt;where(&#39;status&#39;, 1)-&gt;order(&#39;created_time DESC&#39;);
+            $fan = $read-&gt;fetchRow($select);
+        &#125;
+        Mage::register(&#39;fan&#39;, $fan);
+        $this-&gt;loadLayout();
+        $this-&gt;renderLayout();
+    &#125;
+&#125;
+
+?&gt;</code></pre>
+<p>这个controller是前端控制器，主要负责加载和显示文章列表和内容，index 控制器负责现实文章列表，当用户点击指定文章时，跳转到view动作，显示指定文章的详细信息，magento中访问数据库需要创建一个core_resource对象，这个对象可以用来执行sql语句。</p>
+<p>接下来创建一个后台控制器FanController.php，放在sm_market/app/code/local/Voodoo/Fan/controllers/Adminhtml/目录下：</p>
+<pre><code>&lt;?php 
+class Voodoo_Fan_Adminhtml_FanController extends Mage_Adminhtml_Controller_action
+&#123;
+    protected function _initAction()
+    &#123;
+        $this-&gt;loadLayout()-&gt;_setActiveMenu(&#39;fan/items&#39;)-&gt;_addBreadcrumb(Mage::helper(&#39;adminhtml&#39;)-&gt;__(&#39;Items Manager&#39;), Mage::helper(&#39;adminhtml&#39;)-&gt;__(&#39;Item Manager&#39;));
+        return $this;
+    &#125;
+
+    public function indexAction()
+    &#123;
+        $this-&gt;_initAction();
+        $this-&gt;_addContent($this-&gt;getLayout()-&gt;createBlock(&#39;fan/adminhtml_fan&#39;));
+        $this-&gt;renderLayout();
+    &#125;
+
+    public function editAction()
+    &#123;
+        $id = $this-&gt;getRequest()-&gt;getParam(&#39;id&#39;);
+        $model = Mage::getModel(&#39;fan/fan&#39;)-&gt;load($id);
+        if ($model-&gt;getId() || $id == 0) &#123;
+            $data = Mage::getSingleton(&#39;adminhtml/session&#39;)-&gt;getFormData(true);
+            if (!empty($data)) &#123;
+            $model-&gt;setData($data);
+            &#125;
+            Mage::register(&#39;fan_data&#39;, $model);
+            $this-&gt;loadLayout();
+            $this-&gt;_setActiveMenu(&#39;fan/items&#39;);
+            $this-&gt;_addBreadcrumb(Mage::helper(&#39;adminhtml&#39;)-&gt;__(&#39;Item Manager&#39;), Mage::helper(&#39;adminhtml&#39;)-&gt;__(&#39;Fan Item Manager&#39;));
+            $this-&gt;_addBreadcrumb(Mage::helper(&#39;adminhtml&#39;)-&gt;__(&#39;Item Fan&#39;), Mage::helper(&#39;adminhtml&#39;)-&gt;__(&#39;Item Fan&#39;));
+            $this-&gt;getLayout()-&gt;getBlock(&#39;head&#39;)-&gt;setCanLoadExtJs(true);
+            $this-&gt;_addContent($this-&gt;getLayout()-&gt;createBlock(&#39;fan/adminhtml_fan_edit&#39;))-&gt;_addLeft($this-&gt;getLayout()-&gt;createBlock(&#39;fan/adminhtml_fan_edit_tabs&#39;));
+            $this-&gt;renderLayout();
+        &#125; else &#123;
+            Mage::getSingleton(&#39;adminhtml/session&#39;)-&gt;addError(Mage::helper(&#39;fan&#39;)-&gt;__(&#39;Item does not exist&#39;));
+            $this-&gt;_redirect(&#39;*/*/&#39;);
+        &#125;
+    &#125;
+
+    public function newAction()
+    &#123;
+        $this-&gt;_forward(&#39;edit&#39;);
+    &#125;
+
+    public function saveAction()
+    &#123;
+        if ($data = $this-&gt;getRequest()-&gt;getPost()) &#123;
+            if (isset($_FILES[&#39;filename&#39;][&#39;name&#39;]) &amp;&amp; $_FILES[&#39;filename&#39;][&#39;name&#39;] != &#39;&#39;) &#123;
+                try &#123;
+                    /* Starting upload */
+                    $uploader = new Varien_File_Uploader(&#39;filename&#39;);
+                    // Any extention would work
+                    $uploader-&gt;setAllowedExtensions(array(&#39;jpg&#39;, &#39;jpeg&#39;,&#39;gif&#39;, &#39;png&#39;));
+                    $uploader-&gt;setAllowRenameFiles(false);
+                    $uploader-&gt;setFilesDispersion(false);
+                    // We set media as the upload dir
+                    $path = Mage::getBaseDir(&#39;media&#39;) . DS . &#39;fan&#39; . DS;
+                    $uploader-&gt;save($path, $_FILES[&#39;filename&#39;][&#39;name&#39;]);
+                &#125; catch (Exception $e) &#123;
+                &#125;
+                //this way the name is saved in DB
+                $data[&#39;filename&#39;] = $_FILES[&#39;filename&#39;][&#39;name&#39;];
+            &#125;
+            $model = Mage::getModel(&#39;fan/fan&#39;);
+            $model-&gt;setData($data)-&gt;setId($this-&gt;getRequest()-&gt;getParam(&#39;id&#39;));
+            try &#123;
+                if ($model-&gt;getCreatedTime == NULL || $model-&gt;getUpdateTime() == NULL) &#123;
+                    $model-&gt;setCreatedTime(now())-&gt;setUpdateTime(now());
+                &#125; else &#123;
+                $model-&gt;setUpdateTime(now());
+                &#125;
+                $model-&gt;save();
+                Mage::getSingleton(&#39;adminhtml/session&#39;)-&gt;addSuccess(Mage::helper(&#39;fan&#39;)-&gt;__(&#39;Item was successfully saved&#39;));
+                Mage::getSingleton(&#39;adminhtml/session&#39;)-&gt;setFormData(false);
+                if ($this-&gt;getRequest()-&gt;getParam(&#39;back&#39;)) &#123;
+                    $this-&gt;_redirect(&#39;*/*/edit&#39;, array(&#39;id&#39; =&gt; $model-&gt;getId()));
+                return;
+                &#125;
+                $this-&gt;_redirect(&#39;*/*/&#39;);
+                return;
+            &#125; catch (Exception $e) &#123;
+                Mage::getSingleton(&#39;adminhtml/session&#39;)-&gt;addError($e-&gt;getMessage());
+                Mage::getSingleton(&#39;adminhtml/session&#39;)-&gt;setFormData($data);
+                $this-&gt;_redirect(&#39;*/*/edit&#39;, array(&#39;id&#39; =&gt; $this-&gt;getRequest()-&gt;getParam(&#39;id&#39;)));
+                return;
+            &#125;
+        &#125;
+        Mage::getSingleton(&#39;adminhtml/session&#39;)-&gt;addError(Mage::helper(&#39;fan&#39;)-&gt;__(&#39;Unable to find item to save&#39;));
+        $this-&gt;_redirect(&#39;*/*/&#39;);
+    &#125;
+
+
+    public function deleteAction()&#123;
+        if ($this-&gt;getRequest()-&gt;getParam(&#39;id&#39;) &gt; 0) &#123;
+            try &#123;
+                $model = Mage::getModel(&#39;fan/fan&#39;);
+                $model-&gt;setId($this-&gt;getRequest()-&gt;getParam(&#39;id&#39;))-&gt;delete();
+                Mage::getSingleton(&#39;adminhtml/session&#39;)-&gt;addSuccess(Mage::helper(&#39;adminhtml&#39;)-&gt;__(&#39;Item was successfully deleted&#39;));
+                $this-&gt;_redirect(&#39;*/*/&#39;);
+            &#125; catch (Exception $e) &#123;
+                Mage::getSingleton(&#39;adminhtml/session&#39;)-&gt;addError($e-&gt;getMessage());
+                $this-&gt;_redirect(&#39;*/*/edit&#39;, array(&#39;id&#39; =&gt; $this-&gt;getRequest()-&gt;getParam(&#39;id&#39;)));
+            &#125;
+        &#125;
+        $this-&gt;_redirect(&#39;*/*/&#39;);
+    &#125;
+
+
+    public function massDeleteAction()&#123;
+        $fanIds = $this-&gt;getRequest()-&gt;getParam(&#39;fan&#39;);
+        if (!is_array($fanIds)) &#123;
+            Mage::getSingleton(&#39;adminhtml/session&#39;)-&gt;addError(Mage::helper(&#39;adminhtml&#39;)-&gt;__(&#39;Please select item(s)&#39;));
+        &#125; else &#123;
+        try &#123;
+            foreach ($fanIds as $fanId) &#123;
+            $fan = Mage::getModel(&#39;fan/fan&#39;)-&gt;load($fanId);
+            $fan-&gt;delete();
+            &#125;
+            Mage::getSingleton(&#39;adminhtml/session&#39;)-&gt;addSuccess(Mage::helper(&#39;adminhtml&#39;)-&gt;__(&#39;Total of %d record(s) were successfully deleted&#39;,count($fanIds)));
+        &#125; catch (Exception $e) &#123;
+            Mage::getSingleton(&#39;adminhtml/session&#39;)-&gt;addError($e-&gt;getMessage());
+        &#125;
+        &#125;
+        $this-&gt;_redirect(&#39;*/*/index&#39;);
+    &#125;
+
+
+    public function massStatusAction()&#123;
+        $fanIds = $this-&gt;getRequest()-&gt;getParam(&#39;fan&#39;);
+        if (!is_array($fanIds)) &#123;
+            Mage::getSingleton(&#39;adminhtml/session&#39;)-&gt;addError($this-&gt;__(&#39;Please select item(s)&#39;));
+        &#125; else &#123;
+        try &#123;
+            foreach ($fanIds as $fanId) &#123;
+                $fan = Mage::getSingleton(&#39;fan/fan&#39;)-&gt;load($fanId)-&gt;setStatus($this-&gt;getRequest()-&gt;getParam(&#39;status&#39;))-&gt;setIsMassupdate(true)-&gt;save();
+            &#125;
+            $this-&gt;_getSession()-&gt;addSuccess($this-&gt;__(&#39;Total of %d record(s) were successfully updated&#39;, count($fanIds)));
+            &#125; catch (Exception $e) &#123;
+                $this-&gt;_getSession()-&gt;addError($e-&gt;getMessage());
+            &#125;
+        &#125;
+        $this-&gt;_redirect(&#39;*/*/index&#39;);
+    &#125;
+
+    public function exportCsvAction()
+    &#123;
+        $fileName = &#39;fan.csv&#39;;
+        $content = $this-&gt;getLayout()-&gt;createBlock(&#39;fan/adminhtml&#39;)-&gt;getCsv();
+        $this-&gt;_sendUploadResponse($fileName, $content);
+    &#125;
+
+
+    public function exportXmlAction()
+    &#123;
+        $fileName = &#39;fan.xml&#39;;
+        $content = $this-&gt;getLayout()-&gt;createBlock(&#39;fan/adminhtml_fan_grid&#39;)-&gt;getXml();
+        $this-&gt;_sendUploadResponse($fileName, $content);
+    &#125;
+
+    protected function _sendUploadResponse($fileName, $content,$contentType=&#39;application/octet-stream&#39;)
+    &#123;
+        $response = $this-&gt;getResponse();
+        $response-&gt;setHeader(&#39;HTTP/1.1 200 OK&#39;, &#39;&#39;);
+        $response-&gt;setHeader(&#39;Pragma&#39;, &#39;public&#39;, true);
+        $response-&gt;setHeader(&#39;Cache-Control&#39;, &#39;must-revalidate, postcheck=0, pre-check=0&#39;, true);
+        $response-&gt;setHeader(&#39;Content-Disposition&#39;, &#39;attachment;filename=&#39; . $fileName);
+        $response-&gt;setHeader(&#39;Last-Modified&#39;, date(&#39;r&#39;));
+        $response-&gt;setHeader(&#39;Accept-Ranges&#39;, &#39;bytes&#39;);
+        $response-&gt;setHeader(&#39;Content-Length&#39;, strlen($content));
+        $response-&gt;setHeader(&#39;Content-type&#39;, $contentType);
+        $response-&gt;setBody($content);
+        $response-&gt;sendResponse();
+        die;
+    &#125;
+&#125;
+
+?&gt;</code></pre>
+<p>这个控制器主要负责后台的一些动作，比如增删查改。在_initAction()里面，我们做了三件事：加载布局，在后台设置活动菜单，</p>
+<p><img src="https://i.imgur.com/0gaSJuO.png"></p>
+<p>同时，还有添加面包屑的文本。</p>
+<p>Index action则创建一个fan/adminhtml_fan block和加载对应布局。其他action则不一一熬述。</p>
+<p>调用edit操作时，用户点击编辑链接在防伪码列表下防伪码项目管理一节。相关防伪码的编号是从ID参数和传递的消息模型中抓取，以获取具体的防伪码。如果给定的防伪码I产生的结果，它传递的防伪码形式的数据来填充与形式给定的数据。防伪码编辑表单提交后，数据的saveaction传递与更新的消息ID。还有一些其他的任务，已实现这个方法，如装载布局，建立活动的菜单，加入面包屑的文本等等。</p>
+<p>newAction()用于跳转到edit动作</p>
+<p>saveActon()则用于与模型层交互，保存输入的信息</p>
+<p>deleteAction()用于删除指定的文章</p>
+<p>massDeleteAction()则是批量删除</p>
+<p>massStatusAction()为批量状态修改</p>
+<p>exportCsvAction()用于到处cvs文件</p>
+<p>exportXmlAction()则用于导入xml文件</p>
+<p>_sendUploadResponse则是当导出xml文件时设置http报头</p>
+<p>Magento的控制器其实和zend framework的控制器工作原理一样，控制器必须在MVC模式下工作，它操纵模型，决定哪些视图来显示用户的要求和其他因素的基础上传递数据，查看每个用户响应，或完全关闭控制并跳转到另一个控制器。他总是保持一个控制器尽量瘦小，业务逻辑则尽量交给model来处理，skinny controller and fat model !</p>
+<p>在MVC结构中，Model （模型）用于处理业务逻辑，在Magento中，模型用于更新数据库记录，和web 服务器交互等等。模型是MVC结构中非常重要的部分，Magento的模型扩展自Zend_Db_Table_Abstract 类，这个类可以连接Varien对象，然后访问数据库。这里我们会为防伪码模块创建对应的模型。</p>
+<p>在app/code/local/Voodoo/Fan/Model/下面，创建一个名为Fan.php的文件：</p>
+<pre><code>&lt;?php
+class Voodoo_Fan_Model_Fan extends Mage_Core_Model_Abstract
+&#123;
+    public function _construct()
+    &#123;
+        parent::_construct();
+        $this-&gt;_init(&#39;fan/fan&#39;);
+    &#125;
+&#125;
+?&gt;</code></pre>
+<p>在app/code/local/Voodoo/Fan/Model/Mysql4/下创建多一个Fan.php文件：</p>
+<pre><code>&lt;?php
+class Voodoo_Fan_Model_Mysql4_Fan extends Mage_Core_Model_Mysql4_Abstract
+&#123;
+    public function _construct()
+    &#123;
+        // Note that the id refers to the key field in your database table.
+        $this-&gt;_init(&#39;fan/fan&#39;, &#39;id&#39;);
+    &#125;
+&#125;
+?&gt;</code></pre>
+<p>然后再app/code/local/Voodoo/Fan/Model/Mysql4/Fan/下创建一个Collection.php的文件：</p>
+<pre><code>&lt;?php
+class Voodoo_Fan_Model_Mysql4_Fan_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+&#123;
+    public function _construct()&#123;
+            parent::_construct();
+            $this-&gt;_init(&#39;fan/fan&#39;);
+    &#125;
+&#125;</code></pre>
+<p>最后在app/code/local/Voodoo/Fan/Model/下创建一个Status.php文件：</p>
+<pre><code>&lt;?php
+class Voodoo_Fan_Model_Status extends Varien_Object
+&#123;
+    const STATUS_ENABLED = 1;
+    const STATUS_DISABLED = 2;
+    static public function getOptionArray()
+    &#123;
+        return array(
+            self::STATUS_ENABLED =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;Enabled&#39;),
+            self::STATUS_DISABLED =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;Disabled&#39;)
+        );
+    &#125;
+&#125;</code></pre>
+<p>Magento的模型通过Varien_Object连接到数据库，其中涉及到Zend_Db_Abstract。我们只是扩展了Varien’s Mage_Core_Model_Abstract 类。</p>
+<p>第一个model中我们通过扩展Mage_Core_Model_Abstract类 最终连接到数据库，Status.php中的模型直接扩展Varien_Object，然后直接从数据库中更新文章的状态。</p>
+<p>Mysql文件中的模型执行和外面模型类似的任务，Magento的模型通过扩展不同的model来实现不同的功能。</p>
+<p>接下来，我们将创建一个php文件，这将在magento的database中创建一个新表。</p>
+<p>在app/code/local/Voodoo/Fan/sql/fan_setup/目录下创建一个mysql4-install-0.1.0.php文件：</p>
+<pre><code>&lt;?php
+    $installer = $this;
+    $installer-&gt;startSetup();
+    $installer-&gt;run(&quot;
+        DROP TABLE IF EXISTS `fan`;
+        CREATE TABLE `fan` (
+          `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+          `bianma` varchar(255) NOT NULL DEFAULT &#39;&#39;,
+          `brand` text NOT NULL,
+          `content` text NOT NULL,
+          `company` text NOT NULL,
+          `filename` varchar(255) NOT NULL default &#39;&#39;,
+          `user` text NOT NULL,
+          `status` smallint(6) NOT NULL DEFAULT &#39;0&#39;,
+          `created_time` datetime DEFAULT NULL,
+          `update_time` datetime DEFAULT NULL,
+          PRIMARY KEY (`id`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    &quot;);
+    $installer-&gt;endSetup();
+?&gt;</code></pre>
+<p>注意，mysql4-install-0.1.0.php中的0.1.0对应我们模块的版本，也就是app/code/local/Voodoo/Fan/etc/目录下的config.xml中的</p>
+<pre><code>&lt;modules&gt;
+    &lt;Voodoo_Fan&gt;
+        &lt;version&gt;0.1.0&lt;/version&gt;
+    &lt;/Voodoo_Fan&gt;
+&lt;/modules&gt;</code></pre>
+<p>不然magento是不会执行sql语句的，这将导致magento运行模块时找不到表的错误。</p>
+<p>在创建好控制器和模型等后，自然会想到应该创建视图文件。</p>
+<p>在app/design/frontend/sm_market/default/template/fan/目录下创建fan.phtml</p>
+<pre><code>&lt;h3&gt;&lt;?php echo $this-&gt;__(&#39;Voodoo最新防伪码&#39;) ?&gt;&lt;/h3&gt;
+
+&lt;table class=&quot;biaoge&quot;&gt;
+    &lt;tr&gt;
+        &lt;td&gt;缩略图&lt;/td&gt;
+        &lt;td&gt;防伪码&lt;/td&gt;
+        &lt;td&gt;品牌商&lt;/td&gt;
+        &lt;td&gt;负责人&lt;/td&gt;
+        &lt;td&gt;公司名称&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;?php foreach($this-&gt;getNewsList() as $item): ?&gt;
+        &lt;tr&gt;
+            &lt;td&gt;
+                &lt;img src=&quot;&lt;?php echo Mage::getBaseUrl(&#39;media&#39;) . &#39;fan&#39;. DS . $item[&#39;filename&#39;] ?&gt;&quot; alt=&quot;&lt;?php echo $item[&#39;bianma&#39;]?&gt;&quot; /&gt;
+            &lt;/td&gt;
+            &lt;td&gt;
+                &lt;h5&gt;&lt;?php echo $item[&#39;bianma&#39;] ?&gt;&lt;/h5&gt;
+            &lt;/td&gt;
+            &lt;td&gt;
+                &lt;h5&gt;&lt;?php echo $item[&#39;brand&#39;] ?&gt;&lt;/h5&gt;
+            &lt;/td&gt;
+            &lt;td&gt;
+                &lt;h5&gt;&lt;?php echo $item[&#39;user&#39;] ?&gt;&lt;/h5&gt;
+            &lt;/td&gt;
+            &lt;td&gt;
+                &lt;h5&gt;&lt;?php echo $item[&#39;company&#39;] ?&gt;&lt;/h5&gt;
+            &lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;?php endforeach; ?&gt;
+&lt;/table&gt;
+
+&lt;style&gt;
+    input.input-text &#123;
+        width: 100% !important;
+    &#125;
+    .yt_main_inner select&#123;
+        width: 100%;
+        margin-bottom: 20px;
+    &#125;
+    input[type=&quot;submit&quot;]&#123;
+        width: 150px;
+        margin-bottom: 20px;
+        background: #444444;
+        color: #fff;
+        border: 0px;
+    &#125;
+    .biaoge td,.biaoge th&#123;
+        padding:8px 10px;
+        border:1px solid;
+    &#125;
+    .biaoge tr td:first-child&#123;
+        width:80px;
+    &#125;
+    .biaoge tr:first-child&#123;
+        background: #eee;
+    &#125;
+    .biaoge img&#123;
+        width: 100%;
+    &#125;
+    .biaoge&#123;
+        border-collapse:collapse !important;
+        border: 1px solid;
+        width: 100%;
+    &#125;
+&lt;/style&gt;</code></pre>
+<p>然后再同样目录下创建view.phtml文件：</p>
+<pre><code>&lt;?php $item = $this-&gt;getNews(); ?&gt;
+&lt;h3&gt;&lt;?php echo $item[&#39;bianma&#39;]; ?&gt;&lt;/h3&gt;
+&lt;p style=&quot;font-size: small;color: #777&quot;&gt;add on: &lt;?php echo date(&#39;M jS, Y&#39;, strtotime($item[&#39;update_time&#39;])); ?&gt; &lt;a href=&quot;/fan&quot;&gt;Back to all news&lt;/a&gt;&lt;/p&gt;
+&lt;div&gt;
+    &lt;span style=&quot;float:left&quot;&gt;
+        &lt;img src=&quot;&lt;?php echo Mage::getBaseUrl(&#39;media&#39;) . &#39;fan&#39; . DS . $item[&#39;filename&#39;] ?&gt;&quot; alt=&quot;&lt;?php echo $item[&#39;bianma&#39;]?&gt;&quot; /&gt;
+    &lt;/span&gt;
+    &lt;span&gt;
+        &lt;p&gt;&lt;?php echo $item[&#39;content&#39;]; ?&gt;&lt;/p&gt;
+    &lt;/span&gt;
+    &lt;p style=&quot;clear: both&quot;&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;a href=&quot;&lt;?php echo $this-&gt;getBaseUrl(&#39;&#39;)?&gt;fan&quot;&gt;Back to all content&lt;/a&gt;</code></pre>
+<p>接着，回到app/design/frontend/sm_market/default/layout/下创建fan.xml布局文件</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;layout version=&quot;0.1.0&quot;&gt;
+    &lt;default&gt;
+    &lt;/default&gt;
+    &lt;fan_index_index&gt;
+        &lt;reference name=&quot;root&quot;&gt;
+            &lt;action method=&quot;setTemplate&quot;&gt;&lt;template&gt;page/2columns-left.phtml&lt;/template&gt;&lt;/action&gt;
+        &lt;/reference&gt;
+        &lt;reference name=&quot;content&quot;&gt;
+            &lt;block type=&quot;fan/fan&quot; name=&quot;fan&quot; template=&quot;fan/fan.phtml&quot; /&gt;
+        &lt;/reference&gt;
+    &lt;/fan_index_index&gt;
+    &lt;fan_index_view&gt;
+        &lt;reference name=&quot;content&quot;&gt;
+            &lt;block type=&quot;fan/fan&quot; name=&quot;fan&quot; template=&quot;fan/view.phtml&quot; /&gt;
+        &lt;/reference&gt;
+    &lt;/fan_index_view&gt;
+&lt;/layout&gt;</code></pre>
+<p>这样我们的视图层就完成了。Magento主要靠.xml文件来布局页面，.phtml文件来显示某个区块。</p>
+<p>前面我们已经先后建立了文件骨架，激活文件，前后端控制器，配置文件，辅助类，模型，SQL，模板，防伪码模块开发的最后一步是创建block</p>
+<p>在app/code/local/Voodoo/Fan/Block/中创建Fan.php文件：</p>
+<pre><code>&lt;?php
+class Voodoo_Fan_Block_Fan extends Mage_Core_Block_Template
+&#123;
+    public function _prepareLayout()
+    &#123;
+        return parent::_prepareLayout();
+    &#125;
+    public function getNews()
+    &#123;
+        if (!$this-&gt;hasData(&#39;fan&#39;)) &#123;
+            $this-&gt;setData(&#39;fan&#39;, Mage::registry(&#39;fan&#39;));
+        &#125;
+        return $this-&gt;getData(&#39;fan&#39;);
+    &#125;
+    public function getNewsList()
+    &#123;
+        if (!$this-&gt;hasData(&#39;list&#39;)) &#123;
+            $this-&gt;setData(&#39;list&#39;, Mage::registry(&#39;list&#39;));
+        &#125;
+        return $this-&gt;getData(&#39;list&#39;);
+    &#125;
+    function limitCharacter($string, $limit = 20, $suffix = &#39; . . .&#39;)
+    &#123;
+        $string = strip_tags($string);
+        if (strlen($string) &lt; $limit) &#123;
+            return $string;
+        &#125;
+        for ($i = $limit; $i &gt;= 0; $i--) &#123;
+            $c = $string[$i];
+            if ($c == &#39; &#39; OR $c == &quot;\n&quot;) &#123;
+                return substr($string, 0, $i) . $suffix;
+            &#125;
+        &#125;
+        return substr($string, 0, $limit) . $suffix;
+    &#125;
+&#125;</code></pre>
+<p>同样在app/code/local/Voodoo/Fan/Block/Adminhtml/下，建立Fan.php文件：</p>
+<pre><code>&lt;?php 
+class Voodoo_Fan_Block_Adminhtml_Fan extends Mage_Adminhtml_Block_Widget_Grid_Container
+&#123;
+    public function __construct()
+    &#123;
+        $this-&gt;_controller = &#39;adminhtml_fan&#39;;
+        $this-&gt;_blockGroup = &#39;fan&#39;;
+        $this-&gt;_headerText = Mage::helper(&#39;fan&#39;)-&gt;__(&#39;防伪码管理中心&#39;);
+        $this-&gt;_addButtonLabel = Mage::helper(&#39;fan&#39;)-&gt;__(&#39;添加防伪码&#39;);
+        parent::__construct();
+    &#125;
+&#125;
+
+?&gt;</code></pre>
+<p>接着，在app/code/local/Voodoo/Fan/Block/Adminhtml/Fan/下，建立文件Edit.php：</p>
+<pre><code>&lt;?php
+class Voodoo_Fan_Block_Adminhtml_Fan_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
+&#123;
+    public function __construct()
+    &#123;
+        parent::__construct();
+        $this-&gt;_objectId = &#39;id&#39;;
+        $this-&gt;_blockGroup = &#39;fan&#39;;
+        $this-&gt;_controller = &#39;adminhtml_fan&#39;;
+        $this-&gt;_updateButton(&#39;save&#39;, &#39;label&#39;, Mage::helper(&#39;fan&#39;)-&gt;__(&#39;保存防伪码&#39;));
+        $this-&gt;_updateButton(&#39;delete&#39;, &#39;label&#39;,Mage::helper(&#39;fan&#39;)-&gt;__(&#39;Delete Item&#39;));
+        $this-&gt;_addButton(&#39;saveandcontinue&#39;, array(&#39;label&#39; =&gt; Mage::helper(&#39;adminhtml&#39;)-&gt;__(&#39;保存和继续编辑&#39;),
+        &#39;onclick&#39; =&gt; &#39;saveAndContinueEdit()&#39;,
+        &#39;class&#39; =&gt; &#39;save&#39;,
+        ), -100);
+        $this-&gt;_formScripts[] = &quot;function toggleEditor() &#123;
+            if (tinyMCE.getInstanceById(&#39;fan_content&#39;) == null) &#123;
+                tinyMCE.execCommand(&#39;mceAddControl&#39;, false, &#39;fan_content&#39;);
+            &#125; else &#123;
+                tinyMCE.execCommand(&#39;mceRemoveControl&#39;, false, &#39;fan_content&#39;);
+            &#125;
+        &#125;
+        function saveAndContinueEdit()&#123;
+            editForm.submit($(&#39;edit_form&#39;).action+&#39;back/edit/&#39;);
+        &#125;
+        &quot;;
+    &#125;
+    public function getHeaderText()
+    &#123;
+        if (Mage::registry(&#39;fan_data&#39;) &amp;&amp; Mage::registry(&#39;fan_data&#39;)-&gt;getId()) &#123;
+        return Mage::helper(&#39;fan&#39;)-&gt;__(&quot;编辑防伪码 &#39;%s&#39;&quot;, $this-&gt;htmlEscape(Mage::registry(&#39;fan_data&#39;)-&gt;getTitle()));
+        &#125; else &#123;
+        return Mage::helper(&#39;fan&#39;)-&gt;__(&#39;添加防伪码&#39;);
+        &#125;
+    &#125;
+&#125;</code></pre>
+<p>同样目录下（app/code/local/Voodoo/Fan/Block/Adminhtml/Fan/）继续建立Grid.php文件：</p>
+<pre><code>&lt;?php
+class Voodoo_Fan_Block_Adminhtml_Fan_Grid extends Mage_Adminhtml_Block_Widget_Grid
+&#123;
+    public function __construct()
+    &#123;
+        parent::__construct();
+        $this-&gt;setId(&#39;fanGrid&#39;);
+        $this-&gt;setDefaultSort(&#39;id&#39;);
+        $this-&gt;setDefaultDir(&#39;ASC&#39;);
+        $this-&gt;setSaveParametersInSession(true);
+    &#125;
+    protected function _prepareCollection()
+    &#123;
+        $collection = Mage::getModel(&#39;fan/fan&#39;)-&gt;getCollection();
+        $this-&gt;setCollection($collection);
+        return parent::_prepareCollection();
+    &#125;
+    protected function _prepareColumns()
+    &#123;
+        // 这里是用来在magento后台显示的防伪码添加后的列表，这里的代码告诉了我们要显示哪些字段在管理后台。类似后台产品列表那样。
+        $this-&gt;addColumn(&#39;id&#39;, array(
+        &#39;header&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;ID&#39;),
+        &#39;align&#39; =&gt; &#39;right&#39;,
+        &#39;width&#39; =&gt; &#39;50px&#39;,
+        &#39;index&#39; =&gt; &#39;id&#39;,
+        ));
+        $this-&gt;addColumn(&#39;bianma&#39;, array(
+        &#39;header&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;防伪码&#39;),
+        &#39;align&#39; =&gt; &#39;left&#39;,
+        &#39;index&#39; =&gt; &#39;bianma&#39;,
+        ));
+        $this-&gt;addColumn(&#39;user&#39;, array(
+        &#39;header&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;负责人&#39;),
+        &#39;align&#39; =&gt; &#39;left&#39;,
+        &#39;index&#39; =&gt; &#39;user&#39;,
+        ));
+        $this-&gt;addColumn(&#39;brand&#39;, array(
+        &#39;header&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;品牌&#39;),
+        &#39;align&#39; =&gt; &#39;left&#39;,
+        &#39;index&#39; =&gt; &#39;brand&#39;,
+        ));
+        $this-&gt;addColumn(&#39;company&#39;, array(
+        &#39;header&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;公司名称&#39;),
+        &#39;align&#39; =&gt; &#39;left&#39;,
+        &#39;index&#39; =&gt; &#39;company&#39;,
+        ));
+        $this-&gt;addColumn(&#39;status&#39;, array(
+        &#39;header&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;状态&#39;),
+        &#39;align&#39; =&gt; &#39;left&#39;,
+        &#39;width&#39; =&gt; &#39;80px&#39;,
+        &#39;index&#39; =&gt; &#39;status&#39;,
+        &#39;type&#39; =&gt; &#39;options&#39;,
+        &#39;options&#39; =&gt; array(
+        1 =&gt; &#39;Enabled&#39;,
+        2 =&gt; &#39;Disabled&#39;,
+        ),
+        ));
+        $this-&gt;addColumn(&#39;action&#39;, 
+        array(
+        &#39;header&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;Action&#39;),
+        &#39;width&#39; =&gt; &#39;100&#39;,
+        &#39;type&#39; =&gt; &#39;action&#39;,
+        &#39;getter&#39; =&gt; &#39;getId&#39;,
+        &#39;actions&#39; =&gt; array(
+        array(
+        &#39;caption&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;Edit&#39;),
+        &#39;url&#39; =&gt; array(&#39;base&#39; =&gt; &#39;*/*/edit&#39;),
+        &#39;field&#39; =&gt; &#39;id&#39;
+        )
+        ),
+        &#39;filter&#39; =&gt; false,
+        &#39;sortable&#39; =&gt; false,
+        &#39;index&#39; =&gt; &#39;stores&#39;,
+        &#39;is_system&#39; =&gt; true,
+        ));
+        // end
+        $this-&gt;addExportType(&#39;*/*/exportCsv&#39;,
+        Mage::helper(&#39;fan&#39;)-&gt;__(&#39;CSV&#39;));
+        $this-&gt;addExportType(&#39;*/*/exportXml&#39;,
+        Mage::helper(&#39;fan&#39;)-&gt;__(&#39;XML&#39;));
+        return parent::_prepareColumns();
+    &#125;
+    protected function _prepareMassaction()
+    &#123;
+        $this-&gt;setMassactionIdField(&#39;id&#39;);
+        $this-&gt;getMassactionBlock()-&gt;setFormFieldName(&#39;fan&#39;);
+        $this-&gt;getMassactionBlock()-&gt;addItem(&#39;delete&#39;, array(
+        &#39;label&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;Delete&#39;),
+        &#39;url&#39; =&gt; $this-&gt;getUrl(&#39;*/*/massDelete&#39;),
+        &#39;confirm&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;Are you sure?&#39;)
+                ));
+        $statuses = Mage::getSingleton(&#39;fan/status&#39;)-&gt;getOptionArray();
+        array_unshift($statuses, array(&#39;label&#39; =&gt; &#39;&#39;, &#39;value&#39; =&gt;
+        &#39;&#39;));
+        $this-&gt;getMassactionBlock()-&gt;addItem(&#39;status&#39;, array(
+        &#39;label&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;Change status&#39;),
+        &#39;url&#39; =&gt; $this-&gt;getUrl(&#39;*/*/massStatus&#39;, array(&#39;_current&#39;
+        =&gt; true)),
+        &#39;additional&#39; =&gt; array(
+        &#39;visibility&#39; =&gt; array(
+        &#39;name&#39; =&gt; &#39;status&#39;,
+        &#39;type&#39; =&gt; &#39;select&#39;,
+        &#39;class&#39; =&gt; &#39;required-entry&#39;,
+        &#39;label&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;Status&#39;),
+        &#39;values&#39; =&gt; $statuses
+        )
+        )
+        ));
+        return $this;
+    &#125;
+    public function getRowUrl($row)
+    &#123;
+        return $this-&gt;getUrl(&#39;*/*/edit&#39;, array(&#39;id&#39; =&gt; $row-&gt;getId()));
+    &#125;
+&#125;</code></pre>
+<p>效果截图：</p>
+<p><img src="https://i.imgur.com/eha7Ccn.png"></p>
+<p>如果不想要显示那么多，去除其中的某一个即可。比如我们不显示负责人这一列，那么删除：</p>
+<pre><code>$this-&gt;addColumn(&#39;user&#39;, array(
+&#39;header&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;负责人&#39;),
+&#39;align&#39; =&gt; &#39;left&#39;,
+&#39;index&#39; =&gt; &#39;user&#39;,
+));</code></pre>
+<p>即可。</p>
+<p>然后，在目录app/code/local/Voodoo/Fan/Block/Adminhtml/Fan/Edit/下创建Form.php和Tabs.php，其中Form.php文件的代码如下：</p>
+<pre><code>&lt;?php
+class Voodoo_Fan_Block_Adminhtml_Fan_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
+&#123;
+    protected function _prepareForm()
+    &#123;
+        $form = new Varien_Data_Form(array(&#39;id&#39; =&gt; &#39;edit_form&#39;,&#39;action&#39; =&gt; $this-&gt;getUrl(&#39;*/*/save&#39;, array(&#39;id&#39; =&gt;$this-&gt;getRequest()-&gt;getParam(&#39;id&#39;))),&#39;method&#39; =&gt; &#39;post&#39;,&#39;enctype&#39; =&gt; &#39;multipart/form-data&#39;));
+        $form-&gt;setUseContainer(true);
+        $this-&gt;setForm($form);
+        return parent::_prepareForm();
+    &#125;
+&#125;</code></pre>
+<p>Tabs.php的代码如下：</p>
+<pre><code>&lt;?php
+class Voodoo_Fan_Block_Adminhtml_Fan_Edit_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
+&#123;
+    public function __construct()
+    &#123;
+        parent::__construct();
+        $this-&gt;setId(&#39;fan_tabs&#39;);
+        $this-&gt;setDestElementId(&#39;edit_form&#39;);
+        $this-&gt;setTitle(Mage::helper(&#39;fan&#39;)-&gt;__(&#39;防伪码信息&#39;));
+    &#125;
+
+    protected function _beforeToHtml()
+    &#123;
+        $this-&gt;addTab(&#39;form_section&#39;, array(
+        &#39;label&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;防伪码信息&#39;),
+        &#39;title&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;防伪码添加详情&#39;),
+        &#39;content&#39; =&gt; $this-&gt;getLayout()-&gt;createBlock(&#39;fan/adminhtml_fan_edit_tab_form&#39;)-&gt;toHtml(),));
+        return parent::_beforeToHtml();
+    &#125;
+&#125;</code></pre>
+<p>最后，在app/code/local/Voodoo/Fan/Block/Adminhtml/Fan/Edit/Tab/下建立Form.php文件：</p>
+<pre><code>&lt;?php
+class Voodoo_Fan_Block_Adminhtml_Fan_Edit_Tab_Form extends Mage_Adminhtml_Block_Widget_Form
+&#123;
+    protected function _prepareForm()
+    &#123;
+        $form = new Varien_Data_Form();
+        $this-&gt;setForm($form);
+        $fieldset = $form-&gt;addFieldset(&#39;fan_form&#39;, array(&#39;legend&#39;=&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;Item information&#39;)));
+        // 在网站后台添加防伪码的那里获取的字段 开始
+        $fieldset-&gt;addField(&#39;bianma&#39;, &#39;text&#39;, array(&#39;label&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;防伪码&#39;),&#39;class&#39; =&gt; &#39;required-entry&#39;,&#39;required&#39; =&gt; true,&#39;name&#39; =&gt; &#39;bianma&#39;,));
+        $fieldset-&gt;addField(&#39;brand&#39;, &#39;text&#39;, array(&#39;label&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;品牌商&#39;),&#39;class&#39; =&gt; &#39;required-entry&#39;,&#39;required&#39; =&gt; true,&#39;name&#39; =&gt; &#39;brand&#39;,));
+        $fieldset-&gt;addField(&#39;content&#39;, &#39;editor&#39;, array(&#39;name&#39; =&gt; &#39;content&#39;,&#39;label&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;详细描述&#39;),&#39;title&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;content&#39;),&#39;style&#39; =&gt; &#39;width:700px; height:500px;&#39;,&#39;wysiwyg&#39; =&gt; false,&#39;required&#39; =&gt; true,));
+        $fieldset-&gt;addField(&#39;company&#39;, &#39;text&#39;, array(&#39;label&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;公司名称&#39;),&#39;class&#39; =&gt; &#39;required-entry&#39;,&#39;required&#39; =&gt; true,&#39;name&#39; =&gt; &#39;company&#39;,));
+        $fieldset-&gt;addField(&#39;filename&#39;, &#39;file&#39;, array(&#39;label&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;文件或者缩略图&#39;),&#39;required&#39; =&gt; false,&#39;name&#39; =&gt; &#39;filename&#39;,));
+        $fieldset-&gt;addField(&#39;user&#39;, &#39;text&#39;, array(&#39;label&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;负责人&#39;),&#39;class&#39; =&gt; &#39;required-entry&#39;,&#39;required&#39; =&gt; true,&#39;name&#39; =&gt; &#39;user&#39;,));
+        $fieldset-&gt;addField(&#39;status&#39;, &#39;select&#39;, array(&#39;label&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;状态&#39;),&#39;name&#39; =&gt; &#39;status&#39;,&#39;values&#39; =&gt; array(array(&#39;value&#39; =&gt; 1,&#39;label&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;Enabled&#39;),),array(&#39;value&#39; =&gt; 2,&#39;label&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;Disabled&#39;),),),));
+        // 在网站后台添加防伪码的那里获取的字段 结束
+        if (Mage::getSingleton(&#39;adminhtml/session&#39;)-&gt;getNewsData())
+        &#123;
+        $form-&gt;setValues(Mage::getSingleton(&#39;adminhtml/session&#39;)-&gt;getNewsData());
+        Mage::getSingleton(&#39;adminhtml/session&#39;)-&gt;setNewsData(null);
+        &#125; elseif (Mage::registry(&#39;fan_data&#39;)) &#123;
+        $form-&gt;setValues(Mage::registry(&#39;fan_data&#39;)-&gt;getData());
+    &#125;
+        return parent::_prepareForm();
+    &#125;
+&#125;</code></pre>
+<p>这个文件里面有7个字段要提交到数据库，那么对应的后台截图如下：</p>
+<p><img src="https://i.imgur.com/eZc65nR.png"></p>
+<p>如果我们将来要开发更加复杂的模块的时候，那么我们可以在这里继续添加字段，这里需要提醒的是，增加的字段需要在数据库那边也要相应的加上去。</p>
+<blockquote>
+<p>重要：由于笔者开始的时候在建立数据库的时候，把防伪码的名字的字段写成name，导致后面在文件的那里总是没法把文件上传到数据库去，如下截图那样，显示是空白的，后来把name改成了bianma（这个名字随便取，但是尽量不要用name，因为name是表单里面的一个属性，笔者认为造成这个问题的很可能就是发生冲突的原因）</p>
+</blockquote>
+<p><img src="https://i.imgur.com/KnDV1gI.png"></p>
+<p>修改了以后，那么其他有用到数据库表name的这个字段也要相应的改成bianma。搞定后的效果：</p>
+<p><img src="https://i.imgur.com/TldFj6A.png"></p>
+<p>这样就完成了模块的创建。block是Magento的重要部分，这里我们创建了7个防伪码模块功能，笔者写了一些方法，并且将数据传递到布局。这样便完成了防伪码模块的开发，这是后台截图</p>
+<p><img src="https://i.imgur.com/eha7Ccn.png"></p>
+<p>我们这个时候可以访问前台地址：<a target="_blank" rel="noopener" href="http://www.yourdomain.com/fan/index/index">http://www.yourdomain.com/fan/index/index</a></p>
+<p><img src="https://i.imgur.com/qeI1A91.png"></p>
+<p>具体的显示样式和内容，自己可以在模板文件那里输出自己需要的字段，通过css可以完成显示内容的美化。</p>
+<p>这个时候如果我们想要对上传的文件格式支持pdf和doc等的话，我们可以找到app/code/local/Voodoo/Fan/controllers/Adminhtml/FanController.php这个文件，把里面的这句代码：</p>
+<pre><code>$uploader-&gt;setAllowedExtensions(array(&#39;jpg&#39;, &#39;jpeg&#39;,&#39;gif&#39;, &#39;png&#39;));</code></pre>
+<p>改成</p>
+<pre><code>$uploader-&gt;setAllowedExtensions(array(&#39;jpg&#39;, &#39;jpeg&#39;,&#39;gif&#39;, &#39;png&#39;, &#39;pdf&#39;,&#39;doc&#39;,&#39;docx&#39;));</code></pre>
+<p>即可，这样的话就支持pdf以及word文档了，其他的可以自行添加。</p>
+<p>好的，我们在模板文件里面来个判断，就是如果上传的是文件的话（比如是pdf格式的），那么就不是显示缩略图，而是用一张默认的图片替代，如果上传的是图片格式的，那么就显示缩略图。看下是如何实现的：</p>
+<p>我们找到模板文件：app/design/frontend/sm_market/default/template/fan/fan.phtml，打开</p>
+<pre><code>&lt;h3&gt;&lt;?php echo $this-&gt;__(&#39;Voodoo最新防伪码&#39;) ?&gt;&lt;/h3&gt;
+
+&lt;table class=&quot;biaoge&quot;&gt;
+    &lt;tr&gt;
+        &lt;td&gt;缩略图&lt;/td&gt;
+        &lt;td&gt;防伪码&lt;/td&gt;
+        &lt;td&gt;品牌商&lt;/td&gt;
+        &lt;td&gt;负责人&lt;/td&gt;
+        &lt;td&gt;公司名称&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;?php foreach($this-&gt;getNewsList() as $item): ?&gt;
+        &lt;tr&gt;
+            &lt;td&gt;
+                &lt;img src=&quot;&lt;?php echo Mage::getBaseUrl(&#39;media&#39;) . &#39;fan&#39;. DS . $item[&#39;filename&#39;] ?&gt;&quot; alt=&quot;&lt;?php echo $item[&#39;bianma&#39;]?&gt;&quot; width=&quot;64&quot; height=&quot;64&quot;/&gt;
+            &lt;/td&gt;
+            &lt;td&gt;
+                &lt;h5&gt;&lt;?php echo $item[&#39;bianma&#39;] ?&gt;&lt;/h5&gt;
+            &lt;/td&gt;
+            &lt;td&gt;
+                &lt;h5&gt;&lt;?php echo $item[&#39;brand&#39;] ?&gt;&lt;/h5&gt;
+            &lt;/td&gt;
+            &lt;td&gt;
+                &lt;h5&gt;&lt;?php echo $item[&#39;user&#39;] ?&gt;&lt;/h5&gt;
+            &lt;/td&gt;
+            &lt;td&gt;
+                &lt;h5&gt;&lt;?php echo $item[&#39;company&#39;] ?&gt;&lt;/h5&gt;
+            &lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;?php endforeach; ?&gt;
+&lt;/table&gt;
+
+&lt;style&gt;
+    input.input-text &#123;
+        width: 100% !important;
+    &#125;
+    .yt_main_inner select&#123;
+        width: 100%;
+        margin-bottom: 20px;
+    &#125;
+    input[type=&quot;submit&quot;]&#123;
+        width: 150px;
+        margin-bottom: 20px;
+        background: #444444;
+        color: #fff;
+        border: 0px;
+    &#125;
+    .biaoge td,.biaoge th&#123;
+        padding:8px 10px;
+        border:1px solid #ccc;
+    &#125;
+    .biaoge tr td:first-child&#123;
+        width:80px;
+    &#125;
+    .biaoge tr:first-child&#123;
+        background: #666;
+        color: #fff;
+    &#125;
+    .biaoge img&#123;
+        width: 100%;
+    &#125;
+    .biaoge&#123;
+        border-collapse:collapse !important;
+        border: 1px solid;
+        width: 100%;
+    &#125;
+&lt;/style&gt;</code></pre>
+<p>我们在显示缩略图那里添加判断：</p>
+<pre><code>&lt;?php if (pathinfo($item[&#39;filename&#39;])[&#39;extension&#39;] != &#39;pdf&#39;):?&gt;
+&lt;img src=&quot;&lt;?php echo Mage::getBaseUrl(&#39;media&#39;) . &#39;fan/&#39;.$item[&#39;filename&#39;] ?&gt;&quot; alt=&quot;&lt;?php echo $item[&#39;bianma&#39;]?&gt;&quot; width=&quot;64&quot; height=&quot;64&quot;/&gt;
+&lt;?php else:?&gt;
+&lt;a href=&quot;&lt;?php echo Mage::getBaseUrl(&#39;media&#39;) . &#39;fan/&#39;.$item[&#39;filename&#39;] ?&gt;&quot; download&gt;&lt;img src=&quot;http://www.tanzrepdelhi.com/images/pdficon.png&quot; alt=&quot;&lt;?php echo $item[&#39;bianma&#39;]?&gt;&quot; width=&quot;64&quot; height=&quot;64&quot;/&gt;&lt;/a&gt;
+&lt;?php endif; ?&gt;</code></pre>
+<p>这句话的意思就是，如果文件的扩展名不是pdf的话，那么就正常显示，否则，就显示笔者事先找好的一张图片，然后为这张图片添加链接，点击就可以下载这个pdf文件（我们为a标签添加了一个download属性，这个属性就是告诉链接，不用打开了，直接下载）。眼尖的读者可能发现了笔者对以前的那个进行了改写，以前是类似这样：</p>
+<pre><code>&lt;img class=&quot;suoluetu&quot; src=&quot;&lt;?php echo Mage::getBaseUrl(&#39;media&#39;) . &#39;fan&#39;. DS . $this-&gt;showresult()[0][&#39;filename&#39;] ?&gt;&quot; alt=&quot;&quot;/&gt;</code></pre>
+<p>后来笔者发现这个图片的地址是：</p>
+<p><img src="https://i.imgur.com/mnx2LGr.png"></p>
+<p>这样的，这个是反斜杠，于是怀疑是这个<code>.DS.</code>搞的鬼，后来删除了这个，改成如下：</p>
+<pre><code>&lt;img class=&quot;suoluetu&quot; src=&quot;&lt;?php echo Mage::getBaseUrl(&#39;media&#39;) . &#39;fan/&#39;. $this-&gt;showresult()[0][&#39;filename&#39;] ?&gt;&quot; alt=&quot;&quot;/&gt;</code></pre>
+<p>我们接着上面的内容，这里有个php判断语句，大家要知道如何写，另外这里重点说下对扩展名的判断的写法：</p>
+<pre><code>&lt;?php
+    $filename=&quot;123.jpg&quot;;
+    $extend=pathinfo($filename);
+    echo &quot;&lt;br&gt;three&lt;br&gt;&quot;;
+    echo $extend[&#39;extension&#39;];
+?&gt;</code></pre>
+<p>这个打印在前台的是：</p>
+<pre><code>tree
+jpg</code></pre>
+<p>好的，根据这个意思，那么久简单了，我们只需要获取图片地址代码：<code>$item[&#39;filename&#39;]</code>，然后套用就对了。</p>
+<p>更多的判断demo，这里分享下：</p>
+<pre><code>&lt;?php 
+$filename=&quot;123.jpg&quot;;
+//方法一：
+function get_ext($file_name)&#123;
+  return array_pop(explode(&#39;.&#39;, $file_name));
+  //用.号对字符串进行分组
+&#125;
+echo &quot;&lt;br&gt;one&lt;br&gt;&quot;;
+echo get_ext($filename);
+//方法二：
+$fileEx=strtolower(substr(strrchr($filename,&quot;.&quot;),1));
+echo &quot;&lt;br&gt;two&lt;br&gt;&quot;;
+echo $fileEx;
+//方法三：
+$extend=pathinfo($filename);
+echo &quot;&lt;br&gt;three&lt;br&gt;&quot;;
+echo $extend[&#39;extension&#39;];
+//方法四：
+$filetype=array(&quot;image/gif&quot;,&quot;image/jpeg&quot;);
+//判断文件扩展名类型是否在该 数组中
+if(in_array($_FILES[&#39;file&#39;][&#39;type&#39;],$filetype))&#123;
+//针对上传文件判断
+  echo &quot;four&lt;br&gt;&quot;;
+  echo $_FILES[&#39;file&#39;][&#39;type&#39;];
+&#125;
+ ?&gt;</code></pre>
+<p>大家可以运行一下上面的代码，找到方法。</p>
+<p>最后粘贴下结果：</p>
+<p><img src="https://i.imgur.com/YStFLa7.png"></p>
+<p>数据库那边截图：</p>
+<p><img src="https://i.imgur.com/Jb6xNJa.png"></p>
+<p>因此，逻辑没毛病。大家可以在这个基础上做更多的扩展和开发。</p>
+<p>好的，这个对于防伪码的在后台添加的就完成了，如果我们想要完成一个在前台查询防伪码的功能，我们可以参考笔者另外一篇文章：</p>
+<p><a target="_blank" rel="noopener" href="https://helongquan.github.io/2018/07/31/magento%E9%80%9A%E8%BF%87%E8%AF%BB%E5%8F%96%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E6%96%B9%E5%BC%8F%E5%AE%9E%E7%8E%B0%E9%98%B2%E4%BC%AA%E7%A0%81%E6%9F%A5%E8%AF%A2%E5%8A%9F%E8%83%BD/">magento通过读取数据库的方式实现防伪码查询功能</a></p>
+<hr>
+<p><strong>这里笔者还是啰嗦一下，把这边文章的教程复制过来：</strong></p>
+<p>1、首先在local下创建新的模块，依次创建如下文件或者文件夹：</p>
+<pre><code>app/code/local/Test/Fanweima
+app/code/local/Test/Fanweima/Block
+app/code/local/Test/Fanweima/Block/Fanweima.php
+app/code/local/Test/Fanweima/controllers
+app/code/local/Test/Fanweima/controllers/IndexController.php
+app/code/local/Test/Fanweima/etc
+app/code/local/Test/Fanweima/etc/config.xml
+app/code/local/Test/Fanweima/Helper
+app/code/local/Test/Fanweima/Helper/Data.php</code></pre>
+<p>Test是命名空间，Fanweima是模块名，通常一个标准的模块有六个文件夹：Block,controllers,etc,Model,Helper,sql</p>
+<p>另外，我们需要在magento的数据库中创建一个数据表（尽管在本篇教程里面用不到这个数据表），笔者这里命名为：wp_fanweima，wp_fanweima.sql语句如下：</p>
+<pre><code>SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for wp_fanweima
+-- ----------------------------
+DROP TABLE IF EXISTS `wp_fanweima`;
+CREATE TABLE `wp_fanweima` (
+  `id` int(16) unsigned NOT NULL AUTO_INCREMENT COMMENT &#39;9&#39;,
+  `name` char(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `brand` varchar(300) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `fuzeren` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `diqu` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `chanpin` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `baozhiqi` varchar(16) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `attachment` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=53 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+
+-- ----------------------------
+-- Records of wp_fanweima
+-- ----------------------------
+INSERT INTO `wp_fanweima` VALUES (&#39;46&#39;, &#39;7766&#39;, &#39;wegret&#39;, &#39;erhgrw&#39;, &#39;qegrhw&#39;, &#39;wegrwrf&#39;, &#39;89&#39;, &#39;http://localhost:8080/wordpress/wp-content/uploads/2018/07/test1.pdf&#39;);
+INSERT INTO `wp_fanweima` VALUES (&#39;47&#39;, &#39;789&#39;, &#39;qwedfv&#39;, &#39;bgferfg&#39;, &#39;sdfgbhng&#39;, &#39;fggsfgnh&#39;, &#39;987&#39;, &#39;http://localhost:8080/wordpress/wp-content/uploads/2018/07/1.jpg&#39;);
+INSERT INTO `wp_fanweima` VALUES (&#39;51&#39;, &#39;1013&#39;, &#39;诺福罗得&#39;, &#39;zhangsan&#39;, &#39;广州&#39;, &#39;水生生物学&#39;, &#39;4&#39;, &#39;https://pan.baidu.com/s/1ZL3fjahxI48YOsLTFrJ_KQ&#39;);
+INSERT INTO `wp_fanweima` VALUES (&#39;52&#39;, &#39;678&#39;, &#39;sdfghjk&#39;, &#39;dfghj,&#39;, &#39;werfghjk&#39;, &#39;wdfghj&#39;, &#39;34&#39;, &#39;http://www.baidu.com&#39;);</code></pre>
+<p>好的，我们创建好这些文件的时候，先去在网站的配置目录下创建一个激活这个模块的配置文件，如果我们想要激活命名空间为Test下的所有模块，那么我们可以在app/etc/modules/这个目录下创建一个Test_All.xml即可。然后下面的所有模块大致配置是这样的：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;config&gt;
+     &lt;modules&gt;
+        &lt;Test_Fanweima&gt;
+            &lt;active&gt;true&lt;/active&gt;
+            &lt;codePool&gt;local&lt;/codePool&gt;
+        &lt;/Test_Fanweima&gt;
+        &lt;Test_Shopping&gt;
+            &lt;active&gt;true&lt;/active&gt;
+            &lt;codePool&gt;local&lt;/codePool&gt;
+        &lt;/Test_Shopping&gt;
+        &lt;Test_Customer&gt;  
+            &lt;active&gt;true&lt;/active&gt;  
+            &lt;codePool&gt;local&lt;/codePool&gt;  
+        &lt;/Test_Customer&gt;
+     &lt;/modules&gt;
+&lt;/config&gt;</code></pre>
+<p>从这里可以看到这个命名空间下有三个自定义的模块分别是：Fanweima，Shopping，Customer</p>
+<p>我们言归正传，这里我们不用这个方法，我们还是只激活我们创建的这个模块，那么我们在app/etc/modules/这个目录下创建一个Test_Fanweima.xml，代码如下：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;config&gt;
+    &lt;modules&gt;
+        &lt;Test_Fanweima&gt;
+            &lt;active&gt;true&lt;/active&gt;
+            &lt;codePool&gt;local&lt;/codePool&gt;
+        &lt;/Test_Fanweima&gt;
+    &lt;/modules&gt;
+&lt;/config&gt;</code></pre>
+<p>接着，我们打开app/code/local/Test/Fanweima/etc/config.xml这个文件，加入代码：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;config&gt;
+    &lt;modules&gt;
+        &lt;Test_Fanweima&gt;
+            &lt;version&gt;0.1.0&lt;/version&gt;
+        &lt;/Test_Fanweima&gt;
+    &lt;/modules&gt;
+    &lt;frontend&gt;
+        &lt;routers&gt;
+            &lt;fanweima&gt;
+                &lt;use&gt;standard&lt;/use&gt;
+                &lt;args&gt;
+                    &lt;module&gt;Test_Fanweima&lt;/module&gt;
+                    &lt;frontName&gt;fanweima&lt;/frontName&gt;
+                &lt;/args&gt;
+            &lt;/fanweima&gt;
+        &lt;/routers&gt;
+        &lt;layout&gt;
+            &lt;updates&gt;
+                &lt;fanweima&gt;
+                    &lt;file&gt;fanweima.xml&lt;/file&gt;
+                &lt;/fanweima&gt;
+            &lt;/updates&gt;
+        &lt;/layout&gt;
+    &lt;/frontend&gt;
+    &lt;global&gt;
+        &lt;models&gt;
+            &lt;fanweima&gt;
+                &lt;class&gt;Test_Fanweima_Model&lt;/class&gt;
+                &lt;resourceModel&gt;fanweima_mysql4&lt;/resourceModel&gt;
+            &lt;/fanweima&gt;
+        &lt;/models&gt;
+        &lt;blocks&gt;
+            &lt;fanweima&gt;
+                &lt;class&gt;Test_Fanweima_Block&lt;/class&gt;
+            &lt;/fanweima&gt;
+        &lt;/blocks&gt;
+        &lt;helpers&gt;
+            &lt;fanweima&gt;
+                &lt;class&gt;Test_Fanweima_Helper&lt;/class&gt;
+            &lt;/fanweima&gt;
+        &lt;/helpers&gt;
+    &lt;/global&gt;
+&lt;/config&gt;</code></pre>
+<p>接着，我们打开app/code/local/Test/Fanweima/Helper/Data.php这个文件：</p>
+<pre><code>&lt;?php
+
+class Test_Fanweima_Helper_Data extends Mage_Core_Helper_Abstract
+&#123;
+
+&#125;</code></pre>
+<p>这里讲解一下：这个里面由于没有复杂的逻辑，所以直接保留为空即可。以后有新的业务逻辑可以添加在这里面。</p>
+<p>添加完毕后，我们打开app/code/local/Test/Fanweima/controllers/IndexController.php这个文件，加入代码：</p>
+<pre><code>&lt;?php
+class Test_Fanweima_IndexController extends Mage_Core_Controller_Front_Action
+&#123;
+    public function indexAction()
+    &#123;
+        if ($this-&gt;getRequest()-&gt;isPost())&#123; /* 首先判断是否有post发生 */
+            $nu1 = $this-&gt;getRequest()-&gt;getParam(&#39;NUM1&#39;); /* 截获参数 */
+            $read =Mage::getSingleton(&quot;core/resource&quot;)-&gt;getConnection(&#39;core_read&#39;);
+            $sql = &quot;select * from `fan` where bianma=&#39;$nu1&#39;&quot;;  /* 这里用的是数据表为fan的，而不是wp_fanweima */
+            $result =$read-&gt;fetchAll($sql);
+            Mage::register(&#39;nu1&#39;, $result);/* 传递到block 关于更多的Magento常用Mage::静态方法参考网址：https://www.cnblogs.com/kangkangdede/p/3321121.html*/
+        &#125;
+
+        $this-&gt;loadLayout();
+        $this-&gt;renderLayout();
+    &#125;
+&#125;</code></pre>
+<p>这里我们进行讲解：控制器写法不用多说了，我们来看这个index方法里面的代码：</p>
+<p>先判断一下是否有数据提交。</p>
+<pre><code>$this-&gt;getRequest()-&gt;isPost()</code></pre>
+<p>然后截获参数，这个参数来自模板文件里面的表单字段name里的NUM1，这个参数是来自前台表单的提交，需要根据这个字段对数据库进行条件查询的，所以需要这样写。</p>
+<p>接着里面有三行代码：</p>
+<pre><code>$read =Mage::getSingleton(&quot;core/resource&quot;)-&gt;getConnection(&#39;core_read&#39;);
+$sql = &quot;select * from `fan` where bianma=&#39;$nu1&#39;&quot;;
+$result =$read-&gt;fetchAll($sql);</code></pre>
+<p>针对这三行代码的理解，这里笔者摘录了一段如下：</p>
+<pre><code>&lt;?php  
+    /** 
+      * Get the resource model 
+      */  
+    $resource = Mage::getSingleton(&#39;core/resource&#39;);  
+
+    /** 
+     * Retrieve the read connection 
+     */  
+    $readConnection = $resource-&gt;getConnection(&#39;core_read&#39;);  
+
+    /** 
+     * Retrieve our table name 
+     */  
+    $table = $resource-&gt;getTableName(&#39;catalog/product&#39;);  
+
+    /** 
+     * Execute the query and store the results in $results 
+     */  
+    $sku = $readConnection-&gt;fetchCol(&#39;SELECT sku FROM &#39; . $table . &#39;);</code></pre>
+<p>想必有点概念了，如果不清楚可以针对getSingleton(),getConnection(),getTableName()方法进行更深入的了解。</p>
+<p>好的，我们回到那三条代码，第二条是查询数据表为fan的bianma是表单提交的所有结果。</p>
+<p>最后那条就是遍历查询结果，保存到变量$result中。</p>
+<p>然后使用：</p>
+<pre><code>Mage::register(&#39;nu1&#39;, $result);</code></pre>
+<p>这条代码是把controller控制器传值到Block去。这样的话就把结果保存在nu1中传到block中去，这里有个magento的静态方法：</p>
+<blockquote>
+<p>Mage::register($key, $value, $graceful = false)</p>
+<p>作用：注册变量，这个一般都是传值，将变量变为全局变量，比如controller控制器传值到Block，或者Model或者Helper.</p>
+<p>参数：$key,键名，随便一个不存在的键名。</p>
+<p>$value,键值。既是要保存的值。</p>
+<p>$graceful，这个是标志是否要覆盖原有的值，默认是false.如果键名存在，而$graceful又是false,则抛出异常。</p>
+</blockquote>
+<p>最后，添加如下两条代码：</p>
+<pre><code>$this-&gt;loadLayout();
+$this-&gt;renderLayout();</code></pre>
+<p>完事！</p>
+<p>然后在app/code/local/Test/Fanweima/Block/Fanweima.php里面加入代码：</p>
+<pre><code>&lt;?php
+class Test_Fanweima_Block_Fanweima extends Mage_Core_Block_Template
+&#123;
+  protected $nu1 = null;
+  public function showresult()&#123;
+    $this-&gt;nu1 = Mage::registry(&#39;nu1&#39;); /* 获得从controllers中传递来的参数 */
+    return $this-&gt;nu1;
+  &#125;
+&#125;</code></pre>
+<p>查询结果已经通过控制器传到了模块中来了，所以这里的就用Magento常用Mage::静态方法中的registry方法。说明如下：</p>
+<blockquote>
+<p>Mage::registry($key)</p>
+<p>作用：获取注册了的变量。既是获取了已经用Mage::register方法注册了的变量，如没有则返回null，在magento中，如果获取了没有注册的变量，那么可能会出现异常。</p>
+<p>参数：$key，键名，任何已经注册了的键名。</p>
+</blockquote>
+<p>好的，我们回到上面的代码，在方法showresult()中，获取了传过来的值后，然后返回这些值，这个是没有逻辑问题的。好的既然这个查询数据库的数据都查出来了，也通过控制器把值传到block中了，那么我们就需要把这个值显示到前台模板中去才行，对吧。好的继续往下看。</p>
+<p>模块的代码已经完成了，根据前面说的，就是我们如何让这个模块的数据显示到网站的前台，我们来到模板那里：</p>
+<p>结构如下：</p>
+<pre><code>app/design/frontend/your-theme/default/layout/fanweima.xml
+app/design/frontend/your-theme/default/template/fanweima
+app/design/frontend/your-theme/default/template/fanweima/fanweima.phtml</code></pre>
+<p>我们逐个文件添加内容，fanweima.xml代码如下：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;layout version=&quot;0.1.0&quot;&gt;
+    &lt;default&gt;
+    &lt;/default&gt;
+    &lt;fanweima_index_index&gt;
+        &lt;reference name=&quot;content&quot;&gt;
+            &lt;block type=&quot;fanweima/fanweima&quot; name=&quot;fanweima&quot; template=&quot;fanweima/fanweima.phtml&quot;/&gt;
+        &lt;/reference&gt;
+    &lt;/fanweima_index_index&gt;
+&lt;/layout&gt;</code></pre>
+<p>这里做个讲解：</p>
+<p>这里引用模板文件fanweima.phtml，这个文件在fanweima这个目录下。如果换成其他的名字也是可以的。如果换成其他名字，fanweimas.phtml，那么app/design/frontend/your-theme/default/template/fanweima/fanweima.phtml中的fanweima.phtml换成fanweimas.phtml即可。这个文件的目的就是告诉浏览器当请求这个fanweima路由的时候，要用fanweima.phtml这个模板文件渲染。我们声明清楚了之后，我们就来的这个模板文件。</p>
+<p><strong>fanweima.phtml代码如下：</strong></p>
+<pre><code>&lt;form action=&quot;&lt;?php echo Mage::getUrl(&#39;fanweima&#39;) ?&gt;&quot; method=&quot;post&quot; id=&quot;fanweima_form&quot;&gt;
+    &lt;fieldset&gt;
+        &lt;ul&gt;
+            &lt;li&gt;
+                &lt;label for=&quot;NUM1&quot;&gt;&lt;?php echo $this-&gt;__(&#39;防伪码: &#39;) ?&gt;&lt;span class=&quot;required&quot;&gt;*&lt;/span&gt;&lt;/label&gt;
+                &lt;input type=&quot;text&quot; id=&quot;NUM1&quot; name=&quot;NUM1&quot; class=&quot;input-text required-entry  validate-alphanum&quot; placeholder=&quot;输入防伪码&quot; onkeyup=&quot;this.value=this.value.match(/^[1-9]&#123;1&#125;[0-9]*$/)&quot; onafterpaste=&quot;this.value=this.value.match(/^[1-9]&#123;1&#125;[0-9]*$/)&quot;/&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+                &lt;input type=&quot;submit&quot; value=&quot;&lt;?php echo $this-&gt;__(&#39;立即查询&#39;) ?&gt;&quot; /&gt;
+            &lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/fieldset&gt;
+&lt;/form&gt;
+
+&lt;style&gt;
+    input.input-text &#123;
+        width: 100% !important;
+    &#125;
+    .yt_main_inner select&#123;
+        width: 100%;
+        margin-bottom: 20px;
+    &#125;
+    input[type=&quot;submit&quot;]&#123;
+        width: 150px;
+        margin-bottom: 20px;
+        background: #444444;
+        color: #fff;
+        border: 0px;
+    &#125;
+    .biaoge td,.biaoge th&#123;
+        padding:8px 10px;
+        border:1px solid;
+    &#125;
+    .biaoge tr td:first-child&#123;
+        background: #eeeeee;
+    &#125;
+    .biaoge&#123;
+        border-collapse:collapse !important;
+        border: 1px solid;
+        width: 100%;
+    &#125;
+&lt;/style&gt;
+
+&lt;h2&gt;查询结果：&lt;/h2&gt;
+&lt;?php if ($this-&gt;showresult()[0][&#39;bianma&#39;] &amp;&amp; $this-&gt;showresult()[0][&#39;status&#39;] == 1):?&gt;
+&lt;!-- 输出查询防伪码的缩略图，这个图片地址是用的fan这个模块的，因为我们查询数据表是由fan这个模块上传上去的 --&gt;
+&lt;img src=&quot;&lt;?php echo Mage::getBaseUrl(&#39;media&#39;) . &#39;fan&#39;. DS . $this-&gt;showresult()[0][&#39;filename&#39;] ?&gt;&quot; alt=&quot;&quot;/&gt;
+&lt;table class=&quot;biaoge&quot;&gt;
+    &lt;tr&gt;
+        &lt;td&gt;防伪码编号&lt;/td&gt;
+        &lt;td&gt;&lt;?php echo $this-&gt;showresult()[0][&#39;bianma&#39;]; ?&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;所属品牌&lt;/td&gt;
+        &lt;td&gt;&lt;?php echo $this-&gt;showresult()[0][&#39;brand&#39;]; ?&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;所属公司&lt;/td&gt;
+        &lt;td&gt;&lt;?php echo $this-&gt;showresult()[0][&#39;company&#39;]; ?&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;检验负责人&lt;/td&gt;
+        &lt;td&gt;&lt;?php echo $this-&gt;showresult()[0][&#39;user&#39;]; ?&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;明细&lt;/td&gt;
+        &lt;td&gt;&lt;?php echo $this-&gt;showresult()[0][&#39;content&#39;]; ?&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;
+&lt;?php else:?&gt;
+&lt;p&gt;你查询的防伪码不存在或者是你的输入值为空，请核对后再次查询&lt;/p&gt;
+&lt;?php endif; ?&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+    var customForm = new VarienForm(&#39;fanweima_form&#39;);
+&lt;/script&gt;</code></pre>
+<p>这里对这个文件做个讲解：</p>
+<p>表单提交后提交给谁呢？</p>
+<pre><code>&lt;?php echo Mage::getUrl(&#39;fanweima&#39;) ?&gt;</code></pre>
+<p>这个就是提交的地方。我们看下这个代码对应的地址就是：</p>
+<pre><code>http://www.yourdomain.com/fanweima/index/index</code></pre>
+<p>那么这个请求的就是到这个模块的控制的index方法。我们前面在讲解控制器那里就说了，有个来自前台表单的字段NUM1，就是这么来的。</p>
+<p>然后经过了一流程，把符合结果的内容显示在当前页面的下方：</p>
+<pre><code>&lt;?php echo $this-&gt;showresult(); ?&gt;</code></pre>
+<p>这个方法是来自block里面的，这个就是为什么需要通过控制器传值到模块中去的原因。</p>
+<p>其实到这里就算是完成了需求了，为了更符合一个防伪码的查询场景，这里笔者添加了一个判断，如果防伪码存在那么就会输出查询结果明细，如果防伪码不存在，那么就会提示用户防伪码不存在。</p>
+<pre><code>&lt;?php if ($this-&gt;showresult()[0][&#39;name&#39;]):?&gt;
+  //当防伪码存在的时候输出的内容代码
+&lt;?php else:?&gt;
+  //当防伪码不存在的时候，输出的内容
+&lt;?php endif; ?&gt;</code></pre>
+<p>最开始笔者为了了解输出的结果数据结构的时候，采用的是print_r的方式对数据进行打印输出：</p>
+<pre><code>&lt;?php print_r($this-&gt;showresult()); ?&gt;</code></pre>
+<p>了解了数据结果后，再进行某个字段的输出，这样比较清楚，建议在将来的开发过程中的调试也要用这种思路。</p>
+<p>最后，粘贴下效果图：</p>
+<p><img src="https://i.imgur.com/iFvzYFT.png"></p>
+<p>如果输入的是不存在的防伪码，那么结果如下：</p>
+<p><img src="https://i.imgur.com/iX31RFH.png"></p>
+<p>这个自定义模块整理就算完成了。</p>
+<hr>
+<p>这篇文章的目的就是实现防伪码的查询功能，如果想要查询本文的数据库，那么只需要修改一下控制器里面的数据库表的名字即可，然后在输出字段那里与本文的数据表的字段对应好了就可以正常显示查询结果了。这里截图看下结果：</p>
+<p>如果输入错误或者没有输入的时候，效果截图：</p>
+<p><img src="https://i.imgur.com/QHQdrod.png"></p>
+<p>好的，假设我们已经修改成了查询我们本文的数据表(不输出缩图图的话)，我们看下搜索结果：</p>
+<p><img src="https://i.imgur.com/OwZLBFw.png"></p>
+<p>数据库表截图如下：</p>
+<p><img src="https://i.imgur.com/NemeAYT.png"></p>
+<p>内容对应得上，所以整个逻辑是没有问题的。好的，今日总结到此结束。</p>
+<p>本文参考了这篇博文：<a target="_blank" rel="noopener" href="https://blog.csdn.net/ddjohn/article/details/6592589">https://blog.csdn.net/ddjohn/article/details/6592589</a></p>
+<p>这篇博客总共分为九部分，很经典的教程，magento开发必读。这个作者的主页也是很值得学习的，地址分享一下给大家：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/column/details/magentoyipyip.html">https://blog.csdn.net/column/details/magentoyipyip.html</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/magento-%E9%98%B2%E4%BC%AA%E7%A0%81-%E5%90%8E%E5%8F%B0%E6%B7%BB%E5%8A%A0%E5%86%85%E5%AE%B9-%E5%89%8D%E5%8F%B0%E6%98%BE%E7%A4%BA%E5%86%85%E5%AE%B9-%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0-%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0-%E6%A8%A1%E5%9D%97%E5%BC%80%E5%8F%91/" rel="tag"># magento,防伪码,后台添加内容,前台显示内容,文件上传,图片上传,模块开发</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/07/31/Magento%E5%B8%B8%E7%94%A8Mage%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95(register,unregister,registry,getBaseUrl,getUrl,getModel,getSingleton,getResourceModel,helper)/" rel="prev" title="Magento常用Mage静态方法register,unregister,registry,getBaseUrl,getUrl,getModel,getSingleton,getResourceModel,helper">
+      <i class="fa fa-chevron-left"></i> Magento常用Mage静态方法register,unregister,registry,getBaseUrl,getUrl,getModel,getSingleton,getResourceModel,helper
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/08/04/Magento%E5%88%A9%E7%94%A8-htaccess%E5%BC%80%E5%90%AFgzip%E5%8E%8B%E7%BC%A9%E6%8F%90%E9%80%9F%EF%BC%8C%E6%8F%90%E9%AB%98%E7%BD%91%E7%AB%99%E7%9A%84%E5%93%8D%E5%BA%94%E9%80%9F%E5%BA%A6%E5%92%8C%E5%8A%A0%E9%80%9F%E7%BD%91%E7%AB%99/" rel="next" title="Magento利用.htaccess开启gzip压缩提速，提高网站的响应速度和加速网站">
+      Magento利用.htaccess开启gzip压缩提速，提高网站的响应速度和加速网站 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,23 +1,1303 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-{% block title %}{{ config.title }}{% if theme.index_with_subtitle and config.subtitle %} - {{config.subtitle }}{% endif %}{% endblock %}
+<link rel="stylesheet" href="/css/main.css">
 
-{% block page_class %}
-  {% if is_home() %}page-home{% endif -%}
-{% endblock %}
 
-{% block content %}
-  <section id="posts" class="posts-expand">
-    {% for post in page.posts %}
-      {{ post_template.render(post, true) }}
-    {% endfor %}
-  </section>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-  {% include '_partials/pagination.swig' %}
-{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
 
-{% block sidebar %}
-  {{ sidebar_template.render(false) }}
-{% endblock %}
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/page/25/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/page/25/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
+            
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/03/12/%E8%87%AA%E5%AE%9A%E4%B9%89wordpress%E8%8F%9C%E5%8D%95%E6%A0%8F%E6%8A%98%E5%8F%A0%E5%B0%BA%E5%AF%B8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/03/12/%E8%87%AA%E5%AE%9A%E4%B9%89wordpress%E8%8F%9C%E5%8D%95%E6%A0%8F%E6%8A%98%E5%8F%A0%E5%B0%BA%E5%AF%B8/" class="post-title-link" itemprop="url">自定义wordpress菜单栏折叠尺寸</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-03-12 15:13:44" itemprop="dateCreated datePublished" datetime="2018-03-12T15:13:44+08:00">2018-03-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:52:48" itemprop="dateModified" datetime="2020-10-11T11:52:48+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>当我们在采用wordpress网站设计的时候，由于很多wordpress主题都是基于bootstrap作为前端框架，那么我们知道bootstrap作为框架的时候，手机版是以767px作为分界点，当屏幕尺寸小于767px的时候，那么就会折叠，大概此时的菜单栏长成这个样子：</p>
+<p><img src="https://i.imgur.com/je5Ke44.jpg"></p>
+<p>可是当我们的菜单栏里的项目太多的时候，那么可能还在没来得及折叠的时候，菜单就会覆盖到左边logo上去了，情况大概是这样的：</p>
+<p><img src="https://i.imgur.com/8W1Rby5.jpg"></p>
+<p>所以，看起来不美观，那么我们就不得不这样想，只能在菜单快要挨着红色区域的时候，就进行折叠，那么就不会存在上面截图那样的尴尬的界面了，那么我们如何修改这个bootstrap的媒体查询呢，换句话说就是如何自定义这个菜单栏折叠的设备尺寸了。</p>
+<p>笔者的思路是：观察767px的时候，这个菜单栏发生了什么变化，然后对控制菜单发生变化的媒体查询进行一个修改从767px改成自己想要的尺寸，比如我这里写成1320px，那么当屏幕宽度小于这个临界值的时候，就会自动折叠起来。</p>
+<p>我这里以enfold主题为例进行一个讲解，当我把屏幕移动到767px以下的时候，菜单折叠了，然后，通过观察发现跟菜单有关的有如下几个标签：</p>
+<p><img src="https://i.imgur.com/CdSNMzs.jpg"></p>
+<p>然后就是看右边对应的媒体查询代码：</p>
+<p><img src="https://i.imgur.com/JaBS5No.jpg"></p>
+<p>然后就是依次类推，把所有有关的都找出来，把里面的989px改成自己想要的屏幕尺寸。经过整理，后来发现真正控制着这个自定义媒体查询尺寸的就是短短的几行代码：</p>
+<pre><code>@media only screen and (max-width: 1410px) and (min-width: 768px)&#123;
+.responsive #top .av_mobile_menu_tablet .av-main-nav .menu-item &#123;
+    display: none !important;
+&#125;
+.responsive #top .av-main-nav .menu-item-avia-special &#123;
+    display: block;
+&#125;
+&#125;</code></pre>
+<p>其实，通过代码我们就可以看到，先隐藏PC版菜单，然后显示控制手机版样式的代码，这样就实现了自定义的目的。当然这个是针对enfold主题的调试，至于其他的，我们根据这个思路，是可以解决自定义媒体查询屏幕响应尺寸的。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/03/09/%E8%A7%A3%E5%86%B3wordpress%E8%81%94%E7%B3%BB%E8%A1%A8%E5%8D%95contact-form-7%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E7%9A%84%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/03/09/%E8%A7%A3%E5%86%B3wordpress%E8%81%94%E7%B3%BB%E8%A1%A8%E5%8D%95contact-form-7%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E7%9A%84%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">解决wordpress联系表单contact form 7文件上传的问题</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-03-09 14:56:45" itemprop="dateCreated datePublished" datetime="2018-03-09T14:56:45+08:00">2018-03-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:00" itemprop="dateModified" datetime="2020-10-11T11:53:00+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>笔者在很久前处理一个客户需求的时候，有些人喜欢在联系表单里面有个文件上传的功能，其实这个也不难，可是当时把我害得很苦，我几乎寻遍了整个互联网，居然没人遇到我这种问题。</p>
+<p>我的问题：网站的用户在网站前台留言，然后上传了一个文件，我在邮箱中收到了留言的电邮，但是我却始终收不到他们上传的文件。</p>
+<p>我用的时候contact form 7这个插件，我也是设置 “没问题” 的，先截图吧：</p>
+<p><img src="https://i.imgur.com/yDYNveN.png"></p>
+<p>红色框框中就是文件上传的代码，以前可不是这样设置的，不知道听某个人说要把limit:10MB，倒是没什么效果，后来在我伙伴英明的指导下，这样设置  limit:10485760，相关的换算，请参考这个网站：<a target="_blank" rel="noopener" href="http://whatsabyte.com/">http://whatsabyte.com</a></p>
+<p>看到了吧，这个是以Byte作为单位的，所以这里设置应该为 limit:10485760. 这是我犯的第一个错误</p>
+<p>接着我还是不能在附件里面收到上传的文件，我一直以来的思路是在收件箱那里建一个文件路径：</p>
+<pre><code>upload file:[_url]/wp-content/uploads/wpcf7_uploads/[file-833]</code></pre>
+<p>其中：[_url]代表网站的域名，[file-833]代表文件的名称，这个路径是contact form 7安装后自动创建的目录。可是无论我在前台的联系表单发送了多少次，我都没法在这个目录下找到我上传的文件。后来不知道在哪里获取的灵感，想到了这里：</p>
+<p><img src="https://i.imgur.com/XltJMEs.png"></p>
+<p>这个我一直是空着的，我加任何东西进去，于是把控制文件上传的简码放进去后，事情就变得简单了。当我再次在网站前台发送了一条测试电邮，并且上传了一个PDF，这个时候我在邮箱中的附件中看到了前台上传的文件：</p>
+<p><img src="https://i.imgur.com/DzyAdd4.png"></p>
+<p>这个时候需要补充的时候，我们可以根据自己业务需求，我们可以进行文件的上传文件类型做一个过滤处理，比如：filetypes:rar|pdf|zip|doc|docx|xsl等等。</p>
+<pre><code>[file file-833 limit:10485760 filetypes:rar|pdf|zip|doc|docx|xsl]</code></pre>
+<p>完成！</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/02/28/magento%E7%BC%96%E8%BE%91%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/02/28/magento%E7%BC%96%E8%BE%91%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8/" class="post-title-link" itemprop="url">magento编辑器的使用</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-02-28 10:58:51" itemprop="dateCreated datePublished" datetime="2018-02-28T10:58:51+08:00">2018-02-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:25" itemprop="dateModified" datetime="2020-10-11T11:53:25+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>相比于wordpress的高级编辑器，magento的编辑器显得较古老，但是这并不能说明这个吧编辑器不好，因为这个编辑器能够让我们添加变量。</p>
+<p><img src="https://i.imgur.com/XEY8a2B.png"></p>
+<p>想必我们都使用过word，那么我们就不会对这个编辑器模式，由于篇幅有限，我就不一一说明，这里主要说最重要的两个地方。</p>
+<p>一、Insert Widget这个功能</p>
+<p>这个是用来插入小工具的，就相当于wordpress里面的小工具，通过调用小工具的方式可以让我们的工作更加有效率，整个网站内容的调度也更加灵活。可以避免重复造轮子的情况。</p>
+<p>如果我们想要插入一个最新文章：</p>
+<p><img src="https://i.imgur.com/x1oYNNH.png"></p>
+<p>我们选择第一个Blog：Latest Posts，然后就可以了。点击保存，然后在前台刷新：</p>
+<p><img src="https://i.imgur.com/J15wVEy.png"></p>
+<p>当我们打开：<a target="_blank" rel="noopener" href="http://www.colddoor.net/index.php/test%E7%9A%84%E6%97%B6%E5%80%99%EF%BC%8C%E5%89%8D%E5%8F%B0%E5%B7%B2%E7%BB%8F%E6%98%BE%E7%A4%BA%E5%87%BA%E6%9D%A5%E4%BA%86%E3%80%82%E5%85%B6%E4%BB%96%E7%9A%84%E5%8A%9F%E8%83%BD%EF%BC%8C%E6%88%91%E4%BB%AC%E4%B9%9F%E5%8F%AF%E4%BB%A5%E9%87%87%E7%94%A8%E5%90%8C%E6%A0%B7%E7%9A%84%E6%96%B9%E5%BC%8F%E8%BF%9B%E8%A1%8C%E6%93%8D%E4%BD%9C%E3%80%82">http://www.colddoor.net/index.php/test的时候，前台已经显示出来了。其他的功能，我们也可以采用同样的方式进行操作。</a></p>
+<p><strong>注意：</strong></p>
+<p>这里为了内容的安全，在操作之前，我们最好在源码的模式下换一行进行操作，防止删除错了标签，如果你不粗心大意，基本没什么问题。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/02/28/magento%E9%A1%B5%E9%9D%A2%E7%9A%84%E6%B7%BB%E5%8A%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/02/28/magento%E9%A1%B5%E9%9D%A2%E7%9A%84%E6%B7%BB%E5%8A%A0/" class="post-title-link" itemprop="url">magento页面的添加</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-02-28 10:20:57" itemprop="dateCreated datePublished" datetime="2018-02-28T10:20:57+08:00">2018-02-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:20" itemprop="dateModified" datetime="2020-10-11T11:53:20+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>我们进入后台，依次进入：CMS—Pages</p>
+<p><img src="https://i.imgur.com/m0gIA6l.png"></p>
+<p>然后点击右上角的Add New Page，我们来到：</p>
+<p><img src="https://i.imgur.com/DiYg9YE.png"></p>
+<p>根据自己的需要填写必要的信息，确保必填项都填写完毕，然后保存。</p>
+<p>页面我们已经建好了，那么我们如何让我们的添加到我们想要的地方去呢？我们首先获取这个页面的链接，这里以我新建的test页面作为案例进行讲解。</p>
+<p>首先，我们找到页面的列表，然后找到test：</p>
+<p><img src="https://i.imgur.com/osAsA8W.png"></p>
+<p>点击预览（截图中红色圈住的那里），浏览器会打开，页面链接如下：</p>
+<pre><code>http://www.colddoor.net/index.php/test/?___store=english</code></pre>
+<p>这样我们就能知道我们新建的页面的链接是哪个了。</p>
+<p>其实，我们想要知道我们新建的页面的链接还有另外一个方法，就是在页面的编辑界面中找到URL：</p>
+<p><img src="https://i.imgur.com/MflbIF2.png"></p>
+<p>红色圈住的地方就是我们新建的页面设置的URL，我们只需要在我们的域名后面添加这里路径就是我们创建的页面路径了。当我们打开<a target="_blank" rel="noopener" href="http://www.colddoor.net/index.php/test%E7%9A%84%E6%97%B6%E5%80%99%EF%BC%8C%E4%B9%9F%E6%98%AF%E5%8F%AF%E4%BB%A5%E8%AE%BF%E9%97%AEtest%E9%A1%B5%E9%9D%A2%E7%9A%84%E3%80%82">http://www.colddoor.net/index.php/test的时候，也是可以访问test页面的。</a></p>
+<p>好的，说了那么多，我们新建了页面，然后又知道了页面的链接怎么获取，这个对我们有什么吧帮助呢。现在就让我们把我们新建的页面放在我们的网站底部：</p>
+<p><img src="https://i.imgur.com/wdQTTFl.png"></p>
+<p>红色框线的位置，我们先找到底部的block(模块)，我们找到这个区块：依次打开：CMS—Static blocks，我们找到底部链接所控制的区块</p>
+<p><img src="https://i.imgur.com/2cnbnUV.png"></p>
+<p>这个是我们要找的地方，我们进入源码模式（点击Show / Hide Editor），复制其中一行，然后把链接和内容更改成test即可</p>
+<p><img src="https://i.imgur.com/PBN2hk3.png"></p>
+<p>保存后，我们查看前台。</p>
+<p><img src="https://i.imgur.com/HaM9vQk.png"></p>
+<p>我们已经成功添加了。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/02/28/magento%E4%BF%AE%E6%94%B9%E4%BA%A7%E5%93%81%E5%86%85%E5%AE%B9%E5%92%8C%E5%88%A0%E9%99%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/02/28/magento%E4%BF%AE%E6%94%B9%E4%BA%A7%E5%93%81%E5%86%85%E5%AE%B9%E5%92%8C%E5%88%A0%E9%99%A4/" class="post-title-link" itemprop="url">magento修改产品内容和删除</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-02-28 09:47:11" itemprop="dateCreated datePublished" datetime="2018-02-28T09:47:11+08:00">2018-02-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:20" itemprop="dateModified" datetime="2020-10-11T11:53:20+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>我们进入到网站后台，依次进入：Catalog—Manage Products，我们将会看到产品的列表：</p>
+<p><img src="https://i.imgur.com/Fj8UAiL.png"></p>
+<p>我们选择一个产品，点击最右边的edit，或者是直接点击产品名称，对其进行修改，这里需要注意的是，对于必填项要填写，否则保存不成功。等我们修改完毕，如果我们保存的话直接点击：Save，保存后将会回到产品列表页面。如果我们保存后还要继续停留在产品编辑界面，那么点击：Save and Continue Edit。</p>
+<p>根据这个操作，完成对一个产品的更改。</p>
+<p>如果我们想直接删除这个产品，我们只需点击右上角的Delete即可。</p>
+<p><img src="https://i.imgur.com/KL2vVmZ.png"></p>
+<p>考虑到其他的需求，我们不想删除这个产品只是想让这个产品不显示怎么办，我们直接把Status设置成Disabled即可。</p>
+<p><img src="https://i.imgur.com/oZKkPxQ.png"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/02/26/magento%E8%8F%9C%E5%8D%95%E7%9A%84%E6%B7%BB%E5%8A%A0%E5%92%8C%E8%AE%BE%E7%BD%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/02/26/magento%E8%8F%9C%E5%8D%95%E7%9A%84%E6%B7%BB%E5%8A%A0%E5%92%8C%E8%AE%BE%E7%BD%AE/" class="post-title-link" itemprop="url">magento菜单的添加和设置</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-02-26 15:37:07" itemprop="dateCreated datePublished" datetime="2018-02-26T15:37:07+08:00">2018-02-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:25" itemprop="dateModified" datetime="2020-10-11T11:53:25+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>今天我们来讲解一下关于magento的菜单添加以及相关的设置。</p>
+<p>登录网站后台，找到Catalog—Manage Categories，我们看到类似如下内容：</p>
+<p><img src="https://i.imgur.com/Dgv2VwA.jpg"></p>
+<p>左边就是我们网站的菜单，它所对应的地方就是前台的：</p>
+<p><img src="https://i.imgur.com/OqwF2Ah.jpg"></p>
+<p>好的，如果我们想要添加一个内容，我们只需要点击左边上面的Add Subcategory（二级菜单项）或者是Add Root Category（一级菜单项），不过这个都是可以通过拖动进行排列的。</p>
+<p>接着，我们在右边填写相关的内容，包括菜单项的名称、缩略图等等其他的设置项，这里很多朋友添加了来问我，为什么没有显示呢，那是因为你没有启用，应该在Is Active那里设置成Yes.</p>
+<p>根据上面的tab项，我们可以知道Display Settings（用来设置显示什么内容的），Custom Design（用来设置用哪个模板显示，以及显示的布局方式），Menu（这个用来设置这个类目在菜单中以什么方式呈现，比如是否以magemenu显示等），Product Custom Tabs（产品选项卡自定义设置），Category Products（这个用来设置这个菜单下面显示哪些产品的），一切似乎已经很明了了，但是其中的细节还得大家留意。</p>
+<p>根据我们自己的需求进行设置，完毕后，进行保存，然后在前台进行查看即可。</p>
+<p>比如，这里我添加一个news的菜单项：</p>
+<p><img src="https://i.imgur.com/neWrmyi.jpg"></p>
+<p>对应的位置如下：</p>
+<p><img src="https://i.imgur.com/RGq1lTO.jpg"></p>
+<p>添加完毕，保存后，我们去前台看下：</p>
+<p><img src="https://i.imgur.com/Joo5iaI.jpg"></p>
+<p>我们点击打开后，我们将会看到：</p>
+<p><img src="https://i.imgur.com/X8ASBVF.jpg"></p>
+<p>由于篇幅问题，我就不一一截图了，因此我们的添加达到了我们的预期，那么同样的，修改或者删除都是类似，如果我们不想让某个菜单项显示在前台，那么，我们只需要把这个菜单隐藏即可：</p>
+<p><img src="https://i.imgur.com/HuZZIsd.jpg"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/02/26/magento%E7%BD%91%E7%AB%99%E8%BF%81%E7%A7%BB%E7%9B%B8%E5%85%B3%E6%96%B9%E6%A1%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/02/26/magento%E7%BD%91%E7%AB%99%E8%BF%81%E7%A7%BB%E7%9B%B8%E5%85%B3%E6%96%B9%E6%A1%88/" class="post-title-link" itemprop="url">magento网站迁移相关方案</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-02-26 09:57:06" itemprop="dateCreated datePublished" datetime="2018-02-26T09:57:06+08:00">2018-02-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:21" itemprop="dateModified" datetime="2020-10-11T11:53:21+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>今天在基于钥匙的教程的基础上进行一个实践，以及把遇到的问题进行一个分解。</p>
+<p><strong>网站迁移</strong></p>
+<p>网站分为两部分：网站源码+数据</p>
+<p>网站源码就是一个网站的源文件。数据这里就是数据库文件。</p>
+<p>magento的源码在搬家前，我们先把源码复制一下，然后把var文件夹里面的cache和session文件夹里的内容全部删除，接着我们把media里面的catalog/product/cache里的内容也全部删除，然后我们把app/etc/里面的local.xml文件删除或者备注。</p>
+<p>然后，我们进入到网站的后台，在system—configration—general—web里面，把Unsecure里的Base URL的内容改成，把Secure里的Base URL也改成。截图如下：</p>
+<p><img src="https://i.imgur.com/1dMFf4U.jpg"></p>
+<p><img src="https://i.imgur.com/euohYxx.jpg"></p>
+<p>保存，然后在magento网站后台禁用cache，然后进入到magento网站的数据库中，导出数据库成.sql文件。</p>
+<p>然后，把数据库文件导入即可。</p>
+<p>最后通过访问新的域名地址，进入安装界面，进行安装。</p>
+<p>笔者根据这个流程在本地服务器上进行测试是成功的，可是后来我尝试对一个线上的magento的网站进行搬迁实验的时候，是不成功的，源码我是根据上面的方式进行操作。源码的搬迁搞定，然后对数据进行搬迁，也是一样的进行了搬迁。可是到了通过网站进行安装的时候，报错了，错误截图如下：</p>
+<p><img src="https://i.imgur.com/OTC6Q80.jpg"></p>
+<p>尝试几次线上搬迁都是报错，而且是同样的，笔者百思不得其解。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/02/24/%E6%9B%B4%E6%94%B9magento%E8%AE%A2%E5%8D%95%E5%8F%B7%E8%A7%84%E5%88%99-%E6%97%A5%E6%9C%9F%E6%97%B6%E9%97%B4-%E9%9A%8F%E6%9C%BA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/02/24/%E6%9B%B4%E6%94%B9magento%E8%AE%A2%E5%8D%95%E5%8F%B7%E8%A7%84%E5%88%99-%E6%97%A5%E6%9C%9F%E6%97%B6%E9%97%B4-%E9%9A%8F%E6%9C%BA/" class="post-title-link" itemprop="url">更改magento订单号规则:日期时间+随机</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-02-24 16:11:23" itemprop="dateCreated datePublished" datetime="2018-02-24T16:11:23+08:00">2018-02-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:02" itemprop="dateModified" datetime="2020-10-11T11:53:02+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>用过magento的人都知道，我们在调试magento的时候，发现生成一个订单是从10000000开始的，这个感觉很别扭，如果用于生产环境中的话，那么我们更愿意使用一些随机的，或者是一些具有自定义规则的订单编号，那么我们该怎么处理这个问题呢？</p>
+<p>这里我以magento1.9.2.4作为案例进行讲解，首先我们找到这个目录：app\code\core\Mage\Eav\Model\Entity\Increment\Numeric.php</p>
+<p>打开这个文件（为了安全起见，可以把原来的备份一份），找到如下：</p>
+<pre><code>class Mage_Eav_Model_Entity_Increment_Numeric extends Mage_Eav_Model_Entity_Increment_Abstract
+&#123;
+    public function getNextId()
+    &#123;
+        $last = $this-&gt;getLastId();
+
+        if (strpos($last, $this-&gt;getPrefix()) === 0) &#123;
+            $last = (int)substr($last, strlen($this-&gt;getPrefix()));
+        &#125; else &#123;
+            $last = (int)$last;
+        &#125;
+
+        $next = $last+1;
+
+        return $this-&gt;format($next);
+    &#125;
+&#125;</code></pre>
+<p>添加如下内容：</p>
+<pre><code>        if(!$last)&#123;$last=10000000;&#125; 
+        return $showtime = date(&quot;ymdHis&quot;).sprintf(&quot;%03d&quot;,mt_rand(0, 999));</code></pre>
+<p>添加后是这样的：</p>
+<pre><code>class Mage_Eav_Model_Entity_Increment_Numeric extends Mage_Eav_Model_Entity_Increment_Abstract
+&#123;
+    public function getNextId()
+    &#123;
+        $last = $this-&gt;getLastId();
+        if(!$last)&#123;$last=10000000;&#125; 
+        return $showtime = date(&quot;ymdHis&quot;).sprintf(&quot;%03d&quot;,mt_rand(0, 999));
+
+        if (strpos($last, $this-&gt;getPrefix()) === 0) &#123;
+            $last = (int)substr($last, strlen($this-&gt;getPrefix()));
+        &#125; else &#123;
+            $last = (int)$last;
+        &#125;
+
+        $next = $last+1;
+
+        return $this-&gt;format($next);
+    &#125;
+&#125;</code></pre>
+<p>完毕，然后进行测试，发现新生成的订单号就是一个随机数了。</p>
+<p><strong>题外话：</strong></p>
+<p>这里有个问题就是magento在获取最新订单号的时候，会有转换为int型，如果订单号规则有字母前缀，就转化成0，这样就出错了，具体修改如下，找到目录：app/code/core/Mage/Sales/Model/Resource/quote.php</p>
+<p>打开文件，找到如下：</p>
+<pre><code>public function isOrderIncrementIdUsed($orderIncrementId)
+&#123;
+    $adapter   = $this-&gt;_getReadAdapter();
+    $bind      = array(&#39;:increment_id&#39; =&gt; (int)$orderIncrementId);
+    $select    = $adapter-&gt;select();
+    $select-&gt;from($this-&gt;getTable(&#39;sales/order&#39;), &#39;entity_id&#39;)
+        -&gt;where(&#39;increment_id = :increment_id&#39;);
+    $entity_id = $adapter-&gt;fetchOne($select, $bind);
+    if ($entity_id &gt; 0) &#123;
+        return true;
+    &#125;
+
+    return false;
+&#125;</code></pre>
+<p>然后把里面的int删除：</p>
+<pre><code>public function isOrderIncrementIdUsed($orderIncrementId)
+&#123;
+    $adapter   = $this-&gt;_getReadAdapter();
+    $bind      = array(&#39;:increment_id&#39; =&gt; $orderIncrementId);
+    $select    = $adapter-&gt;select();
+    $select-&gt;from($this-&gt;getTable(&#39;sales/order&#39;), &#39;entity_id&#39;)
+        -&gt;where(&#39;increment_id = :increment_id&#39;);
+    $entity_id = $adapter-&gt;fetchOne($select, $bind);
+    if ($entity_id &gt; 0) &#123;
+        return true;
+    &#125;
+
+    return false;
+&#125;</code></pre>
+<p><img src="https://i.imgur.com/aIDOOvR.png"></p>
+<p>如果订单号规则里面不存在字母编码的情况，可以忽略这个问题。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/02/06/magento%E5%90%8E%E5%8F%B0%E6%93%8D%E4%BD%9C%E4%B9%8B%E4%BA%A7%E5%93%81%E6%B7%BB%E5%8A%A0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/02/06/magento%E5%90%8E%E5%8F%B0%E6%93%8D%E4%BD%9C%E4%B9%8B%E4%BA%A7%E5%93%81%E6%B7%BB%E5%8A%A0/" class="post-title-link" itemprop="url">magento后台操作之产品添加</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-02-06 17:07:22" itemprop="dateCreated datePublished" datetime="2018-02-06T17:07:22+08:00">2018-02-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:23" itemprop="dateModified" datetime="2020-10-11T11:53:23+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>首先登录magento网站后台，输入账号密码</p>
+<p>找到Catalog这个栏目，找到子菜单的Manage Products，点击进入，截图如下：</p>
+<p><img src="https://i.imgur.com/wegGQ1Z.png"></p>
+<p>我们将会看到产品列表，我们选择自己想要编辑的产品，点击最右边的edit，点击进入：</p>
+<p><img src="https://i.imgur.com/n7UEOso.png"></p>
+<p>这样一个界面，其中左边侧边栏是产品信息的设置栏目，右边则是相应的内容，比如上图中点击左边的General，那么右边显示的将会是General对应的内容。其他栏目以此类似编辑，当我们对内容进行编辑完毕后，点击右上方的Save或者是Save and Continue Edit进行保存，这样才算完成对一个信息的编辑。</p>
+<p>这里顺便说一下，如果想要对这个产品进行复制，那么点击上面的那个Duplicate，就会完成对一个产品的复制</p>
+<p>然后就可以对产品内容进行编辑，然后保存。</p>
+<p>最后的，要记得启用这个产品，不然我们在网站前台看不到产品显示。</p>
+<p>好的，针对产品添加的问题已经处理。</p>
+<p>需要注意的细节</p>
+<p>有些人添加了产品可能没法在前台看到显示出来，首先，我们看下那些必填项（红色星号）是否都填写好了，如果都填写了，并且没有报错后，在看下是否启用了这个产品，在Status那里的下拉选项里面选择enable，在design那里选择对应的主题，因为我们这里使用的是smartwave中的porto，所以在custom design那里选择porto。剩余的东西，可以根据自己的不同需求进行设置。</p>
+<p>在Websites那里，需要勾选在哪个网站里面显示，这个地方需要勾选，通常是全部勾选。</p>
+<p>通过这种方式完成对一个magento产品的上传。</p>
+<p>如果网站后台有提示清除缓存或者是刷新索引，那么根据提示进行清除缓存和刷新索引即可。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/02/06/%E4%B8%BAwordpress%E7%BD%91%E7%AB%99%E7%9A%84%E8%8F%9C%E5%8D%95%E6%A0%8F%E6%B7%BB%E5%8A%A0%E6%B3%A8%E5%86%8C%E5%92%8C%E7%99%BB%E5%BD%95%E5%8A%9F%E8%83%BD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/02/06/%E4%B8%BAwordpress%E7%BD%91%E7%AB%99%E7%9A%84%E8%8F%9C%E5%8D%95%E6%A0%8F%E6%B7%BB%E5%8A%A0%E6%B3%A8%E5%86%8C%E5%92%8C%E7%99%BB%E5%BD%95%E5%8A%9F%E8%83%BD/" class="post-title-link" itemprop="url">为wordpress网站的菜单栏添加注册和登录功能</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-02-06 15:16:12" itemprop="dateCreated datePublished" datetime="2018-02-06T15:16:12+08:00">2018-02-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:52:53" itemprop="dateModified" datetime="2020-10-11T11:52:53+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>长话短说，这个是基于wordpress的一个小功能，需要修改源码：</p>
+<p>核心代码如下：</p>
+<pre><code>&lt;?php if ( is_user_logged_in() ) &#123; ?&gt;
+&lt;a href=&quot;&lt;?php echo wp_logout_url(); ?&gt;&quot;&gt;注销&lt;/a&gt;
+&lt;?php &#125; else &#123; ?&gt;
+&lt;a href=&quot;/wp-login.php&quot; title=&quot;Members Area Login&quot; rel=&quot;home&quot;&gt;用户登录&lt;/a&gt;
+&lt;?php &#125; ?&gt;</code></pre>
+<p>is_user_logged_in()函数没有参数，一个简单的用法示例，如果用户已登录，输出用户头像及昵称：</p>
+<pre><code>&lt;?php
+if( is_user_logged_in() ) &#123;
+$current_user = wp_get_current_user();
+echo get_avatar( $current_user-&gt;user_email, 36 );
+echo &#39;&lt;br /&gt;&#39; . $current_user-&gt;display_name;
+&#125;
+?&gt;</code></pre>
+<p>接下来就是根据我们个人的需求，看放在什么位置的问题了，如果不关心放的位置，那么我们还可以更加简化一下，wordpress有注册和登录的标签可以调用的，代码如下：</p>
+<pre><code>&lt;?php wp_register(); ?&gt; //显示注册链接
+&lt;?php wp_loginout(); ?&gt; //显示登入/登出链接</code></pre>
+<p>这里我以wordpress默认的主题作为测试，我想把让用户没有登录的时候显示用户登录，如果登录后显示用户头像和显示注销按钮，好的，我的思路是通过开发者工具找到导航菜单对应的文件，然后加入以下代码：</p>
+<pre><code>&lt;li class=&quot;menu-item menu-item-type-post_type menu-item-object-page&quot;&gt;
+&lt;?php if ( is_user_logged_in() ) &#123; ?&gt;
+&lt;?php
+$current_user = wp_get_current_user();
+echo get_avatar( $current_user-&gt;user_email, 36 );
+?&gt;
+&lt;a href=&#39;&lt;?php echo site_url(&quot;/wp-admin/&quot;) ?&gt;&#39;&gt; &lt;?php echo $current_user-&gt;display_name ;?&gt;&lt;/a&gt;
+&lt;a href=&quot;&lt;?php echo wp_logout_url(); ?&gt;&quot;&gt;注销&lt;/a&gt;
+&lt;?php &#125; else &#123; ?&gt;
+&lt;a href=&quot;/wp-login.php&quot; title=&quot;Members Area Login&quot; rel=&quot;home&quot;&gt;用户登录&lt;/a&gt;
+&lt;?php &#125; ?&gt;
+&lt;/li&gt;</code></pre>
+<p>保存后，网站登录后的效果如下：</p>
+<p><img src="https://i.imgur.com/fzpn50S.png"></p>
+<p>没有登录的效果如下：</p>
+<p><img src="https://i.imgur.com/AFGBLcj.png"></p>
+<p>这里我需要补充下，因为上面我用的是wordpress的默认主题实现的，可能我们找到头部的菜单代码轻而易举就完成了，但是当我们采用其他主题，比如enfold的时候，可能找到这个头部菜单的位置可能不是那么容易。今天我就来说下这个问题：</p>
+<p>我的思路是先去这个主题的header.php主题当中找，发现这个header.php里面并没有，而是调用了另外的模块，然后又去了其他的模块找，后来我索性不这样找了，因为很多都是封装起来的。我就直接找搜索功能，根据上面的截图我们可以看到我只是想把这个用户登录的功能加到搜索的后面，所以我就直接找到搜索的这个，在后面加上一个不就可以了嘛，好的。经过这个思路我在functions-enfold.php这个文件中找到了控制搜索框的代码，位置在这里：</p>
+<pre><code>    if ((is_object($args) &amp;&amp; $args-&gt;theme_location == &#39;avia&#39;) || (is_string($args) &amp;&amp; $args = &quot;fallback_menu&quot;))
+    &#123;
+        global $avia_config;
+        ob_start();
+        get_search_form();
+        $form =  htmlspecialchars(ob_get_clean()) ;
+
+        $items .= &#39;&lt;li id=&quot;menu-item-search&quot; class=&quot;noMobile menu-item menu-item-search-dropdown menu-item-avia-special&quot;&gt;
+                        &lt;a href=&quot;?s=&quot; data-avia-search-tooltip=&quot;&#39;.$form.&#39;&quot; &#39;.av_icon_string(&#39;search&#39;).&#39;&gt;&lt;span class=&quot;avia_hidden_link_text&quot;&gt;&#39;.__(&#39;Search&#39;,&#39;avia_framework&#39;).&#39;&lt;/span&gt;&lt;/a&gt;
+                   &lt;/li&gt;&#39;;
+    &#125;
+    return $items;</code></pre>
+<p>截图如下：</p>
+<p><img src="https://i.imgur.com/CQ5P94x.png"></p>
+<p>然后我把控制用户登录的代码</p>
+<pre><code>&lt;?php if ( is_user_logged_in() ) &#123; ?&gt;
+&lt;a href=&quot;&lt;?php echo wp_logout_url(); ?&gt;&quot;&gt;注销&lt;/a&gt;
+&lt;?php &#125; else &#123; ?&gt;
+&lt;a href=&quot;/wp-login.php&quot; title=&quot;Members Area Login&quot; rel=&quot;home&quot;&gt;用户登录&lt;/a&gt;
+&lt;?php &#125; ?&gt;</code></pre>
+<p>加进去的时候，最后是这样的：</p>
+<pre><code>    if ((is_object($args) &amp;&amp; $args-&gt;theme_location == &#39;avia&#39;) || (is_string($args) &amp;&amp; $args = &quot;fallback_menu&quot;))
+    &#123;
+        global $avia_config;
+        ob_start();
+        get_search_form();
+        $form =  htmlspecialchars(ob_get_clean()) ;
+
+        ?&gt;
+
+        &lt;ul class=&quot;meign&quot;&gt;
+            &lt;li class=&quot;userlogin&quot;&gt;
+                &lt;?php if ( is_user_logged_in() ) &#123; ?&gt;
+                &lt;?php
+                $current_user = wp_get_current_user();
+                // echo get_avatar( $current_user-&gt;user_email, 36 );
+                ?&gt;
+                &lt;a href=&quot;&lt;?php echo wp_logout_url(); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa-sign-out&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+                &lt;?php &#125; else &#123; ?&gt;
+                &lt;a href=&quot;/wp-login.php&quot; title=&quot;Members Area Login&quot; rel=&quot;home&quot;&gt;&lt;i class=&quot;fa fa-user&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+                &lt;?php &#125; ?&gt;
+            &lt;/li&gt;
+        &lt;/ul&gt;
+
+        &lt;?php
+
+        $items .= &#39;&lt;li id=&quot;menu-item-search&quot; class=&quot;noMobile menu-item menu-item-search-dropdown menu-item-avia-special&quot;&gt;
+                        &lt;a href=&quot;?s=&quot; data-avia-search-tooltip=&quot;&#39;.$form.&#39;&quot; &#39;.av_icon_string(&#39;search&#39;).&#39;&gt;&lt;span class=&quot;avia_hidden_link_text&quot;&gt;&#39;.__(&#39;Search&#39;,&#39;avia_framework&#39;).&#39;&lt;/span&gt;&lt;/a&gt;
+                   &lt;/li&gt;&#39;;
+    &#125;
+    return $items;</code></pre>
+<p>其实，最开始我加进去的时候不是这样的，因为加进入会把样式弄个得很乱，所以旁边的购物车引起了我的注意，我在想干嘛不直接套用购物车的样式呢？好的根据这个思路，我进行了进一步的处理。在网站前端，我获取了购物车图标的代码：</p>
+<pre><code>&lt;ul class=&quot;cart_dropdown &quot; data-success=&quot;was added to the cart&quot;&gt;
+    &lt;li class=&quot;cart_dropdown_first&quot;&gt;&lt;a class=&quot;cart_dropdown_link&quot; href=&quot;http://dig.nocticlub.com/cart/&quot;&gt;&lt;span aria-hidden=&quot;true&quot; data-av_icon=&quot;&quot; data-av_iconfont=&quot;entypo-fontello&quot;&gt;&lt;/span&gt;&lt;span class=&quot;av-cart-counter&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;avia_hidden_link_text&quot;&gt;Shopping Cart&lt;/span&gt;&lt;/a&gt;
+        &lt;!--&lt;span class=&#39;cart_subtotal&#39;&gt;&lt;span class=&quot;woocommerce-Price-amount amount&quot;&gt;&lt;span class=&quot;woocommerce-Price-currencySymbol&quot;&gt;&amp;pound;&lt;/span&gt;0.00&lt;/span&gt;&lt;/span&gt;--&gt;
+        &lt;div class=&quot;dropdown_widget dropdown_widget_cart&quot; style=&quot;display: none; opacity: 0;&quot;&gt;
+            &lt;div class=&quot;avia-arrow&quot;&gt;&lt;/div&gt;
+            &lt;div class=&quot;widget_shopping_cart_content&quot;&gt;
+                &lt;p class=&quot;woocommerce-mini-cart__empty-message&quot;&gt;No products in the cart.&lt;/p&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+<p>看到没？这个就是购物车小图标的所有代码，因为购物车代码里面绑定了一些事件，我们不需要这些绑定的事件，比如鼠标悬浮在小购物车上的时候，会显示购物车里的产品列表，但是用户登录和这个图标不需要，如果我们采用了所有的代码，将会产生跟鼠标悬浮在购物车上的效果一样的。好的，经过排除，我把修改后的代码粘贴如下：</p>
+<pre><code>&lt;ul class=&quot;meign&quot;&gt;
+    &lt;li class=&quot;userlogin&quot;&gt;
+        &lt;?php if ( is_user_logged_in() ) &#123; ?&gt;
+        &lt;?php
+        $current_user = wp_get_current_user();
+        // echo get_avatar( $current_user-&gt;user_email, 36 );
+        ?&gt;
+        &lt;a href=&quot;&lt;?php echo wp_logout_url(); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa-sign-out&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;?php &#125; else &#123; ?&gt;
+        &lt;a href=&quot;/wp-login.php&quot; title=&quot;Members Area Login&quot; rel=&quot;home&quot;&gt;&lt;i class=&quot;fa fa-user&quot;&gt;&lt;/i&gt;&lt;/a&gt;
+        &lt;?php &#125; ?&gt;
+    &lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+<p>对比一下，你就可以看到其实我用meign这个class代替了cart_dropdown，然后把多余的东西删除，然后把用户登录的代码放进去：</p>
+<pre><code>&lt;?php if ( is_user_logged_in() ) &#123; ?&gt;
+&lt;a href=&quot;&lt;?php echo wp_logout_url(); ?&gt;&quot;&gt;注销&lt;/a&gt;
+&lt;?php &#125; else &#123; ?&gt;
+&lt;a href=&quot;/wp-login.php&quot; title=&quot;Members Area Login&quot; rel=&quot;home&quot;&gt;用户登录&lt;/a&gt;
+&lt;?php &#125; ?&gt;</code></pre>
+<p>这个时候你可以发现其实我这里只是添加了：</p>
+<pre><code>&lt;ul class=&quot;meign&quot;&gt;
+    &lt;li class=&quot;userlogin&quot;&gt;
+        功能代码写在这里
+    &lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+<p>然后我在浏览器开发者工具的帮助下，我把.meign的样式写得跟.cart_dropdown一模一样，这样不就是可以顺利取代了购物车小图标的样式了吗，然后又不用绑定购物车的鼠标悬浮事件。补充下.cart_dropdown的样式代码为：</p>
+<pre><code>.cart_dropdown&#123;
+    right: 30px !important;
+    position: absolute;
+    right: -60px;
+    line-height: 46px;
+    text-decoration: none;
+    text-align: center;
+    top: 50%;
+    margin: -23px 0 0 0;
+    border-radius: 2px;
+    border-style: solid;
+    border-width: 1px;
+    font-weight: normal;
+    z-index: 101;
+    -webkit-transition: all ease-in-out 0.8s;
+    transition: all ease-in-out 0.8s;
+    height: 16px !important;
+    width: 16px !important;
+    border-width: 0px !important;
+&#125;</code></pre>
+<p>所以.meign样式代码也是如此。</p>
+<p>这篇文章写得很啰嗦，但是重点不在于此，而在于我们碰到问题了，解决问题的思路很重要，这里我有两个地方采用一些跟常规的方法不一样的做法，最终把问题解决了。如果你是一个跟笔者一样的热爱wordpress，热爱编程的人，可以与我取得联系，我们一起改造这个时代，QQ:791447771</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/24/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/24/">24</a><span class="page-number current">25</span><a class="page-number" href="/page/26/">26</a><span class="space">&hellip;</span><a class="page-number" href="/page/43/">43</a><a class="extend next" rel="next" href="/page/26/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

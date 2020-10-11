@@ -1,37 +1,827 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="经常看到有客户问，能不能帮我把语言切换功能这个加到wordpress网站的菜单那里，就在菜单旁边就好，放右边，没错….看到这个，可能很多客户会觉得这个不就是很容易的嘛，对于专业人士来说这个不难，但是对于不懂的人来说也不容易。今天就来说说wordpress的头部菜单栏添加语言切换功能的问题。 第一步：定位目标 首先，还是一样的思路，我们通过开发者工具定位到这个是在nav这个标签旁边：  好的，通过多">
+<meta property="og:type" content="article">
+<meta property="og:title" content="wordress网站enfold主题头部菜单区域添加语言切换功能">
+<meta property="og:url" content="http://example.com/2018/05/23/wordress%E7%BD%91%E7%AB%99enfold%E4%B8%BB%E9%A2%98%E5%A4%B4%E9%83%A8%E8%8F%9C%E5%8D%95%E5%8C%BA%E5%9F%9F%E6%B7%BB%E5%8A%A0%E8%AF%AD%E8%A8%80%E5%88%87%E6%8D%A2%E5%8A%9F%E8%83%BD/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="经常看到有客户问，能不能帮我把语言切换功能这个加到wordpress网站的菜单那里，就在菜单旁边就好，放右边，没错….看到这个，可能很多客户会觉得这个不就是很容易的嘛，对于专业人士来说这个不难，但是对于不懂的人来说也不容易。今天就来说说wordpress的头部菜单栏添加语言切换功能的问题。 第一步：定位目标 首先，还是一样的思路，我们通过开发者工具定位到这个是在nav这个标签旁边：  好的，通过多">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/ZZMamrj.jpg">
+<meta property="og:image" content="https://i.imgur.com/QKxsV0f.jpg">
+<meta property="og:image" content="https://i.imgur.com/ZsQnRVG.jpg">
+<meta property="og:image" content="https://i.imgur.com/MaEP6lX.jpg">
+<meta property="og:image" content="https://i.imgur.com/Y21kc3L.jpg">
+<meta property="og:image" content="https://i.imgur.com/UcQO4wV.jpg">
+<meta property="og:image" content="https://i.imgur.com/3cGT9wT.jpg">
+<meta property="article:published_time" content="2018-05-23T06:44:59.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:03.594Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="wordpress,enfold,头部菜单,语言切换,多语言">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/ZZMamrj.jpg">
+
+<link rel="canonical" href="http://example.com/2018/05/23/wordress%E7%BD%91%E7%AB%99enfold%E4%B8%BB%E9%A2%98%E5%A4%B4%E9%83%A8%E8%8F%9C%E5%8D%95%E5%8C%BA%E5%9F%9F%E6%B7%BB%E5%8A%A0%E8%AF%AD%E8%A8%80%E5%88%87%E6%8D%A2%E5%8A%9F%E8%83%BD/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>wordress网站enfold主题头部菜单区域添加语言切换功能 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/05/23/wordress%E7%BD%91%E7%AB%99enfold%E4%B8%BB%E9%A2%98%E5%A4%B4%E9%83%A8%E8%8F%9C%E5%8D%95%E5%8C%BA%E5%9F%9F%E6%B7%BB%E5%8A%A0%E8%AF%AD%E8%A8%80%E5%88%87%E6%8D%A2%E5%8A%9F%E8%83%BD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          wordress网站enfold主题头部菜单区域添加语言切换功能
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-05-23 14:44:59" itemprop="dateCreated datePublished" datetime="2018-05-23T14:44:59+08:00">2018-05-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:03" itemprop="dateModified" datetime="2020-10-11T11:58:03+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>经常看到有客户问，能不能帮我把语言切换功能这个加到wordpress网站的菜单那里，就在菜单旁边就好，放右边，没错….看到这个，可能很多客户会觉得这个不就是很容易的嘛，对于专业人士来说这个不难，但是对于不懂的人来说也不容易。今天就来说说wordpress的头部菜单栏添加语言切换功能的问题。</p>
+<p><strong>第一步：定位目标</strong></p>
+<p>首先，还是一样的思路，我们通过开发者工具定位到这个是在nav这个标签旁边：</p>
+<p><img src="https://i.imgur.com/ZZMamrj.jpg"></p>
+<p>好的，通过多次确认，我们要在这个div的邻居放一个语言切换的功能。</p>
+<p><strong>第二步：找到目标对应的源码文件</strong></p>
+<p>为了比较精准的搜索到目标，我这里往上走了一级，我把定位定在main_menu这个class上，通过对主题的全源码搜索，我找到了文件：\themes\enfold\includes\helper-main-menu.php，好的，我们来到这个文件所在的目录，打开它：</p>
+<p>大概的位置在：</p>
+<p><img src="https://i.imgur.com/QKxsV0f.jpg"></p>
+<pre><code>$output .= &quot;&lt;nav class=&#39;main_menu&#39; data-selectname=&#39;&quot;.__(&#39;Select a page&#39;,&#39;avia_framework&#39;).&quot;&#39; &quot;.avia_markup_helper(array(&#39;context&#39; =&gt; &#39;nav&#39;, &#39;echo&#39; =&gt; false)).&quot;&gt;&quot;;
+    $avia_theme_location = &#39;avia&#39;;
+    $avia_menu_class = $avia_theme_location . &#39;-menu&#39;;
+    $args = array(
+        &#39;theme_location&#39;    =&gt; $avia_theme_location,
+        &#39;menu_id&#39;             =&gt; $avia_menu_class,
+        &#39;menu_class&#39;        =&gt; &#39;menu av-main-nav&#39;,
+        &#39;container_class&#39;    =&gt; $avia_menu_class.&#39; av-main-nav-wrap&#39;.$icon_beside,
+        &#39;fallback_cb&#39;         =&gt; &#39;avia_fallback_menu&#39;,
+        &#39;echo&#39;                 =&gt;    false, 
+        &#39;walker&#39;             =&gt; new avia_responsive_mega_menu()
+    );
+    $main_nav = wp_nav_menu($args);
+    $output .= $main_nav;
+/*
+* Hook that can be used for plugins and theme extensions
+*/
+ob_start();
+do_action(&#39;ava_inside_main_menu&#39;); // todo: replace action with filter, might break user customizations
+$output .= ob_get_clean();
+if($icon_beside)
+&#123;
+    $output .= $icons; 
+&#125;
+$output .= &#39;&lt;/nav&gt;&#39;;</code></pre>
+<p>好的，代码如上，我们将要在这里添加一个select的东西上去。</p>
+<p>我们把这个加在$main_nav后面。代码已经准备好了：</p>
+<pre><code>&lt;div class=&quot;country&quot;&gt;
+    &lt;select onchange=&quot;window.location=options[(this.selectedIndex)].value&quot;&gt;
+        &lt;option value=&quot;/#en&quot;&gt;EN&lt;/option&gt;
+        &lt;option value=&quot;/#cn&quot;&gt;CN&lt;/option&gt;
+        &lt;option value=&quot;/#fr&quot;&gt;FR&lt;/option&gt;
+    &lt;/select&gt;
+&lt;/div&gt;</code></pre>
+<p><span style="color:red">这里需要说明一下的是</span>：笔者最开始不是这样加的，最开始的代码是：</p>
+<pre><code>&lt;div class=&quot;country&quot;&gt;
+    &lt;select&gt;
+        &lt;option value=&quot;&quot;&gt;&lt;a href=&quot;#&quot;&gt;EN&lt;/a&gt;&lt;/option&gt;
+        &lt;option value=&quot;&quot;&gt;&lt;a href=&quot;#&quot;&gt;CN&lt;/a&gt;&lt;/option&gt;
+        &lt;option value=&quot;&quot;&gt;&lt;a href=&quot;#&quot;&gt;FR&lt;/a&gt;&lt;/option&gt;
+    &lt;/select&gt;
+&lt;/div&gt;</code></pre>
+<p>可是去前台一调试发现这个根本没法加上链接，后来在一篇文章中，得到了答案，大概是说不能这样加链接的，只能这样加：</p>
+<pre><code>&lt;select onchange=&quot;window.location=options[(this.selectedIndex)].value&quot;&gt;
+    &lt;option value=&quot;http://www.163.com&quot;&gt;232&lt;/option&gt;
+    &lt;option value=&quot;http://www.baidu.com&quot;&gt;231&lt;/option&gt;
+&lt;/select&gt;</code></pre>
+<p>确定好这个以后，我才改成上面的那种，采用js进行跳转。</p>
+<p>好的，最后添加代码后是这样的：</p>
+<pre><code>$output .= &quot;&lt;nav class=&#39;main_menu&#39; data-selectname=&#39;&quot;.__(&#39;Select a page&#39;,&#39;avia_framework&#39;).&quot;&#39; &quot;.avia_markup_helper(array(&#39;context&#39; =&gt; &#39;nav&#39;, &#39;echo&#39; =&gt; false)).&quot;&gt;&quot;;
+    $avia_theme_location = &#39;avia&#39;;
+    $avia_menu_class = $avia_theme_location . &#39;-menu&#39;;
+    $args = array(
+        &#39;theme_location&#39;    =&gt; $avia_theme_location,
+        &#39;menu_id&#39;             =&gt; $avia_menu_class,
+        &#39;menu_class&#39;        =&gt; &#39;menu av-main-nav&#39;,
+        &#39;container_class&#39;    =&gt; $avia_menu_class.&#39; av-main-nav-wrap&#39;.$icon_beside,
+        &#39;fallback_cb&#39;         =&gt; &#39;avia_fallback_menu&#39;,
+        &#39;echo&#39;                 =&gt;    false, 
+        &#39;walker&#39;             =&gt; new avia_responsive_mega_menu()
+    );
+    $main_nav = wp_nav_menu($args);
+    $output .= $main_nav;
+    $output .= &#39;&lt;div class=&quot;country&quot;&gt;&#39;;
+    $output .= &#39;&lt;select onchange=&quot;window.location=options[(this.selectedIndex)].value&quot;&gt;&#39;;
+    $output .= &#39;&lt;option value=&quot;/#en&quot;&gt;EN&lt;/option&gt;&#39;;
+    $output .= &#39;&lt;option value=&quot;/#cn&quot;&gt;CN&lt;/option&gt;&#39;;
+    $output .= &#39;&lt;option value=&quot;/#fr&quot;&gt;FR&lt;/option&gt;&#39;;
+    $output .= &#39;&lt;/select&gt;&#39;;
+    $output .= &#39;&lt;/div&gt;&#39;;
+/*
+* Hook that can be used for plugins and theme extensions
+*/
+ob_start();
+do_action(&#39;ava_inside_main_menu&#39;); // todo: replace action with filter, might break user customizations
+$output .= ob_get_clean();
+if($icon_beside)
+&#123;
+    $output .= $icons; 
+&#125;
+$output .= &#39;&lt;/nav&gt;&#39;;</code></pre>
+<p>最后，这个样式还是得自己调整一下，顺便把css样式也贴一下：</p>
+<pre><code>//父级设置相对定位
+.av-logo-container .inner-container&#123;
+       position: relative !important;
+&#125;
+//目标设置绝对定位
+.country select&#123;
+    display: inline-block !important;
+    width: 60px !important;
+    top: 28px;
+    position: absolute !important;
+    margin-bottom: 0px !important;
+&#125;
+//手机版样式设置一下
+@media (max-width:767px)&#123;
+    .responsive .logo img &#123;
+        max-height: 55px !important;
+    &#125;
+    .responsive #top .av-logo-container .avia-menu &#123;
+        margin-right: 45px;
+    &#125;
+    .country select &#123;
+        top: 25px !important;
+        right: -20px !important;
+    &#125;
+&#125;</code></pre>
+<p>当然，这个是基于enfold这个主题设置的样式，之所以写得如此详细是想让以后自己能够快速的解决这个问题。而不用再费脑子去折腾。最后的效果贴一下：</p>
+<p><img src="https://i.imgur.com/ZsQnRVG.jpg"></p>
+<p>手机版样式：</p>
+<p><img src="https://i.imgur.com/MaEP6lX.jpg"></p>
+<p>后来经过客户的苛刻要求，笔者进行了进一步的修改，其中css样式代码最后的状态如下。包括自适应：</p>
+<pre><code>.responsive #header_main .container&#123;
+    max-width: 100% !important;
+&#125;
+#top #header .avia-font-entypo-fontello, body #header .avia-font-entypo-fontello, html body #header [data-av_iconfont=&#39;entypo-fontello&#39;]:before &#123;
+    background: red !important;
+    color: #fff !important;
+    padding: 10px 12px !important;
+    border-radius: 3px;
+    font-size: 24px;
+&#125;
+#top #menu-item-search &#123;
+    background: red;
+&#125;
+.country&#123;
+    z-index: 999;
+    position: relative !important;
+&#125;
+.country select &#123;
+    display: inline-block !important;
+    width: 100% !important;
+    max-width: 70px;
+    top: 24px;
+    position: absolute !important;
+    margin-bottom: 0px !important;
+&#125;
+.country select option&#123;
+    padding-top:15px !important;
+    padding-bottom:15px !important;
+&#125;
+#top #header .av-main-nav &gt; li &gt; a .avia-menu-text&#123;
+    color:#515151 !important;
+    font-weight:400 !important;
+    padding: 0px 12px;
+    font-size: 15px !important;
+    transition:0.5s ease;
+&#125;
+#top #header .av-main-nav &gt; li &gt; a .avia-menu-text:hover&#123;
+    color:#FF0000 !important;
+&#125;
+.av-main-nav &gt; li:after&#123;
+    content: &quot;\FFDC&quot;;
+    padding-left: 12px;
+    color: rgba(129, 129, 129, 0.3);
+    display: inline-block;
+    position: absolute;
+    right: -3.5px;
+    top: 24px;
+    line-height: 32px;
+&#125;
+.av-main-nav &gt; li:last-child:after,.av-main-nav &gt; li:nth-last-child(2):after,.av-main-nav &gt; li:nth-last-child(3):after&#123;
+    content:&#39;&#39;;
+    display:none !important;
+&#125;
+#top .header_color select &#123;
+    border-color: rgba(225, 225, 225, 0) !important;
+    background-color: transparent !important;
+    color: #515151 !important;
+    padding: 8px 23px !important;
+    appearance:none;  
+    -moz-appearance:none;  
+    -webkit-appearance:none;
+    background: url(&quot;/wp-content/uploads/2018/06/cnen.png&quot;) no-repeat scroll right center transparent;
+&#125;
+.main_menu &#123;
+    right: 3% !important;
+&#125;
+#top #header .inner_tooltip .avia-font-entypo-fontello, body #header .inner_tooltip .avia-font-entypo-fontello &#123;
+    padding: 3px 12px !important;
+&#125;
+
+@media only screen and (max-width: 1210px) and (min-width: 768px)&#123;
+.responsive #top .av_mobile_menu_tablet .av-main-nav .menu-item &#123;
+    display: none !important;
+&#125;
+.responsive #top .av_mobile_menu_tablet .av-main-nav #menu-item-search &#123;
+    display: block !important;
+&#125;
+.responsive #top .av-main-nav .menu-item-avia-special &#123;
+    display: block !important;
+&#125;
+&#125;
+
+@media (max-width:990px)&#123;
+.responsive #top .av-logo-container .avia-menu &#123;
+    margin-right: 50px;
+&#125;
+.country select &#123;
+    top: 28px;
+&#125;
+#top #menu-item-search &#123;
+    background: transparent !important;
+&#125;
+#top #header .avia-font-entypo-fontello, body #header .avia-font-entypo-fontello, html body #header [data-av_iconfont=&#39;entypo-fontello&#39;]:before&#123;
+    font-size:16px !important;
+&#125;
+.country select &#123;
+    right: -30px !important;
+&#125;
+&#125;
+
+@media (max-width:767px)&#123;
+.responsive #top .av-logo-container .avia-menu &#123;
+    margin-right: 50px !important;
+&#125;
+.country select &#123;
+    top: 25px !important;
+    right: -20px !important;
+&#125;
+&#125;</code></pre>
+<p>最后的效果如下：</p>
+<p><img src="https://i.imgur.com/Y21kc3L.jpg"></p>
+<p>后来客户又变卦了，说这个下拉框那里的样式不是跟他参考的一模一样，后来尝试着用css改变这个样式，可是用css改变option的样式貌似都没啥用，这个时候找到一个方法，放弃采用select的方法去解决这个问题。转用jquery的方式。</p>
+<p><strong>方法如下：</strong></p>
+<p>第一步：在header.php文件中引入：</p>
+<pre><code>&lt;script src=&quot;https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+    $(document).ready(function()&#123;
+            $(&quot;.select_box&quot;).click(function(event)&#123;   
+                event.stopPropagation();
+                $(this).find(&quot;.option&quot;).toggle();
+                $(this).parent().siblings().find(&quot;.option&quot;).hide();
+            &#125;);
+            $(document).click(function(event)&#123;
+                var eo=$(event.target);
+                if($(&quot;.select_box&quot;).is(&quot;:visible&quot;) &amp;&amp; eo.attr(&quot;class&quot;)!=&quot;option&quot; &amp;&amp; !eo.parent(&quot;.option&quot;).length)
+                $(&#39;.option&#39;).hide();                                      
+            &#125;);
+            /*赋值给文本框*/
+            $(&quot;.option a&quot;).click(function()&#123;
+                var value=$(this).text();
+                $(this).parent().siblings(&quot;.select_txt&quot;).text(value);
+                $(&quot;#select_value&quot;).val(value)
+             &#125;)
+        &#125;)
+&lt;/script&gt;</code></pre>
+<p>意思就是：引入jquery库，然后运用select插件。好的完成引入第三方库后，我们来到这个网站头部，好的控制语言切换的文件，还是跟前面那样：\themes\enfold\includes\helper-main-menu.php，打开文件。</p>
+<p>把原来的那个代码：</p>
+<pre><code>&lt;div class=&quot;country&quot;&gt;
+    &lt;select onchange=&quot;window.location=options[(this.selectedIndex)].value&quot;&gt;
+        &lt;option value=&quot;/#en&quot;&gt;EN&lt;/option&gt;
+        &lt;option value=&quot;/#cn&quot;&gt;CN&lt;/option&gt;
+        &lt;option value=&quot;/#fr&quot;&gt;FR&lt;/option&gt;
+    &lt;/select&gt;
+&lt;/div&gt;</code></pre>
+<p>换成：</p>
+<pre><code>$output .= &#39;&lt;div class=&quot;country&quot;&gt;&#39;;
+    $output .= &#39;&lt;div class=&quot;mod_select&quot;&gt;&#39;;
+        $output .= &#39;&lt;ul&gt;&#39;;
+            $output .= &#39;&lt;li&gt;&#39;;
+                $output .= &#39;&lt;div class=&quot;select_box&quot;&gt;&#39;;
+                    $output .= &#39;&lt;span class=&quot;select_txt&quot;&gt;EN&lt;/span&gt;&lt;a class=&quot;selet_open&quot;&gt;&lt;b&gt;&lt;/b&gt;&lt;/a&gt;&#39;;
+                    $output .= &#39;&lt;div class=&quot;option&quot;&gt;&#39;;
+                        $output .= &#39;&lt;a href=&quot;/#en&quot;&gt;EN&lt;/a&gt;&#39;;
+                        $output .= &#39;&lt;a href=&quot;/#cn&quot;&gt;CN&lt;/a&gt;&#39;;
+                        $output .= &#39;&lt;a href=&quot;/#fr&quot;&gt;FR&lt;/a&gt;&#39;;
+                     $output .= &#39;&lt;/div&gt;&#39;;
+                $output .= &#39;&lt;/div&gt;&#39;;
+            $output .= &#39;&lt;/li&gt;&#39;;
+        $output .= &#39;&lt;/ul&gt;&#39;;
+    $output .= &#39;&lt;/div&gt;&#39;;
+$output .= &#39;&lt;/div&gt;&#39;;</code></pre>
+<p>剩下的就是css代码控制样式了，笔者在经过多次的测试后，总结的代码如下：</p>
+<pre><code>.responsive #header_main .container &#123;
+    max-width: 100% !important;
+    padding: 0px 20px !important;
+&#125;
+#top #header .avia-font-entypo-fontello, body #header .avia-font-entypo-fontello, html body #header [data-av_iconfont=&#39;entypo-fontello&#39;]:before &#123;
+    background: red !important;
+    color: #fff !important;
+    padding: 10px 12px !important;
+    border-radius: 3px;
+    font-size: 24px;
+&#125;
+#top #menu-item-search &#123;
+    background: red;
+&#125;
+.country&#123;
+    z-index: 9999;
+&#125;
+#top #header .av-main-nav &gt; li &gt; a .avia-menu-text&#123;
+    color:#515151 !important;
+    font-weight:400 !important;
+    padding: 0px 12px;
+    font-size: 15px !important;
+    transition:0.5s ease;
+&#125;
+#top #header .av-main-nav &gt; li &gt; a .avia-menu-text:hover&#123;
+    color:#FF0000 !important;
+&#125;
+.av-main-nav &gt; li:after&#123;
+    content: &quot;\FFDC&quot;;
+    padding-left: 12px;
+    color: rgba(129, 129, 129, 0.3);
+    display: inline-block;
+    position: absolute;
+    right: -3.5px;
+    top: 24px;
+    line-height: 32px;
+&#125;
+.av-main-nav &gt; li:last-child:after,.av-main-nav &gt; li:nth-last-child(2):after,.av-main-nav &gt; li:nth-last-child(3):after&#123;
+    content:&#39;&#39;;
+    display:none !important;
+&#125;
+#top .header_color select &#123;
+    border-color: rgba(225, 225, 225, 0) !important;
+    background-color: transparent !important;
+    color: #515151 !important;
+    padding: 8px 23px !important;
+    appearance:none;  
+    -moz-appearance:none;  
+    -webkit-appearance:none;
+    background: url(&quot;/wp-content/uploads/2018/06/cnen.png&quot;) no-repeat scroll right center transparent;
+&#125;
+.main_menu &#123;
+    right: 0% !important;
+&#125;
+#top #header .inner_tooltip .avia-font-entypo-fontello, body #header .inner_tooltip .avia-font-entypo-fontello &#123;
+    padding: 3px 12px !important;
+&#125;
+#av_section_1 .av-section-color-overlay&#123;
+   background-color: rgba(10, 10, 10, 0.6) !important;
+&#125;
+.avia_ajax_form .button &#123;
+    padding: 25px 50px 23px !important;
+&#125;
+.mod_select ul&#123;margin:0;padding:0;&#125;
+.mod_select ul li&#123;list-style-type:none;height:24px;&#125;
+.mod_select .select_label&#123;float:left;line-height:24px;padding-right:10px;font-weight:700;&#125;
+.mod_select .select_box&#123;float:left;position:relative;cursor:pointer;background:url(http://icar.samitadil.com/wp-content/uploads/2018/06/cnen2.png) no-repeat;&#125;
+.mod_select .selet_open&#123;display:inline-block;position:absolute;right:0;top:0;width:30px;height:24px !important;background:url(http://icar.samitadil.com/wp-content/uploads/2018/06/cnen.png) no-repeat center center;&#125;
+.mod_select .select_txt&#123;display:inline-block;padding-left:23px;width:79px;line-height:24px !important;height:24px !important;cursor:text;overflow:hidden;&#125;
+.mod_select .option&#123;border: 1px solid #dfdfdf !important;position:absolute;top:52px;left:-1px;z-index:2;overflow:hidden;display:none;&#125;
+.mod_select .option a&#123;display:inline-block;height:50px !important;line-height:50px !important;text-align:center;padding:0px 10px;width:100%;background:#fff;border-bottom: 1px solid #dfdfdf;text-decoration: none;transition:0.5s ease;&#125;
+.mod_select .option a:last-child&#123;
+    border-bottom: 0px solid !important;
+&#125;
+.mod_select .option a:hover&#123;
+    color:red !important;
+&#125;
+#header_main .inner-container&#123;
+    position:relative !important;
+&#125;
+.country&#123;
+    position: absolute !important;
+    right: 0;
+    top: 28px;
+&#125;
+#header_main .avia-menu&#123;
+    right:10%;
+&#125;
+
+@media only screen and (max-width: 1210px) and (min-width: 768px)&#123;
+.responsive #top .av_mobile_menu_tablet .av-main-nav .menu-item &#123;
+    display: none !important;
+&#125;
+.responsive #top .av_mobile_menu_tablet .av-main-nav #menu-item-search &#123;
+    display: block !important;
+&#125;
+.responsive #top .av-main-nav .menu-item-avia-special &#123;
+    display: block !important;
+&#125;
+#header_main .avia-menu&#123;
+    right:80%;
+&#125;
+&#125;
+
+@media (max-width:990px)&#123;
+.responsive #top .av-logo-container .avia-menu &#123;
+    margin-right: 10px;
+&#125;
+.country &#123;
+    position: absolute !important;
+    right: 10% !important;
+    top: 33px !important;
+&#125;
+.country select &#123;
+    top: 28px;
+&#125;
+#top #menu-item-search &#123;
+    background: transparent !important;
+&#125;
+#top #header .avia-font-entypo-fontello, body #header .avia-font-entypo-fontello, html body #header [data-av_iconfont=&#39;entypo-fontello&#39;]:before&#123;
+    font-size:16px !important;
+&#125;
+.country select &#123;
+    right: -30px !important;
+&#125;
+&#125;
+
+@media (max-width:767px)&#123;
+.responsive #top .av-logo-container .avia-menu &#123;
+    margin-right: 10px !important;
+&#125;
+.country &#123;
+    position: absolute !important;
+    right: -50% !important;
+    top: 28px !important;
+&#125;
+.mod_select .select_txt &#123;
+    width: 70px !important;
+&#125;
+&#125;</code></pre>
+<p>这个代码可以放在custom css里面，最后粘贴一下最终的效果：</p>
+<p><img src="https://i.imgur.com/UcQO4wV.jpg"></p>
+<p>手机版：</p>
+<p><img src="https://i.imgur.com/3cGT9wT.jpg"></p>
+<p>看到没，通常默认的select的那种下拉框样式都很丑，现在采用的方式可以尽情的对这个进行美化。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/wordpress-enfold-%E5%A4%B4%E9%83%A8%E8%8F%9C%E5%8D%95-%E8%AF%AD%E8%A8%80%E5%88%87%E6%8D%A2-%E5%A4%9A%E8%AF%AD%E8%A8%80/" rel="tag"># wordpress,enfold,头部菜单,语言切换,多语言</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/05/22/%E9%87%87%E7%94%A8css3%E7%9A%84flex%E5%92%8Cgrid%E7%9A%84order%E5%B1%9E%E6%80%A7%E8%BF%9B%E8%A1%8C%E5%85%83%E7%B4%A0%E7%9A%84%E6%98%BE%E7%A4%BA%E4%BD%8D%E7%BD%AE%E4%BC%98%E5%85%88%E6%8E%92%E5%BA%8F/" rel="prev" title="采用css3的flex和grid的order属性进行元素的显示位置优先排序">
+      <i class="fa fa-chevron-left"></i> 采用css3的flex和grid的order属性进行元素的显示位置优先排序
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/05/25/Magento%E4%B8%AD%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%AD%E4%B8%80%E4%B8%AA%E7%94%A8%E6%88%B7%E6%98%AF%E5%90%A6%E5%B7%B2%E7%BB%8F%E7%99%BB%E9%99%86%E4%BB%A5%E5%8F%8A%E8%8E%B7%E5%8F%96%E7%BD%91%E7%AB%99%E7%9A%84%E5%9F%9F%E5%90%8D%E5%9C%B0%E5%9D%80%E5%8C%85%E6%8B%AC%E5%AD%90%E7%9B%AE%E5%BD%95%E5%9C%A8%E5%86%85/" rel="next" title="Magento中如何判断一个用户是否已经登陆以及获取网站的域名地址包括子目录在内">
+      Magento中如何判断一个用户是否已经登陆以及获取网站的域名地址包括子目录在内 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,37 +1,435 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="随着慢慢长大，时间变得越来越宝贵，能够在宝贵的时间内解决问题的关键、让自己的快乐是一件非常有挑战和需要智慧的事情。 我们当然希望在有限的时间内做更多有价值有意义的事情，通过完成和实现这些事情来达到一个心灵的满足感。今天笔者分享的是这样一件事：花更多的时间在一劳永逸中的劳这个上面。 在笔者的工作中，就经常碰到这样的情况，把同样的问题解决了好几次，基本都是相同的，花费了不少的时间。可是每次都解决同样的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="解决复用模块的启发以及对自身升级改造的一个新的思考">
+<meta property="og:url" content="http://example.com/2019/03/20/%E8%A7%A3%E5%86%B3%E5%A4%8D%E7%94%A8%E6%A8%A1%E5%9D%97%E7%9A%84%E4%BB%B7%E5%80%BC%E4%BB%A5%E5%8F%8A%E5%AF%B9%E8%87%AA%E8%BA%AB%E5%8D%87%E7%BA%A7%E6%94%B9%E9%80%A0%E7%9A%84%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84%E6%8C%87%E5%BC%95/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="随着慢慢长大，时间变得越来越宝贵，能够在宝贵的时间内解决问题的关键、让自己的快乐是一件非常有挑战和需要智慧的事情。 我们当然希望在有限的时间内做更多有价值有意义的事情，通过完成和实现这些事情来达到一个心灵的满足感。今天笔者分享的是这样一件事：花更多的时间在一劳永逸中的劳这个上面。 在笔者的工作中，就经常碰到这样的情况，把同样的问题解决了好几次，基本都是相同的，花费了不少的时间。可是每次都解决同样的">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2019-03-20T08:37:45.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:06.494Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="重复造轮子,一劳永逸,升级改造">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2019/03/20/%E8%A7%A3%E5%86%B3%E5%A4%8D%E7%94%A8%E6%A8%A1%E5%9D%97%E7%9A%84%E4%BB%B7%E5%80%BC%E4%BB%A5%E5%8F%8A%E5%AF%B9%E8%87%AA%E8%BA%AB%E5%8D%87%E7%BA%A7%E6%94%B9%E9%80%A0%E7%9A%84%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84%E6%8C%87%E5%BC%95/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>解决复用模块的启发以及对自身升级改造的一个新的思考 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/03/20/%E8%A7%A3%E5%86%B3%E5%A4%8D%E7%94%A8%E6%A8%A1%E5%9D%97%E7%9A%84%E4%BB%B7%E5%80%BC%E4%BB%A5%E5%8F%8A%E5%AF%B9%E8%87%AA%E8%BA%AB%E5%8D%87%E7%BA%A7%E6%94%B9%E9%80%A0%E7%9A%84%E4%B8%80%E4%B8%AA%E6%96%B0%E7%9A%84%E6%8C%87%E5%BC%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          解决复用模块的启发以及对自身升级改造的一个新的思考
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-03-20 16:37:45" itemprop="dateCreated datePublished" datetime="2019-03-20T16:37:45+08:00">2019-03-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:06" itemprop="dateModified" datetime="2020-10-11T11:58:06+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%BF%83%E5%BE%97/" itemprop="url" rel="index"><span itemprop="name">心得</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>随着慢慢长大，时间变得越来越宝贵，能够在宝贵的时间内解决问题的关键、让自己的快乐是一件非常有挑战和需要智慧的事情。</p>
+<p>我们当然希望在有限的时间内做更多有价值有意义的事情，通过完成和实现这些事情来达到一个心灵的满足感。今天笔者分享的是这样一件事：花更多的时间在一劳永逸中的<strong>劳</strong>这个上面。</p>
+<p>在笔者的工作中，就经常碰到这样的情况，把同样的问题解决了好几次，基本都是相同的，花费了不少的时间。可是每次都解决同样的事情是很浪费生命的。后来笔者索性就写成一个通用的文档，只要根据这个文档走就能够很好解决这个问题了，尽管笔者在写这个文档上花费了不少的精力，可是相当值得去做这件事的。</p>
+<p>同样的情况也会出现在我们的生活中和人生的成长中，举例：</p>
+<h2 id="盖新房的启发"><a href="#盖新房的启发" class="headerlink" title="盖新房的启发"></a>盖新房的启发</h2><p>生活中的一劳永逸，笔者就说盖房子吧，如果我们觉得改善居住环境能够给我们带来持续不断的便利性和舒适度，那么我们把它完成得越早越好，当我们完成了房子的修缮后，我们在接下来的生活中会因为这次修缮持续受益，每天都很快乐，每天都很方便。又比如，我们把家里装修得很舒服，周边环境做得很好，而且不需要持续的投入的话，那么当前需要投入点时间和精力那也是值得的，当我们完成后，我们就会受益终生。</p>
+<h2 id="写通用代码的启发"><a href="#写通用代码的启发" class="headerlink" title="写通用代码的启发"></a>写通用代码的启发</h2><p>我们在写代码的时候，可能也会碰到这样一个问题，我们可能很多模块，或者是很多页面功能是相似的，对此我们有两种做法：</p>
+<ol>
+<li>每个页面，每个模块单独写功能，逐一积极相似需求片段。</li>
+<li>把相似的功能抽象化，写成一个通用函数，放在公共文件中，那么我们这样就可以写一个函数解决同类的所有问题。直接调动函数接解决重复的部分。</li>
+<li>如果你还是不能明白第二点，那么再举例子，与此异曲同工的是css中的class和id，一个ID对应一个问题，而一个class是更适合解决处理一片相同的问题，所以写样式的时候，尽量用class来处理样式的问题，而ID是用来处理事件或者是独一无二的标识问题。</li>
+</ol>
+<h2 id="学习vi编辑器"><a href="#学习vi编辑器" class="headerlink" title="学习vi编辑器"></a>学习vi编辑器</h2><p>用过linux操作系统的同学都知道，我们或多或少的会接触到这个编辑器，事实上这个编辑器是相当难用的，起码初级阶段是很难用的，可是笔者为什么还会选择去学习它呢？</p>
+<p>原因如下：</p>
+<ol>
+<li>笔者知道接下来的工作会越来越多的用到linux操作系统，而用这个操作系统难免会用这个编辑器来编辑一些文件，如果用外部文件的话，虽然很顺手，但是我们不得不下载到本地编辑完毕后，然后再上传上去，一次还好，如果这种事情经常发生，那么这个问题将会成为我们远行路上的鞋子中的一粒沙子，终究会羁绊着我们继续前行，因此学习这个编辑器是很有必要的。</li>
+</ol>
+<p>那么，我们学习这个编辑器的时候初始阶段遇到问题是正常的，可是当这些问题逐一被解决了以后，那么再次使用的话就会为我们带来方便，而且自此以后只会越来越方便。所以在可预期的未来如果能够确定使用它的频率很高的话，那么笔者会选择立马行动起来做它。</p>
+<h2 id="人生的成长"><a href="#人生的成长" class="headerlink" title="人生的成长"></a>人生的成长</h2><p>同样的道理，在我们的成长过程中，我们如果能够把限制我们发展的因素突破了，那么我们将会因为这个突破持续受益。</p>
+<p>比如我们学习新的知识，修炼内功，提升内在的素养，处变不惊的处事态度等等，这些看起来很难，可是当我们只要提升一点点就能够让我们在接下来的人生中受益下半生，那么我们还会犹豫吗？当然不会！</p>
+<p>当然，很多人都意识到这个问题，可是为什么很多时候没有这样做呢？</p>
+<p>笔者认为：</p>
+<ol>
+<li>他们没有深刻意识到这个一劳永逸的重要性，抓兔子的目标被突然出现的土巴鼠打乱了，最后他们的精力就时不时的被消耗在哪些非一劳永逸的事情上。</li>
+<li>他们可能没有这个意识，也可能是没有这个条件，比如一个车间工人，那么他可能把十年的时间消耗在了重复的一件事情上，结果十年之后他仍然很不安逸，因为他们没有把主要精力花费在解决问题的纵向，而是不断的生产这相似规格的螺丝钉。如果他尝试着解决不在车间生产的事情上，那么他短期内可能比较大的压力，或者会比较忙碌，可是当自己升级了以后，改造了以后，他将会永远摆脱在车间生产的命运。</li>
+<li>同样的，一个外包公司的技术，如果他为了不同客户的需求作者近乎相似的需求，那么他将会持续不断的陷入了做出不同的相近的东西，而没有任何突破，如果能够把时间和精力花费在去提升一下技能，阅读更多的书籍，系统的学习一下，那么重复造轮子的事将会迎刃而解。我们试想一下，当他花费了半年的时间把相关的技能往深处学习了一下，那么他会解决更高级的问题，而不是把1+1这种事情做无数遍。</li>
+<li>因此，无论我们生活中还是工作中，解决问题要挑典型的问题，然后把这个问题解决到极致，那么围绕这个问题的相似问题不就都被解决了吗。</li>
+<li>记住：一劳永逸中的劳要把握好，选择值得劳的部分，花大手笔去做好他。</li>
+</ol>
+<h2 id="笔者年少时玩的一个游戏"><a href="#笔者年少时玩的一个游戏" class="headerlink" title="笔者年少时玩的一个游戏"></a>笔者年少时玩的一个游戏</h2><p>多年前笔者喜欢一个游戏：星际争霸，令我印象深刻的是这个游戏中的对象有升级的选项。</p>
+<p>比如说坦克，坦克轰炸一次，敌人去掉40滴血，后来笔者就做了一个实验，当我把它升一级的时候，发现它可以轰炸掉敌人60滴血，而且防御能力提升了30%，但是升级的代价：升级一次需要花费一些矿石和汽油，还有生产三辆坦克时间。如果笔者把这些矿石和汽油和时间用在生产坦克的话，笔者可以生产三俩坦克。我们不妨算一算：多三俩坦克划算还是以后生产的所有坦克每轰炸一次把敌人轰掉更多血划算呢？这个得看情况，如果敌人就那么几个，在不需要升级的情况下消灭到他们绰绰有余的话，那么可以不用升级；如果对手很强大，或者势均力敌，这种情况很可能打的是持久战，大规模的战争，那么升级以后一定是更划算的。</p>
+<blockquote>
+<p><strong>可是</strong>，人生是一场持久战，不是闪电战，我们升级自己比我们急于做更多的东西来得更为紧迫，如果不升级自己，经我们之手的永远就是较低端的东西，难以走向更加强大和卓越。到时候面对竞争对手，我们只能望其项背而兴叹不已。</p>
+</blockquote>
+<p>所以，笔者经常看到很多人，为了眼前的蝇头小利，而难以自拔其中，错失了做更为重要事情的宝贵时间，毕竟时间才是瓶颈。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%87%8D%E5%A4%8D%E9%80%A0%E8%BD%AE%E5%AD%90-%E4%B8%80%E5%8A%B3%E6%B0%B8%E9%80%B8-%E5%8D%87%E7%BA%A7%E6%94%B9%E9%80%A0/" rel="tag"># 重复造轮子,一劳永逸,升级改造</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/03/18/%E9%87%87%E7%94%A8jquery%E6%9D%A5%E8%A7%A3%E5%86%B3wordpress%E7%9A%84enfold%E4%B8%BB%E9%A2%98gallery%E7%9B%B8%E5%86%8C%E9%9B%86%E6%8F%92%E5%85%A5%E8%A7%86%E9%A2%91%EF%BC%8C%E9%BC%A0%E6%A0%87%E6%82%AC%E6%B5%AE%E5%92%8C%E7%82%B9%E5%87%BB%E4%B8%8D%E5%90%8C%E6%95%88%E6%9E%9C%E7%9A%84%E6%96%B9%E6%A1%88/" rel="prev" title="采用jquery来解决wordpress的enfold主题gallery相册集插入视频，鼠标悬浮和点击不同效果的方案">
+      <i class="fa fa-chevron-left"></i> 采用jquery来解决wordpress的enfold主题gallery相册集插入视频，鼠标悬浮和点击不同效果的方案
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/03/22/vi%E7%BC%96%E8%BE%91%E5%99%A8%E7%9A%84%E9%85%8D%E7%BD%AE%E5%92%8C%E5%B8%B8%E7%94%A8%E7%9A%84%E6%8A%80%E5%B7%A7/" rel="next" title="vi编辑器的配置和常用的技巧">
+      vi编辑器的配置和常用的技巧 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%96%E6%96%B0%E6%88%BF%E7%9A%84%E5%90%AF%E5%8F%91"><span class="nav-number">1.</span> <span class="nav-text">盖新房的启发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%99%E9%80%9A%E7%94%A8%E4%BB%A3%E7%A0%81%E7%9A%84%E5%90%AF%E5%8F%91"><span class="nav-number">2.</span> <span class="nav-text">写通用代码的启发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0vi%E7%BC%96%E8%BE%91%E5%99%A8"><span class="nav-number">3.</span> <span class="nav-text">学习vi编辑器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%BA%E7%94%9F%E7%9A%84%E6%88%90%E9%95%BF"><span class="nav-number">4.</span> <span class="nav-text">人生的成长</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%94%E8%80%85%E5%B9%B4%E5%B0%91%E6%97%B6%E7%8E%A9%E7%9A%84%E4%B8%80%E4%B8%AA%E6%B8%B8%E6%88%8F"><span class="nav-number">5.</span> <span class="nav-text">笔者年少时玩的一个游戏</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

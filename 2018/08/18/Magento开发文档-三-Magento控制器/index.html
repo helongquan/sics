@@ -1,37 +1,605 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="原文地址：https:&#x2F;&#x2F;devdocs.magento.com&#x2F;guides&#x2F;m1x&#x2F;magefordev&#x2F;mage-for-dev-3.html 提到模型-视图-控制器这种MVC架构，要追溯到Smalltalk编程语言和Xerox Parc。从那个时候开始，就有许多系统将自己描述为MVC架构。这些系统虽然在某些地方有细微差别，但都实现了数据层，逻辑层和前段表现代码的分离。 大部分的PHP MV">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Magento开发文档(三):Magento控制器">
+<meta property="og:url" content="http://example.com/2018/08/18/Magento%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3-%E4%B8%89-Magento%E6%8E%A7%E5%88%B6%E5%99%A8/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="原文地址：https:&#x2F;&#x2F;devdocs.magento.com&#x2F;guides&#x2F;m1x&#x2F;magefordev&#x2F;mage-for-dev-3.html 提到模型-视图-控制器这种MVC架构，要追溯到Smalltalk编程语言和Xerox Parc。从那个时候开始，就有许多系统将自己描述为MVC架构。这些系统虽然在某些地方有细微差别，但都实现了数据层，逻辑层和前段表现代码的分离。 大部分的PHP MV">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-08-18T02:07:18.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:00.870Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="magento,magento1.x,控制器">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2018/08/18/Magento%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3-%E4%B8%89-Magento%E6%8E%A7%E5%88%B6%E5%99%A8/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>Magento开发文档(三):Magento控制器 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/08/18/Magento%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3-%E4%B8%89-Magento%E6%8E%A7%E5%88%B6%E5%99%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Magento开发文档(三):Magento控制器
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-08-18 10:07:18" itemprop="dateCreated datePublished" datetime="2018-08-18T10:07:18+08:00">2018-08-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:00" itemprop="dateModified" datetime="2020-10-11T11:58:00+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/magento1/" itemprop="url" rel="index"><span itemprop="name">magento1</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>原文地址：<a target="_blank" rel="noopener" href="https://devdocs.magento.com/guides/m1x/magefordev/mage-for-dev-3.html">https://devdocs.magento.com/guides/m1x/magefordev/mage-for-dev-3.html</a></p>
+<p>提到模型-视图-控制器这种MVC架构，要追溯到Smalltalk编程语言和Xerox Parc。从那个时候开始，就有许多系统将自己描述为MVC架构。这些系统虽然在某些地方有细微差别，但都实现了数据层，逻辑层和前段表现代码的分离。</p>
+<p>大部分的PHP MVC框架都拥有以下基本特征，</p>
+<ul>
+<li>所有的URL请求会被前端控制器解析</li>
+<li>前端控制器会检查请求的URL路径，并从中获取一个控制器和动作名（这个过程叫做路由）</li>
+<li>实例化从URL中获取的控制器</li>
+<li>该控制器中，与从URL里获取的动作名一致的方法会被调用</li>
+<li>根据请求的变量，该方法被实例化或调用方法获取模型</li>
+<li>该动作方法从模型中获取到数据，这些获取的信息会被传递到视图中</li>
+<li>使用从数据结构中获取到的信息，视图输出HTML代码</li>
+</ul>
+<p>相对于“一个PHP文件对应一个页面”来说，这种MVC架构是个巨大的进步。然后对于一些软件工程师来说，它依然是个丑陋的架构。他们经常抱怨说，</p>
+<ul>
+<li>前段控制器文件会在全局命名空间中运行</li>
+<li>约定型的架构没有配置型架构更具扩展性</li>
+</ul>
+<p>比如说，</p>
+<ul>
+<li>URL路由规则通常是无法扩展的</li>
+<li>控制器被绑定在特定的视图</li>
+<li>即使该系统拥有重写核心代码的功能，程序员依然只能在无尽的重构中编写代码</li>
+</ul>
+<p>Magento团队创建了一个更为抽象的MVC模式，大概的运行过程是，</p>
+<ul>
+<li>URL地址首先被一个PHP文件解析</li>
+<li>该PHP文件会根据解析情况实例化一个Magento应用</li>
+<li>这个Magento应用会实例化一个前端控制器对象</li>
+<li>接着，前端控制器实例化路由对象</li>
+<li>路由对象检查请求的URL地址，并作出相应的匹配</li>
+<li>如果匹配成功，相应的控制器和动作会被分发</li>
+<li>该控制器会被实例化，并且与动作同名的方法会被调用</li>
+<li>被调用的方法根据请求的类型，对相应的模型调用相应的方法以获取数据</li>
+<li>结束方法调用之后，控制器会实例化布局对象</li>
+<li>根据请求中包含的变量及系统属性（通常叫做句柄），布局对象会为该请求创建一系列的Block对象</li>
+<li>布局还会在相应的Block对象中调用输出方法，开始套嵌输出（Blocks之间的套嵌）</li>
+<li>每个Block都有相关联的模板文件，Blocks包含PHP逻辑代码，模板文件则负责生成HTML文件</li>
+<li>Block从模型中获取相关数据，换句话说，控制器并不用来传递数据到视图中</li>
+</ul>
+<p>我们会在整个教程中介绍上面的所有部分，本章主要涉及到到前端控制器-&gt;路由-&gt;动作控制器环节。</p>
+<h2 id="Hello-World"><a href="#Hello-World" class="headerlink" title="Hello World"></a>Hello World</h2><p>又到Hello World了，你懂的。这一节主要任务是</p>
+<ul>
+<li>创建Hello World模块</li>
+<li>配置模块的路由规则</li>
+<li>为路由创建动作控制器</li>
+</ul>
+<p><strong>创建Hello World模块</strong></p>
+<p>首先，我们先为该模块创建好目录结构：</p>
+<blockquote>
+<p>app/code/local/Magentotutorial/Helloworld/Block&gt;</p>
+</blockquote>
+<blockquote>
+<p>app/code/local/Magentotutorial/Helloworld/controllers&gt;</p>
+</blockquote>
+<blockquote>
+<p>app/code/local/Magentotutorial/Helloworld/etc&gt;</p>
+</blockquote>
+<blockquote>
+<p>app/code/local/Magentotutorial/Helloworld/Helper&gt;</p>
+</blockquote>
+<blockquote>
+<p>app/code/local/Magentotutorial/Helloworld/Model&gt;</p>
+</blockquote>
+<blockquote>
+<p>app/code/local/Magentotutorial/Helloworld/sql</p>
+</blockquote>
+<p>然后为这个模块创建配置文件，配置该配置文件路径位于，</p>
+<blockquote>
+<p>app/code/local/Magentotutorial/Helloworld/etc/config.xml</p>
+</blockquote>
+<p>并放入下列代码,</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;config&gt;
+    &lt;modules&gt;
+        &lt;Magentotutorial_Helloworld&gt;
+            &lt;version&gt;0.1.0&lt;/version&gt;
+        &lt;/Magentototurial_helloworld&gt;
+    &lt;/modules&gt;
+&lt;/config&gt;</code></pre>
+<p>和之前一样，需要创建一个文件激活该模块，该文件路径位于，</p>
+<pre><code>app/etc/modules/Magentotutorial_Helloworld.xml</code></pre>
+<p>放入如下代码，</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;config&gt;
+    &lt;modules&gt;
+        &lt;Magentotutorial_Helloworld&gt;
+            &lt;active&gt;true&lt;/active&gt;
+            &lt;codePool&gt;local&lt;/codePool&gt;
+        &lt;/Magentotutorial_Helloworld&gt;
+    &lt;/modules&gt;
+&lt;/config&gt;</code></pre>
+<p>最后，检查下我们是否成功建立Hello Wolrd模块并激活。</p>
+<ul>
+<li>清空Magento缓存</li>
+<li>在管理员界面中，点击System-&gt;Configuration-&gt;Advanced.</li>
+<li>打开”Disable Modules Output”</li>
+<li>大概在底部，会显示<code>Magentotutorial_Helloworld</code>模块</li>
+</ul>
+<h2 id="配置模块的路由规则"><a href="#配置模块的路由规则" class="headerlink" title="配置模块的路由规则"></a>配置模块的路由规则</h2><p>接着，我们开始配置路由规则，路由会将请求的URL地址分发到一个控制器和它的方法上。不像其它约定型的PHP MVC框架，在Magento中，你需要明确的在全局配置文件中配置路由规则，来告诉URL地址如何匹配对应的控制器和方法。</p>
+<p>在config.xml文件中，加入下列代码，</p>
+<pre><code>&lt;frontend&gt;
+    &lt;routers&gt;
+        &lt;helloworld&gt;
+            &lt;use&gt;standard&lt;/use&gt;
+            &lt;args&gt;
+                &lt;module&gt;Magentototurial_Helloworld&lt;/module&gt;
+                &lt;frontName&gt;helloworld&lt;/frontName&gt;
+            &lt;/args&gt;
+        &lt;/helloworld&gt;
+    &lt;/routers&gt;
+&lt;/frontend&gt;</code></pre>
+<p>这块代码里面牵涉到很多术语，接下来一一解析。</p>
+<p><code>&lt;frontend&gt;</code>是什么？</p>
+<p>该标签涉及到Magento的一个术语Area。可以将Areas视为一些独立的Magento应用。“frontend” Area是Magento购物车应用的前端表现。”admin” Area是后端管理员应用。”install” Area是用来安装Magento的应用。</p>
+<p>为什么配置一个模块的路由要使用复数<code>&lt;routers&gt;</code>呢?</p>
+<p>引用一句Phil Karlton关于计算机科学的著名论断：</p>
+<blockquote>
+<p>There are only two hard things in Computer Science: cache invalidation and naming things</p>
+</blockquote>
+<p>意思是说计算机科学中最棘手的两件事就是缓存验证和命名。和许多大型系统一样，Magento同样受到命名的困扰。在全局配置文件书中，可以看到许多这种甚至是丑陋的命名方式。<code>&lt;routers&gt;</code>便是其中之一。该标签通常会包括关于路由规则的配置信息，有时候又会包含实际的路由对象的配置信息。这种命名方式初看起来有些不爽，但是随着你对于Magento系统的深入学习，你会逐渐改变对它的看法。</p>
+<p><code>&lt;frontName&gt;</code>是什么？</p>
+<p>当路由器解析URL时，会将URL分为以下几个部分，</p>
+<pre><code>http://example.com/frontName/actionControllerName/actionMethod/</code></pre>
+<p>通过在<code>&lt;frontName&gt;</code>标签中定义”helloworld”值，Magento就能够响应所有以下列URL访问的地址</p>
+<pre><code>http://example.com/helloworld/*</code></pre>
+<p>很多刚刚接触Magento的开发者都会将frontName与Magento的前端控制器对象搞混淆。实际上它们完全不是一回事。frontName只属于路由。</p>
+<p><code>&lt;helloworld&gt;</code>标签的作用？</p>
+<p>该标签必须是当前模块名的小写形式。我们创建的模块是Helloworld，所以该标签应该是<code>&lt;helloworld&gt;</code>。可能你会注意到<code>&lt;frontName&gt;</code>标签中的值也于模块名一致。这个其实是一个不成为的规定，并非是必须一致的。在你的自定义模块中，最好使用模块名与命名空间的组合来命名，以避免命名冲突。</p>
+<pre><code>&lt;module&gt;Magentotutorial_Helloworld&lt;/module&gt;</code></pre>
+<p>该标签的值必须是模块的全名，包含package/namespace名。该配置让系统能够正确定位到控制器文件。</p>
+<h2 id="创建动作控制器"><a href="#创建动作控制器" class="headerlink" title="创建动作控制器"></a>创建动作控制器</h2><p>完成配置文件之后，接下来需要做的就是创建控制器文件及类。在以下路径创建该类，</p>
+<pre><code>app/code/local/Magentotutorial/Helloworld/controllers/IndexController.php</code></pre>
+<p>包含以下内容，</p>
+<pre><code>class Magentotutorial_Helloworld_IndexController extends Mage_Core_Controller_Front_Action &#123;
+    public function indexAction() &#123;
+        echo &#39;Hello Index&#39;;
+    &#125;
+&#125;</code></pre>
+<p>清空缓存，访问下列地址，</p>
+<pre><code>http://exmaple.com/helloworld/index/index</code></pre>
+<p>也可以访问以下地址，</p>
+<pre><code>http://exmaple.com/helloworld/index/index
+
+http://exmaple.com/helloworld/</code></pre>
+<p><strong>提示：</strong>如果访问出现404页面的话，不要着急，在后台先清空一下缓存，稍等一会儿再试，如果还是不行，这个时候八成是模块配置文件的问题，尽管看上去没有什么问题，可是笔者在经常实验的过程中，或多或少的碰到这种情况，我的做法是把config.xml这个文件中的代码全部清空，去另外一个没有问题的模块中的config.xml里面复制里面的代码，然后把里面的内容改成符合当前模块，然后再试试，基本就可以看到效果了。</p>
+<p>如果没有出错的话，页面中应该能显示”Hello Index”。恭喜你，你已经成功搞定了第一个Magento控制器。</p>
+<p><strong>动作控制器文件路径</strong></p>
+<p>控制器应该放在模块的controllers文件夹中，系统会自动在这个路径中寻找控制器。</p>
+<p><strong>动作控制器命名方式</strong></p>
+<p>还记得在config.xml配置文件中的<code>&lt;module&gt;</code>标签吗？</p>
+<pre><code>&lt;module&gt;Magentotutorial_Helloworld&lt;/module&gt;</code></pre>
+<p>动作控制器的命名应该遵循以下规则，</p>
+<ul>
+<li>以配置文件<code>&lt;module&gt;</code>标签中的值起头(<code>Magentotutorial_Helloworld</code>)</li>
+<li>紧接着一个下划线(<code>Magentotutorial_Helloworld_</code>)</li>
+<li>再接着是该控制器的名字(<code>Magentotutorial_Helloworld_Index</code>)</li>
+<li>最后，加上Controller(<code>Magentotutorial_Helloworld_IndexController</code>)</li>
+</ul>
+<p>所有的Magento控制器都是继承自<code>Mage_Core_Controller_Front_Action</code>类。</p>
+<p><strong>index/index路径</strong></p>
+<p>上文中提到过，Magento的URL地址按照以下规则进行路由解析，</p>
+<pre><code>http://example.com/frontName/actionControllerName/actionMethod/</code></pre>
+<p>那么在下面这个地址中，</p>
+<pre><code>http://example.com/helloworld/index/index</code></pre>
+<p>URI中的”helloworld”是frontName，后面两个index分别是调用的控制器及方法名，即调用helloworld模块中的IndexController控制器中的indexAction方法。</p>
+<p>如果URL地址中缺少控制器及方法部分，Magento默认使用index，所以下面地址访问的页面是相同的。</p>
+<pre><code>http://example.com/helloworld/index
+
+http://example.com/helloworld</code></pre>
+<p>如果访问的URL地址如下，</p>
+<pre><code>http://example.com/checkout/cart/add</code></pre>
+<p>Magento会做如下操作，</p>
+<ul>
+<li>在全局配置文件中找到使用frontName为checkout的模块（<code>Mage_Checkout</code>）</li>
+<li>继续查询cart控制器（<code>Mage_Checkout_CartController</code>）</li>
+<li>调用cart控制器下的<code>addAction()</code>方法</li>
+</ul>
+<p><strong>控制器路径</strong></p>
+<p>让我们试着添加一个非默认方法到控制器中，添加如下代码到IndexController.php</p>
+<pre><code>public function goodbyeAction() &#123;
+    echo &#39;Goodbye World&#39;;
+&#125;</code></pre>
+<p>然后访问下面的URL地址：</p>
+<pre><code>http://example.com/helloworld/index/goodbye</code></pre>
+<p>IndexController继承自<code>Mage_Core_Controller_Front_Action</code>类，有很多方法可以直接使用。例如，除上述URI中提到的三部分之外，其它部分会自动传给一个键值对数组。添加如下代码到IndexController中。</p>
+<pre><code>public function paramsAction() &#123;
+    echo &#39;&lt;dl&gt;&#39;;
+    foreach ($this-&gt;getRequest()-&gt;getParams() as $key =&gt; $value) &#123;
+        echo &#39;&lt;dt&gt;&lt;strong&gt;Param: &lt;/strong&gt;&#39;.$key.&#39;&lt;/dt&gt;&#39;;
+        echo &#39;&lt;dt&gt;&lt;strong&gt;Value: &lt;/strong&gt;&#39;.$value.&#39;&lt;/dt&gt;&#39;;
+    &#125;
+    echo &#39;&lt;/dl&gt;&#39;;
+&#125;</code></pre>
+<p>完成之后访问下面的URL地址</p>
+<pre><code>http://example.com/helloworld/index/params?foo=bar&amp;baz=eof</code></pre>
+<p>一切正常的话，页面中会显示该URL地址中的参数。最后，对于下面这个URL地址，系统应该如何响应呢？</p>
+<pre><code>http://example.com/helloworld/messages/goodbye</code></pre>
+<p>该URL中，控制器的名字是messages，所以我们需要创建一个MessagesController控制器，在以下路径创建该文件</p>
+<pre><code>app/code/local/Magentotutorial/Helloworld/controllers/MessagesController.php</code></pre>
+<p>接着在该控制器中添加<code>goodbyeAction()</code>方法</p>
+<pre><code>public function goodbyeAction() &#123;
+    echo &#39;Another Goodbye&#39;;
+&#125;</code></pre>
+<p>关于Magento控制器的介绍已经完成了。虽然看起来比其他的PHP MVC框架要复杂许多，它的高度可扩展性却允许你创建任何你想要的URL结构。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/magento-magento1-x-%E6%8E%A7%E5%88%B6%E5%99%A8/" rel="tag"># magento,magento1.x,控制器</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/08/17/Magento%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3-%E4%B8%83-Magento-EAV%E6%A8%A1%E5%9E%8B/" rel="prev" title="Magento开发文档(七):Magento EAV模型">
+      <i class="fa fa-chevron-left"></i> Magento开发文档(七):Magento EAV模型
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/08/18/Magento%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3-%E5%9B%9B%EF%BC%89Magento%E5%B8%83%E5%B1%80%E3%80%81%E5%9D%97-%E3%80%81%E6%A8%A1%E6%9D%BF/" rel="next" title="Magento开发文档(四）Magento布局、块 、模板">
+      Magento开发文档(四）Magento布局、块 、模板 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Hello-World"><span class="nav-number">1.</span> <span class="nav-text">Hello World</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E6%A8%A1%E5%9D%97%E7%9A%84%E8%B7%AF%E7%94%B1%E8%A7%84%E5%88%99"><span class="nav-number">2.</span> <span class="nav-text">配置模块的路由规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%8A%A8%E4%BD%9C%E6%8E%A7%E5%88%B6%E5%99%A8"><span class="nav-number">3.</span> <span class="nav-text">创建动作控制器</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

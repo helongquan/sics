@@ -1,23 +1,2895 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-{% block title %}{{ config.title }}{% if theme.index_with_subtitle and config.subtitle %} - {{config.subtitle }}{% endif %}{% endblock %}
+<link rel="stylesheet" href="/css/main.css">
 
-{% block page_class %}
-  {% if is_home() %}page-home{% endif -%}
-{% endblock %}
 
-{% block content %}
-  <section id="posts" class="posts-expand">
-    {% for post in page.posts %}
-      {{ post_template.render(post, true) }}
-    {% endfor %}
-  </section>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-  {% include '_partials/pagination.swig' %}
-{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
 
-{% block sidebar %}
-  {{ sidebar_template.render(false) }}
-{% endblock %}
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/page/10/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/page/10/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
+            
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/10/16/%E8%8F%B1%E5%BD%A2%E9%A3%8E%E6%A0%BC%E5%9E%82%E7%9B%B4%E5%B1%85%E4%B8%AD%E5%AF%B9%E9%BD%90-jquery%E9%BC%A0%E6%A0%87%E6%82%AC%E6%B5%AE%E5%8A%A8%E6%80%81%E6%94%B9%E5%8F%98%E8%83%8C%E6%99%AF%E5%9B%BE%E7%89%87%E4%BB%A5%E5%8F%8A%E5%8A%A8%E6%80%81%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E6%96%B9%E6%A1%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/10/16/%E8%8F%B1%E5%BD%A2%E9%A3%8E%E6%A0%BC%E5%9E%82%E7%9B%B4%E5%B1%85%E4%B8%AD%E5%AF%B9%E9%BD%90-jquery%E9%BC%A0%E6%A0%87%E6%82%AC%E6%B5%AE%E5%8A%A8%E6%80%81%E6%94%B9%E5%8F%98%E8%83%8C%E6%99%AF%E5%9B%BE%E7%89%87%E4%BB%A5%E5%8F%8A%E5%8A%A8%E6%80%81%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E6%96%B9%E6%A1%88/" class="post-title-link" itemprop="url">菱形风格垂直居中对齐,jquery鼠标悬浮动态改变背景图片以及动态插入图片方案</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-10-16 12:08:48" itemprop="dateCreated datePublished" datetime="2018-10-16T12:08:48+08:00">2018-10-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:06" itemprop="dateModified" datetime="2020-10-11T11:58:06+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript/" itemprop="url" rel="index"><span itemprop="name">javascript</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>根据客户需求，想要一个菱形的，然后就是鼠标悬浮上去有图片，同时文字小时，离开后，回到最初的样子。</p>
+<ol>
+<li>菱形：这个地方我想到了css3里面的旋转特性</li>
+<li>垂直居中对齐：这个时候我们需要使用flex布局</li>
+<li>鼠标悬浮背景图片显示：这个时候笔者采用html5中的自定义属性来做这件事。</li>
+<li>鼠标离开的时候恢复原状：这个时候我们需要获取当前的元素的背景颜色，保存为一个变量中，离开的时候把这个变量赋值给背景颜色这个属性</li>
+<li>动态插入图片：这个作为第二方案</li>
+</ol>
+<p><strong>HTML结构：</strong></p>
+<pre><code>&lt;div class=&quot;container&quot;&gt;
+      &lt;div class=&quot;rrg&quot; data-src=&quot;caijing.jpg&quot;&gt;&lt;span&gt;世界，你好啊!世界，你好啊!世界，你好啊!世界，你好啊!&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;rrg&quot; data-src=&quot;background.png&quot;&gt;&lt;span&gt;世界，你好啊!世界，你好啊!世界，你好啊!世界，你好啊!&lt;/span&gt;&lt;/div&gt;
+      &lt;div class=&quot;rrg&quot; data-src=&quot;caijing.jpg&quot;&gt;&lt;span&gt;世界，你好啊!世界，你好啊!世界，你好啊!世界，你好啊!&lt;/span&gt;&lt;/div&gt;
+ &lt;/div&gt;</code></pre>
+<p>如果不居中对齐会很丑，所以我们先用css来解决垂直居中对齐的问题：</p>
+<p><strong>css代码：</strong></p>
+<pre><code>&lt;style&gt;
+    .rrg&#123;
+        background: red;
+        position: relative;
+        min-width: 150px;
+        max-width: 150px;
+        min-height: 150px;
+        display: block;
+        float: left;
+        overflow: hidden;
+        margin: 35px;
+        transform: rotate(45deg);
+        display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; -webkit-justify-content: center; 
+        justify-content: center;
+    &#125;
+    .rrg span&#123;
+        transform: rotate(-45deg);
+        display: block;
+        color: #fff;
+        width: 100%;
+        text-align: center;
+        position: absolute;
+    &#125;
+&lt;/style&gt;</code></pre>
+<p>从这里我们看到这个的居中对齐的关键就是：</p>
+<pre><code>display: -webkit-flex;
+display: flex;
+-webkit-align-items: center;
+align-items: center;
+-webkit-justify-content: center;
+justify-content: center;</code></pre>
+<p>完成了这个，我们就可以看到一个这样的效果了：</p>
+<p><img src="https://i.imgur.com/pJlQHfn.jpg"></p>
+<p>现在光是旋转没有什么丰富的交互效果感觉还差了点，现在我们想让这个东西鼠标悬浮上去显示那个自定义属性的值，把这个值当做背景图片来用，我们先引入jquery,</p>
+<pre><code>&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js&quot;&gt;&lt;/script&gt;</code></pre>
+<p>然后就是写自定义的js代码：</p>
+<pre><code>&lt;script&gt;
+      $(document).ready(function()&#123;
+          if ($(&quot;.container&quot;).width() &gt;= 920) &#123;
+              $(&quot;.rrg&quot;).hover(function() &#123;
+                  var newbackground = $(this).attr(&quot;data-src&quot;);
+                  //console.log(newbackground);
+                  $(this).css(&#123;&quot;backgroundImage&quot;:&quot;url(&quot;+newbackground+&quot;)&quot;&#125;).css(&#123;&quot;background-size&quot;:&quot;100%&quot;&#125;);
+                  $(this).children(&#39;span&#39;).css(&#123;&#39;display&#39;:&#39;none&#39;&#125;);
+              &#125;, function() &#123;
+                  var currentBackgroundColor=$(this).css(&quot;background-color&quot;);
+                  $(this).css(&#123;&#39;background&#39;:currentBackgroundColor&#125;);
+                  // $(this).removeAttr(&#39;background-image&#39;);
+                  // $(this).removeAttr(&#39;background-size&#39;);
+                  $(this).children(&#39;span&#39;).css(&#123;&#39;display&#39;:&#39;inline-block&#39;&#125;);
+              &#125;);
+          &#125;
+      &#125;)
+  &lt;/script&gt;</code></pre>
+<p>这个里面说得很清楚，在屏幕大于992的时候，执行里面的代码，鼠标悬浮的时候，有悬浮的时候执行的代码，悬浮离开的时候执行的代码：</p>
+<p>悬浮的时候：</p>
+<pre><code>var newbackground = $(this).attr(&quot;data-src&quot;);
+//console.log(newbackground);
+$(this).css(&#123;&quot;backgroundImage&quot;:&quot;url(&quot;+newbackground+&quot;)&quot;&#125;).css(&#123;&quot;background-size&quot;:&quot;100%&quot;&#125;);
+$(this).children(&#39;span&#39;).css(&#123;&#39;display&#39;:&#39;none&#39;&#125;);</code></pre>
+<p>先是获取这个元素的自定义属性：<code>data-src</code>的值，也就是图片地址，那后把这个传值到当前dom的背景图片属性，然后设置为100%显示。然后就是如何选择当前dom的子元素的呢？这里有个jquery方法<code>children()</code>，顺便科普一下关于获取当前子元素的方法：</p>
+<blockquote>
+<p><strong>Jquery获取子元素的方法有2种，分别是children()方法和find()方法。</strong></p>
+<p>1.children()方法：获取该元素下的直接子集元素</p>
+<p>2.find()方法：获取该元素下的所有子集元素</p>
+<p>3.children()方法获取ul下面直接子集元素li：$(“ul”).children(“li”)</p>
+<p>4.find()方法获取ul下所有元素li：$(“ul”).find(“li”)</p>
+<p>5.children和find的区别：children只会查找直接子集，而find会跨越层级查找，一直找到没有为止</p>
+</blockquote>
+<p>好的，我们言归正传，这里我们让当前元素的子集span元素隐藏：</p>
+<pre><code>$(this).children(&#39;span&#39;).css(&#123;&#39;display&#39;:&#39;none&#39;&#125;);</code></pre>
+<p>这样就完成了一个鼠标悬浮的过程，接着就要实现鼠标离开这个dom元素发生的事，顺便说下，笔者在处理这个的时候，总是有问题，问题就在于，鼠标悬浮上去是达到了背景图片显示了，可以是鼠标离开后呢，背景图片依然在，就是不恢复到最初的样子，后来进过查阅资料发现这个是因为，我们没有指定离开后的背景图片。笔者这里单单只是采用了：</p>
+<pre><code>$(this).removeAttr(&#39;background-image&#39;);
+$(this).removeAttr(&#39;background-size&#39;);</code></pre>
+<p>甚至，笔者这样写（笔者企图通过这种方式来删除这个属性）：</p>
+<pre><code>$(this).css(&#123;&#39;background-image&#39;:&#39;none&#39;&#125;);</code></pre>
+<p>这样都是不行的，不用用这种方式来解决这个问题。</p>
+<p>解决方案就是必须要重新指定一个背景给当前dom，以替换才行，如下：</p>
+<pre><code>var currentBackgroundColor=$(this).css(&quot;background-color&quot;);
+$(this).css(&#123;&#39;background&#39;:currentBackgroundColor&#125;);
+$(this).children(&#39;span&#39;).css(&#123;&#39;display&#39;:&#39;inline-block&#39;&#125;);</code></pre>
+<p>代码解释：</p>
+<p>由于笔者的这个列表的背景颜色比较复杂，所以这里不能只替换一种颜色，</p>
+<p><img src="https://i.imgur.com/stxYZq1.jpg"></p>
+<p>所以，这里选择当前的背景颜色，然后把这个属性值保存在一个变量(currentBackgroundColor)中。然后把这个变量传递到鼠标离开后的元素背景属性里面去，最后再把悬浮的时候的文字显示出来。</p>
+<p>这样就以一个背景的方式来展示图片了，用这个方案的好处就是我们能够让这个背景图片显示在我们的dom里面。</p>
+<h2 id="获取自定义的属性，动态生成图片插入dom中"><a href="#获取自定义的属性，动态生成图片插入dom中" class="headerlink" title="获取自定义的属性，动态生成图片插入dom中"></a>获取自定义的属性，动态生成图片插入dom中</h2><p>除了用前面的那个方法之外，这里我们还可以用这种方法处理鼠标悬浮的图片显示，鼠标离开图片消失。</p>
+<p>HTML代码不变，css代码我们在原来的基础上添加一条：</p>
+<pre><code>.rrg img&#123;
+    max-width: 150px;
+    max-height: 150px;
+&#125;</code></pre>
+<p>这个就是用来约束动态生成的图片的大小，而这个图片的大小是要跟这个盒子大小一样的尺寸，以便不把这个盒子撑变形了。好的，我们来看下js：</p>
+<pre><code>&lt;script&gt;
+    $(document).ready(function()&#123;
+        $(&quot;.rrg&quot;).hover(function() &#123;
+            var newbackground = $(this).attr(&quot;data-src&quot;);
+            //console.log(newbackground);
+            $(this).append(&quot;&lt;img src=&quot;+newbackground+&quot;&gt;&quot;);
+            $(this).children(&#39;img&#39;).css(&#123;&#39;transform&#39;:&#39;rotate(-45deg)&#39;&#125;);
+            $(this).children(&#39;span&#39;).css(&#123;&#39;display&#39;:&#39;none&#39;&#125;);
+        &#125;, function() &#123;
+            $(this).children(&#39;img&#39;).remove();
+            $(this).children(&#39;span&#39;).css(&#123;&#39;display&#39;:&#39;inline-block&#39;&#125;);
+        &#125;);
+    &#125;)
+&lt;/script&gt;</code></pre>
+<p>这个意思已经很明了了，获取自定义属性值，然后动态添加一个img标签，然后把属性值插入到img标签中，然后进行选择回正，鼠标离开的时候就删除掉这个img标签，然后把里面的文字显示出来。</p>
+<p>这就是两种方法：</p>
+<ol>
+<li>方法一其实是最好的，不过有个小小的缺点就是背景图片没法旋转</li>
+<li>方法二就是相对来说对图片的尺寸要求约束多了点，图片的尺寸必须是跟盒子的尺寸一致，对图片的css处理相对来说灵活点</li>
+</ol>
+<p>如果能够解决背景图片的旋转，那么建议采用方案一。</p>
+<h2 id="实际案例："><a href="#实际案例：" class="headerlink" title="实际案例："></a>实际案例：</h2><p><strong>HTML代码：</strong></p>
+<pre><code>&lt;ul class=&quot;candolist&quot;&gt;
+    &lt;li data-src=&quot;&#123;&#123;media url="wysiwyg/hot-poduct2.jpg"&#125;&#125;&quot;&gt;&lt;span&gt;Electrical&amp;Tools&lt;/span&gt;&lt;/li&gt;
+    &lt;li data-src=&quot;&#123;&#123;media url="wysiwyg/hot-product1.jpg"&#125;&#125;&quot;&gt;&lt;span&gt;ESD&amp;Cleanroom&lt;/span&gt;&lt;/li&gt;
+    &lt;li data-src=&quot;&#123;&#123;media url="wysiwyg/hot-product3.jpg"&#125;&#125;&quot;&gt;&lt;span&gt;Soldering&amp;Welding&lt;/span&gt;&lt;/li&gt;
+    &lt;li data-src=&quot;&#123;&#123;media url="wysiwyg/hot-product4.jpg"&#125;&#125;&quot;&gt;&lt;span&gt;Security,Safety&amp;Protection&lt;/span&gt;&lt;/li&gt;
+    &lt;li data-src=&quot;&#123;&#123;media url="wysiwyg/hot-product4.jpg"&#125;&#125;&quot;&gt;&lt;span&gt;Material Handling&amp;Storage&lt;/span&gt;&lt;/li&gt;
+    &lt;li data-src=&quot;&#123;&#123;media url="wysiwyg/hot-product6.jpg"&#125;&#125;&quot;&gt;&lt;span&gt;Adhesives, Sealants and Tape&lt;/span&gt;&lt;/li&gt;
+    &lt;li data-src=&quot;&#123;&#123;media url="wysiwyg/hot-product7.jpg"&#125;&#125;&quot;&gt;&lt;span&gt;Semiconductors&lt;/span&gt;&lt;/li&gt;
+    &lt;li data-src=&quot;&#123;&#123;media url="wysiwyg/hot-product8.jpg"&#125;&#125;&quot;&gt;&lt;span&gt;Testers&amp;Measurement&lt;/span&gt;&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+<p><strong>css代码：</strong></p>
+<pre><code>.candolist li&#123;
+    position: relative;
+    min-width: 150px;
+    max-width: 150px;
+    min-height: 150px;
+    overflow: hidden;
+    float: left;
+    margin: 32px;
+    transform: rotate(45deg);
+    display: -webkit-flex;
+    display: flex;
+    -webkit-align-items: center;
+    align-items: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+&#125;
+
+.candolist li span&#123;
+    transform: rotate(-45deg);
+    display: block;
+    width: 100%;
+    text-align: center;
+    position: absolute;
+&#125;
+.candolist li:nth-child(2n)&#123;
+    background: #e6e6e6;
+    color:#000 !important;
+&#125;
+.candolist li:nth-child(2n+1)&#123;
+    background: #009688;
+    color:#fff !important;
+&#125;
+.candolist li img&#123;
+    max-width: 200px;
+    max-height: 200px;
+&#125;</code></pre>
+<p><strong>js代码：</strong></p>
+<pre><code>&lt;script&gt;
+    $(document).ready(function()&#123;
+        if ($(&quot;.cms-about&quot;).width() &gt;= 920) &#123;
+            $(&quot;.candolist li&quot;).hover(function() &#123;
+                var newbackground = $(this).attr(&quot;data-src&quot;);
+                // console.log(newbackground);
+                $(this).css(&#123;&quot;backgroundImage&quot;:&quot;url(&quot;+newbackground+&quot;)&quot;&#125;).css(&#123;&quot;background-size&quot;:&quot;100%&quot;&#125;);
+                $(this).children(&#39;span&#39;).css(&#123;&#39;display&#39;:&#39;none&#39;&#125;);
+            &#125;, function() &#123;
+                var currentBackgroundColor=$(this).css(&quot;background-color&quot;);
+                $(this).css(&#123;&#39;background&#39;:currentBackgroundColor&#125;);
+                $(this).children(&#39;span&#39;).css(&#123;&#39;display&#39;:&#39;inline-block&#39;&#125;);
+            &#125;);
+        &#125;
+    &#125;)
+&lt;/script&gt;</code></pre>
+<p>效果：</p>
+<p><img src="https://i.imgur.com/gd2xFqm.jpg"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/10/14/Ajax%E7%82%B9%E5%87%BB%E4%B8%8D%E6%96%AD%E5%8A%A0%E8%BD%BD%E6%95%B0%E6%8D%AE%E5%88%97%E8%A1%A8-%E5%AE%9E%E7%8E%B0%E5%8A%A0%E8%BD%BD%E6%9B%B4%E5%A4%9A%E7%9A%84%E5%8A%9F%E8%83%BD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/10/14/Ajax%E7%82%B9%E5%87%BB%E4%B8%8D%E6%96%AD%E5%8A%A0%E8%BD%BD%E6%95%B0%E6%8D%AE%E5%88%97%E8%A1%A8-%E5%AE%9E%E7%8E%B0%E5%8A%A0%E8%BD%BD%E6%9B%B4%E5%A4%9A%E7%9A%84%E5%8A%9F%E8%83%BD/" class="post-title-link" itemprop="url">Ajax点击不断加载数据列表,实现加载更多的功能</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-10-14 14:42:23" itemprop="dateCreated datePublished" datetime="2018-10-14T14:42:23+08:00">2018-10-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:56" itemprop="dateModified" datetime="2020-10-11T11:57:56+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript/" itemprop="url" rel="index"><span itemprop="name">javascript</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>我们来说说ajax逐个加载数据，类似这样的数据列表是怎么实现的，</p>
+<p><img src="https://i.imgur.com/qK2DGhY.png"></p>
+<p>先是显示10个，然后点击加载更多，再显示10个·····</p>
+<p><img src="https://i.imgur.com/or4nitR.png"></p>
+<h2 id="一、思路"><a href="#一、思路" class="headerlink" title="一、思路"></a>一、思路</h2><p>一般使用ajax加载的话，一下会加载全部数据，这次要控制量的加载，那就要用到判断，判断加载到10个停止加载，后面通过点击按钮，在接着加载完的10个后面继续加载。</p>
+<p>要想控制只加载10个怎么办呢。不能通过遍历的 i 来判断 10个，因为加载完10个后后面还要加载，这样下一个10个就不好判断了，所以需要定义一个新的变量，来计算加载的个数,</p>
+<p>可以这样写：</p>
+<pre><code>var ci = 0;
+for(var i = 0; i &lt; data.list.length; i++)&#123;
+　　ci++; 
+　　if(ci&gt; 10)&#123;
+　　break;
+　　&#125;
+&#125;</code></pre>
+<p>然后需要再加载10个，再调用这个方法，所以这个方法需要声明一个函数名，下次需要用的时候在调用，如果需要传参也可以。现在还有个问题，第一次进来加载完10个后，需要再加载前10个数据接着后面的json数据，怎么办呢？</p>
+<p>没关系，可以通过调用上面定义好的函数，然后传参。参数怎么计算呢？</p>
+<p>先想一个参数和什么有关系，和 i 有关系，i 和什么有关系呢？或者说什么可以影响 i 呢？</p>
+<p>好像只有它的值才会影响（那不是废话吗），这样的话它的值就不能是一个不变的数了，只能是一个变量，那么变量从哪里来呢？</p>
+<p>别忘了我们还有一个点击事件，先定义一个 点击次数的变量 <code>var clickNum = 0</code>，因为每次加载时10个，所以 i 的值应该为：</p>
+<p><code>i = 10*clickNum</code>，这是每次加载第一个数据的索引值。这样我们就解决了上面那个问题。</p>
+<p>此时还有问题要解决，当数据全部点击加载完后，点击按钮需要隐藏，那怎么计算数据加载完了呢？</p>
+<p>我们可以通过 点击的次数clickNum 来计算，因为每次加载10个，所以可以计算出一共需要加载的次数 parseInt((data.list.length)/10)+1，为什么加载的次数要加1呢？</p>
+<p>因为<code>parseInt()</code>是取整，比如<code>21/10=2</code>，但实际需要加载 3 次，所以要加 1 ，巧的是我们第一次加载不用点击，浏览器已加载进来就读取了10个数据，所以<code>clickNum = parseInt((data.list.length)/10)</code>，当<code>clickNum == parseInt((data.list.length)/10)</code> 时隐藏点击按钮。</p>
+<p>思路基本清晰了</p>
+<h2 id="二、实现功能"><a href="#二、实现功能" class="headerlink" title="二、实现功能"></a>二、实现功能</h2><p><strong>HTML：</strong></p>
+<pre><code>&lt;dl id=&quot;incomeNum&quot;&gt;
+　　&lt;dt&gt;学校信息列表&lt;/dt&gt;
+&lt;/dl&gt;
+&lt;div class=&quot;jiaZai_more&quot; style=&quot;background:#333;color:#fff;text-decoration:none;padding:8px 15px&quot;&gt;点击查看更多&lt;/div&gt;</code></pre>
+<p><strong>css：</strong></p>
+<p>此处省略css。</p>
+<p><strong>js：</strong></p>
+<pre><code>&lt;script&gt;
+function nwalletProfit(num, cNum)&#123;
+    $.ajax(&#123;
+        type: &quot;post&quot;,
+        async: true,
+        url: &#39;data.json&#39;,
+        dataType: &quot;json&quot;,
+        success: function (data) &#123;
+            if (data.schoollists.length &gt; 0)&#123;
+                var i = num;
+                var ci= 0;
+                var x = parseInt((data.schoollists.length)/10);//x为每10个一组的组数
+                if(cNum &gt;= x)&#123;
+                    $(&quot;.jiaZai_more&quot;).hide(); //当点击更多的次数 ≥ 组数时，隐藏按钮
+                &#125;
+                for(; i &lt; data.schoollists.length; i++)&#123;
+                    var htmltxt = &quot;&quot;;
+                    ci++;
+                    htmltxt += &#39;&lt;div&gt;&#39;;
+                    htmltxt += &#39;&lt;p&gt;&lt;span style=&quot;color:red&quot;&gt;&#39;+data.schoollists[i].nf+&#39;&lt;/span&gt;&amp;nbsp;&lt;span style=&quot;color:purple&quot;&gt;&#39;+data.schoollists[i].yxmc+&#39;&lt;/span&gt;&lt;/p&gt;&#39;;
+                    if(ci&gt; 10)&#123;
+                        break;
+                    &#125;
+                    $(&quot;#incomeNum&quot;).append(htmltxt);
+                &#125;
+            &#125;
+        &#125;,
+        error: function (e, d, c) &#123;
+        console.log(d)
+        &#125;
+    &#125;);
+&#125;
+nwalletProfit(0);
+var clickNum = 0; //点击的次数
+$(&quot;.jiaZai_more&quot;).on(&#39;click&#39;, function(event) &#123;
+    event.preventDefault();
+    clickNum++;
+    var iNum = 10*clickNum; //每次点击开始加载的第一个索引值
+    nwalletProfit(iNum, clickNum);
+&#125;);
+&lt;/script&gt;</code></pre>
+<p>data.json的数据格式样式数据如下：</p>
+<pre><code>&#123;
+    &quot;schoollists&quot;: [
+    &#123;
+        &quot;pw&quot;: 20054,
+        &quot;nf&quot;: 2013,
+        &quot;pc&quot;: &quot;第一批&quot;,
+        &quot;yxmc&quot;: &quot;北京工业大学&quot;
+    &#125;,
+    &#123;
+        &quot;pw&quot;: 20219,
+        &quot;nf&quot;: 2013,
+        &quot;pc&quot;: &quot;第一批&quot;,
+        &quot;yxmc&quot;: &quot;福州大学&quot;
+    &#125;,
+    &#123;
+        &quot;pw&quot;: 20487,
+        &quot;nf&quot;: 2013,
+        &quot;pc&quot;: &quot;第一批&quot;,
+        &quot;yxmc&quot;: &quot;苏州大学&quot;
+    &#125;,
+    &#123;
+        &quot;pw&quot;: 21190,
+        &quot;nf&quot;: 2013,
+        &quot;pc&quot;: &quot;第一批&quot;,
+        &quot;yxmc&quot;: &quot;西南交通大学&quot;
+    &#125;,
+    &#123;
+        &quot;pw&quot;: 28119,
+        &quot;nf&quot;: 2013,
+        &quot;pc&quot;: &quot;第一批&quot;,
+        &quot;yxmc&quot;: &quot;中国医科大学&quot;
+    &#125;],
+    &quot;msg&quot;: &quot;OK&quot;
+&#125;</code></pre>
+<p>这样三部分组成了一个简单的demo，完整代码如下：</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Document&lt;/title&gt;
+    &lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;dl id=&quot;incomeNum&quot;&gt;
+　　&lt;dt&gt;&lt;em&gt;&lt;/em&gt;学校信息列表&lt;/dt&gt;
+&lt;/dl&gt;
+&lt;div class=&quot;jiaZai_more&quot; style=&quot;background:#333;color:#fff;text-decoration:none;padding:8px 15px&quot;&gt;点击查看更多&lt;/div&gt;
+
+&lt;script&gt;
+function nwalletProfit(num, cNum)&#123;
+    $.ajax(&#123;
+        type: &quot;post&quot;,
+        async: true,
+        url: &#39;data.json&#39;,
+        dataType: &quot;json&quot;,
+        success: function (data) &#123;
+            if (data.schoollists.length &gt; 0)&#123;
+                var i = num;
+                var ci= 0;
+                var x = parseInt((data.schoollists.length)/10);//x为每10个一组的组数
+                if(cNum &gt;= x)&#123;
+                    $(&quot;.jiaZai_more&quot;).hide(); //当点击更多的次数 ≥ 组数时，隐藏按钮
+                &#125;
+                for(; i &lt; data.schoollists.length; i++)&#123;
+                    var htmltxt = &quot;&quot;;
+                    ci++;
+                    htmltxt += &#39;&lt;div&gt;&#39;;
+                    htmltxt += &#39;&lt;p&gt;&lt;span style=&quot;color:red&quot;&gt;&#39;+data.schoollists[i].nf+&#39;&lt;/span&gt;&amp;nbsp;&lt;span style=&quot;color:purple&quot;&gt;&#39;+data.schoollists[i].yxmc+&#39;&lt;/span&gt;&lt;/p&gt;&#39;;
+                    if(ci&gt; 10)&#123;
+                        break;
+                    &#125;
+                    $(&quot;#incomeNum&quot;).append(htmltxt);
+                &#125;
+            &#125;
+        &#125;,
+        error: function (e, d, c) &#123;
+        console.log(d)
+        &#125;
+    &#125;);
+&#125;
+nwalletProfit(0);
+var clickNum = 0; //点击的次数
+$(&quot;.jiaZai_more&quot;).on(&#39;click&#39;, function(event) &#123;
+    event.preventDefault();
+    clickNum++;
+    var iNum = 10*clickNum; //每次点击开始加载的第一个索引值
+    nwalletProfit(iNum, clickNum);
+&#125;);
+&lt;/script&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>最后的效果如下：</p>
+<p><img src="https://i.imgur.com/XvL7kI4.png"></p>
+<p>根据这个案例，我们可以进行运用的实际项目中了。</p>
+<p>比如笔者运用到一个学校信息列表的地方，其中HTML代码如下：</p>
+<pre><code>&lt;div class=&quot;panel panel-default inside_table&quot;&gt;
+    &lt;div class=&quot;panel-heading&quot;&gt;可上大学&lt;/div&gt;
+    &lt;div&gt;
+      &lt;table class=&quot;table&quot;&gt;
+        &lt;tbody id=&quot;keshangdaxue&quot;&gt;
+          &lt;tr&gt;
+            &lt;th&gt;学校名称&lt;/th&gt;
+            &lt;th&gt;投档排位&lt;/th&gt;
+            &lt;th&gt;年份&lt;/th&gt;
+            &lt;th&gt;批次&lt;/th&gt;
+          &lt;/tr&gt;
+
+        &lt;/tbody&gt;
+      &lt;/table&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<p>js代码：</p>
+<pre><code>$(document).ready(function () &#123;
+
+    function nwalletProfit(num, cNum)&#123;
+
+        var yugupw = new Object();
+        yugupw.ygpaiwei = $(&quot;#zhepwei&quot;).text();
+
+        $.ajax(&#123;
+            type: &quot;get&quot;,
+            url: &quot;data.json&quot;,
+            dataType: &quot;json&quot;,
+            async: true,
+            data: yugupw,
+            contentType: &quot;application/json&quot;,
+            success: function (data) &#123;
+
+                if (data.schoollists.length &gt; 0)&#123;
+                    var i = num;
+                    var ci= 0;
+                    var x = parseInt((data.schoollists.length)/10);//x为每10个一组的组数
+                    if(cNum &gt;= x)&#123;
+                        $(&quot;.jiaZai_more&quot;).hide(); //当点击更多的次数 ≥ 组数时，隐藏按钮
+                    &#125;
+
+                    for(; i &lt; data.schoollists.length; i++)&#123;
+                        var htmltxt = &quot;&quot;;
+                        ci++;
+                        htmltxt += &#39;&lt;tr&gt;&#39;;
+                        htmltxt += &#39;&lt;td&gt;&#39;+data.schoollists[i].yxmc+&#39;&lt;/td&gt;&#39;;
+                        htmltxt += &#39;&lt;td&gt;&#39;+data.schoollists[i].pw+&#39;&lt;/td&gt;&#39;;
+                        htmltxt += &#39;&lt;td&gt;&#39;+data.schoollists[i].nf+&#39;&lt;/td&gt;&#39;;
+                        htmltxt += &#39;&lt;td&gt;&#39;+data.schoollists[i].pc+&#39;&lt;/td&gt;&#39;;
+
+                        if(ci&gt; 10)&#123;
+                            break;
+                        &#125;
+                        $(&quot;#keshangdaxue&quot;).append(htmltxt);
+                    &#125;
+
+                &#125;
+
+            &#125;,
+            error: function (e, d, c) &#123;
+            console.log(d)
+            &#125;
+        &#125;);
+    &#125;
+    nwalletProfit(0);
+    var clickNum = 0; //点击的次数
+    $(&quot;.jiaZai_more&quot;).on(&#39;click&#39;, function(event) &#123;
+        event.preventDefault();
+        clickNum++;
+        var iNum = 10*clickNum; //每次点击开始加载的第一个索引值
+        nwalletProfit(iNum, clickNum);
+    &#125;);
+
+&#125;);</code></pre>
+<p>这些代码要放在<code>$(document).ready(function ()&#123;&#125;</code>里面，不然不起作用的。</p>
+<p>接着我们继续说明，由于笔者的查询是根据预估的排位进行查询的，那么笔者先获取这个dom的值，</p>
+<pre><code>var yugupw = new Object();
+yugupw.ygpaiwei = $(&quot;#zhepwei&quot;).text();</code></pre>
+<p>然后在这个里面传送这个对象，</p>
+<pre><code>data: yugupw</code></pre>
+<p>那么就要传递到后端去，笔者这里为了讲解就采用了data.json，事实上后端是有一个需要接收前端发送的参数的，写法如下：</p>
+<pre><code>public function canGetSchool()&#123;
+    Log::init([
+        &#39;type&#39; =&gt; &#39;File&#39;,
+        &#39;path&#39; =&gt; APP_PATH . &#39;../runtime/logs/&#39;,
+    ]);
+
+    $zhepwei  = input(&#39;get.ygpaiwei&#39;);
+
+    $schoollist = Db::table(&#39;tablename&#39;)
+        -&gt;where(&#39;pw&#39;,&#39;&gt;&#39;,$zhepwei)
+        -&gt;field(&#39;pw,nf,pc,yxmc&#39;)
+        -&gt;limit(100)
+        -&gt;select();
+
+    //返回结果
+    $return_msg = &quot;OK&quot;;
+    $data       = array(&#39;schoollists&#39; =&gt; $schoollist, &#39;msg&#39; =&gt; $return_msg);
+
+    return json($data);
+&#125;</code></pre>
+<p>这个就是在控制器中写的这个方法。然后做成一个访问的api就可以在前端进行调用了，我们看到里面有个，</p>
+<pre><code>$zhepwei  = input(&#39;get.ygpaiwei&#39;);</code></pre>
+<p>这个<code>get.ygpaiwei</code>就是获取来自前端的参数，然后把这个参数运用到数据查询中，</p>
+<pre><code>$schoollist = Db::table(&#39;tablename&#39;)
+        -&gt;where(&#39;pw&#39;,&#39;&gt;&#39;,$zhepwei)
+        -&gt;field(&#39;pw,nf,pc,yxmc&#39;)
+        -&gt;limit(100)
+        -&gt;select();</code></pre>
+<p>有了这些之后基本就OK了，剩下的就是css样式的问题了。经过美化后，最终的效果如下：</p>
+<p><img src="https://i.imgur.com/qK2DGhY.png"></p>
+<p>这里其实说了一个典型的前后端的请求和响应的过程，大家可以多了解吸收。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/10/13/%E6%96%87%E7%AB%A0%E5%88%97%E8%A1%A8%E6%88%96%E8%80%85%E5%BE%AA%E7%8E%AF%E5%88%97%E8%A1%A8%E4%B8%AD%E4%B8%A4%E4%B8%AAdom%E5%85%83%E7%B4%A0%E7%9A%84%E4%BD%8D%E7%BD%AE%E4%BA%92%E6%8D%A2-%E7%BC%A9%E7%95%A5%E5%9B%BE%E5%92%8C%E6%96%87%E7%AB%A0%E6%A0%87%E9%A2%98-%E7%9A%84%E7%96%91%E9%9A%BE%E9%97%AE%E9%A2%98%E7%9A%84%E6%96%B9%E6%A1%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/10/13/%E6%96%87%E7%AB%A0%E5%88%97%E8%A1%A8%E6%88%96%E8%80%85%E5%BE%AA%E7%8E%AF%E5%88%97%E8%A1%A8%E4%B8%AD%E4%B8%A4%E4%B8%AAdom%E5%85%83%E7%B4%A0%E7%9A%84%E4%BD%8D%E7%BD%AE%E4%BA%92%E6%8D%A2-%E7%BC%A9%E7%95%A5%E5%9B%BE%E5%92%8C%E6%96%87%E7%AB%A0%E6%A0%87%E9%A2%98-%E7%9A%84%E7%96%91%E9%9A%BE%E9%97%AE%E9%A2%98%E7%9A%84%E6%96%B9%E6%A1%88/" class="post-title-link" itemprop="url">文章列表或者循环列表中两个dom元素的位置互换(缩略图和文章标题)的疑难问题的方案</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-10-13 19:32:31" itemprop="dateCreated datePublished" datetime="2018-10-13T19:32:31+08:00">2018-10-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:05" itemprop="dateModified" datetime="2020-10-11T11:58:05+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript/" itemprop="url" rel="index"><span itemprop="name">javascript</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>最近有个这样的需求：关于wordpress的博客列表，就是我们通常看的那样，有很多博客，在一个分类页中以列表的形式显示出来，每个博客有个缩略图，缩略图后面接着是标题，然后是摘要。</p>
+<p>可是客户说要把这个列表中的所有文章的标题跟缩略图的位置进行互换。</p>
+<p><img src="https://i.imgur.com/iAKKgpq.jpg"></p>
+<p>这个有两个知识点：dom元素的位置互换、循环遍历出所有的文章信息然后动态的更换。</p>
+<p>我们看下这个文章列表的dom结构：</p>
+<pre><code>&lt;div id=&quot;jessica-picture&quot;&gt;
+    &lt;article class=&quot;post-entry&quot;&gt;
+        &lt;div class=&quot;big-preview&quot;&gt;&lt;a href=&quot;#&quot;&gt;&lt;img src=&quot;/wp-content/uploads/2018/10/17.png&quot;&gt;&lt;/a&gt;&lt;/div&gt;
+        &lt;div class=&quot;entry-content-wrapper&quot;&gt;
+            &lt;header class=&quot;entry-content-header&quot;&gt;&lt;h2 class=&quot;post-title&quot;&gt;凭借优质的产品&lt;/h2&gt;&lt;/header&gt;
+            &lt;div class=&quot;entry-content&quot;&gt;
+                &lt;p&gt;翼联两套wifi覆盖工程项目完美竣工，我们凭借优质的产品和专业的技术...&lt;/p&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/article&gt;
+    &lt;article class=&quot;post-entry&quot;&gt;
+    ...
+    &lt;/article&gt;
+    &lt;article class=&quot;post-entry&quot;&gt;
+    ...
+    &lt;/article&gt;
+&lt;/div&gt;</code></pre>
+<p>这个就是一个典型的文章列表，结构都是一致的，所以我们需要研究一个就够了，然后就是循环，好的，我们先把实现的js说明一下：</p>
+<p>在footer.php添加代码：</p>
+<pre><code>//引入jquery
+&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+//解决多版本的引入的冲突问题
+var jq = $.noConflict();
+jq(document).ready(function()&#123;
+  //获取ID为jessica-picture以下的所有文章
+  var article_number = jq(&quot;#jessica-picture article&quot;);
+  //进行循环
+  for (var i=0;i &lt;= article_number.length;i++) &#123;
+    //获取列表中第i篇文章的缩略图所在的div
+    var thumbnail_for_blog_list = jq(&#39;#jessica-picture article:nth-child(&#39;+i+&#39;) .big-preview&#39;);
+    //清除标题前面的缩略图
+    thumbnail_for_blog_list.remove();
+    //然后把列表中的第i张缩略图插入到文章列表的第i篇后面
+    jq(&#39;#jessica-picture article:nth-child(&#39;+i+&#39;) header&#39;).append(thumbnail_for_blog_list);
+  &#125;
+
+&#125;)
+&lt;/script&gt;</code></pre>
+<p>这里拿出来说一下这里：</p>
+<pre><code>thumbnail_for_blog_list.remove();</code></pre>
+<p>这个就是清除前面的这张缩略图，</p>
+<p><img src="https://i.imgur.com/BE6nbim.jpg"></p>
+<p>接着是把列表中的第i张缩略图插入到文章列表的第i篇后面</p>
+<pre><code>jq(&#39;#jessica-picture article:nth-child(&#39;+i+&#39;) header&#39;).append(thumbnail_for_blog_list);</code></pre>
+<p>这里巧妙运用了css中的nth-child选择器。然后就可以对第i个进行第i个目标进行个性化处理了。大家可以深入了解下这个。</p>
+<p>最后的效果：</p>
+<p><img src="https://i.imgur.com/NRYf7nc.jpg"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/10/09/Magento%E5%A6%82%E4%BD%95%E7%BB%99%E6%96%B0%E6%B3%A8%E5%86%8C%E7%94%A8%E6%88%B7%E4%B8%80%E4%B8%AA%E4%BC%98%E6%83%A0%E5%88%B8%E4%BB%A3%E7%A0%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/10/09/Magento%E5%A6%82%E4%BD%95%E7%BB%99%E6%96%B0%E6%B3%A8%E5%86%8C%E7%94%A8%E6%88%B7%E4%B8%80%E4%B8%AA%E4%BC%98%E6%83%A0%E5%88%B8%E4%BB%A3%E7%A0%81/" class="post-title-link" itemprop="url">Magento如何给新注册用户一个优惠券代码</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-10-09 19:20:54" itemprop="dateCreated datePublished" datetime="2018-10-09T19:20:54+08:00">2018-10-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:00" itemprop="dateModified" datetime="2020-10-11T11:58:00+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/magento1/" itemprop="url" rel="index"><span itemprop="name">magento1</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>在一些网站中，都想让用户去注册，所以增加了一些促销政策，例如，新用户注册之后就送一个优惠券。</p>
+<p><strong>有2种做法。</strong></p>
+<ol>
+<li><p>在发给注册用户的邮件中，将优惠券代码写进去</p>
+</li>
+<li><p>在用户注册完之后显示给用户。</p>
+</li>
+</ol>
+<p>我们就说下方式2.</p>
+<p>因为注册用户成功和用户登陆成功返回的都是同一个界面，所以必须修改代码来分辨出哪些是新注册的，哪些是老用户。</p>
+<p>找到文件目录：app/code/core/Mage/Customer/controllers/AccountController.php，打开该文件，找到</p>
+<pre><code>createPostAction()</code></pre>
+<p>方法，在这个方法里面找到</p>
+<pre><code>$customer-&gt;save();</code></pre>
+<p>在这个代码下面增加</p>
+<pre><code>$this-&gt;_getSession()-&gt;setIsNewUser(true);</code></pre>
+<p>然后来到模板文件目录，在/app/design/frontend/base/default/template/customer/account/dashboard.phtml适当位置增加如下代码，这里可能不一定是这个目录，如果有的主题重写了这个base，那么就在自己的主题模板下面找到这个进行修改，</p>
+<pre><code>&lt;?php
+if (Mage::getSingleton(&#39;customer/session&#39;)-&gt;getIsNewUser())&#123;
+echo “Coupon is:xxxxxx“;
+&#125;
+?&gt;</code></pre>
+<p>效果如下：</p>
+<p><img src="https://i.imgur.com/qdtef9c.jpg"></p>
+<p>当然，你可以利用这个方法来为新注册的用户增加更多的内容。</p>
+<p>比如可以添加新用户的问候语，新用户的初始内容等，这个就需要发挥大家的想象力了。</p>
+<p>**更新：2019/1/31 16:54:27 **</p>
+<p>优惠券跟邀请码的配合方案：</p>
+<h2 id="邀请码在网站后台设置，用户填写的邀请码只要在后台设置的邀请码列表中的将会获得一条优惠券"><a href="#邀请码在网站后台设置，用户填写的邀请码只要在后台设置的邀请码列表中的将会获得一条优惠券" class="headerlink" title="邀请码在网站后台设置，用户填写的邀请码只要在后台设置的邀请码列表中的将会获得一条优惠券"></a>邀请码在网站后台设置，用户填写的邀请码只要在后台设置的邀请码列表中的将会获得一条优惠券</h2><p>这个我们需要现在后台新建一个静态的CMS块，然后在dashbord.phtml（笔者以这个页面作为演示）或者其他想要调用的页面调用这个新建的CMS块，</p>
+<blockquote>
+<p>Block Title *   license code</p>
+<p>Identifier *     license-code</p>
+</blockquote>
+<pre><code>&lt;div class=&quot;license_number_list&quot;&gt;
+  &lt;?php
+      if ($this-&gt;getLayout()-&gt;createBlock(&#39;cms/block&#39;)-&gt;setBlockId(&#39;license-code&#39;)-&gt;toHtml()) &#123;
+          echo $this-&gt;getLayout()-&gt;createBlock(&#39;cms/block&#39;)-&gt;setBlockId(&#39;license-code&#39;)-&gt;toHtml();
+      &#125;
+  ?&gt;
+&lt;/div&gt;</code></pre>
+<p>在magento后台新建的邀请码列表的html代码结构如下：</p>
+<pre><code>&lt;ul&gt;
+&lt;li&gt;789&lt;/li&gt;
+&lt;li&gt;788&lt;/li&gt;
+&lt;li&gt;786&lt;/li&gt;
+&lt;li&gt;787&lt;/li&gt;
+&lt;li&gt;785&lt;/li&gt;
+&lt;li&gt;784&lt;/li&gt;
+&lt;li&gt;110&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+<p>好的，我们需要对这个进行遍历，然后逐个跟用户的邀请码进行比对，如果有合适的就显示出来。完整的代码如下：</p>
+<pre><code>&lt;script&gt;
+    jQuery(document).ready(function() &#123;
+        var all_license = jQuery(&quot;.license_number_list li&quot;);
+        var lists = new Array();
+        for (var i = 0; i &lt; all_license.length; i++) &#123;
+            console.log(all_license[i]);
+            lists.push(jQuery(all_license[i]).text());
+            if (lists[i] == &lt;?php echo $this-&gt;htmlEscape($this-&gt;getCustomer()-&gt;getLicenseNumber()) ?&gt;) &#123;
+                jQuery(&quot;.license_number_list&quot;).append(&quot;&lt;p&gt;你是邀请用户，赠送你一张优惠券，券码：16868681688&lt;/p&gt;&quot;);
+                break;
+            &#125;
+        &#125;
+        // console.log(lists);
+    &#125;);
+&lt;/script&gt;</code></pre>
+<p>这样确实很方便地进行在magento进行设置，当然如果不是经常更改的话，也可以通过if语句或者switch来实现，代码如下：</p>
+<pre><code>&lt;?php 
+        if ($this-&gt;htmlEscape($this-&gt;getCustomer()-&gt;getLicenseNumber()) == 123123) &#123;
+            if (Mage::getSingleton(&#39;customer/session&#39;)-&gt;getIsNewUser())&#123;
+                echo &quot;你是邀请用户，赠送你一张优惠券，券码：16868681688&quot;;
+            &#125;
+        &#125;else&#123;
+            if (Mage::getSingleton(&#39;customer/session&#39;)-&gt;getIsNewUser())&#123;
+                echo &quot;你是非邀请用户，赠送你一张优惠券，券码：1314521&quot;;
+            &#125;
+        &#125;
+?&gt;</code></pre>
+<p>如果用switch来实现的话，</p>
+<pre><code>&lt;?php
+    switch ($this-&gt;htmlEscape($this-&gt;getCustomer()-&gt;getLicenseNumber()))
+    &#123;
+    case 123122:
+        if (Mage::getSingleton(&#39;customer/session&#39;)-&gt;getIsNewUser())&#123;
+            echo &quot;你是邀请用户，赠送你一张优惠券，券码：16868681688&quot;;
+        &#125;
+        break;
+    case 123123:
+        if (Mage::getSingleton(&#39;customer/session&#39;)-&gt;getIsNewUser())&#123;
+            echo &quot;你是邀请用户，赠送你一张优惠券，券码：16868681688&quot;;
+        &#125;
+        break;
+    case 123125:
+        if (Mage::getSingleton(&#39;customer/session&#39;)-&gt;getIsNewUser())&#123;
+            echo &quot;你是邀请用户，赠送你一张优惠券，券码：16868681688&quot;;
+        &#125;
+        break;
+    default:
+        if (Mage::getSingleton(&#39;customer/session&#39;)-&gt;getIsNewUser())&#123;
+            echo &quot;你是非邀请用户，赠送你一张优惠券，券码：1314521&quot;;
+        &#125;
+    &#125;
+?&gt;</code></pre>
+<p>当然，最符合生产环境的，个人觉得还是用js的方式实现的那种。最后笔者的dashbord.phtml里面的代码如下：</p>
+<pre><code>&lt;div class=&quot;dashboard&quot;&gt;
+    &lt;div class=&quot;page-title&quot;&gt;
+        &lt;h1&gt;&lt;?php echo $this-&gt;__(&#39;My Dashboard&#39;) ?&gt;&lt;/h1&gt;
+    &lt;/div&gt;
+    &lt;?php echo $this-&gt;getMessagesBlock()-&gt;toHtml() ?&gt;
+    &lt;?php echo $this-&gt;getChildHtml(&#39;hello&#39;) ?&gt;
+    &lt;?php echo $this-&gt;getChildHtml(&#39;top&#39;) ?&gt;
+
+    &lt;div class=&quot;license_number_list&quot;&gt;
+        &lt;?php
+            if ($this-&gt;getLayout()-&gt;createBlock(&#39;cms/block&#39;)-&gt;setBlockId(&#39;license-code&#39;)-&gt;toHtml()) &#123;
+                echo $this-&gt;getLayout()-&gt;createBlock(&#39;cms/block&#39;)-&gt;setBlockId(&#39;license-code&#39;)-&gt;toHtml();
+            &#125;
+        ?&gt;
+     &lt;/div&gt;
+    &lt;p&gt;您的邀请码为：&lt;?php echo $this-&gt;htmlEscape($this-&gt;getCustomer()-&gt;getLicenseNumber()) ?&gt;&lt;/p&gt;
+    &lt;script&gt;
+    jQuery(document).ready(function() &#123;
+        var all_license = jQuery(&quot;.license_number_list li&quot;);
+        var lists = new Array();
+        for (var i = 0; i &lt; all_license.length; i++) &#123;
+            console.log(all_license[i]);
+            lists.push(jQuery(all_license[i]).text());
+            if (lists[i] == &lt;?php echo $this-&gt;htmlEscape($this-&gt;getCustomer()-&gt;getLicenseNumber()) ?&gt;) &#123;
+                jQuery(&quot;.license_number_list&quot;).append(&quot;&lt;p&gt;你是邀请用户，赠送你一张优惠券，券码：16868681688&lt;/p&gt;&quot;);
+                break;
+            &#125;
+        &#125;
+        // console.log(lists);
+    &#125;);
+    &lt;/script&gt;
+    &lt;?php 
+
+        // if ($this-&gt;htmlEscape($this-&gt;getCustomer()-&gt;getLicenseNumber()) == 123123) &#123;
+        //     if (Mage::getSingleton(&#39;customer/session&#39;)-&gt;getIsNewUser())&#123;
+        //         echo &quot;你是邀请用户，赠送你一张优惠券，券码：16868681688&quot;;
+        //     &#125;
+        // &#125;else&#123;
+        //     if (Mage::getSingleton(&#39;customer/session&#39;)-&gt;getIsNewUser())&#123;
+        //         echo &quot;你是非邀请用户，赠送你一张优惠券，券码：1314521&quot;;
+        //     &#125;
+        // &#125;
+
+        // switch ($this-&gt;htmlEscape($this-&gt;getCustomer()-&gt;getLicenseNumber()))
+        // &#123;
+        // case 123122:
+        //     if (Mage::getSingleton(&#39;customer/session&#39;)-&gt;getIsNewUser())&#123;
+        //         echo &quot;你是邀请用户，赠送你一张优惠券，券码：16868681688&quot;;
+        //     &#125;
+        //     break;
+        // case 123123:
+        //     if (Mage::getSingleton(&#39;customer/session&#39;)-&gt;getIsNewUser())&#123;
+        //         echo &quot;你是邀请用户，赠送你一张优惠券，券码：16868681688&quot;;
+        //     &#125;
+        //     break;
+        // case 123125:
+        //     if (Mage::getSingleton(&#39;customer/session&#39;)-&gt;getIsNewUser())&#123;
+        //         echo &quot;你是邀请用户，赠送你一张优惠券，券码：16868681688&quot;;
+        //     &#125;
+        //     break;
+        // default:
+        //     if (Mage::getSingleton(&#39;customer/session&#39;)-&gt;getIsNewUser())&#123;
+        //         echo &quot;你是非邀请用户，赠送你一张优惠券，券码：1314521&quot;;
+        //     &#125;
+        // &#125;
+
+     ?&gt;
+
+    &lt;div class=&quot;box-account box-info&quot;&gt;
+        &lt;div class=&quot;box-head&quot;&gt;
+            &lt;h2&gt;&lt;?php echo $this-&gt;__(&#39;Account Information&#39;) ?&gt;&lt;/h2&gt;
+        &lt;/div&gt;
+        &lt;?php /* Extensions placeholder */ ?&gt;
+        &lt;?php echo $this-&gt;getChildHtml(&#39;customer.account.dashboard.extra&#39;) ?&gt;
+        &lt;?php echo $this-&gt;getChildHtml(&#39;info&#39;) ?&gt;
+        &lt;?php echo $this-&gt;getChildHtml(&#39;address&#39;) ?&gt;
+    &lt;/div&gt;
+    &lt;?php echo $this-&gt;getChildHtml(&#39;info1&#39;) ?&gt;
+    &lt;?php echo $this-&gt;getChildHtml(&#39;info2&#39;) ?&gt;
+&lt;/div&gt;</code></pre>
+<p>好的，这样就可以根据用户注册的邀请码来自行判断是否发送优惠券了，符合邀请码的就会得到优惠券了。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/10/08/%E5%88%A9%E7%94%A8jquery%E5%92%8Ccss%E5%B7%A7%E5%A6%99%E5%9C%B0%E6%8A%8A%E9%BC%A0%E6%A0%87%E6%82%AC%E6%B5%AE%E5%A4%B4%E9%83%A8%E8%8F%9C%E5%8D%95%E7%9A%84%E6%97%B6%E5%80%99logo%E5%9B%BE%E7%89%87%E6%9B%BF%E6%8D%A2%E4%BB%A5%E5%8F%8A%E5%A4%B4%E9%83%A8%E5%9B%BA%E5%AE%9A%E7%9A%84%E6%97%B6%E5%80%99%E5%8F%98%E6%88%90%E5%8F%A6%E5%A4%96%E4%B8%80%E7%A7%8D%E9%A2%9C%E8%89%B2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/10/08/%E5%88%A9%E7%94%A8jquery%E5%92%8Ccss%E5%B7%A7%E5%A6%99%E5%9C%B0%E6%8A%8A%E9%BC%A0%E6%A0%87%E6%82%AC%E6%B5%AE%E5%A4%B4%E9%83%A8%E8%8F%9C%E5%8D%95%E7%9A%84%E6%97%B6%E5%80%99logo%E5%9B%BE%E7%89%87%E6%9B%BF%E6%8D%A2%E4%BB%A5%E5%8F%8A%E5%A4%B4%E9%83%A8%E5%9B%BA%E5%AE%9A%E7%9A%84%E6%97%B6%E5%80%99%E5%8F%98%E6%88%90%E5%8F%A6%E5%A4%96%E4%B8%80%E7%A7%8D%E9%A2%9C%E8%89%B2/" class="post-title-link" itemprop="url">利用jquery和css巧妙地把鼠标悬浮头部菜单的时候logo图片替换以及头部固定的时候变成另外一种颜色</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-10-08 16:52:26" itemprop="dateCreated datePublished" datetime="2018-10-08T16:52:26+08:00">2018-10-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:04" itemprop="dateModified" datetime="2020-10-11T11:58:04+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript/" itemprop="url" rel="index"><span itemprop="name">javascript</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>最近有个客户要求非常特殊，非要把网站做得跟大疆官网一样，其中就有一个鼠标悬浮在头部菜单栏的时候，logo的图片会切换，由于logo不是字体图标，而是图片，因此没法采用css的hover了。那么怎么办呢？且看笔者的方法。</p>
+<p>因为客户的网站最开始是玻璃效果的，这个时候logo需要是白色的，因此不得不做一张白色的logo，</p>
+<p><img src="https://i.imgur.com/7YOEowc.jpg"></p>
+<p>当然菜单的文字也是白色的。</p>
+<p>接着呢，当鼠标悬浮到菜单栏和logo所在的区域的时候，背景颜色由透明状变成白色，logo图片由白色替换成黑色的，菜单文字变成黑色。</p>
+<p><img src="https://i.imgur.com/IhygwSR.jpg"></p>
+<p>因为现在是在最顶部，当我们鼠标往下滚的时候，头部菜单栏是固定在顶部的，这个时候，持续保持这状态或者logo颜色变成另外一种，</p>
+<p><img src="https://i.imgur.com/IhygwSR.jpg"></p>
+<p>面对一系列的问题，笔者的解决方案是结合开发者工具找到目标元素，</p>
+<p><img src="https://i.imgur.com/HiR2x34.jpg"></p>
+<p>当我们往下滚动的时候，会发现：</p>
+<p><img src="https://i.imgur.com/CUMGPzJ.jpg"></p>
+<p>这里有个明显的差异就是没有了<code>av_header_transparency</code>。</p>
+<p>跟这个相关的，笔者都圈出来了，分别是：id为<code>header_main</code>的头部区块，class为<code>av_header_transparency</code>的玻璃特效的类，接着就是目标元素img。这个是是enfold主题下的，其他主题可能不一样，这里仅仅是用作参考。笔者采用jquery的方式对鼠标悬浮动态的插入图片地址：</p>
+<pre><code>&lt;script src=&quot;&lt;?php bloginfo(&#39;template_url&#39;); ?&gt;/js/jquery-3.1.1.min.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+var jQuery_3_3_1 = $.noConflict(true);
+jQuery_3_3_1(document).ready(function()&#123;
+    //如果
+    if(jQuery_3_3_1(&quot;header&quot;).is(&quot;.av_header_transparency&quot;))&#123;
+        jQuery_3_3_1(&quot;#header_main&quot;).hover(function()&#123;
+            jQuery_3_3_1(&quot;#header_main .logo img&quot;).attr(&quot;src&quot;, &#39;/wp-content/uploads/2018/10/logo-balck.png&#39;);
+           jQuery_3_3_1(&quot;#header_main&quot;).css(&#123;&#39;background&#39;:&#39;#fff !important&#39;&#125;);
+         &#125;,function()&#123;
+            jQuery_3_3_1(&quot;#header_main&quot;).css(&#123;&#39;background&#39;:&#39;transparent !important&#39;&#125;);
+            jQuery_3_3_1(&quot;#header_main .logo img&quot;).attr(&quot;src&quot;, &#39;/wp-content/uploads/2018/10/logo-white.png&#39;);
+        &#125;);
+    &#125;
+    jQuery_3_3_1(&quot;#header_main&quot;).mouseenter(function () &#123;
+        jQuery_3_3_1(&quot;#header_main&quot;).css(&#123;&#39;background&#39;:&#39;#fff !important&#39;&#125;);
+          jQuery_3_3_1(&quot;#header_main .logo img&quot;).attr(&quot;src&quot;, &#39;/wp-content/uploads/2018/10/logo-balck.png&#39;);
+    &#125;);
+    jQuery_3_3_1(&quot;#header_main&quot;).mouseout(function () &#123;
+          jQuery_3_3_1(&quot;#header_main .logo img&quot;).attr(&quot;src&quot;, &#39;/wp-content/uploads/2018/10/logo-white.png&#39;);
+    &#125;);
+
+&#125;)
+&lt;/script&gt;</code></pre>
+<p>这个代码目的就是想要实现一个鼠标悬浮的时候，logo变成黑色，背景变成白色，离开的时候，logo变成白色，背景回到最初的样子（透明色），这个是在头部是透明状态下的情况发生的，</p>
+<pre><code>jQuery_3_3_1(&quot;header&quot;).is(&quot;.av_header_transparency&quot;)</code></pre>
+<p>如果没有这个class（<code>.av_header_transparency</code>）的情况下，就用mouseenter和mouseout这两个进行控制logo的切换，经过实践笔者发现总是不尽如人意，虽然达到了部分的预期。就是当笔者解决了在透明状态下的鼠标悬浮是黑色的，离开是白色的，那么滚动的时候logo是白色的，要么是解决了最初透明状态的白色logo，鼠标悬浮式黑色的，滚动后的logo还是白色，可是当滚动到顶部的透明状态的鼠标悬浮的时候，logo还是黑色的。所以不理想。那么笔者就在想，先解决不是透明状态的情况，就是鼠标滚动后固定在顶部的菜单栏，这个时候颜色和背景完全可以采用默认的或者是jquery的方式搞定，然后呢当来到顶部透明状态的时候，只需要写一个鼠标悬浮的css样式即可。只是这个地方需要把logo的图片隐藏，然后把logo当做背景的方式添加到那个地方即可。事实证明我的猜想是对的。看下面。</p>
+<p>方法如下：</p>
+<pre><code>.av_header_transparency:hover .logo a &#123;
+    background-image: url(&#39;/wp-content/uploads/2018/10/logo-balck.png&#39;);
+    height: 65px;
+    width: 100%;
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-size: 100%;
+&#125;
+.av_header_transparency:hover .logo a img&#123;
+  visibility: hidden;
+&#125;</code></pre>
+<p>两条代码搞定，意思给大家解读一下：</p>
+<p>当鼠标悬浮到有透明状态的头部菜单的时候，把logo所在的img那里隐藏，而不是<code>display:none</code>，依旧占据这个位置。然后在这个位置的上一层标签那里，也就是a标签，那里添加一个背景图片，为了图片能够完整的显示，这里的background-size采用100%。其他样式的大家可以根据情况自己设置了。</p>
+<p>后来解决这个问题，笔者仅仅是采用了后面的css就搞定了，这个值得笔者反思，也许很多的时候，样式问题可以用css搞定，可能有的时候，css是没法搞定的，需要js来弄，可是很多时候我们不能只是单纯的只用一种方式来解决问题，可以尝试利用多种方式各自的优点和特性来解决问题。我相信这才是写这篇文章最宝贵的地方。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/09/30/css%E5%92%8CjavaScript%E7%BB%93%E5%90%88%E5%AE%9E%E7%8E%B0%E7%82%B9%E5%87%BB%E5%9B%BE%E7%89%87%E5%BC%B9%E5%87%BA%E6%A8%A1%E6%80%81%E6%A1%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/09/30/css%E5%92%8CjavaScript%E7%BB%93%E5%90%88%E5%AE%9E%E7%8E%B0%E7%82%B9%E5%87%BB%E5%9B%BE%E7%89%87%E5%BC%B9%E5%87%BA%E6%A8%A1%E6%80%81%E6%A1%86/" class="post-title-link" itemprop="url">css和javaScript结合实现点击图片弹出模态框和基于HTML5的鼠标悬浮显示tooltip自定义属性的内容</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-09-30 20:39:56" itemprop="dateCreated datePublished" datetime="2018-09-30T20:39:56+08:00">2018-09-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:57" itemprop="dateModified" datetime="2020-10-11T11:57:57+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript/" itemprop="url" rel="index"><span itemprop="name">javascript</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>不知道多少次有多少客户问我，可否做一个让图片点击弹出一个模态框的，然后在图片上显示这个图片的标题，可想而知这个需求还是很普遍的，由于时间关系一直没有整理出来，这次抽空整理了下，写一个demo也让后面的人随时采用。这里做两个demo：</p>
+<ol>
+<li>针对单张图片实现点击图片弹出模态框</li>
+<li>针对多张批量式的图片显示模态框</li>
+</ol>
+<h2 id="针对单张图片实现点击图片弹出模态框"><a href="#针对单张图片实现点击图片弹出模态框" class="headerlink" title="针对单张图片实现点击图片弹出模态框"></a>针对单张图片实现点击图片弹出模态框</h2><p>HTML代码</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+ &lt;meta charset=&quot;UTF-8&quot;&gt;
+ &lt;title&gt;close&lt;/title&gt;
+ &lt;style&gt;
+  #real&#123;
+  /*点击弹出模态框的图片*/
+  margin: 30px;
+  max-width: 250px;
+  border-radius:6px;
+  &#125;
+  #real:hover&#123;
+  opacity: 0.6;
+  &#125;
+  #mo&#123;
+  display: none;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.7);
+  top: 0px;
+  left: 0px;
+  z-index: 1;
+  &#125;
+  #moimg&#123;
+  display: block;
+  margin:25px auto;
+  width: 60%;
+  max-width: 750px;
+  &#125;
+  #caption&#123;
+  text-align: center;
+  margin: 15px auto;
+  width: 60%;
+  max-height: 750px;
+  font-size: 20px;
+  color:#ccc;
+  &#125;
+  #moimg,#caption&#123;
+  -webkit-animation: first 1s;
+  -o-animation: first 1s;
+  animation: first 1s;
+  &#125;
+  @keyframes first&#123;
+  from&#123;transform: scale(0.1);&#125;
+  to&#123;transform: scale(1);&#125;
+  &#125;
+  .close&#123;
+  font-size: 40px;
+  font-weight: bold;
+  position: absolute;
+  top: 20px;
+  right: 14%;
+  color:#f1f1f1;
+  &#125;
+  .close:hover,.close:focus&#123;
+  color:#bbb;
+  cursor:pointer;
+  &#125;
+  @media only screen and(max-width:750px ) &#123;
+  #moimg&#123;
+   width: 100%;
+  &#125;
+  &#125;
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;img src=&quot;collab4.jpg&quot; id=&quot;real&quot; alt=&quot;时尚话题&quot;&gt;
+&lt;!--图片模态框 --&gt;
+&lt;div class=&quot;motai&quot; id=&quot;mo&quot;&gt;
+ &lt;span class=&quot;close&quot; id=&quot;close&quot;&gt;×&lt;/span&gt;
+ &lt;img class=&quot;motaiimg&quot; id=&quot;moimg&quot;&gt;
+ &lt;div id=&quot;caption&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;script&gt;
+  var imgs = document.querySelectorAll(&quot;#container img&quot;);
+  var motai=document.getElementById(&#39;mo&#39;);
+  var moimg=document.getElementById(&quot;moimg&quot;);
+  var realimg=document.getElementById(&quot;real&quot;);
+  var caption=document.getElementById(&quot;caption&quot;);
+  console.log(imgs);
+  console.log(imgs.length);
+  realimg.onclick=function()&#123;
+    motai.style.display=&quot;block&quot;
+    moimg.src=this.src
+    caption.innerHTML=this.alt
+  &#125;
+
+   imgs.onclick=function()&#123;
+    motai.style.display=&quot;block&quot;
+    moimg.src=this.src
+    caption.innerHTML=this.alt
+  &#125;
+
+  var span=document.getElementById(&quot;close&quot;);
+  span.onclick=function()&#123;
+    motai.style.display=&quot;none&quot;;
+  &#125;
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>最后的效果：</p>
+<p><img src="https://i.imgur.com/fsb8vnn.jpg"></p>
+<h2 id="针对多张批量式的图片显示模态框"><a href="#针对多张批量式的图片显示模态框" class="headerlink" title="针对多张批量式的图片显示模态框"></a>针对多张批量式的图片显示模态框</h2><p>HTML代码</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+ &lt;meta charset=&quot;UTF-8&quot;&gt;
+ &lt;title&gt;close&lt;/title&gt;
+ &lt;style&gt;
+  #container&#123;
+  display: flex;
+  &#125;
+  #container img&#123;
+  width: 100%;
+  &#125;
+  #container .tupian&#123;
+  flex:1;
+  padding: 10px;
+  &#125;
+  #mo&#123;
+  display: none;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.7);
+  top: 0px;
+  left: 0px;
+  z-index: 1;
+  &#125;
+  #moimg&#123;
+  display: block;
+  margin:25px auto;
+  width: 60%;
+  max-width: 750px;
+  &#125;
+  #caption&#123;
+  text-align: center;
+  margin: 15px auto;
+  width: 60%;
+  max-height: 750px;
+  font-size: 20px;
+  color:#ccc;
+  &#125;
+  #moimg,#caption&#123;
+  -webkit-animation: first 1s;
+  -o-animation: first 1s;
+  animation: first 1s;
+  &#125;
+  @keyframes first&#123;
+  from&#123;transform: scale(0.1);&#125;
+  to&#123;transform: scale(1);&#125;
+  &#125;
+  .close&#123;
+  font-size: 40px;
+  font-weight: bold;
+  position: absolute;
+  top: 20px;
+  right: 14%;
+  color:#f1f1f1;
+  &#125;
+  .close:hover,.close:focus&#123;
+  color:#bbb;
+  cursor:pointer;
+  &#125;
+  @media only screen and(max-width:750px ) &#123;
+  #moimg&#123;
+   width: 100%;
+  &#125;
+  &#125;
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div id=&quot;container&quot;&gt;
+&lt;div class=&quot;tupian&quot;&gt;&lt;img src=&quot;collab4.jpg&quot; alt=&quot;时尚话题&quot;&gt;&lt;/div&gt;
+&lt;div class=&quot;tupian&quot;&gt;&lt;img src=&quot;carlos-muza-84523.jpg&quot; alt=&quot;很美的产品&quot;&gt;&lt;/div&gt;
+&lt;div class=&quot;tupian&quot;&gt;&lt;img src=&quot;content-creation-management-grid.jpg&quot; alt=&quot;女人购物&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;!--图片模态框 --&gt;
+&lt;div class=&quot;motai&quot; id=&quot;mo&quot;&gt;
+ &lt;span class=&quot;close&quot; id=&quot;close&quot;&gt;×&lt;/span&gt;
+ &lt;img class=&quot;motaiimg&quot; id=&quot;moimg&quot;&gt;
+ &lt;div id=&quot;caption&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;script&gt;
+  var imgs = document.querySelectorAll(&quot;#container img&quot;);
+  var motai=document.getElementById(&#39;mo&#39;);
+  var moimg=document.getElementById(&quot;moimg&quot;);
+  var realimg=document.getElementById(&quot;real&quot;);
+  var caption=document.getElementById(&quot;caption&quot;);
+  console.log(imgs);
+  console.log(imgs.length);
+
+  for (var i=0;i &lt; imgs.length;i++) &#123;
+    imgs[i].onclick=function()&#123;
+      motai.style.display=&quot;block&quot;
+      moimg.src=this.src
+      caption.innerHTML=this.alt
+    &#125;
+  &#125;
+  var span=document.getElementById(&quot;close&quot;);
+  span.onclick=function()&#123;
+    motai.style.display=&quot;none&quot;;
+  &#125;
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>最后的效果图：</p>
+<p><img src="https://i.imgur.com/Eb6iq5D.jpg"></p>
+<p><img src="https://i.imgur.com/Soht7Lb.jpg"></p>
+<p>很显然，方案二是更切合实际中的使用，因为更多的是会有多个图片。</p>
+<p>后来笔者进一步的改良了方案二的自适应问题，最终代码如下：</p>
+<pre><code>&lt;div id=&quot;container&quot;&gt;
+    &lt;div class=&quot;tupian&quot;&gt;&lt;img src=&quot;collab4.jpg&quot; alt=&quot;时尚话题&quot; title=&quot;世界，你好1&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;tupian&quot;&gt;&lt;img src=&quot;carlos-muza-84523.jpg&quot; alt=&quot;很美的产品&quot; title=&quot;世界，你好2&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;tupian&quot;&gt;&lt;img src=&quot;content-creation-management-grid.jpg&quot; alt=&quot;女人购物&quot; title=&quot;世界，你好3&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;motai&quot; id=&quot;mo&quot;&gt;
+   &lt;div class=&quot;monu&quot;&gt;
+    &lt;span class=&quot;close&quot; id=&quot;close&quot;&gt;×&lt;/span&gt;
+    &lt;img class=&quot;motaiimg&quot; id=&quot;moimg&quot;&gt;
+   &lt;/div&gt;
+   &lt;div class=&quot;discript&quot;&gt;
+      &lt;h2 id=&quot;caption&quot;&gt;&lt;/h2&gt;
+      &lt;p id=&quot;disss&quot;&gt;&lt;/p&gt;
+   &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;style&gt;
+
+  #container img&#123;
+  width: 100%;
+  position: relative;
+  &#125;
+  #mo&#123;
+  display: none;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.7);
+  top: 0px;
+  left: 0px;
+  z-index: 1;
+  &#125;
+  #moimg&#123;
+  display: block;
+  margin:150px auto 1% auto;
+  width: 60%;
+  z-index: 999;
+  max-width: 450px;
+  &#125;
+  #caption,#disss&#123;
+  text-align: center;
+  margin: 15px auto;
+  width: 60%;
+  max-height: 750px;
+  font-size: 20px;
+  color:#ccc;
+  &#125;
+  #moimg,#caption,#disss&#123;
+  -webkit-animation: first 1s;
+  -o-animation: first 1s;
+  animation: first 1s;
+  &#125;
+  @keyframes first&#123;
+  from&#123;transform: scale(0.1);&#125;
+  to&#123;transform: scale(1);&#125;
+  &#125;
+  .monu&#123;
+    position: relative;
+  &#125;
+  .close&#123;
+  font-size: 40px;
+  font-weight: bold;
+  color:#f1f1f1;
+  position: absolute;
+  top: 0px;
+  right: calc(100%/2 - 260px);
+  z-index: 999;
+  &#125;
+  .close:hover,.close:focus&#123;
+  color:#bbb;
+  cursor:pointer;
+  &#125;
+  @media (max-width:750px ) &#123;
+  #moimg&#123;
+   width: 100%;
+   max-width: 300px !important;
+  &#125;
+ .close &#123;
+    right: calc(100%/2 - 180px);
+ &#125;
+&#125;
+&lt;/style&gt;
+
+&lt;script&gt;
+  var imgs = document.querySelectorAll(&quot;#container img&quot;);
+  var motai=document.getElementById(&#39;mo&#39;);
+  var moimg=document.getElementById(&quot;moimg&quot;);
+  var realimg=document.getElementById(&quot;real&quot;);
+  var caption=document.getElementById(&quot;caption&quot;);
+  var disss=document.getElementById(&quot;disss&quot;);
+  console.log(imgs);
+  console.log(imgs.length);
+
+  for (var i=0;i &lt; imgs.length;i++) &#123;
+    imgs[i].onclick=function()&#123;
+      motai.style.display=&quot;block&quot;
+      moimg.src=this.src
+      caption.innerHTML=this.title
+      disss.innerHTML=this.alt
+    &#125;
+  &#125;
+  var span=document.getElementById(&quot;close&quot;);
+  span.onclick=function()&#123;
+    motai.style.display=&quot;none&quot;;
+  &#125;
+&lt;/script&gt;</code></pre>
+<p>这里跟大家补充点知识，方案二里面采用了querySelectorAll这个，以前用的时候，不知道怎么用得更好，今天通过控制台的打印发现这个是一个遍历的，不能拿来就用，道理很简单：</p>
+<p><img src="https://i.imgur.com/ovfQTwd.jpg"></p>
+<p>这里有三个图片，所以我们在使用的时候需要指定某个才行。所以这里采用了一个循环，把所有的都遍历出来，其实也就是把方案一中的那个放在循环里面：</p>
+<pre><code>realimg.onclick=function()&#123;
+  motai.style.display=&quot;block&quot;
+  moimg.src=this.src
+  caption.innerHTML=this.alt
+&#125;</code></pre>
+<p>放在循环里面的结果：</p>
+<pre><code>for (var i=0;i &lt; imgs.length;i++) &#123;
+  imgs[i].onclick=function()&#123;
+    motai.style.display=&quot;block&quot;
+    moimg.src=this.src
+    caption.innerHTML=this.alt
+  &#125;
+&#125;</code></pre>
+<p>大家注意一下这个：</p>
+<pre><code>var imgs = document.querySelectorAll(&quot;#container img&quot;);</code></pre>
+<p>可能大家很自然就想到了jquery，可是为了尽可能的少依赖一些第三方库，笔者这里选择原生的方式。</p>
+<p>总结：方案二中要理解querySelectorAll的正确用法，尽量用console.log()来配合调试；第二就是理解这个模态框的原理，是如何巧妙运用的。精华都在demo里面了。</p>
+<h2 id="基于HTML5鼠标悬浮出现内容"><a href="#基于HTML5鼠标悬浮出现内容" class="headerlink" title="基于HTML5鼠标悬浮出现内容"></a>基于HTML5鼠标悬浮出现内容</h2><p>HTML代码</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Document&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;style&gt;
+        .content&#123;
+            text-align: center;
+            height: 50px;
+            line-height: 50px;
+            width: 100px;
+            margin: 100px auto;
+            padding: 5px;
+            background-color: rgb(196,0,0);
+            color: white;
+            font-size: 18px;
+            position: relative;
+        &#125;
+        .content:hover&#123;
+            cursor: pointer;
+        &#125;
+        .content:hover:before&#123;
+            content: attr(data-content); /*动态获取数据*/
+            position: absolute;
+            left: 100%;
+            width:200px;
+            height: 50px;
+            font-size: 18px;
+            line-height: 50px;
+            background-color: rgb(0,196,0);
+            margin-left: 12px;
+        &#125;
+        .content:hover:after&#123; /*实现小三角*/
+            content: &quot;&quot;;
+            position: absolute;
+            left: 100%;
+            top: 50%;
+            margin: -10px 0 0 -8px;
+            width: 0;
+            height: 0;
+            border-width: 10px;
+            border-color: transparent rgb(0,196,0) transparent transparent;
+            border-style: solid;
+        &#125;
+    &lt;/style&gt;
+
+    &lt;div data-content=&quot;我是一个悬浮提示框&quot; class=&quot;content&quot;&gt;
+        &lt;img src=&quot;1.jpg&quot; alt=&quot;&quot;&gt;
+    &lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>最后的效果：</p>
+<p><img src="https://i.imgur.com/VTBNseq.jpg"></p>
+<p>这个跟上面的两个不一样的地方就是这个不是点击产生的内容，而是鼠标悬浮的显示内容，这个由于不需要点击事件，所以直接通过css的<code>content: attr()</code>方式，大家可以研究下类似的api用法。</p>
+<p>这个方法有点缺陷就是只能显示一个自定义属性的内容，而前面基于JavaScript的点击事件的可以显示多个内容，只要正确获取了属性值就行。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/09/30/css%E5%AE%9E%E7%8E%B0%E9%BC%A0%E6%A0%87%E6%82%AC%E6%B5%AE%E4%BA%A7%E7%94%9F%E9%98%B4%E5%BD%B1%E7%9A%84%E7%AB%8B%E4%BD%93%E6%95%88%E6%9E%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/09/30/css%E5%AE%9E%E7%8E%B0%E9%BC%A0%E6%A0%87%E6%82%AC%E6%B5%AE%E4%BA%A7%E7%94%9F%E9%98%B4%E5%BD%B1%E7%9A%84%E7%AB%8B%E4%BD%93%E6%95%88%E6%9E%9C/" class="post-title-link" itemprop="url">css实现鼠标悬浮产生阴影的立体效果</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-09-30 20:13:59" itemprop="dateCreated datePublished" datetime="2018-09-30T20:13:59+08:00">2018-09-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:57" itemprop="dateModified" datetime="2020-10-11T11:57:57+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/html5/" itemprop="url" rel="index"><span itemprop="name">html5</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>废话少说，直接上demo代码：</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Document&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div class=&quot;custoers&quot;&gt;
+    &lt;div class=&quot;custmoerlist&quot;&gt;
+        &lt;img src=&quot;1.jpg&quot;/&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;style&gt;
+    .custoers&#123;
+        display: flex;
+    &#125;
+    .custmoerlist&#123;
+        padding:15px;
+        position: relative;
+    &#125;
+    .custmoerlist img&#123;
+        border:1px dashed #f89a12;
+        border-radius: 50%;
+        padding:10px;
+        transition: 1s ease;
+    &#125;
+    .custmoerlist:hover img&#123;
+        transform: translateY(-10px);
+    &#125;
+    .custmoerlist:after&#123;
+        content: &#39;&#39;;
+        background: rgba(0, 0, 0, 0.07);
+        box-shadow: 1px 0px 20px 2px rgba(0, 0, 0, 0.2);
+        border-radius: 50%;
+        height: 0px;
+        width: 100px;
+        z-index: 999;
+        bottom: -10px;
+        position: absolute;
+        left: calc(100%/2 - 50px);
+        transition: 1s ease;
+        animation-duration:1.5s;
+        opacity: 0;
+    &#125;
+    .custmoerlist:hover:after&#123;
+        opacity: 1;
+    &#125;
+&lt;/style&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>效果：</p>
+<p><img src="https://i.imgur.com/B3scOBc.jpg"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/09/28/%E9%87%87%E7%94%A8magento%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A8%A1%E5%9D%97%E5%92%8Cphp%E5%8A%A0%E5%AF%86%E6%8E%A7%E5%88%B6%E4%BB%A3%E7%A0%81%E7%BB%93%E5%90%88%E5%9C%A8%E4%B8%80%E8%B5%B7%E5%AE%9E%E7%8E%B0%E5%AF%B9magento%E5%88%86%E7%B1%BB%E9%A1%B5%E5%8A%A0%E5%AF%86-%E5%AF%B9magento%E9%A1%B5%E9%9D%A2%E5%8A%A0%E5%AF%86-%E5%AF%B9%E4%BA%A7%E5%93%81%E8%AF%A6%E6%83%85%E9%A1%B5%E5%8A%A0%E5%AF%86%E4%BB%A5%E8%BE%BE%E5%88%B0%E4%BB%8E%E5%90%8E%E5%8F%B0%E8%AE%BE%E7%BD%AE%E5%AF%86%E7%A0%81%E5%9C%A8%E5%89%8D%E5%8F%B0%E9%A1%B5%E9%9D%A2%E8%BE%93%E5%85%A5%E5%AF%86%E7%A0%81%E6%89%8D%E8%83%BD%E6%9F%A5%E7%9C%8B%E9%A1%B5%E9%9D%A2%E5%86%85%E5%AE%B9%E7%9A%84%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%E7%9A%84%E7%9B%AE%E7%9A%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/09/28/%E9%87%87%E7%94%A8magento%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A8%A1%E5%9D%97%E5%92%8Cphp%E5%8A%A0%E5%AF%86%E6%8E%A7%E5%88%B6%E4%BB%A3%E7%A0%81%E7%BB%93%E5%90%88%E5%9C%A8%E4%B8%80%E8%B5%B7%E5%AE%9E%E7%8E%B0%E5%AF%B9magento%E5%88%86%E7%B1%BB%E9%A1%B5%E5%8A%A0%E5%AF%86-%E5%AF%B9magento%E9%A1%B5%E9%9D%A2%E5%8A%A0%E5%AF%86-%E5%AF%B9%E4%BA%A7%E5%93%81%E8%AF%A6%E6%83%85%E9%A1%B5%E5%8A%A0%E5%AF%86%E4%BB%A5%E8%BE%BE%E5%88%B0%E4%BB%8E%E5%90%8E%E5%8F%B0%E8%AE%BE%E7%BD%AE%E5%AF%86%E7%A0%81%E5%9C%A8%E5%89%8D%E5%8F%B0%E9%A1%B5%E9%9D%A2%E8%BE%93%E5%85%A5%E5%AF%86%E7%A0%81%E6%89%8D%E8%83%BD%E6%9F%A5%E7%9C%8B%E9%A1%B5%E9%9D%A2%E5%86%85%E5%AE%B9%E7%9A%84%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6%E7%9A%84%E7%9B%AE%E7%9A%84/" class="post-title-link" itemprop="url">采用magento自定义模块和php加密控制代码结合在一起实现对magento分类页加密,对magento页面加密,对产品详情页加密以达到从后台设置密码在前台页面输入密码才能查看页面内容的访问控制的目的</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-09-28 20:23:11" itemprop="dateCreated datePublished" datetime="2018-09-28T20:23:11+08:00">2018-09-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:07" itemprop="dateModified" datetime="2020-10-11T11:58:07+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/magento/" itemprop="url" rel="index"><span itemprop="name">magento</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>最近有个客户需求：想要对magento网站的产品分类页设置密码，同时也可以支持想要对某个页面设置密码，对产品详情页设置密码。</p>
+<p>针对这个需求，我们怎么做呢？笔者这里分以下几步，笔者以<a target="_blank" rel="noopener" href="http://magento2.flytheme.net/themes/sm_market2/intro/index.html">market</a>主题作为案例讲解：</p>
+<ol>
+<li>创建一个自定义模块，当然也可以采用magento主题中的模块</li>
+<li>添加加密代码到模块中的模板文件</li>
+<li>在产品分类页或页面或产品详情页引入第二步的模板文件</li>
+<li>把访问控制密码的设置移植magento网站后台配置那里，以便方便修改</li>
+</ol>
+<p>好的，我们现在逐步进行讲解。</p>
+<h2 id="创建一个自定义模块"><a href="#创建一个自定义模块" class="headerlink" title="创建一个自定义模块"></a>创建一个自定义模块</h2><p>可以参考笔者的关于创建一个模块的教程：<a target="_blank" rel="noopener" href="https://helongquan.github.io/2018/07/17/magento%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A8%A1%E5%9D%97%E5%BC%80%E5%8F%91%EF%BC%8C%E6%A8%A1%E5%9D%97%E5%8A%9F%E8%83%BD%E5%A6%82%E4%BD%95%E6%98%BE%E7%A4%BA%E5%88%B0%E5%89%8D%E5%8F%B0%EF%BC%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9B%AE%E5%BD%95%E5%A6%82%E4%BD%95%E8%AF%BB%E5%8F%96%E6%95%B0%E6%8D%AE%EF%BC%8C%E5%A6%82%E4%BD%95%E8%BF%90%E7%94%A8%E6%A8%A1%E5%9D%97%E7%9A%84%E6%A8%A1%E5%9E%8B%E6%96%87%E4%BB%B6%E7%9A%84%E5%BF%83%E5%BE%97%E5%92%8C%E6%97%A5%E8%AE%B0/">https://helongquan.github.io/2018/07/17/magento自定义模块开发，模块功能如何显示到前台，数据库目录如何读取数据，如何运用模块的模型文件的心得和日记/</a></p>
+<p>笔者这里还是要说明下如何创建一个模块：</p>
+<p><strong>第一步：</strong></p>
+<p>我们要创建一个模块的目录结构</p>
+<p>app/code/local/公司名称/模块名字/…</p>
+<p>//命名规则</p>
+<pre><code>app/code/local/Goglobalis/Test/Block 
+app/code/local/Goglobalis/Test/controllers 
+app/code/local/Goglobalis/Test/etc
+app/code/local/Goglobalis/Test/Helper 
+app/code/local/Goglobalis/Test/Model 
+app/code/local/Goglobalis/Test/sql </code></pre>
+<p>第二步：创建config文件，并为模块分配路由</p>
+<pre><code>app/code/local/Goglobalis/Test/etc/config.xml</code></pre>
+<p>编辑config.xml 内容如下：</p>
+<pre><code>&lt;config&gt;
+    &lt;modules&gt;&lt;!-- 模块版本信息--&gt;
+        &lt;Goglobalis_Test&gt;
+            &lt;version&gt;0.1&lt;/version&gt;
+        &lt;/Goglobalis_Test&gt;
+    &lt;/modules&gt;
+    &lt;frontend&gt;&lt;!--定义magento区 frontend网站前台--&gt;
+        &lt;routers&gt;&lt;!--&lt;routers&gt;标签有时候包含的是路由对象的定义,有时候包含的是路径的定义。路由对象是进行路由操作的实体，而路径仅仅是路由对象的一个参数--&gt;
+            &lt;test&gt;
+                &lt;use&gt;standard&lt;/use&gt;&lt;!--使用标准固定写法--&gt;
+                    &lt;args&gt;
+                        &lt;module&gt;Goglobalis_Test&lt;/module&gt;&lt;!-- 模块全名  定义你的模块文件--&gt;
+                        &lt;frontName&gt;test&lt;/frontName&gt;&lt;!-- 模块名称（此处仅支持小写）--&gt;
+                    &lt;/args&gt; 
+            &lt;/test&gt;
+        &lt;/routers&gt;
+    &lt;/frontend&gt;
+&lt;/config&gt;</code></pre>
+<p>第三步：创建一个系统配置文件来激活这个模块</p>
+<p>然后我们要创建一个系统配置文件来激活这个模块 app/etc/modules/Goglobalis_Tese.xml</p>
+<p>内容如下：</p>
+<pre><code>&lt;config&gt;
+    &lt;modules&gt;
+        &lt;Goglobalis_Test&gt;
+            &lt;active&gt;true&lt;/active&gt;
+            &lt;codePool&gt;local&lt;/codePool&gt;
+        &lt;/Goglobalis_Test&gt;
+    &lt;/modules&gt;
+&lt;/config&gt;</code></pre>
+<p>激活后：让我们检查一下模块是不是已经被激活</p>
+<ol>
+<li>清空 Magento 缓存</li>
+<li>在管理后台，进入 System-&gt;Configuration-&gt;Advanced</li>
+<li>展开“DisableModulesOutput”</li>
+<li>确认 Goglobalis_Test显示出来了</li>
+</ol>
+<p><img src="https://i.imgur.com/kuRhA6s.png"></p>
+<p>第四步：为路由创建创建执行控制器</p>
+<p>app/code/local/Goglobalis/Test/controllers/indexController.php</p>
+<pre><code>&lt;?php
+//我们自己定义的属于 frontend 区的执行控制器都应该继承 Mage_Core_Controller_Front_Action
+    class Goglobalis_Test_indexController extends Mage_Core_Controller_Front_Action&#123;
+        public function indexAction()&#123;
+            echo &#39;Hellw Word!&#39;;
+        &#125;
+
+    &#125;</code></pre>
+<p>清空 Magento 缓存，请求如下 URL <a target="_blank" rel="noopener" href="http://exmaple.com/test/index/index">http://exmaple.com/test/index/index</a> 如果你看到一个空白页面上面写着“Hello World!”，那么恭喜你，你已经成功 创建了你的第一个 Magento 控制器！</p>
+<p>笔者在处理这种问题的时候由于magento代码是放在maeg这个目录下，所以这里的请求地址是：</p>
+<pre><code>http://example.com/maeg/test/index/index</code></pre>
+<p>发现打开是404，后来发现需要这样访问：</p>
+<pre><code>http://example.com/maeg/index.php/test/index/index</code></pre>
+<p>才能成功，这个时候我们需要解决去除index.php的问题，可以参考笔者另外一篇文章：</p>
+<p>如何命名执行控制器？</p>
+<p>如上我们创建的是index控制器，那如果想创建login控制器呢？</p>
+<p>只需要改动第四步两个地方即可：</p>
+<p><img src="https://i.imgur.com/h68amT6.png"></p>
+<p>改成loginController即可。</p>
+<p>Magento 默认的路由的规则如下 <a target="_blank" rel="noopener" href="http://www.efish.tk/frontName/actionControllerName/actionMethod/">http://www.efish.tk/frontName/actionControllerName/actionMethod/</a></p>
+<p>所以在我们请求的 URL <a target="_blank" rel="noopener" href="http://exmaple.com/test/index/index">http://exmaple.com/test/index/index</a> 其中“test”是“frontName”，第一个“index”是执行控制器（Action Controller）的名字，第二个“index”是执行方法的名字。对比我们写的执行 控制器代码，我们不难发现执行方法的定义是执行方法名字加上 “Action”关 键字 public function indexAction(){…} Magento 根据命名规则找到执行控制器文件并实例化，然后再根据命名规则调用 指定的执行方法。</p>
+<p>如果URL没有给出执行控制器名字或者执行方法，Magento会用默认的“index”来替代，所以下面三个 URL 是等价的</p>
+<pre><code>http://exmaple.com/test/index/index
+http://exmaple.com/test/index
+http://exmaple.com/test</code></pre>
+<p>我们再来看一个例子。</p>
+<p>如果 URL 如下 <a target="_blank" rel="noopener" href="http://exmaple.com/checkout/cart/add">http://exmaple.com/checkout/cart/add</a></p>
+<p>Magento 的执行步骤如下</p>
+<ol>
+<li>查询全局配置，找到 frontName“checkout”对应的模块，Mage_Checkout</li>
+<li>找到执行控制器 “Mage_Checkout_CartController”</li>
+<li>调用执行控制器的“addAction”方法</li>
+</ol>
+<hr>
+<p>笔者在实践中把整个分类得很细，以便对每个文件所扮演的角色了如指掌，发现即使我们没有新建一个模块，我们也可以在网站的配置目录里面新建一个配置文件，比如笔者在app/etc/modules中新建了一个配置文件：Test_Topbanner.xml，这个文件没有对应的模块被新建，它是独立的。我们新建这个文件之后，代码如下：</p>
+<pre><code>&lt;config&gt;
+    &lt;modules&gt;
+        &lt;Test_Topbanner&gt;
+            &lt;active&gt;true&lt;/active&gt;
+            &lt;codePool&gt;local&lt;/codePool&gt;
+        &lt;/Test_Topbanner&gt;
+    &lt;/modules&gt;
+&lt;/config&gt;</code></pre>
+<p>然后打开后台，找到Advanced那里，已经有了：</p>
+<p><img src="https://i.imgur.com/dT8NhDK.png"></p>
+<p>说明这个目录下的文件在模块开发中的角色是用来启动模块的，仅此而已，但是很重要，如果没有启动，那么我们自定义模块就不能起作用。</p>
+<p>接着，我们要为这个模块创建一个在前台显示的模板文件和布局文件这样才能引用这个模板文件显示在我们想要的地方去。</p>
+<p>前台显示模板的layout</p>
+<pre><code>app/design/frontend/yourtheme/default/layout/test.xml</code></pre>
+<p>代码大致如下：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;layout version=&quot;0.1.0&quot;&gt;
+    &lt;default&gt;
+    &lt;/default&gt;
+    &lt;test_index_index&gt;
+        &lt;reference name=&quot;content&quot;&gt;
+            &lt;block type=&quot;test/test&quot; name=&quot;test&quot; template=&quot;test/test.phtml&quot;/&gt;
+        &lt;/reference&gt;
+    &lt;/test_index_index&gt;
+&lt;/layout&gt;</code></pre>
+<p>这个文件告诉了我们，这个布局要调用哪个模板文件。这里调用的是template目录下的test目录中的test.phtml文件。</p>
+<p>接着我们就创建这个负责前台显示模板文件，我们的加密用的代码就放在这个文件中，作为测试，本例中我们创建一个模板页面命名为：test.phtml。</p>
+<pre><code>app/design/frontend/yourtheme/default/template/test/test.phtml</code></pre>
+<h2 id="添加加密代码到模块中的模板文件"><a href="#添加加密代码到模块中的模板文件" class="headerlink" title="添加加密代码到模块中的模板文件"></a>添加加密代码到模块中的模板文件</h2><p>我们接着上面，在test.phtml文件中添加如下代码：</p>
+<pre><code>&lt;?php 
+// 对该页面添加密码访问
+$page_pwd = md5(&#39;123456&#39;); //你要设置的密码 
+$page_cookname = &#39;my-page-password&#39;; //你要设置的cookie名 
+$page_now = &quot;http://&quot; . $_SERVER[&#39;SERVER_NAME&#39;] . $_SERVER[&#39;SCRIPT_NAME&#39;]; 
+$action = @$_GET[&#39;action&#39;]; 
+$page_postpwd = @$_POST[&#39;page_pwd&#39;]; 
+$page_cookiepwd = @$_COOKIE[&quot;$page_cookname&quot;]; 
+$page_cookietime = time() + 60 * 60 * 24 * 7;
+
+
+//输出网页的头部 
+$head = &#39; 
+&lt;head&gt; 
+&lt;meta charset=&quot;utf-8&quot;&gt; 
+&lt;title&gt;product&lt;/title&gt; 
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no&quot;&gt; 
+&lt;style&gt;
+input&#123;
+    width: 100%;
+    display: block;
+    margin: 10px auto;
+    border: 1px solid #ccc;
+    padding: 8px 15px;
+&#125;
+button&#123;    
+    background: #8BC34A;
+    padding: 8px 15px;
+    border: 0px;
+&#125;
+.container-fluid&#123;
+    display: block;
+    max-width: 1280px;
+    box-shadow: 1px 1px 4px 2px rgba(0, 0, 0, 0.05);
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin: 15px auto;
+&#125;
+&lt;/style&gt;&#39;;
+
+//退出登录 
+if ($action == &quot;logout&quot;) &#123; 
+    setcookie($page_cookname, &quot;&quot;, time() - 1);
+    echo &#39;
+        &lt;meta http-equiv=&quot;refresh&quot; content=&quot;2&quot;;URL=&#39;.$page_now.&#39;&gt;
+        &lt;/head&gt;
+        &lt;body&gt;
+        &lt;div class=&quot;container-fluid&quot;&gt;
+        &lt;p&gt;退出成功,2秒后自动跳转&lt;/p&gt;
+        &lt;/div&gt;
+        &lt;/body&gt;
+        &lt;/html&gt;
+        &#39;;
+    exit;
+&#125;
+
+//有输入密码 
+if ($page_postpwd != &quot;&quot;) &#123;
+    //密码错误 
+    if (md5(&quot;$page_postpwd&quot;) != $page_pwd) &#123;
+        echo $head;
+        echo &#39; &lt;meta http-equiv=&quot;refresh&quot; content=&quot;2&quot;;URL=&#39;.$page_now.&#39;&gt;
+        &lt;/head&gt;
+        &lt;body&gt;
+        &lt;div class=&quot;container-fluid&quot;&gt;
+        &lt;p&gt;密码错误,2秒后自动跳转&lt;/p&gt;
+        &lt;br&gt;
+        &lt;a role=&quot;button&quot; class=&quot;btn btn-success&quot; href=&#39;.$page_now.&#39;&gt;点此马上跳转&lt;/a&gt;
+        &lt;/div&gt;
+        &lt;/body&gt;
+        &lt;/html&gt;
+        &#39;;
+        exit;
+    &#125;
+
+    //密码正确 
+    else &#123; 
+        //设置Cookies 
+        setcookie($page_cookname, md5(&quot;$page_postpwd&quot;), $page_cookietime);
+        echo $head; 
+        echo &#39; 
+            &lt;meta http-equiv=&quot;refresh&quot; content=&quot;2&quot;;URL=&#39;.$page_now.&#39;&gt;
+            &lt;/head&gt;
+            &lt;body&gt;
+            &lt;div class=&quot;container-fluid&quot;&gt;
+            &lt;p&gt;密码正确,2秒后自动跳转&lt;/p&gt;
+            &lt;br&gt;
+            &lt;a role=&quot;button&quot; class=&quot;btn btn-success&quot; href=&#39;.$page_now.&#39;&gt;点此马上跳转&lt;/a&gt;
+            &lt;/div&gt;
+            &lt;/body&gt;
+            &lt;/html&gt;
+            &#39;;
+        exit;
+    &#125;
+
+&#125;
+
+//没输入密码 
+if ($page_cookiepwd != $page_pwd) &#123;
+    echo $head;
+    echo &#39;
+        &lt;/head&gt;
+        &lt;body&gt;
+        &lt;div class=&quot;row text-center vertical-middle-sm&quot;&gt;
+            &lt;div class=&quot;col-sm-12&quot;&gt;
+                &lt;div class=&quot;container-fluid&quot;&gt;
+                    &lt;p&gt;这是一个私人页面,请输入您的密码&lt;/p&gt;
+                    &lt;form method=&quot;POST&quot;&gt;
+                        &lt;div class=&quot;form-group&quot;&gt;
+                            &lt;input type=&quot;text&quot; class=&quot;form-control&quot; name=&quot;page_pwd&quot; placeholder=&quot;请输入您的密码&quot;&gt;
+                            &lt;button type=&quot;submit&quot; class=&quot;btn btn-default&quot;&gt;确认&lt;/button&gt;
+                        &lt;/div&gt;
+                    &lt;/form&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;/body&gt;
+        &lt;/html&gt;
+        &#39;;
+    exit;
+&#125;
+?&gt;</code></pre>
+<p>其实，这个代码，我们完全可以单独在本地服务器进行测试的，没有任何问题。我们借用前面创建的这个模块，然后我们就来到产品的分类那里，我们这里随便找一个：</p>
+<p><img src="https://i.imgur.com/0ZskEWv.png"></p>
+<p>引入的其实也就是从前面的layout（app/design/frontend/yourtheme/default/layout/test.xml）那里的布局文件里面复制过来的，</p>
+<pre><code>&lt;reference name=&quot;content&quot;&gt;
+    &lt;block type=&quot;test/test&quot; name=&quot;test&quot; template=&quot;test/test.phtml&quot;/&gt;
+&lt;/reference&gt;</code></pre>
+<p>同样的，如果想要在页面里面添加，我们打开cms—page，随便找个页面：</p>
+<p><img src="https://i.imgur.com/WBznq4K.png"></p>
+<p>在Design那里添加含有加密代码的模板文件：</p>
+<pre><code>&lt;reference name=&quot;content&quot;&gt;
+      &lt;block type=&quot;test/test&quot; name=&quot;test&quot; template=&quot;test/test.phtml&quot;/&gt;
+&lt;/reference&gt;</code></pre>
+<p>如果在产品详情页中添加道理是一样的，这里就不啰嗦了，直接上图：</p>
+<p><img src="https://i.imgur.com/lxuN1Ex.png"></p>
+<p>如果自定义的模板文件没有问题的话，那么我们的预期是这样的：</p>
+<p><img src="https://i.imgur.com/MeR9Yqm.png"></p>
+<p>当输入密码不对的时候，会重定向到当前的输入框状态，如果正确，那么就会显示内容，</p>
+<p><img src="https://i.imgur.com/Xc7Num5.png"></p>
+<p>在加密代码里面设置了cookie的过期时间，所以当我们再次刷新页面的时候，不会再次需要输入密码。</p>
+<h2 id="把访问控制密码的设置移植magento网站后台配置那里，以便方便修改"><a href="#把访问控制密码的设置移植magento网站后台配置那里，以便方便修改" class="headerlink" title="把访问控制密码的设置移植magento网站后台配置那里，以便方便修改"></a>把访问控制密码的设置移植magento网站后台配置那里，以便方便修改</h2><p>事实上，我们完成了前面三个步骤后，已经算上实现了这个需求，可是这样不是很方便，如果我们经常要修改这个密码，那么我们只能每次进入到源码里面修改，那是很不方便的做法。我们现在就进行改良。</p>
+<p>首先，我们需要对magento的后台配置那里进行一个自定义的开发，由于篇幅有限，具体教程请参考笔者的这篇文章：</p>
+<p><a target="_blank" rel="noopener" href="https://helongquan.github.io/2018/08/20/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Magento-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E8%87%AA%E5%AE%9A%E4%B9%89Magento%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AE/">https://helongquan.github.io/2018/08/20/深入理解Magento-第七章-自定义Magento系统配置/</a></p>
+<p>当你阅读完毕，边阅读边实践你就能够达到自定义magento后台的目的了。好的，假设你已经阅读完毕并且掌握了这个方法，笔者这里就不啰嗦了，我们直接进入我们的正题。</p>
+<p>思路是这样的，我们先来的我们前面的加密的代码文件中，我们可以看到：</p>
+<pre><code>&lt;?php 
+// 对该页面添加密码访问
+$page_pwd = md5(&#39;123456&#39;); //你要设置的密码 
+$page_cookname = &#39;my-page-password&#39;; //你要设置的cookie名 
+$page_now = &quot;http://&quot; . $_SERVER[&#39;SERVER_NAME&#39;] . $_SERVER[&#39;SCRIPT_NAME&#39;]; 
+$action = @$_GET[&#39;action&#39;]; 
+
+...more...</code></pre>
+<p>这里的密码是写死在这里的，我们把这里的密码用一个变量来代替。用哪个呢？就用我们在后台自定义创建的代替：</p>
+<p><img src="https://i.imgur.com/rFAh0h9.png"></p>
+<p>在configuration里面的侧边找到我们自定义的Hello World Config Options，然后填写一些内容：</p>
+<p><img src="https://i.imgur.com/uCBMRLm.png"></p>
+<p>我们就可以在任何地方引用这个填写的内容：</p>
+<pre><code>&lt;?php 
+echo Mage::getStoreConfig(&#39;helloworld_options/messages/hello_message&#39;);
+echo &quot;&lt;br/&gt;&quot;;
+echo Mage::getStoreConfig(&#39;helloworld_options/messages/good_message&#39;);
+echo &quot;&lt;br/&gt;&quot;;
+echo Mage::getStoreConfig(&#39;helloworld_options/messages/dianyou_message&#39;);
+ ?&gt;</code></pre>
+<p>这个对应的内容是：</p>
+<p><img src="https://i.imgur.com/SaVEobg.png"></p>
+<p>所以，假设我们用第一个作为测试，那么我们就直接把，</p>
+<pre><code>Mage::getStoreConfig(&#39;helloworld_options/messages/hello_message&#39;)</code></pre>
+<p>这个取代密码即可，</p>
+<pre><code>&lt;?php 
+// 对该页面添加密码访问
+$page_pwd = md5(Mage::getStoreConfig(&#39;helloworld_options/messages/hello_message&#39;)); //你要设置的密码 
+$page_cookname = &#39;my-page-password&#39;; //你要设置的cookie名 
+$page_now = &quot;http://&quot; . $_SERVER[&#39;SERVER_NAME&#39;] . $_SERVER[&#39;SCRIPT_NAME&#39;]; 
+$action = @$_GET[&#39;action&#39;]; 
+
+...more...</code></pre>
+<p>我们保存一下，然后在magento后台修改一下密码，那么前台有添加密码的页面将会需要输入密码才能访问，比如这里我们把密码设置为：taiyang</p>
+<p><img src="https://i.imgur.com/rhZxLXY.png"></p>
+<p>只有输入taiyang的时候，才能访问到内容，否则不行。</p>
+<h2 id="扩展一下"><a href="#扩展一下" class="headerlink" title="扩展一下"></a>扩展一下</h2><p>如果我们想要对不同的产品分类设置不同的密码，不同的页面设置不同的密码，这个时候我么就不能引用这一个test.phtml模板文件了，我们可以这样做：</p>
+<p>复制test.phtml文件，然后多创建几个（test2.phtml,test3.phtml…），分别命名成不同的名字，然后在，</p>
+<pre><code>&lt;?php 
+// 对该页面添加密码访问
+$page_pwd = md5(Mage::getStoreConfig(&#39;helloworld_options/messages/hello_message&#39;)); //你要设置的密码 
+$page_cookname = &#39;my-page-password&#39;; //你要设置的cookie名 
+$page_now = &quot;http://&quot; . $_SERVER[&#39;SERVER_NAME&#39;] . $_SERVER[&#39;SCRIPT_NAME&#39;]; 
+$action = @$_GET[&#39;action&#39;]; 
+
+...more...</code></pre>
+<p>这个里面的变量引用我们就换成不同的，比如：</p>
+<pre><code>Mage::getStoreConfig(&#39;helloworld_options/messages/hee_message&#39;);
+
+Mage::getStoreConfig(&#39;helloworld_options/messages/boom_message&#39;);</code></pre>
+<p>只要，我们配置好这些新添加的，以便在后台能够添加新的密码能够被引用到。到时候，我们就可以在产品详情页，我们就可以引用：</p>
+<pre><code>&lt;reference name=&quot;content&quot;&gt;
+    &lt;block type=&quot;test/test&quot; name=&quot;test&quot; template=&quot;test/test2.phtml&quot;/&gt;
+&lt;/reference&gt;</code></pre>
+<p>其实，我已经讲得很详细了，希望大家能够举一反三，有了可以在后台设置，然后引用的，我们就可以充分利用这个变量，比如我们这个加密的代码里面不是有个cookie的过期时间嘛，我们这里就可以用上了，把这个过期时间用变量取代（方法跟取代密码是一样的），然后在后台设置这个过期时间，这样以后网站的维护起来就不会很麻烦了，是不是？</p>
+<hr>
+<p>更新：2018/9/29 12:16:40 </p>
+<p>为了把这个运用得更加成熟，笔者把这个方法运用到porto主题上的时候，碰到了一些问题。发现根据上面这个走，有个别问题，就是没有达到预期。</p>
+<p>比如笔者把这个运用到CMS页面（首页其实也是CMS页面）的时候，</p>
+<pre><code>&lt;reference name=&quot;content&quot;&gt;
+        &lt;block type=&quot;hello/hello&quot; name=&quot;hello&quot; template=&quot;hello/password_for_category.phtml&quot;/&gt;
+&lt;/reference&gt;</code></pre>
+<p>这个时候，会发现这个页面只是局部加密了，就是说这个首页的content部分加密了。</p>
+<p><img src="https://i.imgur.com/1cOzx4t.png"></p>
+<p>其他的没有加密，这个至于这个首页哪些部分是content的部分，还得找到app/design/frontend/smartwave/porto/layout/page.xml里面去定位这个位置。因为magento的布局都是根据布局文件来的，因为是<strong>CMS页面</strong>，所以这里找的是page.xml这个布局文件，按照常理来说，我们应该在这个页面显示的时候，就加密，所以根据布局文件里面的内容，我们可以这样写：</p>
+<pre><code>&lt;reference name=&quot;top.menu&quot;&gt;
+        &lt;block type=&quot;hello/hello&quot; name=&quot;hello&quot; template=&quot;hello/password_for_category.phtml&quot;/&gt;
+&lt;/reference&gt;</code></pre>
+<p>这样的话，我们就看到如下的效果了：</p>
+<p><img src="https://i.imgur.com/oSxTxn3.png"></p>
+<p>我们再来看下<strong>分类页</strong>的加密方式，我们随便找一个：</p>
+<p><img src="https://i.imgur.com/3fDXgbu.png"></p>
+<p>在design那里加入代码：</p>
+<pre><code>&lt;reference name=&quot;content&quot;&gt;
+    &lt;block type=&quot;hello/hello&quot; name=&quot;hello&quot; template=&quot;hello/password_for_page.phtml&quot; /&gt;
+&lt;/reference&gt;</code></pre>
+<p>这个是跟前面的那个主题是一致的。</p>
+<p>总结：我们不能一味的照搬使用，我们应该明白我们要对什么地方加密，什么时候开始加密，还有就是我们需要明白页面的布局文件是哪个控制的？产品详情页是由哪个控制的？以及静态page又是由哪个控制的。只有知道这些之后，我们才能熟悉reference的运用。毕竟这个是要调用这个布局代码的。</p>
+<p>其实，我们是可以参考布局文件里面的写法的，比如<strong>产品详情页</strong>这里我想隐藏起来，不一定要跟着上面这样写，参考布局文件里面的我们就可以这样写：</p>
+<pre><code>&lt;reference name=&quot;root&quot;&gt;
+            &lt;action method=&quot;setTemplate&quot;&gt;&lt;template&gt;hello/password_for_category.phtml&lt;/template&gt;&lt;/action&gt;
+&lt;/reference&gt;</code></pre>
+<p>最后产品详情页的加密效果如下：</p>
+<p><img src="https://i.imgur.com/ySEFNdA.png"></p>
+<p>整个页面就一个加密框，当然为了更好看，只加密产品详情的那里，头部不加密我们就可以修改一下这个name的值，具体的自己去修改一下试试就好了。产品详情页自定义布局那里添加如下代码：</p>
+<pre><code>&lt;reference name=&quot;content&quot;&gt;
+&lt;block type=&quot;catalog/product_view&quot; name=&quot;product.info&quot; template=&quot;catalog/product/view.phtml&quot;&gt;
+            &lt;action method=&quot;setTemplate&quot;&gt;&lt;template&gt;hello/password_for_category.phtml&lt;/template&gt;&lt;/action&gt;
+&lt;/block&gt;
+&lt;/reference&gt;</code></pre>
+<p>这样的效果如下：</p>
+<p><img src="https://i.imgur.com/RZBQlbj.png"></p>
+<p>经过实践发现这种方法虽然能够加密成功，可是解密后产品详情那个部分显示不了，最后笔者采用的是运用对<strong>CMS页面</strong>加密的方式进行的加密：</p>
+<pre><code>&lt;reference name=&quot;top.menu&quot;&gt;
+        &lt;block type=&quot;hello/hello&quot; name=&quot;hello&quot; template=&quot;hello/password_for_single_product.phtml&quot;/&gt;
+&lt;/reference&gt;</code></pre>
+<p>这种方式相对来说比较完美。好的，当然笔者这里只是用这两个主题进行了测试，你的主题可能不一样，但是理解到本质问题终究会被解决。记住！要懂得从布局文件里面找答案。</p>
+<p>相信通过这种方法可以让我们受益更多的是懂得对自定义模块引入到某个页面或者是某个分类页面，甚至是产品详情页。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/09/28/%E5%88%A9%E7%94%A8jquery%E7%9A%84%E6%96%B9%E5%BC%8F%E5%AF%B9wordpress%E7%BD%91%E7%AB%99%E7%9A%84%E8%8F%9C%E5%8D%95%E5%B5%8C%E5%85%A5%E6%96%87%E5%AD%97%E6%88%96%E8%80%85%E5%86%85%E5%AE%B9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/09/28/%E5%88%A9%E7%94%A8jquery%E7%9A%84%E6%96%B9%E5%BC%8F%E5%AF%B9wordpress%E7%BD%91%E7%AB%99%E7%9A%84%E8%8F%9C%E5%8D%95%E5%B5%8C%E5%85%A5%E6%96%87%E5%AD%97%E6%88%96%E8%80%85%E5%86%85%E5%AE%B9/" class="post-title-link" itemprop="url">利用jquery的方式对wordpress网站的菜单嵌入文字或者内容</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-09-28 17:32:28" itemprop="dateCreated datePublished" datetime="2018-09-28T17:32:28+08:00">2018-09-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:04" itemprop="dateModified" datetime="2020-10-11T11:58:04+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/wordpress/" itemprop="url" rel="index"><span itemprop="name">wordpress</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>很多时候，我们在做wordpress网站的时候，特别是自适应的时候，手机版会折叠成三条横线，或者是woocommerce的网站，会有个购物车的标志，客户很喜欢在这个标志旁边添加一些内容，比如购物车文字，菜单的文字，比如menu。根据以往的经历我们通常可以通过主题的源码找到相应的位置进行添加，不过，如果不是一个小功能，或者需要涉及到后端的php代码的时候，我们尽量不要修改源码，以确保网站的安全和结构的稳定。</p>
+<p>相对合理的方式是通过js的方式动态嵌入进入，这样我们就不需要添加修改源码了。做法如下：</p>
+<h2 id="需求一"><a href="#需求一" class="headerlink" title="需求一"></a>需求一</h2><p>想要在woocommerce购物车旁边添加文字类似的需求：</p>
+<p><img src="https://i.imgur.com/ROy8bCB.png"></p>
+<p>这个时候，我们需要在网站的后台那里，进入到公共底部的文件：footer.php，当然header.php也可以，在<code>&lt;/body&gt;</code>前面添加如下代码：</p>
+<pre><code>// 引入jquery
+&lt;script src=&quot;https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+    var jQuery_3_3_1 = $.noConflict(true);  //处理jquery重复进入的冲突
+    var cart = jQuery_3_3_1(&quot;&lt;span class=&#39;geggh carts&#39;&gt;cart&lt;/span&gt;&quot;);   //添加动态内容
+       jQuery_3_3_1(&quot;.cart_dropdown_link span&quot;).append(cart);   //插入创建的动态内容到目标位置
+&lt;/script&gt;</code></pre>
+<p>经过css优化，我们就可以把这个变成上面截图的那样。</p>
+<hr>
+<h2 id="需求二"><a href="#需求二" class="headerlink" title="需求二"></a>需求二</h2><p>想要在菜单位置添加内容类似的需求：</p>
+<p><img src="https://i.imgur.com/0o26Ifb.png"></p>
+<p>红色框住的地方是没有文字的，客户想要在这里添加文字，以便让用户知道这个是折叠起来的菜单。</p>
+<p>还是跟前面一样的：</p>
+<pre><code>// 引入jquery
+&lt;script src=&quot;https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+    var jQuery_3_3_1 = $.noConflict(true);  //处理jquery重复进入的冲突
+    var menus = jQuery_3_3_1(&quot;&lt;span class=&#39;geggh&#39;&gt;menu&lt;/span&gt;&quot;);   //添加动态内容
+       jQuery_3_3_1(&quot;.av-small-burger-icon&gt;a&quot;).append(menus);   //插入创建的动态内容到目标位置，这个需要通过开发者工具定位真正的目标位置
+&lt;/script&gt;</code></pre>
+<p>用开发者工具找到：</p>
+<p><img src="https://i.imgur.com/nB2UAGD.png"></p>
+<blockquote>
+<p>小提示：用开发者工具定位目标是一个很有技巧的事情，选择好目标位置对于动态嵌入的内容能否很好地融合进入到目标位置中起到一个重要的作用。</p>
+</blockquote>
+<p>笔者这里选择的就是：</p>
+<pre><code>.av-small-burger-icon&gt;a</code></pre>
+<p>如果笔者选择：</p>
+<pre><code>.av-small-burger-icon</code></pre>
+<p>这个class也不是不可以，而是在样式调整上，自适应上就变得很被动。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/09/28/%E9%87%87%E7%94%A8php%E7%9A%84%E6%96%B9%E5%BC%8F%E5%AF%B9%E9%A1%B5%E9%9D%A2%E8%BF%9B%E8%A1%8C%E5%8A%A0%E5%AF%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/09/28/%E9%87%87%E7%94%A8php%E7%9A%84%E6%96%B9%E5%BC%8F%E5%AF%B9%E9%A1%B5%E9%9D%A2%E8%BF%9B%E8%A1%8C%E5%8A%A0%E5%AF%86/" class="post-title-link" itemprop="url">采用php的方式对页面进行加密</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-09-28 16:24:53" itemprop="dateCreated datePublished" datetime="2018-09-28T16:24:53+08:00">2018-09-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:07" itemprop="dateModified" datetime="2020-10-11T11:58:07+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/php/" itemprop="url" rel="index"><span itemprop="name">php</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>来点简单粗暴的。</p>
+<h2 id="方案一demo"><a href="#方案一demo" class="headerlink" title="方案一demo"></a>方案一demo</h2><p>php代码</p>
+<pre><code>&lt;?php
+
+$password = &quot;qwe&quot;; // 这里是密码
+$p = &quot;123&quot;;
+if (isset($_COOKIE[&quot;isview&quot;]) and $_COOKIE[&quot;isview&quot;] == $password) &#123;
+    $isview = true;
+&#125; else &#123;
+    if (isset($_POST[&quot;pwd&quot;])) &#123;
+        if ($_POST[&quot;pwd&quot;] == $password) &#123;
+            setcookie(&quot;isview&quot;, $_POST[&quot;pwd&quot;], time() + 3600 * 3);
+            $isview = true;
+        &#125; else &#123;
+            $p = (empty($_POST[&quot;pwd&quot;])) ? &quot;需要密码才能查看，请输入密码。&quot; : &quot;密码不正确，请重新输入。&quot;;
+        &#125;
+    &#125; else &#123;
+        $isview = false;
+        $p = &quot;请输入密码查看。&quot;;
+    &#125;
+&#125;
+if ($isview) &#123;
+?&gt;
+
+&lt;!-- 这里添加密码输入正确后的内容 开始 --&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h2&gt;天哪，遇见你真的不可思议&lt;/h2&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+&lt;!-- 这里添加密码输入正确后的内容 结束 --&gt;
+
+
+&lt;?php
+&#125; else &#123; ?&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;title&gt;请输入登录密码&lt;/title&gt;
+&lt;style type=&quot;text/css&quot;&gt;
+
+.passport &#123;
+    border: 1px solid red;
+    background-color: #FFFFCC;
+    width: 400px;
+    height: 100px;
+    position: absolute;
+    left: 49.9%;
+    top: 49.9%;
+    margin-left: -200px;
+    margin-top: -55px;
+    font-size: 14px;
+    text-align: center;
+    line-height: 30px;
+    color: #746A6A;
+&#125;
+&lt;/style&gt;
+&lt;div class=&quot;passport&quot;&gt;
+    &lt;div style=&quot;padding-top: 20px;&quot;&gt;
+        &lt;form action=&quot;&quot; method=&quot;post&quot; style=&quot;margin: 0px;&quot;&gt;
+            输入查看密码 &lt;input type=&quot;password&quot; name=&quot;pwd&quot; /&gt; &lt;input type=&quot;submit&quot; value=&quot;查看&quot; /&gt;
+        &lt;/form&gt;
+    &lt;?php echo $p; ?&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;?php
+&#125; ?&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>效果：</p>
+<p><img src="https://i.imgur.com/FkOGpwz.png"></p>
+<hr>
+<h2 id="方案二demo-推荐"><a href="#方案二demo-推荐" class="headerlink" title="方案二demo(推荐)"></a>方案二demo(推荐)</h2><p>这个是笔者推荐的方案，php代码如下：</p>
+<pre><code>&lt;?php 
+
+$page_pwd = md5(&#39;1234&#39;); //你要设置的密码 
+$page_cookname = &#39;my-page-password&#39;; //你要设置的cookie名 
+$page_now = &quot;http://&quot; . $_SERVER[&#39;SERVER_NAME&#39;] . $_SERVER[&#39;SCRIPT_NAME&#39;]; 
+$action = @$_GET[&#39;action&#39;]; 
+$page_postpwd = @$_POST[&#39;page_pwd&#39;]; 
+$page_cookiepwd = @$_COOKIE[&quot;$page_cookname&quot;]; 
+$page_cookietime = time() + 60 * 60 * 24 * 7;  //cookie的有效期为7天
+
+
+//输出网页的头部 
+$head = &#39; 
+&lt;head&gt; 
+&lt;meta charset=&quot;utf-8&quot;&gt; 
+&lt;title&gt;product&lt;/title&gt; 
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no&quot;&gt; 
+&lt;style&gt;
+input&#123;
+    width: 100%;
+    display: block;
+    margin: 10px auto;
+    border: 1px solid #ccc;
+    padding: 8px 15px;
+&#125;
+button&#123;    
+    background: #8BC34A;
+    padding: 8px 15px;
+    border: 0px;
+&#125;
+.container-fluid&#123;
+    display: block;
+    max-width: 1280px;
+    box-shadow: 1px 1px 4px 2px rgba(0, 0, 0, 0.05);
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin: 15px auto;
+&#125;
+&lt;/style&gt;&#39;;
+
+//退出登录 
+if ($action == &quot;logout&quot;) &#123; 
+    setcookie($page_cookname, &quot;&quot;, time() - 1);
+    echo &#39;
+        &lt;meta http-equiv=&quot;refresh&quot; content=&quot;2&quot;;URL=&#39;.$page_now.&#39;&gt;
+        &lt;/head&gt;
+        &lt;body&gt;
+        &lt;div class=&quot;container-fluid&quot;&gt;
+        &lt;p&gt;退出成功,2秒后自动跳转&lt;/p&gt;
+        &lt;a role=&quot;button&quot; class=&quot;btn btn-success&quot; href=&#39;.$page_now.&#39;&gt;点此马上跳转&lt;/a&gt;
+        &lt;/div&gt;
+        &lt;/body&gt;
+        &lt;/html&gt;
+        &#39;;
+    exit;
+&#125;
+
+//有输入密码 
+if ($page_postpwd != &quot;&quot;) &#123;
+    //密码错误 
+    if (md5(&quot;$page_postpwd&quot;) != $page_pwd) &#123;
+        echo $head;
+        echo &#39; &lt;meta http-equiv=&quot;refresh&quot; content=&quot;2&quot;;URL=&#39;.$page_now.&#39;&gt;
+        &lt;/head&gt;
+        &lt;body&gt;
+        &lt;div class=&quot;container-fluid&quot;&gt;
+        &lt;p&gt;密码错误,2秒后自动跳转&lt;/p&gt;
+        &lt;/div&gt;
+        &lt;/body&gt;
+        &lt;/html&gt;
+        &#39;;
+        exit;
+    &#125;
+
+    //密码正确 
+    else &#123; 
+        //设置Cookies 
+        setcookie($page_cookname, md5(&quot;$page_postpwd&quot;), $page_cookietime);
+        echo $head; 
+        echo &#39; 
+            &lt;meta http-equiv=&quot;refresh&quot; content=&quot;2&quot;;URL=&#39;.$page_now.&#39;&gt;
+            &lt;/head&gt;
+            &lt;body&gt;
+            &lt;div class=&quot;container-fluid&quot;&gt;
+            &lt;p&gt;密码正确,2秒后自动跳转&lt;/p&gt;
+            &lt;br&gt;
+            &lt;a role=&quot;button&quot; class=&quot;btn btn-success&quot; href=&#39;.$page_now.&#39;&gt;点此马上跳转&lt;/a&gt;
+            &lt;/div&gt;
+            &lt;/body&gt;
+            &lt;/html&gt;
+            &#39;;
+        exit;
+    &#125;
+
+&#125;
+
+//没输入密码 
+if ($page_cookiepwd != $page_pwd) &#123;
+    echo $head;
+    echo &#39;
+        &lt;/head&gt;
+        &lt;body&gt;
+        &lt;div class=&quot;row text-center vertical-middle-sm&quot;&gt;
+            &lt;div class=&quot;col-sm-12&quot;&gt;
+                &lt;div class=&quot;container-fluid&quot;&gt;
+                    &lt;p&gt;这是一个私人页面,请输入您的密码&lt;/p&gt;
+                    &lt;form method=&quot;POST&quot;&gt;
+                        &lt;div class=&quot;form-group&quot;&gt;
+                            &lt;input type=&quot;text&quot; class=&quot;form-control&quot; name=&quot;page_pwd&quot; placeholder=&quot;请输入您的密码&quot;&gt;
+                            &lt;button type=&quot;submit&quot; class=&quot;btn btn-default&quot;&gt;确认&lt;/button&gt;
+                        &lt;/div&gt;
+                    &lt;/form&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;/body&gt;
+        &lt;/html&gt;
+        &#39;;
+    exit;
+&#125;
+
+?&gt;
+
+&lt;!-- 在这里添加密码输入成功的内容 ,比如 --&gt;
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Document&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h2&gt;天哪，你居然是主人&lt;/h2&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>效果：</p>
+<p><img src="https://i.imgur.com/dbhVOwq.png"></p>
+<p>最后，关于加密的研究，同时可以参考笔者另外一篇文章去实践下。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/9/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/43/">43</a><a class="extend next" rel="next" href="/page/11/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

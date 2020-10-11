@@ -1,37 +1,426 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="如果未挂载数据盘就安装wdcp的话，wdcp会默认安装在系统盘的&#x2F;www目录，系统盘大小是8G，无法扩容，时间长了系统盘的空间可能会被占满，那么如果有数据盘的话，如何将&#x2F;www目录迁移至数据盘中呢？ 首先要先将数据盘挂载到系统中，比如挂载到&#x2F;mydata目录 （注意千万不要直接挂载到&#x2F;www，直接挂载到&#x2F;www会导致原先&#x2F;www中的数据被隐藏，挂载后的&#x2F;www是个空目录，影响业务正常访问。) 1、">
+<meta property="og:type" content="article">
+<meta property="og:title" content="wdcp迁移至数据盘教程">
+<meta property="og:url" content="http://example.com/2017/07/25/wdcp%E8%BF%81%E7%A7%BB%E8%87%B3%E6%95%B0%E6%8D%AE%E7%9B%98%E6%95%99%E7%A8%8B/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="如果未挂载数据盘就安装wdcp的话，wdcp会默认安装在系统盘的&#x2F;www目录，系统盘大小是8G，无法扩容，时间长了系统盘的空间可能会被占满，那么如果有数据盘的话，如何将&#x2F;www目录迁移至数据盘中呢？ 首先要先将数据盘挂载到系统中，比如挂载到&#x2F;mydata目录 （注意千万不要直接挂载到&#x2F;www，直接挂载到&#x2F;www会导致原先&#x2F;www中的数据被隐藏，挂载后的&#x2F;www是个空目录，影响业务正常访问。) 1、">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-07-25T03:26:15.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:53:16.185Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="wdcp,WDCP,迁移至数据盘,磁盘,第二块磁盘,系统盘,挂载">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2017/07/25/wdcp%E8%BF%81%E7%A7%BB%E8%87%B3%E6%95%B0%E6%8D%AE%E7%9B%98%E6%95%99%E7%A8%8B/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>wdcp迁移至数据盘教程 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/07/25/wdcp%E8%BF%81%E7%A7%BB%E8%87%B3%E6%95%B0%E6%8D%AE%E7%9B%98%E6%95%99%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          wdcp迁移至数据盘教程
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-07-25 11:26:15" itemprop="dateCreated datePublished" datetime="2017-07-25T11:26:15+08:00">2017-07-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:16" itemprop="dateModified" datetime="2020-10-11T11:53:16+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>如果未挂载数据盘就安装wdcp的话，wdcp会默认安装在系统盘的/www目录，<br>系统盘大小是8G，无法扩容，时间长了系统盘的空间可能会被占满，那么如果有数据盘的话，如何将/www目录迁移至数据盘中呢？</p>
+<p>首先要先将数据盘挂载到系统中，比如挂载到/mydata目录 （注意千万不要直接挂载到/www，直接挂载到/www会导致原先/www中的数据被隐藏，挂载后的/www是个空目录，影响业务正常访问。)</p>
+<p><strong>1、挂载数据盘</strong></p>
+<p>假设数据盘设备是/dev/vdb, 已经创建了分区并进行了格式化，格式化后的设备名称是/dev/vdb1<br>有些用户的数据盘可能不是/dev/vdb, 具体以fdisk -l 看到的结果为准，假如设备是/dev/xvdb ，那下面都要对应修改成xvdb</p>
+<pre><code>mkdir /mydata
+mount /dev/vdb1 /mydata</code></pre>
+<p><strong>2、停止业务程序</strong></p>
+<p>程序一定要停止，要不数据移动时可能会有异常</p>
+<pre><code>service mysqld stop 
+service wdapache stop
+service httpd stop
+service nginxd stop
+service pureftpd stop</code></pre>
+<p><strong>3、移动数据</strong></p>
+<pre><code>mv /www/*  /mydata/</code></pre>
+<p><strong>4、umount 数据盘</strong></p>
+<p>umount时不要进入到/mydata目录或者子目录中，否则会提示设备忙，无法卸载</p>
+<pre><code>cd /  &amp;&amp; umount  /mydata</code></pre>
+<p><strong>5、编辑 /etc/fstab文件, 以便服务器重启后也能自动挂载数据盘</strong></p>
+<pre><code>vi /etc/fstab</code></pre>
+<p>增加一行:</p>
+<pre><code>/dev/vdb1                  /www                ext3    defaults        0 0</code></pre>
+<p><strong>6、重新挂载数据盘</strong></p>
+<pre><code>mount -a    //此命令起到了检查/etc/fstab文件的作用，会挂载此文件中未挂载的设备</code></pre>
+<p>也可以执行</p>
+<pre><code>mount /dev/vdb1 /www </code></pre>
+<p><strong>7、df检查</strong></p>
+<p>此时再执行df -h 命令，就可以看到数据盘设备 /dev/vdb1 挂载到 /www目录中了</p>
+<p><strong>8、启动业务程序</strong></p>
+<pre><code>service mysqld start 
+service wdapache start 
+service httpd start 
+service nginxd start 
+service pureftpd start </code></pre>
+<p><strong>9、最后打开管理后台，部署的网站进行查看，确认是否正常恢复业务。</strong></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/wdcp-WDCP-%E8%BF%81%E7%A7%BB%E8%87%B3%E6%95%B0%E6%8D%AE%E7%9B%98-%E7%A3%81%E7%9B%98-%E7%AC%AC%E4%BA%8C%E5%9D%97%E7%A3%81%E7%9B%98-%E7%B3%BB%E7%BB%9F%E7%9B%98-%E6%8C%82%E8%BD%BD/" rel="tag"># wdcp,WDCP,迁移至数据盘,磁盘,第二块磁盘,系统盘,挂载</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/07/24/centos%E4%B8%8B%E6%8C%82%E8%BD%BD%E7%A3%81%E7%9B%98%E7%9A%84%E6%96%B9%E6%B3%95(1)/" rel="prev" title="美橙云服务器centos下挂载磁盘的方法">
+      <i class="fa fa-chevron-left"></i> 美橙云服务器centos下挂载磁盘的方法
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/07/25/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AE%89%E8%A3%85WDCP%E6%9C%80%E6%96%B0%E7%89%88%E6%95%99%E7%A8%8B/" rel="next" title="云服务器安装WDCP最新版教程">
+      云服务器安装WDCP最新版教程 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

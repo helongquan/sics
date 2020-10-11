@@ -1,37 +1,584 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="关于HTML5 的sessionStorage和localStorage技术以及用法分享如下，首先声明，这里参考了这篇文章：https:&#x2F;&#x2F;blog.csdn.net&#x2F;u010297791&#x2F;article&#x2F;details&#x2F;56667150，请大家支持他的原创，好的，我们继续往下。 使用HTML5可以在本地存储用户的浏览数据。早些时候,本地存储使用的是 cookie。但是Web 存储需要更加的安全与">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HTML5的sessionStorage和localStorage的用法">
+<meta property="og:url" content="http://example.com/2018/09/11/HTML5%E7%9A%84sessionStorage%E5%92%8ClocalStorage%E7%9A%84%E7%94%A8%E6%B3%95/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="关于HTML5 的sessionStorage和localStorage技术以及用法分享如下，首先声明，这里参考了这篇文章：https:&#x2F;&#x2F;blog.csdn.net&#x2F;u010297791&#x2F;article&#x2F;details&#x2F;56667150，请大家支持他的原创，好的，我们继续往下。 使用HTML5可以在本地存储用户的浏览数据。早些时候,本地存储使用的是 cookie。但是Web 存储需要更加的安全与">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/dIwmShG.png">
+<meta property="article:published_time" content="2018-09-11T01:06:25.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:57:57.555Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="HTML5,sessionStorage,localStorage,本地存储">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/dIwmShG.png">
+
+<link rel="canonical" href="http://example.com/2018/09/11/HTML5%E7%9A%84sessionStorage%E5%92%8ClocalStorage%E7%9A%84%E7%94%A8%E6%B3%95/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>HTML5的sessionStorage和localStorage的用法 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/09/11/HTML5%E7%9A%84sessionStorage%E5%92%8ClocalStorage%E7%9A%84%E7%94%A8%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          HTML5的sessionStorage和localStorage的用法
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-09-11 09:06:25" itemprop="dateCreated datePublished" datetime="2018-09-11T09:06:25+08:00">2018-09-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:57" itemprop="dateModified" datetime="2020-10-11T11:57:57+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/html5/" itemprop="url" rel="index"><span itemprop="name">html5</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>关于HTML5 的sessionStorage和localStorage技术以及用法分享如下，首先声明，这里参考了这篇文章：<a target="_blank" rel="noopener" href="https://blog.csdn.net/u010297791/article/details/56667150%EF%BC%8C%E8%AF%B7%E5%A4%A7%E5%AE%B6%E6%94%AF%E6%8C%81%E4%BB%96%E7%9A%84%E5%8E%9F%E5%88%9B%EF%BC%8C%E5%A5%BD%E7%9A%84%EF%BC%8C%E6%88%91%E4%BB%AC%E7%BB%A7%E7%BB%AD%E5%BE%80%E4%B8%8B%E3%80%82">https://blog.csdn.net/u010297791/article/details/56667150，请大家支持他的原创，好的，我们继续往下。</a></p>
+<p>使用HTML5可以在本地存储用户的浏览数据。早些时候,本地存储使用的是 cookie。但是Web 存储需要更加的安全与快速，这些数据不会被保存在服务器上，但是这些数据只用于用户请求网站数据上。它也可以存储大量的数据，而不影响网站的性能。数据以 键/值 对存在, web网页的数据只允许该网页访问使用。</p>
+<p>Web Storage的目的是为了克服由cookie带来的一些限制，当数据需要被严格控制在客户端上时，无须持续地将数据发回服务器。Web Storage的两个主要目标是：</p>
+<ol>
+<li>提供一种在cookie之外存储会话数据的途径。</li>
+<li>提供一种存储大量可以跨会话存在的数据的机制。</li>
+</ol>
+<blockquote>
+<p>Web Storage又分为两种： sessionStorage 和localStorage ，即这两个是Storage的一个实例。从字面意思就可以很清楚的看出来，sessionStorage将数据保存在session中，浏览器关闭也就没了；而localStorage则一直将数据保存在客户端本地； 不管是sessionStorage，还是localStorage，可使用的API都相同，常用的有如下几个（以localStorage为例）：</p>
+</blockquote>
+<ol>
+<li>保存数据：localStorage.setItem(key,value);</li>
+<li>读取数据：localStorage.getItem(key);</li>
+<li>删除单个数据：localStorage.removeItem(key);</li>
+<li>删除所有数据：localStorage.clear();</li>
+<li>得到某个索引的key：localStorage.key(index);</li>
+</ol>
+<p>如上，key和value都必须为字符串，换言之，web Storage的API只能操作字符串。</p>
+<h2 id="1、sessionStorage对象"><a href="#1、sessionStorage对象" class="headerlink" title="1、sessionStorage对象"></a>1、sessionStorage对象</h2><p>sessionStorage对象存储特定于某个对话的数据，也就是它的生命周期为当前窗口或标签页，一旦窗口或标签页被永久关闭了，那么所有通过sessionStorage存储的数据也就被清空了。存储在sessionStorage中的数据可以跨越页面刷新而存在，同时如果浏览器支持，浏览器崩溃并重启之后依然可以可用（注意：Firefox和Weblit都支持，IE则不行）。</p>
+<p>因为sessionStorage对象绑定于某个服务器会话，所以当文件在本地运行的时候是不可用的。存储在sessionStorage中的数据只能由最初给对象存储数据的页面访问到，所以对多页面应用有限制。<br>接下来写一个简单的例子说明说如何使用的。<br>代码如下：</p>
+<pre><code>&lt;!DOCTYPE HTML&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;title&gt;HTML5--Web存储SessionStorage&lt;/title&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+window.onload = function()
+&#123;
+//首先获得body中的3个input元素
+var msg = document.getElementById(&quot;msg&quot;);
+var getData = document.getElementById(&quot;getData&quot;);
+var setData = document.getElementById(&quot;setData&quot;);
+
+setData.onclick = function()//存入数据
+&#123;
+if(msg.value) &#123;
+sessionStorage.setItem(&quot;data&quot;, msg.value);
+alert(&quot;信息已保存到data字段中&quot;);
+&#125; else &#123;
+alert(&quot;信息不能为空&quot;);
+&#125;
+&#125;;
+
+getData.onclick = function()//获取数据
+&#123;
+var msg = sessionStorage.getItem(&quot;data&quot;);
+if(msg) &#123;
+alert(&quot;data字段中的值为：&quot; + msg);
+&#125; else &#123;
+alert(&quot;data字段无值！&quot;);
+&#125;
+&#125;
+&#125;
+&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;input id=&quot;msg&quot; type=&quot;text&quot; placeholder=&quot;请输入要保存的数据&quot;/&gt;
+&lt;input id=&quot;setData&quot; type=&quot;button&quot; value=&quot;保存数据&quot;/&gt;
+&lt;input id=&quot;getData&quot; type=&quot;button&quot; value=&quot;获取数据&quot;/&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>效果如下：</p>
+<html><head><meta charset="UTF-8"><script type="text/javascript"> window.onload = function() {var msg = document.getElementById("msg"); var getData = document.getElementById("getData"); var setData = document.getElementById("setData"); setData.onclick = function() {if(msg.value) {sessionStorage.setItem("data", msg.value); alert("信息已保存到data字段中"); } else {alert("信息不能为空"); } }; getData.onclick = function() {var msg = sessionStorage.getItem("data"); if(msg) {alert("data字段中的值为：" + msg); } else {alert("data字段无值！"); } } } </script></head><body><input id="msg" type="text" placeholder="请输入要保存的数据"/><input id="setData" type="button" value="保存数据"/><input id="getData" type="button" value="获取数据"/></body></html>
+
+<p><strong>注意：</strong><br>当你关闭此页面或者关闭浏览器的时候，sessionStorage中保存的数据才会消失，也就是说重新打开此页面的时候，点击获取数据，将不会显示任何数据，刷新页面无效。由此可以证明，sessionStorage的生命周期为，某个用户浏览网站时，从进入到离开的这段时间。</p>
+<p>不同浏览器写入数据方法略有不同。Firefox和Webkit实现了同步写入，所以添加到存储空间中的数据是立刻被提交的。而IE的实现则是异步写入数据，所以在设置数据和将数据实际写入磁盘之间可能有一些延迟。</p>
+<p>我们还可以通过结合length属性和key()方法来迭代sessionStorage中的值。首先是通过key()方法获取指定位置上的名字，然后再通过getItem（）方法找出对应名字的值。</p>
+<p>我同样写一个例子。</p>
+<p>代码如下：</p>
+<pre><code>&lt;!DOCTYPE HTML&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;utf-8&quot;/&gt;
+&lt;title&gt;HTML5 Web Storage&lt;/title&gt;
+&lt;style&gt;
+.box&#123;
+width:320px;
+border: 1px solid #000000;
+padding: 10px 10px;
+&#125;
+.text&#123;
+margin-top:5px;
+margin-bottom:5px;
+width: 200px;
+height: 20px;
+&#125;
+.addBtn,.searchBtn,.loadBtn&#123;
+border: 1px solid #00A2E9;
+background-color: #66d3ff;
+padding: 5px 10px;
+font-size: 14px;
+&#125;
+#list&#123;
+background-color:#8ad6ff;
+display: none;
+margin-top: 10px;
+&#125;
+td,tr&#123;
+list-style: none;
+&#125;
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div class=&quot;box&quot;&gt;
+&lt;form id=&quot;myForm&quot;&gt;
+&lt;!--姓名--&gt;
+&lt;label for=&quot;userName&quot;&gt;姓 名：&lt;/label&gt;
+&lt;input type=&quot;text&quot; id=&quot;userName&quot; name=&quot;userName&quot; class=&quot;text&quot;/&gt;&lt;br/&gt;
+
+&lt;!--手机号码--&gt;
+&lt;label for=&quot;mobilephone&quot;&gt;手机号码：&lt;/label&gt;
+&lt;input type=&quot;text&quot; id=&quot;mobilephone&quot; name=&quot;mobilephone&quot; class=&quot;text&quot;/&gt;&lt;br/&gt;
+
+&lt;input class=&quot;addBtn&quot; type=&quot;button&quot; onclick=&quot;save()&quot; value=&quot;新增记录&quot;/&gt;
+&lt;/form&gt;
+
+&lt;!--查找机主--&gt;
+&lt;hr/&gt;
+&lt;label for=&quot;search_phone&quot;&gt;输入手机号：&lt;/label&gt;
+&lt;input type=&quot;text&quot; id=&quot;search_phone&quot; name=&quot;search_phone&quot; class=&quot;text&quot;/&gt;
+
+&lt;input class=&quot;searchBtn&quot; type=&quot;button&quot; onclick=&quot;find()&quot; value=&quot;查找机主&quot;/&gt;
+&lt;p id=&quot;find_result&quot;&gt;&lt;br/&gt;&lt;/p&gt;
+
+&lt;!--显示所有的信息--&gt;
+&lt;input type=&quot;button&quot; onclick=&quot;loadAll()&quot; value=&quot;显示所有的信息&quot; class=&quot;loadBtn&quot;&gt;
+&lt;div id =&quot;list&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/body&gt;
+&lt;script&gt;
+function save()&#123;
+var mobilephone = document.getElementById(&quot;mobilephone&quot;).value;
+var userName = document.getElementById(&quot;userName&quot;).value;
+var myForm = document.getElementById(&quot;myForm&quot;);
+sessionStorage.setItem(mobilephone,userName);
+myForm.reset();
+&#125;
+
+//查找数据
+function find()&#123;
+var search_phone = document.getElementById(&quot;search_phone&quot;).value;
+var name = sessionStorage.getItem(search_phone);
+var find_result = document.getElementById(&quot;find_result&quot;);
+find_result.innerHTML = search_phone + &quot;的机主是：&quot; + name;
+&#125;
+
+//将所有存储在localStorage中的对象提取出来，并展现到界面上
+function loadAll()&#123;
+var list = document.getElementById(&quot;list&quot;);
+if(sessionStorage.length&gt;0)&#123;
+list.style.display=&quot;block&quot;;
+var result = &quot;&lt;table border=&#39;1&#39;&gt;&quot;;
+result += &quot;&lt;tr&gt;&lt;td&gt;姓名&lt;/td&gt;&lt;td&gt;手机号码&lt;/td&gt;&lt;/tr&gt;&quot;;
+for(var i=0;i&lt;sessionStorage.length;i++)&#123;
+var mobilephone = sessionStorage.key(i);
+var name = sessionStorage.getItem(mobilephone);
+result += &quot;&lt;tr&gt;&lt;td&gt;&quot;+name+&quot;&lt;/td&gt;&lt;td&gt;&quot;+mobilephone+&quot;&lt;/td&gt;&lt;/tr&gt;&quot;;
+&#125;
+result += &quot;&lt;/table&gt;&quot;;
+list.innerHTML = result;
+&#125;else&#123;
+list.innerHTML = &quot;目前数据为空，赶紧开始加入联系人吧&quot;;
+&#125;
+&#125;
+&lt;/script&gt;
+&lt;/html&gt;</code></pre>
+<p>效果如下：</p>
+<html><head><meta charset="utf-8"/><style> .box{width:320px; border: 1px solid #000000; padding: 10px 10px; } .text{margin-top:5px; margin-bottom:5px; width: 200px; height: 20px; } .addBtn,.searchBtn,.loadBtn{border: 1px solid #00A2E9; background-color: #66d3ff; padding: 5px 10px; font-size: 14px; } #list{background-color:#8ad6ff; display: none; margin-top: 10px; } td,tr{list-style: none; } </style></head><body><div class="box"><form id="myForm"><label for="userName">姓 名：</label><input type="text" id="userName" name="userName" class="text"/><br/><label for="mobilephone">手机号码：</label><input type="text" id="mobilephone" name="mobilephone" class="text"/><br/><input class="addBtn" type="button" onclick="save()" value="新增记录"/></form><hr/><label for="search_phone">输入手机号：</label><input type="text" id="search_phone" name="search_phone" class="text"/><input class="searchBtn" type="button" onclick="find()" value="查找机主"/><p id="find_result"><br/></p><input type="button" onclick="loadAll()" value="显示所有的信息" class="loadBtn"><div id ="list"></div></div></body><script> function save(){var mobilephone = document.getElementById("mobilephone").value; var userName = document.getElementById("userName").value; var myForm = document.getElementById("myForm"); sessionStorage.setItem(mobilephone,userName); myForm.reset(); } function find(){var search_phone = document.getElementById("search_phone").value; var name = sessionStorage.getItem(search_phone); var find_result = document.getElementById("find_result"); find_result.innerHTML = search_phone + "的机主是：" + name; } function loadAll(){var list = document.getElementById("list"); if(sessionStorage.length>0){list.style.display="block"; var result = "<table border='1'>"; result += "<tr><td>姓名</td><td>手机号码</td></tr>"; for(var i=0;i<sessionStorage.length;i++){var mobilephone = sessionStorage.key(i); var name = sessionStorage.getItem(mobilephone); result += "<tr><td>"+name+"</td><td>"+mobilephone+"</td></tr>"; } result += "</table>"; list.innerHTML = result; }else{list.innerHTML = "目前数据为空，赶紧开始加入联系人吧"; } } </script></html>
+
+<p>除了使用案例中的遍历方法之外，也可以使用<code>for-in</code>循环来迭代sessionStorage中的值：</p>
+<pre><code>for（var key in sessionStorage）&#123;
+var value = sessionStorage.getItem(key);
+console.log(key + &quot;=&quot; + value);
+&#125;</code></pre>
+<h2 id="2、localStorage-示例"><a href="#2、localStorage-示例" class="headerlink" title="2、localStorage 示例"></a>2、localStorage 示例</h2><p>localStorage一直将数据保存在客户端本地。localStorage 和sessionStorage的用法相似，如果想要体验一下，可以把上面的两个文件中的sessionStorage替换成localStorage，然后在浏览器端访问下，添加一些数据，保存，然后关闭浏览器再次打开这个文件，我们直接查询的时候，发现里面的内容是存在的。</p>
+<p><img src="https://i.imgur.com/dIwmShG.png"></p>
+<blockquote>
+<p>总结：</p>
+<p>localStorage在本地永久性存储数据，除非显式将其删除或清空，sessionStorage存储的数据只在会话期间有效，关闭浏览器则自动删除</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/HTML5-sessionStorage-localStorage-%E6%9C%AC%E5%9C%B0%E5%AD%98%E5%82%A8/" rel="tag"># HTML5,sessionStorage,localStorage,本地存储</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/09/07/magento1-x%E4%B8%AD%E5%85%A8%E5%B1%80%E5%BC%95%E5%85%A5%E5%A4%96%E9%83%A8%E6%A0%B7%E5%BC%8F%EF%BC%8C%E6%88%96%E8%80%85%E5%BC%95%E5%85%A5%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A0%B7%E5%BC%8F%E8%A1%A8%E5%88%B0%E7%BD%91%E7%AB%99%E5%85%AC%E5%85%B1%E9%83%A8%E5%88%86%EF%BC%8C%E4%BB%A5%E4%BE%BF%E8%87%AA%E5%AE%9A%E4%B9%89%E4%BF%AE%E6%94%B9%E7%BD%91%E7%AB%99css%E6%A0%B7%E5%BC%8F/" rel="prev" title="magento1.x中全局引入外部样式或者js文件，或者引入自定义样式表和js文件到网站公共部分，以便自定义修改网站css样式和JavaScript脚本，以及引入font-awesome这个字体图标库">
+      <i class="fa fa-chevron-left"></i> magento1.x中全局引入外部样式或者js文件，或者引入自定义样式表和js文件到网站公共部分，以便自定义修改网站css样式和JavaScript脚本，以及引入font-awesome这个字体图标库
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/09/11/%E7%BB%99Magento%E6%96%B0%E5%93%81widget%E6%B7%BB%E5%8A%A0%E5%88%86%E7%B1%BB%E7%AD%9B%E9%80%89%E4%BA%A7%E5%93%81%E5%8A%9F%E8%83%BD/" rel="next" title="给Magento的后台页面的文本编辑器那里调用widget的方式添加添加产品时实现添加分类筛选产品功能">
+      给Magento的后台页面的文本编辑器那里调用widget的方式添加添加产品时实现添加分类筛选产品功能 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81sessionStorage%E5%AF%B9%E8%B1%A1"><span class="nav-number">1.</span> <span class="nav-text">1、sessionStorage对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81localStorage-%E7%A4%BA%E4%BE%8B"><span class="nav-number">2.</span> <span class="nav-text">2、localStorage 示例</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

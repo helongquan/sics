@@ -1,37 +1,431 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="利用bitnami为linux中的xampp集成服务器安装应用，写下这篇文章的心情是愉快的，经过多次折腾，多次尝试突破自己，自己琢磨出一些快捷的方法，开始是习惯使用一些web集成安装包，以前比较依赖WDCP，阿里云的一键web安装包，这几天尝试了xampp，感觉不错，很容易理解。 好了，我们进入正题吧，当我们申请到服务器后，如果我们是要为web应用提供服务的话，那么我们需要配置一些较底层的服务，像">
+<meta property="og:type" content="article">
+<meta property="og:title" content="利用bitnami为linux中的xampp集成服务器安装应用">
+<meta property="og:url" content="http://example.com/2017/09/13/%E5%88%A9%E7%94%A8bitnami%E4%B8%BAlinux%E4%B8%AD%E7%9A%84xampp%E9%9B%86%E6%88%90%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AE%89%E8%A3%85%E5%BA%94%E7%94%A8/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="利用bitnami为linux中的xampp集成服务器安装应用，写下这篇文章的心情是愉快的，经过多次折腾，多次尝试突破自己，自己琢磨出一些快捷的方法，开始是习惯使用一些web集成安装包，以前比较依赖WDCP，阿里云的一键web安装包，这几天尝试了xampp，感觉不错，很容易理解。 好了，我们进入正题吧，当我们申请到服务器后，如果我们是要为web应用提供服务的话，那么我们需要配置一些较底层的服务，像">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-09-13T02:28:38.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:52:59.618Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="bitnami,linux,xampp,wordpress,magento,opencart">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2017/09/13/%E5%88%A9%E7%94%A8bitnami%E4%B8%BAlinux%E4%B8%AD%E7%9A%84xampp%E9%9B%86%E6%88%90%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AE%89%E8%A3%85%E5%BA%94%E7%94%A8/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>利用bitnami为linux中的xampp集成服务器安装应用 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/09/13/%E5%88%A9%E7%94%A8bitnami%E4%B8%BAlinux%E4%B8%AD%E7%9A%84xampp%E9%9B%86%E6%88%90%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%AE%89%E8%A3%85%E5%BA%94%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          利用bitnami为linux中的xampp集成服务器安装应用
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-09-13 10:28:38" itemprop="dateCreated datePublished" datetime="2017-09-13T10:28:38+08:00">2017-09-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:52:59" itemprop="dateModified" datetime="2020-10-11T11:52:59+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>利用bitnami为linux中的xampp集成服务器安装应用，写下这篇文章的心情是愉快的，经过多次折腾，多次尝试突破自己，自己琢磨出一些快捷的方法，开始是习惯使用一些web集成安装包，以前比较依赖WDCP，阿里云的一键web安装包，这几天尝试了xampp，感觉不错，很容易理解。</p>
+<p>好了，我们进入正题吧，当我们申请到服务器后，如果我们是要为web应用提供服务的话，那么我们需要配置一些较底层的服务，像PHP，Mysql，apache，nginx等等。为了方便管理，我们采用了xampp集成安装包，由于我用的是linux（centos7），所以我们去<a target="_blank" rel="noopener" href="https://www.apachefriends.org/zh_cn/index.html">下载</a>对应的安装包。下载好后上传到服务器的根目录，然后进行安装，安装教程在我的博客的另外一篇文章里有。安装完成后，设置一些其他的东西，完毕后，我们就可以安装一些应用了，比如wordpress、magento、opencart等等web应用。</p>
+<p>这里需要说一下我们使用这种方式安装的应用是没有demo数据的，像magento，我们会比较喜欢安装有sample-data的magento，当然这个可以在后期进行导入，最方便的就是直接把有示例数据的安装包上传，再独立安装吧。<br>我们先去下载这些应用的bitnami版本的安装包，下载地址：<a target="_blank" rel="noopener" href="https://www.apachefriends.org/download.html%E6%88%96%E8%80%85%E6%98%AFhttps://bitnami.com/stacks">https://www.apachefriends.org/download.html或者是https://bitnami.com/stacks</a></p>
+<p>下载完成后，我们上传到服务器根目录，我们这里以wordpress作为讲解，你下载下来的文件应该类似这样的：bitnami-wordpress-4.8.1-0-module-linux-x64-installer.run</p>
+<p>然后授予安装的权限：</p>
+<pre><code>chmod 755 bitnami-wordpress-4.8.1-0-module-linux-x64-installer.run</code></pre>
+<p>然后运行命令：</p>
+<pre><code>./bitnami-wordpress-4.8.1-0-module-linux-x64-installer.run</code></pre>
+<p>然后会有一些提示，比如选择语言，这个根据自己需求进行选择，这个时候要注意了，第二点：</p>
+<p>这个时候会出现类似如下的内容：</p>
+<pre><code>Please select the installation language
+[1] English - English
+[2] Spanish - Español
+[3] Brazilian Portuguese - Português Brasileiro
+[4] Simplified Chinese - 简体中文
+[5] Korean - 한국어
+[6] Hebrew - עברית
+[7] German - Deutsch
+[8] Romanian - Română
+[9] Russian - Русский
+Please choose an option [1] : 4
+----------------------------------------------------------------------------
+欢迎来到 Bitnami WordPress模块 安装程序。
+
+----------------------------------------------------------------------------
+安装文件夹
+
+请选择Bitnami or XAMPP的安装目录
+
+选择一个文件夹 [/opt/lampp]:
+
+Note: This module requires a pre-existing installation of Bitnami or a 
+Bitnami-compatible stack like XAMPP. Please select the previous platform 
+installation. For example: /opt/bitnami or /opt/lampp</code></pre>
+<p>我一直被困扰在选择一个文件夹这里，我以为是放在htdocs文件夹下，然后就是不断的报错，然后我又放在/opt/bitnami然而，并没有卵用。所以我去查资料，资料上也说得不明不白，于是还是靠自己的智慧吧，然后知道这个就是我要安装的文件夹，因为其他文件夹没有所需的文件了，因为前面我也尝试着把/opt/lampp这个目录下的文件复制到htdocs文件夹下，但是报错。</p>
+<p>于是面对这样一个输入框，我果断的按下了enter键，成了！然后就是输入账户名，密码，邮箱等等一系列的输入。</p>
+<p>注意：如果你的用户名输入了带有大写字母的，会提示你不要输入含有大写字母的，所以用户名必须全是小写的。</p>
+<p>然后安装完成后，在浏览器下输入你的域名/wordpress，就可以看到熟悉的wordpress博客页面了。比如你的域名为（<a target="_blank" rel="noopener" href="http://www.example.com),并且已经解析到这个服务器的ip上了,然后输入http//www.example.com/wordpress%E5%B0%B1%E5%AF%B9%E4%BA%86%EF%BC%8C%E5%A6%82%E6%9E%9C%E6%83%B3%E8%A6%81%E8%BF%9B%E5%85%A5%E5%90%8E%E5%8F%B0%EF%BC%8C%E7%9B%B4%E6%8E%A5%E8%BE%93%E5%85%A5http://www.example.com/wordpress/wp-admin">www.example.com），并且已经解析到这个服务器的ip上了，然后输入http://www.example.com/wordpress就对了，如果想要进入后台，直接输入http://www.example.com/wordpress/wp-admin</a>.</p>
+<p>如果我们根据同样的方式安装magento的话，安装完毕后，我们可以通过<a target="_blank" rel="noopener" href="http://www.example.com/magento%E8%AE%BF%E9%97%AE%E7%BD%91%E7%AB%99%E7%9A%84%E5%89%8D%E5%8F%B0%EF%BC%8C%E9%80%9A%E8%BF%87http://www.example.com/magento/admin%E8%AE%BF%E9%97%AE%E5%90%8E%E5%8F%B0%E7%99%BB%E5%BD%95%E5%9C%B0%E5%9D%80%EF%BC%8C%E7%94%A8%E6%88%B7%E5%90%8D%E6%98%AF%E4%BD%A0%E5%AE%89%E8%A3%85%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%BA%94%E7%94%A8%E7%9A%84%E7%94%A8%E6%88%B7%E5%90%8D%EF%BC%8C%E5%AF%86%E7%A0%81%E5%88%99%E6%98%AF%E5%AE%89%E8%A3%85magento%E7%9A%84%E6%97%B6%E5%80%99%E8%AE%BE%E7%BD%AE%E7%9A%84%E5%AF%86%E7%A0%81%E3%80%82">http://www.example.com/magento访问网站的前台，通过http://www.example.com/magento/admin访问后台登录地址，用户名是你安装第一个应用的用户名，密码则是安装magento的时候设置的密码。</a></p>
+<p>然后，我们还可以根据自己的需求进行安装其他的应用。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/bitnami-linux-xampp-wordpress-magento-opencart/" rel="tag"># bitnami,linux,xampp,wordpress,magento,opencart</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/09/06/CentOS%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8B%E7%BB%99%E4%BD%A0%E7%9A%84WordPress%E5%AE%89%E8%A3%85Varnish%E5%8A%A0%E9%80%9F/" rel="prev" title="CentOS服务器下给你的WordPress安装Varnish加速">
+      <i class="fa fa-chevron-left"></i> CentOS服务器下给你的WordPress安装Varnish加速
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/09/15/%E6%9C%80%E7%AE%80%E5%8D%95%E9%9D%A0%E8%B0%B1%E7%9A%84varnish%E9%85%8D%E7%BD%AE%E6%95%99%E7%A8%8B/" rel="next" title="最简单靠谱的varnish配置教程">
+      最简单靠谱的varnish配置教程 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

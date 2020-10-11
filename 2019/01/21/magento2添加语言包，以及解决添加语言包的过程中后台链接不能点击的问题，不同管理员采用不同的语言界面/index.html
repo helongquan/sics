@@ -1,37 +1,431 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="magento2安装语言包的步骤，这里以安装中文语言包作为示例进行讲解。 首先：下载语言包 magento2中文语言包，也可以在这里下载：https:&#x2F;&#x2F;pan.baidu.com&#x2F;s&#x2F;1Yo11371_1qyYay0-jVacQQ ，提取码：w4eg  把下载的这个语言包放在如下目录： &#x2F;vendor&#x2F;magento&#x2F;language-zh_hans_cn 这个是中文语言包的文件夹目录，其他语言">
+<meta property="og:type" content="article">
+<meta property="og:title" content="magento2添加语言包，以及解决添加语言包的过程中后台链接不能点击的问题，不同管理员采用不同的语言界面">
+<meta property="og:url" content="http://example.com/2019/01/21/magento2%E6%B7%BB%E5%8A%A0%E8%AF%AD%E8%A8%80%E5%8C%85%EF%BC%8C%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%B7%BB%E5%8A%A0%E8%AF%AD%E8%A8%80%E5%8C%85%E7%9A%84%E8%BF%87%E7%A8%8B%E4%B8%AD%E5%90%8E%E5%8F%B0%E9%93%BE%E6%8E%A5%E4%B8%8D%E8%83%BD%E7%82%B9%E5%87%BB%E7%9A%84%E9%97%AE%E9%A2%98%EF%BC%8C%E4%B8%8D%E5%90%8C%E7%AE%A1%E7%90%86%E5%91%98%E9%87%87%E7%94%A8%E4%B8%8D%E5%90%8C%E7%9A%84%E8%AF%AD%E8%A8%80%E7%95%8C%E9%9D%A2/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="magento2安装语言包的步骤，这里以安装中文语言包作为示例进行讲解。 首先：下载语言包 magento2中文语言包，也可以在这里下载：https:&#x2F;&#x2F;pan.baidu.com&#x2F;s&#x2F;1Yo11371_1qyYay0-jVacQQ ，提取码：w4eg  把下载的这个语言包放在如下目录： &#x2F;vendor&#x2F;magento&#x2F;language-zh_hans_cn 这个是中文语言包的文件夹目录，其他语言">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/BIOZuDD.png">
+<meta property="og:image" content="https://i.imgur.com/c8MD7rk.png">
+<meta property="og:image" content="https://i.imgur.com/TwjRlpz.png">
+<meta property="og:image" content="https://i.imgur.com/BNnEZkF.png">
+<meta property="article:published_time" content="2019-01-21T09:54:59.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:57:59.462Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="语言包,中文版,中文包,后台链接,管理员">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/BIOZuDD.png">
+
+<link rel="canonical" href="http://example.com/2019/01/21/magento2%E6%B7%BB%E5%8A%A0%E8%AF%AD%E8%A8%80%E5%8C%85%EF%BC%8C%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%B7%BB%E5%8A%A0%E8%AF%AD%E8%A8%80%E5%8C%85%E7%9A%84%E8%BF%87%E7%A8%8B%E4%B8%AD%E5%90%8E%E5%8F%B0%E9%93%BE%E6%8E%A5%E4%B8%8D%E8%83%BD%E7%82%B9%E5%87%BB%E7%9A%84%E9%97%AE%E9%A2%98%EF%BC%8C%E4%B8%8D%E5%90%8C%E7%AE%A1%E7%90%86%E5%91%98%E9%87%87%E7%94%A8%E4%B8%8D%E5%90%8C%E7%9A%84%E8%AF%AD%E8%A8%80%E7%95%8C%E9%9D%A2/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>magento2添加语言包，以及解决添加语言包的过程中后台链接不能点击的问题，不同管理员采用不同的语言界面 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/01/21/magento2%E6%B7%BB%E5%8A%A0%E8%AF%AD%E8%A8%80%E5%8C%85%EF%BC%8C%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%B7%BB%E5%8A%A0%E8%AF%AD%E8%A8%80%E5%8C%85%E7%9A%84%E8%BF%87%E7%A8%8B%E4%B8%AD%E5%90%8E%E5%8F%B0%E9%93%BE%E6%8E%A5%E4%B8%8D%E8%83%BD%E7%82%B9%E5%87%BB%E7%9A%84%E9%97%AE%E9%A2%98%EF%BC%8C%E4%B8%8D%E5%90%8C%E7%AE%A1%E7%90%86%E5%91%98%E9%87%87%E7%94%A8%E4%B8%8D%E5%90%8C%E7%9A%84%E8%AF%AD%E8%A8%80%E7%95%8C%E9%9D%A2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          magento2添加语言包，以及解决添加语言包的过程中后台链接不能点击的问题，不同管理员采用不同的语言界面
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-01-21 17:54:59" itemprop="dateCreated datePublished" datetime="2019-01-21T17:54:59+08:00">2019-01-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:59" itemprop="dateModified" datetime="2020-10-11T11:57:59+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/magento2/" itemprop="url" rel="index"><span itemprop="name">magento2</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>magento2安装语言包的步骤，这里以安装中文语言包作为示例进行讲解。</p>
+<p>首先：下载语言包</p>
+<p><a target="_blank" rel="noopener" href="https://www.mageoo.com/wp-content/uploads/2016/11/zh_Hans_CN.zip">magento2中文语言包</a>，也可以在这里下载：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1Yo11371_1qyYay0-jVacQQ">https://pan.baidu.com/s/1Yo11371_1qyYay0-jVacQQ</a> ，提取码：w4eg </p>
+<p>把下载的这个语言包放在如下目录：</p>
+<pre><code>/vendor/magento/language-zh_hans_cn</code></pre>
+<p>这个是中文语言包的文件夹目录，其他语言就放在对应的语言包目录下。看清楚文件夹命名方式（language-en_us）。</p>
+<p>笔者在最开始了解这个系统的时候就是这样，完成这一步就火急火燎的进入到后台去，把语言设置成中文，然后清除缓存，退出再登录，发现后台语言界面确实变成了中文的，可是后天的所有链接都不能点击了。结果导致还原都还原你不了，只能进入到数据库那边做数据还原，而且笔者当时是测试的，所以就没有备份，结果不得不重新再安装一遍。</p>
+<p>很多人到这里就结束了，错了！还没有结束，我们接着编译一下，在magento2的目录下运行如下命令：</p>
+<pre><code>php bin/magento setup:static-content:deploy
+php bin/magento setup:static-content:deploy zh_Hans_CN （ 如果报错在deploy 和zh_Hans_CN之间加一个 -f 就行）
+php bin/magento indexer:reindex 刷新索引
+php bin/magento cache:clean 清空缓存
+php bin/magento cache:flush  刷新缓存</code></pre>
+<p>为了安全起见，大家可以在后台创建一个账号，这个账号最好不是管理员账号，因为万一以这个账号登录后台切换到中文的界面的时候出错了起码可以删除这个账号。</p>
+<p>接着，我们以管理员登录后台，来创建一个账号，比如test，然后把这个账号的语言设置为中文，如下图：</p>
+<p><img src="https://i.imgur.com/BIOZuDD.png"></p>
+<p><img src="https://i.imgur.com/c8MD7rk.png"></p>
+<p>那么用test登录后台的时候，后台的界面语言就是中文的了，用其他账号登录语言不变，这样就实现了，不同管理员不同的语言界面。</p>
+<p>如果想要前台使用中文，那么修改店铺配置，把Locale Options 下面的locale 设为中文，如下图： </p>
+<p><img src="https://i.imgur.com/TwjRlpz.png"></p>
+<p><img src="https://i.imgur.com/BNnEZkF.png"></p>
+<p>有的时候，运行久了会时不时的报错，比如笔者就在本地的xampp跑好几magento2的时候，会出现这样的错误：</p>
+<blockquote>
+<p>Allow 。。。。vendor\magento\framework\ObjectManager\Relations\Runtime.php</p>
+</blockquote>
+<p>这个是内存达到上限了，关掉多余的magento2，或者是重启下集成服务器即可。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%AF%AD%E8%A8%80%E5%8C%85-%E4%B8%AD%E6%96%87%E7%89%88-%E4%B8%AD%E6%96%87%E5%8C%85-%E5%90%8E%E5%8F%B0%E9%93%BE%E6%8E%A5-%E7%AE%A1%E7%90%86%E5%91%98/" rel="tag"># 语言包,中文版,中文包,后台链接,管理员</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/01/19/%E5%88%BB%E9%AA%A8%E9%93%AD%E5%BF%83%E7%9A%84%E6%88%90%E9%95%BF%E9%9C%80%E8%A6%81%E4%B8%80%E7%95%AA%E8%A3%82%E5%BF%83%E4%B9%8B%E7%97%9B/" rel="prev" title="刻骨铭心的成长需要一番裂心之痛">
+      <i class="fa fa-chevron-left"></i> 刻骨铭心的成长需要一番裂心之痛
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/01/22/wordpress%E5%90%8E%E5%8F%B0%E8%8E%B7%E5%8F%96%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E4%B8%AD%E7%9A%84%E6%95%B0%E6%8D%AE%E5%B9%B6%E6%98%BE%E7%A4%BA%E5%9C%A8%E7%BD%91%E7%AB%99%E5%90%8E%E5%8F%B0%EF%BC%8C%E4%BB%A5%E5%AE%9E%E7%8E%B0%E5%AF%B9%E5%89%8D%E5%8F%B0%E7%94%A8%E6%88%B7%E6%B5%8F%E8%A7%88%E8%A1%8C%E4%B8%BA%E7%9A%84%E5%88%86%E6%9E%90%E7%BB%9F%E8%AE%A1/" rel="next" title="wordpress后台获取数据库表中的数据并显示在网站后台，以实现对前台用户浏览行为的分析统计以可视化的方式显示在后台">
+      wordpress后台获取数据库表中的数据并显示在网站后台，以实现对前台用户浏览行为的分析统计以可视化的方式显示在后台 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

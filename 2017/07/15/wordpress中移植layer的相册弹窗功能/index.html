@@ -1,37 +1,805 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="这是我写的又一篇关于wordpress和layer联姻的博客了，今天的主题是相册功能，通俗的说就是，在wordpress中引用layer的特性，达到wordpress自身所不具备的功能，增强wordpress网站的表达能力和显示能力。 跟前面一样先引入layer这个文件夹，然后进行一个调用，这里我进行了一项大胆的尝试，用javascript动态的添加id和属性，让原本不具备layer相册功能，变得">
+<meta property="og:type" content="article">
+<meta property="og:title" content="wordpress中运用layer和swiper相结合实现图片轮播和弹窗功能以及相关的问题解决方案">
+<meta property="og:url" content="http://example.com/2017/07/15/wordpress%E4%B8%AD%E7%A7%BB%E6%A4%8Dlayer%E7%9A%84%E7%9B%B8%E5%86%8C%E5%BC%B9%E7%AA%97%E5%8A%9F%E8%83%BD/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="这是我写的又一篇关于wordpress和layer联姻的博客了，今天的主题是相册功能，通俗的说就是，在wordpress中引用layer的特性，达到wordpress自身所不具备的功能，增强wordpress网站的表达能力和显示能力。 跟前面一样先引入layer这个文件夹，然后进行一个调用，这里我进行了一项大胆的尝试，用javascript动态的添加id和属性，让原本不具备layer相册功能，变得">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://i.imgur.com/MXyFott.jpg">
+<meta property="og:image" content="https://i.imgur.com/KG6KWWE.jpg">
+<meta property="og:image" content="http://i.imgur.com/jOcYUC1.jpg">
+<meta property="article:published_time" content="2017-07-15T02:42:25.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:02.933Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="wordpress,layer,相册,弹窗功能,点击切换">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://i.imgur.com/MXyFott.jpg">
+
+<link rel="canonical" href="http://example.com/2017/07/15/wordpress%E4%B8%AD%E7%A7%BB%E6%A4%8Dlayer%E7%9A%84%E7%9B%B8%E5%86%8C%E5%BC%B9%E7%AA%97%E5%8A%9F%E8%83%BD/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>wordpress中运用layer和swiper相结合实现图片轮播和弹窗功能以及相关的问题解决方案 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/07/15/wordpress%E4%B8%AD%E7%A7%BB%E6%A4%8Dlayer%E7%9A%84%E7%9B%B8%E5%86%8C%E5%BC%B9%E7%AA%97%E5%8A%9F%E8%83%BD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          wordpress中运用layer和swiper相结合实现图片轮播和弹窗功能以及相关的问题解决方案
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-07-15 10:42:25" itemprop="dateCreated datePublished" datetime="2017-07-15T10:42:25+08:00">2017-07-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:02" itemprop="dateModified" datetime="2020-10-11T11:58:02+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript/" itemprop="url" rel="index"><span itemprop="name">javascript</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这是我写的又一篇关于wordpress和layer联姻的博客了，今天的主题是相册功能，通俗的说就是，在wordpress中引用layer的特性，达到wordpress自身所不具备的功能，增强wordpress网站的表达能力和显示能力。</p>
+<p>跟前面一样先引入layer这个文件夹，然后进行一个调用，这里我进行了一项大胆的尝试，用javascript动态的添加id和属性，让原本不具备layer相册功能，变得具备了相册功能。</p>
+<p>预期效果是这样的：</p>
+<p><img src="http://i.imgur.com/MXyFott.jpg"></p>
+<p>我新建了一个测试页面，放了三张图片，在一个区块下进行测试，并且为这个区块设了一个ID为<code>layer-photos-demo</code>。代码如下：</p>
+<pre><code>&lt;script&gt;
+    window.onload=function()&#123;
+    var mec=document.getElementById(&#39;layer-photos-demo&#39;).setAttribute(&#39;class&#39;,&#39;layer-photos-demo&#39;);
+    var nocti_img_1=document.getElementById(&#39;layer-photos-demo&#39;).querySelectorAll(img)[0].setAttribute(&#39;layer-pid&#39;,&#39;nocti_img_demo_1&#39;);
+    var nocti_img_1=document.getElementById(&#39;layer-photos-demo&#39;).querySelectorAll(img)[0].setAttribute(&#39;layer-src&#39;,&#39;http://nocti.spartanya.com/wp-content/uploads/2017/07/246.jpg&#39;);
+    nocti_img_1.onclick=tanchuang;
+    function tanchuang()&#123;
+        layer.photos(&#123;
+          photos: &#39;#layer-photos-demo&#39;
+          ,anim: 5
+        &#125;);
+    &#125;
+&#125;
+&lt;/script&gt;</code></pre>
+<p>这个的意思就是在id为nocti_layer-photos-demo的区块中添加一个属性class为layer-photos-demo的，然后选择这个ID下的所有图片，并且为第一张图片设置属性。当然了，这个ID可以根据自己需要设置，不用一模一样。但是区块ID必须跟<code>photos: &#39;#nocti_layer-photos-demo&#39;</code>这个ID一样才行，因为这个是绑定了事件的了。</p>
+<p>根据实践，我没有这么做，而是直接在这个区块添加ID，然后在这个区块的底部，也就是所有需要弹窗效果的图片后面添加如下代码：</p>
+<pre><code>&lt;script&gt;          
+layer.photos(&#123;          
+ photos: &#39;#nocti_layer-photos-demo&#39;          
+ ,anim: 5 //0-6的选择，指定弹出图片动画类型          
+&#125;);           
+&lt;/script&gt;</code></pre>
+<p>然后就行了，这里值得提醒的是，这个ID，必须跟区块的ID一致，然后就达到了预期的效果。不能打乱了layer这个文件夹的内部结构，整体引用就行，这个跟jquery的引用还是有点不一样的。</p>
+<p>这里说一下的是，这个可以根据上面的参数设置显示效果，0-6，参数不一样，点击后的显示效果就不一样。</p>
+<p>这里补充一下，有个客户很纠细节，我们都知道layer这个相册功能，是没有关闭按钮的，点击空白处就可以关闭的，可是这个客户很奇怪，想要弹出来不关闭，需要点击关闭按钮才能够把图片关闭掉，这个该怎么办呢？</p>
+<p>笔者这里的方法是运用layer的其他关闭按钮的弹窗方案，进行改装一下，比如如下这个案例：</p>
+<p>完整代码：</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Document&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;css/swiper.min.css&quot;&gt;
+    &lt;script src=&quot;http://libs.baidu.com/jquery/2.1.1/jquery.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;layer.js&quot;&gt;&lt;/script&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css&quot;&gt;
+    &lt;style&gt;
+        body &#123;
+          background: #eee;
+          font-size: 14px;
+          color:#000;
+          margin: 0;
+          padding: 0;
+        &#125;
+        .swiper-container &#123;
+          width: 100%;
+          margin: 20px auto;
+        &#125;
+        .swiper-slide &#123;
+          text-align: center;
+          font-size: 18px;
+          background: #fff;
+          display: -webkit-box;
+          display: -ms-flexbox;
+          display: -webkit-flex;
+          display: flex;
+          -webkit-box-pack: center;
+          -ms-flex-pack: center;
+          -webkit-justify-content: center;
+          justify-content: center;
+          -webkit-box-align: center;
+          -ms-flex-align: center;
+          -webkit-align-items: center;
+          align-items: center;
+        &#125;
+        .swiper-slide img&#123;
+          width: 100%;
+          cursor: zoom-in;
+        &#125;
+        .swiper-button-prev, .swiper-container-rtl .swiper-button-next,.swiper-button-next, .swiper-container-rtl .swiper-button-prev &#123;
+          background: aliceblue !important;
+          border-radius: 50%;
+      &#125;
+      .swiper-button-prev&#123;
+        left: -20px;
+      &#125;
+      .swiper-button-next&#123;
+        right: -20px;
+      &#125;
+      .swiper-button-next, .swiper-button-prev &#123;
+          width: 50px;
+          height: 55px;
+          top:47%;
+      &#125;
+      .swiper-button-prev .fa&#123;
+        left: 25px;
+          top: 7px;
+          font-size: 36px;
+          position: absolute;
+      &#125;
+      .swiper-button-next .fa&#123;
+        right: 25px;
+          top: 7px;
+          font-size: 36px;
+          position: absolute;
+      &#125;
+      .swiper-container-horizontal&gt;.swiper-pagination-bullets, .swiper-pagination-custom, .swiper-pagination-fraction &#123;
+          bottom: -20px;
+      &#125;
+      .swiper-container &#123;
+          overflow: visible;
+      &#125;
+    &lt;/style&gt;
+
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;!-- Swiper --&gt;
+&lt;div class=&quot;swiper-container&quot; id=&quot;lunbotu&quot;&gt;
+  &lt;div class=&quot;swiper-wrapper&quot;&gt;
+    &lt;div class=&quot;swiper-slide&quot;&gt;&lt;img src=&quot;http://ayl.vazpra.com/wp-content/uploads/2018/11/details-page-slider1.jpg&quot; alt=&quot;1&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;swiper-slide&quot;&gt;&lt;img src=&quot;http://ayl.vazpra.com/wp-content/uploads/2018/11/details-page-slider1.jpg&quot; alt=&quot;2&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;swiper-slide&quot;&gt;&lt;img src=&quot;http://ayl.vazpra.com/wp-content/uploads/2018/11/details-page-slider1.jpg&quot; alt=&quot;3&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;swiper-slide&quot;&gt;&lt;img src=&quot;http://ayl.vazpra.com/wp-content/uploads/2018/11/details-page-slider1.jpg&quot; alt=&quot;4&quot;&gt;&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;swiper-pagination&quot;&gt;&lt;/div&gt;
+
+  &lt;div class=&quot;sp_next&quot;&gt;
+     &lt;div class=&quot;swiper-button-next&quot;&gt;
+        &lt;i class=&quot;fa fa-angle-right&quot;&gt;&lt;/i&gt;
+      &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;sp_prev&quot;&gt;
+    &lt;div class=&quot;swiper-button-prev&quot;&gt;
+      &lt;i class=&quot;fa fa-angle-left&quot;&gt;&lt;/i&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script src=&quot;js/swiper.min.js&quot;&gt;&lt;/script&gt;
+
+&lt;script&gt;
+    var appendNumber = 4;
+    var prependNumber = 1;
+    var swiper = new Swiper(&#39;.swiper-container&#39;, &#123;
+      slidesPerView: 4,
+      centeredSlides: true,
+      spaceBetween: 20,
+      loop : true,
+      mousewheel: true,
+      pagination: &#123;
+        el: &#39;.swiper-pagination&#39;,
+        clickable: true,
+      &#125;,
+      breakpoints: &#123;
+        1024: &#123;
+          slidesPerView: 3,
+          spaceBetween: 40,
+        &#125;,
+        768: &#123;
+          slidesPerView: 2,
+          spaceBetween: 30,
+        &#125;,
+        640: &#123;
+          slidesPerView: 2,
+          spaceBetween: 20,
+        &#125;,
+        320: &#123;
+          slidesPerView: 1,
+          spaceBetween: 10,
+        &#125;
+      &#125;,
+      navigation: &#123;
+        nextEl: &#39;.swiper-button-next&#39;,
+        prevEl: &#39;.swiper-button-prev&#39;,
+      &#125;,
+    &#125;);
+&lt;/script&gt;
+
+&lt;script&gt;
+jQuery(&quot;#lunbotu img&quot;).click(function()&#123;  
+    var doMain = jQuery(this)[0].src;
+    var imgAlt = jQuery(this)[0].alt;
+    layer.open(&#123;
+      shade: [0.5, &#39;#000&#39;, false] 
+      ,type: 1
+      ,fix: false
+      ,btnAlign: &#39;c&#39;
+      ,area: [&#39;800px&#39;, &#39;650px&#39;]
+      ,maxmin: true
+      ,title: [imgAlt, false]
+      ,content: &#39;&lt;img src=&#39;+doMain+&#39;&gt;&#39;
+    &#125;);
+  &#125;);
+&lt;/script&gt;
+
+&lt;style&gt;
+@media(max-width:767px)&#123;
+  .layui-layer-content&#123;
+    max-width:330px !important;
+    width:100%;
+    display: block;
+    margin: 0 auto;
+  &#125;
+  .layer-anim &#123;
+    max-width: 350px !important;
+    max-height: 305px !important;
+    display: block;
+    margin: 0 auto;
+    left: 3% !important;
+    top: 10% !important;
+&#125;
+
+&#125;
+&lt;/style&gt;
+
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>这个地方说明一下，这里包含了swiper的slider方案，然后在这个基础上添加了layer.js进行点击slider的图片进行弹窗，我们侧重点是说明layer弹窗的问题，这个demo的打包下载源码如下：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/13jMxJFg3qutMWEsbKruqXQ">https://pan.baidu.com/s/13jMxJFg3qutMWEsbKruqXQ</a>，密码：nct9</p>
+<p>根据前文说到的，想要图片又相册的效果，就是弹窗的效果，那么只需要根据前面的：</p>
+<pre><code>&lt;script&gt;
+layer.photos(&#123;          
+ photos: &#39;#lunbotu&#39;          
+ ,anim: 5
+,closeBtn: 1
+&#125;);
+&lt;/script&gt;</code></pre>
+<p>当然还有必要引用（layer.js和jquery）,可是现在我们不用这个相册功能，因为客户想要有关闭按钮的，而且点击图片弹出来之后，如果不点击关闭按钮是不能关闭弹窗的。我们运用的是：</p>
+<pre><code>layer.open(&#123;
+  type: 2 //此处以iframe举例
+  ,title: &#39;当你选择该窗体时，即会在最顶端&#39;
+  ,area: [&#39;390px&#39;, &#39;260px&#39;]
+  ,maxmin: true
+  ,content: &#39;&lt;div&gt;&lt;h2&gt;hello world&lt;/h2&gt;&lt;/div&gt;&#39;
+&#125;);</code></pre>
+<p>类似这样的就有关闭按钮了，想要找到更多有关闭按钮的，去<a target="_blank" rel="noopener" href="https://www.layui.com/demo/layer.html">官网</a>了解更多。根据这个启发，笔者就在想，可否通过js的方式，点击图片然后启动这个弹窗，然后弹窗里面显示当前图片，这个用js理论是没问题的，最后实践证明是可行的。笔者的代码：</p>
+<pre><code>&lt;script&gt;
+jQuery(&quot;#lunbotu img&quot;).click(function()&#123;  
+    var doMain = jQuery(this)[0].src;  //获取当前图片的地址
+    var imgAlt = jQuery(this)[0].alt;   //获取当前图片的alt属性的值
+    layer.open(&#123;
+      shade: [0.5, &#39;#000&#39;, false] 
+      ,type: 1
+      ,fix: false
+      ,btnAlign: &#39;c&#39;
+      ,area: [&#39;800px&#39;, &#39;650px&#39;]
+      ,maxmin: true
+      ,title: [imgAlt, false]
+      ,content: &#39;&lt;img src=&#39;+doMain+&#39;&gt;&#39;
+    &#125;);
+  &#125;);
+&lt;/script&gt;</code></pre>
+<p>最后的效果：</p>
+<p><img src="https://i.imgur.com/KG6KWWE.jpg"></p>
+<p>当然这个在手机版上有点自适应问题，大家可能需要写下媒体查询，确保自适应良好，笔者的自适应写法如下：</p>
+<pre><code>&lt;style&gt;
+@media(max-width:767px)&#123;
+  .layui-layer-content&#123;
+    max-width:330px !important;
+    width:100%;
+    display: block;
+    margin: 0 auto;
+  &#125;
+  .layer-anim &#123;
+    max-width: 350px !important;
+    max-height: 305px !important;
+    display: block;
+    margin: 0 auto;
+    left: 3% !important;
+    top: 10% !important;
+&#125;
+
+&#125;
+&lt;/style&gt;</code></pre>
+<p>然后说一下另外一个效果：</p>
+<p><img src="http://i.imgur.com/jOcYUC1.jpg"></p>
+<p>这个的实现方式如下是这样的。</p>
+<p>完整代码如下：</p>
+<pre><code>&lt;script&gt;
+    window.onload=function()&#123;
+    document.querySelectorAll(&#39;.bbs&#39;)[0].onclick=tz2;
+    function tz2(event)&#123;
+        event.preventDefault();
+        ;!function()&#123;
+          layer.prompt(&#123;title: &#39;输入密码，并确认&#39;, formType: 1&#125;, function(pass, index)&#123;
+          layer.close(index);
+          layer.prompt(&#123;title: &#39;随便写点，并确认&#39;, formType: 2&#125;, function(text, index)&#123;
+          layer.close(index);
+          layer.msg(&#39;您的密码是：&#39;+ pass +&#39;，您最后写下了：&#39;+text);
+          &#125;);
+        &#125;);
+        &#125;()
+    &#125;
+
+    document.querySelectorAll(&#39;.bbs&#39;)[1].onclick=tz3;
+    function tz3(event)&#123;
+        event.preventDefault();
+        ;!function()&#123;
+          layer.prompt(&#123;title: &#39;阿里巴巴山洞的口诀&#39;, formType: 1&#125;, function(pass, index)&#123;
+          layer.close(index);
+          layer.prompt(&#123;title: &#39;记录下你拿走了哪些宝贝&#39;, formType: 2&#125;, function(text, index)&#123;
+          layer.close(index);
+          layer.msg(&#39;您的口诀是：&#39;+ pass +&#39;，你拿走了这些宝贝：&#39;+text);
+          &#125;);
+        &#125;);
+        &#125;()
+    &#125;
+
+    document.querySelectorAll(&#39;.bbs&#39;)[2].onclick=tz4;
+    function tz4(event)&#123;
+        event.preventDefault();
+        ;!function()&#123;
+          layer.prompt(&#123;title: &#39;请输入你的密码，然后点确认&#39;, formType: 1&#125;, function(pass, index)&#123;
+          layer.close(index);
+          layer.prompt(&#123;title: &#39;今天你有什么要写的？&#39;, formType: 2&#125;, function(text, index)&#123;
+          layer.close(index);
+          layer.msg(&#39;您的密码是：&#39;+ pass +&#39;，您最后写下了：&#39;+text);
+          &#125;);
+        &#125;);
+        &#125;()
+    &#125;
+
+&#125;
+&lt;/script&gt;
+
+&lt;style&gt;
+.bbs&#123;
+    background: #59778f;
+    padding: 10px 20px;
+    color: #fff;
+    margin: 5px;
+    text-align: center;
+    border-radius: 5px;
+    cursor:pointer;
+&#125;
+&lt;/style&gt;</code></pre>
+<p>把这个自定义代码放在.bbs类后面的区块，然后点击就行了，里面的内容可以自定义的更换。前提是你引入了layer,当然也需要引入jquery，一般wordpress在头部都会引入jquery这个库，如果没有达到预期的效果，先检查他们的先后顺序，由于layer.js依赖jquery.js所以，在jquery后面引入，但是必须先于目标元素的前面引入。</p>
+<p>因此，瘦身后的完成代码如下：</p>
+<pre><code>&lt;script&gt;
+    window.onload=function()&#123;
+    document.querySelectorAll(&#39;.bbs&#39;)[0].onclick=tz2;
+    function tz2(event)&#123;
+        event.preventDefault();
+        ;!function()&#123;
+          layer.prompt(&#123;title: &#39;输入密码，并确认&#39;, formType: 1&#125;, function(pass, index)&#123;
+          layer.close(index);
+          layer.prompt(&#123;title: &#39;随便写点，并确认&#39;, formType: 2&#125;, function(text, index)&#123;
+          layer.close(index);
+          layer.msg(&#39;您的密码是：&#39;+ pass +&#39;，您最后写下了：&#39;+text);
+          &#125;);
+        &#125;);
+        &#125;()
+    &#125;
+
+    document.querySelectorAll(&#39;.bbs&#39;)[1].onclick=tz3;
+    function tz3(event)&#123;
+        event.preventDefault();
+        ;!function()&#123;
+          layer.prompt(&#123;title: &#39;阿里巴巴山洞的口诀&#39;, formType: 1&#125;, function(pass, index)&#123;
+          layer.close(index);
+          layer.prompt(&#123;title: &#39;记录下你拿走了哪些宝贝&#39;, formType: 2&#125;, function(text, index)&#123;
+          layer.close(index);
+          layer.msg(&#39;您的口诀是：&#39;+ pass +&#39;，你拿走了这些宝贝：&#39;+text);
+          &#125;);
+        &#125;);
+        &#125;()
+    &#125;
+
+    document.querySelectorAll(&#39;.bbs&#39;)[2].onclick=tz4;
+    function tz4(event)&#123;
+        event.preventDefault();
+        ;!function()&#123;
+          layer.prompt(&#123;title: &#39;请输入你的密码，然后点确认&#39;, formType: 1&#125;, function(pass, index)&#123;
+          layer.close(index);
+          layer.prompt(&#123;title: &#39;今天你有什么要写的？&#39;, formType: 2&#125;, function(text, index)&#123;
+          layer.close(index);
+          layer.msg(&#39;您的密码是：&#39;+ pass +&#39;，您最后写下了：&#39;+text);
+          &#125;);
+        &#125;);
+        &#125;()
+    &#125;
+
+&#125;
+&lt;/script&gt;
+
+
+&lt;script&gt;          
+    layer.photos(&#123;          
+     photos: &#39;#nocti_layer-photos-demo&#39;          
+     ,anim: 4 //0-6的选择，指定弹出图片动画类型          
+    &#125;);           
+&lt;/script&gt;
+
+&lt;style&gt;
+.bbs&#123;
+    background: #59778f;
+    padding: 10px 20px;
+    color: #fff;
+    margin: 5px;
+    text-align: center;
+    border-radius: 5px;
+    cursor:pointer;
+&#125;
+&lt;/style&gt;</code></pre>
+<p>到此为止，更多问题可以联系笔者，旨在共同交流。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/wordpress-layer-%E7%9B%B8%E5%86%8C-%E5%BC%B9%E7%AA%97%E5%8A%9F%E8%83%BD-%E7%82%B9%E5%87%BB%E5%88%87%E6%8D%A2/" rel="tag"># wordpress,layer,相册,弹窗功能,点击切换</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/07/14/%E9%98%BF%E9%87%8C%E4%BA%91Linux%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85web%E7%8E%AF%E5%A2%83%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B-1/" rel="prev" title="阿里云Linux一键安装web环境使用教程">
+      <i class="fa fa-chevron-left"></i> 阿里云Linux一键安装web环境使用教程
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/07/15/%E9%80%9A%E8%BF%87javascript%E5%BC%95%E5%85%A5%E5%A4%96%E9%83%A8layer-js%E8%84%9A%E6%9C%AC%E8%BF%90%E7%94%A8%E5%9C%A8wordpress%E6%9F%90%E4%B8%AA%E9%A1%B5%E9%9D%A2/" rel="next" title="通过javascript引入外部layer.js脚本运用在wordpress某个页面">
+      通过javascript引入外部layer.js脚本运用在wordpress某个页面 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

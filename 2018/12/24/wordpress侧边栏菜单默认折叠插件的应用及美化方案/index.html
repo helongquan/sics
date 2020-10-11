@@ -1,37 +1,563 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="很多时候我们在使用wordpress的时候，希望在页面添加一个小工具列，通过小工具调用创建的菜单，然后就可以实现类似左边是侧边栏，右边是内容的一个方案，不使用wordpress自带的侧边栏方案，这样更加灵活。这个时候有些人可能喜欢当有二级目录或者更多及子目录的时候，折叠起来，只显示一级目录。那么这个时候怎么办？ 最好的方案就是采用插件：NetGo Expandable&#x2F;Collapsible Me">
+<meta property="og:type" content="article">
+<meta property="og:title" content="wordpress侧边栏菜单默认折叠插件的应用及wordpress的enfold主题的手机版美化方案">
+<meta property="og:url" content="http://example.com/2018/12/24/wordpress%E4%BE%A7%E8%BE%B9%E6%A0%8F%E8%8F%9C%E5%8D%95%E9%BB%98%E8%AE%A4%E6%8A%98%E5%8F%A0%E6%8F%92%E4%BB%B6%E7%9A%84%E5%BA%94%E7%94%A8%E5%8F%8A%E7%BE%8E%E5%8C%96%E6%96%B9%E6%A1%88/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="很多时候我们在使用wordpress的时候，希望在页面添加一个小工具列，通过小工具调用创建的菜单，然后就可以实现类似左边是侧边栏，右边是内容的一个方案，不使用wordpress自带的侧边栏方案，这样更加灵活。这个时候有些人可能喜欢当有二级目录或者更多及子目录的时候，折叠起来，只显示一级目录。那么这个时候怎么办？ 最好的方案就是采用插件：NetGo Expandable&#x2F;Collapsible Me">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/tYAlVVO.jpg">
+<meta property="og:image" content="https://i.imgur.com/ifG7YnM.jpg">
+<meta property="og:image" content="https://i.imgur.com/W9l3M7P.jpg">
+<meta property="og:image" content="https://i.imgur.com/nODNJYs.jpg">
+<meta property="og:image" content="https://i.imgur.com/ZFmAxz6.jpg">
+<meta property="og:image" content="https://i.imgur.com/SIrVqJx.jpg">
+<meta property="og:image" content="https://i.imgur.com/2Jf4DXA.jpg">
+<meta property="article:published_time" content="2018-12-24T09:38:03.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:03.002Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="wordpress,侧边栏,菜单,默认折叠,侧边栏折叠插件,Collapsible Menu,enfold主题手机版美化">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/tYAlVVO.jpg">
+
+<link rel="canonical" href="http://example.com/2018/12/24/wordpress%E4%BE%A7%E8%BE%B9%E6%A0%8F%E8%8F%9C%E5%8D%95%E9%BB%98%E8%AE%A4%E6%8A%98%E5%8F%A0%E6%8F%92%E4%BB%B6%E7%9A%84%E5%BA%94%E7%94%A8%E5%8F%8A%E7%BE%8E%E5%8C%96%E6%96%B9%E6%A1%88/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>wordpress侧边栏菜单默认折叠插件的应用及wordpress的enfold主题的手机版美化方案 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/12/24/wordpress%E4%BE%A7%E8%BE%B9%E6%A0%8F%E8%8F%9C%E5%8D%95%E9%BB%98%E8%AE%A4%E6%8A%98%E5%8F%A0%E6%8F%92%E4%BB%B6%E7%9A%84%E5%BA%94%E7%94%A8%E5%8F%8A%E7%BE%8E%E5%8C%96%E6%96%B9%E6%A1%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          wordpress侧边栏菜单默认折叠插件的应用及wordpress的enfold主题的手机版美化方案
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-12-24 17:38:03" itemprop="dateCreated datePublished" datetime="2018-12-24T17:38:03+08:00">2018-12-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:03" itemprop="dateModified" datetime="2020-10-11T11:58:03+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/wordpress/" itemprop="url" rel="index"><span itemprop="name">wordpress</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>很多时候我们在使用wordpress的时候，希望在页面添加一个小工具列，通过小工具调用创建的菜单，然后就可以实现类似左边是侧边栏，右边是内容的一个方案，不使用wordpress自带的侧边栏方案，这样更加灵活。这个时候有些人可能喜欢当有二级目录或者更多及子目录的时候，折叠起来，只显示一级目录。那么这个时候怎么办？</p>
+<p>最好的方案就是采用插件：<a target="_blank" rel="noopener" href="https://wordpress.org/plugins/netgo-expandablecollapsible-menu/">NetGo Expandable/Collapsible Menu</a>，也可以在这找到对应的下载链接：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/12R1ZxyzECWAvaRYqWUa1kA">https://pan.baidu.com/s/12R1ZxyzECWAvaRYqWUa1kA</a> 提取码：i9v1 </p>
+<p>安装完成之后，就去到小工具那里，新建一个小工具，</p>
+<p><img src="https://i.imgur.com/tYAlVVO.jpg"></p>
+<p>拖动Netgo Expandable/Collapsible Menu到自己创建的小工具：Industry Menu中，这里，就不必多说了，这里要引用菜单，所以我们要去菜单那里创建一个菜单，然后就从小工具这里选择创建的菜单即可。</p>
+<p>然后就是新建一个页面，分成1/5+4/5，这个比例根据自己的喜好来。这里笔者采用的是wordpress的enfold主题。</p>
+<p><img src="https://i.imgur.com/ifG7YnM.jpg"></p>
+<p>好的，去前台看的时候，确实有了默认折叠的，可是样式很丑，不好看，由于笔者经常用到所以打算美化一下，减少重复劳动。</p>
+<p>美化后的效果如下：</p>
+<p><img src="https://i.imgur.com/W9l3M7P.jpg"></p>
+<p>对应的css代码如下：</p>
+<pre><code>div.netgo_navigation ul, #main .widget-area div.netgo_navigation ul &#123;
+    margin-top: 10px !important;
+&#125;
+div.netgo_navigation ul li a&#123;
+    text-decoration:none !important;
+&#125;
+div.netgo_navigation li.menu-item-has-children &#123;
+   background: unset !important;
+   padding-right:10px !important;
+&#125;
+div.netgo_navigation li &#123;
+    padding: 10px 0px 10px 8px !important;
+    border-bottom: 1px solid #ddd;
+&#125;
+div.netgo_navigation ul ul li &#123;
+    margin-right: -10px !important;
+&#125;
+div.netgo_navigation ul ul li.menu-item-has-children li &#123;
+    margin-right: 0px !important;
+&#125;
+div.netgo_navigation li.menu-item-has-children:after &#123;
+   content: &quot;\276f&quot;;position:absolute;right:0px;z-index:99;
+   transform: rotate(90deg);
+&#125;
+div.netgo_navigation li.jihuo:after&#123;
+  content:&quot;\25C8&quot;;
+  position:absolute;
+  right:0px;
+  z-index:99
+&#125;
+div.netgo_navigation .sub-menu li&#123;
+  padding-right:0px !important;
+&#125;
+.widget_netgo_navigation&#123;
+   padding-top:0px;
+&#125;
+.widget_netgo_navigation .widgettitle&#123;
+   display:none;
+&#125;</code></pre>
+<p>直接粘贴使用即可。</p>
+<hr>
+<p>顺便粘贴下wordpress的enfold主题手机版美化后的css代码：</p>
+<pre><code>@media screen and (max-width: 767px)&#123;
+    #footer .widget &#123;
+        margin: 0px 0 0px 0 !important;
+    &#125;
+    #footer .widget .widgettitle &#123;
+        border-bottom: 1px solid !important;
+        padding-bottom: 8px;
+    &#125;
+    #footer p&#123;
+       font-size:12px !important;
+    &#125;
+    #footer &#123;
+        padding: 30px 0 0px 0 !important;
+    &#125;
+    #footer .widget .widgettitle&#123;
+        margin-top:0px !important;
+    &#125;
+    .responsive #top #wrap_all .container &#123;
+        width: 100% !important;
+        max-width: 94% !important;
+    &#125;
+    .responsive #top #wrap_all .av-flex-cells .no_margin &#123;
+        padding-left: 2% !important;
+        padding-right: 2% !important;
+    &#125;
+    .responsive #top #wrap_all .container .content&#123;    
+         padding-top: 15px;
+         padding-bottom: 15px;
+    &#125;
+&#125;</code></pre>
+<p>最后手机版底部的样式如下：</p>
+<p><img src="https://i.imgur.com/nODNJYs.jpg"></p>
+<hr>
+<p>wordpress的enfold主题采用image的caption那里鼠标悬浮特效的代码：</p>
+<p>新建一个区块，在这个区块添加一个ID并且命名为：industry_grid_row，后台设置截图：</p>
+<p><img src="https://i.imgur.com/ZFmAxz6.jpg"></p>
+<p>添加了图片之后，点击这个进入里面，看下设置：</p>
+<p><img src="https://i.imgur.com/SIrVqJx.jpg"></p>
+<p><img src="https://i.imgur.com/2Jf4DXA.jpg"></p>
+<p>这些地方设置好了之后，我们看下上面截图中的caption里面的代码：</p>
+<pre><code>&lt;div class=&quot;Industry_picture_text_box&quot;&gt;
+    &lt;h2&gt;Medical Devices&lt;/h2&gt;
+    &lt;p&gt;A venenatis nullam adipiscing venenatis vestibulum amet ridiculus.&lt;/p&gt;
+&lt;/div&gt;</code></pre>
+<p>这个就是里面的自定义代码了。</p>
+<p>为了让默认隐藏的东西当鼠标悬停的时候显示出来，而且缓慢的过渡那种显示方式，需要我们用点技巧，如果默认的隐藏（dispaly:none），鼠标悬浮显示（display:block）这种方式没有过渡效果，即使添加了也没有用。</p>
+<p>最后笔者的代码如下：</p>
+<pre><code>#industry_grid_row .avia-image-overlay-wrap&#123;
+    position: relative;
+    overflow: hidden;
+&#125;
+#industry_grid_row .av-image-caption-overlay-center&#123;
+    padding:0px !important;
+&#125;
+.Industry_picture_text_box&#123;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 15px 15px 15px 15px;
+    color: #fff;
+    position: absolute;
+    margin-bottom: 0px;
+    bottom: 0px;
+    width: 100%;
+&#125;
+.Industry_picture_text_box h2&#123;
+    color:#fff;
+    font-size: 24px;
+&#125;
+.Industry_picture_text_box p&#123;
+    transform: translateY(100%);
+    transition: 0.8s ease;
+    font-size: 14px;
+    position: absolute;
+    line-height: 1.5em;
+&#125;
+#industry_grid_row .avia-image-container-inner:hover .Industry_picture_text_box p&#123;
+    transform: translateY(0%);
+    position: relative;
+&#125;
+#industry_grid_row .avia-image-container-inner img.avia_image&#123;
+    transition: 0.8s ease;
+&#125;
+#industry_grid_row .avia-image-container-inner:hover img.avia_image&#123;
+    transform: scale(1.1);
+&#125;</code></pre>
+<p>当然这个都是基于这个主题的，如果不是采用这个主题那么将不会生效。为了给读者更多的启发，笔者把代码结构粘贴一下：</p>
+<pre><code>&lt;div class=&quot;avia-image-container-inner&quot;&gt;
+    &lt;div class=&quot;avia-image-overlay-wrap&quot;&gt;
+        &lt;div class=&quot;av-image-caption-overlay&quot;&gt;
+            &lt;div class=&quot;av-caption-image-overlay-bg&quot; style=&quot;opacity:0.1; &quot;&gt;&lt;/div&gt;
+            &lt;div class=&quot;av-image-caption-overlay-position&quot;&gt;
+                &lt;div class=&quot;av-image-caption-overlay-center&quot;&gt;
+                    &lt;div class=&quot;Industry_picture_text_box&quot;&gt;
+                        &lt;h2&gt;Medical Devices&lt;/h2&gt;
+                        &lt;p&gt;A venenatis nullam adipiscing venenatis vestibulum amet ridiculus.&lt;/p&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;img class=&quot;avia_image&quot; src=&quot;/wp-content/uploads/2018/12/senri-inner-page-design-industry-picture3-1.png&quot; itemprop=&quot;thumbnailUrl&quot;&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<p>如果大家在自己写纯HTML代码的时候，想要有这种效果不妨参考下，当然还有更多更好的方法可以实现这个效果。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/wordpress-%E4%BE%A7%E8%BE%B9%E6%A0%8F-%E8%8F%9C%E5%8D%95-%E9%BB%98%E8%AE%A4%E6%8A%98%E5%8F%A0-%E4%BE%A7%E8%BE%B9%E6%A0%8F%E6%8A%98%E5%8F%A0%E6%8F%92%E4%BB%B6-Collapsible-Menu-enfold%E4%B8%BB%E9%A2%98%E6%89%8B%E6%9C%BA%E7%89%88%E7%BE%8E%E5%8C%96/" rel="tag"># wordpress,侧边栏,菜单,默认折叠,侧边栏折叠插件,Collapsible Menu,enfold主题手机版美化</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/12/22/magento1-x%E4%BA%A7%E5%93%81%E5%88%86%E7%B1%BB%E9%A1%B5%E4%B8%AD%E7%9A%84%E4%BA%A7%E5%93%81%E5%88%97%E8%A1%A8%E6%98%BE%E7%A4%BA%E8%87%AA%E5%AE%9A%E4%B9%89%E5%B1%9E%E6%80%A7%E5%90%8D%EF%BC%8C%E6%AF%94%E5%A6%82model-brand-sku-partNo%E7%AD%89/" rel="prev" title="magento1.x产品分类页中的产品列表显示自定义属性名，比如model,brand,sku,partNo等">
+      <i class="fa fa-chevron-left"></i> magento1.x产品分类页中的产品列表显示自定义属性名，比如model,brand,sku,partNo等
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/12/26/javascript%E5%AE%9E%E7%8E%B0%E9%BC%A0%E6%A0%87%E6%BB%9A%E5%8A%A8%E5%88%B0%E6%9F%90%E4%B8%AA%E4%BD%8D%E7%BD%AE%E6%98%BE%E7%A4%BA%E6%8C%87%E5%AE%9A%E7%9A%84%E5%86%85%E5%AE%B9%EF%BC%8C%E5%86%85%E5%AE%B9%E6%BB%9A%E5%8A%A8%E9%80%9F%E5%BA%A6%E4%BC%9A%E9%9A%8F%E7%9D%80%E6%BB%9A%E5%8A%A8%E8%BF%9B%E8%A1%8C%E7%9B%B8%E5%BA%94%E7%9A%84%E5%8F%98%E5%8C%96%EF%BC%8C%E8%AF%A5%E5%86%85%E5%AE%B9%E5%8F%AF%E4%BB%A5%E5%85%81%E8%AE%B8%E5%9C%A8%E8%AE%BE%E5%AE%9A%E7%9A%84%E5%B1%8F%E5%B9%95%E8%8C%83%E5%9B%B4%E5%86%85%E8%BF%9B%E8%A1%8C%E7%9A%84%E6%BB%9A%E5%8A%A8%E4%BA%8B%E4%BB%B6%E7%9A%84%E5%93%8D%E5%BA%94/" rel="next" title="javascript实现鼠标滚动到某个位置显示指定的内容(手持笔)，内容滚动速度会随着滚动进行相应的变化，该内容可以允许在设定的屏幕范围内进行的滚动事件的响应">
+      javascript实现鼠标滚动到某个位置显示指定的内容(手持笔)，内容滚动速度会随着滚动进行相应的变化，该内容可以允许在设定的屏幕范围内进行的滚动事件的响应 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

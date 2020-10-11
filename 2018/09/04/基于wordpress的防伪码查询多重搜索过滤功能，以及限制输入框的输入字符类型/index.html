@@ -1,37 +1,1234 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="这个我以wordpress默认的主题enfold主题为例，我在主题根目录下新建一个模板文件，命名为：防伪码添加，文件名为fanweima_add.php，然后在主题目录下新建一个fanweima文件夹. 在enfold主题下新建目录：wordpress&#x2F;wp-content&#x2F;themes&#x2F;enfold&#x2F;fanweima，在这个文件夹里面新建两个php文件：license_save.php和conf">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于wordpress的防伪码（序列码）查询多重搜索过滤功能升级，以及限制输入框的输入字符类型">
+<meta property="og:url" content="http://example.com/2018/09/04/%E5%9F%BA%E4%BA%8Ewordpress%E7%9A%84%E9%98%B2%E4%BC%AA%E7%A0%81%E6%9F%A5%E8%AF%A2%E5%A4%9A%E9%87%8D%E6%90%9C%E7%B4%A2%E8%BF%87%E6%BB%A4%E5%8A%9F%E8%83%BD%EF%BC%8C%E4%BB%A5%E5%8F%8A%E9%99%90%E5%88%B6%E8%BE%93%E5%85%A5%E6%A1%86%E7%9A%84%E8%BE%93%E5%85%A5%E5%AD%97%E7%AC%A6%E7%B1%BB%E5%9E%8B/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="这个我以wordpress默认的主题enfold主题为例，我在主题根目录下新建一个模板文件，命名为：防伪码添加，文件名为fanweima_add.php，然后在主题目录下新建一个fanweima文件夹. 在enfold主题下新建目录：wordpress&#x2F;wp-content&#x2F;themes&#x2F;enfold&#x2F;fanweima，在这个文件夹里面新建两个php文件：license_save.php和conf">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/htYxlvQ.png">
+<meta property="og:image" content="https://i.imgur.com/gcnCwaH.png">
+<meta property="og:image" content="https://i.imgur.com/ibqyutM.png">
+<meta property="og:image" content="https://i.imgur.com/wzPIKGE.png">
+<meta property="og:image" content="https://i.imgur.com/Cel7FTf.png">
+<meta property="og:image" content="https://i.imgur.com/3EAJth6.png">
+<meta property="og:image" content="https://i.imgur.com/WLmfrI0.png">
+<meta property="og:image" content="https://i.imgur.com/BglzORn.png">
+<meta property="og:image" content="https://i.imgur.com/wuR1Rt7.png">
+<meta property="og:image" content="https://i.imgur.com/Bo9EqCY.png">
+<meta property="article:published_time" content="2018-09-04T12:58:31.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:04.831Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="wordpress,防伪码，序列码，多重过滤，过滤搜索">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/htYxlvQ.png">
+
+<link rel="canonical" href="http://example.com/2018/09/04/%E5%9F%BA%E4%BA%8Ewordpress%E7%9A%84%E9%98%B2%E4%BC%AA%E7%A0%81%E6%9F%A5%E8%AF%A2%E5%A4%9A%E9%87%8D%E6%90%9C%E7%B4%A2%E8%BF%87%E6%BB%A4%E5%8A%9F%E8%83%BD%EF%BC%8C%E4%BB%A5%E5%8F%8A%E9%99%90%E5%88%B6%E8%BE%93%E5%85%A5%E6%A1%86%E7%9A%84%E8%BE%93%E5%85%A5%E5%AD%97%E7%AC%A6%E7%B1%BB%E5%9E%8B/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>基于wordpress的防伪码（序列码）查询多重搜索过滤功能升级，以及限制输入框的输入字符类型 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/09/04/%E5%9F%BA%E4%BA%8Ewordpress%E7%9A%84%E9%98%B2%E4%BC%AA%E7%A0%81%E6%9F%A5%E8%AF%A2%E5%A4%9A%E9%87%8D%E6%90%9C%E7%B4%A2%E8%BF%87%E6%BB%A4%E5%8A%9F%E8%83%BD%EF%BC%8C%E4%BB%A5%E5%8F%8A%E9%99%90%E5%88%B6%E8%BE%93%E5%85%A5%E6%A1%86%E7%9A%84%E8%BE%93%E5%85%A5%E5%AD%97%E7%AC%A6%E7%B1%BB%E5%9E%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          基于wordpress的防伪码（序列码）查询多重搜索过滤功能升级，以及限制输入框的输入字符类型
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-09-04 20:58:31" itemprop="dateCreated datePublished" datetime="2018-09-04T20:58:31+08:00">2018-09-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:04" itemprop="dateModified" datetime="2020-10-11T11:58:04+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/wordpress/" itemprop="url" rel="index"><span itemprop="name">wordpress</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这个我以wordpress默认的主题enfold主题为例，我在主题根目录下新建一个模板文件，命名为：防伪码添加，文件名为fanweima_add.php，然后在主题目录下新建一个fanweima文件夹.</p>
+<p>在enfold主题下新建目录：wordpress/wp-content/themes/enfold/fanweima，在这个文件夹里面新建两个php文件：license_save.php和config.php</p>
+<p>准备材料：数据库，数据表（wp_license），其中数据表的字段如下：</p>
+<pre><code>CREATE TABLE `wp_license` (
+  `id` int(16) unsigned NOT NULL AUTO_INCREMENT COMMENT &#39;9&#39;,
+  `name` char(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `brand` varchar(300) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `fuzeren` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `diqu` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `chanpin` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `baozhiqi` varchar(16) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `attachment` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=64 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;</code></pre>
+<p>数据填充：</p>
+<pre><code>INSERT INTO `wp_license` VALUES (&#39;41&#39;, &#39;34567&#39;, &#39;bishen&#39;, &#39;ryhrym&#39;, &#39;深圳&#39;, &#39;tjnyemr&#39;, &#39;34&#39;, &#39;http://test.nocy.com/wp-content/uploads/2018/03/blogging.jpg&#39;);
+INSERT INTO `wp_license` VALUES (&#39;42&#39;, &#39;444&#39;, &#39;bishen&#39;, &#39;iuytre&#39;, &#39;广州&#39;, &#39;wefhjgn&#39;, &#39;56&#39;, &#39;http://test.nocy.com/wp-content/uploads/2018/06/How.pdf&#39;);
+INSERT INTO `wp_license` VALUES (&#39;43&#39;, &#39;555&#39;, &#39;nocti&#39;, &#39;dfgh&#39;, &#39;广州&#39;, &#39;dfb&#39;, &#39;34&#39;, &#39;http://test.nocety.com/wp-content/uploads/2018/03/59ddc2f9d4dad6.36536291.jpg&#39;);
+INSERT INTO `wp_license` VALUES (&#39;62&#39;, &#39;112233&#39;, &#39;克朗&#39;, &#39;张杰&#39;, &#39;北京&#39;, &#39;布丁奶茶&#39;, &#39;1&#39;, &#39;http://110.com&#39;);
+INSERT INTO `wp_license` VALUES (&#39;45&#39;, &#39;666&#39;, &#39;aolan&#39;, &#39;sdtfghjhk&#39;, &#39;珠海&#39;, &#39;sdfghj&#39;, &#39;75&#39;, &#39;http://test.noctiuniversity.com/wp-content/uploads/2018/07/How.pdf&#39;);
+INSERT INTO `wp_license` VALUES (&#39;46&#39;, &#39;7766&#39;, &#39;hanhe&#39;, &#39;erhgrw&#39;, &#39;上海&#39;, &#39;wegrwrf&#39;, &#39;89&#39;, &#39;http://localhost:8080/wordpress/wp-content/uploads/2018/07/test1.pdf&#39;);
+INSERT INTO `wp_license` VALUES (&#39;47&#39;, &#39;789&#39;, &#39;bishen&#39;, &#39;bgferfg&#39;, &#39;珠海&#39;, &#39;fggsfgnh&#39;, &#39;987&#39;, &#39;http://localhost:8080/wordpress/wp-content/uploads/2018/07/1.jpg&#39;);
+INSERT INTO `wp_license` VALUES (&#39;48&#39;, &#39;1010&#39;, &#39;nocti&#39;, &#39;zhagnsan&#39;, &#39;深圳&#39;, &#39;存在主义&#39;, &#39;3&#39;, &#39;https://pan.baidu.com/s/1-gPSEDW5TQy-g-J2BZYpGg&#39;);
+INSERT INTO `wp_license` VALUES (&#39;49&#39;, &#39;1011&#39;, &#39;bishen&#39;, &#39;zhagnsan&#39;, &#39;深圳&#39;, &#39;生命的重建&#39;, &#39;2&#39;, &#39;https://pan.baidu.com/s/1viMuKI1KH1L6tzX9Fd9Smw&#39;);
+INSERT INTO `wp_license` VALUES (&#39;50&#39;, &#39;1012&#39;, &#39;nocti&#39;, &#39;zhagnsan&#39;, &#39;广州&#39;, &#39;angm&#39;, &#39;3&#39;, &#39;https://pan.baidu.com/s/1EAaR0bbAj9g-QatzVFPMZA&#39;);
+INSERT INTO `wp_license` VALUES (&#39;51&#39;, &#39;1013&#39;, &#39;hanhe&#39;, &#39;zhangsan&#39;, &#39;广州&#39;, &#39;水生生物学&#39;, &#39;4&#39;, &#39;https://pan.baidu.com/s/1ZL3fjahxI48YOsLTFrJ_KQ&#39;);
+INSERT INTO `wp_license` VALUES (&#39;63&#39;, &#39;3467&#39;, &#39;肯德基&#39;, &#39;肯先生&#39;, &#39;美国&#39;, &#39;鸡腿&#39;, &#39;1&#39;, &#39;http://www.nocnrg.com&#39;);</code></pre>
+<p>好的，准备工作完成后，我们进入正题。</p>
+<p>文件结构我们准备好了，我们就先来说license_add.php的文件内容。</p>
+<h2 id="license-add-php文件"><a href="#license-add-php文件" class="headerlink" title="license_add.php文件"></a>license_add.php文件</h2><p>我们找到内容显示区的代码，大概是在main标签里面：</p>
+<pre><code>&lt;!-- 新添加的信息 开始 --&gt;
+&lt;div class=&quot;entry-content&quot;&gt;
+    &lt;br&gt;
+    &lt;form action=&quot;&lt;?php bloginfo(&#39;template_url&#39;); ?&gt;/fanweima/license_save.php&quot; method=&quot;post&quot;&gt;
+      &lt;div class=&quot;form-group&quot;&gt;
+        &lt;label for=&quot;fanweimaname&quot;&gt;序列码&lt;/label&gt;
+        &lt;input type=&quot;text&quot; class=&quot;form-control&quot; id=&quot;fanweimaname&quot; name=&quot;name&quot; placeholder=&quot;输入防伪码&quot; onkeyup=&quot;this.value=this.value.replace(/[^\d]/g,&#39;&#39;) &quot; onafterpaste=&quot;this.value=this.value.replace(/[^\d]/g,&#39;&#39;) &quot; required&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;form-group&quot;&gt;
+        &lt;label for=&quot;pingpaishang&quot;&gt;品牌&lt;/label&gt;
+        &lt;input type=&quot;text&quot; class=&quot;form-control&quot; id=&quot;pingpaishang&quot; name=&quot;brand&quot; placeholder=&quot;输入品牌商&quot; onkeyup=&quot;value=value.replace(/[^a-zA-Z]/g, &#39;&#39;)&quot; required&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;form-group&quot;&gt;
+        &lt;label&gt;负责人&lt;/label&gt;
+        &lt;input type=&quot;text&quot; class=&quot;form-control&quot; name=&quot;fuzeren&quot; placeholder=&quot;负责人&quot; onkeyup=&quot;value=value.replace(/[^a-zA-Z]/g, &#39;&#39;)&quot; required&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;form-group&quot;&gt;
+        &lt;label&gt;地区&lt;/label&gt;
+        &lt;input type=&quot;text&quot; class=&quot;form-control&quot; name=&quot;diqu&quot; placeholder=&quot;地区&quot; onkeyup=&quot;value=value.replace(/[^a-zA-Z]/g, &#39;&#39;)&quot; required&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;form-group&quot;&gt;
+        &lt;label&gt;产品名称&lt;/label&gt;
+        &lt;input type=&quot;text&quot; class=&quot;form-control&quot; name=&quot;chanpin&quot; placeholder=&quot;产品名称&quot; onkeyup=&quot;value=value.replace(/[^a-zA-Z]/g, &#39;&#39;)&quot; required&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;form-group&quot;&gt;
+        &lt;label&gt;保质期&lt;/label&gt;
+        &lt;input type=&quot;text&quot; class=&quot;form-control&quot; name=&quot;baozhiqi&quot; placeholder=&quot;保质期&quot; required&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;form-group&quot;&gt;
+          &lt;label&gt;检测报告地址&lt;/label&gt;
+        &lt;input type=&quot;url&quot; class=&quot;form-control&quot; id=&quot;exampleInputFile1&quot; name=&quot;news_file&quot; required&gt;
+      &lt;/div&gt;
+      &lt;button type=&quot;submit&quot; class=&quot;btn btn-default&quot;&gt;Submit&lt;/button&gt;
+    &lt;/form&gt;
+
+&lt;/div&gt;
+
+&lt;!-- 新添加的信息 结束 --&gt;</code></pre>
+<p>这里做个说明，为什么要对这些输入框添加一些东西呢？</p>
+<h2 id="不同服务器数据库的乱码"><a href="#不同服务器数据库的乱码" class="headerlink" title="不同服务器数据库的乱码"></a>不同服务器数据库的乱码</h2><p>在这个地方需要说一点，因为笔者测试是在本地服务器，随时可以修改数据库的配置文件，可是如果笔者没有服务器的权限，没法进入到数据库的配置文件中（公司的服务器用的是虚拟主机，虚拟主机是没法去自定义设置这些服务器配置文件的），那么就显得无能为力了，所以这个地方可能会出现乱码的情况，要么是当前端页面添加防伪码的时候有中文字符，添加成功后，到数据库中一看变成了乱码了；要么是数据表里面是中文，可是查询防伪码的时候，显示到前台的时候中文字符变成乱码，那么解决mysql的乱码的终极解决发方案是什么呢？请往下看：</p>
+<p>修改mysql配置文件/etc/my.cnf，由于笔者是在本地的wampp server里面测试的，所以这里的是my.ini，打开后把以下的代码加进入，如果原本有就设置成如下即可。</p>
+<pre><code>[mysqld]
+character-set-server=utf8 
+[client]
+default-character-set=utf8 
+[mysql]
+default-character-set=utf8</code></pre>
+<p>请注意这几个参数配置的位置，不然可能会启动不起来mysql服务：</p>
+<p><img src="https://i.imgur.com/htYxlvQ.png"></p>
+<p>OK。这下如果你重启mysql服务也会发现它的字符集是utf8.</p>
+<pre><code>show variables like &#39;%char%&#39;;</code></pre>
+<p><img src="https://i.imgur.com/gcnCwaH.png"></p>
+<p>而且我们创建表的时候不需要指定字符编码,它默认就是utf8;</p>
+<pre><code>drop database wordpress;
+create database wordpress;
+use wordpress;
+create table wp_license(name varchar(11));
+show create table wp_license \G;</code></pre>
+<p>我们就可以看到：</p>
+<p><img src="https://i.imgur.com/ibqyutM.png"></p>
+<hr>
+<p>好的，我们回到这个form里面的输入框的过滤问题上来，这里笔者想让防伪码的输入框只能输入整数，而且是必填，那么：</p>
+<pre><code>&lt;input type=&quot;text&quot; class=&quot;form-control&quot; id=&quot;fanweimaname&quot; name=&quot;name&quot; placeholder=&quot;输入防伪码&quot; onkeyup=&quot;this.value=this.value.replace(/[^\d]/g,&#39;&#39;) &quot; onafterpaste=&quot;this.value=this.value.replace(/[^\d]/g,&#39;&#39;) &quot; required&gt;</code></pre>
+<p>添加了</p>
+<pre><code>onkeyup=&quot;this.value=this.value.replace(/[^\d]/g,&#39;&#39;) &quot; onafterpaste=&quot;this.value=this.value.replace(/[^\d]/g,&#39;&#39;) &quot;</code></pre>
+<p>这个的意思就是只能输入整数。不能输入字母和其他字符。</p>
+<p>又比如，品牌的那个输入框那里，由于笔者不知道要是在线上测试的时候虚拟主机的mysql是否支持中文字符，所以为了保险起见，统一不能输入中文，只能输入英文字符或者数字，</p>
+<pre><code>&lt;input type=&quot;text&quot; class=&quot;form-control&quot; id=&quot;pingpaishang&quot; name=&quot;brand&quot; placeholder=&quot;输入品牌商&quot; onkeyup=&quot;value=value.replace(/[^a-zA-Z]/g, &#39;&#39;)&quot; required&gt;</code></pre>
+<p>控制不能输入中文的代码：</p>
+<pre><code>onkeyup=&quot;value=value.replace(/[^a-zA-Z]/g, &#39;&#39;)&quot;</code></pre>
+<p>添加了这个后，用户及时想输入中文也不行了，这样就会统一输入英文，确保任何情况下都不会变成乱码了，当然了，如果能够支持中文，这个就不必添加这个过滤功能了。</p>
+<p>接着还需要说明的一个地方的是，最后的那个检测报告地址，这里是需要输入链接地址的，所以呢，如果不进行一个过滤，大家估计都误以为随便输入即可，所以这里写成如下：</p>
+<pre><code>&lt;input type=&quot;url&quot; class=&quot;form-control&quot; id=&quot;exampleInputFile1&quot; name=&quot;news_file&quot; required&gt;</code></pre>
+<p>即，输入类型为url</p>
+<pre><code>type=&quot;url&quot;</code></pre>
+<p>那么这里的输入框就只能输入url地址了，如果不符合的话，那么就不能提交。</p>
+<p>为了确保数据表的字段记录信息的完整性，笔者这里对每个输入框都进行了强制性必填设置，即在<code>input</code>的后面添加一个属性<code>required</code>，这样就确保用户能够把每一项填写完才能顺利提交。</p>
+<hr>
+<p>这个是表单在前台显示的效果，截图如下：</p>
+<p><img src="https://i.imgur.com/wzPIKGE.png"></p>
+<p>这个就是这个模板文件的作用，我们将向license_save.php文件提交，代码：</p>
+<pre><code>&lt;?php bloginfo(&#39;template_url&#39;); ?&gt;/fanweima/license_save.php</code></pre>
+<p>这里采用绝对路径。</p>
+<p>好的，我们来到fanweima文件夹中。</p>
+<h2 id="config-php文件"><a href="#config-php文件" class="headerlink" title="config.php文件"></a>config.php文件</h2><p>这个文件很简单，就是连接数据库的文件，之所以把这几个环节分别放在不同的文件，这样做是为了条理清晰，分工明确，便于排错。好的，这个文件中的全部代码如下：</p>
+<pre><code>&lt;?php 
+
+//获取当前文件所在目录
+$gen=$_SERVER[&#39;DOCUMENT_ROOT&#39;];
+require_once(&quot;$gen/wordpress/wp-config.php&quot;);
+//如果笔者不是用的是子目录存放wordpress网站，那么应该用如下方式：
+//require_once(&quot;$gen/wp-config.php&quot;);
+
+//链接mysql服务器 开始
+$connection = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD);
+mysqli_select_db($connection, DB_NAME);
+//设置字符编码
+@mysqli_query(&#39;SET NAMES UTF8&#39;);
+?&gt;</code></pre>
+<p>这里做个说明，由于笔者这里采用的是二级目录存放的wordpress网站程序，所以这里的配置文件地址是：<code>$gen/wordpress/wp-config.php</code>，如果是放在根目录下的话就是：<code>$gen/wp-config.php</code>，这个要注意下就行了。</p>
+<p>这个文件分两部分，第一部分就是连接wordpress网站的配置文件，这样我们就不需要输入数据库账号密码了，这样相对来说是比较安全的。然后就是连接服务器，接着就是连上数据库，最后是设置字符编码。完事！</p>
+<h2 id="license-save-php文件"><a href="#license-save-php文件" class="headerlink" title="license_save.php文件"></a>license_save.php文件</h2><p>全部代码如下：</p>
+<pre><code>&lt;?php 
+    //引用数据库链接文件
+    require(&quot;config.php&quot;); 
+    $name = $_POST[&quot;name&quot;];
+    $brand = $_POST[&quot;brand&quot;];
+    $fuzeren = $_POST[&quot;fuzeren&quot;];
+    $diqu = $_POST[&quot;diqu&quot;];
+    $chanpin = $_POST[&quot;chanpin&quot;];
+    $baozhiqi = $_POST[&quot;baozhiqi&quot;];
+    $file_name=$_POST[&quot;news_file&quot;];
+    //下面是读取数据库数据
+    // $sql = &quot;select id,name,brand from wp_fanweima order by id desc limit &quot;.$num.&quot;,3&quot;;
+    $sql=&quot;insert into wp_license values(null,&#39;$name&#39;,&#39;$brand&#39;,&#39;$fuzeren&#39;,&#39;$diqu&#39;,&#39;$chanpin&#39;,&#39;$baozhiqi&#39;,&#39;$file_name&#39;)&quot;;
+    $result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
+    //确保弹窗里的文字不是乱码
+    header(&#39;Content-Type: text/html; charset=utf-8&#39;);
+    echo &quot;&lt;script&gt;alert(&#39;序列码添加成功!&#39;);location.href=&#39;&quot;.$_SERVER[&quot;HTTP_REFERER&quot;].&quot;&#39;;&lt;/script&gt;&quot;;
+    mysqli_close($connection); //关闭数据库
+?&gt;</code></pre>
+<p>这个也做一个简单的讲解，第一个是引入数据库连接的文件，这个文件的路径就是在同目录中的config.php文件，只有连接上数据库才能对数据库进行查询。好的，连接成功后，把license_add.php中的表单里的字段获取，接着把数据插入数据表（<code>wp_license</code>）中，这里需要提醒的是这个<code>mysqli_query</code>，在我以前使用纯php写的一个系统中貌似只需一个字段就行了，这里需要有两个字段，否则会报错，这里需要注意。参数一是连接信息，参数二是数据添加结果。当然，我们还可以进一步的对这个数据添加完善，比如做一个判断，如果记录受影响条数大于1的话，提示添加成功，否则添加失败，由于这里是用于的测试的，所以没有说得那么详细。</p>
+<p>好的最后的结果，截图说明：</p>
+<p><img src="https://i.imgur.com/Cel7FTf.png"></p>
+<p><img src="https://i.imgur.com/3EAJth6.png"></p>
+<p>数据库中截图：</p>
+<p><img src="https://i.imgur.com/WLmfrI0.png"></p>
+<p>这个就是在前台添加了一条防伪码记录，然后在数据表中查看已经成功添加了。</p>
+<h2 id="查询防伪码"><a href="#查询防伪码" class="headerlink" title="查询防伪码"></a>查询防伪码</h2><p>关于防伪码查询的文章已经在前面的文章说过了，大家可以参考笔者写的另外一篇关于在wordpress上添加防伪码功能的文章。本文作为升级版进行讲解。</p>
+<p>在主题目录下创建一个防伪码查询模板文件，由于笔者采用的是enfold主题的，所以笔者复制其中一个页面模板（page.php）文件，然后命名成另外一个名字：license_search_3.php（名字大家根据心情来吧），模板名称：</p>
+<pre><code>&lt;?php
+/**
+ *
+    Template Name: 序列码查询二重过滤搜索
+ *</code></pre>
+<p>然后在紧随这个后面，在添加自定义代码的位置之前添加如下代码：</p>
+<pre><code>&lt;!-- 添加自定义数据库连接信息 开始 --&gt;
+&lt;?php
+$genmul=$_SERVER[&#39;DOCUMENT_ROOT&#39;];
+require_once(&quot;$genmul/wordpress/wp-config.php&quot;);
+
+//链接mysql服务器 开始
+$connection = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD);
+mysqli_select_db($connection, DB_NAME);
+//链接mysql服务器 结束
+
+?&gt;
+&lt;!-- 添加自定义数据库连接信息 结束 --&gt;</code></pre>
+<p>这个代码是用来连接数据库的。有了这个才能够查询数据库，这个很重要。</p>
+<p>接着，还是一样的，在<code>&lt;main&gt;&lt;/main&gt;</code>代码之间添加如下代码：</p>
+<pre><code>&lt;style&gt;
+    .list-group&#123;
+        margin:0px;
+        margin-bottom: 20px;
+    &#125;
+    a&#123;
+        text-decoration: none !important;
+        font-size: 12px;
+    &#125;
+    .form-control .fenge&#123;
+        display: flex !important;
+    &#125;
+    .form-control .neirong&#123;
+        flex:1;
+    &#125;
+    .form-control .neirong:first-child&#123;
+        margin-right:5px;
+    &#125;
+    .form-control .neirong:last-child&#123;
+        margin-left:5px;
+    &#125;
+    .form-control input&#123;
+        padding:8px 15px;
+    &#125;
+    .list-group-item&#123;
+        border:1px solid #aaa !important;
+        padding:8px 15px;
+        border-bottom: 0px !important;
+    &#125;
+    .list-group-item:last-child&#123;
+        border-bottom: 1px solid #aaa !important;
+    &#125;
+    .neirong input&#123;
+        padding:9px !important;
+    &#125;
+    .list-group-item a&#123;
+        background: #719430;
+        padding: 5px 15px;
+        border-radius: 3px;
+        color: #fff;
+    &#125;
+    @media (max-width:767px)&#123;
+    .form-control .fenge&#123;
+        display: grid !important;
+    &#125;
+    .form-control .neirong&#123;
+        margin:5px;
+    &#125;
+    &#125;
+&lt;/style&gt;
+&lt;br&gt;
+&lt;form action=&quot;#&quot; method=&quot;post&quot; class=&quot;form-control&quot;&gt;
+    &lt;div class=&quot;fenge&quot;&gt;
+        &lt;div class=&quot;neirong&quot;&gt;
+            &lt;input type=&quot;text&quot; name=&quot;license&quot; placeholder=&quot;输入序列码&quot; onkeyup=&quot;this.value=this.value.replace(/[^\d]/g,&#39;&#39;) &quot; onafterpaste=&quot;this.value=this.value.replace(/[^\d]/g,&#39;&#39;)&quot; value=&quot;&quot;&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;neirong&quot;&gt;
+            &lt;select class=&quot;form-control&quot; name=&quot;brand&quot;&gt;
+                &lt;option value=&#39;&#39; disabled selected style=&#39;display:none;&#39;&gt;请选择品牌&lt;/option&gt;
+                &lt;?php
+                    $query_Brand = &quot;SELECT DISTINCT(brand) FROM `wp_license`&quot;;
+                    $result_set = mysqli_query($connection, $query_Brand ) or die(mysqli_error($connection));
+                    while ($row=mysqli_fetch_array($result_set)) &#123;
+                ?&gt;
+                    &lt;option value=&quot;&lt;?php echo $row[&#39;brand&#39;];?&gt;&quot;&gt;&lt;?php echo $row[&#39;brand&#39;];?&gt;&lt;/option&gt;
+                &lt;?php
+                &#125;
+                ?&gt;
+            &lt;/select&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;input type=&quot;submit&quot; name=&quot;submit&quot; value=&quot;查询&quot;&gt;
+&lt;/form&gt;
+
+&lt;?php
+if (@($_POST[&#39;license&#39;] !== null || $_POST[&#39;brand&#39;] !== null)) &#123;
+
+    $url = home_url();
+    $localtime=date(&#39;Y-m-d H:i:s&#39;,time());
+    $license=$_POST[&quot;license&quot;];
+    $brand=$_POST[&quot;brand&quot;];
+    if (empty($license)) &#123;
+        $query_Recordset1 = &quot;SELECT * FROM `wp_license` where brand = &#39;$brand&#39;&quot;;
+        $Recordset1 = mysqli_query($connection, $query_Recordset1 ) or die(mysqli_error($connection));
+        // 记得要注释下面这行，否则查询出来的记录数会少一条：更多可以参考这个网址https://zhidao.baidu.com/question/575162854.html
+        // $row_Recordset1 = mysqli_fetch_assoc($Recordset1);
+        while ($row=mysqli_fetch_array($Recordset1)) &#123;
+        ?&gt;
+        &lt;ul class=&quot;list-group&quot;&gt;
+        &lt;li class=&quot;list-group-item&quot;&gt;您的序列码为：&lt;?php echo $row[&quot;name&quot;];?&gt;&lt;/li&gt;
+        &lt;li class=&quot;list-group-item&quot;&gt;码伪码所属品牌商：&lt;?php echo $row[&quot;brand&quot;] ?&gt;&lt;/li&gt;
+        &lt;li class=&quot;list-group-item&quot;&gt;序列码负责人：&lt;?php echo $row[&quot;fuzeren&quot;] ?&gt;&lt;/li&gt;
+        &lt;li class=&quot;list-group-item&quot;&gt;所属地区：&lt;?php echo $row[&quot;diqu&quot;] ?&gt;&lt;/li&gt;
+        &lt;li class=&quot;list-group-item&quot;&gt;产品名称：&lt;?php echo $row[&quot;chanpin&quot;] ?&gt;&lt;/li&gt;
+        &lt;?php
+            if ( is_user_logged_in() ) &#123;
+                echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;产品检测报告下载：&lt;a  style=&quot;background:red&quot; href=&quot;&#39;.$row[&quot;attachment&quot;].&#39;&quot;&gt;预览&lt;/a&gt; &lt;a href=&quot;&#39;.$row[&quot;attachment&quot;].&#39;&quot; download&gt;下载&lt;/a&gt;&lt;/li&gt;&#39;;
+            &#125;
+            else&#123;
+                echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;产品检测报告下载：&lt;a href=&quot;&#39;.$url.&#39;/wp-login.php&quot;&gt;请登录&lt;/a&gt;&lt;/li&gt;&#39;;
+            &#125;
+        ?&gt;
+        &lt;li class=&quot;list-group-item&quot;&gt;序列码查询时间：&lt;?php echo $localtime; ?&gt;&lt;/li&gt;
+        &lt;/ul&gt;
+        &lt;?php &#125; ?&gt;
+    &lt;?php &#125;
+    elseif(empty($brand))&#123;
+        $query_Recordset1 = &quot;SELECT * FROM `wp_license` where name =$license&quot;;
+        $Recordset1 = mysqli_query($connection, $query_Recordset1 ) or die(mysqli_error($connection));
+        $row_Recordset1 = mysqli_fetch_assoc($Recordset1);
+        $totalRows_Recordset1 = mysqli_num_rows($Recordset1);
+        if ($totalRows_Recordset1 &lt;= 0) &#123;
+            echo &quot;请注意！这个序列码无效&lt;br&gt;&quot;;
+        &#125;
+        else&#123;
+            echo &#39;&lt;ul class=&quot;list-group&quot;&gt;&#39;;
+            echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;您的序列码为：&#39;.$row_Recordset1[&quot;name&quot;].&#39;&lt;/li&gt;&#39;;
+            echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;码伪码所属品牌商：&#39;.$row_Recordset1[&quot;brand&quot;].&#39;&lt;/li&gt;&#39;;
+            echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;序列码负责人：&#39;.$row_Recordset1[&quot;fuzeren&quot;].&#39;&lt;/li&gt;&#39;;
+            echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;所属地区：&#39;.$row_Recordset1[&quot;diqu&quot;].&#39;&lt;/li&gt;&#39;;
+            echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;产品名称：&#39;.$row_Recordset1[&quot;chanpin&quot;].&#39;&lt;/li&gt;&#39;;
+            if ( is_user_logged_in() ) &#123;
+                echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;产品检测报告下载：&lt;a  style=&quot;background:red&quot; href=&quot;&#39;.$row_Recordset1[&quot;attachment&quot;].&#39;&quot;&gt;预览&lt;/a&gt; &lt;a href=&quot;&#39;.$row_Recordset1[&quot;attachment&quot;].&#39;&quot; download&gt;下载&lt;/a&gt;&lt;/li&gt;&#39;;
+            &#125;
+            else&#123;
+                echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;产品检测报告下载：&lt;a href=&quot;&#39;.$url.&#39;/wp-login.php&quot;&gt;请登录&lt;/a&gt;&lt;/li&gt;&#39;;
+            &#125;
+            echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;序列码查询时间：&#39;.$localtime.&#39;&lt;/li&gt;&#39;;
+            echo &#39;&lt;/ul&gt;&#39;;
+            // $delete_requested = &quot;DELETE FROM wp_license WHERE name =$license&quot;;
+            // $Recordset2 = mysqli_query($connection, $delete_requested ) or die(mysqli_error($connection));
+        &#125;
+    &#125;else&#123;
+        $query_Recordset1 = &quot;SELECT * FROM `wp_license` where name =$license and brand = &#39;$brand&#39;&quot;;
+        $Recordset1 = mysqli_query($connection, $query_Recordset1 ) or die(mysqli_error($connection));
+        $row_Recordset1 = mysqli_fetch_assoc($Recordset1);
+        $totalRows_Recordset1 = mysqli_num_rows($Recordset1);
+        if ($totalRows_Recordset1 &lt;= 0) &#123;
+            echo &quot;请注意！这个序列码无效&lt;br&gt;&quot;;
+        &#125;
+        else&#123;
+            echo &#39;&lt;ul class=&quot;list-group&quot;&gt;&#39;;
+            echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;您的序列码为：&#39;.$row_Recordset1[&quot;name&quot;].&#39;&lt;/li&gt;&#39;;
+            echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;码伪码所属品牌商：&#39;.$row_Recordset1[&quot;brand&quot;].&#39;&lt;/li&gt;&#39;;
+            echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;序列码负责人：&#39;.$row_Recordset1[&quot;fuzeren&quot;].&#39;&lt;/li&gt;&#39;;
+            echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;所属地区：&#39;.$row_Recordset1[&quot;diqu&quot;].&#39;&lt;/li&gt;&#39;;
+            echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;产品名称：&#39;.$row_Recordset1[&quot;chanpin&quot;].&#39;&lt;/li&gt;&#39;;
+            if ( is_user_logged_in() ) &#123;
+                echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;产品检测报告下载：&lt;a  style=&quot;background:red&quot; href=&quot;&#39;.$row_Recordset1[&quot;attachment&quot;].&#39;&quot;&gt;预览&lt;/a&gt; &lt;a href=&quot;&#39;.$row_Recordset1[&quot;attachment&quot;].&#39;&quot; download&gt;下载&lt;/a&gt;&lt;/li&gt;&#39;;
+            &#125;
+            else&#123;
+                echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;产品检测报告下载：&lt;a href=&quot;&#39;.$url.&#39;/wp-login.php&quot;&gt;请登录&lt;/a&gt;&lt;/li&gt;&#39;;
+            &#125;
+            echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;序列码查询时间：&#39;.$localtime.&#39;&lt;/li&gt;&#39;;
+            echo &#39;&lt;/ul&gt;&#39;;
+            // $delete_requested = &quot;DELETE FROM wp_license WHERE name =$license&quot;;
+            // $Recordset2 = mysqli_query($connection, $delete_requested ) or die(mysqli_error($connection));
+        &#125;
+    &#125;  
+&#125;
+else&#123;
+    echo &quot;你没有输入任何内容&quot;;
+    return &#39;&#39;;
+&#125;
+?&gt;</code></pre>
+<p>这个里面呢，笔者就讲解一点：</p>
+<pre><code>&lt;select class=&quot;form-control&quot; name=&quot;brand&quot;&gt;
+    &lt;option value=&#39;&#39; disabled selected style=&#39;display:none;&#39;&gt;请选择品牌&lt;/option&gt;
+    &lt;?php
+        $query_Brand = &quot;SELECT DISTINCT(brand) FROM `wp_license`&quot;;
+        $result_set = mysqli_query($connection, $query_Brand ) or die(mysqli_error($connection));
+        while ($row=mysqli_fetch_array($result_set)) &#123;
+    ?&gt;
+        &lt;option value=&quot;&lt;?php echo $row[&#39;brand&#39;];?&gt;&quot;&gt;&lt;?php echo $row[&#39;brand&#39;];?&gt;&lt;/option&gt;
+    &lt;?php
+    &#125;
+    ?&gt;
+&lt;/select&gt;</code></pre>
+<p>这个是获取字段值列表的一个方法，这里就是获取数据表<code>wp_license</code>中<code>brand</code>这个字段的去重后条目列表。</p>
+<pre><code>$query_Brand = &quot;SELECT DISTINCT(brand) FROM `wp_license`&quot;;</code></pre>
+<p>接着，就是连接服务器的数据库进行查询，</p>
+<pre><code>$result_set = mysqli_query($connection, $query_Brand ) or die(mysqli_error($connection));</code></pre>
+<p>把查询结果保存在变量 <code>$result_set </code>中。然后采用php的方法<code>mysqli_fetch_array</code>，这个方法说明如下：</p>
+<pre><code>语法
+mysql_fetch_array(data,array_type)</code></pre>
+<table class="dataintable"><tbody><tr><th>参数</th><th>描述</th></tr><tr><td><i>data</i></td><td>可选。规定要使用的数据指针。该数据指针是 mysql_query() 函数产生的结果。</td></tr><tr><td><i>array_type</i></td><td><p>可选。规定返回哪种结果。可能的值：</p><ul class="listintable"><li>MYSQL_ASSOC - 关联数组</li><li>MYSQL_NUM - 数字数组</li><li>MYSQL_BOTH - 默认。同时产生关联和数字数组</li></ul></td></tr></tbody></table>
+
+<p>所以，这里的data就是<code>$result_set</code>，第二个参数我们不填就是默认了。</p>
+<p>接着就是通过while语句进行循环遍历了，这里有个问题就是在下拉框就会显示第一个option的选项来，这个不合理，所以笔者在这个前面添加了一个，</p>
+<pre><code>&lt;option value=&#39;&#39; disabled selected style=&#39;display:none;&#39;&gt;请选择品牌&lt;/option&gt;</code></pre>
+<p>这个就是把这个作为第一行，然后禁用并且隐藏，添加后的效果就是：</p>
+<p><img src="https://i.imgur.com/BglzORn.png"></p>
+<p>这个来源的于这个：</p>
+<pre><code>&lt;select&gt;
+    &lt;option value=&#39;&#39; disabled selected style=&#39;display:none;&#39;&gt;Please Choose&lt;/option&gt;
+    &lt;option value=&#39;苹果&#39;&gt;苹果&lt;/option&gt;
+    &lt;option value=&#39;梨子&#39;&gt;梨子&lt;/option&gt;
+&lt;/select&gt;</code></pre>
+<p>效果如下：</p>
+<select>
+<option value='' disabled selected style='display:none;'>请选择</option>
+<option value='苹果'>苹果</option>
+<option value='梨子'>梨子</option>
+</select>
+
+<p>还有，这里笔者用了一个判断：</p>
+<pre><code>@($_POST[&#39;license&#39;] !== null || $_POST[&#39;brand&#39;] !== null)</code></pre>
+<p>因为是当前页提交，当前页显示，所以这里需要来个判断，不然第一次打开的时候，就会提示你的提交为空，这样用户体验不好，这里添加一个<code>@</code>也是为了把报错信息隐藏掉。免得输出在前台。</p>
+<p>好吧言归正传，这个里面笔者有写样式代码，有写html代码，最后的那部分是php代码，大家可以仔细分析下是如何实现的，其实很简单。在php代码里有个判断语句，作为不同的情况采用不同的查询方法，呈现不同的查询结果。值得提醒的是有序列码的情况，由于序列码是独一无二的，所以，就不会出现多条记录的情况。而当序列码为空的情况，就会出现多个记录的情况，这个时候，笔者采用的是while语句的方法来通过循环的形式呈现结果，如下代码片段：</p>
+<pre><code>if (empty($license)) &#123;
+    $query_Recordset1 = &quot;SELECT * FROM `wp_license` where brand = &#39;$brand&#39;&quot;;
+    $Recordset1 = mysqli_query($connection, $query_Recordset1 ) or die(mysqli_error($connection));
+    // 记得要注释下面这行，否则查询出来的记录数会少一条：https://zhidao.baidu.com/question/575162854.html
+    // $row_Recordset1 = mysqli_fetch_assoc($Recordset1);
+    // $totalRows_Recordset1 = mysqli_num_rows($Recordset1);
+    while ($row=mysqli_fetch_array($Recordset1)) &#123;
+    ?&gt;
+    &lt;ul class=&quot;list-group&quot;&gt;
+    &lt;li class=&quot;list-group-item&quot;&gt;您的序列码为：&lt;?php echo $row[&quot;name&quot;];?&gt;&lt;/li&gt;
+    &lt;li class=&quot;list-group-item&quot;&gt;码伪码所属品牌商：&lt;?php echo $row[&quot;brand&quot;] ?&gt;&lt;/li&gt;
+    &lt;li class=&quot;list-group-item&quot;&gt;序列码负责人：&lt;?php echo $row[&quot;fuzeren&quot;] ?&gt;&lt;/li&gt;
+    &lt;li class=&quot;list-group-item&quot;&gt;所属地区：&lt;?php echo $row[&quot;diqu&quot;] ?&gt;&lt;/li&gt;
+    &lt;li class=&quot;list-group-item&quot;&gt;产品名称：&lt;?php echo $row[&quot;chanpin&quot;] ?&gt;&lt;/li&gt;
+    &lt;?php
+        if ( is_user_logged_in() ) &#123;
+            echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;产品检测报告下载：&lt;a  style=&quot;background:red&quot; href=&quot;&#39;.$row[&quot;attachment&quot;].&#39;&quot;&gt;预览&lt;/a&gt; &lt;a href=&quot;&#39;.$row[&quot;attachment&quot;].&#39;&quot; download&gt;下载&lt;/a&gt;&lt;/li&gt;&#39;;
+        &#125;
+        else&#123;
+            echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;产品检测报告下载：&lt;a href=&quot;&#39;.$url.&#39;/wp-login.php&quot;&gt;请登录&lt;/a&gt;&lt;/li&gt;&#39;;
+        &#125;
+    ?&gt;
+    &lt;li class=&quot;list-group-item&quot;&gt;序列码查询时间：&lt;?php echo $localtime; ?&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;?php &#125; ?&gt;
+&lt;?php &#125;</code></pre>
+<p>在这个地方笔者就遇到一个bug，每次查询出来的结果总是少一条，后来发现：</p>
+<pre><code>$row_Recordset1 = mysqli_fetch_assoc($Recordset1);</code></pre>
+<p>这个事实上是，<code>mysqli_fetch_assoc</code>从结果集中取得一行作为关联数组，这里说明一下这个函数：</p>
+<blockquote>
+<p>返回根据从结果集取得的行生成的关联数组，如果没有更多行，则返回 false。</p>
+</blockquote>
+<blockquote>
+<p>mysql_fetch_assoc()将数据作为关联索引储存，用字段名作为键名。如果结果中的两个或以上的列具有相同字段名，最后一列将优先。要访问同名的其它列，必须用该列的数字索引或给该列起个别名。对有别名的列，不能再用原来的列名访问其内容。</p>
+</blockquote>
+<p>了解更多的话：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/blogforly/p/5910191.html">https://www.cnblogs.com/blogforly/p/5910191.html</a></p>
+<p>里面还有这样两条代码：</p>
+<pre><code>$delete_requested = &quot;DELETE FROM wp_license WHERE name =$license&quot;;
+$Recordset2 = mysqli_query($connection, $delete_requested ) or die(mysqli_error($connection));</code></pre>
+<p>这个被笔者注释了，这个就是要实现防伪码每次查询后，就不能第二次查询了，这里用的是查询一条就删除一条的方式。</p>
+<p>笔者这里采用的是在当前页面实现，所以在form的action的那里用的是<code>#</code>。</p>
+<p>好的，说道这里就差不多了，这里实现了防伪码的添加和查询。</p>
+<p>作为更加深入的探索，笔者还实现了三重搜索过滤功能的，笔者这里复制上面的license_search_3.php的文件，然后命名为：license_search_2.php，完整码如下：</p>
+<pre><code>&lt;?php
+/**
+ *
+    Template Name: 序列码查询三重过滤搜索
+ *
+ * This is the template that displays all pages by default.
+ * Please note that this is the WordPress construct of pages and that
+ * other &quot;pages&quot; on your WordPress site will use a different template.
+ *
+ * @package WordPress
+ * @subpackage Twenty_Fifteen
+ * @since Twenty Fifteen 1.0
+ */
+
+if ( !defined(&#39;ABSPATH&#39;) )&#123; die(); &#125;
+
+    global $avia_config;
+
+    /*
+     * get_header is a basic wordpress function, used to retrieve the header.php file in your theme directory.
+     */
+     get_header();
+
+
+      if( get_post_meta(get_the_ID(), &#39;header&#39;, true) != &#39;no&#39;) echo avia_title();
+
+      do_action( &#39;ava_after_main_title&#39; );
+?&gt;
+
+&lt;!-- 添加自定义数据库连接信息 开始 --&gt;
+&lt;?php
+$genmul=$_SERVER[&#39;DOCUMENT_ROOT&#39;];
+require_once(&quot;$genmul/wordpress/wp-config.php&quot;);
+// 如果我们采用的不是子目录方式（wordpress放在服务器的wordrpess的文件夹下），就采用如下方式：
+// require_once(&quot;$genmul/wp-config.php&quot;);
+// 方式二 结束
+
+//链接mysql服务器 开始
+$connection = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD);
+mysqli_select_db($connection, DB_NAME);
+//链接mysql服务器 结束
+
+?&gt;
+&lt;!-- 添加自定义数据库连接信息 结束 --&gt;
+
+
+&lt;div class=&#39;container_wrap container_wrap_first main_color &lt;?php avia_layout_class( &#39;main&#39; ); ?&gt;&#39;&gt;
+
+            &lt;div class=&#39;container license2&#39;&gt;
+
+                &lt;main class=&#39;template-page content  &lt;?php avia_layout_class( &#39;content&#39; ); ?&gt; units&#39; &lt;?php avia_markup_helper(array(&#39;context&#39; =&gt; &#39;content&#39;,&#39;post_type&#39;=&gt;&#39;page&#39;));?&gt;&gt;
+
+                    &lt;?php
+                    /* Run the loop to output the posts.
+                    * If you want to overload this in a child theme then include a file
+                    * called loop-page.php and that will be used instead.
+                    */
+
+                    $avia_config[&#39;size&#39;] = avia_layout_class( &#39;main&#39; , false) == &#39;fullsize&#39; ? &#39;entry_without_sidebar&#39; : &#39;entry_with_sidebar&#39;;
+                    get_template_part( &#39;includes/loop&#39;, &#39;page&#39; );
+                    ?&gt;
+
+
+                    &lt;style&gt;
+                        .license2 .list-group&#123;
+                            margin:0px;
+                            margin-bottom: 20px;
+                        &#125;
+                        .license2 a&#123;
+                            text-decoration: none !important;
+                            font-size: 12px;
+                        &#125;
+                        .license2 .form-control .fenge&#123;
+                            display: flex !important;
+                        &#125;
+                        .license2 .form-control .neirong&#123;
+                            flex:1;
+                        &#125;
+                        .license2 .form-control .neirong:first-child&#123;
+                            margin-right:5px;
+                        &#125;
+                        .license2 .form-control .neirong:last-child&#123;
+                            margin-left:5px;
+                        &#125;
+                        .license2 .form-control input&#123;
+                            padding:8px 15px;
+                        &#125;
+                        .license2 .list-group-item&#123;
+                            border:1px solid #aaa !important;
+                            padding:8px 15px;
+                            border-bottom: 0px !important;
+                        &#125;
+                        .license2 .list-group-item:last-child&#123;
+                            border-bottom: 1px solid #aaa !important;
+                        &#125;
+                        .neirong input&#123;
+                            padding:9px !important;
+                        &#125;
+                        .license2 .list-group-item a&#123;
+                            background: #719430;
+                            padding: 5px 15px;
+                            border-radius: 3px;
+                            color: #fff;
+                        &#125;
+                        @media (max-width:767px)&#123;
+                        .license2 .form-control .fenge&#123;
+                            display: grid !important;
+                        &#125;
+                        .license2 .form-control .neirong&#123;
+                            margin:5px;
+                        &#125;
+                        &#125;
+                    &lt;/style&gt;
+
+
+                    &lt;br&gt;
+                    &lt;form action=&quot;#&quot; method=&quot;post&quot; class=&quot;form-control&quot;&gt;
+                        &lt;div class=&quot;fenge&quot;&gt;
+                            &lt;div class=&quot;neirong&quot;&gt;
+                                &lt;input type=&quot;text&quot; name=&quot;license&quot; placeholder=&quot;输入序列码&quot;&gt;
+                            &lt;/div&gt;
+                            &lt;div class=&quot;neirong&quot;&gt;
+                                &lt;select class=&quot;form-control&quot; name=&quot;brand&quot;&gt;
+                                    &lt;option value=&#39;&#39; disabled selected style=&#39;display:none;&#39;&gt;请选择品牌&lt;/option&gt;
+                                    &lt;?php
+                                        $query_Brand = &quot;SELECT DISTINCT(brand) FROM `wp_license`&quot;;
+                                        $result_brand = mysqli_query($connection, $query_Brand ) or die(mysqli_error($connection));
+                                        while ($row=mysqli_fetch_array($result_brand)) &#123;
+                                    ?&gt;
+                                        &lt;option value=&quot;&lt;?php echo $row[&#39;brand&#39;];?&gt;&quot;&gt;&lt;?php echo $row[&#39;brand&#39;];?&gt;&lt;/option&gt;
+                                    &lt;?php
+                                    &#125;
+                                    ?&gt;
+                                &lt;/select&gt;
+                            &lt;/div&gt;
+                            &lt;div class=&quot;neirong&quot;&gt;
+                                &lt;select class=&quot;form-control&quot; name=&quot;diqu&quot;&gt;
+                                    &lt;option value=&#39;&#39; disabled selected style=&#39;display:none;&#39;&gt;请选择地区&lt;/option&gt;
+                                    &lt;?php
+                                        $query_Diqu = &quot;SELECT DISTINCT(diqu) FROM `wp_license`&quot;;
+                                        $result_diqu = mysqli_query($connection, $query_Diqu ) or die(mysqli_error($connection));
+                                        while ($rr=mysqli_fetch_array($result_diqu)) &#123;
+                                    ?&gt;
+                                        &lt;option value=&quot;&lt;?php echo $rr[&#39;diqu&#39;];?&gt;&quot;&gt;&lt;?php echo $rr[&#39;diqu&#39;];?&gt;&lt;/option&gt;
+                                    &lt;?php
+                                    &#125;
+                                    ?&gt;
+                                &lt;/select&gt;
+                            &lt;/div&gt;
+                        &lt;/div&gt;
+                        &lt;input type=&quot;submit&quot; name=&quot;submit&quot; value=&quot;查询&quot;&gt;
+                    &lt;/form&gt;
+
+                    &lt;?php
+                    if (@($_POST[&#39;license&#39;] !== null || $_POST[&#39;brand&#39;] !== null || $_POST[&#39;diqu&#39;] !== null)) &#123;
+
+                        $url = home_url();
+                        $localtime=date(&#39;Y-m-d H:i:s&#39;,time());
+                        $license=$_POST[&quot;license&quot;];
+                        $brand=$_POST[&quot;brand&quot;];
+                        $diqu=$_POST[&quot;diqu&quot;];
+                        if (($license == null) &amp;&amp; ($brand != null) &amp;&amp; ($diqu != null)) &#123;
+                            $query_Recordset1 = &quot;SELECT * FROM `wp_license` where brand = &#39;$brand&#39; and diqu = &#39;$diqu&#39;&quot;;
+                            $Recordset1 = mysqli_query($connection, $query_Recordset1 ) or die(mysqli_error($connection));
+                            $totalRows_Recordset4 = mysqli_num_rows($Recordset1);
+                            if ($totalRows_Recordset4 &lt;= 0) &#123;
+                                echo &quot;请注意！这个序列码无效aa&lt;br&gt;&quot;;
+                                // exit;
+                            &#125;else&#123;
+                                while ($row=mysqli_fetch_array($Recordset1)) &#123;
+                                ?&gt;
+                                &lt;ul class=&quot;list-group&quot;&gt;
+                                &lt;li class=&quot;list-group-item&quot;&gt;序列码：&lt;?php echo $row[&quot;name&quot;];?&gt;&lt;/li&gt;
+                                &lt;li class=&quot;list-group-item&quot;&gt;防伪码所属品牌商：&lt;?php echo $row[&quot;brand&quot;] ?&gt;&lt;/li&gt;
+                                &lt;li class=&quot;list-group-item&quot;&gt;序列码负责人：&lt;?php echo $row[&quot;fuzeren&quot;] ?&gt;&lt;/li&gt;
+                                &lt;li class=&quot;list-group-item&quot;&gt;所属地区：&lt;?php echo $row[&quot;diqu&quot;] ?&gt;&lt;/li&gt;
+                                &lt;li class=&quot;list-group-item&quot;&gt;产品名称：&lt;?php echo $row[&quot;chanpin&quot;] ?&gt;&lt;/li&gt;
+                                &lt;?php
+                                    if ( is_user_logged_in() ) &#123;
+                                        echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;产品检测报告下载：&lt;a style=&quot;background:red&quot; href=&quot;&#39;.$row[&quot;attachment&quot;].&#39;&quot;&gt;预览&lt;/a&gt; &lt;a href=&quot;&#39;.$row[&quot;attachment&quot;].&#39;&quot; downloaded&gt;下载&lt;/a&gt;&lt;/li&gt;&#39;;
+                                    &#125;
+                                    else&#123;
+                                        echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;产品检测报告下载：&lt;a href=&quot;&#39;.$url.&#39;/wp-login.php&quot;&gt;请登录&lt;/a&gt;&lt;/li&gt;&#39;;
+                                    &#125;
+                                ?&gt;
+                                &lt;li class=&quot;list-group-item&quot;&gt;序列码查询时间：&lt;?php echo $localtime ?&gt;&lt;/li&gt;
+                                &lt;/ul&gt;
+                                &lt;?php &#125; ?&gt;
+                        &lt;?php &#125; ?&gt;
+                        &lt;?php &#125;
+                        elseif (($brand == null) &amp;&amp; ($license != null) &amp;&amp; ($diqu != null)) &#123;
+                            $query_Recordset1 = &quot;SELECT * FROM `wp_license` where name =&#39;$license&#39; and diqu = &#39;$diqu&#39;&quot;;
+                            $Recordset1 = mysqli_query($connection, $query_Recordset1 ) or die(mysqli_error($connection));
+                            $row_Recordset2 = mysqli_fetch_assoc($Recordset1);
+                            $totalRows_Recordset4 = mysqli_num_rows($Recordset1);
+                            if ($totalRows_Recordset4 &lt;= 0) &#123;
+                                echo &quot;请注意！这个序列码无效wetreh&lt;br&gt;&quot;;
+                                // exit;
+                            &#125;else&#123;
+                                echo &#39;&lt;ul class=&quot;list-group&quot;&gt;&#39;;
+                                echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;您的序列码为：&#39;.$row_Recordset2[&quot;name&quot;].&#39;&lt;/li&gt;&#39;;
+                                echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;码伪码所属品牌商：&#39;.$row_Recordset2[&quot;brand&quot;].&#39;&lt;/li&gt;&#39;;
+                                echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;序列码负责人：&#39;.$row_Recordset2[&quot;fuzeren&quot;].&#39;&lt;/li&gt;&#39;;
+                                echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;所属地区：&#39;.$row_Recordset2[&quot;diqu&quot;].&#39;&lt;/li&gt;&#39;;
+                                echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;产品名称：&#39;.$row_Recordset2[&quot;chanpin&quot;].&#39;&lt;/li&gt;&#39;;
+                                if (is_user_logged_in()) &#123;
+                                    echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;产品检测报告下载：&lt;a style=&quot;background:red&quot; href=&quot;&#39;.$row_Recordset2[&quot;attachment&quot;].&#39;&quot;&gt;预览&lt;/a&gt; &lt;a href=&quot;&#39;.$row_Recordset2[&quot;attachment&quot;].&#39;&quot; download&gt;下载&lt;/a&gt;&lt;/li&gt;&#39;;
+                                &#125;
+                                else&#123;
+                                    echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;产品检测报告下载：&lt;a href=&quot;&#39;.$url.&#39;/wp-login.php&quot;&gt;请登录&lt;/a&gt;&lt;/li&gt;&#39;;
+                                &#125;
+                                echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;序列码查询时间：&#39;.$localtime.&#39;&lt;/li&gt;&#39;;
+                                echo &#39;&lt;/ul&gt;&#39;;
+                            &#125;
+                        &#125;
+                        elseif (($diqu == null) &amp;&amp; ($license != null) &amp;&amp; ($brand != null)) &#123;
+                            $query_Recordset1 = &quot;SELECT * FROM `wp_license` where name =&#39;$license&#39; and brand = &#39;$brand&#39;&quot;;
+                            $Recordset1 = mysqli_query($connection, $query_Recordset1) or die(mysqli_error($connection));
+                            $row_Recordset2 = mysqli_fetch_assoc($Recordset1);
+                            $totalRows_Recordset2 = mysqli_num_rows($Recordset1);
+                            if ($totalRows_Recordset2 &lt;= 0) &#123;
+                                echo &quot;请注意！这个序列码无效www&lt;br&gt;&quot;;
+                                // exit;
+                            &#125;else&#123;
+                                echo &#39;&lt;ul class=&quot;list-group&quot;&gt;&#39;;
+                                echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;您的序列码为：&#39;.$row_Recordset2[&quot;name&quot;].&#39;&lt;/li&gt;&#39;;
+                                echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;码伪码所属品牌商：&#39;.$row_Recordset2[&quot;brand&quot;].&#39;&lt;/li&gt;&#39;;
+                                echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;序列码负责人：&#39;.$row_Recordset2[&quot;fuzeren&quot;].&#39;&lt;/li&gt;&#39;;
+                                echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;所属地区：&#39;.$row_Recordset2[&quot;diqu&quot;].&#39;&lt;/li&gt;&#39;;
+                                echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;产品名称：&#39;.$row_Recordset2[&quot;chanpin&quot;].&#39;&lt;/li&gt;&#39;;
+                                if (is_user_logged_in()) &#123;
+                                    echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;产品检测报告下载：&lt;a style=&quot;background:red&quot; href=&quot;&#39;.$row_Recordset2[&quot;attachment&quot;].&#39;&quot;&gt;预览&lt;/a&gt; &lt;a href=&quot;&#39;.$row_Recordset2[&quot;attachment&quot;].&#39;&quot; download&gt;下载&lt;/a&gt;&lt;/li&gt;&#39;;
+                                &#125;
+                                else&#123;
+                                    echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;产品检测报告下载：&lt;a href=&quot;&#39;.$url.&#39;/wp-login.php&quot;&gt;请登录&lt;/a&gt;&lt;/li&gt;&#39;;
+                                &#125;
+                                echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;序列码查询时间：&#39;.$localtime.&#39;&lt;/li&gt;&#39;;
+                                echo &#39;&lt;/ul&gt;&#39;;
+                            &#125;
+                        &#125;
+                        elseif (($brand == null) &amp;&amp; ($diqu == null) &amp;&amp; ($license != null)) &#123;
+                            $query_Recordset1 = &quot;SELECT * FROM `wp_license` where name = $license&quot;;
+
+                            $Recordset1 = mysqli_query($connection, $query_Recordset1 ) or die(mysqli_error($connection));
+                            $row_Recordset1 = mysqli_fetch_assoc($Recordset1);
+                            $totalRows_Recordset4 = mysqli_num_rows($Recordset1);
+                            if ($totalRows_Recordset4 &lt;= 0) &#123;
+                                echo &quot;请注意！这个序列码无效,没有品牌&lt;br&gt;&quot;;
+                                // exit;
+                            &#125;else&#123;
+                                echo &#39;&lt;ul class=&quot;list-group&quot;&gt;&#39;;
+                                echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;序列码为：&#39;.$row_Recordset1[&quot;name&quot;].&#39;&lt;/li&gt;&#39;;
+                                echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;防伪码所属品牌商：&#39;.$row_Recordset1[&quot;brand&quot;].&#39;&lt;/li&gt;&#39;;
+                                echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;序列码负责人：&#39;.$row_Recordset1[&quot;fuzeren&quot;].&#39;&lt;/li&gt;&#39;;
+                                echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;所属地区：&#39;.$row_Recordset1[&quot;diqu&quot;].&#39;&lt;/li&gt;&#39;;
+                                echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;产品名称：&#39;.$row_Recordset1[&quot;chanpin&quot;].&#39;&lt;/li&gt;&#39;;
+                                if ( is_user_logged_in() ) &#123;
+                                    echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;产品检测报告下载：&lt;a style=&quot;background:red&quot; href=&quot;&#39;.$row_Recordset1[&quot;attachment&quot;].&#39;&quot;&gt;预览&lt;/a&gt; &lt;a href=&quot;&#39;.$row_Recordset1[&quot;attachment&quot;].&#39;&quot; download&gt;下载&lt;/a&gt;&lt;/li&gt;&#39;;
+                                &#125;
+                                else&#123;
+                                    echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;产品检测报告下载：&lt;a href=&quot;&#39;.$url.&#39;/wp-login.php&quot;&gt;请登录&lt;/a&gt;&lt;/li&gt;&#39;;
+                                &#125;
+                                echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;序列码查询时间：&#39;.$localtime.&#39;&lt;/li&gt;&#39;;
+                                echo &#39;&lt;/ul&gt;&#39;;
+                                // $delete_requested = &quot;DELETE FROM wp_license WHERE name =$license&quot;;
+                                // $Recordset2 = mysqli_query($connection, $delete_requested ) or die(mysqli_error($connection));
+                            &#125;
+                        &#125;
+                        elseif (($brand != null) &amp;&amp; ($license == null) &amp;&amp; ($diqu == null)) &#123;
+                            $query_Recordset1 = &quot;SELECT * FROM `wp_license` where brand = &#39;$brand&#39;&quot;;
+                            $Recordset1 = mysqli_query($connection, $query_Recordset1 ) or die(mysqli_error($connection));
+                            $totalRows_Recordset4 = mysqli_num_rows($Recordset1);
+                            if ($totalRows_Recordset4 &lt;= 0) &#123;
+                                echo &quot;请注意！这个序列码无效app&lt;br&gt;&quot;;
+                                exit;
+                            &#125;else&#123;
+                                while ($row=mysqli_fetch_array($Recordset1)) &#123;
+                                ?&gt;
+                                &lt;ul class=&quot;list-group&quot;&gt;
+                                &lt;li class=&quot;list-group-item&quot;&gt;序列码：&lt;?php echo $row[&quot;name&quot;];?&gt;&lt;/li&gt;
+                                &lt;li class=&quot;list-group-item&quot;&gt;防伪码所属品牌商：&lt;?php echo $row[&quot;brand&quot;] ?&gt;&lt;/li&gt;
+                                &lt;li class=&quot;list-group-item&quot;&gt;序列码负责人：&lt;?php echo $row[&quot;fuzeren&quot;] ?&gt;&lt;/li&gt;
+                                &lt;li class=&quot;list-group-item&quot;&gt;所属地区：&lt;?php echo $row[&quot;diqu&quot;] ?&gt;&lt;/li&gt;
+                                &lt;li class=&quot;list-group-item&quot;&gt;产品名称：&lt;?php echo $row[&quot;chanpin&quot;] ?&gt;&lt;/li&gt;
+                                &lt;?php
+                                    if ( is_user_logged_in() ) &#123;
+                                        echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;产品检测报告下载：&lt;a style=&quot;background:red&quot; href=&quot;&#39;.$row[&quot;attachment&quot;].&#39;&quot;&gt;预览&lt;/a&gt; &lt;a href=&quot;&#39;.$row[&quot;attachment&quot;].&#39;&quot; downloaded&gt;下载&lt;/a&gt;&lt;/li&gt;&#39;;
+                                    &#125;
+                                    else&#123;
+                                        echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;产品检测报告下载：&lt;a href=&quot;&#39;.$url.&#39;/wp-login.php&quot;&gt;请登录&lt;/a&gt;&lt;/li&gt;&#39;;
+                                    &#125;
+                                ?&gt;
+                                &lt;li class=&quot;list-group-item&quot;&gt;序列码查询时间：&lt;?php echo $localtime; ?&gt;&lt;/li&gt;
+                                &lt;/ul&gt;
+                                &lt;?php &#125; ?&gt;
+                        &lt;?php &#125; ?&gt;
+                        &lt;?php &#125;
+                        elseif (($diqu != null) &amp;&amp; ($license == null) &amp;&amp; ($brand == null)) &#123;
+                            $query_Recordset1 = &quot;SELECT * FROM `wp_license` where diqu = &#39;$diqu&#39;&quot;;
+                            $Recordset1 = mysqli_query($connection, $query_Recordset1 ) or die(mysqli_error($connection));
+                            $totalRows_Recordset4 = mysqli_num_rows($Recordset1);
+                            if ($totalRows_Recordset4 &lt;= 0) &#123;
+                                echo &quot;请注意！这个序列码无效ama&lt;br&gt;&quot;;
+                                // exit;
+                            &#125;else&#123;
+                                while ($row=mysqli_fetch_array($Recordset1)) &#123;
+                                ?&gt;
+                                &lt;ul class=&quot;list-group&quot;&gt;
+                                &lt;li class=&quot;list-group-item&quot;&gt;序列码：&lt;?php echo $row[&quot;name&quot;];?&gt;&lt;/li&gt;
+                                &lt;li class=&quot;list-group-item&quot;&gt;防伪码所属品牌商：&lt;?php echo $row[&quot;brand&quot;] ?&gt;&lt;/li&gt;
+                                &lt;li class=&quot;list-group-item&quot;&gt;序列码负责人：&lt;?php echo $row[&quot;fuzeren&quot;] ?&gt;&lt;/li&gt;
+                                &lt;li class=&quot;list-group-item&quot;&gt;所属地区：&lt;?php echo $row[&quot;diqu&quot;] ?&gt;&lt;/li&gt;
+                                &lt;li class=&quot;list-group-item&quot;&gt;产品名称：&lt;?php echo $row[&quot;chanpin&quot;] ?&gt;&lt;/li&gt;
+                                &lt;?php
+                                    if ( is_user_logged_in() ) &#123;
+                                        echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;产品检测报告下载：&lt;a style=&quot;background:red&quot; href=&quot;&#39;.$row[&quot;attachment&quot;].&#39;&quot;&gt;预览&lt;/a&gt; &lt;a href=&quot;&#39;.$row[&quot;attachment&quot;].&#39;&quot; downloaded&gt;下载&lt;/a&gt;&lt;/li&gt;&#39;;
+                                    &#125;
+                                    else&#123;
+                                        echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;产品检测报告下载：&lt;a href=&quot;&#39;.$url.&#39;/wp-login.php&quot;&gt;请登录&lt;/a&gt;&lt;/li&gt;&#39;;
+                                    &#125;
+                                ?&gt;
+                                &lt;li class=&quot;list-group-item&quot;&gt;序列码查询时间：&lt;?php echo $localtime; ?&gt;&lt;/li&gt;
+                                &lt;/ul&gt;
+                                &lt;?php &#125; ?&gt;
+                        &lt;?php &#125; ?&gt;
+                        &lt;?php &#125;
+                        else&#123;
+                            $query_Recordset2 = &quot;SELECT * FROM `wp_license` where name = &#39;$license&#39; and brand = &#39;$brand&#39; and diqu = &#39;$diqu&#39;&quot;;
+                            $Recordset2 = mysqli_query($connection, $query_Recordset2 ) or die(mysqli_error($connection));
+                            $row_Recordset2 = mysqli_fetch_assoc($Recordset2);
+                            $totalRows_Recordset2 = mysqli_num_rows($Recordset2);
+                            if ($totalRows_Recordset2 &lt;= 0) &#123;
+                                echo &quot;请注意！这个序列码无效qqw&lt;br&gt;&quot;;
+                                // exit;
+                            &#125;else&#123;
+                                echo &#39;&lt;ul class=&quot;list-group&quot;&gt;&#39;;
+                                echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;您的序列码为：&#39;.$row_Recordset2[&quot;name&quot;].&#39;&lt;/li&gt;&#39;;
+                                echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;码伪码所属品牌商：&#39;.$row_Recordset2[&quot;brand&quot;].&#39;&lt;/li&gt;&#39;;
+                                echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;序列码负责人：&#39;.$row_Recordset2[&quot;fuzeren&quot;].&#39;&lt;/li&gt;&#39;;
+                                echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;所属地区：&#39;.$row_Recordset2[&quot;diqu&quot;].&#39;&lt;/li&gt;&#39;;
+                                echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;产品名称：&#39;.$row_Recordset2[&quot;chanpin&quot;].&#39;&lt;/li&gt;&#39;;
+                                if (is_user_logged_in()) &#123;
+                                    echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;产品检测报告下载：&lt;a style=&quot;background:red&quot; href=&quot;&#39;.$row_Recordset2[&quot;attachment&quot;].&#39;&quot;&gt;预览&lt;/a&gt; &lt;a href=&quot;&#39;.$row_Recordset2[&quot;attachment&quot;].&#39;&quot; download&gt;下载&lt;/a&gt;&lt;/li&gt;&#39;;
+                                &#125;
+                                else&#123;
+                                    echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;产品检测报告下载：&lt;a href=&quot;&#39;.$url.&#39;/wp-login.php&quot;&gt;请登录&lt;/a&gt;&lt;/li&gt;&#39;;
+                                &#125;
+                                echo &#39;&lt;li class=&quot;list-group-item&quot;&gt;序列码查询时间：&#39;.$localtime.&#39;&lt;/li&gt;&#39;;
+                                echo &#39;&lt;/ul&gt;&#39;;
+                            &#125;
+                        &#125;
+
+                    &#125;
+                    else&#123;
+                        echo &quot;你没有输入任何内容&quot;;
+                        return &#39;&#39;;
+                    &#125;
+                    ?&gt;
+
+
+
+
+                &lt;!--end content--&gt;
+                &lt;/main&gt;
+
+                &lt;?php
+
+                //get the sidebar
+                $avia_config[&#39;currently_viewing&#39;] = &#39;page&#39;;
+                get_sidebar();
+
+                ?&gt;
+
+            &lt;/div&gt;&lt;!--end container--&gt;
+
+        &lt;/div&gt;&lt;!-- close default .container_wrap element --&gt;
+
+
+&lt;?php get_footer(); ?&gt;</code></pre>
+<p>上面已经说了很多了，笔者就不啰嗦了，这里只说一点：</p>
+<p>笔者在进行测试的时候发现，这个在序列码为空的情况下，其他两个非空的情况下查不出东西，足足折腾了三个小时，后来发现笔者把<code>==</code>的否定形式写成了<code>!==</code></p>
+<p>后来纠正了一下，把</p>
+<pre><code>($brand == null) &amp;&amp; ($license !== null) &amp;&amp; ($diqu != null)</code></pre>
+<p>中的都改成了</p>
+<pre><code>($brand == null) &amp;&amp; ($license != null) &amp;&amp; ($diqu != null)</code></pre>
+<p>后面终于正常了，其实呢笔者这样实现一个三重过滤功能是比较低级水平的，可是笔者只能先实现了，后面再进行升级，看下如何用更少的代码实现这个功能。最后的效果：</p>
+<p><img src="https://i.imgur.com/wuR1Rt7.png"></p>
+<p><img src="https://i.imgur.com/Bo9EqCY.png"></p>
+<p>代码笔者已经打包上传到云盘了，大家可以在这里下载：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1ve-HVXmP-8vDQAusR_N76Q">https://pan.baidu.com/s/1ve-HVXmP-8vDQAusR_N76Q</a>，密码：8nz7</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/wordpress-%E9%98%B2%E4%BC%AA%E7%A0%81%EF%BC%8C%E5%BA%8F%E5%88%97%E7%A0%81%EF%BC%8C%E5%A4%9A%E9%87%8D%E8%BF%87%E6%BB%A4%EF%BC%8C%E8%BF%87%E6%BB%A4%E6%90%9C%E7%B4%A2/" rel="tag"># wordpress,防伪码，序列码，多重过滤，过滤搜索</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/09/03/magento%E6%A8%A1%E5%9D%97%E5%BC%80%E5%8F%91%E4%B9%8B%E5%85%88%E7%99%BB%E5%BD%95%E6%89%8D%E8%83%BD%E6%9F%A5%E7%9C%8B%E5%86%85%E5%AE%B9%EF%BC%8C%E5%B9%B6%E4%B8%94%E7%99%BB%E5%BD%95%E5%90%8E%E8%B7%B3%E5%9B%9E%E5%88%B0%E5%BD%93%E5%89%8D%E9%A1%B5%E9%9D%A2%EF%BC%8C%E4%BB%A5%E5%8F%8A%E4%B8%BA%E9%A1%B5%E9%9D%A2%E6%B7%BB%E5%8A%A0%E8%81%94%E7%B3%BB%E8%A1%A8%E5%8D%95%E5%8A%9F%E8%83%BD/" rel="prev" title="magento模块开发之先登录才能查看内容，并且登录后跳回到当前页面，以及为页面添加联系表单功能">
+      <i class="fa fa-chevron-left"></i> magento模块开发之先登录才能查看内容，并且登录后跳回到当前页面，以及为页面添加联系表单功能
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/09/07/%E4%BD%BF%E7%94%A8jquery%E5%AE%9E%E7%8E%B0img%E7%9A%84data-src%E5%B1%9E%E6%80%A7%E8%BE%BE%E5%88%B0%E6%87%92%E5%8A%A0%E8%BD%BD%E7%9A%84%E7%9B%AE%E7%9A%84/" rel="next" title="使用jquery实现img的data-src属性达到懒加载的目的">
+      使用jquery实现img的data-src属性达到懒加载的目的 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#license-add-php%E6%96%87%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">license_add.php文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8D%E5%90%8C%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E4%B9%B1%E7%A0%81"><span class="nav-number">2.</span> <span class="nav-text">不同服务器数据库的乱码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#config-php%E6%96%87%E4%BB%B6"><span class="nav-number">3.</span> <span class="nav-text">config.php文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#license-save-php%E6%96%87%E4%BB%B6"><span class="nav-number">4.</span> <span class="nav-text">license_save.php文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2%E9%98%B2%E4%BC%AA%E7%A0%81"><span class="nav-number">5.</span> <span class="nav-text">查询防伪码</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

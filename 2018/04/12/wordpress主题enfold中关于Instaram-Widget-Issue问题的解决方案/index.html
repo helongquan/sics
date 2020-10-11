@@ -1,37 +1,2310 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="当我们在处理wordpress的社交媒体的时候，我们有的时候可能在侧边栏添加Instagram这个东西，但是有的时候，我们发现报错了，比如如下：   当我们在侧边栏调用Instagram的时候，报这个错误，该怎么办呢？我们这里给出解决方案。 找到这个目录：wp-content&#x2F;themes&#x2F;enfold&#x2F;framework&#x2F;php&#x2F;class-framework-widgets.php 重命名这个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="wordpress主题enfold中关于Instagram Widget Issue问题的解决方案">
+<meta property="og:url" content="http://example.com/2018/04/12/wordpress%E4%B8%BB%E9%A2%98enfold%E4%B8%AD%E5%85%B3%E4%BA%8EInstaram-Widget-Issue%E9%97%AE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="当我们在处理wordpress的社交媒体的时候，我们有的时候可能在侧边栏添加Instagram这个东西，但是有的时候，我们发现报错了，比如如下：   当我们在侧边栏调用Instagram的时候，报这个错误，该怎么办呢？我们这里给出解决方案。 找到这个目录：wp-content&#x2F;themes&#x2F;enfold&#x2F;framework&#x2F;php&#x2F;class-framework-widgets.php 重命名这个">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/RIHMOQI.jpg">
+<meta property="og:image" content="https://i.imgur.com/EBnqSpe.jpg">
+<meta property="article:published_time" content="2018-04-12T07:59:50.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:53:07.688Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="wordpress,enfold,Instagram,小工具">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/RIHMOQI.jpg">
+
+<link rel="canonical" href="http://example.com/2018/04/12/wordpress%E4%B8%BB%E9%A2%98enfold%E4%B8%AD%E5%85%B3%E4%BA%8EInstaram-Widget-Issue%E9%97%AE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>wordpress主题enfold中关于Instagram Widget Issue问题的解决方案 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/04/12/wordpress%E4%B8%BB%E9%A2%98enfold%E4%B8%AD%E5%85%B3%E4%BA%8EInstaram-Widget-Issue%E9%97%AE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          wordpress主题enfold中关于Instagram Widget Issue问题的解决方案
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-04-12 15:59:50" itemprop="dateCreated datePublished" datetime="2018-04-12T15:59:50+08:00">2018-04-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:07" itemprop="dateModified" datetime="2020-10-11T11:53:07+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>当我们在处理wordpress的社交媒体的时候，我们有的时候可能在侧边栏添加Instagram这个东西，但是有的时候，我们发现报错了，比如如下：</p>
+<p><img src="https://i.imgur.com/RIHMOQI.jpg"></p>
+<p><img src="https://i.imgur.com/EBnqSpe.jpg"></p>
+<p>当我们在侧边栏调用Instagram的时候，报这个错误，该怎么办呢？我们这里给出解决方案。</p>
+<p>找到这个目录：wp-content/themes/enfold/framework/php/class-framework-widgets.php</p>
+<p>重命名这个文件，根据自己的喜好，我这里重命名为class-framework-widgets.php.bak</p>
+<p>然后把这个文件上传上去，命名为class-framework-widgets.php，代码如下：</p>
+<pre><code>&lt;?php  if ( ! defined(&#39;AVIA_FW&#39;)) exit(&#39;No direct script access allowed&#39;);
+/**
+ * This file holds several widgets exclusive to the framework
+ *
+ * @author      Christian &quot;Kriesi&quot; Budschedl
+ * @copyright   Copyright (c) Christian Budschedl
+ * @link        http://Kriesi.at
+ * @link        http://aviathemes.com
+ * @since       Version 1.0
+ * @package     AviaFramework
+ */
+
+
+
+/**
+ * AVIA FACEBOOK WIDGET
+ */
+
+if (!class_exists(&#39;avia_fb_likebox&#39;))
+&#123;
+    class avia_fb_likebox extends WP_Widget &#123;
+
+        static $script_loaded = 0;
+
+        function __construct() &#123;
+            //Constructor
+            $widget_ops = array(&#39;classname&#39; =&gt; &#39;avia_fb_likebox&#39;, &#39;description&#39; =&gt; __(&#39;A widget that displays a facebook Likebox to a facebook page of your choice&#39;, &#39;avia_framework&#39;) );
+            parent::__construct( &#39;avia_fb_likebox&#39;, THEMENAME.&#39; Facebook Likebox&#39;, $widget_ops );
+        &#125;
+
+        function widget($args, $instance)
+        &#123;
+            // prints the widget
+
+            extract($args, EXTR_SKIP);
+            if(empty($instance[&#39;url&#39;])) return;
+            $url        = $instance[&#39;url&#39;];
+            $title = empty($instance[&#39;title&#39;]) ? &#39;&#39; : apply_filters(&#39;widget_title&#39;, $instance[&#39;title&#39;]);
+            $height     = 151; 
+            $faces      = &quot;true&quot;;
+            $extraClass = &quot;&quot;;
+            $style      = &quot;&quot;;
+
+
+            if(strpos($height, &quot;%&quot;) !== false)
+            &#123;
+                $extraClass = &quot;av_facebook_widget_wrap_positioner&quot;;
+                $style      = &quot;style=&#39;padding-bottom:&#123;$height&#125;&#39;&quot;;
+                $height     = &quot;100%&quot;;
+            &#125;
+
+
+            echo $before_widget;
+
+            if ( !empty( $title ) ) &#123; echo $before_title . $title . $after_title; &#125;;
+
+            echo &quot;&lt;div class=&#39;av_facebook_widget_wrap &#123;$extraClass&#125;&#39; &#123;$style&#125;&gt;&quot;;
+            echo &#39;&lt;div class=&quot;fb-page&quot; data-width=&quot;500&quot; data-href=&quot;&#39;.$url.&#39;&quot; data-small-header=&quot;false&quot; data-adapt-container-width=&quot;true&quot; data-hide-cover=&quot;false&quot; data-show-facepile=&quot;true&quot; data-show-posts=&quot;false&quot;&gt;&lt;div class=&quot;fb-xfbml-parse-ignore&quot;&gt;&lt;/div&gt;&lt;/div&gt;&#39;;
+            echo &quot;&lt;/div&gt;&quot;;
+            echo $after_widget;
+            add_action(&#39;wp_footer&#39;, array( $this,&#39;fb_js&#39; ));
+        &#125;
+
+
+
+        function fb_js()
+        &#123;
+            if ( function_exists(&#39;icl_object_id&#39;) ) &#123;
+                $locale = ICL_LANGUAGE_NAME_EN;
+                $fbxml = @simplexml_load_file( AVIA_BASE . &#39;/config-wpml/FacebookLocales.xml&#39; );
+
+                if(is_object($fbxml))
+                &#123;
+                    $langcode = array();
+                    foreach($fbxml as $loc) &#123;
+                        if($loc-&gt;englishName == $locale) &#123;
+                            $langcode = $loc-&gt;codes-&gt;code-&gt;standard-&gt;representation;
+                        &#125;
+                    &#125;
+                &#125;
+            &#125;
+
+            $langcode = function_exists(&#39;icl_object_id&#39;) &amp;&amp; !empty($langcode) ? $langcode : get_locale();
+
+            if(self::$script_loaded == 1) return;
+            self::$script_loaded = 1;
+
+            echo &#39;
+&lt;script&gt;(function(d, s, id) &#123;
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = &quot;//connect.facebook.net/&#39;. $langcode .&#39;/sdk.js#xfbml=1&amp;version=v2.7&quot;;
+  fjs.parentNode.insertBefore(js, fjs);
+&#125;(document, &quot;script&quot;, &quot;facebook-jssdk&quot;));&lt;/script&gt;&#39;;
+
+        &#125;
+
+
+        function update($new_instance, $old_instance)
+        &#123;
+            $instance = $old_instance;
+            foreach($new_instance as $key=&gt;$value)
+            &#123;
+                $instance[$key] = strip_tags($new_instance[$key]);
+            &#125;
+
+            return $instance;
+        &#125;
+
+        function form($instance) &#123;
+            //widgetform in backend
+
+            $instance = wp_parse_args( (array) $instance, array(&#39;url&#39; =&gt; &#39;https://www.facebook.com/kriesi.at&#39;, &#39;title&#39; =&gt; &#39;&#39;) );
+            $html = new avia_htmlhelper();
+
+
+    ?&gt;
+
+            &lt;p&gt;
+            &lt;label for=&quot;&lt;?php echo $this-&gt;get_field_id(&#39;title&#39;); ?&gt;&quot;&gt;&lt;?php _e(&#39;Title:&#39;, &#39;avia_framework&#39;); ?&gt;
+            &lt;input class=&quot;widefat&quot; id=&quot;&lt;?php echo $this-&gt;get_field_id(&#39;title&#39;); ?&gt;&quot; name=&quot;&lt;?php echo $this-&gt;get_field_name(&#39;title&#39;); ?&gt;&quot; type=&quot;text&quot; value=&quot;&lt;?php echo esc_attr($instance[&#39;title&#39;]); ?&gt;&quot; /&gt;&lt;/label&gt;
+            &lt;/p&gt;
+
+            &lt;p&gt;
+            &lt;label for=&quot;&lt;?php echo $this-&gt;get_field_id(&#39;url&#39;); ?&gt;&quot;&gt;&lt;?php _e(&#39;Enter the url to the Page. Please note that it needs to be a link to a &lt;strong&gt;facebook fanpage&lt;/strong&gt;. Personal profiles are not allowed!&#39;, &#39;avia_framework&#39;); ?&gt;
+            &lt;input class=&quot;widefat&quot; id=&quot;&lt;?php echo $this-&gt;get_field_id(&#39;url&#39;); ?&gt;&quot; name=&quot;&lt;?php echo $this-&gt;get_field_name(&#39;url&#39;); ?&gt;&quot; type=&quot;text&quot; value=&quot;&lt;?php echo esc_attr($instance[&#39;url&#39;]); ?&gt;&quot; /&gt;&lt;/label&gt;
+            &lt;/p&gt;
+
+
+
+
+        &lt;?php
+        &#125;
+    &#125;
+&#125;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * AVIA TWEETBOX
+ *
+ * Widget that creates a list of latest tweets
+ *
+ * @package AviaFramework
+ * @todo replace the widget system with a dynamic one, based on config files for easier widget creation
+ */
+
+
+
+/*
+Twitter widget only for compatibility reasons with older themes present. no onger used since API will be shut down by twitter
+*/
+if (!class_exists(&#39;avia_tweetbox&#39;))
+&#123;
+    class avia_tweetbox extends WP_Widget &#123;
+
+        function __construct() &#123;
+            //Constructor
+            $widget_ops = array(&#39;classname&#39; =&gt; &#39;tweetbox&#39;, &#39;description&#39; =&gt; &#39;A widget to display your latest twitter messages&#39; );
+            parent::__construct( &#39;tweetbox&#39;, THEMENAME.&#39; Twitter Widget&#39;, $widget_ops );
+        &#125;
+
+        function widget($args, $instance) &#123;
+            // prints the widget
+
+            extract($args, EXTR_SKIP);
+            echo $before_widget;
+
+            $title = empty($instance[&#39;title&#39;]) ? &#39;&#39; : apply_filters(&#39;widget_title&#39;, $instance[&#39;title&#39;]);
+            $count = empty($instance[&#39;count&#39;]) ? &#39;&#39; : $instance[&#39;count&#39;];
+            $username = empty($instance[&#39;username&#39;]) ? &#39;&#39; : $instance[&#39;username&#39;];
+            $exclude_replies = empty($instance[&#39;exclude_replies&#39;]) ? &#39;&#39; : $instance[&#39;exclude_replies&#39;];
+            $time = empty($instance[&#39;time&#39;]) ? &#39;no&#39; : $instance[&#39;time&#39;];
+            $display_image = empty($instance[&#39;display_image&#39;]) ? &#39;no&#39; : $instance[&#39;display_image&#39;];
+
+            if ( !empty( $title ) ) &#123; echo $before_title . &quot;&lt;a href=&#39;http://twitter.com/$username/&#39; title=&#39;&quot;.strip_tags($title).&quot;&#39;&gt;&quot;.$title .&quot;&lt;/a&gt;&quot;. $after_title; &#125;;
+
+            $messages = tweetbox_get_tweet($count, $username, $widget_id, $time, $exclude_replies, $display_image);
+            echo $messages;
+
+            echo $after_widget;
+
+
+        &#125;
+
+        function update($new_instance, $old_instance) &#123;
+            //save the widget
+            $instance = $old_instance;
+            foreach($new_instance as $key=&gt;$value)
+            &#123;
+                $instance[$key] = strip_tags($new_instance[$key]);
+            &#125;
+
+            delete_transient(THEMENAME.&#39;_tweetcache_id_&#39;.$instance[&#39;username&#39;].&#39;_&#39;.$this-&gt;id_base.&quot;-&quot;.$this-&gt;number);
+            return $instance;
+        &#125;
+
+        function form($instance) &#123;
+            //widgetform in backend
+
+            $instance = wp_parse_args( (array) $instance, array( &#39;title&#39; =&gt; &#39;Latest Tweets&#39;, &#39;count&#39; =&gt; &#39;3&#39;, &#39;username&#39; =&gt; avia_get_option(&#39;twitter&#39;) ) );
+            $title =            isset($instance[&#39;title&#39;]) ? strip_tags($instance[&#39;title&#39;]): &quot;&quot;;
+            $count =            isset($instance[&#39;count&#39;]) ? strip_tags($instance[&#39;count&#39;]): &quot;&quot;;
+            $username =         isset($instance[&#39;username&#39;]) ? strip_tags($instance[&#39;username&#39;]): &quot;&quot;;
+            $exclude_replies =  isset($instance[&#39;exclude_replies&#39;]) ? strip_tags($instance[&#39;exclude_replies&#39;]): &quot;&quot;;
+            $time =             isset($instance[&#39;time&#39;]) ? strip_tags($instance[&#39;time&#39;]): &quot;&quot;;
+            $display_image =    isset($instance[&#39;display_image&#39;]) ? strip_tags($instance[&#39;display_image&#39;]): &quot;&quot;;
+    ?&gt;
+            &lt;p&gt;
+            &lt;label for=&quot;&lt;?php echo $this-&gt;get_field_id(&#39;title&#39;); ?&gt;&quot;&gt;&lt;?php _e(&#39;Title:&#39;, &#39;avia_framework&#39;); ?&gt;
+            &lt;input class=&quot;widefat&quot; id=&quot;&lt;?php echo $this-&gt;get_field_id(&#39;title&#39;); ?&gt;&quot; name=&quot;&lt;?php echo $this-&gt;get_field_name(&#39;title&#39;); ?&gt;&quot; type=&quot;text&quot; value=&quot;&lt;?php echo esc_attr($title); ?&gt;&quot; /&gt;&lt;/label&gt;&lt;/p&gt;
+
+            &lt;p&gt;&lt;label for=&quot;&lt;?php echo $this-&gt;get_field_id(&#39;username&#39;); ?&gt;&quot;&gt;Enter your twitter username:
+            &lt;input class=&quot;widefat&quot; id=&quot;&lt;?php echo $this-&gt;get_field_id(&#39;username&#39;); ?&gt;&quot; name=&quot;&lt;?php echo $this-&gt;get_field_name(&#39;username&#39;); ?&gt;&quot; type=&quot;text&quot; value=&quot;&lt;?php echo esc_attr($username); ?&gt;&quot; /&gt;&lt;/label&gt;&lt;/p&gt;
+
+            &lt;p&gt;
+                &lt;label for=&quot;&lt;?php echo $this-&gt;get_field_id(&#39;count&#39;); ?&gt;&quot;&gt;How many entries do you want to display: &lt;/label&gt;
+                &lt;select class=&quot;widefat&quot; id=&quot;&lt;?php echo $this-&gt;get_field_id(&#39;count&#39;); ?&gt;&quot; name=&quot;&lt;?php echo $this-&gt;get_field_name(&#39;count&#39;); ?&gt;&quot;&gt;
+                    &lt;?php
+                    $list = &quot;&quot;;
+                    for ($i = 1; $i &lt;= 20; $i++ )
+                    &#123;
+                        $selected = &quot;&quot;;
+                        if($count == $i) $selected = &#39;selected=&quot;selected&quot;&#39;;
+
+                        $list .= &quot;&lt;option $selected value=&#39;$i&#39;&gt;$i&lt;/option&gt;&quot;;
+                    &#125;
+                    $list .= &quot;&lt;/select&gt;&quot;;
+                    echo $list;
+                    ?&gt;
+
+
+            &lt;/p&gt;
+
+            &lt;p&gt;
+                &lt;label for=&quot;&lt;?php echo $this-&gt;get_field_id(&#39;exclude_replies&#39;); ?&gt;&quot;&gt;Exclude @replies: &lt;/label&gt;
+                &lt;select class=&quot;widefat&quot; id=&quot;&lt;?php echo $this-&gt;get_field_id(&#39;exclude_replies&#39;); ?&gt;&quot; name=&quot;&lt;?php echo $this-&gt;get_field_name(&#39;exclude_replies&#39;); ?&gt;&quot;&gt;
+                    &lt;?php
+                    $list = &quot;&quot;;
+                    $answers = array(&#39;yes&#39;,&#39;no&#39;);
+                    foreach ($answers as $answer)
+                    &#123;
+                        $selected = &quot;&quot;;
+                        if($answer == $exclude_replies) $selected = &#39;selected=&quot;selected&quot;&#39;;
+
+                        $list .= &quot;&lt;option $selected value=&#39;$answer&#39;&gt;$answer&lt;/option&gt;&quot;;
+                    &#125;
+                    $list .= &quot;&lt;/select&gt;&quot;;
+                    echo $list;
+                    ?&gt;
+
+
+            &lt;/p&gt;
+
+            &lt;p&gt;
+                &lt;label for=&quot;&lt;?php echo $this-&gt;get_field_id(&#39;time&#39;); ?&gt;&quot;&gt;Display time of tweet&lt;/label&gt;
+                &lt;select class=&quot;widefat&quot; id=&quot;&lt;?php echo $this-&gt;get_field_id(&#39;time&#39;); ?&gt;&quot; name=&quot;&lt;?php echo $this-&gt;get_field_name(&#39;time&#39;); ?&gt;&quot;&gt;
+                    &lt;?php
+                    $list = &quot;&quot;;
+                    $answers = array(&#39;yes&#39;,&#39;no&#39;);
+                    foreach ($answers as $answer)
+                    &#123;
+                        $selected = &quot;&quot;;
+                        if($answer == $time) $selected = &#39;selected=&quot;selected&quot;&#39;;
+
+                        $list .= &quot;&lt;option $selected value=&#39;$answer&#39;&gt;$answer&lt;/option&gt;&quot;;
+                    &#125;
+                    $list .= &quot;&lt;/select&gt;&quot;;
+                    echo $list;
+                    ?&gt;
+
+
+            &lt;/p&gt;
+
+            &lt;p&gt;
+                &lt;label for=&quot;&lt;?php echo $this-&gt;get_field_id(&#39;display_image&#39;); ?&gt;&quot;&gt;Display Twitter User Avatar&lt;/label&gt;
+                &lt;select class=&quot;widefat&quot; id=&quot;&lt;?php echo $this-&gt;get_field_id(&#39;display_image&#39;); ?&gt;&quot; name=&quot;&lt;?php echo $this-&gt;get_field_name(&#39;display_image&#39;); ?&gt;&quot;&gt;
+                    &lt;?php
+                    $list = &quot;&quot;;
+                    $answers = array(&#39;yes&#39;,&#39;no&#39;);
+                    foreach ($answers as $answer)
+                    &#123;
+                        $selected = &quot;&quot;;
+                        if($answer == $display_image) $selected = &#39;selected=&quot;selected&quot;&#39;;
+
+                        $list .= &quot;&lt;option $selected value=&#39;$answer&#39;&gt;$answer&lt;/option&gt;&quot;;
+                    &#125;
+                    $list .= &quot;&lt;/select&gt;&quot;;
+                    echo $list;
+                    ?&gt;
+            &lt;/p&gt;
+
+
+
+        &lt;?php
+        &#125;
+    &#125;
+&#125;
+
+if(!function_exists(&#39;tweetbox_get_tweet&#39;))
+&#123;
+    function tweetbox_get_tweet($count, $username, $widget_id, $time=&#39;yes&#39;, $exclude_replies=&#39;yes&#39;, $avatar = &#39;yes&#39;)
+    &#123;
+            $filtered_message = &quot;&quot;;
+            $output = &quot;&quot;;
+            $iterations = 0;
+
+            $cache = get_transient(THEMENAME.&#39;_tweetcache_id_&#39;.$username.&#39;_&#39;.$widget_id);
+
+            if($cache)
+            &#123;
+                $tweets = get_option(THEMENAME.&#39;_tweetcache_&#39;.$username.&#39;_&#39;.$widget_id);
+            &#125;
+            else
+            &#123;
+                //$response = wp_remote_get( &#39;http://api.twitter.com/1/statuses/user_timeline.xml?screen_name=&#39;.$username );
+                $response = wp_remote_get( &#39;http://api.twitter.com/1/statuses/user_timeline.xml?include_rts=true&amp;screen_name=&#39;.$username );
+                if (!is_wp_error($response))
+                &#123;
+                    $xml = @simplexml_load_string($response[&#39;body&#39;]);
+                    //follower: (int) $xml-&gt;status-&gt;user-&gt;followers_count
+
+                    if( empty( $xml-&gt;error ) )
+                    &#123;
+                        if ( isset($xml-&gt;status[0]))
+                        &#123;
+
+                            $tweets = array();
+                            foreach ($xml-&gt;status as $tweet)
+                            &#123;
+                                if($iterations == $count) break;
+
+                                $text = (string) $tweet-&gt;text;
+                                if($exclude_replies == &#39;no&#39; || ($exclude_replies == &#39;yes&#39; &amp;&amp; $text[0] != &quot;@&quot;))
+                                &#123;
+                                    $iterations++;
+                                    $tweets[] = array(
+                                        &#39;text&#39; =&gt; tweetbox_filter( $text ),
+                                        &#39;created&#39; =&gt;  strtotime( $tweet-&gt;created_at ),
+                                        &#39;user&#39; =&gt; array(
+                                            &#39;name&#39; =&gt; (string)$tweet-&gt;user-&gt;name,
+                                            &#39;screen_name&#39; =&gt; (string)$tweet-&gt;user-&gt;screen_name,
+                                            &#39;image&#39; =&gt; (string)$tweet-&gt;user-&gt;profile_image_url,
+                                            &#39;utc_offset&#39; =&gt; (int) $tweet-&gt;user-&gt;utc_offset[0],
+                                            &#39;follower&#39; =&gt; (int) $tweet-&gt;user-&gt;followers_count
+
+                                        ));
+                                &#125;
+                            &#125;
+
+                            set_transient(THEMENAME.&#39;_tweetcache_id_&#39;.$username.&#39;_&#39;.$widget_id, &#39;true&#39;, 60*30);
+                            update_option(THEMENAME.&#39;_tweetcache_&#39;.$username.&#39;_&#39;.$widget_id, $tweets);
+                        &#125;
+                    &#125;
+                &#125;
+            &#125;
+
+
+
+            if(!isset($tweets[0]))
+            &#123;
+                $tweets = get_option(THEMENAME.&#39;_tweetcache_&#39;.$username.&#39;_&#39;.$widget_id);
+            &#125;
+
+            if(isset($tweets[0]))
+            &#123;
+                $time_format = apply_filters( &#39;avia_widget_time&#39;, get_option(&#39;date_format&#39;).&quot; - &quot;.get_option(&#39;time_format&#39;), &#39;tweetbox&#39; );
+
+                foreach ($tweets as $message)
+                &#123;
+                    $output .= &#39;&lt;li class=&quot;tweet&quot;&gt;&#39;;
+                    if($avatar == &quot;yes&quot;) $output .= &#39;&lt;div class=&quot;tweet-thumb&quot;&gt;&lt;a href=&quot;http://twitter.com/&#39;.$username.&#39;&quot; title=&quot;&quot;&gt;&lt;img src=&quot;&#39;.$message[&#39;user&#39;][&#39;image&#39;].&#39;&quot; alt=&quot;&quot; /&gt;&lt;/a&gt;&lt;/div&gt;&#39;;
+                    $output .= &#39;&lt;div class=&quot;tweet-text avatar_&#39;.$avatar.&#39;&quot;&gt;&#39;.$message[&#39;text&#39;];
+                    if($time == &quot;yes&quot;) $output .= &#39;&lt;div class=&quot;tweet-time&quot;&gt;&#39;.date_i18n( $time_format, $message[&#39;created&#39;] + $message[&#39;user&#39;][&#39;utc_offset&#39;]).&#39;&lt;/div&gt;&#39;;
+                    $output .= &#39;&lt;/div&gt;&lt;/li&gt;&#39;;
+                &#125;
+            &#125;
+
+
+            if($output != &quot;&quot;)
+            &#123;
+                $filtered_message = &quot;&lt;ul class=&#39;tweets&#39;&gt;$output&lt;/ul&gt;&quot;;
+            &#125;
+            else
+            &#123;
+                $filtered_message = &quot;&lt;ul class=&#39;tweets&#39;&gt;&lt;li&gt;No public Tweets found&lt;/li&gt;&lt;/ul&gt;&quot;;
+            &#125;
+
+            return $filtered_message;
+    &#125;
+&#125;
+
+if(!function_exists(&#39;tweetbox_filter&#39;))
+&#123;
+    function tweetbox_filter($text) &#123;
+        // Props to Allen Shaw &amp; webmancers.com &amp; Michael Voigt
+        $text = preg_replace(&#39;/\b([a-zA-Z]+:\/\/[\w_.\-]+\.[a-zA-Z]&#123;2,6&#125;[\/\w\-~.?=&amp;%#+$*!]*)\b/i&#39;,&quot;&lt;a href=\&quot;$1\&quot; class=\&quot;twitter-link\&quot;&gt;$1&lt;/a&gt;&quot;, $text);
+        $text = preg_replace(&#39;/\b(?&lt;!:\/\/)(www\.[\w_.\-]+\.[a-zA-Z]&#123;2,6&#125;[\/\w\-~.?=&amp;%#+$*!]*)\b/i&#39;,&quot;&lt;a href=\&quot;http://$1\&quot; class=\&quot;twitter-link\&quot;&gt;$1&lt;/a&gt;&quot;, $text);
+        $text = preg_replace(&quot;/\b([a-zA-Z][a-zA-Z0-9\_\.\-]*[a-zA-Z]*\@[a-zA-Z][a-zA-Z0-9\_\.\-]*[a-zA-Z]&#123;2,6&#125;)\b/i&quot;,&quot;&lt;a href=\&quot;mailto://$1\&quot; class=\&quot;twitter-link\&quot;&gt;$1&lt;/a&gt;&quot;, $text);
+        $text = preg_replace(&quot;/#([\p&#123;L&#125;\p&#123;Mn&#125;]+)/u&quot;, &quot;&lt;a class=\&quot;twitter-link\&quot; href=\&quot;http://search.twitter.com/search?q=\\1\&quot;&gt;#\\1&lt;/a&gt;&quot;, $text);
+        $text = preg_replace(&quot;/@([\p&#123;L&#125;\p&#123;Mn&#125;]+)/u&quot;, &quot;&lt;a class=\&quot;twitter-link\&quot; href=\&quot;http://twitter.com/\\1\&quot;&gt;@\\1&lt;/a&gt;&quot;, $text);
+
+        return $text;
+    &#125;
+&#125;
+
+
+
+
+
+
+
+
+
+/**
+ * AVIA NEWSBOX
+ *
+ * Widget that creates a list of latest news entries
+ *
+ * @package AviaFramework
+ * @todo replace the widget system with a dynamic one, based on config files for easier widget creation
+ */
+
+if (!class_exists(&#39;avia_newsbox&#39;))
+&#123;
+    class avia_newsbox extends WP_Widget &#123;
+
+        var $avia_term = &#39;&#39;;
+        var $avia_post_type = &#39;&#39;;
+        var $avia_new_query = &#39;&#39;;
+
+        function __construct()
+        &#123;
+            $widget_ops = array(&#39;classname&#39; =&gt; &#39;newsbox&#39;, &#39;description&#39; =&gt; __(&#39;A Sidebar widget to display latest post entries in your sidebar&#39;, &#39;avia_framework&#39;) );
+
+            parent::__construct( &#39;newsbox&#39;, THEMENAME.&#39; Latest News&#39;, $widget_ops );
+        &#125;
+
+        function widget($args, $instance)
+        &#123;
+            global $avia_config;
+
+            extract($args, EXTR_SKIP);
+            echo $before_widget;
+
+            $title = empty($instance[&#39;title&#39;]) ? &#39;&#39; : apply_filters(&#39;widget_title&#39;, $instance[&#39;title&#39;]);
+            $count = empty($instance[&#39;count&#39;]) ? &#39;&#39; : $instance[&#39;count&#39;];
+            $cat = empty($instance[&#39;cat&#39;]) ? &#39;&#39; : $instance[&#39;cat&#39;];
+            $excerpt = empty($instance[&#39;excerpt&#39;]) ? &#39;&#39; : $instance[&#39;excerpt&#39;];
+            $image_size = isset($avia_config[&#39;widget_image_size&#39;]) ? $avia_config[&#39;widget_image_size&#39;] : &#39;widget&#39;;
+
+            if ( !empty( $title ) ) &#123; echo $before_title . $title . $after_title; &#125;;
+
+
+            if(empty($this-&gt;avia_term))
+            &#123;
+                $additional_loop = new WP_Query(&quot;cat=&quot;.$cat.&quot;&amp;posts_per_page=&quot;.$count);
+            &#125;
+            else
+            &#123;
+                $catarray = explode(&#39;,&#39;, $cat);
+
+
+                if(empty($catarray[0]))
+                &#123;
+                    $new_query = array(&quot;posts_per_page&quot;=&gt;$count,&quot;post_type&quot;=&gt;$this-&gt;avia_post_type);
+                &#125;
+                else
+                &#123;
+                    if($this-&gt;avia_new_query)
+                    &#123;
+                        $new_query = $this-&gt;avia_new_query;
+                    &#125;
+                    else
+                    &#123;
+                        $new_query = array( &quot;posts_per_page&quot;=&gt;$count, &#39;tax_query&#39; =&gt; array(
+                                                        array( &#39;taxonomy&#39; =&gt; $this-&gt;avia_term,
+                                                               &#39;field&#39; =&gt; &#39;id&#39;,
+                                                               &#39;terms&#39; =&gt; explode(&#39;,&#39;, $cat),
+                                                               &#39;operator&#39; =&gt; &#39;IN&#39;)
+                                                              )
+                                                        );
+                    &#125;
+                &#125;
+
+                $additional_loop = new WP_Query($new_query);
+            &#125;
+
+            if($additional_loop-&gt;have_posts()) :
+
+
+
+            echo &#39;&lt;ul class=&quot;news-wrap image_size_&#39;.$image_size.&#39;&quot;&gt;&#39;;
+            while ($additional_loop-&gt;have_posts()) : $additional_loop-&gt;the_post();
+
+            $format = &quot;&quot;;
+            if(empty($this-&gt;avia_post_type))     $format = $this-&gt;avia_post_type;
+            if(empty($format))                  $format = get_post_format();
+            if(empty($format))                  $format = &#39;standard&#39;;
+
+            $the_id = get_the_ID();
+            $link = get_post_meta( $the_id  ,&#39;_portfolio_custom_link&#39;, true) != &quot;&quot; ? get_post_meta( $the_id ,&#39;_portfolio_custom_link_url&#39;, true) : get_permalink();
+
+
+            echo &#39;&lt;li class=&quot;news-content post-format-&#39;.$format.&#39;&quot;&gt;&#39;;
+
+            //check for preview images:
+            $image = &quot;&quot;;
+
+            if(!current_theme_supports(&#39;force-post-thumbnails-in-widget&#39;))
+            &#123;
+                $slides = avia_post_meta(get_the_ID(), &#39;slideshow&#39;, true);
+
+                if( $slides != &quot;&quot; &amp;&amp; !empty( $slides[0][&#39;slideshow_image&#39;] ) )
+                &#123;
+                    $image = avia_image_by_id($slides[0][&#39;slideshow_image&#39;], $image_size, &#39;image&#39;);
+                &#125;
+            &#125;
+
+            if(current_theme_supports( &#39;post-thumbnails&#39; ) &amp;&amp; !$image )
+            &#123;
+                $image = get_the_post_thumbnail( $the_id, $image_size );
+            &#125;
+
+            $time_format = apply_filters( &#39;avia_widget_time&#39;, get_option(&#39;date_format&#39;).&quot; - &quot;.get_option(&#39;time_format&#39;), &#39;avia_newsbox&#39; );
+
+
+            echo &quot;&lt;a class=&#39;news-link&#39; title=&#39;&quot;.get_the_title().&quot;&#39; href=&#39;&quot;.$link.&quot;&#39;&gt;&quot;;
+
+            $nothumb = (!$image) ? &#39;no-news-thumb&#39; : &#39;&#39;;
+
+            echo &quot;&lt;span class=&#39;news-thumb $nothumb&#39;&gt;&quot;;
+            echo $image;
+            echo &quot;&lt;/span&gt;&quot;;
+            if(empty($avia_config[&#39;widget_image_size&#39;]) || &#39;display title and excerpt&#39; != $excerpt)
+            &#123;
+                echo &quot;&lt;strong class=&#39;news-headline&#39;&gt;&quot;.get_the_title();
+
+                if($time_format)
+                &#123;
+                    echo &quot;&lt;span class=&#39;news-time&#39;&gt;&quot;.get_the_time($time_format).&quot;&lt;/span&gt;&quot;;   
+                &#125;
+
+                echo &quot;&lt;/strong&gt;&quot;;
+            &#125;
+            echo &quot;&lt;/a&gt;&quot;;
+
+            if( &#39;display title and excerpt&#39; == $excerpt )
+            &#123;
+                echo &quot;&lt;div class=&#39;news-excerpt&#39;&gt;&quot;;
+
+                if(!empty($avia_config[&#39;widget_image_size&#39;]))
+                &#123;
+                    echo &quot;&lt;a class=&#39;news-link-inner&#39; title=&#39;&quot;.get_the_title().&quot;&#39; href=&#39;&quot;.$link.&quot;&#39;&gt;&quot;;
+                    echo &quot;&lt;strong class=&#39;news-headline&#39;&gt;&quot;.get_the_title().&quot;&lt;/strong&gt;&quot;;
+                    echo &quot;&lt;/a&gt;&quot;;
+                    if($time_format)
+                    &#123;
+                        echo &quot;&lt;span class=&#39;news-time&#39;&gt;&quot;.get_the_time($time_format).&quot;&lt;/span&gt;&quot;;   
+                    &#125;
+
+                &#125;
+                the_excerpt();
+                echo &quot;&lt;/div&gt;&quot;;
+            &#125;
+
+            echo &#39;&lt;/li&gt;&#39;;
+
+
+            endwhile;
+            echo &quot;&lt;/ul&gt;&quot;;
+            wp_reset_postdata();
+            endif;
+
+
+            echo $after_widget;
+
+        &#125;
+
+
+        function update($new_instance, $old_instance)
+        &#123;
+            $instance = $old_instance;
+            $instance[&#39;title&#39;] = strip_tags($new_instance[&#39;title&#39;]);
+            $instance[&#39;count&#39;] = strip_tags($new_instance[&#39;count&#39;]);
+            $instance[&#39;excerpt&#39;] = strip_tags($new_instance[&#39;excerpt&#39;]);
+            $instance[&#39;cat&#39;] = implode(&#39;,&#39;,$new_instance[&#39;cat&#39;]);
+            return $instance;
+        &#125;
+
+
+
+        function form($instance)
+        &#123;
+            $instance = wp_parse_args( (array) $instance, array( &#39;title&#39; =&gt; &#39;&#39;, &#39;count&#39; =&gt; &#39;&#39;, &#39;cat&#39; =&gt; &#39;&#39;, &#39;excerpt&#39;=&gt;&#39;&#39; ) );
+            $title = strip_tags($instance[&#39;title&#39;]);
+            $count = strip_tags($instance[&#39;count&#39;]);
+            $excerpt = strip_tags($instance[&#39;excerpt&#39;]);
+
+
+            $elementCat = array(&quot;name&quot;  =&gt; __(&quot;Which categories should be used for the portfolio?&quot;, &#39;avia_framework&#39;), 
+                                &quot;desc&quot;  =&gt; __(&quot;You can select multiple categories here&quot;, &#39;avia_framework&#39;),
+                                &quot;id&quot;    =&gt; $this-&gt;get_field_name(&#39;cat&#39;).&quot;[]&quot;,
+                                &quot;type&quot;  =&gt; &quot;select&quot;,
+                                &quot;std&quot;   =&gt; strip_tags($instance[&#39;cat&#39;]),
+                                &quot;class&quot; =&gt; &quot;&quot;,
+                                &quot;multiple&quot;=&gt;6,
+                                &quot;subtype&quot; =&gt; &quot;cat&quot;);
+            //check if a different taxonomy than the default is set
+            if(!empty($this-&gt;avia_term))
+            &#123;
+                $elementCat[&#39;taxonomy&#39;] = $this-&gt;avia_term;
+            &#125;
+
+
+
+
+            $html = new avia_htmlhelper();
+
+    ?&gt;
+            &lt;p&gt;&lt;label for=&quot;&lt;?php echo $this-&gt;get_field_id(&#39;title&#39;); ?&gt;&quot;&gt;&lt;?php _e(&#39;Title:&#39;, &#39;avia_framework&#39;); ?&gt;
+            &lt;input class=&quot;widefat&quot; id=&quot;&lt;?php echo $this-&gt;get_field_id(&#39;title&#39;); ?&gt;&quot; name=&quot;&lt;?php echo $this-&gt;get_field_name(&#39;title&#39;); ?&gt;&quot; type=&quot;text&quot; value=&quot;&lt;?php echo esc_attr($title); ?&gt;&quot; /&gt;&lt;/label&gt;&lt;/p&gt;
+
+            &lt;p&gt;
+                &lt;label for=&quot;&lt;?php echo $this-&gt;get_field_id(&#39;count&#39;); ?&gt;&quot;&gt;&lt;?php _e(&#39;How many entries do you want to display: &#39;, &#39;avia_framework&#39;); ?&gt;&lt;/label&gt;
+                &lt;select class=&quot;widefat&quot; id=&quot;&lt;?php echo $this-&gt;get_field_id(&#39;count&#39;); ?&gt;&quot; name=&quot;&lt;?php echo $this-&gt;get_field_name(&#39;count&#39;); ?&gt;&quot;&gt;
+                    &lt;?php
+                    $list = &quot;&quot;;
+                    for ($i = 1; $i &lt;= 20; $i++ )
+                    &#123;
+                        $selected = &quot;&quot;;
+                        if($count == $i) $selected = &#39;selected=&quot;selected&quot;&#39;;
+
+                        $list .= &quot;&lt;option $selected value=&#39;$i&#39;&gt;$i&lt;/option&gt;&quot;;
+                    &#125;
+                    $list .= &quot;&lt;/select&gt;&quot;;
+                    echo $list;
+                    ?&gt;
+
+
+            &lt;/p&gt;
+
+            &lt;p&gt;&lt;label for=&quot;&lt;?php echo $this-&gt;get_field_id(&#39;cat&#39;); ?&gt;&quot;&gt;&lt;?php _e(&#39;Choose the categories you want to display (multiple selection possible):&#39;, &#39;avia_framework&#39;); ?&gt;
+            &lt;?php echo $html-&gt;select($elementCat); ?&gt;
+            &lt;/label&gt;&lt;/p&gt;
+
+            &lt;p&gt;
+                &lt;label for=&quot;&lt;?php echo $this-&gt;get_field_id(&#39;excerpt&#39;); ?&gt;&quot;&gt;&lt;?php _e(&#39;Display title only or title &amp;amp; excerpt&#39;, &#39;avia_framework&#39;); ?&gt;&lt;/label&gt;
+                &lt;select class=&quot;widefat&quot; id=&quot;&lt;?php echo $this-&gt;get_field_id(&#39;excerpt&#39;); ?&gt;&quot; name=&quot;&lt;?php echo $this-&gt;get_field_name(&#39;excerpt&#39;); ?&gt;&quot;&gt;
+                    &lt;?php
+                    $list = &quot;&quot;;
+                    $answers = array(
+                                &#39;show title only&#39;           =&gt;   __( &#39;show title only&#39;, &#39;avia_framework&#39; ),
+                                &#39;display title and excerpt&#39; =&gt;   __(&#39;display title and excerpt&#39;, &#39;avia_framework&#39;)
+                                );
+
+                    foreach ( $answers as $key =&gt; $answer )
+                    &#123;
+                        $selected = &quot;&quot;;
+                        if( $key == $excerpt ) $selected = &#39;selected=&quot;selected&quot;&#39;;
+
+                        $list .= &quot;&lt;option $selected value=&#39;$key&#39;&gt;$answer&lt;/option&gt;&quot;;
+                    &#125;
+                    $list .= &quot;&lt;/select&gt;&quot;;
+                    echo $list;
+                    ?&gt;
+
+
+            &lt;/p&gt;
+
+
+    &lt;?php
+        &#125;
+    &#125;
+&#125;
+
+
+/**
+ * AVIA PORTFOLIOBOX
+ *
+ * Widget that creates a list of latest portfolio entries. Basically the same widget as the newsbox with some minor modifications, therefore it just extends the Newsbox
+ *
+ * @package AviaFramework
+ * @todo replace the widget system with a dynamic one, based on config files for easier widget creation
+ */
+
+if (!class_exists(&#39;avia_portfoliobox&#39;))
+&#123;
+    class avia_portfoliobox extends avia_newsbox
+    &#123;
+        function __construct()
+        &#123;
+            $this-&gt;avia_term = &#39;portfolio_entries&#39;;
+            $this-&gt;avia_post_type = &#39;portfolio&#39;;
+            $this-&gt;avia_new_query = &#39;&#39;; //set a custom query here
+
+
+            $widget_ops = array(&#39;classname&#39; =&gt; &#39;newsbox&#39;, &#39;description&#39; =&gt; __(&#39;A Sidebar widget to display latest portfolio entries in your sidebar&#39;, &#39;avia_framework&#39;) );
+
+            WP_Widget::__construct( &#39;portfoliobox&#39;, THEMENAME.&#39; Latest Portfolio&#39;, $widget_ops );
+        &#125;
+    &#125;
+&#125;
+
+
+
+/**
+ * AVIA SOCIALCOUNT
+ *
+ * Widget that retrieves, stores and displays the number of twitter and rss followers
+ *
+ * @package AviaFramework
+ * @todo replace the widget system with a dynamic one, based on config files for easier widget creation
+ */
+
+if (!class_exists(&#39;avia_socialcount&#39;))
+&#123;
+    class avia_socialcount extends WP_Widget &#123;
+
+        function __construct() &#123;
+            //Constructor
+            $widget_ops = array(&#39;classname&#39; =&gt; &#39;avia_socialcount&#39;, &#39;description&#39; =&gt; __(&#39;A widget to display a link to your twitter profile and rss feed&#39;, &#39;avia_framework&#39;) );
+            parent::__construct( &#39;avia_socialcount&#39;, THEMENAME.&#39; RSS Link and Twitter Account&#39;, $widget_ops );
+        &#125;
+
+        function widget($args, $instance) &#123;
+            // prints the widget
+
+            extract($args, EXTR_SKIP);
+            $twitter = empty($instance[&#39;twitter&#39;]) ? &#39;&#39; : $instance[&#39;twitter&#39;];
+            $rss     = empty($instance[&#39;rss&#39;])     ? &#39;&#39; : $instance[&#39;rss&#39;];
+            $rss = preg_replace(&#39;!https?:\/\/feeds.feedburner.com\/!&#39;,&#39;&#39;,$rss);
+
+
+            if(!empty($twitter) || !empty($rss))
+            &#123;
+                $addClass = &quot;asc_multi_count&quot;;
+                if(!isset($twitter) || !isset($rss)) $addClass = &#39;asc_single_count&#39;;
+
+                echo $before_widget;
+                $output = &quot;&quot;;
+                if(!empty($twitter))
+                &#123;
+                    $link = &#39;http://twitter.com/&#39;.$twitter.&#39;/&#39;;
+                    $before = apply_filters(&#39;avf_social_widget&#39;, &quot;&quot;, &#39;twitter&#39;);
+                    $output .= &quot;&lt;a href=&#39;$link&#39; class=&#39;asc_twitter $addClass&#39;&gt;&#123;$before&#125;&lt;strong class=&#39;asc_count&#39;&gt;&quot;.__(&#39;Follow&#39;,&#39;avia_framework&#39;).&quot;&lt;/strong&gt;&lt;span&gt;&quot;.__(&#39;on Twitter&#39;,&#39;avia_framework&#39;).&quot;&lt;/span&gt;&lt;/a&gt;&quot;;
+
+                &#125;
+
+                if($rss)
+                &#123;
+                    $output .= &quot;&lt;a href=&#39;$rss&#39; class=&#39;asc_rss $addClass&#39;&gt;&quot;.apply_filters(&#39;avf_social_widget&#39;,&quot;&quot;, &#39;rss&#39;).&quot;&lt;strong class=&#39;asc_count&#39;&gt;&quot;.__(&#39;Subscribe&#39;,&#39;avia_framework&#39;).&quot;&lt;/strong&gt;&lt;span&gt;&quot;.__(&#39;to RSS Feed&#39;,&#39;avia_framework&#39;).&quot;&lt;/span&gt;&lt;/a&gt;&quot;;
+                &#125;
+
+                echo $output;
+                echo $after_widget;
+            &#125;
+        &#125;
+
+
+
+        function update($new_instance, $old_instance) &#123;
+            //save the widget
+            $instance = $old_instance;
+            foreach($new_instance as $key=&gt;$value)
+            &#123;
+                $instance[$key] = strip_tags($new_instance[$key]);
+            &#125;
+
+            return $instance;
+        &#125;
+
+        function form($instance) &#123;
+            //widgetform in backend
+
+            $instance = wp_parse_args( (array) $instance, array(&#39;rss&#39; =&gt; avia_get_option(&#39;feedburner&#39;), &#39;twitter&#39; =&gt; avia_get_option(&#39;twitter&#39;) ) );
+            $twitter = empty($instance[&#39;twitter&#39;]) ? &#39;&#39; :  strip_tags($instance[&#39;twitter&#39;]);
+            $rss     = empty($instance[&#39;rss&#39;])     ? &#39;&#39; :  strip_tags($instance[&#39;rss&#39;]);
+    ?&gt;
+            &lt;p&gt;
+            &lt;label for=&quot;&lt;?php echo $this-&gt;get_field_id(&#39;twitter&#39;); ?&gt;&quot;&gt;&lt;?php _e(&#39;Twitter Username:&#39;, &#39;avia_framework&#39;); ?&gt;
+            &lt;input class=&quot;widefat&quot; id=&quot;&lt;?php echo $this-&gt;get_field_id(&#39;twitter&#39;); ?&gt;&quot; name=&quot;&lt;?php echo $this-&gt;get_field_name(&#39;twitter&#39;); ?&gt;&quot; type=&quot;text&quot; value=&quot;&lt;?php echo esc_attr($twitter); ?&gt;&quot; /&gt;&lt;/label&gt;&lt;/p&gt;
+
+            &lt;p&gt;&lt;label for=&quot;&lt;?php echo $this-&gt;get_field_id(&#39;rss&#39;); ?&gt;&quot;&gt;&lt;?php _e(&#39;Enter your feed url:&#39;, &#39;avia_framework&#39;); ?&gt;
+            &lt;input class=&quot;widefat&quot; id=&quot;&lt;?php echo $this-&gt;get_field_id(&#39;rss&#39;); ?&gt;&quot; name=&quot;&lt;?php echo $this-&gt;get_field_name(&#39;rss&#39;); ?&gt;&quot; type=&quot;text&quot; value=&quot;&lt;?php echo esc_attr($rss); ?&gt;&quot; /&gt;&lt;/label&gt;&lt;/p&gt;
+
+
+
+        &lt;?php
+        &#125;
+    &#125;
+&#125;
+
+
+
+
+/**
+ * AVIA ADVERTISING WIDGET
+ *
+ * Widget that retrieves, stores and displays the number of twitter and rss followers
+ *
+ * @package AviaFramework
+ * @todo replace the widget system with a dynamic one, based on config files for easier widget creation
+ */
+
+
+//multiple images
+if (!class_exists(&#39;avia_partner_widget&#39;))
+&#123;
+    class avia_partner_widget extends WP_Widget &#123;
+
+        function __construct() &#123;
+
+            $this-&gt;add_cont = 2;
+            //Constructor
+            $widget_ops = array(&#39;classname&#39; =&gt; &#39;avia_partner_widget&#39;, &#39;description&#39; =&gt; __(&#39;An advertising widget that displays 2 images with 125 x 125 px in size&#39;, &#39;avia_framework&#39;) );
+            parent::__construct( &#39;avia_partner_widget&#39;, THEMENAME.&#39; Advertising Area&#39;, $widget_ops );
+        &#125;
+
+        function widget($args, $instance)
+        &#123;
+            extract($args, EXTR_SKIP);
+            echo $before_widget;
+
+            global $kriesiaddwidget, $firsttitle;
+            $kriesiaddwidget ++;
+
+            $title = empty($instance[&#39;title&#39;]) ? &#39;&#39; : apply_filters(&#39;widget_title&#39;, $instance[&#39;title&#39;]);
+            $image_url = empty($instance[&#39;image_url&#39;]) ? &#39;&lt;span class=&quot;avia_parnter_empty&quot;&gt;&lt;span&gt;&#39;.__(&#39;Advertise here&#39;,&#39;avia_framework&#39;).&#39;&lt;/span&gt;&lt;/span&gt;&#39; : &#39;&lt;img class=&quot;rounded&quot; src=&quot;&#39;.$instance[&#39;image_url&#39;].&#39;&quot; title=&quot;&#39;.$title.&#39;&quot; alt=&quot;&#39;.$title.&#39;&quot;/&gt;&#39;;
+            $ref_url = empty($instance[&#39;ref_url&#39;]) ? &#39;#&#39; : apply_filters(&#39;widget_comments_title&#39;, $instance[&#39;ref_url&#39;]);
+            $image_url2 = empty($instance[&#39;image_url2&#39;]) ? &#39;&lt;span class=&quot;avia_parnter_empty&quot;&gt;&lt;span&gt;&#39;.__(&#39;Advertise here&#39;,&#39;avia_framework&#39;).&#39;&lt;/span&gt;&lt;/span&gt;&#39; : &#39;&lt;img class=&quot;rounded&quot; src=&quot;&#39;.$instance[&#39;image_url2&#39;].&#39;&quot; title=&quot;&#39;.$title.&#39;&quot; alt=&quot;&#39;.$title.&#39;&quot;/&gt;&#39;;
+            $ref_url2 = empty($instance[&#39;ref_url2&#39;]) ? &#39;#&#39; : apply_filters(&#39;widget_comments_title&#39;, $instance[&#39;ref_url2&#39;]);
+
+            if ( !empty( $title ) ) &#123; echo $before_title . $title . $after_title; &#125;;
+            echo &#39;&lt;a target=&quot;_blank&quot; href=&quot;&#39;.$ref_url.&#39;&quot; class=&quot;preloading_background  avia_partner1 link_list_item&#39;.$kriesiaddwidget.&#39; &#39;.$firsttitle.&#39;&quot; &gt;&#39;.$image_url.&#39;&lt;/a&gt;&#39;;
+            if($this-&gt;add_cont == 2) echo &#39;&lt;a target=&quot;_blank&quot; href=&quot;&#39;.$ref_url2.&#39;&quot; class=&quot;preloading_background avia_partner2 link_list_item&#39;.$kriesiaddwidget.&#39; &#39;.$firsttitle.&#39;&quot; &gt;&#39;.$image_url2.&#39;&lt;/a&gt;&#39;;
+            echo $after_widget;
+
+            if($title == &#39;&#39;)
+            &#123;
+                $firsttitle = &#39;no_top_margin&#39;;
+            &#125;
+
+        &#125;
+
+
+        function update($new_instance, $old_instance) &#123;
+            //save the widget
+            $instance = $old_instance;
+            foreach($new_instance as $key=&gt;$value)
+            &#123;
+                $instance[$key] = strip_tags($new_instance[$key]);
+            &#125;
+            return $instance;
+        &#125;
+
+
+
+        function form($instance)
+        &#123;
+            $instance = wp_parse_args( (array) $instance, array( &#39;title&#39; =&gt; &#39;&#39;, &#39;image_url&#39; =&gt; &#39;&#39;, &#39;ref_url&#39; =&gt; &#39;&#39;, &#39;image_url2&#39; =&gt; &#39;&#39;, &#39;ref_url2&#39; =&gt; &#39;&#39; ) );
+            $title = strip_tags($instance[&#39;title&#39;]);
+            $image_url = strip_tags($instance[&#39;image_url&#39;]);
+            $ref_url = strip_tags($instance[&#39;ref_url&#39;]);
+            $image_url2 = strip_tags($instance[&#39;image_url2&#39;]);
+            $ref_url2 = strip_tags($instance[&#39;ref_url2&#39;]);
+    ?&gt;
+            &lt;p&gt;&lt;label for=&quot;&lt;?php echo $this-&gt;get_field_id(&#39;title&#39;); ?&gt;&quot;&gt;&lt;?php _e(&#39;Title:&#39;, &#39;avia_framework&#39;); ?&gt;
+            &lt;input class=&quot;widefat&quot; id=&quot;&lt;?php echo $this-&gt;get_field_id(&#39;title&#39;); ?&gt;&quot; name=&quot;&lt;?php echo $this-&gt;get_field_name(&#39;title&#39;); ?&gt;&quot; type=&quot;text&quot; value=&quot;&lt;?php echo esc_attr($title); ?&gt;&quot; /&gt;&lt;/label&gt;&lt;/p&gt;
+
+            &lt;p&gt;&lt;label for=&quot;&lt;?php echo $this-&gt;get_field_id(&#39;image_url&#39;); ?&gt;&quot;&gt;&lt;?php _e(&#39;Image URL:&#39;, &#39;avia_framework&#39;); ?&gt; &lt;?php if($this-&gt;add_cont == 2) echo &quot;(125px * 125px):&quot;; ?&gt;
+            &lt;input class=&quot;widefat&quot; id=&quot;&lt;?php echo $this-&gt;get_field_id(&#39;image_url&#39;); ?&gt;&quot; name=&quot;&lt;?php echo $this-&gt;get_field_name(&#39;image_url&#39;); ?&gt;&quot; type=&quot;text&quot; value=&quot;&lt;?php echo esc_attr($image_url); ?&gt;&quot; /&gt;&lt;/label&gt;&lt;/p&gt;
+
+            &lt;p&gt;&lt;label for=&quot;&lt;?php echo $this-&gt;get_field_id(&#39;ref_url&#39;); ?&gt;&quot;&gt;&lt;?php _e(&#39;Referal URL:&#39;, &#39;avia_framework&#39;); ?&gt;
+            &lt;input class=&quot;widefat&quot; id=&quot;&lt;?php echo $this-&gt;get_field_id(&#39;ref_url&#39;); ?&gt;&quot; name=&quot;&lt;?php echo $this-&gt;get_field_name(&#39;ref_url&#39;); ?&gt;&quot; type=&quot;text&quot; value=&quot;&lt;?php echo esc_attr($ref_url); ?&gt;&quot; /&gt;&lt;/label&gt;&lt;/p&gt;
+
+            &lt;?php if($this-&gt;add_cont == 2)
+            &#123; ?&gt;
+
+                    &lt;p&gt;&lt;label for=&quot;&lt;?php echo $this-&gt;get_field_id(&#39;image_url2&#39;); ?&gt;&quot;&gt;&lt;?php _e(&#39;Image URL 2: (125px * 125px):&#39;, &#39;avia_framework&#39;); ?&gt;
+            &lt;input class=&quot;widefat&quot; id=&quot;&lt;?php echo $this-&gt;get_field_id(&#39;image_url2&#39;); ?&gt;&quot; name=&quot;&lt;?php echo $this-&gt;get_field_name(&#39;image_url2&#39;); ?&gt;&quot; type=&quot;text&quot; value=&quot;&lt;?php echo esc_attr($image_url2); ?&gt;&quot; /&gt;&lt;/label&gt;&lt;/p&gt;
+
+            &lt;p&gt;&lt;label for=&quot;&lt;?php echo $this-&gt;get_field_id(&#39;ref_url2&#39;); ?&gt;&quot;&gt;&lt;?php _e(&#39;Referal URL 2:&#39;, &#39;avia_framework&#39;); ?&gt;
+            &lt;input class=&quot;widefat&quot; id=&quot;&lt;?php echo $this-&gt;get_field_id(&#39;ref_url2&#39;); ?&gt;&quot; name=&quot;&lt;?php echo $this-&gt;get_field_name(&#39;ref_url2&#39;); ?&gt;&quot; type=&quot;text&quot; value=&quot;&lt;?php echo esc_attr($ref_url2); ?&gt;&quot; /&gt;&lt;/label&gt;&lt;/p&gt;
+
+            &lt;?php &#125;?&gt;
+
+    &lt;?php
+        &#125;
+    &#125;
+&#125;
+
+
+if (!class_exists(&#39;avia_one_partner_widget&#39;))
+&#123;
+    //one image
+    class avia_one_partner_widget extends avia_partner_widget
+    &#123;
+        function __construct()
+        &#123;
+
+            $this-&gt;add_cont = 1;
+
+            $widget_ops = array(&#39;classname&#39; =&gt; &#39;avia_one_partner_widget&#39;, &#39;description&#39; =&gt; __(&#39;An advertising widget that displays 1 big image&#39;, &#39;avia_framework&#39;) );
+
+            parent::__construct( &#39;avia_one_partner_widget&#39;, THEMENAME.&#39; Big Advertising Area&#39;, $widget_ops );
+        &#125;
+    &#125;
+&#125;
+
+
+
+/**
+ * AVIA COMBO WIDGET
+ *
+ * Widget that retrieves, stores and displays the number of twitter and rss followers
+ *
+ * @package AviaFramework
+ * @todo replace the widget system with a dynamic one, based on config files for easier widget creation
+ */
+
+if (!class_exists(&#39;avia_combo_widget&#39;))
+&#123;
+    class avia_combo_widget extends WP_Widget &#123;
+
+        function __construct() &#123;
+            //Constructor
+            $widget_ops = array(&#39;classname&#39; =&gt; &#39;avia_combo_widget&#39;, &#39;description&#39; =&gt; __(&#39;A widget that displays your popular posts, recent posts, recent comments and a tagcloud&#39;, &#39;avia_framework&#39;) );
+            parent::__construct( &#39;avia_combo_widget&#39;, THEMENAME.&#39; Combo Widget&#39;, $widget_ops );
+        &#125;
+
+        function widget($args, $instance)
+        &#123;
+            // prints the widget
+
+            extract($args, EXTR_SKIP);
+            $posts = empty($instance[&#39;count&#39;]) ? 4 : $instance[&#39;count&#39;];
+
+            echo $before_widget;
+            echo &quot;&lt;div class=&#39;tabcontainer border_tabs top_tab tab_initial_open tab_initial_open__1&#39;&gt;&quot;;
+
+            echo &#39;&lt;div class=&quot;tab first_tab active_tab widget_tab_popular&quot;&gt;&lt;span&gt;&#39;.__(&#39;Popular&#39;, &#39;avia_framework&#39;).&#39;&lt;/span&gt;&lt;/div&gt;&#39;;
+            echo &quot;&lt;div class=&#39;tab_content active_tab_content&#39;&gt;&quot;;
+            avia_get_post_list(&#39;cat=&amp;orderby=comment_count&amp;posts_per_page=&#39;.$posts);
+            echo &quot;&lt;/div&gt;&quot;;
+
+            echo &#39;&lt;div class=&quot;tab widget_tab_recent&quot;&gt;&lt;span&gt;&#39;.__(&#39;Recent&#39;, &#39;avia_framework&#39;).&#39;&lt;/span&gt;&lt;/div&gt;&#39;;
+            echo &quot;&lt;div class=&#39;tab_content&#39;&gt;&quot;;
+            avia_get_post_list(&#39;showposts=&#39;. $posts .&#39;&amp;orderby=post_date&amp;order=desc&#39;);
+            echo &quot;&lt;/div&gt;&quot;;
+
+            echo &#39;&lt;div class=&quot;tab widget_tab_comments&quot;&gt;&lt;span&gt;&#39;.__(&#39;Comments&#39;, &#39;avia_framework&#39;).&#39;&lt;/span&gt;&lt;/div&gt;&#39;;
+            echo &quot;&lt;div class=&#39;tab_content&#39;&gt;&quot;;
+            avia_get_comment_list( array(&#39;number&#39; =&gt; $posts, &#39;status&#39; =&gt; &#39;approve&#39;, &#39;order&#39; =&gt; &#39;DESC&#39;) );
+            echo &quot;&lt;/div&gt;&quot;;
+
+            echo &#39;&lt;div class=&quot;tab last_tab widget_tab_tags&quot;&gt;&lt;span&gt;&#39;.__(&#39;Tags&#39;, &#39;avia_framework&#39;).&#39;&lt;/span&gt;&lt;/div&gt;&#39;;
+            echo &quot;&lt;div class=&#39;tab_content tagcloud&#39;&gt;&quot;;
+            wp_tag_cloud(&#39;smallest=12&amp;largest=12&amp;unit=px&#39;);
+            echo &quot;&lt;/div&gt;&quot;;
+
+            echo &quot;&lt;/div&gt;&quot;;
+            echo $after_widget;
+        &#125;
+
+
+        function update($new_instance, $old_instance)
+        &#123;
+            $instance = $old_instance;
+            foreach($new_instance as $key=&gt;$value)
+            &#123;
+                $instance[$key] = strip_tags($new_instance[$key]);
+            &#125;
+
+            return $instance;
+        &#125;
+
+        function form($instance) &#123;
+            //widgetform in backend
+
+            $instance = wp_parse_args( (array) $instance, array(&#39;count&#39; =&gt; 4) );
+            if(!is_numeric($instance[&#39;count&#39;])) $instance[&#39;count&#39;] = 4;
+
+    ?&gt;
+            &lt;p&gt;
+            &lt;label for=&quot;&lt;?php echo $this-&gt;get_field_id(&#39;count&#39;); ?&gt;&quot;&gt;&lt;?php _e(&#39;Number of posts you want to display:&#39;, &#39;avia_framework&#39;); ?&gt;
+            &lt;input class=&quot;widefat&quot; id=&quot;&lt;?php echo $this-&gt;get_field_id(&#39;count&#39;); ?&gt;&quot; name=&quot;&lt;?php echo $this-&gt;get_field_name(&#39;count&#39;); ?&gt;&quot; type=&quot;text&quot; value=&quot;&lt;?php echo esc_attr($instance[&#39;count&#39;]); ?&gt;&quot; /&gt;&lt;/label&gt;&lt;/p&gt;
+
+
+        &lt;?php
+        &#125;
+    &#125;
+&#125;
+
+/*-----------------------------------------------------------------------------------
+get posts posts
+-----------------------------------------------------------------------------------*/
+if (!function_exists(&#39;avia_get_post_list&#39;))
+&#123;
+    function avia_get_post_list( $avia_new_query , $excerpt = false)
+    &#123;
+        global $avia_config;
+        $image_size = isset($avia_config[&#39;widget_image_size&#39;]) ? $avia_config[&#39;widget_image_size&#39;] : &#39;widget&#39;;
+        $additional_loop = new WP_Query($avia_new_query);
+
+        if($additional_loop-&gt;have_posts()) :
+        echo &#39;&lt;ul class=&quot;news-wrap&quot;&gt;&#39;;
+        while ($additional_loop-&gt;have_posts()) : $additional_loop-&gt;the_post();
+
+        $format = &quot;&quot;;
+        if(get_post_type() != &#39;post&#39;)       $format = get_post_type();
+        if(empty($format))                  $format = get_post_format();
+        if(empty($format))                  $format = &#39;standard&#39;;
+
+        echo &#39;&lt;li class=&quot;news-content post-format-&#39;.$format.&#39;&quot;&gt;&#39;;
+
+        //check for preview images:
+        $image = &quot;&quot;;
+
+        if(!current_theme_supports(&#39;force-post-thumbnails-in-widget&#39;))
+            &#123;
+            $slides = avia_post_meta(get_the_ID(), &#39;slideshow&#39;);
+
+            if( $slides != &quot;&quot; &amp;&amp; !empty( $slides[0][&#39;slideshow_image&#39;] ) )
+            &#123;
+                $image = avia_image_by_id($slides[0][&#39;slideshow_image&#39;], &#39;widget&#39;, &#39;image&#39;);
+            &#125;
+        &#125;
+
+        if(!$image &amp;&amp; current_theme_supports( &#39;post-thumbnails&#39; ))
+        &#123;
+            $image = get_the_post_thumbnail( get_the_ID(), $image_size );
+        &#125;
+
+        $time_format = apply_filters( &#39;avia_widget_time&#39;, get_option(&#39;date_format&#39;).&quot; - &quot;.get_option(&#39;time_format&#39;), &#39;avia_get_post_list&#39; );
+
+        $nothumb = (!$image) ? &#39;no-news-thumb&#39; : &#39;&#39;;
+
+        echo &quot;&lt;a class=&#39;news-link&#39; title=&#39;&quot;.get_the_title().&quot;&#39; href=&#39;&quot;.get_permalink().&quot;&#39;&gt;&quot;;
+        echo &quot;&lt;span class=&#39;news-thumb $nothumb&#39;&gt;&quot;;
+        echo $image;
+        echo &quot;&lt;/span&gt;&quot;;
+        echo &quot;&lt;strong class=&#39;news-headline&#39;&gt;&quot;.avia_backend_truncate(get_the_title(), 55,&quot; &quot;);
+        echo &quot;&lt;span class=&#39;news-time&#39;&gt;&quot;.get_the_time($time_format).&quot;&lt;/span&gt;&quot;;
+        echo &quot;&lt;/strong&gt;&quot;;
+        echo &quot;&lt;/a&gt;&quot;;
+
+        if(&#39;display title and excerpt&#39; == $excerpt)
+        &#123;
+            echo &quot;&lt;div class=&#39;news-excerpt&#39;&gt;&quot;;
+            the_excerpt();
+            echo &quot;&lt;/div&gt;&quot;;
+        &#125;
+
+        echo &#39;&lt;/li&gt;&#39;;
+
+
+        endwhile;
+        echo &quot;&lt;/ul&gt;&quot;;
+        wp_reset_postdata();
+        endif;
+    &#125;
+&#125;
+
+
+
+
+
+if (!function_exists(&#39;avia_get_comment_list&#39;))
+&#123;
+
+    function avia_get_comment_list($avia_new_query)
+    &#123;
+        $time_format = apply_filters( &#39;avia_widget_time&#39;, get_option(&#39;date_format&#39;).&quot; - &quot;.get_option(&#39;time_format&#39;), &#39;avia_get_comment_list&#39; );
+
+        global $avia_config;
+
+
+        $comments = get_comments($avia_new_query);
+
+        if(!empty($comments)) :
+        echo &#39;&lt;ul class=&quot;news-wrap&quot;&gt;&#39;;
+        foreach($comments as $comment)
+        &#123;
+            if ($comment-&gt;comment_author != &#39;ActionScheduler&#39;)
+            &#123;
+            $gravatar_alt = esc_html($comment-&gt;comment_author);
+            echo &#39;&lt;li class=&quot;news-content&quot;&gt;&#39;;
+            echo &quot;&lt;a class=&#39;news-link&#39; title=&#39;&quot;.get_the_title($comment-&gt;comment_post_ID).&quot;&#39; href=&#39;&quot;.get_comment_link($comment).&quot;&#39;&gt;&quot;;
+            echo &quot;&lt;span class=&#39;news-thumb&#39;&gt;&quot;;
+            echo get_avatar($comment,&#39;48&#39;, &#39;&#39;, $gravatar_alt);
+            echo &quot;&lt;/span&gt;&quot;;
+            echo &quot;&lt;strong class=&#39;news-headline&#39;&gt;&quot;.avia_backend_truncate($comment-&gt;comment_content, 55,&quot; &quot;);
+
+            if($time_format)
+            &#123;
+                echo &quot;&lt;span class=&#39;news-time&#39;&gt;&quot;.get_comment_date($time_format, $comment-&gt;comment_ID).&quot; &quot;.__(&#39;by&#39;,&#39;avia_framework&#39;).&quot; &quot;.$comment-&gt;comment_author.&quot;&lt;/span&gt;&quot;;
+            &#125;
+            echo &quot;&lt;/strong&gt;&quot;;
+            echo &quot;&lt;/a&gt;&quot;;
+            echo &#39;&lt;/li&gt;&#39;;
+            &#125;
+        &#125;
+        echo &quot;&lt;/ul&gt;&quot;;
+        wp_reset_postdata();
+        endif;
+    &#125;
+&#125;
+
+
+
+/*
+    Google Maps Widget
+
+    Copyright 2009  Clark Nikdel Powell  (email : taylor@cnpstudio.com)
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+*/
+
+if (!class_exists(&#39;avia_google_maps&#39;))
+&#123;
+    class avia_google_maps extends WP_Widget &#123;
+
+        // constructor
+        function __construct() &#123;
+            $widget_ops = array(&#39;classname&#39; =&gt; &#39;avia_google_maps&#39;, &#39;description&#39; =&gt; __( &#39;Add a google map to your blog or site&#39;, &#39;avia_framework&#39;) );
+            parent::__construct(&#39;avia_google_maps&#39;, THEMENAME.&#39; Google Maps Widget&#39;, $widget_ops);
+
+            add_action( &#39;admin_enqueue_scripts&#39;, array(&amp;$this,&#39;helper_print_google_maps_scripts&#39;) );
+        &#125;
+
+        // output the content of the widget
+        function widget($args, $instance) &#123;
+            extract( $args );
+
+            $title = empty($instance[&#39;title&#39;]) ? &#39;&#39; : apply_filters(&#39;widget_title&#39;, esc_attr($instance[&#39;title&#39;]));
+
+            print $before_widget;
+            if (!empty($instance[&#39;title&#39;])) &#123; print $before_title.$title.$after_title; &#125;
+            print avia_printmap($instance[&#39;lat&#39;], $instance[&#39;lng&#39;], $instance[&#39;zoom&#39;], $instance[&#39;type&#39;], $instance[&#39;content&#39;], $instance[&#39;directionsto&#39;], $instance[&#39;width&#39;], $instance[&#39;height&#39;], $instance[&#39;icon&#39;]);
+            print $after_widget;
+        &#125;
+
+        // process widget options to be saved
+        function update($new_instance, $old_instance) &#123;
+            print_r($old_instance);
+            print_r($new_instance);
+            return $new_instance;
+        &#125;
+
+        // output the options form on admin
+        function form($instance) &#123;
+            global $wpdb;
+            $title = empty($instance[&#39;title&#39;]) ? &#39;&#39; : esc_attr($instance[&#39;title&#39;]);
+            $lat = empty($instance[&#39;lat&#39;]) ? &#39;&#39; : esc_attr($instance[&#39;lat&#39;]);
+            $lng = empty($instance[&#39;lng&#39;]) ? &#39;&#39; : esc_attr($instance[&#39;lng&#39;]);
+            $zoom = empty($instance[&#39;zoom&#39;]) ? &#39;15&#39; : esc_attr($instance[&#39;zoom&#39;]);
+            $type = empty($instance[&#39;type&#39;]) ? &#39;ROADMAP&#39; : esc_attr($instance[&#39;type&#39;]);
+            $directionsto = empty($instance[&#39;directionsto&#39;]) ? &#39;&#39; : esc_attr($instance[&#39;directionsto&#39;]);
+            $content = empty($instance[&#39;content&#39;]) ? &#39;&#39; : esc_attr($instance[&#39;content&#39;]);
+            $width = empty($instance[&#39;width&#39;]) ? &#39;&#39; : esc_attr($instance[&#39;width&#39;]);
+            $height = empty($instance[&#39;height&#39;]) ? &#39;&#39; : esc_attr($instance[&#39;height&#39;]);
+            $street_address = empty($instance[&#39;street-address&#39;]) ? &#39;&#39; : esc_attr($instance[&#39;street-address&#39;]);
+            $city = empty($instance[&#39;city&#39;]) ? &#39;&#39; : esc_attr($instance[&#39;city&#39;]);
+            $state = empty($instance[&#39;state&#39;]) ? &#39;&#39; : esc_attr($instance[&#39;state&#39;]);
+            $postcode = empty($instance[&#39;postcode&#39;]) ? &#39;&#39; : esc_attr($instance[&#39;postcode&#39;]);
+            $country = empty($instance[&#39;country&#39;]) ? &#39;&#39; : esc_attr($instance[&#39;country&#39;]);
+            $icon = empty($instance[&#39;icon&#39;]) ? &#39;&#39; : esc_attr($instance[&#39;icon&#39;]);
+            ?&gt;
+                &lt;p&gt;
+                &lt;label for=&quot;&lt;?php print $this-&gt;get_field_id(&#39;title&#39;); ?&gt;&quot;&gt;&lt;?php _e(&#39;Title:&#39;,&#39;avia_framework&#39;); ?&gt;&lt;/label&gt;
+                &lt;input class=&quot;widefat&quot; id=&quot;&lt;?php print $this-&gt;get_field_id(&#39;title&#39;); ?&gt;&quot; name=&quot;&lt;?php print $this-&gt;get_field_name(&#39;title&#39;); ?&gt;&quot; type=&quot;text&quot; value=&quot;&lt;?php print $title; ?&gt;&quot; /&gt;
+                &lt;/p&gt;
+                &lt;p&gt;
+                &lt;?php _e(&#39;Enter the latitude and longitude of the location you want to display. Need help finding the latitude and longitude?&#39;, &#39;avia_framework&#39;); ?&gt; &lt;a href=&quot;#&quot; class=&quot;avia-coordinates-help-link button&quot;&gt;&lt;?php _e(&#39;Click here to enter an address.&#39;,&#39;avia_framework&#39;); ?&gt;&lt;/a&gt;
+                &lt;/p&gt;
+                &lt;div class=&quot;avia-find-coordinates-wrapper&quot;&gt;
+                    &lt;p&gt;
+                        &lt;label for=&quot;&lt;?php print $this-&gt;get_field_id(&#39;street-address&#39;); ?&gt;&quot;&gt;&lt;?php _e(&#39;Street Address:&#39;,&#39;avia_framework&#39;); ?&gt;&lt;/label&gt;
+                        &lt;input class=&#39;widefat avia-map-street-address&#39; id=&quot;&lt;?php print $this-&gt;get_field_id(&#39;street-address&#39;); ?&gt;&quot; name=&quot;&lt;?php print $this-&gt;get_field_name(&#39;street-address&#39;); ?&gt;&quot; type=&quot;text&quot; value=&quot;&lt;?php print $street_address; ?&gt;&quot; /&gt;
+                    &lt;/p&gt;
+                    &lt;p&gt;
+                        &lt;label for=&quot;&lt;?php print $this-&gt;get_field_id(&#39;city&#39;); ?&gt;&quot;&gt;&lt;?php _e(&#39;City:&#39;,&#39;avia_framework&#39;); ?&gt;&lt;/label&gt;
+                        &lt;input class=&#39;widefat avia-map-city&#39; id=&quot;&lt;?php print $this-&gt;get_field_id(&#39;city&#39;); ?&gt;&quot; name=&quot;&lt;?php print $this-&gt;get_field_name(&#39;city&#39;); ?&gt;&quot; type=&quot;text&quot; value=&quot;&lt;?php print $city; ?&gt;&quot; /&gt;
+                    &lt;/p&gt;
+                    &lt;p&gt;
+                        &lt;label for=&quot;&lt;?php print $this-&gt;get_field_id(&#39;state&#39;); ?&gt;&quot;&gt;&lt;?php _e(&#39;State:&#39;,&#39;avia_framework&#39;); ?&gt;&lt;/label&gt;
+                        &lt;input class=&#39;widefat avia-map-state&#39; id=&quot;&lt;?php print $this-&gt;get_field_id(&#39;state&#39;); ?&gt;&quot; name=&quot;&lt;?php print $this-&gt;get_field_name(&#39;state&#39;); ?&gt;&quot; type=&quot;text&quot; value=&quot;&lt;?php print $state; ?&gt;&quot; /&gt;
+                    &lt;/p&gt;
+                    &lt;p&gt;
+                        &lt;label for=&quot;&lt;?php print $this-&gt;get_field_id(&#39;postcode&#39;); ?&gt;&quot;&gt;&lt;?php _e(&#39;Postcode:&#39;,&#39;avia_framework&#39;); ?&gt;&lt;/label&gt;
+                        &lt;input class=&#39;widefat avia-map-postcode&#39; id=&quot;&lt;?php print $this-&gt;get_field_id(&#39;postcode&#39;); ?&gt;&quot; name=&quot;&lt;?php print $this-&gt;get_field_name(&#39;postcode&#39;); ?&gt;&quot; type=&quot;text&quot; value=&quot;&lt;?php print $postcode; ?&gt;&quot; /&gt;
+                    &lt;/p&gt;
+                    &lt;p&gt;
+                        &lt;label for=&quot;&lt;?php print $this-&gt;get_field_id(&#39;country&#39;); ?&gt;&quot;&gt;&lt;?php _e(&#39;Country:&#39;,&#39;avia_framework&#39;); ?&gt;&lt;/label&gt;
+                        &lt;input class=&#39;widefat avia-map-country&#39; id=&quot;&lt;?php print $this-&gt;get_field_id(&#39;country&#39;); ?&gt;&quot; name=&quot;&lt;?php print $this-&gt;get_field_name(&#39;country&#39;); ?&gt;&quot; type=&quot;text&quot; value=&quot;&lt;?php print $country; ?&gt;&quot; /&gt;
+                    &lt;/p&gt;
+                    &lt;p&gt;
+                        &lt;a class=&quot;button avia-populate-coordinates&quot;&gt;&lt;?php _e(&#39;Fetch coordinates!&#39;,&#39;avia_framework&#39;); ?&gt;&lt;/a&gt;
+                        &lt;div class=&#39;avia-loading-coordinates&#39;&gt;&lt;?php _e(&#39;Fetching the coordinates. Please wait...&#39;,&#39;avia_framework&#39;); ?&gt;&lt;/div&gt;
+                    &lt;/p&gt;
+                &lt;/div&gt;
+                &lt;div class=&quot;avia-coordinates-wrapper&quot;&gt;
+                &lt;p&gt;
+                    &lt;label for=&quot;&lt;?php print $this-&gt;get_field_id(&#39;lat&#39;); ?&gt;&quot;&gt;&lt;?php _e(&#39;Latitude:&#39;,&#39;avia_framework&#39;); ?&gt;&lt;/label&gt;
+                    &lt;input class=&#39;widefat avia-map-lat&#39; id=&quot;&lt;?php print $this-&gt;get_field_id(&#39;lat&#39;); ?&gt;&quot; name=&quot;&lt;?php print $this-&gt;get_field_name(&#39;lat&#39;); ?&gt;&quot; type=&quot;text&quot; value=&quot;&lt;?php print $lat; ?&gt;&quot; /&gt;
+                &lt;/p&gt;
+                &lt;p&gt;
+                &lt;label for=&quot;&lt;?php print $this-&gt;get_field_id(&#39;lng&#39;); ?&gt;&quot;&gt;&lt;?php _e(&#39;Longitude:&#39;,&#39;avia_framework&#39;); ?&gt;&lt;/label&gt;
+                &lt;input class=&#39;widefat avia-map-lng&#39; id=&quot;&lt;?php print $this-&gt;get_field_id(&#39;lng&#39;); ?&gt;&quot; name=&quot;&lt;?php print $this-&gt;get_field_name(&#39;lng&#39;); ?&gt;&quot; type=&quot;text&quot; value=&quot;&lt;?php print $lng; ?&gt;&quot; /&gt;
+                &lt;/p&gt;
+                &lt;/div&gt;
+                &lt;p&gt;
+                &lt;label for=&quot;&lt;?php print $this-&gt;get_field_id(&#39;zoom&#39;); ?&gt;&quot;&gt;&lt;?php echo __(&#39;Zoom Level:&#39;,&#39;avia_framework&#39;).&#39; &lt;small&gt;&#39;.__(&#39;(1-19)&#39;,&#39;avia_framework&#39;).&#39;&lt;/small&gt;&#39;; ?&gt;&lt;/label&gt;
+                &lt;select class=&quot;widefat&quot; id=&quot;&lt;?php echo $this-&gt;get_field_id(&#39;zoom&#39;); ?&gt;&quot; name=&quot;&lt;?php echo $this-&gt;get_field_name(&#39;zoom&#39;); ?&gt;&quot;&gt;
+                    &lt;?php
+                    $list = &quot;&quot;;
+                    $answers = array(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19);
+                    foreach ($answers as $answer)
+                    &#123;
+                        $selected = &quot;&quot;;
+                        if($answer == $zoom) $selected = &#39;selected=&quot;selected&quot;&#39;;
+
+                        $list .= &quot;&lt;option $selected value=&#39;$answer&#39;&gt;$answer&lt;/option&gt;&quot;;
+                    &#125;
+                    $list .= &quot;&lt;/select&gt;&quot;;
+                    echo $list;
+                    ?&gt;
+
+
+                &lt;/p&gt;
+
+                &lt;p&gt;
+                &lt;label for=&quot;&lt;?php print $this-&gt;get_field_id(&#39;type&#39;); ?&gt;&quot;&gt;&lt;?php _e(&#39;Map Type:&#39;,&#39;avia_framework&#39;); ?&gt;&lt;/label&gt;
+
+                &lt;select class=&quot;widefat&quot; id=&quot;&lt;?php echo $this-&gt;get_field_id(&#39;type&#39;); ?&gt;&quot; name=&quot;&lt;?php echo $this-&gt;get_field_name(&#39;type&#39;); ?&gt;&quot;&gt;
+                    &lt;?php
+                    $list = &quot;&quot;;
+                    $answers = array(&#39;ROADMAP&#39;, &#39;SATELLITE&#39;, &#39;HYBRID&#39;, &#39;TERRAIN&#39;);
+                    foreach ($answers as $answer)
+                    &#123;
+                        $selected = &quot;&quot;;
+                        if($answer == $type) $selected = &#39;selected=&quot;selected&quot;&#39;;
+
+                        $list .= &quot;&lt;option $selected value=&#39;$answer&#39;&gt;$answer&lt;/option&gt;&quot;;
+                    &#125;
+                    $list .= &quot;&lt;/select&gt;&quot;;
+                    echo $list;
+                    ?&gt;
+
+                &lt;/p&gt;
+                &lt;p&gt;
+                &lt;label for=&quot;&lt;?php print $this-&gt;get_field_id(&#39;directionsto&#39;); ?&gt;&quot;&gt;&lt;?php _e(&#39;Display a Route by entering a address here. (If address is added Zoom will be ignored)&#39;,&#39;avia_framework&#39;); ?&gt;&lt;/label&gt;
+                &lt;input class=&quot;widefat&quot; id=&quot;&lt;?php print $this-&gt;get_field_id(&#39;directionsto&#39;); ?&gt;&quot; name=&quot;&lt;?php print $this-&gt;get_field_name(&#39;directionsto&#39;); ?&gt;&quot; type=&quot;text&quot; value=&quot;&lt;?php print $directionsto; ?&gt;&quot; /&gt;
+                &lt;/p&gt;
+                &lt;p&gt;
+                &lt;label for=&quot;&lt;?php print $this-&gt;get_field_id(&#39;content&#39;); ?&gt;&quot;&gt;&lt;?php _e(&#39;Info Bubble Content:&#39;,&#39;avia_framework&#39;); ?&gt;&lt;/label&gt;
+                &lt;textarea rows=&quot;7&quot; class=&quot;widefat&quot; id=&quot;&lt;?php print $this-&gt;get_field_id(&#39;content&#39;); ?&gt;&quot; name=&quot;&lt;?php print $this-&gt;get_field_name(&#39;content&#39;); ?&gt;&quot;&gt;&lt;?php print $content; ?&gt;&lt;/textarea&gt;
+                &lt;/p&gt;
+                &lt;p&gt;
+                &lt;label for=&quot;&lt;?php print $this-&gt;get_field_id(&#39;icon&#39;); ?&gt;&quot;&gt;&lt;?php _e(&#39;Custom Marker Image URL:&#39;,&#39;avia_framework&#39;); ?&gt;&lt;/label&gt;
+                &lt;input class=&quot;widefat&quot; class=&quot;avia-marker-icon&quot; id=&quot;&lt;?php print $this-&gt;get_field_id(&#39;icon&#39;); ?&gt;&quot; name=&quot;&lt;?php print $this-&gt;get_field_name(&#39;icon&#39;); ?&gt;&quot; type=&quot;text&quot; value=&quot;&lt;?php print $icon; ?&gt;&quot; /&gt;
+                &lt;/p&gt;
+                &lt;p&gt;
+                &lt;label for=&quot;&lt;?php print $this-&gt;get_field_id(&#39;width&#39;); ?&gt;&quot;&gt;&lt;?php _e(&#39;Enter the width in px or &amp;percnt; (100&amp;percnt; width will be used if you leave this field empty)&#39;,&#39;avia_framework&#39;); ?&gt;&lt;/label&gt;
+                &lt;input class=&quot;widefat&quot; id=&quot;&lt;?php print $this-&gt;get_field_id(&#39;width&#39;); ?&gt;&quot; name=&quot;&lt;?php print $this-&gt;get_field_name(&#39;width&#39;); ?&gt;&quot; type=&quot;text&quot; value=&quot;&lt;?php print $width; ?&gt;&quot; /&gt;
+                &lt;/p&gt;
+                &lt;p&gt;
+                &lt;label for=&quot;&lt;?php print $this-&gt;get_field_id(&#39;height&#39;); ?&gt;&quot;&gt;&lt;?php _e(&#39;Enter the height in px or &amp;percnt;&#39;,&#39;avia_framework&#39;); ?&gt;&lt;/label&gt;
+                &lt;input class=&quot;widefat&quot; id=&quot;&lt;?php print $this-&gt;get_field_id(&#39;height&#39;); ?&gt;&quot; name=&quot;&lt;?php print $this-&gt;get_field_name(&#39;height&#39;); ?&gt;&quot; type=&quot;text&quot; value=&quot;&lt;?php print $height; ?&gt;&quot; /&gt;
+                &lt;/p&gt;
+            &lt;?php
+        &#125;
+
+        function helper_print_google_maps_scripts()
+        &#123;
+
+            $api_key = avia_get_option(&#39;gmap_api&#39;);
+            $api_url = av_google_maps::api_url( $api_key );
+
+            wp_register_script( &#39;avia-google-maps-api&#39;, $api_url, array(&#39;jquery&#39;), NULL, true);
+
+            $load_google_map_api = apply_filters(&#39;avf_load_google_map_api&#39;, true, &#39;avia_google_map_widget&#39;);
+
+            if($load_google_map_api) wp_enqueue_script( &#39;avia-google-maps-api&#39; );
+
+            $is_widget_edit_page = in_array(basename($_SERVER[&#39;PHP_SELF&#39;]), array(&#39;widgets.php&#39;));
+            if($is_widget_edit_page)
+            &#123;
+                wp_register_script( &#39;avia-google-maps-widget&#39;, AVIA_JS_URL.&#39;conditional_load/avia_google_maps_widget.js&#39;, array( &#39;jquery&#39;,&#39;media-upload&#39;,&#39;media-views&#39; ), &#39;1.0.0&#39;, true);
+                wp_enqueue_script( &#39;avia-google-maps-widget&#39; );
+
+                $args = array(
+                    &#39;toomanyrequests&#39;   =&gt; __(&quot;Too many requests at once, please refresh the page to complete geocoding&quot;,&#39;avia_framework&#39;),
+                    &#39;latitude&#39;          =&gt; __(&quot;Latitude and longitude for&quot;,&#39;avia_framework&#39;),
+                    &#39;notfound&#39;          =&gt; __(&quot;couldn&#39;t be found by Google, please add them manually&quot;,&#39;avia_framework&#39;),
+                    &#39;insertaddress&#39;     =&gt; __(&quot;Please insert a valid address in the fields above&quot;,&#39;avia_framework&#39;)
+                );
+
+                if($load_google_map_api) wp_localize_script( &#39;avia-google-maps-api&#39;, &#39;AviaMapTranslation&#39;, $args );
+            &#125;
+        &#125;
+
+
+    &#125; // SGMwidget widget
+&#125;
+
+
+if(!function_exists(&#39;avia_printmap&#39;))
+&#123;
+    function avia_printmap($lat, $lng, $zoom, $type, $content, $directionsto, $width, $height, $icon) &#123;
+
+        global $avia_config;
+
+        $SGMoptions = get_option(&#39;SGMoptions&#39;); // get options defined in admin page
+
+        if (!$lat) &#123;$lat = &#39;0&#39;;&#125;
+        if (!$lng) &#123;$lng = &#39;0&#39;;&#125;
+        if (!$zoom) &#123;$zoom = $SGMoptions[&#39;zoom&#39;];&#125; // 1-19
+        if (!$type) &#123;$type = $SGMoptions[&#39;type&#39;];&#125; // ROADMAP, SATELLITE, HYBRID, TERRAIN
+        if (!$content) &#123;$content = $SGMoptions[&#39;content&#39;];&#125;
+        $output = &quot;&quot;;
+        $unique = uniqid();
+
+        $prefix  = isset($_SERVER[&#39;HTTPS&#39;] ) ? &quot;https&quot; : &quot;http&quot;;
+        $width = !empty($width) ? &#39;width:&#39;.$width.&#39;;&#39; : &#39;width:100%;&#39;;
+        $height = !empty($height) ? &#39;height:&#39;.$height.&#39;;&#39; : &#39;&#39;;
+        $icon = !empty($icon) ? $icon : &#39;&#39;;
+
+        $content = htmlspecialchars($content, ENT_QUOTES);
+        $content = str_replace(&#39;&amp;lt;&#39;, &#39;&lt;&#39;, $content);
+        $content = str_replace(&#39;&amp;gt;&#39;, &#39;&gt;&#39;, $content);
+        $content = str_replace(&#39;&amp;quot;&#39;, &#39;&quot;&#39;, $content);
+        $content = str_replace(&#39;&amp;#039;&#39;, &#39;&quot;&#39;, $content);
+        $content = json_encode($content);
+
+
+        $directionsForm = &quot;&quot;;
+        if(empty($avia_config[&#39;g_maps_widget_active&#39;]))
+        &#123;
+            $avia_config[&#39;g_maps_widget_active&#39;] = 0;
+        &#125;
+
+
+        if(apply_filters(&#39;avia_google_maps_widget_load_api&#39;, true, $avia_config[&#39;g_maps_widget_active&#39;]))
+        &#123;   
+            $api_key = avia_get_option(&#39;gmap_api&#39;);
+            $api_url = av_google_maps::api_url( $api_key );
+
+            wp_register_script( &#39;avia-google-maps-api&#39;, $api_url, array(&#39;jquery&#39;), NULL, true);
+            wp_enqueue_script( &#39;avia-google-maps-api&#39; );
+        &#125;
+
+        $avia_config[&#39;g_maps_widget_active&#39;] ++;
+
+    $output .= &quot;&lt;script type=&#39;text/javascript&#39;&gt;
+        function makeMap_&quot;.$avia_config[&#39;g_maps_widget_active&#39;].&quot;() &#123;\n&quot;;
+
+    $avia_maps_config = &quot;
+        var directionsDisplay;
+        directionsDisplay = new google.maps.DirectionsRenderer;
+        var directionsService = new google.maps.DirectionsService;
+        var map;
+        var latlng = new google.maps.LatLng(&quot;.$lat.&quot;, &quot;.$lng.&quot;);
+        var directionsto = &#39;&quot;.$directionsto.&quot;&#39;;
+        var myOptions = &#123;
+          zoom:&quot;.$zoom.&quot;,
+          mapTypeControl:true,
+          mapTypeId:google.maps.MapTypeId.&quot;.$type.&quot;,
+          mapTypeControlOptions:&#123;style:google.maps.MapTypeControlStyle.DROPDOWN_MENU&#125;,
+          navigationControl:true,
+          navigationControlOptions:&#123;style:google.maps.NavigationControlStyle.SMALL&#125;,
+          center:latlng
+        &#125;;
+        var map = new google.maps.Map(document.getElementById(&#39;avia_google_maps_$unique&#39;), myOptions);
+
+        if(directionsto.length &gt; 5)
+        &#123;
+          directionsDisplay.setMap(map);
+          var request = &#123;
+             origin:directionsto,
+             destination:latlng,
+             travelMode:google.maps.DirectionsTravelMode.DRIVING
+        &#125;;
+          directionsService.route(request, function(response, status) &#123;
+             if(status == google.maps.DirectionsStatus.OK) &#123;
+                directionsDisplay.setDirections(response)
+             &#125;
+          &#125;)
+        &#125;
+        else
+        &#123;
+          var contentString = &quot;.$content.&quot;;
+          var infowindow = new google.maps.InfoWindow(&#123;
+             content: contentString
+          &#125;);
+          var marker = new google.maps.Marker(&#123;
+             position: latlng,
+             map: map,
+             icon: &#39;&quot;.$icon.&quot;&#39;,
+             title: &#39;&#39;
+          &#125;);
+
+          google.maps.event.addListener(marker, &#39;click&#39;, function() &#123;
+              infowindow.open(map,marker);
+          &#125;);
+        &#125;&quot;;
+
+    $output .= apply_filters(&#39;avia_google_maps_widget_config&#39;, $avia_maps_config, $lat, $lng, $directionsto, $zoom, $type, $unique, $content, $icon);
+
+    $output .= &quot;\n&#125;\n\n
+            jQuery(document).ready(function() &#123;
+                makeMap_&quot;.$avia_config[&#39;g_maps_widget_active&#39;].&quot;()
+            &#125;);
+        &lt;/script&gt;
+        &lt;div id=&#39;avia_google_maps_$unique&#39; style=&#39;$height $width&#39; class=&#39;avia_google_maps_container&#39;&gt;&lt;/div&gt;&quot;;
+
+       return $output;
+    &#125;
+&#125;
+
+
+
+
+
+/*
+Modified version of instagram widget by
+Author: Scott Evans
+Copyright © 2013 Scott Evans
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+*/
+
+class avia_instagram_widget extends WP_Widget &#123;
+
+    function __construct() &#123;
+        parent::__construct(
+            &#39;avia-instagram-feed&#39;,
+            THEMENAME .&quot; &quot;. __( &#39;Instagram&#39;, &#39;avia_framework&#39; ),
+            array( &#39;classname&#39; =&gt; &#39;avia-instagram-feed&#39;, &#39;description&#39; =&gt; __( &#39;Displays your latest Instagram photos&#39;, &#39;avia_framework&#39; ) )
+        );
+    &#125;
+
+    function widget( $args, $instance ) &#123;
+
+        extract( $args, EXTR_SKIP );
+
+        $title = empty( $instance[&#39;title&#39;] ) ? &#39;&#39; : apply_filters( &#39;widget_title&#39;, $instance[&#39;title&#39;] );
+        $username = empty( $instance[&#39;username&#39;] ) ? &#39;&#39; : $instance[&#39;username&#39;];
+        $limit = empty( $instance[&#39;number&#39;] ) ? 9 : $instance[&#39;number&#39;];
+        $columns = empty( $instance[&#39;columns&#39;] ) ? 3 : $instance[&#39;columns&#39;];
+        $size = empty( $instance[&#39;size&#39;] ) ? &#39;large&#39; : $instance[&#39;size&#39;];
+        $target = empty( $instance[&#39;target&#39;] ) ? &#39;_self&#39; : $instance[&#39;target&#39;];
+        $link = empty( $instance[&#39;link&#39;] ) ? &#39;&#39; : $instance[&#39;link&#39;];
+
+        echo $before_widget;
+        if ( ! empty( $title ) ) &#123; echo $before_title . $title . $after_title; &#125;;
+
+        do_action( &#39;aviw_before_widget&#39;, $instance );
+
+        if ( $username != &#39;&#39; ) &#123;
+
+            $media_array = $this-&gt;scrape_instagram( $username, $limit );
+
+            if ( is_wp_error( $media_array ) ) &#123;
+
+                echo $media_array-&gt;get_error_message();
+
+            &#125; else &#123;
+
+                // filter for images only?
+                if ( $images_only = apply_filters( &#39;aviw_images_only&#39;, FALSE ) )
+                    $media_array = array_filter( $media_array, array( $this, &#39;images_only&#39; ) );
+
+                // filters for custom classes
+                $ulclass = esc_attr( apply_filters( &#39;aviw_list_class&#39;, &#39;av-instagram-pics av-instagram-size-&#39; . $size ) );
+                $rowclass = esc_attr( apply_filters( &#39;aviw_row_class&#39;, &#39;av-instagram-row&#39; ) );
+                $liclass = esc_attr( apply_filters( &#39;aviw_item_class&#39;, &#39;av-instagram-item&#39; ) );
+                $aclass = esc_attr( apply_filters( &#39;aviw_a_class&#39;, &#39;&#39; ) );
+                $imgclass = esc_attr( apply_filters( &#39;aviw_img_class&#39;, &#39;&#39; ) );
+
+                ?&gt;&lt;div class=&quot;&lt;?php echo esc_attr( $ulclass ); ?&gt;&quot;&gt;&lt;?php
+
+                $last_id  = end($media_array);
+                $last_id  = $last_id[&#39;id&#39;];
+
+                $rowcount = 0;  
+                foreach ( $media_array as $item ) 
+                &#123;
+                    if($rowcount == 0)
+                    &#123;
+                        echo &quot;&lt;div class=&#39;&#123;$rowclass&#125;&#39;&gt;&quot;;
+                    &#125;
+
+                    $rowcount ++ ;
+                    $targeting = $target;
+                    if($target == &quot;lightbox&quot;)
+                    &#123;
+                        $targeting = &quot;&quot;;
+                        $item[&#39;link&#39;] = $item[&#39;original&#39;];
+                    &#125;
+
+                    echo &#39;&lt;div class=&quot;&#39;. $liclass .&#39;&quot;&gt;&#39;;
+                    echo &#39;&lt;a href=&quot;&#39;. esc_url( $item[&#39;link&#39;] ) .&#39;&quot; target=&quot;&#39;. esc_attr( $targeting ) .&#39;&quot;  class=&quot;&#39;. $aclass .&#39;&quot;&gt;&#39;;
+                    echo &#39;&lt;img src=&quot;&#39;. esc_url( $item[$size] ) .&#39;&quot;  alt=&quot;&#39;. esc_attr( $item[&#39;description&#39;] ) .&#39;&quot; title=&quot;&#39;. esc_attr( $item[&#39;description&#39;] ).&#39;&quot;  class=&quot;&#39;. $imgclass .&#39;&quot;/&gt;&#39;;
+                    echo &#39;&lt;/a&gt;&lt;/div&gt;&#39;;
+
+                    if($rowcount % $columns == 0 || $last_id == $item[&#39;id&#39;])
+                    &#123;
+                        echo &#39;&lt;/div&gt;&#39;;
+                        $rowcount = 0;
+                    &#125;
+
+                &#125;
+                echo &#39;&lt;/div&gt;&#39;;
+            &#125;
+        &#125;
+
+        if ( $link != &#39;&#39; ) &#123;
+            ?&gt;
+            &lt;a class=&quot;av-instagram-follow avia-button&quot; href=&quot;//instagram.com/&lt;?php echo esc_attr( trim( $username ) ); ?&gt;&quot; rel=&quot;me&quot; target=&quot;&lt;?php echo esc_attr( $target ); ?&gt;&quot;&gt;&lt;?php echo $link; ?&gt;&lt;/a&gt;&lt;?php
+        &#125;
+
+        do_action( &#39;aviw_after_widget&#39;, $instance );
+
+        echo $after_widget;
+    &#125;
+
+
+
+    function form( $instance ) 
+    &#123;
+
+        $instance = wp_parse_args( (array) $instance, array( 
+            &#39;title&#39; =&gt; __( &#39;Instagram&#39;, &#39;avia_framework&#39; ), 
+            &#39;username&#39; =&gt; &#39;&#39;, 
+            &#39;size&#39; =&gt; &#39;large&#39;, 
+            &#39;link&#39; =&gt; __( &#39;Follow Me!&#39;, &#39;avia_framework&#39; ), 
+            &#39;number&#39; =&gt; 9, 
+            &#39;target&#39; =&gt; &#39;lightbox&#39; , 
+            &#39;columns&#39; =&gt; 3 ) 
+        );
+
+        $title = esc_attr( $instance[&#39;title&#39;] );
+        $username = esc_attr( $instance[&#39;username&#39;] );
+        $number = absint( $instance[&#39;number&#39;] );
+        if($number &gt; 12) $number = 12;
+        $size = esc_attr( $instance[&#39;size&#39;] );
+        $target = esc_attr( $instance[&#39;target&#39;] );
+        $link = esc_attr( $instance[&#39;link&#39;] );
+        $columns = esc_attr( $instance[&#39;columns&#39;] );
+        ?&gt;
+        &lt;p&gt;&lt;label for=&quot;&lt;?php echo $this-&gt;get_field_id( &#39;title&#39; ); ?&gt;&quot;&gt;&lt;?php _e( &#39;Title&#39;, &#39;avia_framework&#39; ); ?&gt;: &lt;input class=&quot;widefat&quot; id=&quot;&lt;?php echo $this-&gt;get_field_id( &#39;title&#39; ); ?&gt;&quot; name=&quot;&lt;?php echo $this-&gt;get_field_name( &#39;title&#39; ); ?&gt;&quot; type=&quot;text&quot; value=&quot;&lt;?php echo $title; ?&gt;&quot; /&gt;&lt;/label&gt;&lt;/p&gt;
+        &lt;p&gt;&lt;label for=&quot;&lt;?php echo $this-&gt;get_field_id( &#39;username&#39; ); ?&gt;&quot;&gt;&lt;?php _e( &#39;Username&#39;, &#39;avia_framework&#39; ); ?&gt;: &lt;input class=&quot;widefat&quot; id=&quot;&lt;?php echo $this-&gt;get_field_id( &#39;username&#39; ); ?&gt;&quot; name=&quot;&lt;?php echo $this-&gt;get_field_name( &#39;username&#39; ); ?&gt;&quot; type=&quot;text&quot; value=&quot;&lt;?php echo $username; ?&gt;&quot; /&gt;&lt;/label&gt;&lt;/p&gt;
+        &lt;p&gt;&lt;label for=&quot;&lt;?php echo $this-&gt;get_field_id( &#39;number&#39; ); ?&gt;&quot;&gt;&lt;?php _e( &#39;Number of photos (maximum 12)&#39;, &#39;avia_framework&#39; ); ?&gt;: &lt;input class=&quot;widefat&quot; id=&quot;&lt;?php echo $this-&gt;get_field_id( &#39;number&#39; ); ?&gt;&quot; name=&quot;&lt;?php echo $this-&gt;get_field_name( &#39;number&#39; ); ?&gt;&quot; type=&quot;text&quot; value=&quot;&lt;?php echo $number; ?&gt;&quot; /&gt;&lt;/label&gt;&lt;/p&gt;
+        &lt;p&gt;&lt;label for=&quot;&lt;?php echo $this-&gt;get_field_id( &#39;columns&#39; ); ?&gt;&quot;&gt;&lt;?php _e( &#39;Number of columns&#39;, &#39;avia_framework&#39; ); ?&gt;: &lt;input class=&quot;widefat&quot; id=&quot;&lt;?php echo $this-&gt;get_field_id( &#39;columns&#39; ); ?&gt;&quot; name=&quot;&lt;?php echo $this-&gt;get_field_name( &#39;columns&#39; ); ?&gt;&quot; type=&quot;text&quot; value=&quot;&lt;?php echo $columns; ?&gt;&quot; /&gt;&lt;/label&gt;&lt;/p&gt;
+        &lt;p&gt;&lt;label for=&quot;&lt;?php echo $this-&gt;get_field_id( &#39;size&#39; ); ?&gt;&quot;&gt;&lt;?php _e( &#39;Photo size&#39;, &#39;avia_framework&#39; ); ?&gt;:&lt;/label&gt;
+            &lt;select id=&quot;&lt;?php echo $this-&gt;get_field_id( &#39;size&#39; ); ?&gt;&quot; name=&quot;&lt;?php echo $this-&gt;get_field_name( &#39;size&#39; ); ?&gt;&quot; class=&quot;widefat&quot;&gt;
+                &lt;option value=&quot;thumbnail&quot; &lt;?php selected( &#39;thumbnail&#39;, $size ) ?&gt;&gt;&lt;?php _e( &#39;Thumbnail&#39;, &#39;avia_framework&#39; ); ?&gt;&lt;/option&gt;
+                &lt;option value=&quot;small&quot; &lt;?php selected( &#39;small&#39;, $size ) ?&gt;&gt;&lt;?php _e( &#39;Small&#39;, &#39;avia_framework&#39; ); ?&gt;&lt;/option&gt;
+                &lt;option value=&quot;large&quot; &lt;?php selected( &#39;large&#39;, $size ) ?&gt;&gt;&lt;?php _e( &#39;Large&#39;, &#39;avia_framework&#39; ); ?&gt;&lt;/option&gt;
+                &lt;option value=&quot;original&quot; &lt;?php selected( &#39;original&#39;, $size ) ?&gt;&gt;&lt;?php _e( &#39;Original&#39;, &#39;avia_framework&#39; ); ?&gt;&lt;/option&gt;
+            &lt;/select&gt;
+        &lt;/p&gt;
+        &lt;p&gt;&lt;label for=&quot;&lt;?php echo $this-&gt;get_field_id( &#39;target&#39; ); ?&gt;&quot;&gt;&lt;?php _e( &#39;Open links in&#39;, &#39;avia_framework&#39; ); ?&gt;:&lt;/label&gt;
+            &lt;select id=&quot;&lt;?php echo $this-&gt;get_field_id( &#39;target&#39; ); ?&gt;&quot; name=&quot;&lt;?php echo $this-&gt;get_field_name( &#39;target&#39; ); ?&gt;&quot; class=&quot;widefat&quot;&gt;
+                &lt;option value=&quot;lightbox&quot; &lt;?php selected( &#39;lightbox&#39;, $target ) ?&gt;&gt;&lt;?php _e( &#39;Lightbox&#39;, &#39;avia_framework&#39; ); ?&gt;&lt;/option&gt;
+                &lt;option value=&quot;_self&quot; &lt;?php selected( &#39;_self&#39;, $target ) ?&gt;&gt;&lt;?php _e( &#39;Current window (_self)&#39;, &#39;avia_framework&#39; ); ?&gt;&lt;/option&gt;
+                &lt;option value=&quot;_blank&quot; &lt;?php selected( &#39;_blank&#39;, $target ) ?&gt;&gt;&lt;?php _e( &#39;New window (_blank)&#39;, &#39;avia_framework&#39; ); ?&gt;&lt;/option&gt;
+            &lt;/select&gt;
+        &lt;/p&gt;
+        &lt;p&gt;&lt;label for=&quot;&lt;?php echo $this-&gt;get_field_id( &#39;link&#39; ); ?&gt;&quot;&gt;&lt;?php _e( &#39;Link text&#39;, &#39;avia_framework&#39; ); ?&gt;: &lt;input class=&quot;widefat&quot; id=&quot;&lt;?php echo $this-&gt;get_field_id( &#39;link&#39; ); ?&gt;&quot; name=&quot;&lt;?php echo $this-&gt;get_field_name( &#39;link&#39; ); ?&gt;&quot; type=&quot;text&quot; value=&quot;&lt;?php echo $link; ?&gt;&quot; /&gt;&lt;/label&gt;&lt;/p&gt;
+        &lt;?php
+    &#125;
+
+    function update( $new_instance, $old_instance ) &#123;
+        $instance = $old_instance;
+        $instance[&#39;title&#39;] = strip_tags( $new_instance[&#39;title&#39;] );
+        $instance[&#39;username&#39;] = trim( strip_tags( $new_instance[&#39;username&#39;] ) );
+        $instance[&#39;number&#39;] = ! absint( $new_instance[&#39;number&#39;] ) ? 9 : $new_instance[&#39;number&#39;];
+        $instance[&#39;columns&#39;] = ! absint( $new_instance[&#39;columns&#39;] ) ? 3 : $new_instance[&#39;columns&#39;];
+
+        if($instance[&#39;columns&#39;] &gt; 6) $instance[&#39;columns&#39;] = 6;
+        if($instance[&#39;columns&#39;] &lt; 1) $instance[&#39;columns&#39;] = 1;
+
+
+        $instance[&#39;size&#39;] = ( ( $new_instance[&#39;size&#39;] == &#39;thumbnail&#39; || $new_instance[&#39;size&#39;] == &#39;large&#39; || $new_instance[&#39;size&#39;] == &#39;small&#39; || $new_instance[&#39;size&#39;] == &#39;original&#39; ) ? $new_instance[&#39;size&#39;] : &#39;large&#39; );
+        $instance[&#39;target&#39;] = ( ( $new_instance[&#39;target&#39;] == &#39;_self&#39; || $new_instance[&#39;target&#39;] == &#39;_blank&#39;|| $new_instance[&#39;target&#39;] == &#39;lightbox&#39; ) ? $new_instance[&#39;target&#39;] : &#39;_self&#39; );
+        $instance[&#39;link&#39;] = strip_tags( $new_instance[&#39;link&#39;] );
+        return $instance;
+    &#125;
+
+        // based on https://gist.github.com/cosmocatalano/4544576
+    function scrape_instagram( $username, $slice = 9 ) &#123;
+
+        $username = strtolower( $username );
+        $username = str_replace( &#39;@&#39;, &#39;&#39;, $username );
+        $transient_prefix = &quot;u&quot;;
+
+        if ( false === ( $instagram = get_transient( &#39;av_insta2-&#39; . $transient_prefix . &#39;-&#39; . sanitize_title_with_dashes( $username ) ) ) ) &#123;
+
+            //$remote = wp_remote_get( &#39;http://instagram.com/&#39;.trim( $username ) );
+            $remote = wp_remote_get( &#39;https://www.instagram.com/&#39;.trim( $username ), array( &#39;sslverify&#39; =&gt; false, &#39;timeout&#39; =&gt; 60 ) );
+
+            if ( is_wp_error( $remote ) )
+                return new WP_Error( &#39;site_down&#39;, __( &#39;Unable to communicate with Instagram.&#39;, &#39;avia_framework&#39; ) );
+
+            if ( 200 != wp_remote_retrieve_response_code( $remote ) )
+                return new WP_Error( &#39;invalid_response&#39;, __( &#39;Instagram did not return a 200.&#39;, &#39;avia_framework&#39; ) );
+
+            $shards = explode( &#39;window._sharedData = &#39;, $remote[&#39;body&#39;] );
+            $insta_json = explode( &#39;;&lt;/script&gt;&#39;, $shards[1] );
+            $insta_array = json_decode( $insta_json[0], TRUE );
+
+            if ( ! $insta_array )
+                return new WP_Error( &#39;bad_json&#39;, __( &#39;Instagram has returned invalid data.&#39;, &#39;avia_framework&#39; ) );
+
+            if ( isset( $insta_array[&#39;entry_data&#39;][&#39;ProfilePage&#39;][0][&#39;graphql&#39;][&#39;user&#39;][&#39;edge_owner_to_timeline_media&#39;][&#39;edges&#39;] ) ) &#123;
+                $images = $insta_array[&#39;entry_data&#39;][&#39;ProfilePage&#39;][0][&#39;graphql&#39;][&#39;user&#39;][&#39;edge_owner_to_timeline_media&#39;][&#39;edges&#39;];
+            &#125; else &#123;
+                return new WP_Error( &#39;bad_json_2&#39;, __( &#39;Instagram has returned invalid data.&#39;, &#39;avia_framework&#39; ) );
+            &#125;
+
+            if ( ! is_array( $images ) )
+                return new WP_Error( &#39;bad_array&#39;, __( &#39;Instagram has returned invalid data.&#39;, &#39;avia_framework&#39; ) );
+
+            $instagram = array();
+
+            foreach ( $images as $image ) &#123;
+
+                // see https://github.com/stevenschobert/instafeed.js/issues/549
+                //$image[&#39;thumbnail_src&#39;] = preg_replace( &quot;/^https:/i&quot;, &quot;&quot;, $image[&#39;thumbnail_src&#39;] );
+                $image[&#39;thumbnail&#39;] = preg_replace( &#39;/^https?\:/i&#39;, &#39;&#39;, $image[&#39;node&#39;][&#39;thumbnail_resources&#39;][0][&#39;src&#39;] );
+                $image[&#39;small&#39;] = preg_replace( &#39;/^https?\:/i&#39;, &#39;&#39;, $image[&#39;node&#39;][&#39;thumbnail_resources&#39;][2][&#39;src&#39;] );
+                $image[&#39;large&#39;] = preg_replace( &#39;/^https?\:/i&#39;, &#39;&#39;, $image[&#39;node&#39;][&#39;thumbnail_resources&#39;][4][&#39;src&#39;] );
+                $image[&#39;display_src&#39;] = preg_replace( &#39;/^https?\:/i&#39;, &#39;&#39;, $image[&#39;node&#39;][&#39;display_url&#39;] );
+
+                if ( $image[&#39;node&#39;][&#39;is_video&#39;] == true ) &#123;
+                    $type = &#39;video&#39;;
+                &#125; else &#123;
+                    $type = &#39;image&#39;;
+                &#125;
+
+                $caption = __( &#39;Instagram Image&#39;, &#39;avia_framework&#39; );
+                if ( ! empty( $image[&#39;node&#39;][&#39;edge_media_to_caption&#39;][&#39;edges&#39;][0][&#39;node&#39;][&#39;text&#39;] ) ) &#123;
+                    $caption = wp_kses( $image[&#39;node&#39;][&#39;edge_media_to_caption&#39;][&#39;edges&#39;][0][&#39;node&#39;][&#39;text&#39;], array() );
+                &#125;
+
+                $instagram[] = array(
+                    &#39;description&#39;   =&gt; $caption,
+                    &#39;link&#39;          =&gt; trailingslashit( &#39;//instagram.com/p/&#39; . $image[&#39;node&#39;][&#39;shortcode&#39;] ),
+                    &#39;time&#39;          =&gt; $image[&#39;node&#39;][&#39;taken_at_timestamp&#39;],
+                    &#39;comments&#39;      =&gt; $image[&#39;node&#39;][&#39;edge_media_to_comment&#39;][&#39;count&#39;],
+                    &#39;likes&#39;         =&gt; $image[&#39;node&#39;][&#39;edge_liked_by&#39;][&#39;count&#39;],
+                    &#39;thumbnail&#39;     =&gt; preg_replace( &#39;/^https?\:/i&#39;, &#39;&#39;, $image[&#39;node&#39;][&#39;thumbnail_resources&#39;][0][&#39;src&#39;] ),
+                    &#39;small&#39;         =&gt; preg_replace( &#39;/^https?\:/i&#39;, &#39;&#39;, $image[&#39;node&#39;][&#39;thumbnail_resources&#39;][2][&#39;src&#39;] ),
+                    &#39;large&#39;         =&gt; preg_replace( &#39;/^https?\:/i&#39;, &#39;&#39;, $image[&#39;node&#39;][&#39;thumbnail_resources&#39;][4][&#39;src&#39;] ),
+                    &#39;original&#39;      =&gt; preg_replace( &#39;/^https?\:/i&#39;, &#39;&#39;, $image[&#39;node&#39;][&#39;display_url&#39;] ),
+                    &#39;type&#39;          =&gt; $type,
+                    &#39;id&#39;            =&gt; $image[&#39;node&#39;][&#39;id&#39;]
+                );
+            &#125;
+
+            // do not set an empty transient - should help catch private or empty accounts
+            if ( ! empty( $instagram ) ) &#123;
+                $instagram = base64_encode( serialize( $instagram ) );
+                set_transient( &#39;av_insta2-&#39; . $transient_prefix . &#39;-&#39; . sanitize_title_with_dashes( $username ), $instagram, apply_filters( &#39;null_instagram_cache_time&#39;, HOUR_IN_SECONDS * 2 ) );
+            &#125;
+        &#125;
+
+        if ( ! empty( $instagram ) ) &#123;
+
+            $instagram = unserialize( base64_decode( $instagram ) );
+            return array_slice( $instagram, 0, $slice );
+
+        &#125; else &#123;
+
+            return new WP_Error( &#39;no_images&#39;, __( &#39;Instagram did not return any images.&#39;, &#39;avia_framework&#39; ) );
+
+        &#125;
+    &#125;
+
+    function images_only( $media_item ) &#123;
+
+        if ( $media_item[&#39;type&#39;] == &#39;image&#39; )
+            return true;
+
+        return false;
+    &#125;
+&#125;</code></pre>
+<p>文件下载地址：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1DnPU4BiC4WBrrJteUYIokg">https://pan.baidu.com/s/1DnPU4BiC4WBrrJteUYIokg</a>  密码：7p3e</p>
+<p>这样写显得很愚蠢，只是担心分享链接失效，当然我们还可以通过文件对比来找到差异，这里罗列了几个，给大家做个参考，相比于旧的，新的这个文件这里是：</p>
+<pre><code>function scrape_instagram( $username, $slice = 9 ) &#123;
+
+    $username = strtolower( $username );
+    $username = str_replace( &#39;@&#39;, &#39;&#39;, $username );
+    $transient_prefix = &quot;u&quot;;
+
+    if ( false === ( $instagram = get_transient( &#39;av_insta2-&#39; . $transient_prefix . &#39;-&#39; . sanitize_title_with_dashes( $username ) ) ) ) &#123;
+
+        //$remote = wp_remote_get( &#39;http://instagram.com/&#39;.trim( $username ) );</code></pre>
+<p>而旧的是：</p>
+<pre><code>function scrape_instagram( $username, $slice = 9 ) &#123;
+
+    $username = strtolower( $username );
+    $username = str_replace( &#39;@&#39;, &#39;&#39;, $username );
+
+    if ( false === ( $instagram = get_transient( &#39;av_insta1-&#39;.sanitize_title_with_dashes( $username ) ) ) ) &#123;</code></pre>
+<hr>
+<p>新的文件有个地方是：</p>
+<pre><code>if ( $image[&#39;node&#39;][&#39;is_video&#39;] == true ) &#123;
+        $type = &#39;video&#39;;
+    &#125; else &#123;
+        $type = &#39;image&#39;;
+    &#125;</code></pre>
+<p>旧的文件是：</p>
+<pre><code>if ( $image[&#39;is_video&#39;] == true ) &#123;
+        $type = &#39;video&#39;;
+    &#125; else &#123;
+        $type = &#39;image&#39;;
+    &#125;</code></pre>
+<hr>
+<p>新的文件有个地方是：</p>
+<pre><code>if ( ! empty( $instagram ) ) &#123;
+        $instagram = base64_encode( serialize( $instagram ) );
+        set_transient( &#39;av_insta2-&#39; . $transient_prefix . &#39;-&#39; . sanitize_title_with_dashes( $username ), $instagram, apply_filters( &#39;null_instagram_cache_time&#39;, HOUR_IN_SECONDS * 2 ) );
+    &#125;</code></pre>
+<p>旧的文件是：</p>
+<pre><code>if ( ! empty( $instagram ) ) &#123;
+        $instagram = base64_encode( serialize( $instagram ) );
+        set_transient( &#39;av_insta1-&#39;.sanitize_title_with_dashes( $username ), $instagram, apply_filters( &#39;null_instagram_cache_time&#39;, HOUR_IN_SECONDS*2 ) );
+    &#125;</code></pre>
+<hr>
+<p>新的文件有个是：</p>
+<pre><code>extract($args, EXTR_SKIP);
+if(empty($instance[&#39;url&#39;])) return;
+$url        = $instance[&#39;url&#39;];
+$title = empty($instance[&#39;title&#39;]) ? &#39;&#39; : apply_filters(&#39;widget_title&#39;, $instance[&#39;title&#39;]);
+$height     = 151; 
+$faces      = &quot;true&quot;;
+$extraClass = &quot;&quot;;
+$style      = &quot;&quot;;</code></pre>
+<p>旧的文件是：</p>
+<pre><code>extract($args, EXTR_SKIP);
+if(empty($instance[&#39;url&#39;])) return;
+$url         = $instance[&#39;url&#39;];
+$title         = isset($instance[&#39;title&#39;]) ? $instance[&#39;title&#39;] : &quot;&quot;; 
+$height     = 151; 
+$faces         = &quot;true&quot;;
+$extraClass = &quot;&quot;;
+$style         = &quot;&quot;;</code></pre>
+<hr>
+<p>新文件有个是：</p>
+<pre><code>if ( !empty( $title ) ) &#123; echo $before_title . $title . $after_title; &#125;;
+
+echo &quot;&lt;div class=&#39;av_facebook_widget_wrap &#123;$extraClass&#125;&#39; &#123;$style&#125;&gt;&quot;;
+echo &#39;&lt;div class=&quot;fb-page&quot; data-width=&quot;500&quot; data-href=&quot;&#39;.$url.&#39;&quot; data-small-header=&quot;false&quot; data-adapt-container-width=&quot;true&quot; data-hide-cover=&quot;false&quot; data-show-facepile=&quot;true&quot; data-show-posts=&quot;false&quot;&gt;&lt;div class=&quot;fb-xfbml-parse-ignore&quot;&gt;&lt;/div&gt;&lt;/div&gt;&#39;;
+echo &quot;&lt;/div&gt;&quot;;
+echo $after_widget;
+add_action(&#39;wp_footer&#39;, array( $this,&#39;fb_js&#39; ));</code></pre>
+<p>旧文件是：</p>
+<pre><code>if ( !empty( $title ) ) &#123; echo $before_title . $title . $after_title; &#125;;
+
+echo &quot;&lt;div class=&#39;av_facebook_widget_wrap &#123;$extraClass&#125;&#39; &#123;$style&#125;&gt;&quot;;
+echo &#39;&lt;div class=&quot;fb-page&quot; data-href=&quot;&#39;.$url.&#39;&quot; data-small-header=&quot;false&quot; data-adapt-container-width=&quot;true&quot; data-hide-cover=&quot;false&quot; data-show-facepile=&quot;true&quot; data-show-posts=&quot;false&quot;&gt;&lt;div class=&quot;fb-xfbml-parse-ignore&quot;&gt;&lt;/div&gt;&lt;/div&gt;&#39;;
+echo &quot;&lt;/div&gt;&quot;;
+echo $after_widget;
+add_action(&#39;wp_footer&#39;, array( $this,&#39;fb_js&#39; ));</code></pre>
+<hr>
+<p>新文件有个是：</p>
+<pre><code>js.src = &quot;//connect.facebook.net/&#39;. $langcode .&#39;/sdk.js#xfbml=1&amp;version=v2.7&quot;;</code></pre>
+<p>旧文件是：</p>
+<pre><code>js.src = &quot;//connect.facebook.net/&#39;. $langcode .&#39;/sdk.js#xfbml=1&amp;version=v2.4&quot;;</code></pre>
+<hr>
+<p>新的文件有个是：</p>
+<pre><code>if(apply_filters(&#39;avia_google_maps_widget_load_api&#39;, true, $avia_config[&#39;g_maps_widget_active&#39;]))
+&#123;   
+    $api_key = avia_get_option(&#39;gmap_api&#39;);
+    $api_url = av_google_maps::api_url( $api_key );
+
+    wp_register_script( &#39;avia-google-maps-api&#39;, $api_url, array(&#39;jquery&#39;), NULL, true);
+    wp_enqueue_script( &#39;avia-google-maps-api&#39; );
+&#125;</code></pre>
+<p>旧的文件是：</p>
+<pre><code>if(apply_filters(&#39;avia_google_maps_widget_load_api&#39;, true, $avia_config[&#39;g_maps_widget_active&#39;]))
+&#123;
+    wp_register_script( &#39;avia-google-maps-api&#39;, $prefix.&#39;://maps.googleapis.com/maps/api/js?v=3.exp&#39;, array(&#39;jquery&#39;), &#39;1&#39;, false);
+    wp_enqueue_script( &#39;avia-google-maps-api&#39; );
+&#125;</code></pre>
+<p>更新一下，虽然把这个文件替换了，但是引起了另外一个问题，就是后台进不去了，访问/wp-admin的时候，一篇空白。</p>
+<p>后来根据排查，发现还是这个文件引起的原因，这个时候，不得不把旧的文件恢复，然后把新添加的这个重命名了一下，然后在本地打开这两个文件，逐一对比，后来发现问题的所在：</p>
+<p>引起后来进不去的原因在于：</p>
+<pre><code>    function helper_print_google_maps_scripts()
+    &#123;
+
+        $api_key = avia_get_option(&#39;gmap_api&#39;);
+        $api_url = av_google_maps::api_url( $api_key );
+
+        wp_register_script( &#39;avia-google-maps-api&#39;, $api_url, array(&#39;jquery&#39;), NULL, true);
+
+        $load_google_map_api = apply_filters(&#39;avf_load_google_map_api&#39;, true, &#39;avia_google_map_widget&#39;);
+
+        if($load_google_map_api) wp_enqueue_script( &#39;avia-google-maps-api&#39; );
+
+        $is_widget_edit_page = in_array(basename($_SERVER[&#39;PHP_SELF&#39;]), array(&#39;widgets.php&#39;));
+        if($is_widget_edit_page)
+        &#123;
+            wp_register_script( &#39;avia-google-maps-widget&#39;, AVIA_JS_URL.&#39;conditional_load/avia_google_maps_widget.js&#39;, array( &#39;jquery&#39;,&#39;media-upload&#39;,&#39;media-views&#39; ), &#39;1.0.0&#39;, true);
+            wp_enqueue_script( &#39;avia-google-maps-widget&#39; );
+
+            $args = array(
+                &#39;toomanyrequests&#39;   =&gt; __(&quot;Too many requests at once, please refresh the page to complete geocoding&quot;,&#39;avia_framework&#39;),
+                &#39;latitude&#39;          =&gt; __(&quot;Latitude and longitude for&quot;,&#39;avia_framework&#39;),
+                &#39;notfound&#39;          =&gt; __(&quot;couldn&#39;t be found by Google, please add them manually&quot;,&#39;avia_framework&#39;),
+                &#39;insertaddress&#39;     =&gt; __(&quot;Please insert a valid address in the fields above&quot;,&#39;avia_framework&#39;)
+            );
+
+            if($load_google_map_api) wp_localize_script( &#39;avia-google-maps-api&#39;, &#39;AviaMapTranslation&#39;, $args );
+        &#125;
+    &#125;</code></pre>
+<p>这个截代码是在新添加的那个里面，原始的那个是：</p>
+<pre><code>    function helper_print_google_maps_scripts()
+    &#123;
+        $prefix  = is_ssl() ? &quot;https&quot; : &quot;http&quot;;
+        $api_key = avia_get_option(&#39;gmap_api&#39;);
+        $api_url = $prefix.&#39;://maps.google.com/maps/api/js?v=3.27&#39;;
+
+        if($api_key != &quot;&quot;)&#123;
+           $api_url .= &quot;&amp;key=&quot; .$api_key;
+        &#125;
+
+        wp_register_script( &#39;avia-google-maps-api&#39;, $api_url, array(&#39;jquery&#39;), NULL, true);
+
+
+        $load_google_map_api = apply_filters(&#39;avf_load_google_map_api&#39;, true, &#39;avia_google_map_widget&#39;);
+
+        if($load_google_map_api) wp_enqueue_script( &#39;avia-google-maps-api&#39; );
+
+        $is_widget_edit_page = in_array(basename($_SERVER[&#39;PHP_SELF&#39;]), array(&#39;widgets.php&#39;));
+        if($is_widget_edit_page)
+        &#123;
+            wp_register_script( &#39;avia-google-maps-widget&#39;, AVIA_JS_URL.&#39;conditional_load/avia_google_maps_widget.js&#39;, array( &#39;jquery&#39;,&#39;media-upload&#39;,&#39;media-views&#39; ), &#39;1.0.0&#39;, true);
+            wp_enqueue_script( &#39;avia-google-maps-widget&#39; );
+
+            $args = array(
+                &#39;toomanyrequests&#39;    =&gt; __(&quot;Too many requests at once, please refresh the page to complete geocoding&quot;,&#39;avia_framework&#39;),
+                &#39;latitude&#39;            =&gt; __(&quot;Latitude and longitude for&quot;,&#39;avia_framework&#39;),
+                &#39;notfound&#39;            =&gt; __(&quot;couldn&#39;t be found by Google, please add them manually&quot;,&#39;avia_framework&#39;),
+                &#39;insertaddress&#39;     =&gt; __(&quot;Please insert a valid address in the fields above&quot;,&#39;avia_framework&#39;)
+            );
+
+            if($load_google_map_api) wp_localize_script( &#39;avia-google-maps-api&#39;, &#39;AviaMapTranslation&#39;, $args );
+        &#125;
+    &#125;</code></pre>
+<p>我在逐一覆盖的时候，当覆盖到这里的时候，刷新后台，发现打不开了，于是这个就没有被替换。</p>
+<p>可是前台的instagram小工具还是显示不出内容来。于是我继续往下对比，发现当把新文件的这个：</p>
+<pre><code>if ( isset( $insta_array[&#39;entry_data&#39;][&#39;ProfilePage&#39;][0][&#39;graphql&#39;][&#39;user&#39;][&#39;edge_owner_to_timeline_media&#39;][&#39;edges&#39;] ) ) &#123;
+    $images = $insta_array[&#39;entry_data&#39;][&#39;ProfilePage&#39;][0][&#39;graphql&#39;][&#39;user&#39;][&#39;edge_owner_to_timeline_media&#39;][&#39;edges&#39;];
+&#125; else &#123;
+    return new WP_Error( &#39;bad_json_2&#39;, __( &#39;Instagram has returned invalid data.&#39;, &#39;avia_framework&#39; ) );
+&#125;</code></pre>
+<p>覆盖原始文件的：</p>
+<pre><code>if ( isset( $insta_array[&#39;entry_data&#39;][&#39;ProfilePage&#39;][0][&#39;user&#39;][&#39;media&#39;][&#39;nodes&#39;] ) ) &#123;
+$images = $insta_array[&#39;entry_data&#39;][&#39;ProfilePage&#39;][0][&#39;user&#39;][&#39;media&#39;][&#39;nodes&#39;];
+&#125; else &#123;
+return new WP_Error( &#39;bad_json_2&#39;, __( &#39;Instagram has returned invalid data.&#39;, &#39;avia_framework&#39; ) );
+&#125;</code></pre>
+<p>的时候，发现前台也能够显示Instagram的内容了，于是大功告成。</p>
+<p>从这里我们可以发现其实我们也可以快速定位的：直接在前台报错的语句：</p>
+<blockquote>
+<p>Instagram has returned invalid data</p>
+</blockquote>
+<p>就可以找到问题根源了。</p>
+<p>总体就是这些差异，这些对比很显然已经超出了这篇文章的写作初衷，但是希望给大家一个启发，就是如果需要文件覆盖的时候，我们不妨这样想：把这两个文件进行对比，发现差异，然后剖析差异，最后找出造成的原因。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/wordpress-enfold-Instagram-%E5%B0%8F%E5%B7%A5%E5%85%B7/" rel="tag"># wordpress,enfold,Instagram,小工具</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/04/11/%E8%A7%A3%E5%86%B3wordpress%E5%85%88%E5%BC%B9%E5%87%BA%E8%81%94%E7%B3%BB%E8%A1%A8%E5%8D%95%E5%BC%B9%E7%AA%97%E5%90%8E%E8%AE%BF%E9%97%AE%E8%B5%84%E6%BA%90%E7%9A%84%E9%97%AE%E9%A2%98/" rel="prev" title="采用popup maker插件解决wordpress先弹出联系表单弹窗后访问资源的问题">
+      <i class="fa fa-chevron-left"></i> 采用popup maker插件解决wordpress先弹出联系表单弹窗后访问资源的问题
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/04/13/%E4%BB%A5tp5%E4%BD%9C%E4%B8%BA%E5%90%8E%E7%AB%AF%E6%9C%8D%E5%8A%A1%E7%9A%84%E5%BE%AE%E4%BF%A1%E5%85%AC%E4%BC%97%E5%8F%B7%E5%BC%80%E5%8F%91%E7%AC%94%E8%AE%B0%E5%8B%98%E8%AF%AF/" rel="next" title="以tp5作为后端服务的微信公众号开发笔记勘误">
+      以tp5作为后端服务的微信公众号开发笔记勘误 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

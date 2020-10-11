@@ -1,37 +1,500 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="有客户经常问这么一个问题：能否让一个网站的某个地方，当随着鼠标把这个div滚动到顶部的时候，这个div会固定到顶部，当我们操作鼠标把这个div往下滚动的时候，这个元素取消固定到顶部，回到原来的位置。 通常的做法： 我们采用javascript或者jquery的方式，首先我们需要引入jquery。这里我们以在wordpress的主题enfold主题上作为案例讲解。 为了全局引用，我们在公共头部文件（">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jquery或者javascript实现div滚动至浏览器顶部位置固定，以及横向滚动条和表格手机版美化的问题">
+<meta property="og:url" content="http://example.com/2018/06/06/jquery%E6%88%96%E8%80%85javascript%E5%AE%9E%E7%8E%B0div%E6%BB%9A%E5%8A%A8%E8%87%B3%E6%B5%8F%E8%A7%88%E5%99%A8%E9%A1%B6%E9%83%A8%E4%BD%8D%E7%BD%AE%E5%9B%BA%E5%AE%9A%EF%BC%8C%E5%BD%93div%E6%BB%9A%E5%8A%A8%E4%B8%8B%E6%9D%A5%E5%90%8E%E5%8F%88%E5%9B%9E%E5%88%B0%E5%8E%9F%E5%A7%8B%E7%8A%B6%E6%80%81/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="有客户经常问这么一个问题：能否让一个网站的某个地方，当随着鼠标把这个div滚动到顶部的时候，这个div会固定到顶部，当我们操作鼠标把这个div往下滚动的时候，这个元素取消固定到顶部，回到原来的位置。 通常的做法： 我们采用javascript或者jquery的方式，首先我们需要引入jquery。这里我们以在wordpress的主题enfold主题上作为案例讲解。 为了全局引用，我们在公共头部文件（">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/EmKTEQh.jpg">
+<meta property="og:image" content="https://i.imgur.com/P2yXUdJ.jpg">
+<meta property="og:image" content="https://i.imgur.com/eFJl8HC.jpg">
+<meta property="og:image" content="https://i.imgur.com/sgRGF8I.jpg">
+<meta property="og:image" content="https://i.imgur.com/SnsxxV3.jpg">
+<meta property="article:published_time" content="2018-06-06T08:05:16.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:57:58.246Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="jquery,javascript,div,滚动,顶部,位置固定">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/EmKTEQh.jpg">
+
+<link rel="canonical" href="http://example.com/2018/06/06/jquery%E6%88%96%E8%80%85javascript%E5%AE%9E%E7%8E%B0div%E6%BB%9A%E5%8A%A8%E8%87%B3%E6%B5%8F%E8%A7%88%E5%99%A8%E9%A1%B6%E9%83%A8%E4%BD%8D%E7%BD%AE%E5%9B%BA%E5%AE%9A%EF%BC%8C%E5%BD%93div%E6%BB%9A%E5%8A%A8%E4%B8%8B%E6%9D%A5%E5%90%8E%E5%8F%88%E5%9B%9E%E5%88%B0%E5%8E%9F%E5%A7%8B%E7%8A%B6%E6%80%81/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>jquery或者javascript实现div滚动至浏览器顶部位置固定，以及横向滚动条和表格手机版美化的问题 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/06/06/jquery%E6%88%96%E8%80%85javascript%E5%AE%9E%E7%8E%B0div%E6%BB%9A%E5%8A%A8%E8%87%B3%E6%B5%8F%E8%A7%88%E5%99%A8%E9%A1%B6%E9%83%A8%E4%BD%8D%E7%BD%AE%E5%9B%BA%E5%AE%9A%EF%BC%8C%E5%BD%93div%E6%BB%9A%E5%8A%A8%E4%B8%8B%E6%9D%A5%E5%90%8E%E5%8F%88%E5%9B%9E%E5%88%B0%E5%8E%9F%E5%A7%8B%E7%8A%B6%E6%80%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          jquery或者javascript实现div滚动至浏览器顶部位置固定，以及横向滚动条和表格手机版美化的问题
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-06-06 16:05:16" itemprop="dateCreated datePublished" datetime="2018-06-06T16:05:16+08:00">2018-06-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:58" itemprop="dateModified" datetime="2020-10-11T11:57:58+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>有客户经常问这么一个问题：能否让一个网站的某个地方，当随着鼠标把这个div滚动到顶部的时候，这个div会固定到顶部，当我们操作鼠标把这个div往下滚动的时候，这个元素取消固定到顶部，回到原来的位置。</p>
+<p><strong>通常的做法：</strong></p>
+<p>我们采用javascript或者jquery的方式，首先我们需要引入jquery。这里我们以在wordpress的主题enfold主题上作为案例讲解。</p>
+<p>为了全局引用，我们在公共头部文件（header.php）引入代码如下：</p>
+<pre><code>&lt;script src=&quot;https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js&quot;&gt;&lt;/script&gt;
+
+&lt;script type=&quot;text/javascript&quot;&gt;
+    $(function()&#123;
+        //获取要定位元素距离浏览器顶部的距离
+        var navH = $(&quot;#sub_menu1&quot;).offset().top;
+
+        //滚动条事件
+        $(window).scroll(function()&#123;
+            //获取滚动条的滑动距离
+            var scroH = $(this).scrollTop();
+            //滚动条的滑动距离大于等于定位元素距离浏览器顶部的距离，就固定，反之就不固定
+            if(scroH&gt;=navH)&#123;
+                $(&quot;#sub_menu1&quot;).addClass(&quot;mobilefixed&quot;);
+                $(&quot;.mytables&quot;).addClass(&quot;paddingtopmore&quot;);
+            &#125;else if(scroH&lt;navH)&#123;
+                $(&quot;#sub_menu1&quot;).removeClass(&quot;mobilefixed&quot;);
+                $(&quot;.mytables&quot;).removeClass(&quot;paddingtopmore&quot;);
+            &#125;
+        &#125;)
+    &#125;)
+&lt;/script&gt;</code></pre>
+<p>这里需要说明的是：</p>
+<p><code>#sub_menu1</code>是固定目标的div的ID，就是我们想要哪个元素固定的ID。</p>
+<p>接着就是采用jquery的addClass方法动态添加一个class为mobilefixed。同时，还可以对其他的元素动态添加class，这个比采用css方式好点，不用把样式直接写在里面，而是在样式表面写好这个class的样式代码。这个是一个基础的用法，笔者就不用赘述了。</p>
+<p>这里的意思就是顺便对class为mytables的div进行动态添加了class为paddingtopmore的写法。</p>
+<p><strong>这里啰嗦一下：</strong></p>
+<p>动态添加的样式代码如下：</p>
+<pre><code>.mytables&#123;
+    margin-top:-40px !important;
+    margin-bottom: -40px !important;
+&#125;
+@media (max-width:990px)&#123;
+.mytables&#123;
+   overflow-x: scroll !important;
+   overflow-y: unset !important;
+&#125;
+&#125;
+
+@media only screen and (max-width: 767px)&#123;
+.mytables&#123;
+    margin-top:-50px !important;
+    margin-bottom: -50px !important;
+&#125;
+.responsive #top .paddingtopmore&#123;
+    padding-top:20px !important;
+&#125;
+.responsive #top .mobilefixed&#123;
+    top: 0 !important;
+    position: fixed !important;
+&#125;
+&#125;</code></pre>
+<p>注意：这个样式不是万能的，这个仅仅是笔者针对这个问题解决的一个示例，不具有参考意义。</p>
+<p>这里值得说明的地方在于两点：第一点、是经常有客户问table表格列数太多的时候，在手机版上显示不全，或者是显示太拥挤，能不能让这个表格横向滚动。第二点、就是表格的头部列换行了，换行就算了，恶心的是，个别的不换行，结果就是一个高一个低，看起来很丑。能够都不换行，或者是能够都换行。</p>
+<p>针对这个问题笔者采取的方式是：在table标签外面再加一个div，结构如下：</p>
+<pre><code>&lt;div class=&quot;mytable&quot;&gt;
+    &lt;table&gt;
+        &lt;thead&gt;
+            &lt;tr&gt;
+                &lt;th&gt;header&lt;/th&gt;
+            &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+            &lt;tr&gt;
+                &lt;td&gt;data&lt;/td&gt;
+            &lt;/tr&gt;
+        &lt;/tbody&gt;
+    &lt;/table&gt;
+&lt;/div&gt;</code></pre>
+<p>好的，为了让表格能够在手机版显示横向滚动条出来我们对这个div添加的样式如下，由于列数比较多，这里设置为990px就开始进行显示滚动条了：</p>
+<pre><code>@media (max-width:990px)&#123;
+    .mytables&#123;
+       overflow-x: scroll !important;   //横向显示滚动条
+       overflow-y: unset !important;    //纵向不显示滚动条
+    &#125;
+&#125;</code></pre>
+<p>看到了吧，是在表格的外面添加一个盒子，然后通过控制这个盒子，来让表格能够实现横向滚动。</p>
+<p>第二点、我们先看下存在的问题，这是手机版样式：</p>
+<p><img src="https://i.imgur.com/EmKTEQh.jpg"></p>
+<p>一条代码可以美化下：</p>
+<pre><code>@media only screen and (max-width: 767px)
+    table thead th，table thead td &#123;
+        min-width: 120px !important;   //这个宽度可以根据的表格列的文字多少进行自行设置。
+    &#125;
+&#125;</code></pre>
+<p>美化后的效果：</p>
+<p><img src="https://i.imgur.com/P2yXUdJ.jpg"></p>
+<p>毕竟是可以横向滚动了，把宽度写死也没事。</p>
+<p>好的，我们回到话题的中心来。</p>
+<p>如果条件不为真，那么取消这两个动态添加的样式，这里就采用了removeClass()这个方法。</p>
+<p>本来嘛，笔者这个案例在PC版上是自带的功能，手机版上没有这个功能，因此笔者只能把这两个写在针对手机版的媒体查询里面。</p>
+<p>为了更形象的展示，这里截图看下：</p>
+<p><img src="https://i.imgur.com/eFJl8HC.jpg"></p>
+<p>红色框住的地方在往上滑动的时候，会被固定在顶部：</p>
+<p><img src="https://i.imgur.com/sgRGF8I.jpg"></p>
+<p>在PC端，已经固定住了。（这个是系统自带的，事实上，即使系统不自带，我们引入了前面的代码的话，也会解决了这个问题了）。</p>
+<p>手机版我们只需要写好手机版的代码就可以了，最终效果如下：</p>
+<p><img src="https://i.imgur.com/SnsxxV3.jpg"></p>
+<p>至此，关于实现滚动的效果讲解已经完成了。核心就在于前面的js代码。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/jquery-javascript-div-%E6%BB%9A%E5%8A%A8-%E9%A1%B6%E9%83%A8-%E4%BD%8D%E7%BD%AE%E5%9B%BA%E5%AE%9A/" rel="tag"># jquery,javascript,div,滚动,顶部,位置固定</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/05/31/wordpress%E7%BD%91%E7%AB%99%E5%BB%BA%E7%AB%8B%E9%87%8D%E5%AE%9A%E5%90%91%E7%A9%BA%E7%99%BD%E9%A1%B5%E9%9D%A2%EF%BC%8C%E5%AE%9A%E6%97%B6%E8%B0%83%E8%BD%AC%E5%88%B0%E6%8C%87%E5%AE%9A%E7%9A%84%E5%9C%B0%E5%9D%80/" rel="prev" title="wordpress网站建立重定向空白页面，定时调转到指定的地址">
+      <i class="fa fa-chevron-left"></i> wordpress网站建立重定向空白页面，定时调转到指定的地址
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/06/07/jquery%E5%AE%9E%E7%8E%B0%E7%82%B9%E5%87%BB%E6%9F%90%E4%B8%AA%E5%85%83%E7%B4%A0%EF%BC%8C%E9%9A%90%E8%97%8F%E5%85%B6%E4%BB%96%E4%B8%8D%E7%9B%B8%E5%85%B3%E7%9A%84%E8%BE%93%E5%85%A5%E6%A1%86%EF%BC%8C%E6%88%96%E8%80%85%E6%98%AF%E5%BD%93%E8%BE%93%E5%85%A5%E6%A1%86%E7%9A%84%E5%86%85%E5%AE%B9%E5%8F%91%E7%94%9F%E5%8F%98%E5%8C%96%E5%90%8E%E9%9A%90%E8%97%8F%E5%85%B6%E4%BB%96%E4%B8%8D%E7%9B%B8%E5%85%B3%E7%9A%84%E5%85%83%E7%B4%A0/" rel="next" title="jquery实现选择某个元素，隐藏其他不相关的输入框，或者是当输入框的内容发生变化后隐藏其他不相关的元素">
+      jquery实现选择某个元素，隐藏其他不相关的输入框，或者是当输入框的内容发生变化后隐藏其他不相关的元素 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

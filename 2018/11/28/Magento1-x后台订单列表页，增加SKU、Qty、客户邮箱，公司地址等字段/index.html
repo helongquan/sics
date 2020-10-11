@@ -1,37 +1,503 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="在做的一个Magento网站，客户要求在后台订单列表里增加一列，用来显示用户的公司名称，在Magento1.9.2上测试通过，代码步骤如下： 1、打开app&#x2F;code&#x2F;core&#x2F;Mage&#x2F;Adminhtml&#x2F;Block&#x2F;Sales&#x2F;Order&#x2F;Grid.php 2.将如下函数 protected function _prepareCollection() &amp;#123;     $collectio">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Magento1.x后台订单列表页，增加SKU、Qty、客户邮箱公司地址字段">
+<meta property="og:url" content="http://example.com/2018/11/28/Magento1-x%E5%90%8E%E5%8F%B0%E8%AE%A2%E5%8D%95%E5%88%97%E8%A1%A8%E9%A1%B5%EF%BC%8C%E5%A2%9E%E5%8A%A0SKU%E3%80%81Qty%E3%80%81%E5%AE%A2%E6%88%B7%E9%82%AE%E7%AE%B1%EF%BC%8C%E5%85%AC%E5%8F%B8%E5%9C%B0%E5%9D%80%E7%AD%89%E5%AD%97%E6%AE%B5/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="在做的一个Magento网站，客户要求在后台订单列表里增加一列，用来显示用户的公司名称，在Magento1.9.2上测试通过，代码步骤如下： 1、打开app&#x2F;code&#x2F;core&#x2F;Mage&#x2F;Adminhtml&#x2F;Block&#x2F;Sales&#x2F;Order&#x2F;Grid.php 2.将如下函数 protected function _prepareCollection() &amp;#123;     $collectio">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/OHmD4Lo.jpg">
+<meta property="og:image" content="https://i.imgur.com/m9L2qaJ.png">
+<meta property="og:image" content="https://i.imgur.com/JXgNMqi.png">
+<meta property="og:image" content="https://i.imgur.com/JXgNMqi.png">
+<meta property="article:published_time" content="2018-11-28T08:51:24.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:57:58.703Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="magento1.x,后台订单列表,电邮,sku,数量,公司名称">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/OHmD4Lo.jpg">
+
+<link rel="canonical" href="http://example.com/2018/11/28/Magento1-x%E5%90%8E%E5%8F%B0%E8%AE%A2%E5%8D%95%E5%88%97%E8%A1%A8%E9%A1%B5%EF%BC%8C%E5%A2%9E%E5%8A%A0SKU%E3%80%81Qty%E3%80%81%E5%AE%A2%E6%88%B7%E9%82%AE%E7%AE%B1%EF%BC%8C%E5%85%AC%E5%8F%B8%E5%9C%B0%E5%9D%80%E7%AD%89%E5%AD%97%E6%AE%B5/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>Magento1.x后台订单列表页，增加SKU、Qty、客户邮箱公司地址字段 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/11/28/Magento1-x%E5%90%8E%E5%8F%B0%E8%AE%A2%E5%8D%95%E5%88%97%E8%A1%A8%E9%A1%B5%EF%BC%8C%E5%A2%9E%E5%8A%A0SKU%E3%80%81Qty%E3%80%81%E5%AE%A2%E6%88%B7%E9%82%AE%E7%AE%B1%EF%BC%8C%E5%85%AC%E5%8F%B8%E5%9C%B0%E5%9D%80%E7%AD%89%E5%AD%97%E6%AE%B5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Magento1.x后台订单列表页，增加SKU、Qty、客户邮箱公司地址字段
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-11-28 16:51:24" itemprop="dateCreated datePublished" datetime="2018-11-28T16:51:24+08:00">2018-11-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:58" itemprop="dateModified" datetime="2020-10-11T11:57:58+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/magento1/" itemprop="url" rel="index"><span itemprop="name">magento1</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>在做的一个Magento网站，客户要求在后台订单列表里增加一列，用来显示用户的公司名称，在Magento1.9.2上测试通过，代码步骤如下：</p>
+<p>1、打开app/code/core/Mage/Adminhtml/Block/Sales/Order/Grid.php</p>
+<p>2.将如下函数</p>
+<pre><code>protected function _prepareCollection()
+&#123;
+    $collection = Mage::getResourceModel($this-&gt;_getCollectionClass());
+    $this-&gt;setCollection($collection);
+    return parent::_prepareCollection();
+&#125;</code></pre>
+<p>替换为</p>
+<pre><code>protected function _prepareCollection()
+    &#123;
+        $collection = Mage::getResourceModel($this-&gt;_getCollectionClass());
+        $collection-&gt;getSelect()-&gt;join(&#39;sales_flat_order_address&#39;, &#39;main_table.entity_id = sales_flat_order_address.parent_id&#39;,array(&#39;company&#39;));
+        $collection-&gt;getSelect()-&gt;group(&#39;main_table.entity_id&#39;);  //注意这句不可少
+        $this-&gt;setCollection($collection);
+        return parent::_prepareCollection();
+    &#125;</code></pre>
+<p>3.搜索函数：<code>protected function _prepareColumns()</code></p>
+<p>该函数是用来显示列表名称的，在适当的位置增加如下代码：</p>
+<pre><code>$this-&gt;addColumn(&#39;billing_name&#39;, array(
+    //&#39;header&#39; =&gt; Mage::helper(&#39;sales&#39;)-&gt;__(&#39;Bill to Name&#39;),
+    &#39;header&#39; =&gt; Mage::helper(&#39;sales&#39;)-&gt;__(&#39;Company Name&#39;),
+    &#39;index&#39; =&gt; &#39;billing_name&#39;,
+));</code></pre>
+<p>保存，然后刷新网站后台，我们就可以看到：</p>
+<p><img src="https://i.imgur.com/OHmD4Lo.jpg"></p>
+<hr>
+<p>又比如：</p>
+<blockquote>
+<p>注意：这里修改之后分页和总记录数被破坏，还需要进一步优化（如果查询客户邮箱就不会出现这样的问题，目前还没找到解决方案）</p>
+</blockquote>
+<p>修改前：</p>
+<p><img src="https://i.imgur.com/m9L2qaJ.png"></p>
+<p>修改后：</p>
+<p><img src="https://i.imgur.com/JXgNMqi.png"></p>
+<p>打开</p>
+<p>app/code/core/Mage/Adminhtml/Block/Sales/Order/Grid.php</p>
+<p>找到 <code>protected function _prepareCollection()</code>方法，大约57行</p>
+<p>添加关联查询：</p>
+<pre><code>$collection-&gt;getSelect()
+-&gt;join(&#39;customer_entity&#39;,&#39;main_table.customer_id = customer_entity.entity_id&#39;, 
+        array(&#39;customer_email&#39; =&gt; &#39;email&#39;)) //客户email
+-&gt;join(&#39;sales_flat_order_item&#39;,&#39;main_table.entity_id = sales_flat_order_item.order_id&#39;,
+        array(&#39;qty_ordered&#39; =&gt; new Zend_Db_Expr(&#39;group_concat( `sales_flat_order_item`.qty_ordered SEPARATOR &quot;, &quot;)&#39;),//Qty
+               &#39;sku&#39;  =&gt; new Zend_Db_Expr(&#39;group_concat(`sales_flat_order_item`.sku SEPARATOR &quot;, &quot;)&#39;//SKU
+               )
+         ));</code></pre>
+<p>最后的该方法如下： </p>
+<pre><code>protected function _prepareCollection()
+&#123;
+    $collection = Mage::getResourceModel($this-&gt;_getCollectionClass());
+
+    $collection-&gt;getSelect()
+    -&gt;join(&#39;customer_entity&#39;,&#39;main_table.customer_id = customer_entity.entity_id&#39;, 
+            array(&#39;customer_email&#39; =&gt; &#39;email&#39;)) //客户email
+    -&gt;join(&#39;sales_flat_order_item&#39;,&#39;main_table.entity_id = sales_flat_order_item.order_id&#39;,
+            array(&#39;qty_ordered&#39; =&gt; new Zend_Db_Expr(&#39;group_concat( `sales_flat_order_item`.qty_ordered SEPARATOR &quot;, &quot;)&#39;),//Qty
+                   &#39;sku&#39;  =&gt; new Zend_Db_Expr(&#39;group_concat(`sales_flat_order_item`.sku SEPARATOR &quot;, &quot;)&#39;//SKU
+                   )
+             ));
+
+    //分组
+    $collection-&gt;getSelect()-&gt;group(&#39;main_table.entity_id&#39;);//注意这句不可少
+
+    $this-&gt;setCollection($collection);
+    return parent::_prepareCollection();
+&#125;</code></pre>
+<p>接下来，</p>
+<p>找到 <code>protected function _prepareColumns()</code>方法，大约84行</p>
+<p>添加代码如下：</p>
+<pre><code>$this-&gt;addColumn(&#39;sku&#39;, array(
+    &#39;header&#39;    =&gt; Mage::helper(&#39;catalog&#39;)-&gt;__(&#39;SKU&#39;),
+    &#39;index&#39;     =&gt; &#39;sku&#39;,
+    &#39;width&#39; =&gt; &#39;150px&#39;,
+    &#39;type&#39; =&gt; &#39;text&#39;
+));
+$this-&gt;addColumn(&#39;qty&#39;, array(
+    &#39;header&#39; =&gt; Mage::helper(&#39;sales&#39;)-&gt;__(&#39;Qty&#39;),
+    &#39;index&#39; =&gt; &#39;qty_ordered&#39;,
+    &#39;width&#39; =&gt; &#39;70px&#39;
+));
+$this-&gt;addColumn(&#39;Email&#39;, array(
+    &#39;header&#39; =&gt; Mage::helper(&#39;Sales&#39;)-&gt;__(&#39;Email&#39;),
+    &#39;width&#39; =&gt; &#39;100px&#39;,
+    &#39;index&#39; =&gt; &#39;customer_email&#39;,
+    &#39;type&#39; =&gt; &#39;text&#39;
+));</code></pre>
+<p>其他：如果报“1052 Column increment_id in where clause is ambiguous”错误。注意修改以下代码： </p>
+<pre><code>$this-&gt;addColumn(&#39;real_order_id&#39;, array(
+    &#39;header&#39;=&gt; Mage::helper(&#39;sales&#39;)-&gt;__(&#39;Order #&#39;),
+    &#39;width&#39; =&gt; &#39;80px&#39;,
+    &#39;type&#39;  =&gt; &#39;text&#39;,
+    &#39;index&#39; =&gt; &#39;increment_id&#39;,
+    &#39;filter_index&#39; =&gt;&#39;main_table.increment_id&#39;//// 这个参数将会解决上述问题  
+));</code></pre>
+<p>刷新一下后台就可以看到效果了，如果没有及时看到效果，需要Compilation一下。</p>
+<p><img src="https://i.imgur.com/JXgNMqi.png"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/magento1-x-%E5%90%8E%E5%8F%B0%E8%AE%A2%E5%8D%95%E5%88%97%E8%A1%A8-%E7%94%B5%E9%82%AE-sku-%E6%95%B0%E9%87%8F-%E5%85%AC%E5%8F%B8%E5%90%8D%E7%A7%B0/" rel="tag"># magento1.x,后台订单列表,电邮,sku,数量,公司名称</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/11/28/magento1-x%E7%9A%84porto%E4%B8%BB%E9%A2%98%E8%B0%83%E7%94%A8%E6%9F%90%E4%B8%AA%E5%88%86%E7%B1%BB%E4%B8%8B%E7%9A%84%E4%BA%A7%E5%93%81%E7%9A%84%E5%BF%AB%E6%8D%B7%E6%96%B9%E5%BC%8F/" rel="prev" title="magento1.x的porto主题调用某个分类下的产品的快捷方式，以及新型的布局片段">
+      <i class="fa fa-chevron-left"></i> magento1.x的porto主题调用某个分类下的产品的快捷方式，以及新型的布局片段
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/11/29/magento1-x%E9%87%8D%E5%86%99%E7%94%A8%E6%88%B7%E6%B3%A8%E5%86%8C%E9%A1%B5%E9%9D%A2%EF%BC%8C%E6%B7%BB%E5%8A%A0%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9A%84%E5%AD%97%E6%AE%B5%E6%AF%94%E5%A6%82%E9%82%80%E8%AF%B7%E7%A0%81%EF%BC%8C%E8%81%8C%E4%B8%9A%E7%AD%89%E5%AD%97%E6%AE%B5/" rel="next" title="magento1.x重写用户注册页面，添加用户自定义的字段比如邀请码，职业等字段">
+      magento1.x重写用户注册页面，添加用户自定义的字段比如邀请码，职业等字段 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

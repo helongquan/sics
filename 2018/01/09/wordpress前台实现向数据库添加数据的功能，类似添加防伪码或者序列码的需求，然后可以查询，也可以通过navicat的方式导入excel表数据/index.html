@@ -1,37 +1,805 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="这个我以wordpress默认的主题tweentyfifteen为例，我在主题根目录下新建一个模板文件，命名为：防伪码添加，文件名为fanweima_add.php，然后在主题目录下新建一个fanweima文件夹，在这个文件夹里面新建两个php文件：fanweima_save.php和config.php 准备材料：数据库，数据表（wp_fanweima），其中数据表的字段如下： CREATE T">
+<meta property="og:type" content="article">
+<meta property="og:title" content="wordpress前台实现向数据库添加数据的功能，类似添加防伪码或者序列码的需求，然后可以查询，也可以通过navicat的方式导入excel表数据，以及mysql乱码的问题解决方案">
+<meta property="og:url" content="http://example.com/2018/01/09/wordpress%E5%89%8D%E5%8F%B0%E5%AE%9E%E7%8E%B0%E5%90%91%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B7%BB%E5%8A%A0%E6%95%B0%E6%8D%AE%E7%9A%84%E5%8A%9F%E8%83%BD%EF%BC%8C%E7%B1%BB%E4%BC%BC%E6%B7%BB%E5%8A%A0%E9%98%B2%E4%BC%AA%E7%A0%81%E6%88%96%E8%80%85%E5%BA%8F%E5%88%97%E7%A0%81%E7%9A%84%E9%9C%80%E6%B1%82%EF%BC%8C%E7%84%B6%E5%90%8E%E5%8F%AF%E4%BB%A5%E6%9F%A5%E8%AF%A2%EF%BC%8C%E4%B9%9F%E5%8F%AF%E4%BB%A5%E9%80%9A%E8%BF%87navicat%E7%9A%84%E6%96%B9%E5%BC%8F%E5%AF%BC%E5%85%A5excel%E8%A1%A8%E6%95%B0%E6%8D%AE/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="这个我以wordpress默认的主题tweentyfifteen为例，我在主题根目录下新建一个模板文件，命名为：防伪码添加，文件名为fanweima_add.php，然后在主题目录下新建一个fanweima文件夹，在这个文件夹里面新建两个php文件：fanweima_save.php和config.php 准备材料：数据库，数据表（wp_fanweima），其中数据表的字段如下： CREATE T">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/L2vVtgF.png">
+<meta property="og:image" content="https://i.imgur.com/23Zxs48.png">
+<meta property="og:image" content="https://i.imgur.com/QPZJeW9.png">
+<meta property="og:image" content="https://i.imgur.com/s09DIDO.png">
+<meta property="og:image" content="https://i.imgur.com/jpcXS5G.png">
+<meta property="og:image" content="https://i.imgur.com/9ZMeLPZ.png">
+<meta property="og:image" content="https://i.imgur.com/M2K12Gr.png">
+<meta property="og:image" content="https://i.imgur.com/8NPQN3v.png">
+<meta property="og:image" content="https://i.imgur.com/CYW1x1D.png">
+<meta property="og:image" content="https://i.imgur.com/i9IBJtk.png">
+<meta property="og:image" content="https://i.imgur.com/gmDVYd6.png">
+<meta property="article:published_time" content="2018-01-09T12:11:28.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:03.036Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="wordpress,mysql,数据库,防伪码,插入数据,前台,添加">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/L2vVtgF.png">
+
+<link rel="canonical" href="http://example.com/2018/01/09/wordpress%E5%89%8D%E5%8F%B0%E5%AE%9E%E7%8E%B0%E5%90%91%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B7%BB%E5%8A%A0%E6%95%B0%E6%8D%AE%E7%9A%84%E5%8A%9F%E8%83%BD%EF%BC%8C%E7%B1%BB%E4%BC%BC%E6%B7%BB%E5%8A%A0%E9%98%B2%E4%BC%AA%E7%A0%81%E6%88%96%E8%80%85%E5%BA%8F%E5%88%97%E7%A0%81%E7%9A%84%E9%9C%80%E6%B1%82%EF%BC%8C%E7%84%B6%E5%90%8E%E5%8F%AF%E4%BB%A5%E6%9F%A5%E8%AF%A2%EF%BC%8C%E4%B9%9F%E5%8F%AF%E4%BB%A5%E9%80%9A%E8%BF%87navicat%E7%9A%84%E6%96%B9%E5%BC%8F%E5%AF%BC%E5%85%A5excel%E8%A1%A8%E6%95%B0%E6%8D%AE/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>wordpress前台实现向数据库添加数据的功能，类似添加防伪码或者序列码的需求，然后可以查询，也可以通过navicat的方式导入excel表数据，以及mysql乱码的问题解决方案 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/01/09/wordpress%E5%89%8D%E5%8F%B0%E5%AE%9E%E7%8E%B0%E5%90%91%E6%95%B0%E6%8D%AE%E5%BA%93%E6%B7%BB%E5%8A%A0%E6%95%B0%E6%8D%AE%E7%9A%84%E5%8A%9F%E8%83%BD%EF%BC%8C%E7%B1%BB%E4%BC%BC%E6%B7%BB%E5%8A%A0%E9%98%B2%E4%BC%AA%E7%A0%81%E6%88%96%E8%80%85%E5%BA%8F%E5%88%97%E7%A0%81%E7%9A%84%E9%9C%80%E6%B1%82%EF%BC%8C%E7%84%B6%E5%90%8E%E5%8F%AF%E4%BB%A5%E6%9F%A5%E8%AF%A2%EF%BC%8C%E4%B9%9F%E5%8F%AF%E4%BB%A5%E9%80%9A%E8%BF%87navicat%E7%9A%84%E6%96%B9%E5%BC%8F%E5%AF%BC%E5%85%A5excel%E8%A1%A8%E6%95%B0%E6%8D%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          wordpress前台实现向数据库添加数据的功能，类似添加防伪码或者序列码的需求，然后可以查询，也可以通过navicat的方式导入excel表数据，以及mysql乱码的问题解决方案
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-01-09 20:11:28" itemprop="dateCreated datePublished" datetime="2018-01-09T20:11:28+08:00">2018-01-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:03" itemprop="dateModified" datetime="2020-10-11T11:58:03+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/wordpress/" itemprop="url" rel="index"><span itemprop="name">wordpress</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这个我以wordpress默认的主题tweentyfifteen为例，我在主题根目录下新建一个模板文件，命名为：防伪码添加，文件名为<code>fanweima_add.php</code>，然后在主题目录下新建一个fanweima文件夹，在这个文件夹里面新建两个php文件：<code>fanweima_save.php</code>和config.php</p>
+<p>准备材料：数据库，数据表（<code>wp_fanweima</code>），其中数据表的字段如下：</p>
+<pre><code>CREATE TABLE `wp_fanweima` (
+  `id` int not null primary key auto_increment,
+  `name` char(20) COLLATE utf8_unicode_ci NOT NULL,
+  `add_time` timestamp default current_timestamp,
+  `brand` varchar(300) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;</code></pre>
+<p>数据填充：</p>
+<pre><code>INSERT INTO `wp_fanweima` (`id`, `name`, `add_time`, `brand`) VALUES
+(1, &#39;112233&#39;, &#39;2017-12-21 00:00:00&#39;, &#39;yonghe&#39;),
+(2, &#39;112234&#39;, &#39;2017-12-21 10:00:00&#39;, &#39;bisheng&#39;),
+(3, &#39;112235&#39;, &#39;2017-12-21 10:23:00&#39;, &#39;bisheng&#39;),
+(4, &#39;112236&#39;, &#39;2017-12-20 08:29:13&#39;, &#39;yongsheng&#39;),
+(5, &#39;112237&#39;, &#39;2017-12-19 09:19:21&#39;, &#39;chaman&#39;),
+(6, &#39;112238&#39;, &#39;2017-12-21 01:20:10&#39;, &#39;yonghe&#39;),
+(7, &#39;112239&#39;, &#39;2017-12-21 13:10:00&#39;, &#39;bisheng&#39;),
+(8, &#39;112240&#39;, &#39;2017-12-21 14:03:00&#39;, &#39;bisheng&#39;),
+(9, &#39;112234&#39;, &#39;2017-12-20 16:09:13&#39;, &#39;yongsheng&#39;),
+(10, &#39;112242&#39;, &#39;2017-12-19 09:19:21&#39;, &#39;chaman&#39;);</code></pre>
+<p>另外，我们还可以在新建另外一个数据表（<code>wp_license</code>），其中创建数据表代码如下：</p>
+<pre><code>CREATE TABLE `wp_license` (
+  `id` int(16) unsigned NOT NULL AUTO_INCREMENT COMMENT &#39;9&#39;,
+  `name` char(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `brand` varchar(300) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `fuzeren` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `diqu` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `chanpin` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `baozhiqi` varchar(16) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `attachment` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=54 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+
+-- ----------------------------
+-- Records of wp_license
+-- ----------------------------
+INSERT INTO `wp_license` VALUES (&#39;41&#39;, &#39;34567&#39;, &#39;sdfhetj&#39;, &#39;ryhrym&#39;, &#39;etjegjn&#39;, &#39;tjnyemr&#39;, &#39;34&#39;, &#39;http://test.nocersity.com/wp-content/uploads/2018/03/blogging.jpg&#39;);
+INSERT INTO `wp_license` VALUES (&#39;42&#39;, &#39;444&#39;, &#39;sdfghj&#39;, &#39;iuytre&#39;, &#39;dfvb&#39;, &#39;wefhjgn&#39;, &#39;56&#39;, &#39;http://test.notiusity.com/wp-content/uploads/2018/06/How.pdf&#39;);</code></pre>
+<p>好的，准备工作完成后，我们进入正题。</p>
+<p>文件结构我们准备好了，我们就先来说<code>fanweima_add.php</code>的文件内容。</p>
+<p><strong>fanweima_add.php文件</strong></p>
+<hr>
+<p>我们找到内容显示区的代码，大概是在main标签里面：</p>
+<pre><code>&lt;!-- 新添加的信息 开始 --&gt;
+    &lt;div class=&quot;entry-content&quot;&gt;
+        &lt;br&gt;
+        &lt;form action=&quot;&lt;?php bloginfo(&#39;template_url&#39;); ?&gt;/fanweima/fanweima_save.php&quot; method=&quot;post&quot;&gt;
+          &lt;div class=&quot;form-group&quot;&gt;
+            &lt;label for=&quot;fanweimaname&quot;&gt;防伪码&lt;/label&gt;
+            &lt;input type=&quot;text&quot; class=&quot;form-control&quot; id=&quot;fanweimaname&quot; name=&quot;name&quot; placeholder=&quot;输入防伪码&quot;&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;form-group&quot;&gt;
+            &lt;label for=&quot;pingpaishang&quot;&gt;品牌商&lt;/label&gt;
+            &lt;input type=&quot;text&quot; class=&quot;form-control&quot; id=&quot;pingpaishang&quot; name=&quot;brand&quot; placeholder=&quot;输入品牌商&quot;&gt;
+          &lt;/div&gt;
+          &lt;button type=&quot;submit&quot; class=&quot;btn btn-default&quot;&gt;Submit&lt;/button&gt;
+        &lt;/form&gt;
+    &lt;/div&gt;
+&lt;!-- 新添加的信息 结束 --&gt;</code></pre>
+<p>这个是显示在前台的一个表单，截图如下：</p>
+<p><img src="https://i.imgur.com/L2vVtgF.png"></p>
+<p>这个就是这个模板文件的作用，我们将向<code>fanweima_save.php</code>文件提交，代码：</p>
+<pre><code>&lt;?php bloginfo(&#39;template_url&#39;); ?&gt;/fanweima/fanweima_save.php</code></pre>
+<p>这里采用绝对路径。</p>
+<p>好的我们来到fanweima文件夹中。</p>
+<p><strong>config.php文件</strong></p>
+<hr>
+<p>这个文件很简单，就是连接数据库的文件，之所以把这几个环节分别放在不同的文件，这样做是为了条理清晰，分工明确，便于排错。好的，这个文件中的全部代码如下：</p>
+<pre><code>&lt;?php 
+//获取当前网站的配置文件
+$gen=$_SERVER[&#39;DOCUMENT_ROOT&#39;];
+require_once(&quot;$gen/wp-config.php&quot;);
+
+//链接mysql服务器
+$connection = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD);
+//连接数据库
+mysqli_select_db($connection, DB_NAME);
+//设置字符编码 这个可以不设，保持默认就好
+@mysqli_query(&#39;SET NAMES UTF8&#39;);
+?&gt;</code></pre>
+<p>这个文件分两部分，第一部分就是连接wordpress网站的配置文件，这样我们就不需要输入数据库账号密码了，这样相对来说是比较安全的。然后就是连接服务器，接着就是连上数据库，最后是设置字符编码。完事！</p>
+<p><strong>fanweima_save.php文件</strong></p>
+<hr>
+<p>全部代码如下：</p>
+<pre><code>&lt;?php 
+    //引用数据库链接文件
+    require(&quot;config.php&quot;); 
+    //接收 AJAX 传递过来的数字：从第几篇开始
+    $name = $_POST[&quot;name&quot;];
+    $brand = $_POST[&quot;brand&quot;];
+    $currentDate= date(&quot;Y-m-d H:i:s&quot;); 
+    //下面是读取数据库数据
+    $sql=&quot;insert into wp_fanweima values(null,$name,&#39;$currentDate&#39;,&#39;$brand&#39;)&quot;;
+    $result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
+    echo &quot;&lt;script&gt;alert(&#39;防伪码添加成功!&#39;);location.href=&#39;&quot;.$_SERVER[&quot;HTTP_REFERER&quot;].&quot;&#39;;&lt;/script&gt;&quot;;
+    mysqli_close($connection); //关闭数据库
+?&gt;</code></pre>
+<p>这个也做一个简单的讲解，第一个是引入数据库连接的文件，这个文件的路径就是在同目录中的config.php文件，只有连接上数据库才能对数据库进行查询。好的，连接成功后，把<code>fanweima_add.php</code>中的文件的请求字段name和brand，接着把数据插入数据表<code>（wp_fanweima）</code>中，这里需要提醒的是这个<code>mysqli_query</code>，在我以前使用纯php写的一个系统中貌似只需一个字段就行了，这里需要有两个字段，否则会报错，这里需要注意。参数一是连接信息，参数二是数据添加结果。当然，我们还可以进一步的对这个数据添加完善，比如做一个判断，如果记录受影响条数大于1的话，提示添加成功，否则添加失败，由于这里是用于的测试的，所以没有说得那么详细。</p>
+<p>好的最后的结果，截图说明：</p>
+<p><img src="https://i.imgur.com/23Zxs48.png"></p>
+<p>数据库中截图：</p>
+<p><img src="https://i.imgur.com/QPZJeW9.png"></p>
+<p>上面这个方案是基于wordpress网站在htdocs根目录下的情况。下面这个我将会用另外一个方式来呈现。</p>
+<hr>
+<p><strong>这个方式，我将以enfold这个主题进行演示。</strong></p>
+<p>wordpress站点目录：H:\Honest\software\wampserver\wamp\www\wordpress</p>
+<p>我们根据上面的例子步骤：</p>
+<p>1、在enfold主题下新建目录：wordpress/wp-content/themes/enfold/fanweima</p>
+<blockquote>
+<p>config.php，fanweima_save.php，license_save.php</p>
+</blockquote>
+<p>下载地址：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1WXRSpsVxKSIDdKOZm98ywA">https://pan.baidu.com/s/1WXRSpsVxKSIDdKOZm98ywA</a>，密码：6kxp</p>
+<p>config.php代码：</p>
+<pre><code>&lt;?php 
+
+//获取当前文件所在目录
+$gen=$_SERVER[&#39;DOCUMENT_ROOT&#39;];
+require_once(&quot;$gen/wordpress/wp-config.php&quot;);
+//如果笔者不是用的是子目录存放wordpress网站，那么应该用如下方式：
+//require_once(&quot;$gen/wp-config.php&quot;);
+
+//链接mysql服务器 开始
+$connection = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD);
+mysqli_select_db($connection, DB_NAME);
+//设置字符编码
+@mysqli_query(&#39;SET NAMES UTF8&#39;);
+?&gt;</code></pre>
+<p>区别：这里的引入地址要换成：/wordpress/wp-config.php，而不是/wp-config.php，原因就是这个站点的源码不是直接放在服务器额根目录下，而是在更目录下的wordpress文件夹下。</p>
+<p>fanweima_save.php代码：</p>
+<pre><code>&lt;?php 
+    //引用数据库链接文件
+    require(&quot;config.php&quot;); 
+    //接收 AJAX 传递过来的数字：从第几篇开始
+    $name = $_POST[&quot;name&quot;];
+    $brand = $_POST[&quot;brand&quot;];
+    $currentDate= date(&quot;Y-m-d H:i:s&quot;); 
+    //下面是读取数据库数据
+    // $sql = &quot;select id,name,brand from wp_fanweima order by id desc limit &quot;.$num.&quot;,3&quot;;
+    $sql=&quot;insert into wp_fanweima values(null,$name,&#39;$currentDate&#39;,&#39;$brand&#39;)&quot;;
+    $result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
+    echo &quot;&lt;script&gt;alert(&#39;防伪码添加成功!&#39;);location.href=&#39;&quot;.$_SERVER[&quot;HTTP_REFERER&quot;].&quot;&#39;;&lt;/script&gt;&quot;;
+    mysqli_close($connection); //关闭数据库
+?&gt;</code></pre>
+<p>license_save.php代码：</p>
+<pre><code>&lt;?php 
+    //引用数据库链接文件
+    require(&quot;config.php&quot;); 
+    $name = $_POST[&quot;name&quot;];
+    $brand = $_POST[&quot;brand&quot;];
+    $fuzeren = $_POST[&quot;fuzeren&quot;];
+    $diqu = $_POST[&quot;diqu&quot;];
+    $chanpin = $_POST[&quot;chanpin&quot;];
+    $baozhiqi = $_POST[&quot;baozhiqi&quot;];
+    $file_name=$_POST[&quot;news_file&quot;];
+    //下面是读取数据库数据
+    // $sql = &quot;select id,name,brand from wp_fanweima order by id desc limit &quot;.$num.&quot;,3&quot;;
+    $sql=&quot;insert into wp_license values(null,&#39;$name&#39;,&#39;$brand&#39;,&#39;$fuzeren&#39;,&#39;$diqu&#39;,&#39;$chanpin&#39;,&#39;$baozhiqi&#39;,&#39;$file_name&#39;)&quot;;
+    $result = mysqli_query($connection,$sql) or die(mysqli_error($connection));
+    echo &quot;&lt;script&gt;alert(&#39;序列码添加成功!&#39;);location.href=&#39;&quot;.$_SERVER[&quot;HTTP_REFERER&quot;].&quot;&#39;;&lt;/script&gt;&quot;;
+    mysqli_close($connection); //关闭数据库
+?&gt;</code></pre>
+<p>好的，我们添加的一个防伪码的查询模板文件：page_license.php，把以下代码：</p>
+<pre><code>&lt;?php
+$genmul=$_SERVER[&#39;DOCUMENT_ROOT&#39;];
+require_once(&quot;$genmul/wordpress/wp-config.php&quot;);
+// 如果我们采用的不是子目录方式（wordpress放在服务器的wordrpess的文件夹下），就采用如下方式：
+// require_once(&quot;$genmul/wp-config.php&quot;);
+
+//链接mysql服务器 开始
+$connection = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD);
+mysqli_select_db($connection, DB_NAME);
+//链接mysql服务器 结束
+
+?&gt;
+
+&lt;form action=&quot;#&quot; method=&quot;post&quot; class=&quot;form-control&quot;&gt;
+    &lt;input type=&quot;text&quot; name=&quot;license&quot; placeholder=&quot;输入序列码&quot;&gt;
+    &lt;input type=&quot;submit&quot; name=&quot;submit&quot; value=&quot;查询&quot;&gt;
+&lt;/form&gt;
+
+&lt;?php
+if (@$_POST[&#39;license&#39;] !== null) &#123;
+
+    $localtime=date(&#39;Y-m-d H:i:s&#39;,time());
+    $license=$_POST[&quot;license&quot;];
+    $query_Recordset1 = &quot;SELECT * FROM `wp_license` where name =$license&quot;;
+    $Recordset1 = mysqli_query($connection, $query_Recordset1 ) or die(mysqli_error($connection));
+    $row_Recordset1 = mysqli_fetch_assoc($Recordset1);
+    $totalRows_Recordset1 = mysqli_num_rows($Recordset1);
+    if ($totalRows_Recordset1 &lt;= 0) &#123;
+        echo &quot;请注意！这个序列码无效&lt;br&gt;&quot;;
+    &#125;
+    else&#123;
+        echo &#39;&lt;ul class=&quot;list-group&quot;&gt;&#39;;
+        echo &#39;  &lt;li class=&quot;list-group-item&quot;&gt;您的序列码为：&#39;.$_POST[&quot;license&quot;].&#39;&lt;/li&gt;&#39;;
+        echo &#39;  &lt;li class=&quot;list-group-item&quot;&gt;您的序列码数量为：&#39;.$totalRows_Recordset1.&#39;&lt;/li&gt;&#39;;
+        echo &#39;  &lt;li class=&quot;list-group-item&quot;&gt;码伪码所属品牌商：&#39;.$row_Recordset1[&quot;brand&quot;].&#39;&lt;/li&gt;&#39;;
+        echo &#39;  &lt;li class=&quot;list-group-item&quot;&gt;序列码负责人：&#39;.$row_Recordset1[&quot;fuzeren&quot;].&#39;&lt;/li&gt;&#39;;
+        echo &#39;  &lt;li class=&quot;list-group-item&quot;&gt;所属地区：&#39;.$row_Recordset1[&quot;diqu&quot;].&#39;&lt;/li&gt;&#39;;
+        echo &#39;  &lt;li class=&quot;list-group-item&quot;&gt;产品名称：&#39;.$row_Recordset1[&quot;chanpin&quot;].&#39;&lt;/li&gt;&#39;;
+        if ( is_user_logged_in() ) &#123;
+            echo &#39;  &lt;li class=&quot;list-group-item&quot;&gt;产品检测报告下载：&lt;a  style=&quot;background:red&quot; href=&quot;&#39;.$row_Recordset1[&quot;attachment&quot;].&#39;&quot;&gt;预览&lt;/a&gt; &lt;a href=&quot;&#39;.$row_Recordset1[&quot;attachment&quot;].&#39;&quot; download&gt;下载&lt;/a&gt;&lt;/li&gt;&#39;;
+        &#125;
+        else&#123;
+            echo &#39;  &lt;li class=&quot;list-group-item&quot;&gt;产品检测报告下载：&lt;a href=&quot;/wp-login.php&quot;&gt;请登录&lt;/a&gt;&lt;/li&gt;&#39;;
+        &#125;
+        echo &#39;  &lt;li class=&quot;list-group-item&quot;&gt;序列码查询时间：&#39;.$localtime.&#39;&lt;/li&gt;&#39;;
+        echo &#39;&lt;/ul&gt;&#39;;
+    &#125;
+
+&#125;
+else&#123;
+    return &#39;&#39;;
+&#125;
+
+?&gt;
+
+&lt;style&gt;
+    .list-group&#123;
+        margin:0px;
+    &#125;
+    a&#123;
+        text-decoration: none !important;
+        font-size: 12px;
+    &#125;
+    .form-control input&#123;
+        padding:8px 15px;
+    &#125;
+    .list-group-item&#123;
+        border:1px solid #aaa;
+        padding:8px 15px;
+        border-bottom: 0px;
+    &#125;
+    .list-group-item:last-child&#123;
+        border-bottom: 1px solid #e0e0e0 !important;
+    &#125;
+    .list-group-item a&#123;
+        background: #719430;
+        padding: 5px 15px;
+        border-radius: 3px;
+        color: #fff;
+    &#125;
+&lt;/style&gt;</code></pre>
+<p>添加进去。然后为这个模板文件命名为：</p>
+<pre><code>/**
+ *
+    Template Name: 序列码查询
+ *
+ * This is the template that displays all pages by default.
+ * Please note that this is the WordPress construct of pages and that
+ * other &quot;pages&quot; on your WordPress site will use a different template.
+ *
+ */</code></pre>
+<p>这里我们就会注意到代码：</p>
+<pre><code>require_once(&quot;$genmul/wordpress/wp-config.php&quot;);</code></pre>
+<p>这里我引入的地址是：/wordpress/wp-config.php，而不是/wp-config.php。</p>
+<p>因为在web服务器的根目录下还有多个网站，wordpress网站笔者是放在wordpress这个目录下，因此要这样引用。区别就在这里。</p>
+<p>在enfold主题里面复制page.php的代码，然后把以上的代码插入控制内容显示的区域：</p>
+<p>也就是：</p>
+<p><img src="https://i.imgur.com/s09DIDO.png"></p>
+<p>这个位置的下面，在<code>&lt;main&gt;&lt;/main&gt;</code>标签之间即可。</p>
+<p>最后的效果就是：</p>
+<p><img src="https://i.imgur.com/jpcXS5G.png"></p>
+<p>这个时候我们可以添加一个防伪码添加的功能的模板文件：license_add.php。把以下代码：</p>
+<pre><code>&lt;!-- 新添加的信息 开始 --&gt;
+    &lt;div class=&quot;entry-content&quot;&gt;
+        &lt;br&gt;
+        &lt;form action=&quot;&lt;?php bloginfo(&#39;template_url&#39;); ?&gt;/fanweima/license_save.php&quot; method=&quot;post&quot;&gt;
+          &lt;div class=&quot;form-group&quot;&gt;
+            &lt;label for=&quot;fanweimaname&quot;&gt;序列码&lt;/label&gt;
+            &lt;input type=&quot;text&quot; class=&quot;form-control&quot; id=&quot;fanweimaname&quot; name=&quot;name&quot; placeholder=&quot;输入防伪码&quot;&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;form-group&quot;&gt;
+            &lt;label for=&quot;pingpaishang&quot;&gt;品牌&lt;/label&gt;
+            &lt;input type=&quot;text&quot; class=&quot;form-control&quot; id=&quot;pingpaishang&quot; name=&quot;brand&quot; placeholder=&quot;输入品牌商&quot;&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;form-group&quot;&gt;
+            &lt;label&gt;负责人&lt;/label&gt;
+            &lt;input type=&quot;text&quot; class=&quot;form-control&quot; name=&quot;fuzeren&quot; placeholder=&quot;负责人&quot;&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;form-group&quot;&gt;
+            &lt;label&gt;地区&lt;/label&gt;
+            &lt;input type=&quot;text&quot; class=&quot;form-control&quot; name=&quot;diqu&quot; placeholder=&quot;地区&quot;&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;form-group&quot;&gt;
+            &lt;label&gt;产品名称&lt;/label&gt;
+            &lt;input type=&quot;text&quot; class=&quot;form-control&quot; name=&quot;chanpin&quot; placeholder=&quot;产品名称&quot;&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;form-group&quot;&gt;
+            &lt;label&gt;保质期&lt;/label&gt;
+            &lt;input type=&quot;text&quot; class=&quot;form-control&quot; name=&quot;baozhiqi&quot; placeholder=&quot;保质期&quot;&gt;
+          &lt;/div&gt;
+          &lt;div class=&quot;form-group&quot;&gt;
+              &lt;label&gt;检测报告地址&lt;/label&gt;
+            &lt;input type=&quot;text&quot; class=&quot;form-control&quot; id=&quot;exampleInputFile1&quot; name=&quot;news_file&quot;&gt;
+          &lt;/div&gt;
+          &lt;button type=&quot;submit&quot; class=&quot;btn btn-default&quot;&gt;Submit&lt;/button&gt;
+        &lt;/form&gt;
+
+    &lt;/div&gt;
+
+&lt;!-- 新添加的信息 结束 --&gt;</code></pre>
+<p>添加进入到模板文件中。然后我们就可以新建一个页面，在模板那里选择这个模板文件即可。</p>
+<p>这个模板文件跟上次那个一样的操作，复制一个模板文件然后把以上代码嵌入到控制内容显示的位置即可。然后为这个模板文件命名：</p>
+<pre><code>/**
+ *
+    Template Name: 序列码添加
+ *
+ * This is the template that displays all pages by default.
+ * Please note that this is the WordPress construct of pages and that
+ * other &quot;pages&quot; on your WordPress site will use a different template.
+ *
+ */</code></pre>
+<p>最后的效果：</p>
+<p><img src="https://i.imgur.com/9ZMeLPZ.png"></p>
+<p>这样我们就可以通过页面进行信息的添加了，这种方案是用来解决防伪码数量比较少的情况而制定的。</p>
+<p>如果我们的客户要添加大量的防伪码，那么这样会比较耗时间，这个时候建议采用把所有的防伪码整理成excel（选择.xls这个版本的excel）表，然后导入到数据表中。这里建议使用navicat这个工具。然后把整理好的文件一键导入即可。</p>
+<p>在这个地方需要说一点：这个地方可能会出现乱码的情况，要么是当前端页面添加防伪码的时候有中文字符，添加成功后，到数据库中一看变成了乱码了；要么是数据表里面是中文，可是查询防伪码的时候，显示到前台的时候是乱码，那么解决mysql的乱码的终极解决发方案是什么呢？请往下看：</p>
+<p>修改mysql配置文件/etc/my.cnf，由于笔者是在本地的wampp server里面测试的，所以这里的是my.ini，打开后把以下的代码加进入，如果原本有就设置成如下即可。</p>
+<pre><code>[mysqld]
+character-set-server=utf8 
+[client]
+default-character-set=utf8 
+[mysql]
+default-character-set=utf8</code></pre>
+<p>请注意这几个参数配置的位置，不然可能会启动不起来mysql服务：</p>
+<p><img src="https://i.imgur.com/M2K12Gr.png"></p>
+<p>OK。这下如果你重启mysql服务也会发现它的字符集是utf8.</p>
+<pre><code>show variables like &#39;%char%&#39;;</code></pre>
+<p><img src="https://i.imgur.com/8NPQN3v.png"></p>
+<p>而且我们创建表的时候不需要指定字符编码,它默认就是utf8;</p>
+<pre><code>drop database wordpress;
+create database wordpress;
+use wordpress;
+create table wp_license(name varchar(11));
+show create table wp_license \G;</code></pre>
+<p>我们就可以看到：</p>
+<p><img src="https://i.imgur.com/CYW1x1D.png"></p>
+<p>笔者上面说了这么多，整理一下本篇文章的代码：</p>
+<h2 id="升级一下防伪码功能"><a href="#升级一下防伪码功能" class="headerlink" title="升级一下防伪码功能"></a>升级一下防伪码功能</h2><p>我们都知道，防伪码应该是暴露后就不能再次使用的了，或者这样说吧，防伪码一旦经过查询后就失效不能再次被查询的，这样才是符合实际情况的。不然很容易被仿制或者假冒的。</p>
+<p>好的，笔者的思路是这样的：<strong>在防伪码查询页面那里如果查询了一个存在防伪码后，显示防伪码的明细，然后再执行一条删除这条防伪码记录，这样的话，刚才查询的防伪码就已经不再数据库表中了，那么当再次查询的时候就会显示不存在</strong></p>
+<p>好的，思路明确后，我们打开上面的模板文件：page-license.php，添加如下代码：</p>
+<pre><code>$delete_requested = &quot;DELETE FROM wp_license WHERE name =$license&quot;;
+$Recordset2 = mysqli_query($connection, $delete_requested ) or die(mysqli_error($connection));</code></pre>
+<p>到</p>
+<pre><code>else&#123;
+    echo &#39;&lt;ul class=&quot;list-group&quot;&gt;&#39;;
+    echo &#39;  &lt;li class=&quot;list-group-item&quot;&gt;您的序列码为：&#39;.$_POST[&quot;license&quot;].&#39;&lt;/li&gt;&#39;;
+    echo &#39;  &lt;li class=&quot;list-group-item&quot;&gt;您的序列码数量为：&#39;.$totalRows_Recordset1.&#39;&lt;/li&gt;&#39;;
+    echo &#39;  &lt;li class=&quot;list-group-item&quot;&gt;码伪码所属品牌商：&#39;.$row_Recordset1[&quot;brand&quot;].&#39;&lt;/li&gt;&#39;;
+    echo &#39;  &lt;li class=&quot;list-group-item&quot;&gt;序列码负责人：&#39;.$row_Recordset1[&quot;fuzeren&quot;].&#39;&lt;/li&gt;&#39;;
+    echo &#39;  &lt;li class=&quot;list-group-item&quot;&gt;所属地区：&#39;.$row_Recordset1[&quot;diqu&quot;].&#39;&lt;/li&gt;&#39;;
+    echo &#39;  &lt;li class=&quot;list-group-item&quot;&gt;产品名称：&#39;.$row_Recordset1[&quot;chanpin&quot;].&#39;&lt;/li&gt;&#39;;
+    if ( is_user_logged_in() ) &#123;
+        echo &#39;  &lt;li class=&quot;list-group-item&quot;&gt;产品检测报告下载：&lt;a  style=&quot;background:red&quot; href=&quot;&#39;.$row_Recordset1[&quot;attachment&quot;].&#39;&quot;&gt;预览&lt;/a&gt; &lt;a href=&quot;&#39;.$row_Recordset1[&quot;attachment&quot;].&#39;&quot; download&gt;下载&lt;/a&gt;&lt;/li&gt;&#39;;
+    &#125;
+    else&#123;
+        echo &#39;  &lt;li class=&quot;list-group-item&quot;&gt;产品检测报告下载：&lt;a href=&quot;/wp-login.php&quot;&gt;请登录&lt;/a&gt;&lt;/li&gt;&#39;;
+    &#125;
+    echo &#39;  &lt;li class=&quot;list-group-item&quot;&gt;序列码查询时间：&#39;.$localtime.&#39;&lt;/li&gt;&#39;;
+    echo &#39;  &lt;/ul&gt;&#39;;
+&#125;</code></pre>
+<p>后面，添加后的代码如下：</p>
+<pre><code>else&#123;
+    echo &#39;&lt;ul class=&quot;list-group&quot;&gt;&#39;;
+    echo &#39;  &lt;li class=&quot;list-group-item&quot;&gt;您的序列码为：&#39;.$_POST[&quot;license&quot;].&#39;&lt;/li&gt;&#39;;
+    echo &#39;  &lt;li class=&quot;list-group-item&quot;&gt;您的序列码数量为：&#39;.$totalRows_Recordset1.&#39;&lt;/li&gt;&#39;;
+    echo &#39;  &lt;li class=&quot;list-group-item&quot;&gt;码伪码所属品牌商：&#39;.$row_Recordset1[&quot;brand&quot;].&#39;&lt;/li&gt;&#39;;
+    echo &#39;  &lt;li class=&quot;list-group-item&quot;&gt;序列码负责人：&#39;.$row_Recordset1[&quot;fuzeren&quot;].&#39;&lt;/li&gt;&#39;;
+    echo &#39;  &lt;li class=&quot;list-group-item&quot;&gt;所属地区：&#39;.$row_Recordset1[&quot;diqu&quot;].&#39;&lt;/li&gt;&#39;;
+    echo &#39;  &lt;li class=&quot;list-group-item&quot;&gt;产品名称：&#39;.$row_Recordset1[&quot;chanpin&quot;].&#39;&lt;/li&gt;&#39;;
+    if ( is_user_logged_in() ) &#123;
+        echo &#39;  &lt;li class=&quot;list-group-item&quot;&gt;产品检测报告下载：&lt;a  style=&quot;background:red&quot; href=&quot;&#39;.$row_Recordset1[&quot;attachment&quot;].&#39;&quot;&gt;预览&lt;/a&gt; &lt;a href=&quot;&#39;.$row_Recordset1[&quot;attachment&quot;].&#39;&quot; download&gt;下载&lt;/a&gt;&lt;/li&gt;&#39;;
+    &#125;
+    else&#123;
+        echo &#39;  &lt;li class=&quot;list-group-item&quot;&gt;产品检测报告下载：&lt;a href=&quot;/wp-login.php&quot;&gt;请登录&lt;/a&gt;&lt;/li&gt;&#39;;
+    &#125;
+    echo &#39;  &lt;li class=&quot;list-group-item&quot;&gt;序列码查询时间：&#39;.$localtime.&#39;&lt;/li&gt;&#39;;
+    echo &#39;  &lt;/ul&gt;&#39;;
+    //在数据表中删除上面查询的防伪码
+    $delete_requested = &quot;DELETE FROM wp_license WHERE name =$license&quot;;
+    $Recordset2 = mysqli_query($connection, $delete_requested ) or die(mysqli_error($connection));
+&#125;</code></pre>
+<p>保存，然后我们再试一下效果，当我们初次查询的时候：</p>
+<p><img src="https://i.imgur.com/i9IBJtk.png"></p>
+<p>很显然，由于防伪码为678的这个在数据表中，所以我们能够查看得到查询后的明细。当我们再次查询的时候，我们看下效果：</p>
+<p><img src="https://i.imgur.com/gmDVYd6.png"></p>
+<p>很显然这个已经不在数据表中了。问题搞定！</p>
+<p><strong>3、总结一句话就是：</strong></p>
+<p>网上很多答案都是直接在session级别设置mysql的字符编码，这是治标不治本的方法。我们还是要从源头上解决这个问题。那就是修改mysql默认的配置文件，把它的字符集修改成能够使用中文字符的UTF8就OK了。</p>
+<p>好的，今天分享至此，希望大家尊重笔者原创，如有任何疑问和需要交流的请与我取得联络，QQ：791447771</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/wordpress-mysql-%E6%95%B0%E6%8D%AE%E5%BA%93-%E9%98%B2%E4%BC%AA%E7%A0%81-%E6%8F%92%E5%85%A5%E6%95%B0%E6%8D%AE-%E5%89%8D%E5%8F%B0-%E6%B7%BB%E5%8A%A0/" rel="tag"># wordpress,mysql,数据库,防伪码,插入数据,前台,添加</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/01/09/%E4%B8%BAwordpress%E7%BD%91%E7%AB%99%E5%BC%80%E5%8F%91ajax%E5%8A%A0%E8%BD%BD%E6%9B%B4%E5%A4%9A%E7%9A%84%E5%8A%9F%E8%83%BD/" rel="prev" title="为wordpress网站开发ajax加载更多的功能">
+      <i class="fa fa-chevron-left"></i> 为wordpress网站开发ajax加载更多的功能
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/01/12/%E6%9C%80%E7%AE%80%E5%8D%95%E7%9A%84wordpress%E7%BD%91%E7%AB%99%E9%85%8D%E7%BD%AEssl%E8%AF%81%E4%B9%A6%E5%85%A8%E9%83%A8%E8%BF%87%E7%A8%8B/" rel="next" title="最简单的wordpress网站配置ssl证书全部过程">
+      最简单的wordpress网站配置ssl证书全部过程 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%87%E7%BA%A7%E4%B8%80%E4%B8%8B%E9%98%B2%E4%BC%AA%E7%A0%81%E5%8A%9F%E8%83%BD"><span class="nav-number">1.</span> <span class="nav-text">升级一下防伪码功能</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

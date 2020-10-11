@@ -1,37 +1,498 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="1，如何把WooCommerce 集成到自己的新theme中？ Moving the calculate shipping module before the proceed to checkout is relatively easy.  Create a woocommerce directory in your theme at the root if you haven’t already">
+<meta property="og:type" content="article">
+<meta property="og:title" content="woocommerce定制">
+<meta property="og:url" content="http://example.com/2017/08/05/woocommerce%E5%AE%9A%E5%88%B6/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="1，如何把WooCommerce 集成到自己的新theme中？ Moving the calculate shipping module before the proceed to checkout is relatively easy.  Create a woocommerce directory in your theme at the root if you haven’t already">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-08-05T06:41:46.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:53:15.251Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="woocomerce,themes,定制,文件夹">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2017/08/05/woocommerce%E5%AE%9A%E5%88%B6/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>woocommerce定制 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/08/05/woocommerce%E5%AE%9A%E5%88%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          woocommerce定制
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-08-05 14:41:46" itemprop="dateCreated datePublished" datetime="2017-08-05T14:41:46+08:00">2017-08-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:15" itemprop="dateModified" datetime="2020-10-11T11:53:15+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>1，如何把WooCommerce 集成到自己的新theme中？</p>
+<p>Moving the calculate shipping module before the proceed to checkout is relatively easy.</p>
+<ol>
+<li><p>Create a woocommerce directory in your theme at the root if you haven’t already.</p>
+</li>
+<li><p>Go to the woocommerce plugin folder (/plugins/woocommerce/) and locate a folder called templates</p>
+</li>
+<li><p>Navigate to the cart directory within the templates directory and find the cart.PHP template file (/plugins/woocommerce/cart/cart.php)</p>
+</li>
+<li><p>Copy that file to your woocommerce directory within you theme using the same directory path (/woocommerce/cart/cart.php) - Meaning you have to have a folder of cart within the woocommerce folder</p>
+</li>
+</ol>
+<p>Remember that this copy of cart.php now overrides the file in the plugin directory.</p>
+<ol start="5">
+<li><p>Look at the bottom of the cart.php file that you are now editing. At the very bottom is the following code:</p>
+<pre><code> &lt;div class=&quot;cart-collaterals&quot;&gt;
+
+     &lt;?php do_action(&#39;woocommerce_cart_collaterals&#39;); ?&gt;
+
+     &lt;?php woocommerce_cart_totals(); ?&gt;
+
+     &lt;?php woocommerce_shipping_calculator(); ?&gt;
+
+ &lt;/div&gt;</code></pre>
+</li>
+</ol>
+<p>The part that says woocommerce_shipping_calculater can be moved around.</p>
+<ol start="6">
+<li>Move woocommerce_shipping_calculater to where you want and test. I’m not sure that it can go anywhere but I tested moving it and it worked for me.</li>
+</ol>
+<p>This is an example of customizing WooCommerce using the method of overriding template files.</p>
+<p><strong>2，如何修改woocommerce模板的的内容？</strong></p>
+<p>You can edit and override any file within the woocommerce template directory using that method.</p>
+<p>Rearranging some elements around may require actions and hooks within a functions.php file. I have created a file called functions-custom-woocommerce.php to separate my WooCommerce customizations.</p>
+<p>If you create a separate WooCommerce functions file for customizations you will need to call it from your main functions.php file.</p>
+<pre><code>&lt;?php
+   /*---Include WooCommerce Custom Functions File*/
+   include_once (TEMPLATEPATH . &#39;/functions-woocommerce-custom.php&#39;);
+   /*---main theme functions go below...*/
+?&gt;</code></pre>
+<p>As an example, if we wanted to move the product title out of the summary section and position it above the main product image or somewhere at the top of the page we need to look at the content-single-product.php template file.</p>
+<p>Here are the two sections we we need to look at in that file:</p>
+<pre><code>&lt;?php
+   /**
+    * woocommerce_show_product_images hook
+    *
+    * @hooked woocommerce_show_product_sale_flash - 10
+    * @hooked woocommerce_show_product_images - 20
+    */
+   do_action( &#39;woocommerce_before_single_product_summary&#39; );
+   ?&gt;
+&lt;div class=&quot;summary&quot;&gt;
+   &lt;?php
+      /**
+       * woocommerce_single_product_summary hook
+       *
+       * @hooked woocommerce_template_single_title - 5
+       * @hooked woocommerce_template_single_price - 10
+       * @hooked woocommerce_template_single_excerpt - 20
+       * @hooked woocommerce_template_single_add_to_cart - 30
+       * @hooked woocommerce_template_single_meta - 40
+       * @hooked woocommerce_template_single_sharing - 50
+       */
+      do_action( &#39;woocommerce_single_product_summary&#39; );
+      ?&gt;
+&lt;/div&gt;
+&lt;!-- .summary --&gt;</code></pre>
+<p>The part that outputs the main product image is woocommerce_before_single_product_summary</p>
+<p>The part that outputs the product title is woocommerce_single_product_summary</p>
+<p>Let’s pull the title out of the summary block and place it in the block that precedes it so the product title is above the product images.</p>
+<p>Place this in your functions.php file or the custom functions file.</p>
+<pre><code>/*---Move Product Title*/
+remove_action( &#39;woocommerce_single_product_summary&#39;, &#39;woocommerce_template_single_title&#39;, 5 );
+add_action( &#39;woocommerce_before_single_product_summary&#39;,
+&#39;woocommerce_template_single_title&#39;, 5 );</code></pre>
+<p>Hope that helps. I’m not a developer but have had to hack my way through WooCommerce to figure all this out.</p>
+<p>**3 功能api引用 **</p>
+<p> <a target="_blank" rel="noopener" href="http://code.tutsplus.com/articles/an-introduction-to-theming-woocommerce-for-wordpress--wp-31577">http://code.tutsplus.com/articles/an-introduction-to-theming-woocommerce-for-wordpress--wp-31577</a></p>
+<p><strong>Disabling the Default Stylesheet and Starting From Scratch</strong></p>
+<p>The default stylesheet can be disabled by adding a small snippet of code to your themes functions.php:</p>
+<pre><code>define(&#39;WOOCOMMERCE_USE_CSS&#39;,
+ false);</code></pre>
+<p>The quickest way to get all of the WooCommerce classes is to copy the original WooCommerce CSS file in to your own and remove anything that you do not require.</p>
+<p><strong>Declaring WooCommerce Support in Your Theme</strong></p>
+<p>This is particularly important if you are selling themes or releasing them to the public.</p>
+<p>Without specifically declaring WooCommerce support within your theme, users will be shown an error message upon installation of WooCommerce and it will stay there until it is dismissed.</p>
+<p>Fortunately, this can all be solved with a small snippet of code inserted in to your themes functions.php file:</p>
+<pre><code>add_theme_support(
+&#39;woocommerce&#39;
+);</code></pre>
+<p><strong>Diving in a Bit Deeper: Editing Templates</strong></p>
+<p>Editing the CSS within WooCommerce will get you quite a long way, but what about if you really want to customize the layout of pages? Luckily, there’s a nice way to do this.</p>
+<p>The WooCommerce plugin comes with a number of front-end HTML templates as well as email templates. Instead of editing these files directly within the plugin (which is a very bad idea because once update the plugin and all of your changes will be lost!), you can copy them into your theme:</p>
+<ol>
+<li>In your theme directory, make a new folder called “woocommerce.”</li>
+<li>Navigate to the WooCommerce plugin directory and open the “templates” folder. The templates folder has a lot of subfolders with all of the different templates that WooCommerce uses.  Fortunately, the template file structure and naming in WooCommerce is easy to follow.</li>
+<li>In your newly created “woocommerce” folder, copy the template file that you want to edit. Remember to keep the directory structure the same here. If the template you want to edit is within a subfolder then remember to create that subfolder within your theme’s directory.</li>
+<li>Edit the file from within your “woocommerce” folder and save the changes.</li>
+</ol>
+<p><strong>A Practical Example</strong></p>
+<p>Let’s say that we want to change some of the HTML within the “My Orders” screen of WooCommerce.</p>
+<p>The first thing we need to do is locate the correct template. In this case, the “My Orders” section is under “My Account” in WooCommerce. The directory structure looks like the following:</p>
+<pre><code>/wp-content/plugins/woocommerce/templates/myaccount/my-orders.php</code></pre>
+<p>Next, make a folder within your theme called “woocommerce” and within that folder make a second folder called “myaccount.” After that, copy the my-orders.php file into that directory.</p>
+<p>You should be left with the following:</p>
+<pre><code>/wp-content/themes/yourtheme/woocommerce/myaccount/my-orders.php</code></pre>
+<p>Any changes made to this file will now override the original.</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/woocomerce-themes-%E5%AE%9A%E5%88%B6-%E6%96%87%E4%BB%B6%E5%A4%B9/" rel="tag"># woocomerce,themes,定制,文件夹</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/08/04/VPS%E4%B8%BB%E6%9C%BA%E4%B8%8A%E5%BB%BA%E7%AB%8BWordPress%E7%BD%91%E7%AB%99%E5%90%8E%E6%80%8E%E6%A0%B7%E5%AE%9E%E7%8E%B0%E9%82%AE%E4%BB%B6%E5%8F%91%E9%80%81%E5%8A%9F%E8%83%BD/" rel="prev" title="VPS主机上建立WordPress网站后怎样实现邮件发送功能">
+      <i class="fa fa-chevron-left"></i> VPS主机上建立WordPress网站后怎样实现邮件发送功能
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/08/05/%E7%94%A8nginx%E5%81%9A%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E7%9A%84%E6%97%B6%E5%80%99%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/" rel="next" title="用nginx做反向代理的时候遇到的一些问题">
+      用nginx做反向代理的时候遇到的一些问题 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

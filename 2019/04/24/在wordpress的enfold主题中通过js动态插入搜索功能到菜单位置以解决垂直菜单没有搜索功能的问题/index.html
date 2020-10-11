@@ -1,37 +1,589 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="用过wordpress的开发者都知道，wordpress有个搜索功能，通常我们采用主题的时候，会在菜单后面显示一个搜索icon。可是有的时候是没有搜索按钮的，该怎么办呢？ 横向菜单是有icon的，请看如下截图：  比如，当笔者在采用enfold主题的时候，就遇到这样的问题，通常情况是有的，也可以在网站的后天进行设置，开启或者关闭，当我采用垂直菜单的时候，发现无论我是否开启，这个搜索的icon始终不">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在wordpress的enfold主题中通过js动态插入搜索功能到菜单位置以解决垂直菜单没有搜索功能，以及让搜索框显示在菜单位置的问题">
+<meta property="og:url" content="http://example.com/2019/04/24/%E5%9C%A8wordpress%E7%9A%84enfold%E4%B8%BB%E9%A2%98%E4%B8%AD%E9%80%9A%E8%BF%87js%E5%8A%A8%E6%80%81%E6%8F%92%E5%85%A5%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD%E5%88%B0%E8%8F%9C%E5%8D%95%E4%BD%8D%E7%BD%AE%E4%BB%A5%E8%A7%A3%E5%86%B3%E5%9E%82%E7%9B%B4%E8%8F%9C%E5%8D%95%E6%B2%A1%E6%9C%89%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD%E7%9A%84%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="用过wordpress的开发者都知道，wordpress有个搜索功能，通常我们采用主题的时候，会在菜单后面显示一个搜索icon。可是有的时候是没有搜索按钮的，该怎么办呢？ 横向菜单是有icon的，请看如下截图：  比如，当笔者在采用enfold主题的时候，就遇到这样的问题，通常情况是有的，也可以在网站的后天进行设置，开启或者关闭，当我采用垂直菜单的时候，发现无论我是否开启，这个搜索的icon始终不">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/TGPbIkX.jpg">
+<meta property="og:image" content="https://i.imgur.com/W8bnEJ0.jpg">
+<meta property="og:image" content="https://i.imgur.com/b9vCFJx.jpg">
+<meta property="og:image" content="https://i.imgur.com/RgpNkXi.jpg">
+<meta property="og:image" content="https://i.imgur.com/8ySqKCF.jpg">
+<meta property="og:image" content="https://i.imgur.com/4NHSSFr.jpg">
+<meta property="og:image" content="https://i.imgur.com/tIiALTN.jpg">
+<meta property="article:published_time" content="2019-04-24T09:10:47.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:04.755Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="搜索功能,搜索icon,垂直菜单,enfold,wordpress,搜索框显示在菜单">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/TGPbIkX.jpg">
+
+<link rel="canonical" href="http://example.com/2019/04/24/%E5%9C%A8wordpress%E7%9A%84enfold%E4%B8%BB%E9%A2%98%E4%B8%AD%E9%80%9A%E8%BF%87js%E5%8A%A8%E6%80%81%E6%8F%92%E5%85%A5%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD%E5%88%B0%E8%8F%9C%E5%8D%95%E4%BD%8D%E7%BD%AE%E4%BB%A5%E8%A7%A3%E5%86%B3%E5%9E%82%E7%9B%B4%E8%8F%9C%E5%8D%95%E6%B2%A1%E6%9C%89%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD%E7%9A%84%E9%97%AE%E9%A2%98/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>在wordpress的enfold主题中通过js动态插入搜索功能到菜单位置以解决垂直菜单没有搜索功能，以及让搜索框显示在菜单位置的问题 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/04/24/%E5%9C%A8wordpress%E7%9A%84enfold%E4%B8%BB%E9%A2%98%E4%B8%AD%E9%80%9A%E8%BF%87js%E5%8A%A8%E6%80%81%E6%8F%92%E5%85%A5%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD%E5%88%B0%E8%8F%9C%E5%8D%95%E4%BD%8D%E7%BD%AE%E4%BB%A5%E8%A7%A3%E5%86%B3%E5%9E%82%E7%9B%B4%E8%8F%9C%E5%8D%95%E6%B2%A1%E6%9C%89%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD%E7%9A%84%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          在wordpress的enfold主题中通过js动态插入搜索功能到菜单位置以解决垂直菜单没有搜索功能，以及让搜索框显示在菜单位置的问题
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-04-24 17:10:47" itemprop="dateCreated datePublished" datetime="2019-04-24T17:10:47+08:00">2019-04-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:04" itemprop="dateModified" datetime="2020-10-11T11:58:04+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/wordpress/" itemprop="url" rel="index"><span itemprop="name">wordpress</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>用过wordpress的开发者都知道，wordpress有个搜索功能，通常我们采用主题的时候，会在菜单后面显示一个搜索icon。可是有的时候是没有搜索按钮的，该怎么办呢？</p>
+<p>横向菜单是有icon的，请看如下截图：</p>
+<p><img src="https://i.imgur.com/TGPbIkX.jpg"></p>
+<p>比如，当笔者在采用enfold主题的时候，就遇到这样的问题，通常情况是有的，也可以在网站的后天进行设置，开启或者关闭，当我采用垂直菜单的时候，发现无论我是否开启，这个搜索的icon始终不出现在菜单的后面或者前面。</p>
+<p><img src="https://i.imgur.com/W8bnEJ0.jpg"></p>
+<p>我希望这个搜索icon在这个位置出现，我们都知道如果仅仅是个搜索icon插入是很简单的，可是还要有输入框才行，不然没法查询。</p>
+<p>于是笔者采用了这样一个法子：</p>
+<blockquote>
+<p>既然横向菜单是有这个搜索icon的，那么为何不先启用横向菜单，或者找个enfold主题横向菜单的wordpress网站呢？又或者去enfold主题的官网找个demo页面参考即可。</p>
+</blockquote>
+<p>好的，这个思路是正确的，那么我们开始实践它。</p>
+<p>首先，我们去获取这个搜索icon的所有代码。通过开发者工具，我们获取到了代码如下：</p>
+<pre><code>&lt;li id=&quot;menu-item-search&quot; class=&quot;noMobile menu-item menu-item-search-dropdown menu-item-avia-special&quot;&gt;
+    &lt;a href=&quot;?s=&quot; data-avia-search-tooltip=&quot;&lt;form action=&amp;quot;https://nie-tech.com/&amp;quot; id=&amp;quot;searchform&amp;quot; method=&amp;quot;get&amp;quot; class=&amp;quot;&amp;quot;&gt;
+        &lt;div&gt;
+            &lt;input type=&amp;quot;submit&amp;quot; value=&amp;quot;&amp;quot; id=&amp;quot;searchsubmit&amp;quot; class=&amp;quot;button avia-font-entypo-fontello&amp;quot; /&gt;
+            &lt;input type=&amp;quot;text&amp;quot; id=&amp;quot;s&amp;quot; name=&amp;quot;s&amp;quot; value=&amp;quot;&amp;quot; placeholder=&#39;Search&#39; /&gt;
+        &lt;/div&gt;
+    &lt;/form&gt;&quot; aria-hidden=&quot;true&quot; data-av_icon=&quot;&quot; data-av_iconfont=&quot;entypo-fontello&quot;&gt;&lt;span class=&quot;avia_hidden_link_text&quot;&gt;Search&lt;/span&gt;&lt;/a&gt;
+&lt;/li&gt;</code></pre>
+<p>就是这个：</p>
+<p><img src="https://i.imgur.com/b9vCFJx.jpg"></p>
+<p>这个代码就是要插入到菜单某个位置的代码了。</p>
+<p>接着，我们要定位到要插入的dom位置，通过开发者工具我们定位到目标网站的垂直菜单的代码：</p>
+<pre><code>&lt;ul id=&quot;avia-menu&quot; class=&quot;menu av-main-nav&quot;&gt;
+...
+&lt;/ul&gt;</code></pre>
+<p>截图如下：</p>
+<p><img src="https://i.imgur.com/RgpNkXi.jpg"></p>
+<p>这两个地方解决后，那么剩下的就是写js代码了，这里笔者引用的是jquery，所以，先引入jquery这个库，然后js代码如下：</p>
+<pre><code>&lt;script&gt;
+var jQuery = $.noConflict(true);
+jQuery(document).ready(function()&#123;
+    var search_dom_pc = &#39;&lt;li id=&quot;menu-item-search&quot; class=&quot;noMobile menu-item menu-item-search-dropdown menu-item-avia-special pc-search-custom&quot;&gt;&lt;a href=&quot;?s=&quot; data-avia-search-tooltip=&quot;&lt;form action=&amp;quot;https://nietech.com/&amp;quot; id=&amp;quot;searchform&amp;quot; method=&amp;quot;get&amp;quot; class=&amp;quot;&amp;quot;&gt;&lt;div&gt;&lt;input type=&amp;quot;submit&amp;quot; value=&amp;quot;&amp;quot; id=&amp;quot;searchsubmit&amp;quot; class=&amp;quot;button avia-font-entypo-fontello&amp;quot; /&gt;&lt;input type=&amp;quot;text&amp;quot; id=&amp;quot;s&amp;quot; name=&amp;quot;s&amp;quot; value=&amp;quot;&amp;quot;/&gt;&lt;/div&gt;&lt;/form&gt;&quot; aria-hidden=&quot;true&quot; data-av_icon=&quot;&quot; data-av_iconfont=&quot;entypo-fontello&quot;&gt;&lt;span class=&quot;avia_hidden_link_text&quot;&gt;Search&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;&#39;;
+    jQuery(&quot;#avia-menu&quot;).prepend(search_dom_pc);
+&#125;);
+&lt;/script&gt;</code></pre>
+<p><strong>说明：</strong>虽然很简单，笔者在这里折腾了很久，问题就是在于双引号和单引号的问题，笔者当时觉得<code>&amp;quot;</code>这个东西看起来太乱了，就把他们一个一个的改成了双引号，看起来清爽点，就是这么一改让我痛苦了足足两个小时，这里顺便科普一下：</p>
+<blockquote>
+<p><code>&amp;apos;</code>—-单引号</p>
+<p><code>&amp;quot;</code>—–双引号</p>
+</blockquote>
+<p>为啥要用这个转义呢？是因为单我们单双引号层层嵌套的时候，会被当做拼接。在上面的这个代码里面就存在，请看片段：</p>
+<pre><code>var search_dom_pc = &#39;&lt;a href=&quot;?s=&quot; data-avia-search-tooltip=&quot;&lt;form action=&quot;https://nie-tech.com/&quot; id=&quot;searchform&quot; method=&quot;get&quot; class=&quot;&quot;&gt;
+    &lt;div&gt;
+        &lt;input type=&quot;submit&quot; value=&quot;&quot; id=&quot;searchsubmit&quot; class=&quot;button avia-font-entypo-fontello&quot; /&gt;
+        &lt;input type=&quot;text&quot; id=&quot;s&quot; name=&quot;s&quot; value=&quot;&quot; placeholder=&#39;Search&#39; /&gt;
+            &lt;/div&gt;
+&lt;/form&gt;&quot;
+...</code></pre>
+<p>这个里面最外层的是变量search_dom_pc的值，这个值被用一个单引号包起来的，第二层是a标签，a标签里面使用双引号把它的值抱起来的，第三层是自定义属性data-avia-search-tooltip，这个东西通过双引号把值包起来的，这个时候，无论我们用双引号或者是单引号都不行，因为都会发生拼接的情况，那这个时候怎么办呢？我们就要用转义的方式来解决第三层引号甚至是第四层引号的问题了。</p>
+<p>当你明白这个意思之后，我们就可以理解用回<code>&amp;quot;</code>是正确的。</p>
+<p>接着我们这里还有一个地方需要说，就是form里面的action属性，由于笔者是在另外一个网站上面把代码弄过来的，这个时候，连同域名（<code>https://nietech.com</code>）也被弄过来了，如果不把域名改成我们正在添加的搜索的这个域名的话，到时候输入东西搜索的时候会跳转到<code>https://nietech.com</code>，为了放子四海而皆准，我们需要把域名删除，只保留根目录<code>/</code>，最后正确的js代码如下：</p>
+<pre><code>&lt;script&gt;
+var jQuery = $.noConflict(true);
+jQuery(document).ready(function()&#123;
+    var search_dom_pc = &#39;&lt;li id=&quot;menu-item-search&quot; class=&quot;noMobile menu-item menu-item-search-dropdown menu-item-avia-special pc-search-custom&quot;&gt;&lt;a href=&quot;?s=&quot; data-avia-search-tooltip=&quot;&lt;form action=&amp;quot;/&amp;quot; id=&amp;quot;searchform&amp;quot; method=&amp;quot;get&amp;quot; class=&amp;quot;&amp;quot;&gt;&lt;div&gt;&lt;input type=&amp;quot;submit&amp;quot; value=&amp;quot;&amp;quot; id=&amp;quot;searchsubmit&amp;quot; class=&amp;quot;button avia-font-entypo-fontello&amp;quot; /&gt;&lt;input type=&amp;quot;text&amp;quot; id=&amp;quot;s&amp;quot; name=&amp;quot;s&amp;quot; value=&amp;quot;&amp;quot;/&gt;&lt;/div&gt;&lt;/form&gt;&quot; aria-hidden=&quot;true&quot; data-av_icon=&quot;&quot; data-av_iconfont=&quot;entypo-fontello&quot;&gt;&lt;span class=&quot;avia_hidden_link_text&quot;&gt;Search&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;&#39;;
+    jQuery(&quot;#avia-menu&quot;).prepend(search_dom_pc);
+&#125;);
+&lt;/script&gt;</code></pre>
+<p>这样就可以把这个搜索的icon插入了，然后点击搜索icon就可以显示出搜索框。截图：</p>
+<p><img src="https://i.imgur.com/8ySqKCF.jpg"></p>
+<p>剩下的就是通过css美化一下，比如客户想鼠标悬浮的时候就出现搜索，以及手机版如果不做处理会很丑，把菜单的折叠那里挤下去，笔者这里把css代码粘贴一下，因为笔者把垂直菜单的宽度也修改了，所以这个东西是基于修改之后的宽度来美化的：</p>
+<pre><code>.html_header_sidebar #top #header &#123;
+    width: 110px !important;
+&#125;
+.html_header_left #main &#123;
+    margin-left: 110px !important;
+&#125;
+.html_header_sidebar .logo &#123;
+    padding: 10px !important;
+&#125;
+.html_header_sidebar #header .av-main-nav &gt; li &gt; a .avia-menu-text &#123;
+    font-size: 14px !important;
+&#125;
+.responsive .container &#123;
+    max-width: 100% !important;
+&#125;
+
+.avia-search-tooltip&#123;
+   top:0px !important;
+   left:228px !important;
+&#125;
+#menu-item-search:hover .avia-search-tooltip&#123;
+   display:block !important;
+   opacity:1 !important;
+&#125;
+#top #menu-item-search &#123;
+    margin-right: -1px !important;
+    padding-left: 15%;
+    margin-left: 0px;
+&#125;
+.avia-search-tooltip .avia-arrow-wrap &#123;
+    display:none;
+&#125;
+#top #menu-item-search #s &#123;
+    border: 1px solid;
+&#125;
+
+@media (max-width:767px)&#123;
+.html_header_left #main &#123;
+    margin-left: 0px !important;
+&#125;
+.html_header_sidebar #top #header &#123;
+    width: 100% !important;
+&#125;
+#top #menu-item-search &#123;
+    right: 60px !important;
+    z-index: 999999;
+    position: absolute !important;
+&#125;
+.responsive #top .logo &#123;
+    display: contents !important;
+&#125;
+.avia-search-tooltip&#123;
+   max-width:300px !important;
+   position:fixed !important;
+   top:110px !important;
+   left:unset !important;
+   right:10px !important;
+&#125;
+#menu-item-search&gt;a&#123;
+   padding:0px 15px !important;
+&#125;
+&#125;</code></pre>
+<p>这个只是笔者自己的审美，大家可以自己美化。</p>
+<p>本文其实是解决了一个很简单的问题，笔者写本文旨在启发，通过一个小小的案例来引出很多值得启发的地方，笔者这个转义的地方就是一个很有启发的作用。</p>
+<hr>
+<p>**更新：2019/4/28 9:40:53 **</p>
+<p>这里我们接着上面继续扩展，如果我们想要把这个搜索框直接显示在菜单栏里面，以便用户直接搜索，而不是点击搜索icon才出来，这个时候怎么办呢？其实很简单，请看：</p>
+<p>首先，根据开发者工具，把菜单项的dom结构获取到，然后把class保留，其他的都删除；</p>
+<pre><code>&lt;li class=&quot;menu-item menu-item-type-custom menu-item-object-custom menu-item-top-level menu-item-top-level-5&quot;&gt;
+    //here is form code
+&lt;/li&gt;</code></pre>
+<p>接着，把搜索框的表单代码通过开发者工具找到。稍作处理（把action里面的域名去掉即可），此时不需要双引号转义了，因为没有太多的嵌套，最后form就是如下代码：</p>
+<pre><code>&lt;form action=&quot;/&quot; id=&quot;searchform&quot; method=&quot;get&quot; class=&quot;&quot;&gt;&lt;div&gt;&lt;input type=&quot;submit&quot; value=&quot;&quot; id=&quot;searchsubmit&quot; class=&quot;button avia-font-entypo-fontello&quot;&gt;&lt;input type=&quot;text&quot; id=&quot;s&quot; name=&quot;s&quot; placeholder=&quot;Search for installer or product&quot;&gt;&lt;/div&gt;&lt;/form&gt;</code></pre>
+<p>然后引入jquery，最后所有的js代码如下：</p>
+<pre><code>&lt;script src=&quot;http://libs.baidu.com/jquery/2.1.4/jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+var jQuery = $.noConflict();
+jQuery(document).ready(function()&#123;
+    var search_dom_pc = &#39;&lt;li class=&quot;menu-item menu-item-type-custom menu-item-object-custom menu-item-top-level menu-item-top-level-5 new_add_form&quot;&gt;&lt;form action=&quot;/&quot; id=&quot;searchform&quot; method=&quot;get&quot; class=&quot;&quot;&gt;&lt;div class=&quot;egweg&quot;&gt;&lt;input type=&quot;submit&quot; value=&quot;&quot; id=&quot;searchsubmit&quot; class=&quot;button avia-font-entypo-fontello&quot;&gt;&lt;input type=&quot;text&quot; id=&quot;s&quot; name=&quot;s&quot; placeholder=&quot;Search for installer or product&quot;&gt;&lt;/div&gt;&lt;/form&gt;&lt;/li&gt;&#39;;
+    jQuery(&quot;#avia-menu&quot;).append(search_dom_pc);
+&#125;);
+&lt;/script&gt;</code></pre>
+<blockquote>
+<p><strong>说明</strong>：因为笔者处理的网站没有ssl，所以这里的jquery也没有引入https的，如果网站只允许https的，那么最好不能用http协议的jquery的cdn。如果https和http相兼容，那么无论加哪一种都可以。</p>
+</blockquote>
+<p>笔者处理的这个网站头部菜单的高度是90px高度，滚动后菜单的高度是45px，由于搜索框很占位置，所以当稍微小点的屏幕打开的时候被挤得换行了，所以此时输入框应该隐藏，默认的搜索icon显示出来，这样就更加完美了，意思就是说这个输入框显示出来应该在大屏幕或者大于某个屏幕尺寸的时候，为了新添加的搜索框美观度，笔者整理的的代css码如下：</p>
+<pre><code>#menu-item-search&#123;
+   display:none;
+&#125;
+.new_add_form form&#123;
+    line-height:90px;
+    height:90px;
+    position:relative;
+&#125;
+.new_add_form form .egweg&#123;
+     display:inline-block;
+&#125;
+.header-scrolled .new_add_form form&#123;
+    line-height:45px;
+    height:45px;
+&#125;
+.new_add_form form div.ajax_search_response&#123;
+   position:absolute;
+   max-width:200px !important;
+&#125;
+@media (max-width:1360px)&#123;
+    #menu-item-search&#123;
+       display:block !important;
+    &#125;
+    .new_add_form form&#123;
+        display:none !important;
+    &#125;
+&#125;</code></pre>
+<p>最后的效果就是在头部菜单栏的菜单项后面有个搜索框，截图：</p>
+<p><img src="https://i.imgur.com/4NHSSFr.jpg"></p>
+<p>而当屏幕小于1360px的时候，输入框就隐藏了，取而代之的是icon，点击icon的时候显示输入框，截图如下：</p>
+<p><img src="https://i.imgur.com/tIiALTN.jpg"></p>
+<p>完美收工。本文会持续更新，敬请期待。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%90%9C%E7%B4%A2%E5%8A%9F%E8%83%BD-%E6%90%9C%E7%B4%A2icon-%E5%9E%82%E7%9B%B4%E8%8F%9C%E5%8D%95-enfold-wordpress-%E6%90%9C%E7%B4%A2%E6%A1%86%E6%98%BE%E7%A4%BA%E5%9C%A8%E8%8F%9C%E5%8D%95/" rel="tag"># 搜索功能,搜索icon,垂直菜单,enfold,wordpress,搜索框显示在菜单</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/04/19/wordpress%E7%BD%91%E7%AB%99%E9%92%88%E5%AF%B9%E5%88%86%E7%B1%BB%E8%BF%9B%E8%A1%8C%E6%90%9C%E7%B4%A2%EF%BC%8C%E5%9C%A8%E6%90%9C%E7%B4%A2%E7%BB%93%E6%9E%9C%E4%B8%AD%E8%BF%87%E6%BB%A4%E6%8E%89%E4%B8%8D%E9%9C%80%E8%A6%81%E7%9A%84%E7%B1%BB%E5%88%AB%EF%BC%8C%E6%AF%94%E5%A6%82%E6%96%87%E7%AB%A0%EF%BC%8C%E9%A1%B5%E9%9D%A2%E7%AD%89/" rel="prev" title="wordpress网站针对分类进行搜索，在搜索结果中过滤掉不需要的类别，比如文章，页面等">
+      <i class="fa fa-chevron-left"></i> wordpress网站针对分类进行搜索，在搜索结果中过滤掉不需要的类别，比如文章，页面等
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/04/30/wordpress%E7%9A%84enfold%E4%B8%BB%E9%A2%98%E7%9A%84%E7%BD%91%E9%A1%B5%E5%89%8D%E5%8F%B0%E8%8F%9C%E5%8D%95%E5%89%8D%E9%9D%A2%E6%8F%92%E5%85%A5%E5%9B%BE%E7%89%87%E7%9A%84%E6%96%B9%E6%B3%95%E4%BB%A5%E5%8F%8A%E5%BF%83%E5%BE%97/" rel="next" title="wordpress的enfold主题的网页前台菜单前面插入图片的方法以及心得">
+      wordpress的enfold主题的网页前台菜单前面插入图片的方法以及心得 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

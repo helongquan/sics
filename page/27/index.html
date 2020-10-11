@@ -1,23 +1,1964 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-{% block title %}{{ config.title }}{% if theme.index_with_subtitle and config.subtitle %} - {{config.subtitle }}{% endif %}{% endblock %}
+<link rel="stylesheet" href="/css/main.css">
 
-{% block page_class %}
-  {% if is_home() %}page-home{% endif -%}
-{% endblock %}
 
-{% block content %}
-  <section id="posts" class="posts-expand">
-    {% for post in page.posts %}
-      {{ post_template.render(post, true) }}
-    {% endfor %}
-  </section>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-  {% include '_partials/pagination.swig' %}
-{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
 
-{% block sidebar %}
-  {{ sidebar_template.render(false) }}
-{% endblock %}
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/page/27/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/page/27/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
+            
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/01/08/%E5%9C%A8%E6%9B%B4%E6%96%B0WordPress%E4%B8%BB%E9%A2%98%E6%97%B6%E5%A6%82%E4%BD%95%E4%BF%9D%E7%95%99functions-php%E9%87%8C%E7%9A%84%E8%87%AA%E5%AE%9A%E4%B9%89%E4%BB%A3%E7%A0%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/01/08/%E5%9C%A8%E6%9B%B4%E6%96%B0WordPress%E4%B8%BB%E9%A2%98%E6%97%B6%E5%A6%82%E4%BD%95%E4%BF%9D%E7%95%99functions-php%E9%87%8C%E7%9A%84%E8%87%AA%E5%AE%9A%E4%B9%89%E4%BB%A3%E7%A0%81/" class="post-title-link" itemprop="url">在更新WordPress主题时如何保留functions.php里的自定义代码</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-01-08 11:25:26" itemprop="dateCreated datePublished" datetime="2018-01-08T11:25:26+08:00">2018-01-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:52:48" itemprop="dateModified" datetime="2020-10-11T11:52:48+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>相信大家对wordpress主题中的functions.php文件一定不陌生，这个文件是很多人折腾的最多的文件，本站很多教程中的代码也是直接加到 functions.php 就可以使用的，可是每次更新主题时这个文件都会被主题默认的给覆盖，所以更新主题前都得提前备份自定义的代码，这样就有点麻烦了！那么，怎么对 functions.php 进行高效正确的更新呢？</p>
+<p>其实办法非常简单，以下有3种方法对functions.php文件进行管理，免去更新主题时复制黏贴大量代码的麻烦！</p>
+<p><strong>方法一</strong></p>
+<hr>
+<p><strong>实现步骤</strong></p>
+<p>为WordPress引入其他functions.php文件，将下面的内容保存为utf-8格式的php文件，并起名为functions-lxtx.php，放入跟主题的functions.php文件同目录；</p>
+<pre><code>&lt;?php
+/**
+ * customize function of theme by xxx
+ * @author    xxx
+ * @site      xxx
+ * @copyright Copyright (c) 2017-2018
+ * @link      http://www.xxx.com/
+ */
+?&gt;
+&lt;?php
+
+/* 在下面加入自定义函数 */
+
+?&gt;</code></pre>
+<p>然后在functions.php中加入以下代码，在主题更新functions.php文件时保持加入下面这段代码就可以了.</p>
+<pre><code>// 引入其它functions.php文件
+@include(TEMPLATEPATH.&#39;/functions-custom.php&#39;);</code></pre>
+<p>最后，和在functions文件里面加代码一样，在这个functions-lxtx.php文件里面最后一个?&gt;前加入自定义功能代码就可以了。</p>
+<p><strong>举例</strong></p>
+<p>比如，这里有个小功能，就是“后台颜色随机切换”的代码：</p>
+<pre><code>// 后台颜色随机切换
+function Bing_random_admin_color()&#123;
+static $color;
+if( isset( $color ) ) return $color;
+$color = array_keys( $GLOBALS[&#39;_wp_admin_css_colors&#39;] );
+$color = $color[array_rand( $color )];
+return $color;
+&#125;
+add_filter( &#39;get_user_option_admin_color&#39;, &#39;Bing_random_admin_color&#39; );</code></pre>
+<p>将上面的代码加入那个functions-lxtx.php文件里面，就是下面这样的：</p>
+<pre><code>&lt;?php
+/**
+ * customize function of theme by xxx
+ * @author    xxx
+ * @site      xxx
+* @copyright Copyright (c) 2017-2018
+* @link      http://www.xxx.com/
+ */
+?&gt;
+&lt;?php
+
+/* 请在下面加入自定义函数 */
+
+// 后台颜色随即切换
+function Bing_random_admin_color()&#123;
+static $color;
+if( isset( $color ) ) return $color;
+$color = array_keys( $GLOBALS[&#39;_wp_admin_css_colors&#39;] );
+$color = $color[array_rand( $color )];
+return $color;
+&#125;
+add_filter( &#39;get_user_option_admin_color&#39;, &#39;Bing_random_admin_color&#39; );
+?&gt;</code></pre>
+<p><strong>方法二</strong></p>
+<hr>
+<p>自己制作一个小插件，通过插件来加载自定义的函数功能.</p>
+<p><strong>步骤如下</strong></p>
+<p>首先将下面的代码保存为utf-8格式的php文件，名字随意，最好英文或数字吧~~然后放进wp-content/plugins文件夹里面；</p>
+<pre><code>&lt; ?php
+/*
+Plugin Name: 模版函数扩展插件
+Description: 给主题模版函数库里添加点小功能
+Author: XXX
+*/
+//文件里面加入代码就可以和functions文件一样了
+
+?&gt;</code></pre>
+<p>和在functions文件里面加代码一样，将功能代码加到上面的最后一个?&gt;即可，然后在后台的插件列表里就可以看到这个自己制作的“模版函数扩展插件”了。这样一来，以后自定义功能代码都可以放到这个“自制”的小插件里，主题更新可以随意更新不用担心这些自定义代码丢失或被覆盖了。</p>
+<p><strong>方法三</strong></p>
+<hr>
+<p>将功能代码存为一个个独立的php文件来管理。</p>
+<p><strong>实现步骤</strong></p>
+<p>第一步：在主题文件夹下新建一个名为inc的文件夹</p>
+<p>第二步：将以下代码加入到当前主题的functions.php文件中，代码如下：</p>
+<pre><code>define(&#39;INC&#39;, TEMPLATEPATH.&#39;/inc&#39;);
+IncludeAll( INC );
+function IncludeAll($dir)&#123;
+    $dir = realpath($dir);
+    if($dir)&#123;
+        $files = scandir($dir);
+        sort($files);
+        foreach($files as $file)&#123;
+            if($file == &#39;.&#39; || $file == &#39;..&#39;)&#123;
+                continue;
+            &#125;elseif(preg_match(&#39;/.php$/i&#39;, $file))&#123;
+                include_once $dir.&#39;/&#39;.$file;
+            &#125;
+        &#125;
+    &#125;
+&#125;</code></pre>
+<p>以后每次为主题扩展功能的时候只要将代码保存为一个新的php文件，文件名不限，但最好是英文或数字，然后将文件放入到inc目录下即可，效果和直接将代码加到functions.php文件一样，而且一旦代码出错只要直接删除出错代码的文件即可。</p>
+<p>这里需要做个补充：笔者由于使用的是子主题，那么如果采用上面的这个代码会不生效，所以需要做个相应的修改，修改入下，把上面的：</p>
+<pre><code>define(&#39;INC&#39;, TEMPLATEPATH.&#39;/inc&#39;);</code></pre>
+<p>改成：</p>
+<pre><code>define(&#39;functions&#39;, get_stylesheet_directory().&#39;/functions&#39;);</code></pre>
+<p>因为wordpress,TEMPLATEPATH 已近被弃用了.这里说明如下：</p>
+<pre><code>get_stylesheet_directory()</code></pre>
+<p>将返回一个子主题的目录，而</p>
+<pre><code>get_template_directory()</code></pre>
+<p>将始终返回父主题目录.</p>
+<p>基于此，由于我们采用了子主题，所以我们用get_stylesheet_directory()取代TEMPLATEPATH</p>
+<p>这个时候，我们就可以在子主题的目录下新建一个inc文件夹，然后里面存放一些自定义的功能，我们就可以在子主题中的functions.php中运用：</p>
+<pre><code>define(&#39;functions&#39;, get_stylesheet_directory().&#39;/functions&#39;);
+IncludeAll( functions );
+function IncludeAll($dir)&#123;
+    $dir = realpath($dir);
+    if($dir)&#123;
+        $files = scandir($dir);
+        sort($files);
+        foreach($files as $file)&#123;
+            if($file == &#39;.&#39; || $file == &#39;..&#39;)&#123;
+                continue;
+            &#125;elseif(preg_match(&#39;/.php$/i&#39;, $file))&#123;
+                include_once $dir.&#39;/&#39;.$file;
+            &#125;
+        &#125;
+    &#125;
+&#125;</code></pre>
+<p>代码，自动加载inc文件夹中的php文件。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/01/06/%E4%B8%BAwordpress%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%85%8D%E7%BD%AERedis%E5%8A%A0%E9%80%9F%E6%96%B9%E6%A1%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/01/06/%E4%B8%BAwordpress%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%85%8D%E7%BD%AERedis%E5%8A%A0%E9%80%9F%E6%96%B9%E6%A1%88/" class="post-title-link" itemprop="url">为wordpress服务器配置Redis加速方案</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-01-06 15:37:15" itemprop="dateCreated datePublished" datetime="2018-01-06T15:37:15+08:00">2018-01-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:52:53" itemprop="dateModified" datetime="2020-10-11T11:52:53+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><strong>Installation</strong></p>
+<p>Download, extract and compile Redis with:</p>
+<pre><code>$ wget http://download.redis.io/releases/redis-4.0.6.tar.gz
+$ tar xzf redis-4.0.6.tar.gz
+$ cd redis-4.0.6
+$ make
+$ make install</code></pre>
+<p>最好再编译后直接执行make install命令来将这些可执行程序复制到/user/local/bin目录中以便以后执行程序时可以不用输入完整的路径</p>
+<p>make的时候注意：</p>
+<p>如果make的时候提示如下错误：</p>
+<pre><code>cc: error: ../deps/hiredis/libhiredis.a: No such file or directory
+
+cc: error: ../deps/lua/src/liblua.a: No such file or directory
+
+cc: error: ../deps/jemalloc/lib/libjemalloc.a: No such file or directory
+
+make: *** [redis-server] Error 1</code></pre>
+<p>则分别进入redis下的deps下的hiredis、lua和jemalloc下运行make。jemalloc下可能要先运行./configure，然后make。最后回到redis的src下，运行make，就OK了。</p>
+<p>如果提示如下错误：</p>
+<p>CPU you selected does not support x86-64 instruction set</p>
+<p>把make命令改成make CFLAGS=”-march=x86-64”就行了</p>
+<p>The binaries that are now compiled are available in the src directory. Run Redis with:</p>
+<pre><code>$ src/redis-server</code></pre>
+<p>You can interact with Redis using the built-in client:</p>
+<pre><code>$ src/redis-cli
+redis&gt; set foo bar
+OK
+redis&gt; get foo
+&quot;bar&quot;</code></pre>
+<p>如果不顺利的话，我这里准备了一些报错的解决方案：</p>
+<p>一：make编译时，出现错误</p>
+<p>解决方法：仔细看看error错误位置的信息，很可能是某些东西没有安装好，把这些东西安装了就没问题了</p>
+<p>二：</p>
+<p>Warning: no config file specified, using the default config. In order to specify a config file use ‘redis-server /path/to/redis.conf’<br>Opening port: bind: Address already in use</p>
+<p>类似这样的警告是因为配置文件没有正确加载。<br>我们可以事先修改一下配置文件redis.conf，修改daemonize no，将no改成yes，使其成为后台线程，进入redis.conf配置文件的同级目录</p>
+<p>使用命令redis-server redis.conf。我这里因为配置文件没有正确加载导致了使用redis命令没有任何反应，为空。</p>
+<p>三：启动redis时出现警告，就是使用redis-server出现redis图形的时候，大致是memory相关的警告信息，我们使用如下命令</p>
+<p>a) echo vm.overcommit_memory=1 &gt;&gt; /etc/sysctl.conf</p>
+<p>b) sysctl vm.overcommit_memory=1 或执行echo vm.overcommit_memory=1 &gt;&gt;/proc/sys/vm/overcommit_memory </p>
+<p><strong>如果出现警告：</strong></p>
+<p>WARNING overcommit_memory is set to 0! Background save may fail under low memory condition.<br>To fix this issue add ‘vm.overcommit_memory = 1’ to /etc/sysctl.conf and then reboot or run the command ‘sysctl vm.overcommit_memory=1’ for this to take effect.</p>
+<p>过量使用内存设置为0！在低内存环境下，后台保存可能失败。为了修正这个问题，请在/etc/sysctl.conf 添加一项 ‘vm.overcommit_memory = 1’ ，然后重启（或者运行命令’sysctl vm.overcommit_memory=1’ ）使其生效。</p>
+<p>按这个提示来做，警告排除。</p>
+<p> 2、通过初始化脚本启动redis</p>
+<p>redis源码目录的utils文件夹中有一个名为redis-init_script的初始化脚本文件</p>
+<p>步骤</p>
+<p>（1）配置初始化脚本。首先将初始化脚本复制到/etc/init.d目录中，文件名为redis_端口号（redis_6379），然后修改脚本第6行的REDISPORT的变量值为同样的端口号（ubuntu）</p>
+<p>如果是centos或者redhat则使用以下脚本(端口号根据实际情况修改)</p>
+<pre><code>#chkconfig: 2345 90 10
+#description: Redis is a persistent key-value database
+PATH=/usr/local/bin:/sbin:/usr/bin:/bin
+REDISPORT=6379
+EXEC=/usr/local/bin/redis-server
+REDIS_CLI=/usr/local/bin/redis-cli
+PIDFILE=/var/run/redis_6379.pid
+CONF=&quot;/etc/redis/6379.conf&quot;
+case &quot;$1&quot; in
+start)
+if [ -f $PIDFILE ]
+then
+echo &quot;$PIDFILE exists, process is already running or crashed&quot;
+else
+echo &quot;Starting Redis server...&quot;
+$EXEC $CONF
+fi
+if [ &quot;$?&quot;=&quot;0&quot; ]
+then
+echo &quot;Redis is running...&quot;
+fi
+;;
+stop)
+if [ ! -f $PIDFILE ]
+then
+echo &quot;$PIDFILE does not exist, process is not running&quot;
+else
+PID=$(cat $PIDFILE)
+echo &quot;Stopping ...&quot;
+$REDIS_CLI -p $REDISPORT SHUTDOWN
+while [ -x $&#123;PIDFILE&#125; ]
+do
+echo &quot;Waiting for Redis to shutdown ...&quot;
+sleep 1
+done
+echo &quot;Redis stopped&quot;
+fi
+;;
+restart|force-reload)
+$&#123;0&#125; stop
+$&#123;0&#125; start
+;;
+*)
+echo &quot;Usage: /etc/init.d/redis_6379 &#123;start|stop|restart|force-reload&#125;&quot; &gt;&amp;2
+exit 1
+esac</code></pre>
+<p>（2）建立需要的文件夹</p>
+<pre><code>/etc/redis    存放redis配置文件
+
+/var/redis/端口号    存放redis的持久化文件</code></pre>
+<p>（3）修改配置文件</p>
+<p>把配置文件模板复制到/etc/redis目录中，已端口号命名（如“6379.conf”）</p>
+<p>需要修改的配置及说明：</p>
+<pre><code>daemonize       yes                                          使redis以守护进程模式运行
+
+pidfile         /var/run/redis_端口号.pid        设置redis的pid文件位置
+
+port            端口号                                     设置redis监听的端口号
+
+ dir            /var/redis/端口号                     设置持久化文件存放位置</code></pre>
+<p>设置开机启动服务：</p>
+<p>sudo update-rc.d redis_端口号 defaults // 告诉系统启动时候，自动执行redis_端口号 这个脚本。(ubuntu)</p>
+<p>如果是centos或者redhat则使用以下方法：</p>
+<pre><code>chkconfig redis_端口号  on</code></pre>
+<p>设置权限可执行</p>
+<pre><code>chmod +x /etc/init.d/redis_端口号</code></pre>
+<p>现在就可以使用 /etc/init.d/redis_端口号 start/stop 来启动和停止redis了</p>
+<p>三、停止redis</p>
+<pre><code>redis-cli shutdown  或者 kill redis进程的pid</code></pre>
+<p>附：</p>
+<p>redis启动警告问题：WARNING: The TCP backlog setting of 511 cannot be enforced because /proc/sys/net/core/somaxconn is set to the lower value of 128.</p>
+<p>1.启动redis，命令：  redis-server redis.conf路径文件</p>
+<p><img src="https://i.imgur.com/7uTGxnU.png"></p>
+<p>2.会发现warning警告，WARNING: The TCP backlog setting of 511 cannot be enforced because /proc/sys/net/core/somaxconn is set to the lower value of 128. 如下图</p>
+<p><img src="https://i.imgur.com/3m3e6ne.png"></p>
+<p>3.这句话的翻译大概就是：对一个高负载的环境来说tcp设置128这个值，太小了。 这是我的理解，绝体的还需到官网理解。然后我们可以手动设置，或者设置永久值.所以执行：</p>
+<p><img src="https://i.imgur.com/37mXJqE.png"></p>
+<p>4.执行后如下，这个问题解决了。</p>
+<p><img src="https://i.imgur.com/07mrn6S.png"></p>
+<p>5.原因就是因为128太小了。执行echo 511 &gt; /proc/sys/net/core/somaxconn</p>
+<p>命令就把这个问题解决了。但是这个只是暂时的。如果想要永久解决，打开ietc/sysctl.conf</p>
+<p><img src="https://i.imgur.com/elDMwVV.png"></p>
+<p>在这里面添net.core.somaxconn= 1024 然后执行sysctl -p 就可以永久消除这个warning</p>
+<p><img src="https://i.imgur.com/TJt2G63.png"></p>
+<p>在这启动redis就看不到这个128的warning了</p>
+<p><img src="https://i.imgur.com/1gWAp5l.png"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/12/21/wordpress%E6%96%B0%E5%BB%BA%E6%95%B0%E6%8D%AE%E8%A1%A8%E4%BB%A5%E5%8F%8A%E6%9F%A5%E8%AF%A2%E5%92%8C%E6%8F%92%E5%85%A5%E6%95%B0%E6%8D%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/12/21/wordpress%E6%96%B0%E5%BB%BA%E6%95%B0%E6%8D%AE%E8%A1%A8%E4%BB%A5%E5%8F%8A%E6%9F%A5%E8%AF%A2%E5%92%8C%E6%8F%92%E5%85%A5%E6%95%B0%E6%8D%AE/" class="post-title-link" itemprop="url">wordpress新建数据表以及查询和插入数据</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-12-21 11:17:10" itemprop="dateCreated datePublished" datetime="2017-12-21T11:17:10+08:00">2017-12-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:09" itemprop="dateModified" datetime="2020-10-11T11:53:09+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>我们以wordpress默认主题（twentyfifteen）作为试验。</p>
+<blockquote>
+<p>我的目标是新建一个防伪码的存储数据表，在网站的前台页面可以添加防伪码，然后可以进行查询防伪码。</p>
+</blockquote>
+<p>首先，我们新建一个数据表在wordpress的数据库中，命名为wp_fanweima，创建的sql脚本代码：</p>
+<pre><code>--
+-- 表的结构 `wp_fanweima`
+--
+
+CREATE TABLE `wp_fanweima` (
+  `id` int(5) UNSIGNED NOT NULL,
+  `name` char(20) COLLATE utf8_unicode_ci NOT NULL,
+  `add_time` datetime NOT NULL DEFAULT &#39;0000-00-00 00:00:00&#39;,
+  `brand` varchar(300) COLLATE utf8_unicode_ci NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- 转存表中的数据 `wp_fanweima`
+--
+
+INSERT INTO `wp_fanweima` (`id`, `name`, `add_time`, `brand`) VALUES
+(1, &#39;112233&#39;, &#39;2017-12-21 00:00:00&#39;, &#39;yonghe&#39;),
+(2, &#39;112234&#39;, &#39;2017-12-21 10:00:00&#39;, &#39;bisheng&#39;),
+(3, &#39;112235&#39;, &#39;2017-12-21 10:23:00&#39;, &#39;bisheng&#39;),
+(4, &#39;112236&#39;, &#39;2017-12-20 08:29:13&#39;, &#39;yongsheng&#39;),
+(5, &#39;112237&#39;, &#39;2017-12-19 09:19:21&#39;, &#39;chaman&#39;);</code></pre>
+<p>这个仅仅作为参考，数据也是填充的，如果不知道字段如何设定，可以建议先把wordpress的某个表导出（结构），然后删除不必要的，保留自己想要的，然后对字段进行一个重命名，达到fanweima数据表的需求，然后把代码粘贴到phpmyadmin中的SQL语句执行语句，如果不出现错误的话，那么我们将会看到一个新建的数据表wp_fanweima，到此为止，数据表的问题搞定了。</p>
+<p>接下来，我们新建一个模板文件，我们可以把wordpress默认主题的默认页面复制一份，然后重命名成page-fanweima.php，把模板命名为：防伪码查询。</p>
+<p>在内容区添加我们自定义的内容，具体位置大概是：</p>
+<pre><code>&lt;div id=&quot;primary&quot; class=&quot;content-area&quot;&gt;
+    &lt;main id=&quot;main&quot; class=&quot;site-main&quot; role=&quot;main&quot;&gt;
+        自定义的内容放在这里
+    &lt;/main&gt;&lt;!-- .site-main --&gt;
+&lt;/div&gt;&lt;!-- .content-area --&gt;</code></pre>
+<p>接下来，我们需要进行一个全局变量的定义，由于我们需要wpdb，可能需要查询当前用户的信息current_user，所以这里先定义一个全局变量。</p>
+<pre><code>&lt;?php 
+    // 声明全局变量
+    global $current_user;
+    global $wpdb;
+?&gt;</code></pre>
+<p>我们先对我们前面创建的数据表进行一个查询：</p>
+<pre><code>&lt;?php
+    $table_name = $wpdb-&gt;prefix;
+    $term_id = $wpdb-&gt;get_results(&quot;SELECT * FROM &quot;.$table_name.&quot;fanweima&quot;);
+    echo &quot;&lt;h3&gt;防伪码列表&lt;/h3&gt;&quot;;
+    echo &quot;&lt;table&gt;&quot;;
+    foreach ($term_id as $key =&gt; $value) &#123;
+        echo &quot;&lt;tr&gt;&lt;td&gt;&quot; .$value-&gt;name. &quot;&lt;/td&gt;&lt;td&gt;&quot; .$value-&gt;brand. &quot;&lt;/td&gt;&lt;td&gt;&quot; .$value-&gt;add_time. &quot;&lt;/td&gt;&lt;/tr&gt;&quot;;
+    &#125;
+    echo &quot;&lt;/table&gt;&quot;;
+?&gt;</code></pre>
+<p>这里说明下：</p>
+<p>$wpdb-&gt;prefix</p>
+<p>该变量在使用前，需要先进行全局调用，因此我们需要先进行<?php global $wpdb ?>处理，然后将变量赋值给另一个变量，即可方便的调用。</p>
+<p>按照上面的实例对数据表前缀进行动态调用后，就不用再担心因为用户修改过默认的wp_数据表前缀而造成的数据库查询失败的问题了。</p>
+<p>这个也是笔者当初在新建一个数据表的时候，一直没法使用wpdb的方式查询自定义数据表（也就是单独新建的数据表，而不是wordpress默认的数据表），因为使用wpdb的方式网上很多资料。比如：</p>
+<pre><code>$user_count = $wpdb-&gt;get_var(&quot;SELECT COUNT(*) FROM $wpdb-&gt;users;&quot;);
+echo &quot;&lt;p&gt;用户数是： &#123;$user_count&#125;&lt;/p&gt;&quot;;</code></pre>
+<p>这个是可以打印出用户总数数量的。</p>
+<p>可是当我把这个代码修改一下，想查询防伪码个数的时候，就不行。</p>
+<pre><code>$fanweima_count = $wpdb-&gt;get_var(&quot;SELECT COUNT(*) FROM $wpdb-&gt;fanweima;&quot;);
+echo &quot;&lt;p&gt;防伪码总数是： &#123;$fanweima_count&#125;&lt;/p&gt;&quot;;</code></pre>
+<p>这个并不能打印出防伪码总数。所以我们还是回到上面的那个代码。</p>
+<pre><code>&lt;?php
+    $table_name = $wpdb-&gt;prefix;
+    $term_id = $wpdb-&gt;get_results(&quot;SELECT * FROM &quot;.$table_name.&quot;fanweima&quot;);
+    echo &quot;&lt;h3&gt;防伪码列表&lt;/h3&gt;&quot;;
+    echo &quot;&lt;table&gt;&quot;;
+    foreach ($term_id as $key =&gt; $value) &#123;
+        echo &quot;&lt;tr&gt;&lt;td&gt;&quot; .$value-&gt;name. &quot;&lt;/td&gt;&lt;td&gt;&quot; .$value-&gt;brand. &quot;&lt;/td&gt;&lt;td&gt;&quot; .$value-&gt;add_time. &quot;&lt;/td&gt;&lt;/tr&gt;&quot;;
+    &#125;
+    echo &quot;&lt;/table&gt;&quot;;
+?&gt;</code></pre>
+<p>可以打印出这个数据表指定的字段。</p>
+<pre><code>&lt;?php
+    $table_name = $wpdb-&gt;prefix;
+    $fanweima_count = $wpdb-&gt;get_var(&quot;SELECT COUNT(*) FROM &quot;.$table_name.&quot;fanweima&quot;);
+    echo &quot;&lt;p&gt;防伪码总数是： &#123;$fanweima_count&#125;&lt;/p&gt;&quot;;
+?&gt;</code></pre>
+<p>这样就可以输出防伪码总数了。</p>
+<p>好的，我们继续试验</p>
+<hr>
+<p>现在我们不让所有防伪码都打印出来，我们进行一个查询，如果输入的是已经存在的防伪码的话，就提示这个是正品，不是的话，那么就提示这个是赝品。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/12/20/css3%E9%BC%A0%E6%A0%87%E6%82%AC%E6%B5%AE%E7%89%B9%E6%95%88%E8%AE%BE%E8%AE%A1%E5%92%8Cbefore-after%E4%B9%8B%E9%97%B4%E7%9A%84%E6%B8%8A%E6%BA%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/12/20/css3%E9%BC%A0%E6%A0%87%E6%82%AC%E6%B5%AE%E7%89%B9%E6%95%88%E8%AE%BE%E8%AE%A1%E5%92%8Cbefore-after%E4%B9%8B%E9%97%B4%E7%9A%84%E6%B8%8A%E6%BA%90/" class="post-title-link" itemprop="url">css3鼠标悬浮特效设计和before,after之间的渊源</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-12-20 18:47:00" itemprop="dateCreated datePublished" datetime="2017-12-20T18:47:00+08:00">2017-12-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:35" itemprop="dateModified" datetime="2020-10-11T11:53:35+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>根据客户的需求，要设计一些特效，大概就是鼠标悬浮在某个区块，然后显示一些内容，产生一些蒙版，要么蒙版在最上层，要么文字或者内容在蒙版上面，图片在最下层这样的效果，事实上这这种效果在互联网上非常普遍。</p>
+<p>还有就是鼠标悬浮，产生一些动画之类的，比如有些东西从左边出现，有些东西从上面掉下来，有些东西的出现在另外一些东西的出现之后出现，等等这样的一些动画，这些都是css3的事情。</p>
+<p>在这一些列的特效中，不可避免的说到before和after这两个伪类，这是这些伪类支撑起特效发挥到淋漓尽致。</p>
+<p>第二，我们不要忘了，要满足这些迷人的特效，还要用到定位，也就是position，这里还要说到一个非常重要的地方是代码结构，具体结构要看自己实现的效果的复杂程度，一般的特效我直接采用div里面嵌套div，然后在div里面嵌套img和p。这里给大家粘贴一下：</p>
+<p>html代码：</p>
+<pre><code>&lt;div class=&quot;nocti_effect_outer&quot;&gt;
+ &lt;div class=&quot;mengg&quot;&gt;
+ &lt;img src=&quot;http://nocti.spartanya.com/wp-content/uploads/2017/07/78.jpg&quot; alt=&quot;&quot;&gt;
+ &lt;/div&gt;
+ &lt;div class=&quot;nocti_effect_inner&quot;&gt;
+ &lt;p class=&quot;noctifirst&quot;&gt;this is first paragram&lt;/p&gt;
+ &lt;p class=&quot;noctisecond&quot;&gt;&lt;img src=&quot;http://www.easyicon.net/api/resizeApi.php?id=566631&amp;size=128&quot;&gt;&lt;/p&gt;
+ &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<p>css代码如下：</p>
+<pre><code>.nocti_effect_outer&#123;
+ position: relative;
+ display: block;
+ overflow: hidden;
+&#125;
+.nocti_effect_outer:before&#123;
+ content: &#39;&#39;;
+ position: absolute;
+ background: rgba(244, 67, 54, 0.5);
+ height: 100%;
+ width: 100%;
+ visibility: hidden;
+ transition: transform 1s;
+ transform: translateX(0px) scaleX(1) scaleY(1);
+ transform: translate(-100%,0);
+&#125;
+
+.nocti_effect_outer:after&#123;
+ content: &#39;&#39;;
+ position: absolute;
+ background: blue;
+ height: 100%;
+ width: 100%;
+ display: block;
+ visibility: hidden;
+ z-index: 99;
+&#125;
+.nocti_effect_outer:hover:before&#123;
+ transform: translateX(0px) scaleX(1) scaleY(1);
+ visibility: visible;
+ animation-duration:2s;
+ transform: translate(0%,0);
+&#125;
+
+.nocti_effect_inner:hover .noctifirst&#123;
+visibility: visible;
+transform:translateX(30px);
+transform: translate(10%,0);
+&#125;
+.nocti_effect_inner:hover .noctisecond&#123;
+visibility: visible;
+transform:translateY(50px);
+transform: translate(0%,30%);
+&#125;
+
+.noctifirst,.noctisecond&#123;
+ visibility: hidden;
+ display: block;
+ transition: transform 1s;
+&#125;</code></pre>
+<p>这里我就不用一一的解答，这里我说一个重要的思路就是：一个类似图层的理念。就是鼠标悬浮的时候，哪个现出来，哪个后出来，出来的位置是从哪里作为起始点，动画持续的时间多长，时延多少，最开始的时候，默认位置在哪里，状态是隐藏还是显示。</p>
+<p>然后，为了达到自适应效果，我们不得不进行一个定位，就是在这个图片的区块中，鼠标悬浮后产生的元素（图片，icon，文字），这些元素相对于这个区块的图片的位置，定位不准确，将会导致这些元素溢出，显得不好看。</p>
+<p>为了有一个良好的鼠标悬浮效果，我们需要对这个区块设定一个overflow:hidden，鼠标悬浮后产生的蒙版就不会覆盖超过图片所在的区域之外，这个相信很容易理解。</p>
+<p>还有一个地方需要注意的是，before和after的背景为了全部覆盖到这个区块的图片，那么我们需要把他们设定的高度和宽度都为100%，display:block，这样就是一个块级元素。</p>
+<p>before和after是有区别的，一个在前，一个在后，他们的优先级类似于z-index。</p>
+<p>我有说清楚吗？对于这个一系列的特效，只有具备这个思路，把一系列的组合特效分拆开来，一个一个的写好样式，写好伪类，设定好动画的持续时间和位置，以及样式，剩下的就是鼠标悬浮上去的奇迹了。</p>
+<p>所以，对于一个特效，我们建议不要在存在固定形式的代码结构上进行设计，而是重新造轮子，把代码结构设定好，这样实现起来就会轻松多了。</p>
+<p>授人以鱼不如授人以渔，这篇文章没有华丽的demo，旨在让我们明白这一系列特效的背后都是这样一个思想。我的这个文章都是基于css进行的，不运用任何javascript脚本。</p>
+<p>说到这里我们也可以巧妙的利用这两个伪类，设计一些不规则的背景，常规来说，我们的区块是矩形的，但是我们有三角形和多边形的时候，我们该怎么办，这个时候我们应该想到的是before和after，而不是想着采用图片布局。</p>
+<p>我们采用伪类，然后进行一个巧妙的定位，就可以做到不规则背景的设计需求。</p>
+<p><strong>这里分享一个例子：</strong></p>
+<p>html代码结构如下：</p>
+<pre><code>&lt;div class=&quot;noctiht&quot;&gt;Click here to add your own textClick here to add your own textClick here to add your own text&lt;/div&gt;
+
+&lt;div class=&quot;noctiht-right&quot;&gt;Click here to add your own textClick here to add your own textClick here to add your own text&lt;/div&gt;
+
+&lt;div class=&quot;noctiht-left&quot;&gt;Click here to add your own textClick here to add your own textClick here to add your own text&lt;/div&gt;
+
+&lt;div class=&quot;noctiht-move&quot;&gt;Click here to add your own textClick here to add your own textClick here to add your own text&lt;/div&gt;</code></pre>
+<p>css代码如下：</p>
+<pre><code>.noctiht&#123;
+    background: #eeeeee;
+    padding:20px;
+    position: relative;
+    display: block;
+    margin: 60px 0px;
+&#125;
+.noctiht:before&#123;
+    content: &#39;&#39;;
+    background: transparent;
+    width: 0px;
+    height: 0px;
+    display: block;
+    border-left: 30px solid transparent;
+    border-top: 30px solid transparent;
+    border-right: 30px solid transparent;
+    border-bottom: 30px solid #EEEEEE;
+    position: absolute;
+    top: 0px;
+    left: 45%;
+    z-index: -1;
+    visibility: hidden;
+&#125;
+.noctiht:hover:before&#123;
+visibility: visible;
+transform:translateY(-60px);
+transition: transform 1s;
+&#125;
+
+.noctiht-right&#123;
+    background: #eeeeee;
+    padding:20px;
+    position: relative;
+    display: block;
+    margin: 60px 0px;
+&#125;
+.noctiht-right:before&#123;
+    content: &#39;&#39;;
+    background: transparent;
+    width: 0px;
+    height: 0px;
+    display: block;
+    border-left: 30px solid #EEEEEE;
+    border-top: 30px solid transparent;
+    border-right: 30px solid transparent;
+    border-bottom: 30px solid transparent;
+    position: absolute;
+    right: 0px;
+    top: 45%;
+    z-index: -1;
+    visibility: hidden;
+&#125;
+.noctiht-right:hover:before&#123;
+visibility: visible;
+transform:translateX(60px);
+transition: transform 1s;
+&#125;
+
+
+.noctiht-left&#123;
+    background: #eeeeee;
+    padding:20px;
+    position: relative;
+    display: block;
+    margin: 60px 0px;
+&#125;
+.noctiht-left:before&#123;
+    content: &#39;&#39;;
+    background: transparent;
+    width: 0px;
+    height: 0px;
+    display: block;
+    border-right: 30px solid #EEEEEE;
+    border-top: 30px solid transparent;
+    border-left: 30px solid transparent;
+    border-bottom: 30px solid transparent;
+    position: absolute;
+    left: 0px;
+    top: 45%;
+    z-index: -1;
+    visibility: hidden;
+&#125;
+.noctiht-left:hover:before&#123;
+visibility: visible;
+transform:translateX(-60px);
+transition: transform 1s;
+&#125;
+
+
+.noctiht-move&#123;
+    background: #eeeeee;
+    padding:20px;
+    position: relative;
+    display: block;
+    margin: 60px 0px;
+&#125;
+.noctiht-move:before&#123;
+    position: absolute;
+    z-index: -1;
+    content: &#39;&#39;;
+    top: 50%;
+    left: -10px;
+    border-style: solid;
+    border-width: 10px 10px 10px 10px;
+    border-color: rgba(62, 140, 243, 0) #eeeeee rgba(255, 235, 59, 0) rgba(241, 122, 122, 0);
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+    -webkit-transition-property: transform;
+    transition-property: transform;
+&#125;
+.noctiht-move:hover&#123;
+    transform:translateX(10px);
+    transition: transform 1s;
+&#125;
+.noctiht-move:hover:before&#123;
+    transform:translateX(-10px);
+    transition: transform 0s;
+&#125;</code></pre>
+<p>这个示例说明的是我们可以采用一个伪类跟鼠标悬浮相结合，会产生一些意想不到的效果。</p>
+<p>我们可以发挥一下想象力，如何飞来飞去，如何长角，就看我们的想象力了，只要代码结构设计得合理，让它长几个角都有可能。</p>
+<p>最后，我需要说明一点，就是利用css3里面的旋转，我们也可以得到一个非常好的设计效果，比如我们采用多级div嵌套，然后把最外层的div进行一个旋转，然后把里面的内容进行一个反向旋转，那么我们会看到一个旋转的矩形，里面装着一些文字，文字是正常的，没有旋转，为啥？就是因为一个正向旋转和反向旋转相结合产生的结果。</p>
+<p>我们还可以在这个基础上进行丰富效果，比如鼠标悬浮的时候，旋转的区块进行一个旋转，回到正常状态，这是非常棒的事情。或者是旋转的时候来个过渡效果，让他慢慢旋转，这样看起来会好很多，这就是我们要充分的认识css3新的特性。拥抱新技术。</p>
+<p><strong>额外小提示</strong>：布局的时候，我们可以考虑使用flex这个新特性，刚才实验过，自适应的时候，我们把显示方式display:flex改成grid试试。说真的，flex给我对处理布局来说帮了大忙。</p>
+<p>要想体验一下flex,去参考<a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html">这篇文章</a>，或者查看<a target="_blank" rel="noopener" href="http://www.runoob.com/css3/css3-flexbox.html">菜鸟教程</a>。</p>
+<p>这是一篇说上三天三夜都写不完的文章，到此为止吧。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/12/12/%E4%B8%BAwordpress%E6%B7%BB%E5%8A%A0%E7%94%A8%E6%88%B7%E8%87%AA%E5%AE%9A%E4%B9%89%E5%A4%B4%E5%83%8F%E5%8A%9F%E8%83%BD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/12/12/%E4%B8%BAwordpress%E6%B7%BB%E5%8A%A0%E7%94%A8%E6%88%B7%E8%87%AA%E5%AE%9A%E4%B9%89%E5%A4%B4%E5%83%8F%E5%8A%9F%E8%83%BD/" class="post-title-link" itemprop="url">为wordpress添加用户自定义头像功能</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-12-12 19:04:39" itemprop="dateCreated datePublished" datetime="2017-12-12T19:04:39+08:00">2017-12-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:52:54" itemprop="dateModified" datetime="2020-10-11T11:52:54+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>WordPress系统默认使用Gravatar头像，用户（包括访客评论）的头像调取都是根据所留邮箱匹配的Gravatar头像。那已注册的用户可以本地自定义上传头像么？答案是可以的。</p>
+<p>对于开放注册的多用户WordPress站点，提供用户自定义头像功能非常有必要，因为不是所有的用户都会使用Gravatar系统上传头像的。</p>
+<p>而单用户的博客网站本地上传头像也有一定的使用场景：例如我拥有多个WordPress站点，共用同一个邮箱。但是由于站点性质不同，需要展示不同的头像，就需要自定义头像了。</p>
+<p>下面给出方法：</p>
+<p>1、使用Simple Local Avatars插件</p>
+<p>站长可以在WordPress后台直接搜索插件Simple Local Avatars进行在线安装，启用之后可以在仪表盘-用户-我的个人资料进行头像设置，同理管理员也可以修改其他用户头像。</p>
+<p>2、纯代码配置</p>
+<p>Simple Local Avatars插件实际上只有一个文件，我们可以直接将代码集成到主题，将代码直接放入functions.php文件即可。</p>
+<p>由于代码较长，笔者强烈建议将其写成单独文件，并在在functions.php引入。</p>
+<p>方法：下载author-avatars.php文件，<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1gfKqczL">点击下载</a> ，密码：a35l</p>
+<p>放入主题文件夹（如笔者将此类功能都放入主题中的includes文件夹）然后在functions.php引入</p>
+<pre><code>//用户自定义头像功能
+include (TEMPLATEPATH . &#39;/includes/author-avatars.php&#39;);</code></pre>
+<p>至此，你的WordPress站点已经支持用户自定义头像了，如果用户同时设置了Gravatar和本地上传头像，那么优先显示本地上传的头像，头像调取函数不变：get_simple_local_avatar 或 get_avatar。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/12/12/%E9%80%9A%E8%BF%87%E7%94%A8%E6%88%B7%E6%98%AF%E5%90%A6%E7%99%BB%E5%BD%95%E5%87%BD%E6%95%B0%E4%B8%BAwordpress%E7%BD%91%E7%AB%99%E8%8F%9C%E5%8D%95%E6%A0%8F%E6%B7%BB%E5%8A%A0%E7%99%BB%E5%BD%95%E5%92%8C%E6%B3%A8%E9%94%80/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/12/12/%E9%80%9A%E8%BF%87%E7%94%A8%E6%88%B7%E6%98%AF%E5%90%A6%E7%99%BB%E5%BD%95%E5%87%BD%E6%95%B0%E4%B8%BAwordpress%E7%BD%91%E7%AB%99%E8%8F%9C%E5%8D%95%E6%A0%8F%E6%B7%BB%E5%8A%A0%E7%99%BB%E5%BD%95%E5%92%8C%E6%B3%A8%E9%94%80/" class="post-title-link" itemprop="url">通过用户是否登录函数为wordpress网站菜单栏添加登录和注销</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-12-12 19:02:20" itemprop="dateCreated datePublished" datetime="2017-12-12T19:02:20+08:00">2017-12-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:52:55" itemprop="dateModified" datetime="2020-10-11T11:52:55+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>长话短说，这个是基于wordpress的一个小功能，需要修改源码：</p>
+<p>核心代码如下：</p>
+<pre><code>&lt;?php if ( is_user_logged_in() ) &#123; ?&gt;
+&lt;a href=&quot;&lt;?php echo wp_logout_url(); ?&gt;&quot;&gt;注销&lt;/a&gt;
+&lt;?php &#125; else &#123; ?&gt;
+&lt;a href=&quot;/wp-login.php&quot; title=&quot;Members Area Login&quot; rel=&quot;home&quot;&gt;用户登录&lt;/a&gt;
+&lt;?php &#125; ?&gt;</code></pre>
+<p>is_user_logged_in()函数没有参数，一个简单的用法示例，如果用户已登录，输出用户头像及昵称：</p>
+<pre><code>&lt;?php
+if( is_user_logged_in() ) &#123;
+$current_user = wp_get_current_user();
+echo get_avatar( $current_user-&gt;user_email, 36 );
+echo &#39;&lt;br /&gt;&#39; . $current_user-&gt;display_name;
+&#125;
+?&gt;</code></pre>
+<p>接下来就是根据我们个人的需求，看放在什么位置的问题了，如果不关心放的位置，那么我们还可以更加简化一下，wordpress有注册和登录的标签可以调用的，代码如下：</p>
+<pre><code>&lt;?php wp_register(); ?&gt; //显示注册链接
+&lt;?php wp_loginout(); ?&gt; //显示登入/登出链接</code></pre>
+<p>这里我以wordpress默认的主题作为测试，我想把让用户没有登录的时候显示用户登录，如果登录后显示用户头像和显示注销按钮，好的，我的思路是通过开发者工具找到导航菜单对应的文件，然后加入以下代码：</p>
+<pre><code>&lt;li class=&quot;menu-item menu-item-type-post_type menu-item-object-page&quot;&gt;
+&lt;?php if ( is_user_logged_in() ) &#123; ?&gt;
+&lt;?php
+$current_user = wp_get_current_user();
+echo get_avatar( $current_user-&gt;user_email, 36 );
+?&gt;
+&lt;a href=&#39;&lt;?php echo site_url(&quot;/wp-admin/&quot;) ?&gt;&#39;&gt; &lt;?php echo $current_user-&gt;display_name ;?&gt;&lt;/a&gt;
+&lt;a href=&quot;&lt;?php echo wp_logout_url(); ?&gt;&quot;&gt;注销&lt;/a&gt;
+&lt;?php &#125; else &#123; ?&gt;
+&lt;a href=&quot;/wp-login.php&quot; title=&quot;Members Area Login&quot; rel=&quot;home&quot;&gt;用户登录&lt;/a&gt;
+&lt;?php &#125; ?&gt;
+&lt;/li&gt;</code></pre>
+<p>保存后效果如下：</p>
+<p><img src="https://i.imgur.com/lsulpXY.jpg"></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/12/11/html%E8%A1%A8%E5%8D%95%E7%94%B5%E9%82%AE%E8%BE%93%E5%85%A5%E5%90%8E%E7%BC%80%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/12/11/html%E8%A1%A8%E5%8D%95%E7%94%B5%E9%82%AE%E8%BE%93%E5%85%A5%E5%90%8E%E7%BC%80%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8/" class="post-title-link" itemprop="url">html表单电邮输入后缀自动补全</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-12-11 15:10:58" itemprop="dateCreated datePublished" datetime="2017-12-11T15:10:58+08:00">2017-12-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:32" itemprop="dateModified" datetime="2020-10-11T11:53:32+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>为了输入电邮方便，越来阅多的人喜欢邮件自动补全的功能，就是输入电邮的名字，后面会自动显示电邮的后缀，具体怎么实现呢，跟着我的思路继续往下看：</p>
+<p>html代码如下：</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;link type=&quot;text/css&quot; href=&quot;jquery.emailautocomplete.css&quot; rel=&quot;stylesheet&quot; /&gt;
+        &lt;script src=&quot;http://code.jquery.com/jquery-1.9.1.min.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+        &lt;script src=&quot;jquery.emailautocomplete.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;p&gt;Please type &quot;xxxx@1&quot; into below textbox to trigger autocomplete:&lt;/p&gt;
+        &lt;div class=&quot;autocompletecon&quot;&gt;
+            &lt;input id=&quot;emailautocomplete&quot;  class=&quot;emailautocomplete&quot; name=&quot;email&quot; type=&quot;email&quot; maxlength=&quot;100&quot; autocomplete=&quot;off&quot; /&gt;
+        &lt;/div&gt;
+
+        &lt;script type=&quot;text/javascript&quot;&gt;
+            $(function()&#123;
+                $(&quot;.emailautocomplete&quot;).emailautocomplete();
+            &#125;);
+        &lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>css代码如下：</p>
+<pre><code>.autocompletecon
+&#123;
+    width: 300px;
+    margin: 0;
+    font-family: Helvetica, sans-serif;
+    font-size: 14px;
+    line-height: 18px;
+    position: relative;
+&#125;
+
+.autocompletecon .emailautocomplete
+&#123;
+    border: 1px solid #000;
+    margin: 0;
+    padding: 6px 10px;
+    font: inherit;
+    display: inline-block;
+    width: 278px;
+    height: 18px;
+    box-shadow: none;
+    border-radius: 0;
+    outline: none;
+&#125;
+
+.autocompletecon .autocomplete
+&#123;
+    display: block;
+    position: absolute;
+    top: 32px;
+    *top: 33px;
+    left: 0;
+    list-style: none;
+    z-index: 50;
+    background-color: #fff;
+    margin: 0;
+    padding: 0;
+    border-left: 1px solid #000;
+    border-right: 1px solid #000;
+    border-bottom: 1px solid #000;
+    overflow: hidden;
+    width: 298px;
+&#125;
+
+.autocompletecon .autocomplete li
+&#123;
+    display: block;
+    text-align: left;
+    color: #000;
+    padding-left: 10px;
+    height: 25px;
+    line-height: 25px;
+&#125;
+
+.autocompletecon .autocomplete li.selected
+&#123;
+    background-color: #ebebeb;
+&#125;</code></pre>
+<p>js代码如下：</p>
+<pre><code>// email auto complete
+(function ($) &#123;
+
+    var defaults =
+    &#123;
+        // all included auto completed email domins 
+        domains: [&quot;qq.com&quot;, &quot;163.com&quot;, &quot;gmail.com&quot;, &quot;126.com&quot;, &quot;sina.com&quot;, &quot;139.com&quot;, &quot;hotmail.com&quot;, &quot;outlook.com&quot;, &quot;sohu.com&quot;, &quot;128.com&quot;, &quot;136.com&quot;, &quot;live.com&quot;]
+    &#125;;
+
+    $.fn.emailautocomplete = function (options) &#123;
+
+        var settings = $.extend(true, &#123;&#125;, defaults, options);
+        return this.each(function () &#123;
+
+            var $emailinput = $(this);
+            var $emailparent = $emailinput.parent();
+
+            // generate/remove the auto complete dom when necessary
+            $emailinput.focus(function()&#123; autocomplete(); &#125;);
+            $emailinput.blur(function()&#123; removeautocomplete(); &#125;);
+
+            // bind keyup for selecting auto complete item through keyboard
+            $emailinput.keyup(function(event)&#123;
+
+                var $selecteditem = $(&quot;.autocomplete li.selected&quot; , $emailparent);
+
+                // press Enter key
+                if(event.which == 13)
+                &#123;
+                    if($selecteditem.length &gt; 0)
+                    &#123;
+                        $selecteditem.mousedown();
+                    &#125;
+                    return false;
+                &#125;
+
+                // press Up key
+                if(event.which == 38)
+                &#123;
+                    $selecteditem.removeClass(&quot;selected&quot;);
+
+                    if($selecteditem.length == 0 || $selecteditem.index() == 0)
+                    &#123;
+                        $(&quot;.autocomplete li:last&quot; , $emailparent).addClass(&quot;selected&quot;);
+                    &#125;
+                    else
+                    &#123;
+                        $selecteditem.prev().addClass(&quot;selected&quot;);
+                    &#125;
+
+                    if($(&quot;.autocomplete li.selected&quot; , $emailparent).text().length &gt; 0)
+                    &#123;
+                        $emailinput.val($(&quot;.autocomplete li.selected&quot; , $emailparent).text());
+                    &#125;
+                    return false;
+                &#125;
+
+                // press Down key
+                if(event.which == 40)
+                &#123;
+                    $selecteditem.removeClass(&quot;selected&quot;);
+
+                    if($selecteditem.length == 0 || $selecteditem.index() == $(&quot;.autocomplete li&quot; , $emailparent).length - 1)
+                    &#123;
+                        $(&quot;.autocomplete li:first&quot; , $emailparent).addClass(&quot;selected&quot;);
+                    &#125;
+                    else
+                    &#123;
+                        $selecteditem.next().addClass(&quot;selected&quot;);
+                    &#125;
+
+                    if($(&quot;.autocomplete li.selected&quot; , $emailparent).text().length &gt; 0)
+                    &#123;
+                        $emailinput.val($(&quot;.autocomplete li.selected&quot; , $emailparent).text());
+                    &#125;
+                    return false;
+                &#125;
+                autocomplete();
+            &#125;);
+
+            // prevent Enter key submit form 
+            $emailinput.keypress(function(event)&#123;
+                // press Enter key
+                if(event.which == 13)&#123; return false; &#125;
+            &#125;);
+
+            // bind mouse enter/leave for auto complete items
+            $emailparent.on(&quot;mouseenter&quot;, &quot;.autocomplete li&quot;, function() &#123; 
+                $(&quot;.autocomplete li.selected&quot; , $emailparent).removeClass(&quot;selected&quot;);
+                $(this).addClass(&quot;selected&quot;);
+            &#125;);
+
+            // bind click for auto complete items
+            $emailparent.on(&quot;mousedown&quot;, &quot;.autocomplete li&quot;, function()&#123; 
+                $emailinput.val($(this).text());
+                removeautocomplete();
+            &#125;);
+
+            function autocomplete()
+            &#123;
+                var inputval = $emailinput.val();
+                var index = inputval.indexOf(&quot;@&quot;);
+                var prefix = inputval.split(&quot;@&quot;)[0] + &quot;@&quot;;
+                var partdomain = inputval.substring(index + 1);
+                var domains = settings.domains;
+                var domainslen = domains.length;
+                var dom = &quot;&quot;;
+
+                // make sure &quot;@&quot; is not the first or last character in current input
+                if( index &gt; 0 &amp;&amp; index &lt; inputval.length - 1 &amp;&amp; partdomain != &quot;&quot;)
+                &#123;
+                    for(var i = 0; i &lt; domainslen; i++)
+                    &#123;
+                        if(domains[i].indexOf(partdomain) == 0 &amp;&amp; domains[i] != partdomain)
+                        &#123;
+                            dom += &quot;&lt;li&gt;&quot; + prefix + domains[i] + &quot;&lt;/li&gt;&quot;;
+                        &#125;
+                    &#125;
+
+                    if(dom != &quot;&quot;)
+                    &#123;
+                        dom = &quot;&lt;ul class=&#39;autocomplete&#39;&gt;&quot; + dom + &quot;&lt;/ul&gt;&quot;;
+                        removeautocomplete();
+                        $emailparent.append(dom);
+
+                        //ie6, for cover select element in ie6
+                        if (! -[1, ] &amp;&amp; !window.XMLHttpRequest)
+                        &#123;
+                            var $autocomplete =  $(&quot;.autocomplete&quot;, $emailparent);
+                            var $hiddeniframe = $(&quot;&lt;iframe id=&#39;ie6hiddeniframe&#39; style=&#39;position:absolute;top:33px;left:0;width:100%;height:100%;filter:alpha(opacity=0);&#39;&gt;&lt;/iframe&gt;&quot;);
+                            $hiddeniframe.css(&#123;&quot;top&quot; : $autocomplete.position().top + &quot;px&quot;, &quot;width&quot; : $autocomplete.width() + 2 + &quot;px&quot;, &quot;height&quot;: $autocomplete.height() + 1 + &quot;px&quot; &#125;);
+                            $emailparent.append($hiddeniframe);
+                        &#125;
+                    &#125;
+                    else
+                    &#123;
+                        removeautocomplete();
+                    &#125;
+                &#125;
+                else
+                &#123;
+                    removeautocomplete();
+                &#125;
+            &#125;
+
+            function removeautocomplete()
+            &#123;
+                $(&quot;.autocomplete&quot;, $emailparent).remove();
+
+                // for ie6, remove hidden iframe
+                if (! -[1, ] &amp;&amp; !window.XMLHttpRequest)
+                &#123;
+                    $(&quot;#ie6hiddeniframe&quot;, $emailparent).remove();
+                &#125;
+            &#125;
+
+        &#125;);
+    &#125;
+    $.fn.emailautocomplete.defaults = defaults;
+&#125;)(jQuery);</code></pre>
+<p>从这里可以看出，里面的电邮你可以自己扩充，然后输入的时候就会自动的检测出来有哪些电邮。</p>
+<p>由于这个依赖jquery，所以需要进入jquery这个库。</p>
+<p>整体就是这样了，大家可以去试试。</p>
+<p>这里提供了demo，大家可以拿去试试，下载地址：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1c2rpQog">https://pan.baidu.com/s/1c2rpQog</a>   密码：yrs6</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/11/29/%E9%87%87%E7%94%A8shell%E7%9A%84%E6%96%B9%E5%BC%8F%E4%B8%BAgit%E7%BC%96%E5%86%99%E8%84%9A%E6%9C%AC%EF%BC%8C%E6%8F%90%E9%AB%98%E6%95%88%E7%8E%87/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/11/29/%E9%87%87%E7%94%A8shell%E7%9A%84%E6%96%B9%E5%BC%8F%E4%B8%BAgit%E7%BC%96%E5%86%99%E8%84%9A%E6%9C%AC%EF%BC%8C%E6%8F%90%E9%AB%98%E6%95%88%E7%8E%87/" class="post-title-link" itemprop="url">采用shell的方式为git编写脚本，提高效率</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-11-29 18:36:24" itemprop="dateCreated datePublished" datetime="2017-11-29T18:36:24+08:00">2017-11-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:04" itemprop="dateModified" datetime="2020-10-11T11:53:04+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>这里需要转载一篇文章，因为这正是我最近需要的，也希望更多人受益。</p>
+<p>通常我们发布博客代码到vps上，按顺序执行下面的git命令：</p>
+<pre><code>git pull origin test
+git push origin master</code></pre>
+<p>类似这样的命令，我们可能每天都要重复好几遍</p>
+<p>在已经记住了这两个git命令的情况下，没有必要每次发布都敲这么多代码。我需要一个shell脚本，一次性执行多条命令。</p>
+<p>由于我把每篇文章数据都存储到了文件缓存中，每次编辑旧文章重新发布后，并不能看到最新数据，需要到服务器<br>上手工清理缓存。这也很麻烦。</p>
+<p>删除缓存的linux命令是：</p>
+<pre><code>rm -rvf /usr/local/nginx/html/blog/runtime/cache</code></pre>
+<p>编写shell脚本</p>
+<pre><code>#! /bin/bash
+# 保存当前目录
+currentDir=$PWD
+echo &quot;Start to publish...\n&quot;
+# 切换到项目目录
+cd /usr/local/nginx/html/blog
+# 执行git命令
+git pull origin test
+git push origin master
+# 切换回原来的目录
+cd $currentDir
+# 删除缓存 
+rm -rvf /usr/local/nginx/html/blog/runtime/cache
+echo &quot;Success\n&quot;;</code></pre>
+<p><strong>执行脚本</strong></p>
+<p>假设写好的脚本文件名为git.sh，若直接运行该脚本，会提示无权限。那就必须让执行脚本的用户具有执行这个脚本的权限，使用命令：</p>
+<pre><code>chmod +x ./test.sh #使脚本具有执行权限</code></pre>
+<p>以后每次发布项目的时候，直接使用执行脚本就可以了。</p>
+<pre><code>./git.sh</code></pre>
+<p>具体可以去学习下<a target="_blank" rel="noopener" href="http://www.runoob.com/linux/linux-shell.html">shell教程</a></p>
+<p>这里我分享下我平时编写代码后，然后提交到github上的一个脚本push.sh</p>
+<pre><code>#!/bin/bash
+git pull
+echo &quot;Start to pull from remote...\n&quot;
+git add .
+echo &quot;add the change file to local reposit&quot;
+git commit -m &quot;update&quot;
+echo &quot;commit the change to version reposit&quot;
+git push origin master
+echo &quot;finished !&quot;</code></pre>
+<p>当我们把代码修改完成后，想要推送到github上去的时候，或是远程地址的时候，我们只需要把这个文件放在跟.git同一个目录下运行这个脚本就行了，这里需要说下，就是我们不用脚本的时候，我们在哪个目录下运行脚本里的命令，那么我们就把这个shell脚本命令放在哪个目录，当然有建设软链接的情况除外。</p>
+<p>运行这个脚本后，那么就会根据顺序从上到下运行下去，期间会输入我们echo里的内容。</p>
+<p>大家都知道，为了方便跟踪我们每次的修改，我们会在git commit那里写一些描述性的语句，以方便我们理解这次提交是改了哪些内容。</p>
+<p>好的，我这里就对上面的代码进行一个修改，就修改一个地方：</p>
+<pre><code>#!/bin/bash
+git pull
+echo &quot;Start to pull from remote...\n&quot;
+git add .
+echo &quot;add the change file to local reposit&quot;
+git commit -m &quot;$1&quot;
+echo &quot;commit the change to version reposit&quot;
+git push origin master
+echo &quot;finished !&quot;</code></pre>
+<p>这个时候我们运行如下命令：</p>
+<pre><code>./push.sh 对必读文件进行了一个修改</code></pre>
+<p>执行完这个脚本后，我们去github上面打开我们的目标仓库我们就会找到：</p>
+<p><img src="https://i.imgur.com/8S3kliy.png"></p>
+<p>看到没？这个就是commit -m 里面的内容了。</p>
+<p>新手可能很好奇，为啥是$1呢？而不是$0，这个就要看教程了：</p>
+<blockquote>
+<p><strong>Shell 传递参数</strong></p>
+</blockquote>
+<blockquote>
+<p>我们可以在执行 Shell 脚本时，向脚本传递参数，脚本内获取参数的格式为：$n。n 代表一个数字，1 为执&gt; 行脚本的第一个参数，2 为执行脚本的第二个参数，以此类推……</p>
+<p><strong>实例</strong></p>
+<p>以下实例我们向脚本传递三个参数，并分别输出，其中 $0 为执行的文件名：</p>
+</blockquote>
+<pre><code>#!/bin/bash
+# author:菜鸟教程
+# url:www.runoob.com</code></pre>
+<blockquote>
+<p>echo “Shell 传递参数实例！”;</p>
+<p>echo “执行的文件名：$0”;</p>
+<p>echo “第一个参数为：$1”;</p>
+<p>echo “第二个参数为：$2”;</p>
+<p>echo “第三个参数为：$3”;</p>
+</blockquote>
+<pre><code>$ chmod +x test.sh 
+$ ./test.sh 1 2 3</code></pre>
+<p>输出结果：</p>
+<p>Shell 传递参数实例！</p>
+<p>执行的文件名：./test.sh</p>
+<p>第一个参数为：1</p>
+<p>第二个参数为：2</p>
+<p>第三个参数为：3</p>
+<p>同理，如果我们想要在我们的shell脚本里面添加一些参数，根据这个顺序走，就行了。当然还有更复杂的，比如流程控制，这个自己去参考shell的教程即可。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/11/29/%E7%94%9F%E6%88%90SSH%E5%AF%86%E9%92%A5%EF%BC%88Linux%EF%BC%89/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/11/29/%E7%94%9F%E6%88%90SSH%E5%AF%86%E9%92%A5%EF%BC%88Linux%EF%BC%89/" class="post-title-link" itemprop="url">生成SSH密钥（Linux）</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-11-29 11:41:55" itemprop="dateCreated datePublished" datetime="2017-11-29T11:41:55+08:00">2017-11-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:52:56" itemprop="dateModified" datetime="2020-10-11T11:52:56+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>如果决定不使用推荐的HTTPS方式，可以使用SSH密钥连接电脑和GitHub。既然，知道GitHub那就可能已经在此网站上注册了自己的账号。</p>
+<p><strong>Step1: 检查SSH密钥</strong></p>
+<p>首先，打开终端，输入以下指令，查看是否已经生成SSH密钥。</p>
+<pre><code>cd ~/.ssh
+ls
+# Lists the files in your .ssh directory</code></pre>
+<p>在输入ls后，看看是否有文件 id_rsa.pub 或者 id_dsa.pub，或者两者皆有。如果已经存在这两个文件，则不需进行Step 2，之前如果输入了密码，可以直接跳过Step3。</p>
+<p><strong>Step2: 生成新的SSH密钥</strong></p>
+<p>输入下面的第一条指令，指令中输入一个邮箱，会出现要你自己定义一个文件来保存Key，直接Enter通过。<br>ssh-keygen -t rsa -C “<a href="mailto:&#x79;&#x6f;&#x75;&#114;&#95;&#x65;&#109;&#97;&#105;&#x6c;&#x40;&#x65;&#120;&#97;&#x6d;&#x70;&#108;&#x65;&#46;&#x63;&#111;&#x6d;">&#x79;&#x6f;&#x75;&#114;&#95;&#x65;&#109;&#97;&#105;&#x6c;&#x40;&#x65;&#120;&#97;&#x6d;&#x70;&#108;&#x65;&#46;&#x63;&#111;&#x6d;</a>“</p>
+<pre><code># Creates a new ssh key, using the provided email as a label
+# Generating public/private rsa key pair.
+# Enter file in which to save the key (/home/you/.ssh/id_rsa):</code></pre>
+<p>输入密码（不能少于4个，否则重输入）。</p>
+<pre><code># Enter passphrase (empty for no passphrase): [Type a passphrase]
+# Enter same passphrase again: [Type passphrase again]</code></pre>
+<p>终端给出的信息如下，告诉Key的保存位置，后面需要用到。</p>
+<pre><code># Your identification has been saved in /home/you/.ssh/id_rsa.
+# Your public key has been saved in /home/you/.ssh/id_rsa.pub.
+# The key fingerprint is:
+# 01:0f:f4:3b:ca:85:d6:17:a1:7d:f0:68:9d:f0:a2:db your_email@example.com</code></pre>
+<p><strong>Step3: 添加SSH Key到GitHub</strong></p>
+<p>运行下面这些指令：（打了#号的不用，）。</p>
+<pre><code>sudo apt-get install xclip
+# Downloads and installs xclip. If you don&#39;t have `apt-get`, you might need to use another installer (like `yum`)
+
+xclip -sel clip &lt; ~/.ssh/id_rsa.pub
+# Copies the contents of the id_rsa.pub file to your clipboard</code></pre>
+<p>进入网站GitHub，对以下进行设置：</p>
+<p>点击账户设置（很明显的，就在右上角）；</p>
+<p>点击 “SSHKeys” 在左边；</p>
+<p>工作区出现</p>
+<p>点击Add SSH key，出现下面。</p>
+<p>点击 “Add key”</p>
+<p>输入密码进行确认，这个密码就是在Step 3中输入的密码，这个弹出窗口会在输入</p>
+<pre><code>xclip -sel clip &lt; ~/.ssh/id_rsa.pub</code></pre>
+<p>指令是出现。</p>
+<p><strong>Step4: 测试是否成功</strong></p>
+<pre><code>ssh -T git@github.com
+# Attempts to ssh to github</code></pre>
+<p>输入上面的指令，而且指令中的<a href="mailto:&#103;&#105;&#116;&#x40;&#x67;&#x69;&#116;&#104;&#x75;&#x62;&#x2e;&#99;&#111;&#109;">&#103;&#105;&#116;&#x40;&#x67;&#x69;&#116;&#104;&#x75;&#x62;&#x2e;&#99;&#111;&#109;</a>是不可以随意输的，一般就是这个，其实也就是这个。</p>
+<p>可能出现的错误信息:</p>
+<pre><code>...
+Agent admitted failure to sign using the key.
+debug1: No more authentication methods to try.
+Permission denied (publickey).</code></pre>
+<p>警告:</p>
+<pre><code># The authenticity of host &#39;github.com (207.97.227.239)&#39; can&#39;t be established.
+# RSA key fingerprint is 16:27:ac:a5:76:28:2d:36:63:1b:56:4d:eb:df:a6:48.
+# Are you sure you want to continue connecting (yes/no)?</code></pre>
+<p>莫担心，没事的，输入yes，直接秒杀。</p>
+<pre><code># Hi username! You&#39;ve successfully authenticated, but GitHub does not
+# provide shell access.</code></pre>
+<p>成功的是：</p>
+<pre><code>If that username is correct, you&#39;ve successfully set up your SSH key. Don&#39;t worry about the shell access thing, you don&#39;t want that anyway.</code></pre>
+<p>原英文文档：<a target="_blank" rel="noopener" href="https://help.github.com/articles/generating-ssh-keys#platform-linux%EF%BC%8C%E5%85%B6%E5%AE%9E%E8%8B%B1%E6%96%87%E6%96%87%E6%A1%A3%E4%B8%AD%E8%AF%B4%E7%9A%84%E5%BE%88%E6%98%8E%E7%99%BD%E4%BA%86%EF%BC%8C%E7%9B%B4%E6%8E%A5%E8%B7%9F%E7%9D%80%E8%B5%B0%E5%B0%B1%E5%8F%AF%E4%BB%A5%E4%BA%86%E3%80%82">https://help.github.com/articles/generating-ssh-keys#platform-linux，其实英文文档中说的很明白了，直接跟着走就可以了。</a></p>
+<p>友情链接为：<a target="_blank" rel="noopener" href="https://help.github.com/%E3%80%82">https://help.github.com/。</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/11/28/%E9%81%BF%E5%85%8DWordPress%E6%B3%84%E9%9C%B2%E7%AE%A1%E7%90%86%E5%91%98%E7%94%A8%E6%88%B7%E5%90%8D%E7%9A%84%E6%96%B9%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2017/11/28/%E9%81%BF%E5%85%8DWordPress%E6%B3%84%E9%9C%B2%E7%AE%A1%E7%90%86%E5%91%98%E7%94%A8%E6%88%B7%E5%90%8D%E7%9A%84%E6%96%B9%E6%B3%95/" class="post-title-link" itemprop="url">避免WordPress泄露管理员用户名的方法</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-11-28 10:55:50" itemprop="dateCreated datePublished" datetime="2017-11-28T10:55:50+08:00">2017-11-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:05" itemprop="dateModified" datetime="2020-10-11T11:53:05+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>WordPress&nbsp;虽然很好用，但是安全问题不容忽视。很多网站都说要设置一个复杂的密码等，但是，这都只做了一半。</p>
+<p>WordPress 虽然很好用，但是安全问题不容忽视。很多网站都说要设置一个复杂的密码等，但是，这都只做了一半。</p>
+<p>你有没有想过，如果你的网站的登陆名被别人知道了，偏偏他是一个比较精通 WordPress 的人，而且会写脚本暴力破解，那么后果就不堪设想。</p>
+<p>实际上，Wordpress 这么一个漏洞，至今依然存在，并且常常会被黑客利用。</p>
+<p>我在本地装了一个 WordPress 来演示一下这个漏洞。</p>
+<p>这里就是我的 WordPress 安装路径：</p>
+<p>然后去后台开启固定链接。我相信很多 WordPress 的站长都会开启这个功能。运行 WP-Super-Cache 需要开这个功能，想要让 URL 好看一点也需要这个功能——总之，这个功能太有用了。</p>
+<p>Wordpress-URL</p>
+<p>但是，固定链接一开，泄露用户名的漏洞也就打开了。实际上，即使没有开固定链接，Wordpress 自身也会泄露一些重要信息，但是开了固定链接以后就更容易泄露了。</p>
+<p>想要知道 WordPress 的管理员用户名？很简单，只要在网站的域名后面加 /?author=1 就行了。</p>
+<p>比如目标网站：<a target="_blank" rel="noopener" href="http://www.example.com,这个网站如果是用wordpress搭建的,那么直接在域名后面添加/?author=1%E5%B0%B1%E8%83%BD%E7%9F%A5%E9%81%93%E8%BF%99%E4%B8%AA%E7%BD%91%E7%AB%99%E7%9A%84%E7%AE%A1%E7%90%86%E5%91%98%E8%B4%A6%E5%8F%B7%E3%80%82">http://www.example.com，这个网站如果是用wordpress搭建的，那么直接在域名后面添加/?author=1就能知道这个网站的管理员账号。</a></p>
+<p>如果  /?author=1 显示404界面，那很可能是以前有过 admin 用户，后来站长发现用默认帐户 admin 太不安全了，就新建了一个管理员帐户，并删除了 admin 帐户。这种情况下，用 /?author=2 就能显示出用户名了。</p>
+<p>如果使用 admin 帐户，确实不安全，但是如果你的博客使用一个复杂的用户名，却经不起这么简单的一个 URL 的考验，这和使用 admin 帐户没有根本上的区别。</p>
+<p>既然存在漏洞，那么就要去填补它。要填补这个漏洞，倒还真的不是什么难事。</p>
+<p>但是要填补这个漏洞，先要了解下 WordPress 的数据库中的 wp-user 的结构。</p>
+<p><img src="https://i.imgur.com/VPwNehC.png"></p>
+<p>可以看到，一个用户有两个用户名，一个是“user_login”，另一个是“user_nicename”，这两个有什么区别呢？</p>
+<p>user_login 是登陆名，而 user_nicename 是在url 中显示的名字。最前面还有一个 ID ，ID=1 的用户，就是输入 /?author=1 显示出来的用户。</p>
+<p>好了，知道了这些，我们就可以动手了~</p>
+<p>我的思路是，把旧用户的登陆名改掉，然后在新建一个与登陆名旧用户的 user_nicename 一致的用户，并修改其 ID 。</p>
+<p>首先是最重要的一步，备份数据库，万一搞砸了也不怕。</p>
+<p>首先是要更改一下自己登陆 WordPress 的用户名。这个用户名是在 user_login 里，将其改得复杂一点，而 user_nicename 不变。</p>
+<p>然后在 WordPress 的后台新建一个新的用户，用户名为之前的 admin 用户的 user_nicename 。再次进入phpMyAdmin，可以看到，新用户的 ID 为 2，user_login 与之前用户的 user_nicename 一样，但是 user_nicename 后面却多了一个 -2 。这是 WordPress 官方为避免地址栏里是 /author/admin 却不知道究竟该显示哪个 admin 而设计的功能。</p>
+<p>把新用户的 user_nicename 改一下，比如改成 admin-fyyz.me ，只要不与别的用户的 user_nicename 一样就行了。然后修改新用户的 ID ，尽量改得大一些，避免被 ?author=n 泄露。</p>
+<p>然后，把新用户的权限降到最低——订阅者，或者没有任何角色。</p>
+<p>大功告成！</p>
+<p>注：1、本文中的截图是在本地的 WordPress 中截的，我的本地 WordPress 就随便用了一个 admin 帐户。在实际使用中，大家应该尽量避免使用 admin 帐户。</p>
+<p>2、建议大家再去安装一个 <a target="_blank" rel="noopener" href="http://wordpress.org/extend/plugins/login-lockdown/">Login LockDown</a> 插件。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/26/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/26/">26</a><span class="page-number current">27</span><a class="page-number" href="/page/28/">28</a><span class="space">&hellip;</span><a class="page-number" href="/page/43/">43</a><a class="extend next" rel="next" href="/page/28/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

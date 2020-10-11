@@ -1,37 +1,1078 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="原文地址：https:&#x2F;&#x2F;alanstorm.com&#x2F;custom_magento_system_configuration&#x2F; 中文地址：http:&#x2F;&#x2F;justcoding.iteye.com&#x2F;blog&#x2F;1590230 第七章 – 自定义Magento系统配置Magento拥有十分强大的后台管理系统。作为一名开发人员，这套后台管理系统可以让你的用户简单直接的配置Magento系统或者你创建的模块。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入理解Magento(第七章)自定义magento后台定制以及自定义系统后台配置">
+<meta property="og:url" content="http://example.com/2018/08/20/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Magento-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E8%87%AA%E5%AE%9A%E4%B9%89Magento%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AE/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="原文地址：https:&#x2F;&#x2F;alanstorm.com&#x2F;custom_magento_system_configuration&#x2F; 中文地址：http:&#x2F;&#x2F;justcoding.iteye.com&#x2F;blog&#x2F;1590230 第七章 – 自定义Magento系统配置Magento拥有十分强大的后台管理系统。作为一名开发人员，这套后台管理系统可以让你的用户简单直接的配置Magento系统或者你创建的模块。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/HG7Cqdj.png">
+<meta property="og:image" content="https://i.imgur.com/6drbyeJ.png">
+<meta property="og:image" content="https://i.imgur.com/k8oV1rz.png">
+<meta property="og:image" content="https://i.imgur.com/N3uFY58.png">
+<meta property="og:image" content="https://i.imgur.com/u5SEt8a.png">
+<meta property="og:image" content="https://i.imgur.com/0YZtPxt.png">
+<meta property="og:image" content="https://i.imgur.com/Dg76d8m.png">
+<meta property="og:image" content="https://i.imgur.com/UZhMBPa.png">
+<meta property="og:image" content="https://i.imgur.com/HG7Cqdj.png">
+<meta property="og:image" content="https://i.imgur.com/m2eDXA2.png">
+<meta property="article:published_time" content="2018-08-20T06:30:27.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:05.760Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="magento,自定义magento后台配置，自定义,配置">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/HG7Cqdj.png">
+
+<link rel="canonical" href="http://example.com/2018/08/20/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Magento-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E8%87%AA%E5%AE%9A%E4%B9%89Magento%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AE/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>深入理解Magento(第七章)自定义magento后台定制以及自定义系统后台配置 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/08/20/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Magento-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E8%87%AA%E5%AE%9A%E4%B9%89Magento%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          深入理解Magento(第七章)自定义magento后台定制以及自定义系统后台配置
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-08-20 14:30:27" itemprop="dateCreated datePublished" datetime="2018-08-20T14:30:27+08:00">2018-08-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:05" itemprop="dateModified" datetime="2020-10-11T11:58:05+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/magento1/" itemprop="url" rel="index"><span itemprop="name">magento1</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>原文地址：<a target="_blank" rel="noopener" href="https://alanstorm.com/custom_magento_system_configuration/">https://alanstorm.com/custom_magento_system_configuration/</a></p>
+<p>中文地址：<a target="_blank" rel="noopener" href="http://justcoding.iteye.com/blog/1590230">http://justcoding.iteye.com/blog/1590230</a></p>
+<h2 id="第七章-–-自定义Magento系统配置"><a href="#第七章-–-自定义Magento系统配置" class="headerlink" title="第七章 – 自定义Magento系统配置"></a>第七章 – 自定义Magento系统配置</h2><p>Magento拥有十分强大的后台管理系统。作为一名开发人员，这套后台管理系统可以让你的用户简单直接的配置Magento系统或者你创建的模块。和Magento的其他功能一样，你第一次使用这套管理系统的时候可能觉得很麻烦，但是一旦你上手了，你会发现它强大的功能是那么吸引人。那么让我们开始吧。我们这一章的例子依然是基于Helloworld模块。</p>
+<h2 id="添加系统配置文件"><a href="#添加系统配置文件" class="headerlink" title="添加系统配置文件"></a>添加系统配置文件</h2><p>首先我们要为模块添加一个系统配置文件。这个文件和“config.xml”是不搭界的 app/code/local/Magentotutorial/Helloworld/etc/system.xml 和全局配置（global config）相似，系统配置也是单独存储的。我们可以通过下面这段代码来获取系统配置文件</p>
+<p>Php代码</p>
+<pre><code>//header(&#39;Content-Type: text/xml&#39;);          
+header(&#39;Content-Type: text/plain&#39;);          
+echo $config = Mage::getConfig()  
+-&gt;loadModulesConfiguration(&#39;system.xml&#39;)         
+-&gt;getNode()  
+-&gt;asXML();
+exit;</code></pre>
+<p>你可以把这段代码放到任何执行函数（Action Method）中。“loadModulesConfiguration”方法会搜索所有配置好的模块的“etc”文件夹，寻找以传入的参数为名字的文件，在这个例子中是“system.xml”。Magento有很多不同的配置文件，比如api.xml， wsdl.xml， wsdl2.xml， convert.xml， compilation.xml， install.xml。你可以为你创建的模块创建这些配置文件。</p>
+<h2 id="添加一个标签页"><a href="#添加一个标签页" class="headerlink" title="添加一个标签页"></a>添加一个标签页</h2><p>我们首先在后台系统管理页面添加一个标签页（Tab）。标签页就是后台“System-&gt;Configuration”页面左侧的导航栏。默认的标签页有General，Catalog，Customers，Sales，Services等等。我们来创建一个新的标签页叫做“Hello Config”。创建如下文件</p>
+<pre><code>Location: app/code/local/Magentotutorial/Helloworld/etc/system.xml</code></pre>
+<p>Xml代码</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;config&gt;  
+    &lt;tabs&gt;  
+        &lt;helloconfig translate=&quot;label&quot; module=&quot;helloworld&quot;&gt;  
+            &lt;label&gt;Hello Config&lt;/label&gt;  
+            &lt;sort_order&gt;99999&lt;/sort_order&gt;  
+        &lt;/helloconfig&gt;  
+    &lt;/tabs&gt;  
+&lt;/config&gt; </code></pre>
+<p>我们来解释一下各个节点（Tag）的意思。【译者注：由于Tab和Tag中文翻译都是标签，所以这里我把Tag翻译成节点，以免混淆】 “<code>&lt;helloconfig&gt;</code>”就是我们要添加的标签页的定义节点，“helloconfig”是节点的ID。你可以任意命名这个ID，但是 必须全局唯一，也就是不能和别人用同样的ID。这个ID是用来唯一标示你的标签页的。“module=helloworld”，意思是这个标签页属于哪个模块。“<code>&lt;label&gt;</code>”节点的内容是标签的名字，也就是要显示在界面上的名字。“<code>&lt;sort_order&gt;</code>”指明了这个标签页显示的位置。</p>
+<p>打开后台“System-&gt;Configuration”，你会看到如下错误</p>
+<pre><code>Fatal error: Class &#39;Mage_Helloworld_Helper_Data&#39; not found in….  </code></pre>
+<h2 id="Magento-Helper简介"><a href="#Magento-Helper简介" class="headerlink" title="Magento Helper简介"></a>Magento Helper简介</h2><p>正如许多其他的PHP MVC系统一样，Magento也有帮助类（Helper Classes）。这些类用来提供一些不适合放在模型，视图或者控制器中的功能。Magento的帮助类也是采用分组类名的机制。也就是说我们可以覆盖默认的帮助类，同时我们需要在config.xml中指定帮助类的基类名。</p>
+<p>Magento系统默认模块有一个默认的帮助类。正如我们上面的异常显示，我们的Helloworld模块并没有指定一个默认的帮助类。下面让我们来添加一个。修改config.xml</p>
+<pre><code>File: app/code/local/Magentotutorial/Helloworld/etc/config.xml</code></pre>
+<p>Xml代码</p>
+<pre><code>&lt;!– … –&gt;  
+&lt;global&gt;
+        &lt;helpers&gt;
+            &lt;helloworld&gt;
+                &lt;class&gt;Magentotutorial_Helloworld_Helper&lt;/class&gt;
+            &lt;/helloworld&gt;
+        &lt;/helpers&gt;
+    &lt;/global&gt;
+&lt;!– … –&gt;   </code></pre>
+<p>你现在应该对这类配置相当熟悉了。“<code>&lt;helloworld&gt;</code>”节点就是模块的名字，“<code>&lt;class&gt;</code>”就是帮助类的基类名，命名方式如下 </p>
+<pre><code>Packagename_Modulename_Helper</code></pre>
+<p>帮助类是通过全局对象Mage的静态方法“helper”来装载的。</p>
+<p>Php代码</p>
+<pre><code>Mage::helper(&#39;helloworld/foo&#39;)   </code></pre>
+<p>根据我们的配置，上面这行代码将会装载以下类</p>
+<pre><code>File:app/code/local/Magentotutorial/Helloworld/Helper/Foo.php
+
+class Magentotutorial_Helloworld_Helper_Foo</code></pre>
+<p>我们上面说过Magento默认每个模块有一个帮助类“data”</p>
+<p>Php代码</p>
+<pre><code>Mage::helper(&#39;helloworld&#39;);
+Mage::helper(&#39;helloworld/data&#39;);</code></pre>
+<p>上面这两行代码是等价的，都会装载以下类</p>
+<pre><code>File:app/code/local/Magentotutorial/Helloworld/Helper/Data.php
+
+class Magentotutorial_Helloworld_Helper_Data</code></pre>
+<p>下面我们来创建我们的帮助类</p>
+<pre><code>File: app/code/local/Magentotutorial/Helloworld/Helper/Data.php</code></pre>
+<p>Php代码</p>
+<pre><code>&lt;?php 
+class Magentotutorial_Helloworld_Helper_Data extends Mage_Core_Helper_Abstract  
+&#123;
+
+&#125;
+ ?&gt;   </code></pre>
+<p>清空Magento缓存，重新装载页面，你会发现错误不见了，但是我们的标签页还是没有出来。如果你好奇帮助类究竟能干什么，建议你去看看“<code>Mage_Core_Helper_Abstract</code>”类。</p>
+<h2 id="添加新的段"><a href="#添加新的段" class="headerlink" title="添加新的段"></a>添加新的段</h2><p>好了，帮助类的介绍到此结束。下面我们来看看为什么我们的标签页不显示出来。在Magento中，每一个标签页都包含很多段（section）。举个例子，“Advanced”标签页默认包含“Admin, System, Advanced, Developer”四个段。如果一个标签页不包含任何段，那么这个标签页不会被显示出来。下面我们在system.xml中添加 “<code>&lt;section&gt;</code>”节点<code>Location: app/code/local/Magentotutorial/Helloworld/etc/system.xml</code></p>
+<p>Xml代码</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;config&gt;  
+    &lt;tabs&gt;  
+        &lt;helloconfig translate=&quot;label&quot; module=&quot;helloworld&quot;&gt;  
+            &lt;label&gt;Hello Config&lt;/label&gt;  
+            &lt;sort_order&gt;99999&lt;/sort_order&gt;  
+        &lt;/helloconfig&gt;  
+    &lt;/tabs&gt;  
+    &lt;sections&gt;  
+        &lt;helloworld_options translate=&quot;label&quot; module=&quot;helloworld&quot;&gt;  
+            &lt;label&gt;Hello World Config Options&lt;/label&gt;  
+            &lt;tab&gt;helloconfig&lt;/tab&gt;  
+            &lt;frontend_type&gt;text&lt;/frontend_type&gt;  
+            &lt;sort_order&gt;1000&lt;/sort_order&gt;  
+            &lt;show_in_default&gt;1&lt;/show_in_default&gt;  
+            &lt;show_in_website&gt;1&lt;/show_in_website&gt;  
+            &lt;show_in_store&gt;1&lt;/show_in_store&gt;                     
+        &lt;/helloworld_options&gt;  
+    &lt;/sections&gt;      
+&lt;/config&gt;   </code></pre>
+<p>这里有些节点你应该很熟悉，就不多解释了，来讲讲以前没见过的。</p>
+<h2 id="什么是-lt-helloworld-options-gt-？"><a href="#什么是-lt-helloworld-options-gt-？" class="headerlink" title="什么是&lt;helloworld_options /&gt;？"></a>什么是<code>&lt;helloworld_options /&gt;</code>？</h2><p>和前面的<code>&lt;hellowconfig&gt;</code>相似，这个节点是用来唯一标示你的段，“<code>helloworld_options</code>”就是段的ID，可以随意取名，只要不重复就好。</p>
+<h2 id="什么是-lt-frontend-type-gt-？"><a href="#什么是-lt-frontend-type-gt-？" class="headerlink" title="什么是&lt;frontend_type /&gt;？"></a>什么是<code>&lt;frontend_type /&gt;</code>？</h2><p>这个节点有点搞。“<code>&lt;frontend_type /&gt;</code>”在配置文件的其他部分有用（稍后会讲），放在这里其实没什么作用。但是核心模块在此处的配置文件都包含这个节点，所以我们也把它添加进去。类型有如下：</p>
+<pre><code>allowspecific
+export
+image
+import
+label
+multiselect
+obscure
+password
+select
+text
+textarea
+time</code></pre>
+<h2 id="什么是-lt-show-in-default-gt-，-lt-show-in-website-gt-，-lt-show-in-store-gt-？"><a href="#什么是-lt-show-in-default-gt-，-lt-show-in-website-gt-，-lt-show-in-store-gt-？" class="headerlink" title="什么是&lt;show_in_default /&gt;，&lt; show_in_website /&gt;，&lt;show_in_store /&gt;？"></a>什么是<code>&lt;show_in_default /&gt;</code>，<code>&lt; show_in_website /&gt;</code>，<code>&lt;show_in_store /&gt;</code>？</h2><p>这些节点的值是布尔类型的，0或者1。这些标签是用来控制在不同的环境下，当前段是否应该显示。</p>
+<p>好了，我们已经配置好段了，清空缓存，再一次刷新页面，你应该看到“HELLO CONFIG”标签页显示出来了。</p>
+<h2 id="访问控制"><a href="#访问控制" class="headerlink" title="访问控制"></a>访问控制</h2><p>如果你刚才点了我们创建的标签页下面的“Hello World Config Options”，你大概会很失望。什么都没有显示出来，连左边的导航栏都没有了。这是因为“Adminhtml”在权限控制列表（Access Control List, ACL）中找不到我们创建的段的权限信息。【译者注：Adminhtml就是Magento的后台管理系统，属于Magento的一个核心模块】</p>
+<p>ACL是一个很复杂的话题，但是我会介绍一些最基本的概念，以便于理解Magento的权限控制。这部分内容和上下文关系不大，如果你不感兴趣，可以直接跳到本节结尾，复制一段XML到你的config.xml就行了。</p>
+<p>在Magento中，对于有些资源的访问时有限制的。用户必须先经过认证才能访问相关资源。在这里，资源（Resource）是一个广义的概念，它可能是 指一个页面，也可能是一个功能。Magento的系统配置功能（System Config）就是需要认证才能访问的资源。</p>
+<p>任何一个资源都是通过一个URI来标识。比如说“web”配置段（属于后台管理General标签页）的URI是</p>
+<pre><code>admin/system/config/web</code></pre>
+<p>我们“<code>helloworld_options</code>”段的URI是</p>
+<pre><code>admin/system/config/helloworld_options</code></pre>
+<p>当一个用户访问一个受保护的资源的时候，后台管理系统（Adminhtml）的执行控制器会执行以下步骤</p>
+<ol>
+<li>为用户正在访问的资源生成一个URI</li>
+<li>根据ACL系统检查该用户是否有权限访问指定的资源</li>
+<li>如果用户拥有访问权限，那么进行用户指定的操作。否则，跳转到相应的错误页面（也可能是停止操作或者显示空白页面）。</li>
+</ol>
+<p>对于那些感兴趣的人，这是<code>_isSectionAllowed</code>在以下控制器的方法中的系统配置部分完成的</p>
+<pre><code>app/code/core/Mage/Adminhtml/controllers/System/ConfigController.php</code></pre>
+<p>如果你去“System -&gt; Permissions -&gt; Roles”页面，点击“Add New Role”按钮，你会看到所有系统的资源都以树形结构显示在页面上。</p>
+<h2 id="添加ACL权限"><a href="#添加ACL权限" class="headerlink" title="添加ACL权限"></a>添加ACL权限</h2><p>刚才说ACL中没有我们配置段的信息，那么我们来创建一个。请注意，如果你是创建一个新的段，那么你需要创建一个新的权限，如果你在已有的段上添加内容，你不需要创建权限。</p>
+<p>在config.xml中，添加以下内容</p>
+<pre><code>File: app/code/local/Magentotutorial/Helloworld/etc/config.xml </code></pre>
+<p>Xml代码</p>
+<pre><code>&lt;config&gt;     
+    &lt;!– … –&gt;  
+    &lt;adminhtml&gt;  
+        &lt;acl&gt;  
+            &lt;resources&gt;  
+                &lt;admin&gt;  
+                    &lt;children&gt;  
+                        &lt;system&gt;  
+                            &lt;children&gt;  
+                                &lt;config&gt;  
+                                    &lt;children&gt;  
+                                        &lt;helloworld_options&gt;  
+                                            &lt;title&gt;Store Hello World Module Section&lt;/title&gt;  
+                                        &lt;/helloworld_options&gt;  
+                                    &lt;/children&gt;  
+                                &lt;/config&gt;  
+                            &lt;/children&gt;  
+                        &lt;/system&gt;  
+                    &lt;/children&gt;  
+                &lt;/admin&gt;  
+            &lt;/resources&gt;  
+        &lt;/acl&gt;  
+    &lt;/adminhtml&gt;  
+    &lt;!– … –&gt;  
+&lt;/config&gt;   </code></pre>
+<p>让我们来分析一下这段代码。所有的资源定义都包含在如下代码中</p>
+<p>Xml代码</p>
+<pre><code>&lt;adminhtml&gt;  
+    &lt;acl&gt;  
+        &lt;resources&gt;  
+        &lt;/resource&gt;  
+    &lt;/acl&gt;  
+&lt;/adminhtml&gt;   </code></pre>
+<p>在<code>&lt;resources&gt;</code>节点下面，每一个子节点都是URI的一部分，比如</p>
+<p>Xml代码</p>
+<pre><code>&lt;admin&gt;  
+    &lt;children&gt;  
+        &lt;system&gt;  
+            &lt;children&gt;   </code></pre>
+<p>代表URI</p>
+<pre><code>admin/system</code></pre>
+<p>最后一个节点</p>
+<p>Xml代码</p>
+<pre><code>&lt;helloworld_options&gt;
+    &lt;title&gt;Store Hello World Module Section&lt;/title&gt;
+&lt;/helloworld_options&gt;</code></pre>
+<p>这里<code>&lt;title&gt;</code>的内容将会在后台权限管理的时候显示出来，也就是我们定义的权限的名字。</p>
+<p>清空Magento缓存，刷新页面，你应该能看到我们创建的配置段了.</p>
+<p><img src="https://i.imgur.com/HG7Cqdj.png"></p>
+<p>标准的后台管理页面，但是主体内容是空的，只有一个“Save Config”按钮。你可能需要重新登录后台管理才能看到正确的页面。那是因为后台管理有一些额外的缓存。【译者注：我们添加了权限以后，管理员是默认拥有该权限的，所以我们用管理员登录后台管理系统就能访问我们创建的段】</p>
+<p>请注意，不知道出于什么原因，Magento把<code>&lt;adminhtml /&gt;</code>部分从全局配置中删掉了。所以，我们不能用之前创建的Configviewer来查看这部分内容。我正在研究Magento把<code>&lt;adminhtml /&gt;</code>存在哪里了。</p>
+<h2 id="添加组"><a href="#添加组" class="headerlink" title="添加组"></a>添加组</h2><p>【译者注：按照逻辑，这里应该讲的内容是添加选项。Mageto中，选项是按照组（Group）来划分的，所以我们在添加选项之前得先添加组。】修改system.xml</p>
+<pre><code>Location: app/code/local/Magentotutorial/Helloworld/etc/system.xml</code></pre>
+<p>Xml代码</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;config&gt;  
+    &lt;tabs&gt;  
+        &lt;helloconfig translate=&quot;label&quot; module=&quot;helloworld&quot;&gt;  
+            &lt;label&gt;Hello Config&lt;/label&gt;  
+            &lt;sort_order&gt;99999&lt;/sort_order&gt;  
+        &lt;/helloconfig&gt;  
+    &lt;/tabs&gt;  
+    &lt;sections&gt;  
+        &lt;helloworld_options translate=&quot;label&quot; module=&quot;helloworld&quot;&gt;  
+            &lt;label&gt;Hello World Config Options&lt;/label&gt;  
+            &lt;tab&gt;helloconfig&lt;/tab&gt;  
+            &lt;frontend_type&gt;text&lt;/frontend_type&gt;  
+            &lt;sort_order&gt;1000&lt;/sort_order&gt;  
+            &lt;show_in_default&gt;1&lt;/show_in_default&gt;  
+            &lt;show_in_website&gt;1&lt;/show_in_website&gt;  
+            &lt;show_in_store&gt;1&lt;/show_in_store&gt;  
+            &lt;groups&gt;  
+                &lt;messages translate=&quot;label&quot;&gt;  
+                    &lt;label&gt;Demo Of Config Fields&lt;/label&gt;  
+                    &lt;frontend_type&gt;text&lt;/frontend_type&gt;  
+                    &lt;sort_order&gt;1&lt;/sort_order&gt;  
+                    &lt;show_in_default&gt;1&lt;/show_in_default&gt;  
+                    &lt;show_in_website&gt;1&lt;/show_in_website&gt;  
+                    &lt;show_in_store&gt;1&lt;/show_in_store&gt;  
+                &lt;/messages&gt;  
+            &lt;/groups&gt;  
+        &lt;/helloworld_options&gt;  
+    &lt;/sections&gt;      
+&lt;/config&gt;   </code></pre>
+<p>这里也没什么好解释的。刷新一下页面看看你就什么都明白了。</p>
+<p><img src="https://i.imgur.com/6drbyeJ.png"></p>
+<h2 id="添加配置选项"><a href="#添加配置选项" class="headerlink" title="添加配置选项"></a>添加配置选项</h2><p>最后，我们要添加每一个单独的配置选项。配置选项是以<code>&lt;fields /&gt;</code>节点的形式添加到<messages />节点下面的。</p>
+<p>Xml代码</p>
+<pre><code>&lt;!– … –&gt;  
+&lt;messages translate=&quot;label&quot;&gt;  
+    &lt;label&gt;Demo Of Config Fields&lt;/label&gt;  
+    &lt;frontend_type&gt;text&lt;/frontend_type&gt;  
+    &lt;sort_order&gt;1&lt;/sort_order&gt;  
+    &lt;show_in_default&gt;1&lt;/show_in_default&gt;  
+    &lt;show_in_website&gt;1&lt;/show_in_website&gt;  
+    &lt;show_in_store&gt;1&lt;/show_in_store&gt;  
+    &lt;fields&gt;  
+        &lt;hello_message&gt;  
+            &lt;label&gt;Message&lt;/label&gt;  
+            &lt;frontend_type&gt;text&lt;/frontend_type&gt;  
+            &lt;sort_order&gt;1&lt;/sort_order&gt;  
+            &lt;show_in_default&gt;1&lt;/show_in_default&gt;  
+            &lt;show_in_website&gt;1&lt;/show_in_website&gt;  
+            &lt;show_in_store&gt;1&lt;/show_in_store&gt;  
+        &lt;/hello_message&gt;  
+    &lt;/fields&gt;  
+&lt;/messages&gt;  
+&lt;!– … –&gt;   </code></pre>
+<p>这里有一个节点需要说明，“<code>&lt;frontend_type&gt;</code>”，刚才说这个节点没什么用。但是这里有用了，这个节点说明了这个选项的数据类 型。你可以把它换成别的类型，比如“time”。这里支持大部分默认的Varien定义的数据类型（lib/Varien/Data/Form /Element）。这个有点像是工厂（Factory）设计模式。让我们把类型改成“select”。你会看到一个下拉框，但是没有选项。我们来添加选项。首先我们要添加一个源模型（Source Model）</p>
+<p>Xml代码</p>
+<pre><code>&lt;hello_message&gt;  
+    &lt;label&gt;Message&lt;/label&gt;  
+    &lt;frontend_type&gt;select&lt;/frontend_type&gt;  
+    &lt;!– adding a source model –&gt;  
+    &lt;source_model&gt;helloworld/words&lt;/source_model&gt;                            
+    &lt;sort_order&gt;1&lt;/sort_order&gt;  
+    &lt;show_in_default&gt;1&lt;/show_in_default&gt;  
+    &lt;show_in_website&gt;1&lt;/show_in_website&gt;  
+    &lt;show_in_store&gt;1&lt;/show_in_store&gt;                     
+&lt;/hello_message&gt;</code></pre>
+<p>“<code>&lt;source_model&gt;</code>”定义了源模型的URI。和我们以前创建的模型一样，源模型也是一个模型，为“select”提供了默认的数据。这就意味着我们需要确保我们的模块配置文件config.xml中为这个模块的模型做了相关的配置。</p>
+<pre><code>File: app/code/local/Magentotutorial/Helloworld/etc/config.xml</code></pre>
+<p>xml代码：</p>
+<pre><code>&lt;config&gt;    
+    &lt;!-- ... --&gt;
+    &lt;global&gt;
+    &lt;!-- ... --&gt;
+        &lt;models&gt;
+            &lt;!-- ... --&gt;
+            &lt;helloworld&gt;
+                &lt;class&gt;Alanstormdotcom_Helloworld_Model&lt;/class&gt;
+            &lt;/helloworld&gt;    
+            &lt;!-- ... --&gt;
+        &lt;/models&gt;
+    &lt;/global&gt;
+&lt;/config&gt;</code></pre>
+<p>记住：这个很重要，笔者就是在这里看了中文翻译版，结果翻译的那个人是故意留下bug还是，忘记翻译了，导致我足足找了半天的原因，后来发现原来是没有在模块的配置文件中为这个东西做配置。报错如下：</p>
+<blockquote>
+<p>Fatal error: Call to a member function toOptionArray() on a non-object in…</p>
+</blockquote>
+<p>根据上面的<code>&lt;source_model&gt;</code>的URI定义，我们要创建以下文件</p>
+<pre><code>File: app/code/local/Magentotutorial/Helloworld/Model/Words.php</code></pre>
+<p>Php代码</p>
+<pre><code>&lt;?php 
+class Magentotutorial_Helloworld_Model_Words&#123; 
+    public function toOptionArray()
+    &#123;  
+        return array(
+            array(&#39;value&#39;=&gt;1, &#39;label&#39;=&gt;Mage::helper(&#39;helloworld&#39;)-&gt;__(&#39;Hello&#39;)),
+            array(&#39;value&#39;=&gt;2, &#39;label&#39;=&gt;Mage::helper(&#39;helloworld&#39;)-&gt;__(&#39;Goodbye&#39;)),
+            array(&#39;value&#39;=&gt;3, &#39;label&#39;=&gt;Mage::helper(&#39;helloworld&#39;)-&gt;__(&#39;Yes&#39;)),
+            array(&#39;value&#39;=&gt;4, &#39;label&#39;=&gt;Mage::helper(&#39;helloworld&#39;)-&gt;__(&#39;No&#39;)),
+        );
+    &#125;
+&#125;
+ ?&gt;   </code></pre>
+<p><strong>源模型</strong>提供了一个方法“toOptionsArray”，返回的数据时用来填充我们之前定义的配置选项的。这个方法在运行时会被“initFields”调用。“initFields”在以下类中定义</p>
+<pre><code>app/code/core/Mage/Adminhtml/Block/System/Config/Form.php</code></pre>
+<p>我们这里调用了帮助类的翻译函数（__）来获取数据。虽然不是很必要，但调用翻译函数总是一个好习惯。说不定哪天你要将模块翻译成日文呢。【译者注：值得 注意的是我们这里创建的模型不需要继承任何父类，只需要拥有“toOptionArray”方法就可以了。】</p>
+<h2 id="什么是-lt-frontend-class-gt-？"><a href="#什么是-lt-frontend-class-gt-？" class="headerlink" title="什么是&lt;frontend_class/&gt;？"></a>什么是<code>&lt;frontend_class/&gt;</code>？</h2><p>别犯傻，这里的<code>&lt;frontend_class/&gt;</code>不是组的类名，这个标签是用来修改html的标签的class的，例如某个字段配置如下，就拿前面的select那个来说吧：</p>
+<pre><code>&lt;good_message&gt;  
+    &lt;label&gt;Good Message select:&lt;/label&gt;
+    &lt;frontend_type&gt;select&lt;/frontend_type&gt;
+    &lt;frontend_class&gt;free-method&lt;/frontend_class&gt;
+    &lt;source_model&gt;helloworld/words&lt;/source_model&gt;
+    &lt;sort_order&gt;1&lt;/sort_order&gt;
+    &lt;show_in_default&gt;1&lt;/show_in_default&gt;
+    &lt;show_in_website&gt;1&lt;/show_in_website&gt;
+    &lt;show_in_store&gt;1&lt;/show_in_store&gt;
+&lt;/good_message&gt;</code></pre>
+<p>这里是下拉框的那个添加了一个class为free-method的，我们来到后台的这个下拉框那里，用开发者工具查看下代码：</p>
+<p><img src="https://i.imgur.com/k8oV1rz.png"></p>
+<p>select的代码如下：</p>
+<pre><code>&lt;select class=&quot;free-method&quot;&gt;</code></pre>
+<hr>
+<p>如果我们想要在这个组下面添加更多的配置选项呢？怎么操作，很简单，把前面的配置选项那里：</p>
+<pre><code>&lt;!– … –&gt;  
+&lt;messages translate=&quot;label&quot;&gt;  
+    &lt;label&gt;Demo Of Config Fields&lt;/label&gt;  
+    &lt;frontend_type&gt;text&lt;/frontend_type&gt;  
+    &lt;sort_order&gt;1&lt;/sort_order&gt;  
+    &lt;show_in_default&gt;1&lt;/show_in_default&gt;  
+    &lt;show_in_website&gt;1&lt;/show_in_website&gt;  
+    &lt;show_in_store&gt;1&lt;/show_in_store&gt;  
+    &lt;fields&gt;  
+        &lt;hello_message&gt;  
+            &lt;label&gt;Message&lt;/label&gt;  
+            &lt;frontend_type&gt;text&lt;/frontend_type&gt;  
+            &lt;sort_order&gt;1&lt;/sort_order&gt;  
+            &lt;show_in_default&gt;1&lt;/show_in_default&gt;  
+            &lt;show_in_website&gt;1&lt;/show_in_website&gt;  
+            &lt;show_in_store&gt;1&lt;/show_in_store&gt;  
+        &lt;/hello_message&gt;  
+    &lt;/fields&gt;  
+&lt;/messages&gt;  
+&lt;!– … –&gt; </code></pre>
+<p>改成：</p>
+<pre><code>&lt;!– … –&gt;  
+&lt;messages translate=&quot;label&quot;&gt;  
+    &lt;label&gt;Demo Of Config Fields&lt;/label&gt;  
+    &lt;frontend_type&gt;text&lt;/frontend_type&gt;  
+    &lt;sort_order&gt;1&lt;/sort_order&gt;  
+    &lt;show_in_default&gt;1&lt;/show_in_default&gt;  
+    &lt;show_in_website&gt;1&lt;/show_in_website&gt;  
+    &lt;show_in_store&gt;1&lt;/show_in_store&gt;  
+    &lt;fields&gt;  
+        &lt;hello_message&gt;  
+            &lt;label&gt;Message&lt;/label&gt;  
+            &lt;frontend_type&gt;text&lt;/frontend_type&gt;  
+            &lt;sort_order&gt;1&lt;/sort_order&gt;  
+            &lt;show_in_default&gt;1&lt;/show_in_default&gt;  
+            &lt;show_in_website&gt;1&lt;/show_in_website&gt;  
+            &lt;show_in_store&gt;1&lt;/show_in_store&gt;  
+        &lt;/hello_message&gt;
+        &lt;dianyou_message&gt;  
+            &lt;label&gt;Good Message email:&lt;/label&gt;
+            &lt;frontend_type&gt;text&lt;/frontend_type&gt;
+            &lt;validate&gt;validate-email&lt;/validate&gt;
+            &lt;sort_order&gt;1&lt;/sort_order&gt;
+            &lt;show_in_default&gt;1&lt;/show_in_default&gt;
+            &lt;show_in_website&gt;1&lt;/show_in_website&gt;
+            &lt;show_in_store&gt;1&lt;/show_in_store&gt;
+        &lt;/dianyou_message&gt;            
+    &lt;/fields&gt;  
+&lt;/messages&gt;  
+&lt;!– … –&gt; </code></pre>
+<p>就是复制其中一份<code>&lt;hello_message&gt;</code>，把它的标签名字改成其他的名字，只要不跟别的标签名冲突即可，笔者这里改成<code>&lt;dianyou_message&gt;</code>，而且作为补充，大家可能看到了这里有个新添加的：</p>
+<pre><code>&lt;validate&gt;validate-email&lt;/validate&gt;</code></pre>
+<p>这个是用来验证电邮的，就是输入的内容格式如果不符合电邮格式的，那么点击保存的时候，是不能保存的，在网站后台，找到这个字段所在的地方，用开发者工具检查，对应的html的代码如下：</p>
+<pre><code>&lt;input type=&quot;text&quot; class=&quot;validate-email&quot; /&gt;</code></pre>
+<p>好的，我们在添加了这个之后，我们刷新后台，最终效果图：</p>
+<p><img src="https://i.imgur.com/N3uFY58.png"></p>
+<p>当然，还有很多精彩的标签的应用，强烈建议大家看原文（英文版）,以下摘录点原文看下，别人是何等的耐心和专业。</p>
+<hr>
+<h2 id="lt-depends-gt"><a href="#lt-depends-gt" class="headerlink" title="&lt;depends/&gt;"></a><code>&lt;depends/&gt;</code></h2><p><code>&lt;depends/&gt;</code> allows you specify that your configuration field should only be displayed when another confgiruation field in the same group has a specific value.</p>
+<p>For example, the Paypal Express System Configuration has the following select defined.</p>
+<pre><code>&lt;specificcountry translate=&quot;label&quot;&gt;
+    &lt;label&gt;Countries Payment Applicable From&lt;/label&gt;
+    &lt;frontend_type&gt;multiselect&lt;/frontend_type&gt;
+    &lt;sort_order&gt;110&lt;/sort_order&gt;
+    &lt;source_model&gt;adminhtml/system_config_source_country&lt;/source_model&gt;
+    &lt;show_in_default&gt;1&lt;/show_in_default&gt;
+    &lt;show_in_website&gt;1&lt;/show_in_website&gt;
+    &lt;show_in_store&gt;0&lt;/show_in_store&gt;
+    &lt;depends&gt;&lt;allowspecific&gt;1&lt;/allowspecific&gt;&lt;/depends&gt;
+&lt;/specificcountry&gt;</code></pre>
+<p>You’ll notice the</p>
+<pre><code>&lt;depends&gt;&lt;allowspecific&gt;1&lt;/allowspecific&gt;&lt;/depends&gt;</code></pre>
+<p>This is telling the system that if the <code>&lt;allowspecific&gt;</code> field (defined with the following)</p>
+<pre><code>&lt;allowspecific translate=&quot;label&quot;&gt;
+   &lt;label&gt;Payment Applicable From&lt;/label&gt;
+   &lt;frontend_type&gt;select&lt;/frontend_type&gt;
+   &lt;sort_order&gt;100&lt;/sort_order&gt;       &lt;source_model&gt;adminhtml/system_config_source_payment_allspecificcountries&lt;/source_model&gt;
+   &lt;show_in_default&gt;1&lt;/show_in_default&gt;
+   &lt;show_in_website&gt;1&lt;/show_in_website&gt;
+   &lt;show_in_store&gt;0&lt;/show_in_store&gt;
+&lt;/allowspecific&gt;</code></pre>
+<p>has a value of “1”, then the <code>&lt;specificcountry&gt;</code> field should be displayed. This happens instantly via some behind the scenes Javascript.</p>
+<p>While it appears to work with any fields that send out on onchange event, the core Magento system only uses this function where the parent field is a select. If you’re paranoid about forward compatibility, I’d apply the same restriction to your own System Configuration fields, as it’s hard to tell where the core Magento team may take this feature in the future.</p>
+<h2 id="lt-source-model-gt"><a href="#lt-source-model-gt" class="headerlink" title="&lt;source_model/&gt;"></a><code>&lt;source_model/&gt;</code></h2><p>The <code>&lt;source_model/&gt;</code> tag specifies a Model class (in URI/Grouped Class Name format) to populate a field’s default options. As of Magento Community Edition 1.4x, it works with selects and multi-selects. In addition to the standard Magento Grouped Class Name, an extended syntax of</p>
+<pre><code>module/modelname::methodName</code></pre>
+<p>is supported. The system will instantiate a Model with getModel(‘module/modelname’) and call its methodName method to retrieve an array of value/label paris to use for the source. If the method name is left off, the toOptionArray method will be called by default.</p>
+<h2 id="lt-frontend-model-gt"><a href="#lt-frontend-model-gt" class="headerlink" title="&lt;frontend_model/&gt;"></a><code>&lt;frontend_model/&gt;</code></h2><p>By default, Magento Form Elements are rendered with the Block class</p>
+<pre><code>Mage_Adminhtml_Block_System_Config_Form_Field</code></pre>
+<p>However, if you want to use a custom renderer for your System Configuration field, you can specify a different block class (in URI/Grouped Class Name form) with the <code>&lt;frontend_model/&gt;</code> tag.</p>
+<p>For example, the <code>last_update</code> field in the adminnotification group</p>
+<pre><code>&lt;last_update translate=&quot;label&quot;&gt;
+    &lt;label&gt;Last update&lt;/label&gt;
+    &lt;frontend_type&gt;label&lt;/frontend_type&gt;
+    &lt;frontend_model&gt;adminhtml/system_config_form_field_notification&lt;/frontend_model&gt;
+    &lt;sort_order&gt;3&lt;/sort_order&gt;
+    &lt;show_in_default&gt;1&lt;/show_in_default&gt;
+    &lt;show_in_website&gt;0&lt;/show_in_website&gt;
+    &lt;show_in_store&gt;0&lt;/show_in_store&gt;
+&lt;/last_update&gt; </code></pre>
+<p>specifies that a field renderer of <code>adminhtml/system_config_form_field_notification</code> should be used. This translates into the following class</p>
+<pre><code>File: app/code/core/Mage/Adminhtml/Block/System/Config/Form/Field/Notification.php
+
+class Mage_Adminhtml_Block_System_Config_Form_Field_Notification extends Mage_Adminhtml_Block_System_Config_Form_Field
+&#123;
+    protected function _getElementHtml(Varien_Data_Form_Element_Abstract $element)
+    &#123;
+        $element-&gt;setValue(Mage::app()-&gt;loadCache(&#39;admin_notifications_lastcheck&#39;));
+        $format = Mage::app()-&gt;getLocale()-&gt;getDateTimeFormat(Mage_Core_Model_Locale::FORMAT_TYPE_MEDIUM);
+        return Mage::app()-&gt;getLocale()-&gt;date(intval($element-&gt;getValue()))-&gt;toString($format);
+    &#125;
+&#125;</code></pre>
+<p>The core team is overriding the <code>_getElementHtml</code> method to ensure that any entered date will be displayed with the same format.</p>
+<h2 id="lt-backend-model-gt"><a href="#lt-backend-model-gt" class="headerlink" title="&lt;backend_model/&gt;"></a><code>&lt;backend_model/&gt;</code></h2><p>Once a form is submitted to Magento, its values must be saved. For System Configuration fields, this is normally handeled with the Model class</p>
+<pre><code>Mage_Core_Model_Config_Data</code></pre>
+<p>However, there may be times where you want your System Configuration to use a different backend model. The <code>&lt;backend_model/&gt;</code> tag allows you to specify a different Model class (using URI/Grouped Class Name format).</p>
+<p>Most often this isn’t because you want to save where the data is stored, but rather because you want to perform some additional action when a field is saved. By extending the <code>Mage_Core_Model_Config_Data</code> class with your own model and defining a <code>_beforeSave</code> and/or <code>_afterSave</code> method on your model, you can take additional action anytime a config value is changed.</p>
+<p>For example, consider the import field in the tablerate group</p>
+<pre><code>&lt;import translate=&quot;label&quot;&gt;
+    &lt;label&gt;Import&lt;/label&gt;
+    &lt;frontend_type&gt;import&lt;/frontend_type&gt;
+    &lt;backend_model&gt;adminhtml/system_config_backend_shipping_tablerate&lt;/backend_model&gt;
+    &lt;sort_order&gt;6&lt;/sort_order&gt;
+    &lt;show_in_default&gt;0&lt;/show_in_default&gt;
+    &lt;show_in_website&gt;1&lt;/show_in_website&gt;
+    &lt;show_in_store&gt;0&lt;/show_in_store&gt;
+&lt;/import&gt;</code></pre>
+<p>The Grouped Class Name <code>adminhtml/system_config_backend_shipping_tablerate</code> translates to the following class</p>
+<pre><code>class Mage_Adminhtml_Model_System_Config_Backend_Shipping_Tablerate extends Mage_Core_Model_Config_Data
+&#123;
+    public function _afterSave()
+    &#123;
+        Mage::getResourceModel(&#39;shipping/carrier_tablerate&#39;)-&gt;uploadAndImport($this);
+    &#125;
+&#125;</code></pre>
+<p>Here the core team is hooking into the <code>_afterSave</code> method (which is called after a model is saved) to update the shipping/carrier_tablerate Model with information from the just uploaded file.</p>
+<pre><code>&lt;upload_dir/&gt; and &lt;base_url/&gt;</code></pre>
+<p>Both these tags are used with System Configuration fields that use the <code>&lt;frontend_type&gt;image&lt;/frontend_type&gt;</code> field with a <code>&lt;backend_model&gt;adminhtml/system_config_backend_image&lt;/backend_model&gt;</code> backend model. These determine both</p>
+<ol>
+<li>Where the image file is uploaded</li>
+<li>The base URI path used when rendering an <code>&lt;img&gt;</code> tag</li>
+</ol>
+<p>First, let’s cover the <code>&lt;upload_dir/&gt;</code> tag</p>
+<pre><code>&lt;upload_dir config=&quot;system/filesystem/media&quot; scope_info=&quot;1&quot;&gt;sales/store/logo&lt;/upload_dir&gt;</code></pre>
+<p>There’s three things being set by the above.</p>
+<ol>
+<li>The base image upload path</li>
+<li>The path, from the base, where this specific image field should be uploaded</li>
+<li>Whether or not the current config scope should be appended to the path</li>
+</ol>
+<p>The <strong>base image upload path</strong> is set with the config attribute (<code>system/filesystem/media above</code>). This specifies a System Configuration path. That is, the base image upload path isn’t <code>system/filesystem/media</code>, but it’s the value of the Magento System Configuration at <code>system/filesystem/media</code> (which resolves to <code>&#123;&#123;root_dir&#125;&#125;/media</code> in a default Community Edition install)</p>
+<p>Once the base image upload path is found, we need to append the sub-directory this specific image should be uploaded to. To get this we append the value of the <code>&lt;upload_dir/&gt;</code>‘s text node</p>
+<pre><code>sales/store/logo</code></pre>
+<p>to the value of the base image upload path, which will give us something like this</p>
+<pre><code>/path/to/magento/install/media/sales/store/logo</code></pre>
+<p>Finally, if the <code>scope</code> attribute is set to “1”, the current Configuration Scope will be transformed into a path. If you were uploading an image with the scope set to default, you’d get a path like</p>
+<pre><code>/path/to/magento/install/media/sales/store/logo/default</code></pre>
+<p>However, if you were uploading an image with the scope set to a specific store, you’d end up with a path like</p>
+<pre><code>/path/to/magento/install/media/sales/store/logo/stores/5</code></pre>
+<p>where “5” is the ID of the store scope you’re currently at.</p>
+<p>When we upload an image, only the scope and image name portion of the path get saved to the config. This means we need to tell the System what the base URL should be for our image.</p>
+<pre><code>&lt;base_url type=&quot;media&quot; scope_info=&quot;1&quot;&gt;sales/store/logo&lt;/base_url&gt;</code></pre>
+<p>The scope_info and text node function the same as <code>&lt;upload_dir/&gt;</code>‘s. Where <code>&lt;base_url/&gt;</code> differs is in setting the base of the image URI (which is going to, naturally, be different than the local base file system path).</p>
+<p>As you’ve likely intuited, the base path is set using the type attribute. The configured value will be passed into the getBaseUrl method on the global Mage object to set the base URL for the image. The the above example, that would look something like</p>
+<pre><code>Mage::getBaseUrl(&#39;media&#39;)</code></pre>
+<p>You can see the actual code that does this in the <code>Mage_Adminhtml_Block_System_Config_Form_Field_Image</code> class.</p>
+<pre><code>class Mage_Adminhtml_Block_System_Config_Form_Field_Image extends Varien_Data_Form_Element_Image
+&#123;
+    //...
+
+    protected function _getUrl()
+    &#123;
+        $url = parent::_getUrl();
+
+        $config = $this-&gt;getFieldConfig();
+        /* @var $config Varien_Simplexml_Element */
+        if (!empty($config-&gt;base_url)) &#123;
+            $el = $config-&gt;descend(&#39;base_url&#39;);
+            $urlType = empty($el[&#39;type&#39;]) ? &#39;link&#39; : (string)$el[&#39;type&#39;];
+            $url = Mage::getBaseUrl($urlType) . (string)$config-&gt;base_url . &#39;/&#39; . $url;
+        &#125;
+
+        return $url;
+    &#125;
+
+    //...
+&#125;</code></pre>
+<p>Finally, it’s important to note that this base URL is not used consistently throughout Magento to create a final URL for a configured image. From what I’ve seen this is only used to create an image preview within the System Configuration admin itself.</p>
+<hr>
+<p>以上是摘录了<a target="_blank" rel="noopener" href="https://alanstorm.com/">alan storm</a>的部分内容</p>
+<h2 id="在已有的配置段或者组中添加数据"><a href="#在已有的配置段或者组中添加数据" class="headerlink" title="在已有的配置段或者组中添加数据"></a>在已有的配置段或者组中添加数据</h2><p>除了新建一个标签页，或者配置段，你也可以利用已有的标签页和配置段，向里面添加内容。比如我们添加以下代码到system.xml</p>
+<pre><code>File: app/code/local/Magentotutorial/Helloworld/etc/system.xml</code></pre>
+<p>Xml代码</p>
+<pre><code>&lt;config&gt;  
+    &lt;!– … –&gt;  
+    &lt;sections&gt;  
+        &lt;!– … –&gt;  
+        &lt;general&gt;  
+            &lt;groups&gt;  
+                &lt;example&gt;  
+                    &lt;label&gt;添加组的示例,来自Helloworld模块&lt;/label&gt;  
+                    &lt;frontend_type&gt;text&lt;/frontend_type&gt;  
+                    &lt;sort_order&gt;1&lt;/sort_order&gt;  
+                    &lt;show_in_default&gt;1&lt;/show_in_default&gt;  
+                    &lt;show_in_website&gt;1&lt;/show_in_website&gt;  
+                    &lt;show_in_store&gt;1&lt;/show_in_store&gt;                     
+                &lt;/example&gt;  
+            &lt;/groups&gt;  
+        &lt;/general&gt;  
+        &lt;!– … –&gt;  
+    &lt;/section&gt;  
+&lt;/config&gt;  </code></pre>
+<p>刷新页面，你会在“General”标签页下面看到一个新的组，叫做“<code>添加组的示例,来自Helloworld模块</code>”。</p>
+<p><img src="https://i.imgur.com/u5SEt8a.png"></p>
+<h2 id="如何获得配置数据"><a href="#如何获得配置数据" class="headerlink" title="如何获得配置数据"></a>如何获得配置数据</h2><p>到目前为止，我们只是讲了如何设置Magento，可以让用户可以配置我们的模块。现在让我们来看看如何获取用户的配置数据。</p>
+<p>Php代码</p>
+<pre><code>Mage::getStoreConfig(&#39;helloworld_options/messages/hello_message&#39;);   </code></pre>
+<p>上面这行代码就可以获取我们上面配置的那个“select”选项的数据。这个函数的参数是我们要获取的数据的URI，格式如下</p>
+<pre><code>section_name/group_name/field_name</code></pre>
+<p>你也可以通过以下代码来获取一个组或者段的所有值</p>
+<p>Php代码</p>
+<pre><code>Mage::getStoreConfig(&#39;helloworld_options/messages&#39;);  
+Mage::getStoreConfig(&#39;helloworld_options&#39;);   </code></pre>
+<p>最后，如果你想获取针对某个特定店面（store）的数据，你可以传入store ID</p>
+<p>Php代码</p>
+<pre><code>Mage::getStoreConfig(&#39;helloworld_options&#39;,1);  </code></pre>
+<p>比如笔者把这个在后天添加的配置显示到前台页面中去，我们该怎么运用呢？</p>
+<p>举例，这里笔者想要在网站的头部显示后台设置的两个内容，当然，肯定是先找到头部的模板文件，笔者这里是header1.phtml，打开这个文件，然后在最前面添加：</p>
+<pre><code>&lt;?php 
+echo Mage::getStoreConfig(&#39;helloworld_options/messages/hello_message&#39;);
+echo &quot;&lt;br/&gt;&quot;;
+echo Mage::getStoreConfig(&#39;helloworld_options/messages/good_message&#39;);
+echo &quot;&lt;br/&gt;&quot;;
+echo Mage::getStoreConfig(&#39;helloworld_options/messages/dianyou_message&#39;);
+ ?&gt;</code></pre>
+<p>记住：这里添加的是helloworld_options中的messages这个下面的<code>hello_message</code>、<code>good_message</code>和<code>dianyou_message</code>这三个，那么我们就找到这三个在后台的设置选项那里填写一些内容试试。</p>
+<p><img src="https://i.imgur.com/0YZtPxt.png"></p>
+<p>我们刷新下前台任何页面，看下效果：</p>
+<p><img src="https://i.imgur.com/Dg76d8m.png"></p>
+<p>这里我们看到已经出现了内容，第二个显示的是一个下拉框的内容的值，不是hello，而是1，那是因为我们在Words.php里面的那个数组那里，我们把label为hello的值对应成1（<code>array(&#39;value&#39;=&gt;1, &#39;label&#39;=&gt;Mage::helper(&#39;helloworld&#39;)-&gt;__(&#39;Hello&#39;))</code>），因此，已经达到我们想要的效果了。</p>
+<p>这个时候，我们还可以进一步的扩展一下，这里显示的全是组message的东西，那能不能多添加几个与massage彼此并列的那种呢？答案是：可以的。</p>
+<p>笔者添加了一些，总体如下：</p>
+<pre><code>&lt;sections&gt;
+    &lt;helloworld_options translate=&quot;label&quot; module=&quot;helloworld&quot;&gt;
+        &lt;label&gt;Hello World Config Options&lt;/label&gt;
+        &lt;tab&gt;helloconfig&lt;/tab&gt;
+        &lt;frontend_type&gt;text&lt;/frontend_type&gt;
+        &lt;sort_order&gt;1000&lt;/sort_order&gt;
+        &lt;show_in_default&gt;1&lt;/show_in_default&gt;
+        &lt;show_in_website&gt;1&lt;/show_in_website&gt;
+        &lt;show_in_store&gt;1&lt;/show_in_store&gt;
+        &lt;groups&gt;  
+            &lt;messages translate=&quot;label&quot;&gt;  
+                &lt;label&gt;Demo Of Config Fields&lt;/label&gt;  
+                &lt;frontend_type&gt;text&lt;/frontend_type&gt;  
+                &lt;sort_order&gt;1&lt;/sort_order&gt;  
+                &lt;show_in_default&gt;1&lt;/show_in_default&gt;  
+                &lt;show_in_website&gt;1&lt;/show_in_website&gt;  
+                &lt;show_in_store&gt;1&lt;/show_in_store&gt;
+                &lt;fields&gt;
+                    &lt;hello_message&gt;
+                        &lt;label&gt;Hello Message&lt;/label&gt;  
+                        &lt;frontend_type&gt;text&lt;/frontend_type&gt;
+                        &lt;sort_order&gt;1&lt;/sort_order&gt;
+                        &lt;show_in_default&gt;1&lt;/show_in_default&gt;
+                        &lt;show_in_website&gt;1&lt;/show_in_website&gt;
+                        &lt;show_in_store&gt;1&lt;/show_in_store&gt;  
+                    &lt;/hello_message&gt;
+                    &lt;good_message&gt;  
+                        &lt;label&gt;Good Message select:&lt;/label&gt;
+                        &lt;frontend_type&gt;select&lt;/frontend_type&gt;
+                        &lt;frontend_class&gt;free-method&lt;/frontend_class&gt;
+                        &lt;source_model&gt;helloworld/words&lt;/source_model&gt;
+                        &lt;sort_order&gt;1&lt;/sort_order&gt;
+                        &lt;show_in_default&gt;1&lt;/show_in_default&gt;
+                        &lt;show_in_website&gt;1&lt;/show_in_website&gt;
+                        &lt;show_in_store&gt;1&lt;/show_in_store&gt;
+                    &lt;/good_message&gt;
+                    &lt;dianyou_message&gt;  
+                        &lt;label&gt;Good Message email:&lt;/label&gt;
+                        &lt;frontend_type&gt;text&lt;/frontend_type&gt;
+                        &lt;validate&gt;validate-email&lt;/validate&gt;
+                        &lt;sort_order&gt;1&lt;/sort_order&gt;
+                        &lt;show_in_default&gt;1&lt;/show_in_default&gt;
+                        &lt;show_in_website&gt;1&lt;/show_in_website&gt;
+                        &lt;show_in_store&gt;1&lt;/show_in_store&gt;
+                    &lt;/dianyou_message&gt;
+                &lt;/fields&gt;
+            &lt;/messages&gt;
+            &lt;allowspecific translate=&quot;label&quot;&gt;
+               &lt;label&gt;Payment Applicable From&lt;/label&gt;
+               &lt;frontend_type&gt;select&lt;/frontend_type&gt;
+               &lt;sort_order&gt;100&lt;/sort_order&gt;
+               &lt;source_model&gt;adminhtml/system_config_source_payment_allspecificcountries&lt;/source_model&gt;
+               &lt;show_in_default&gt;1&lt;/show_in_default&gt;
+               &lt;show_in_website&gt;1&lt;/show_in_website&gt;
+               &lt;show_in_store&gt;0&lt;/show_in_store&gt;
+            &lt;/allowspecific&gt;
+            &lt;specificcountry translate=&quot;label&quot;&gt;
+                &lt;label&gt;Countries Payment Applicable From&lt;/label&gt;
+                &lt;frontend_type&gt;multiselect&lt;/frontend_type&gt;
+                &lt;sort_order&gt;110&lt;/sort_order&gt;
+                &lt;source_model&gt;adminhtml/system_config_source_country&lt;/source_model&gt;
+                &lt;show_in_default&gt;1&lt;/show_in_default&gt;
+                &lt;show_in_website&gt;1&lt;/show_in_website&gt;
+                &lt;show_in_store&gt;0&lt;/show_in_store&gt;
+                &lt;depends&gt;&lt;allowspecific&gt;1&lt;/allowspecific&gt;&lt;/depends&gt;
+            &lt;/specificcountry&gt;
+            &lt;last_update translate=&quot;label&quot;&gt;
+                &lt;label&gt;Last update&lt;/label&gt;
+                &lt;frontend_type&gt;label&lt;/frontend_type&gt;
+                &lt;frontend_model&gt;adminhtml/system_config_form_field_notification&lt;/frontend_model&gt;
+                &lt;sort_order&gt;1&lt;/sort_order&gt;
+                &lt;show_in_default&gt;1&lt;/show_in_default&gt;
+                &lt;show_in_website&gt;0&lt;/show_in_website&gt;
+                &lt;show_in_store&gt;0&lt;/show_in_store&gt;
+            &lt;/last_update&gt;
+            &lt;import translate=&quot;label&quot;&gt;
+                &lt;label&gt;Import&lt;/label&gt;
+                &lt;frontend_type&gt;import&lt;/frontend_type&gt;
+                &lt;backend_model&gt;adminhtml/system_config_backend_shipping_tablerate&lt;/backend_model&gt;
+                &lt;sort_order&gt;1&lt;/sort_order&gt;
+                &lt;show_in_default&gt;0&lt;/show_in_default&gt;
+                &lt;show_in_website&gt;1&lt;/show_in_website&gt;
+                &lt;show_in_store&gt;0&lt;/show_in_store&gt;
+            &lt;/import&gt;
+        &lt;/groups&gt;
+    &lt;/helloworld_options&gt;
+&lt;/sections&gt;</code></pre>
+<p>根据以上的知识，相信这个不难理解，其实就是新添加了多个组：allowspecific、specificcountry、last_update、import</p>
+<p>目前这些组里面还没有东西：</p>
+<p><img src="https://i.imgur.com/UZhMBPa.png"></p>
+<p>如果想要有东西，也需要向message这个组那样，添加一些字段：<code>field</code>，里面添加一些东西即可，可以参照massage这个组。</p>
+<p>我们进一步上溯一级，如果我们想要tab这个添加多个子下属呢？把这个：</p>
+<p><img src="https://i.imgur.com/HG7Cqdj.png"></p>
+<p>下面添加一个：</p>
+<p><img src="https://i.imgur.com/m2eDXA2.png"></p>
+<p>这个也很简单，把</p>
+<pre><code>&lt;helloworld_options translate=&quot;label&quot; module=&quot;helloworld&quot;&gt;
+...
+&lt;/helloworld_options&gt;</code></pre>
+<p>这个复制一份跟这个放在同级，然后修改一下标签名，笔者这里改成了：</p>
+<pre><code>&lt;hello_options translate=&quot;label&quot; module=&quot;helloworld&quot;&gt;
+            &lt;label&gt;Hello 2 World Config Options&lt;/label&gt;
+            &lt;tab&gt;helloconfig&lt;/tab&gt;
+            &lt;frontend_type&gt;text&lt;/frontend_type&gt;
+            &lt;sort_order&gt;1001&lt;/sort_order&gt;
+            &lt;show_in_default&gt;1&lt;/show_in_default&gt;
+            &lt;show_in_website&gt;1&lt;/show_in_website&gt;
+            &lt;show_in_store&gt;1&lt;/show_in_store&gt;
+            ...
+&lt;/hello_options&gt;</code></pre>
+<p>这里说明下：label名称改成了Hello 2 World Config Options，方便区分，tab这个名字不能修改，为什么呢，大家看下system.xml就知道了。</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;config&gt;
+    &lt;tabs&gt;
+        &lt;helloconfig translate=&quot;label&quot; module=&quot;helloworld&quot;&gt;
+            &lt;label&gt;Hello Config&lt;/label&gt;
+            &lt;sort_order&gt;99999&lt;/sort_order&gt;
+        &lt;/helloconfig&gt;
+    &lt;/tabs&gt;
+    ....</code></pre>
+<p>既然，我们是在hello config这个tab下添加子目录，那么必须得是<code>&lt;tab&gt;helloconfig&lt;/tab&gt;</code>，然后我们记得要把复制过来的组的标签名修改下，免得冲突了。然后清除下缓存，退出一下登录（不然，会变成404的），然后重新登录，就可以看到新添加的那个了（Hello 2 World Config Options），然后点击进去，就可以看到有东西了。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这里我们讲了如何在Magento的后台管理中添加个性化的配置。我们也顺便介绍了帮助类的使用和ACL基础。这里最重要的内容是后台配置的层级 结构，标签页包含了配置段，配置段包含了组，组包含了配置选项。我们将在以后的章节中介绍系统配置的高级内容，包括自定义格式，数据验证等等。完成了这篇文章的吸收后，相信我们能够做到在magento后台自定义配置的内容了，也能够理解那些标签的用法和意思了。建议大家结合笔者的其他的几篇关于magento开发的文章阅读，这篇文章是在已经创建了Helloworld的基础上进行实践的。希望大家先去创建这样的一个模块再来阅读本篇文章。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/magento-%E8%87%AA%E5%AE%9A%E4%B9%89magento%E5%90%8E%E5%8F%B0%E9%85%8D%E7%BD%AE%EF%BC%8C%E8%87%AA%E5%AE%9A%E4%B9%89-%E9%85%8D%E7%BD%AE/" rel="tag"># magento,自定义magento后台配置，自定义,配置</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/08/20/%E5%A6%82%E4%BD%95%E6%8A%8A%E5%AD%97%E5%86%99%E5%A5%BD%E7%9A%84%E4%B8%80%E4%BA%9B%E4%B8%AA%E4%BA%BA%E5%BF%83%E5%BE%97/" rel="prev" title="如何把字写好的一些个人心得">
+      <i class="fa fa-chevron-left"></i> 如何把字写好的一些个人心得
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/08/22/%E5%9C%A8magento%E7%9A%84%E9%A1%B5%E9%9D%A2%E4%B8%AD%E5%BC%95%E5%85%A5js%E5%92%8Ccss%EF%BC%8C%E4%BB%A5%E5%8F%8A%E7%A7%BB%E9%99%A4%E4%B8%8D%E5%BF%85%E8%A6%81%E7%9A%84js%E5%BC%95%E5%85%A5%E9%97%AE%E9%A2%98%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" rel="next" title="在magento的页面中引入js和css，以及移除不必要的js引入问题的解决方案">
+      在magento的页面中引入js和css，以及移除不必要的js引入问题的解决方案 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AC%AC%E4%B8%83%E7%AB%A0-%E2%80%93-%E8%87%AA%E5%AE%9A%E4%B9%89Magento%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AE"><span class="nav-number">1.</span> <span class="nav-text">第七章 – 自定义Magento系统配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text">添加系统配置文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%B8%AA%E6%A0%87%E7%AD%BE%E9%A1%B5"><span class="nav-number">3.</span> <span class="nav-text">添加一个标签页</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Magento-Helper%E7%AE%80%E4%BB%8B"><span class="nav-number">4.</span> <span class="nav-text">Magento Helper简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E6%96%B0%E7%9A%84%E6%AE%B5"><span class="nav-number">5.</span> <span class="nav-text">添加新的段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-lt-helloworld-options-gt-%EF%BC%9F"><span class="nav-number">6.</span> <span class="nav-text">什么是&lt;helloworld_options &#x2F;&gt;？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-lt-frontend-type-gt-%EF%BC%9F"><span class="nav-number">7.</span> <span class="nav-text">什么是&lt;frontend_type &#x2F;&gt;？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-lt-show-in-default-gt-%EF%BC%8C-lt-show-in-website-gt-%EF%BC%8C-lt-show-in-store-gt-%EF%BC%9F"><span class="nav-number">8.</span> <span class="nav-text">什么是&lt;show_in_default &#x2F;&gt;，&lt; show_in_website &#x2F;&gt;，&lt;show_in_store &#x2F;&gt;？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%BF%E9%97%AE%E6%8E%A7%E5%88%B6"><span class="nav-number">9.</span> <span class="nav-text">访问控制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0ACL%E6%9D%83%E9%99%90"><span class="nav-number">10.</span> <span class="nav-text">添加ACL权限</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E7%BB%84"><span class="nav-number">11.</span> <span class="nav-text">添加组</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E9%85%8D%E7%BD%AE%E9%80%89%E9%A1%B9"><span class="nav-number">12.</span> <span class="nav-text">添加配置选项</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-lt-frontend-class-gt-%EF%BC%9F"><span class="nav-number">13.</span> <span class="nav-text">什么是&lt;frontend_class&#x2F;&gt;？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lt-depends-gt"><span class="nav-number">14.</span> <span class="nav-text">&lt;depends&#x2F;&gt;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lt-source-model-gt"><span class="nav-number">15.</span> <span class="nav-text">&lt;source_model&#x2F;&gt;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lt-frontend-model-gt"><span class="nav-number">16.</span> <span class="nav-text">&lt;frontend_model&#x2F;&gt;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#lt-backend-model-gt"><span class="nav-number">17.</span> <span class="nav-text">&lt;backend_model&#x2F;&gt;</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8%E5%B7%B2%E6%9C%89%E7%9A%84%E9%85%8D%E7%BD%AE%E6%AE%B5%E6%88%96%E8%80%85%E7%BB%84%E4%B8%AD%E6%B7%BB%E5%8A%A0%E6%95%B0%E6%8D%AE"><span class="nav-number">18.</span> <span class="nav-text">在已有的配置段或者组中添加数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E8%8E%B7%E5%BE%97%E9%85%8D%E7%BD%AE%E6%95%B0%E6%8D%AE"><span class="nav-number">19.</span> <span class="nav-text">如何获得配置数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">20.</span> <span class="nav-text">总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

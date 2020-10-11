@@ -1,37 +1,537 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="折腾wordpress算算也有一段时间了，说道wordpress我们都没少提它那强大的插件，wordpress有很多令人尖叫的插件，通过插件可以完成很多工作，很多功能都被打包在了插件中，作为一名wordpress迷，不折腾下wordpress的插件怎么行呢，好吧！我就先体验一把，把这个当做我试水wordpress插件的处女作。 让我们进入正题： 我的目标是制作一个在每篇文章后面添加一个提示的功能（">
+<meta property="og:type" content="article">
+<meta property="og:title" content="wordpress插件开发一般流程">
+<meta property="og:url" content="http://example.com/2016/04/13/wordpress%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E4%B8%80%E8%88%AC%E6%B5%81%E7%A8%8B/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="折腾wordpress算算也有一段时间了，说道wordpress我们都没少提它那强大的插件，wordpress有很多令人尖叫的插件，通过插件可以完成很多工作，很多功能都被打包在了插件中，作为一名wordpress迷，不折腾下wordpress的插件怎么行呢，好吧！我就先体验一把，把这个当做我试水wordpress插件的处女作。 让我们进入正题： 我的目标是制作一个在每篇文章后面添加一个提示的功能（">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://i.imgur.com/hRkyI7C.png">
+<meta property="og:image" content="http://i.imgur.com/SnBGHGV.png">
+<meta property="og:image" content="http://i.imgur.com/E7Inxbj.png">
+<meta property="og:image" content="http://i.imgur.com/QRAdygW.png">
+<meta property="og:image" content="http://i.imgur.com/pIyOalX.png">
+<meta property="article:published_time" content="2016-04-13T07:51:20.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:53:13.899Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="wordpress,插件">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://i.imgur.com/hRkyI7C.png">
+
+<link rel="canonical" href="http://example.com/2016/04/13/wordpress%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E4%B8%80%E8%88%AC%E6%B5%81%E7%A8%8B/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>wordpress插件开发一般流程 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/04/13/wordpress%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E4%B8%80%E8%88%AC%E6%B5%81%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          wordpress插件开发一般流程
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-04-13 15:51:20" itemprop="dateCreated datePublished" datetime="2016-04-13T15:51:20+08:00">2016-04-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:13" itemprop="dateModified" datetime="2020-10-11T11:53:13+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>折腾wordpress算算也有一段时间了，说道wordpress我们都没少提它那强大的插件，wordpress有很多令人尖叫的插件，通过插件可以完成很多工作，很多功能都被打包在了插件中，作为一名wordpress迷，不折腾下wordpress的插件怎么行呢，好吧！我就先体验一把，把这个当做我试水wordpress插件的处女作。</p>
+<p>让我们进入正题：</p>
+<p>我的目标是制作一个在每篇文章后面添加一个提示的功能（提示的内容可以随便写）。</p>
+<p>首先我们找到wordpress程序文件的<code>wp-content\plugins</code>下，这个文件夹都是存放插件的，别问我为什么是这个文件夹，这是wordpress官方规定的。</p>
+<p>第一步：为插件新建一个文件夹并且取个名字，我给这个插件取了个名字：alididi_plugin，截图如下：</p>
+<p><img src="http://i.imgur.com/hRkyI7C.png"></p>
+<p>第二步：我们在这个文件夹下新建两个文件：alididi_plugin.php和readme.txt</p>
+<p>为什么要建这两个文件呢？</p>
+<p>1、alididi_plugin.php用来存放这个插件的功能代码，以后这个插件能干什么事，全靠这个文件里的逻辑了，当然文件名字可以随便取。</p>
+<p>2、readme.txt 文件中包含了一该插件的介绍，使用说明等信息，主要是提交到 WordPress 官方网站时候用到的，如果我们想开发一个能够发布到wordpress官网的插件，那么这个文件是必须的，而且这个文件的内容编写格式必须要符合wordpress那边的规范，如果是本地自己使用的话，那么我们就可以不用管。</p>
+<p>第三步：我们在alididi_plugin.php文件中编写这个插件的功能和插件信息，以便wordpress程序能够识别，代码如下：</p>
+<pre><code>&lt;?php  
+/*
+Plugin Name: Alididi_plugin
+Plugin URI: http://www.alididi.com/plugins/
+Description: 这是一个能够实现文章末尾提示的一个插件
+Version: 1.0
+Author: 阿狸弟弟
+Author URI: http://www.alididi.com/
+License: GPL
+*/
+/* 这个插件将会在文章下面显示提示信息，紫色的文字和虚线边框 */ 
+function Alididi_plugin() &#123;  
+    return &quot;&lt;p style=&#39;color:#8400FF;border:1px dashed #333&#39;&gt;
+    版权归阿狸弟弟所有，欢迎前往官网下载需要的插件！
+&lt;/p&gt;&quot;;  
+&#125;
+?&gt; </code></pre>
+<p>接下来我们要在single.php文件中的文章内容调用代码的后面添加如下的php代码：</p>
+<pre><code>&lt;?php
+    if(function_exists(&#39;Alididi_plugin&#39;)) &#123;  
+        echo Alididi_plugin();  
+    &#125;
+?&gt;</code></pre>
+<p>你一定会惊讶于插件开发太容易了，是的！这个插件实现的功能少得可怜，所以很短，我见过很多插件很复杂的，其程度可以跟一个优秀的主题相媲美了，那么就会很复杂。</p>
+<p>第四步：打开wordpress网站后台 –&gt; 插件 –&gt;已安装的插件</p>
+<p><img src="http://i.imgur.com/SnBGHGV.png"></p>
+<p>这里我已经启用了，接下来我们要去看效果了，我们来到网站的文章页，你们知道我看到了什么吗？文字不重要，请看下图：</p>
+<p><img src="http://i.imgur.com/E7Inxbj.png"></p>
+<p>成功收尾！这个只能算是一个插件的开发流程的摘要，让新手明白插件不再是什么高深莫测的东西。</p>
+<p>当然这个使用起来是很不方便的，以后如果我们想修改下这些提示，不得不从这个文件里面进行修改，那是相当麻烦的事，好！我们接下来对这个插件进一步的进行改造，跟着上面的代码来：</p>
+<pre><code>&lt;?php  
+/*
+Plugin Name: Alididi_plugin
+Plugin URI: http://www.alididi.com/plugins/
+Description: 这是一个能够实现文章末尾提示的一个插件
+Version: 1.0
+Author: 阿狸弟弟
+Author URI: http://www.alididi.com/
+License: GPL
+*/
+add_filter( &#39;the_content&#39;,  &#39;display_copyright&#39; ); //添加钩子
+/* 这个插件将会在文章下面显示提示信息，紫色的文字和虚线边框 */ 
+function Alididi_plugin() &#123;  
+  if( is_single() )  
+    $content = $content . &quot;&lt;p style=&#39;color:#B505B8;border:1px dashed #222&#39;&gt;版权归阿狸弟弟所有，欢迎前往官网下载需要的插件！&lt;/p&gt;&quot;;  
+
+return $content;  
+&#125;
+?&gt; </code></pre>
+<p>参看以上代码，其中<code>the_content</code>是钩子的名字，<code>Alididi_plugin</code> 是回调函数名称。这样一来，只要启用插件就可以实现功能，不需要去修改主题了，把上面在single.php 文件中添加的代码删掉，然后启用插件，显示效果应该是一样的，无论怎么换主题，还是会自动显示版权信息。</p>
+<p><code>is_single</code>是判断是不是文章页</p>
+<p>接下来，我就要解决另外一个问题，就是在wordpress后台为插件单独添加一个菜单和页面，用户可以在这里来自定义设置文章末尾的提示信息，信息可以保存在数据库里面。</p>
+<p>为了能够更方便的说明问题，先把alididi_plugin.php的代码贴出来：</p>
+<pre><code>&lt;?php  
+/*
+Plugin Name: Alididi_plugin
+Plugin URI: http://www.alididi.com/plugins/
+Description: 这是一个能够实现文章末尾提示的一个插件
+Version: 1.0
+Author: 阿狸弟弟
+Author URI: http://www.alididi.com/
+License: GPL
+*/
+/* 注册激活插件时要调用的函数 */ 
+register_activation_hook( __FILE__, &#39;Alididi_plugin_install&#39;);   
+/* 注册停用插件时要调用的函数 */ 
+register_deactivation_hook( __FILE__, &#39;Alididi_plugin_remove&#39; );  
+function Alididi_plugin_install() &#123;  
+    /* 在数据库的 wp_options 表中添加一条记录，第二个参数为默认值 */ 
+    add_option(&quot;Alididi_plugin_text&quot;, &quot;&lt;p style=&#39;color:red&#39;&gt;版权归阿狸弟弟所有，欢迎前往官网下载需要的插件！&lt;/p&gt;&quot;, &#39;&#39;, &#39;yes&#39;);  
+&#125;
+function Alididi_plugin_remove() &#123;  
+    /* 删除 wp_options 表中的对应记录 */ 
+    delete_option(&#39;Alididi_plugin_text&#39;);  
+&#125;
+if( is_admin() ) &#123;
+    /*  利用 admin_menu 钩子，添加菜单 */
+    add_action(&#39;admin_menu&#39;, &#39;Alididi_plugin_menu&#39;);
+&#125;    
+function Alididi_plugin_menu() &#123;
+    /* add_options_page( $page_title, $menu_title, $capability, $menu_slug, $function);  */
+    /* 页面标题名称，菜单名称，访问级别，菜单别名，点击该菜单时的回调函数（用以显示设置页面） */
+    add_options_page(&#39;Set Copyright&#39;, &#39;Copyright Menu&#39;, &#39;administrator&#39;,&#39;Alididi_plugin&#39;, &#39;Alididi_plugin_html_page&#39;);
+&#125;    
+function Alididi_plugin_html_page() &#123;
+    ?&gt;
+    &lt;div&gt;  
+        &lt;h2&gt;设置文章末尾提示信息&lt;/h2&gt;  
+        &lt;form method=&quot;post&quot; action=&quot;options.php&quot;&gt;  
+            &lt;?php /* 下面这行代码用来保存表单中内容到数据库 */ ?&gt;  
+            &lt;?php wp_nonce_field(&#39;update-options&#39;); ?&gt;   
+            &lt;p&gt;  
+                &lt;textarea  
+                    name=&quot;Alididi_plugin_text&quot; 
+                    id=&quot;Alididi_plugin_text&quot; 
+                    cols=&quot;40&quot; 
+                    rows=&quot;6&quot;&gt;&lt;?php echo get_option(&#39;Alididi_plugin_text&#39;); ?&gt;
+             &lt;/textarea&gt;  
+            &lt;/p&gt;  
+            &lt;p&gt;  
+                &lt;input type=&quot;hidden&quot; name=&quot;action&quot; value=&quot;update&quot; /&gt;  
+                &lt;input type=&quot;hidden&quot; name=&quot;page_options&quot; value=&quot;Alididi_plugin_text&quot; /&gt;  
+                &lt;input type=&quot;submit&quot; value=&quot;Save&quot; class=&quot;button-primary&quot; /&gt;  
+            &lt;/p&gt;  
+        &lt;/form&gt;  
+    &lt;/div&gt;  
+&lt;?php  
+&#125;  
+add_filter( &#39;the_content&#39;,  &#39;Alididi_plugin&#39; );  
+/* 这个函数在日志正文结尾处添加一段提示信息，并且只在文章才添加 */ 
+function Alididi_plugin( $content ) &#123;  
+    if( is_single() )  
+        $content = $content . get_option(&#39;Alididi_plugin_text&#39;); 
+    return $content;  
+&#125;  
+?&gt;</code></pre>
+<p>前面的single.php的调用代码稍作修改把它修改成如下：</p>
+<pre><code>&lt;?php
+    if(function_exists(&#39;Alididi_plugin&#39;)) &#123;  
+        echo &quot;&lt;p style=&#39;text-align:center;background:#8F00DB;border-radius:5px;padding:10px;color:#fff&#39;&gt;&quot;.Alididi_plugin($content).&quot;&lt;/p&gt;&quot;;  
+    &#125;
+?&gt;</code></pre>
+<p>比较一下区别就知道这里我们用的是动态的文本，就是说在我们的后台无论我们怎么修改提示信息，这边都会跟着相应的变化，而不需要深入代码文件里去修改，给我们省去了很多的麻烦。</p>
+<p>现在我们在看些整体效果，打开网站后台的设置 –&gt; 文章末尾添加提示信息，截图如下：</p>
+<p><img src="http://i.imgur.com/QRAdygW.png"></p>
+<p>然后我们打开网站的文章页，然后找到底部，截图如下：</p>
+<p><img src="http://i.imgur.com/pIyOalX.png"></p>
+<p>看到没，出来了，而且这样逼格都高了不少，有木有？ </p>
+<p>本文参考网址：<a target="_blank" rel="noopener" href="http://www.cnblogs.com/xcxc/p/3664408.html">http://www.cnblogs.com/xcxc/p/3664408.html</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/wordpress-%E6%8F%92%E4%BB%B6/" rel="tag"># wordpress,插件</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2016/04/13/JavaScript%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%EF%BC%9A%E5%AF%B9%E8%B1%A1%E5%B1%9E%E6%80%A7%E6%A3%80%E6%B5%8B/" rel="prev" title="JavaScript学习笔记：对象属性检测">
+      <i class="fa fa-chevron-left"></i> JavaScript学习笔记：对象属性检测
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2016/04/13/%E5%A6%82%E4%BD%95%E5%BC%80%E5%8F%91%E4%B8%80%E4%B8%AAwordpress%E6%8F%92%E4%BB%B6/" rel="next" title="如何开发一个wordpress插件">
+      如何开发一个wordpress插件 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,37 +1,540 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="路由表说明  --------------------------------------源码:----------------------------------------------Active Routes:   Network Destination    Netmask           Gateway          Interface        Metric   0.0.0">
+<meta property="og:type" content="article">
+<meta property="og:title" content="路由表详解">
+<meta property="og:url" content="http://example.com/2017/05/10/%E8%B7%AF%E7%94%B1%E8%A1%A8%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="路由表说明  --------------------------------------源码:----------------------------------------------Active Routes:   Network Destination    Netmask           Gateway          Interface        Metric   0.0.0">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-05-10T12:13:12.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:52:58.993Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="路由表">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2017/05/10/%E8%B7%AF%E7%94%B1%E8%A1%A8%E8%AF%A6%E8%A7%A3/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>路由表详解 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/05/10/%E8%B7%AF%E7%94%B1%E8%A1%A8%E8%AF%A6%E8%A7%A3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          路由表详解
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-05-10 20:13:12" itemprop="dateCreated datePublished" datetime="2017-05-10T20:13:12+08:00">2017-05-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:52:58" itemprop="dateModified" datetime="2020-10-11T11:52:58+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>路由表说明 </p>
+<pre><code>--------------------------------------源码:----------------------------------------------Active Routes:  
+Network Destination    Netmask           Gateway          Interface        Metric  
+0.0.0.0                0.0.0.0           192.168.123.254  192.168.123.88   1  
+0.0.0.0                0.0.0.0           192.168.123.254  192.168.123.68   1  
+127.0.0.0              255.0.0.0         127.0.0.1        127.0.0.1        1  
+192.168.123.0          255.255.255.0     192.168.123.68   192.168.123.68   1  
+192.168.123.0          255.255.255.0     192.168.123.88   192.168.123.88   1  
+192.168.123.68         255.255.255.255   127.0.0.1        127.0.0.1        1  
+192.168.123.88         255.255.255.255   127.0.0.1        127.0.0.1        1  
+192.168.123.255        255.255.255.255   192.168.123.68   192.168.123.68   1  
+192.168.123.255        255.255.255.255   192.168.123.88   192.168.123.88   1  
+224.0.0.0              224.0.0.0         192.168.123.68   192.168.123.68   1  
+224.0.0.0              224.0.0.0         192.168.123.88   192.168.123.88   1  
+255.255.255.255        255.255.255.255   192.168.123.68   192.168.123.68   1  
+Default Gateway: 192.168.123.254  </code></pre>
+<hr>
+<p>当前的路由：<br>destination 目的网段<br>mask 子网掩码<br>interface 到达该目的地的本路由器的出口ip<br>gateway 下一跳路由器入口的ip，路由器通过interface和gateway定义一调到下一个路由器的链路，通常情况下，interface和gateway是同一网段的<br>metric 跳数，该条路由记录的质量，一般情况下，如果有多条到达相同目的地的路由记录，路由器会采用metric值小的那条路由  </p>
+<p>第一条<br>缺省路由：意思就是说，当一个数据包的目的网段不在你的路由记录中，那么，你的路由器该把那个数据包发送到哪里！缺省路由的网关是由你的连接上的default gateway决定的<br>该路由记录的意思是：当我接收到一个数据包的目的网段不在我的路由记录中，我会将该数据包通过192.168.123.88这个接口发送到192.168.123.254这个地址，这个地址是下一个路由器的一个接口，这样这个数据包就可以交付给下一个路由器处理，与我无关。该路由记录的线路质量 1  </p>
+<p>第二条<br>缺省路由：该路由记录的意思是：当我接收到一个数据包的目的网段不在我的路由记录中，我会将该数据包通过192.168.123.68这个接口发送到192.168.123.254这个地址，这个地址是下一个路由器的一个接口，这样这个数据包就可以交付给下一个路由器处理，与我无关。该路由记录的线路质量 1  </p>
+<p>第三条<br>本地环路：127.0.0.0这个网段内所有地址都指向自己机器，如果收到这样一个数据，应该发向哪里 该路由记录的线路质量 1  </p>
+<p>第四条<br>直联网段的路由记录：当路由器收到发往直联网段的数据包时该如何处理，这种情况，路由记录的interface和gateway是同一个。<br>当我接收到一个数据包的目的网段是192.168.123.0时，我会将该数据包通过192.168.123.68这个接口直接发送出去，因为这个端口直接连接着192.168.123.0这个网段，该路由记录的线路质量 1  </p>
+<p>第五条<br>直联网段的路由记录<br>当我接收到一个数据包的目的网段是192.168.123.0时，我会将该数据包通过192.168.123.88这个接口直接发送出去，因为这个端口直接连接着192.168.123.0这个网段，该路由记录的线路质量 1  </p>
+<p>第六条<br>本地主机路由：当路由器收到发送给自己的数据包时将如何处理<br>当我接收到一个数据包的目的网段是192.168.123.68时，我会将该数据包收下，因为这个数据包时发送给我自己的，该路由记录的线路质量 1  </p>
+<p>第七条<br>本地主机路由：当路由器收到发送给自己的数据包时将如何处理<br>当我接收到一个数据包的目的网段是192.168.123.88时，我会将该数据包收下，因为这个数据包时发送给我自己的，该路由记录的线路质量 1  </p>
+<p>第八条<br>本地广播路由：当路由器收到发送给直联网段的本地广播时如何处理<br>当我接收到广播数据包的目的网段是192.168.123.255时，我会将该数据从192.168.123.68接口以广播的形势发送出去，该路由记录的线路质量 1  </p>
+<p>第九条<br>本地广播路由：当路由器收到发送给直联网段的本地广播时如何处理<br>当我接收到广播数据包的目的网段是192.168.123.255时，我会将该数据从192.168.123.88接口以广播的形势发送出去，该路由记录的线路质量 1  </p>
+<p>第十条<br>组播路由：当路由器收到一个组播数据包时该如何处理<br>当我接收到组播数据包时，我会将该数据从192.168.123.68接口以组播的形势发送出去，该路由记录的线路质量 1  </p>
+<p>第十一条<br>组播路由：当路由器收到一个组播数据包时该如何处理<br>当我接收到组播数据包时，我会将该数据从192.168.123.88接口以组播的形势发送出去，该路由记录的线路质量 1  </p>
+<p>第十二条<br>广播路由：当路由器收到一个绝对广播时该如何处理<br>当我接收到绝对广播数据包时，将该数据包丢弃掉 </p>
+<p>这个例子演示的是访问不同的地址从不同的网关走 </p>
+<pre><code>route delete 0.0.0.0 
+route add 172.0.0.0 mask 255.0.0.0 172.31.50.254 
+route add 0.0.0.0 mask 0.0.0.0 172.31.50.1 
+route add 192.168.10.0 mask 255.255.255.0 172.31.50.254 </code></pre>
+<p>大概就是这么用,如果你有两个网卡,或者两条线路,就可以用这个命令 </p>
+<p><strong>Route</strong></p>
+<p>在本地 IP 路由表中显示和修改条目。  </p>
+<p>语法  </p>
+<pre><code>route [-f] [-p] [Command [Destination] [mask Netmask] [Gateway] [metric Metric]] [if Interface]]  </code></pre>
+<p>参数  </p>
+<pre><code>-f  </code></pre>
+<p>清除所有不是主路由（网掩码为 255.255.255.255 的路由）、环回网络路由（目标为 127.0.0.0，网掩码为 255.255.255.0 的路由）或多播路由（目标为 224.0.0.0，网掩码为 240.0.0.0 的路由）的条目的路由表。如果它与命令之一（例如 add、change 或 delete）结合使用，表会在运行命令之前清除。 </p>
+<pre><code>-p  </code></pre>
+<p>与 add 命令共同使用时，指定路由被添加到注册表并在启动 TCP/IP 协议的时候初始化 IP 路由表。默认情况下，启动 TCP/IP 协议时不会保存添加的路由。与 print 命令一起使用时，则显示永久路由列表。所有其它的命令都忽略此参数。永久路由存储在注册表中的位置是 HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\PersistentRoutes。  </p>
+<p><strong>Command</strong>  </p>
+<p>指定要运行的命令。下表列出了有效的命令。 </p>
+<pre><code>命令 目的  
+add 添加路由  
+change 更改现存路由  
+delete 删除路由  
+print 打印路由Destination  </code></pre>
+<p>指定路由的网络目标地址。目标地址可以是一个 IP 网络地址（其中网络地址的主机地址位设置为 0），对于主机路由是 IP 地址，对于默认路由是 0.0.0.0。  </p>
+<p>mask subnetmask<br>指定与网络目标地址相关联的网掩码（又称之为子网掩码）。子网掩码对于 IP 网络地址可以是一适当的子网掩码，对于主机路由是 255.255.255.255 ，对于默认路由是 0.0.0.0。如果忽略，则使用子网掩码 255.255.255.255。定义路由时由于目标地址和子网掩码之间的关系，目标地址不能比它对应的子网掩码更为详细。换句话说，如果子网掩码的一位是 0，则目标地址中的对应位就不能设置为 1。  </p>
+<p><strong>Gateway</strong>  </p>
+<p>指定超过由网络目标和子网掩码定义的可达到的地址集的前一个或下一个跃点 IP 地址。对于本地连接的子网路由，网关地址是分配给连接子网接口的 IP 地址。对于要经过一个或多个路由器才可用到的远程路由，网关地址是一个分配给相邻路由器的、可直接达到的 IP 地址。  </p>
+<p><strong>metric Metric</strong></p>
+<p>为路由指定所需跃点数的整数值（范围是 1 ~ 9999），它用来在路由表里的多个路由中选择与转发包中的目标地址最为匹配的路由。所选的路由具有最少的跃点数。跃点数能够反映跃点的数量、路径的速度、路径可靠性、路径吞吐量以及管理属性。  </p>
+<p><strong>if Interface</strong></p>
+<p>指定目标可以到达的接口的接口索引。使用 route print 命令可以显示接口及其对应接口索引的列表。对于接口索引可以使用十进制或十六进制的值。对于十六进制值，要在十六进制数的前面加上 0x。忽略 if 参数时，接口由网关地址确定。<br>/?<br>在命令提示符显示帮助。<br>注释<br>路由表中 跃点数 一列的值较大是由于允许 TCP/IP 根据每个 LAN接口的 IP 地址、子网掩码和默认网关的配置自动确定路由表中路由的跃点数造成的。默认启动的自动确定接口跃点数确定了每个接口的速度，调整了每个接口的路由跃点数，因此最快接口所创建的路由具有最低的跃点数。要删除大跃点数，请在每个 LAN 连接的 TCP/IP 协议的高级属性中禁用自动确定接口跃点数。  </p>
+<p>如果在 systemroot\System32\Drivers\Etc 文件夹的本地网络文件中存在适当的条目，名称可以用于 Destination。只要名称可以通过“域名系统” (DNS) 查询这样的标准主机名解析技术分解为 IP 地址，就可以将其用于 Gateway，DNS 查询使用存储在 systemroot\System32\Drivers\Etc 文件夹下的本地主机文件和 NetBIOS 名称解析。  </p>
+<p>如果是 print 或 delete 命令，可以忽略 Gateway 参数，使用通配符来表示目标和网关。Destination 的值可以是由星号 (<em>) 指定的通配符。如果指定目标含有一个星号 (</em>) 或问号 (?)，它被看作是通配符，只打印或删除匹配的目标路由。星号代表任意一字符序列，问号代表任一字符。例如， 10.*.1, 192.168.<em>、 127.</em> 和 <em>224</em> 都是星号通配符的有效使用。  </p>
+<p>使用了无效的目标和子网掩码（网掩码）值的组合，会显示“Route:bad gateway address netmask”错误消息。目标中有一位或多位设置为 1，而其在子网掩码中的对应位设置为 0 时会发生这个错误。可以通过二进制表示法表示目标和子网掩码来检查这种情况。以二进制表示的子网掩码包括表示目标网络地址部分的一连串的 1 和表示目标主机地址部分的一连串的 0 两个部分。查看目标以确定目标的主机地址部分（由子网掩码所定义）是否有些位设置成了 1。  </p>
+<p>只有 Windows NT 4.0、Windows 2000、Windows Millennium Edition 和 Windows XP 的 route 命令支持 -p 参数。Windows 95 或 Windows 98 的 route 命令不支持该参数。  </p>
+<p>只有当网际协议 (TCP/IP) 协议在 网络连接中安装为网络适配器属性的组件时，该命令才可用。  </p>
+<p>范例 </p>
+<p>要显示 IP 路由表的完整内容，请键入：  </p>
+<pre><code> route print  </code></pre>
+<p>要显示 IP 路由表中以 10. 开始的路由，请键入：  </p>
+<pre><code> route print 10.*  </code></pre>
+<p>要添加默认网关地址为 192.168.12.1 的默认路由，请键入：  </p>
+<pre><code> route add 0.0.0.0 mask 0.0.0.0 192.168.12.1  </code></pre>
+<p>要添加目标为 10.41.0.0，子网掩码为 255.255.0.0，下一个跃点地址为 10.27.0.1 的路由，请键入：  </p>
+<pre><code> route add 10.41.0.0 mask 255.255.0.0 10.27.0.1  </code></pre>
+<p>要添加目标为 10.41.0.0，子网掩码为 255.255.0.0，下一个跃点地址为 10.27.0.1 的永久路由，请键入：  </p>
+<pre><code> route -p add 10.41.0.0 mask 255.255.0.0 10.27.0.1  </code></pre>
+<p>要添加目标为 10.41.0.0，子网掩码为 255.255.0.0，下一个跃点地址为 10.27.0.1，跃点数为 7 的路由，请键入：  </p>
+<pre><code> route add 10.41.0.0 mask 255.255.0.0 10.27.0.1 metric 7  </code></pre>
+<p>要添加目标为 10.41.0.0，子网掩码为 255.255.0.0，下一个跃点地址为 10.27.0.1，接口索引为 0x3 的路由，请键入：  </p>
+<pre><code> route add 10.41.0.0 mask 255.255.0.0 10.27.0.1 if 0x3  </code></pre>
+<p>要删除目标为 10.41.0.0，子网掩码为 255.255.0.0 的路由，请键入：  </p>
+<pre><code> route delete 10.41.0.0 mask 255.255.0.0  </code></pre>
+<p>要删除 IP 路由表中以 10. 开始的所有路由，请键入：  </p>
+<pre><code> route delete 10.*  </code></pre>
+<p>要将目标为 10.41.0.0，子网掩码为 255.255.0.0 的路由的下一个跃点地址由 10.27.0.1 更改为 10.27.0.25，请键入：  </p>
+<pre><code> route change 10.41.0.0 mask 255.255.0.0 10.27.0.25  </code></pre>
+<p>route 的命令  </p>
+<pre><code>  routing ip add/delete/set/show interface 在指定接口上添加、删除、配置或显示常规IP路由设置。  
+  routing ip add/delete/set/show filter 在指定接口上添加、删除、配置或显示 IP 数据包筛选器。  
+  routing ip add/delete/show boundary 在指定接口上添加、删除或显示多播边界设置。  
+  routing ip add/set ipiptunnel 添加或配置 IP 中的 IP 接口。  
+  routing ip add/delete/set/show rtm     route 添加、配置或显示不持续的路由表管理器路由。  
+  routing ip add/delete/set/show persistent     route 添加、删除、配置或显示持续路由。  
+  routing ip add/delete/set/show preferenceforprotocol 添加、删除、配置或显示路由协议的优先级。  
+  routing ip add/delete/set/show scope 添加、删除或显示多播作用域。  
+  routing ip set/show loglevel 配置或显示全局 IP 记录等级。  
+  routing ip show helper 显示 IP 的所有 Netsh 实用程序子环境。  
+  routing ip show protocol 显示所有正在运行的 IP 路由协议。  
+  routing ip show mfe 显示多播转发项。  
+  routing ip show mfestats 显示多播转发项统计。  
+  routing ip show boundarystats 显示 IP 多播边界。  
+  routing ip show rtmdestinations 显示路由表管理器路由表中的目标。  
+  routing ip show rtm     routes 显示路由表管理器路由表中的路由。  
+  routing ip nat set/show global 配置或显示全局网络地址转换 (NAT) 设置。  
+  routing ip nat add/delete/set/show interface 添加、删除、配置或显示指定接口的 NAT 设置。  
+  routing ip nat add/delete addressrange 在 NAT 接口公用地址池中添加或删除一个地址范围。  
+  routing ip nat add/delete addressmapping 添加或删除 NAT 地址映射。  
+  routing ip nat add/delete portmapping 添加或删除 NAT 端口映射。  
+  routing ip autodhcp set/show global 配置或显示全局 DHCP 分配器参数。  
+  routing ip autodhcp set/show interface 配置或显示指定接口的 DHCP 分配器设置。  
+  routing ip autodhcp add/delete exclusion 在 DHCP 分配器地址范围中添加或删除一个排除范围。  
+  routing ip dnsproxy set/show global 配置或显示全局 DNS 代理参数。  
+  routing ip dnsproxy set/show interface 配置或显示指定接口的 DNS 代理参数。  
+  routing ip igmp set/show global 配置或显示 IGMP 全局设置。  
+  routing ip igmp add/delete/set/show interface 在指定接口上添加、删除、配置或显示 IGMP。  
+  routing ip igmp add/delete staticgroup 添加或删除指定接口的静态多播组。  
+  routing ip igmp show grouptable 显示 IGMP 主机组表。  
+  routing ip igmp show ifstats 显示每个接口的 IGMP 统计。  
+  routing ip igmp show iftable 显示每个接口的 IGMP 主机组。  
+  routing ip igmp show proxygrouptable 显示 IGMP 代理接口的 IGMP 组表。  
+  routing ip igmp show rasgrouptable 显示远程访问服务器所使用的 Internet 接口的组表。  
+  routing ip ospf set/show global 配置或显示全局 OSPF 设置。  
+  routing ip ospf add/delete/set/show interface 在指定接口上添加、删除、配置或显示 OSPF。  
+  routing ip ospf add/delete/set/show area 添加、删除、配置或显示 OSPF 区域。  
+  routing ip ospf add/delete/show range 在指定的 OSPF 区域上添加、删除、配置或显示范围。  
+  routing ip ospf add/delete/set/show virtif 添加、删除、配置或显示 OSPF 虚拟接口。  
+  routing ip ospf add/delete/show neighbor 添加、删除、配置或显示 OSPF 邻居。  
+  routing ip ospf add/delete/show protofilter 添加、删除、配置或显示 OSPF 外部路由的路由信息源。  
+  routing ip ospf add/delete/show      routefilter 添加、删除、配置或显示 OSPF 外部路由的路由筛选。  
+  routing ip ospf show areastats 显示 OSPF 区域统计。  
+  routing ip ospf show lsdb 显示 OSPF 链接状态数据库。  
+  routing ip ospf show virtifstats 显示 OSPF 虚拟链接统计。  
+  routing ip relay set global 配置“DHCP 中继代理程序”的全局设置。  
+  routing ip relay add/delete/set interface 在指定接口上添加、删除或配置“DHCP 中继代理程序”设置。  
+  routing ip relay add/delete dhcpserver 在 DHCP 服务器地址列表中添加或删除 DHCP 服务器的 IP 地址。  
+  routing ip relay show ifbinding 显示接口的 IP 地址绑定。  
+  routing ip relay show ifconfig 显示每个接口的“DHCP 中继代理程序”配置。  
+  routing ip relay show ifstats 显示每个接口的 DHCP 统计。  
+  routing ip rip set/show global 配置 IP 的 RIP 全局设置。  
+  routing ip rip add/delete/set/show interface 在指定接口上添加或配置 IP 的 RIP 设置。  
+  routing ip rip add/delete peerfilter 添加或删除 RIP 对等筛选器。  
+  routing ip rip add/delete acceptfilter 在接受的路由列表中添加或删除 RIP 路由筛选器。  
+  routing ip rip add/delete announcefilter 在公布的路由列表中添加或删除 RIP 路由筛选器。  
+  routing ip rip add/delete/show neighbor 添加或删除 RIP 邻居。  
+  routing ip rip set/show flags 在指定接口上配置 IP RIP 高级设置。  
+  routing ip rip show globalstats 显示全局 RIP 参数。  
+  routing ip rip show ifbinding 显示接口的 IP 地址绑定。  
+  routing ip rip show ifstats 显示每个接口的 RIP 统计。  </code></pre>
+<p>IPX netsh 路由命令<br>      routing ipx add/set static     route 在 IPX 路由表中添加或配置静态 IPX 路由。<br>      routing ipx add/set staticservice 在 SAP 服务表中添加或配置静态 SAP 服务。<br>      routing ipx add/set filter 在指定的接口上添加或配置 IPX 数据包筛选器。<br>      routing ipx add/set interface 在请求拨号接口上启用 IPX 路由，或在指定的接口上配置 IPX 设置。<br>      routing ipx set global 配置全局 IPX 路由设置。<br>      routing ipx rip add/set filter 添加和配置 RIP 路由筛选器。<br>      routing ipx rip set global 配置全局 IPX 的 RIP 设置。<br>      routing ipx rip set interface 在指定接口上配置 IPX 的 RIP 设置。<br>      routing ipx sap add/set filter 添加或配置 SAP 服务筛选器。<br>      routing ipx sap set global 配置全局 IPX 的 SAP 设置。<br>      routing ipx sap set interface 在指定接口上配置 IPX 的 SAP 设置。<br>      routing ipx netbios add nbname 将静态 NETBIOS 名称添加到 IPX NetBIOS 名称表中。<br>      routing ipx netbios set interface 在指定接口上配置基于 IPX 的 NetBIOS 设置</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%B7%AF%E7%94%B1%E8%A1%A8/" rel="tag"># 路由表</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/05/09/VMware%E4%B8%8A%E9%9D%A2%E7%9A%84%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%A6%82%E4%BD%95%E8%BF%9E%E7%BD%91/" rel="prev" title="VMware上面的虚拟机如何连网">
+      <i class="fa fa-chevron-left"></i> VMware上面的虚拟机如何连网
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/05/11/%E7%BD%91%E7%BB%9C%E6%95%B0%E6%8D%AE%E6%8A%93%E5%8F%96%E5%AE%9E%E9%AA%8C/" rel="next" title="网络数据抓取实验">
+      网络数据抓取实验 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

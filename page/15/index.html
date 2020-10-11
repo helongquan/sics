@@ -1,23 +1,3371 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-{% block title %}{{ config.title }}{% if theme.index_with_subtitle and config.subtitle %} - {{config.subtitle }}{% endif %}{% endblock %}
+<link rel="stylesheet" href="/css/main.css">
 
-{% block page_class %}
-  {% if is_home() %}page-home{% endif -%}
-{% endblock %}
 
-{% block content %}
-  <section id="posts" class="posts-expand">
-    {% for post in page.posts %}
-      {{ post_template.render(post, true) }}
-    {% endfor %}
-  </section>
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-  {% include '_partials/pagination.swig' %}
-{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
 
-{% block sidebar %}
-  {{ sidebar_template.render(false) }}
-{% endblock %}
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/page/15/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/page/15/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'en'
+  };
+</script>
+
+  <title>Hexo</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content index posts-expand">
+            
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/08/01/%E5%9C%A8magento%E5%90%8E%E5%8F%B0%E6%B7%BB%E5%8A%A0%E9%98%B2%E4%BC%AA%E7%A0%81%EF%BC%8C%E7%84%B6%E5%90%8E%E5%9C%A8%E5%89%8D%E5%8F%B0%E6%90%9C%E7%B4%A2%E9%98%B2%E4%BC%AA%E7%A0%81%E8%BE%93%E5%87%BA%E6%9F%A5%E8%AF%A2%E7%BB%93%E6%9E%9C%E7%9A%84%E6%95%B4%E4%B8%AA%E5%BC%80%E5%8F%91%E7%9A%84%E8%AF%A6%E7%BB%86%E6%B5%81%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/08/01/%E5%9C%A8magento%E5%90%8E%E5%8F%B0%E6%B7%BB%E5%8A%A0%E9%98%B2%E4%BC%AA%E7%A0%81%EF%BC%8C%E7%84%B6%E5%90%8E%E5%9C%A8%E5%89%8D%E5%8F%B0%E6%90%9C%E7%B4%A2%E9%98%B2%E4%BC%AA%E7%A0%81%E8%BE%93%E5%87%BA%E6%9F%A5%E8%AF%A2%E7%BB%93%E6%9E%9C%E7%9A%84%E6%95%B4%E4%B8%AA%E5%BC%80%E5%8F%91%E7%9A%84%E8%AF%A6%E7%BB%86%E6%B5%81%E7%A8%8B/" class="post-title-link" itemprop="url">在magento后台添加防伪码，然后在前台搜索防伪码输出查询结果，以及后台添加图片和上传文件等功能的整个开发的详细流程</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-08-01 16:05:58" itemprop="dateCreated datePublished" datetime="2018-08-01T16:05:58+08:00">2018-08-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:04" itemprop="dateModified" datetime="2020-10-11T11:58:04+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>当写完这篇文章后，那么在笔者开发magento的历史上注定是一个里程碑的意义。笔者借助这个东西大致的明白了一个模块是如何开发的，又是如何在网站的后台添加数据到数据库的，然后又是如何被在前台读取出来的，整个过程很清楚的说明了这个模块是如何工作的。好的铺垫到此结束，我们开始吧。</p>
+<p>1、首先在local下创建新的模块，依次创建如下文件或者文件夹：</p>
+<pre><code>app/code/local/Voodoo/Fan/Block
+app/code/local/Voodoo/Fan/Block/Adminhtml
+app/code/local/Voodoo/Fan/Block/Adminhtml/Fan
+app/code/local/Voodoo/Fan/Block/Adminhtml/Fan/Edit
+app/code/local/Voodoo/Fan/Block/Adminhtml/Fan/Edit/Tab
+app/code/local/Voodoo/Fan/Block/Adminhtml/Fan/Edit/Tab/Form.php
+app/code/local/Voodoo/Fan/Block/Adminhtml/Fan/Edit/Form.php
+app/code/local/Voodoo/Fan/Block/Adminhtml/Fan/Edit/Tabs.php
+app/code/local/Voodoo/Fan/Block/Adminhtml/Fan/Edit.php
+app/code/local/Voodoo/Fan/Block/Adminhtml/Fan/Grid.php
+app/code/local/Voodoo/Fan/Block/Adminhtml/Edit.php
+app/code/local/Voodoo/Fan/Block/Adminhtml/Fan.php
+app/code/local/Voodoo/Fan/Block/Fan.php
+app/code/local/Voodoo/Fan/controllers
+app/code/local/Voodoo/Fan/controllers/Adminhtml
+app/code/local/Voodoo/Fan/controllers/Adminhtml/FanController.php
+app/code/local/Voodoo/Fan/controllers/IndexController.php
+app/code/local/Voodoo/Fan/etc
+app/code/local/Voodoo/Fan/etc/config.xml
+app/code/local/Voodoo/Fan/Helper
+app/code/local/Voodoo/Fan/Helper/Data.php
+app/code/local/Voodoo/Fan/Model
+app/code/local/Voodoo/Fan/Model/Mysql4
+app/code/local/Voodoo/Fan/Model/Mysql4/Fan
+app/code/local/Voodoo/Fan/Model/Mysql4/Fan/Collection.php
+app/code/local/Voodoo/Fan/Model/Mysql4/Fan.php
+app/code/local/Voodoo/Fan/Model/Fan.php
+app/code/local/Voodoo/Fan/Model/Status.php
+app/code/local/Voodoo/Fan/sql
+app/code/local/Voodoo/Fan/sql/fan_setup
+app/code/local/Voodoo/Fan/sql/fan_setup/mysql4-install-0.1.0.php</code></pre>
+<p>Voodoo是命名空间，Fan是模块名，通常一个标准的模块有六个文件夹：Block,controllers,etc,Model,Helper,sql</p>
+<p>另外，我们需要在magento的数据库中创建一个数据表，笔者这里命名为：fan，fan.sql语句如下：</p>
+<pre><code>SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for fan
+-- ----------------------------
+DROP TABLE IF EXISTS `fan`;
+CREATE TABLE `fan` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `bianma` varchar(255) NOT NULL DEFAULT &#39;&#39;,
+  `brand` text NOT NULL,
+  `content` text NOT NULL,
+  `company` text NOT NULL,
+  `filename` varchar(255) NOT NULL DEFAULT &#39;&#39;,
+  `user` text NOT NULL,
+  `status` smallint(6) NOT NULL DEFAULT &#39;0&#39;,
+  `created_time` datetime DEFAULT NULL,
+  `update_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of fan
+-- ----------------------------
+INSERT INTO `fan` VALUES (&#39;1&#39;, &#39;234&#39;, &#39;naike&#39;, &#39;防伪码认证机构&#39;, &#39;三国集团&#39;,&#39;&#39;, &#39;刘备&#39;, &#39;1&#39;, &#39;2018-08-01 08:08:21&#39;, &#39;2018-08-01 08:08:21&#39;);
+INSERT INTO `fan` VALUES (&#39;2&#39;, &#39;235&#39;, &#39;nocti&#39;, &#39;防伪码认证机构&#39;, &#39;梁山集团&#39;,&#39;&#39;, &#39;宋江&#39;, &#39;1&#39;, &#39;2018-07-27 11:36:25&#39;, &#39;2018-07-27 11:36:25&#39;);</code></pre>
+<p>好的，我们创建好这些文件的时候，先在网站的配置目录下创建一个激活这个模块的配置文件，来到目录：</p>
+<pre><code>app/etc/modules/</code></pre>
+<p>创建文件：Voodoo_Fan.xml，添加代码：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;config&gt;
+    &lt;modules&gt;
+        &lt;Voodoo_Fan&gt;
+            &lt;active&gt;true&lt;/active&gt;
+            &lt;codePool&gt;local&lt;/codePool&gt;
+        &lt;/Voodoo_Fan&gt;
+    &lt;/modules&gt;
+&lt;/config&gt;</code></pre>
+<p>接着，我们打开app/code/local/Voodoo/Fan/etc/config.xml这个文件，加入代码：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;config&gt;
+    &lt;modules&gt;
+        &lt;Voodoo_Fan&gt;
+            &lt;version&gt;0.1.0&lt;/version&gt;
+        &lt;/Voodoo_Fan&gt;
+    &lt;/modules&gt;
+    &lt;frontend&gt;
+        &lt;routers&gt;
+            &lt;fan&gt;
+                &lt;use&gt;standard&lt;/use&gt;
+                &lt;args&gt;
+                    &lt;module&gt;Voodoo_Fan&lt;/module&gt;
+                    &lt;frontName&gt;fan&lt;/frontName&gt;
+                &lt;/args&gt;
+            &lt;/fan&gt;
+        &lt;/routers&gt;
+        &lt;layout&gt;
+            &lt;updates&gt;
+                &lt;fan&gt;
+                    &lt;file&gt;fan.xml&lt;/file&gt;
+                &lt;/fan&gt;
+            &lt;/updates&gt;
+        &lt;/layout&gt;
+    &lt;/frontend&gt;
+    &lt;admin&gt;
+        &lt;routers&gt;
+            &lt;fan&gt;
+                &lt;use&gt;admin&lt;/use&gt;
+                &lt;args&gt;
+                    &lt;module&gt;Voodoo_Fan&lt;/module&gt;
+                    &lt;frontName&gt;fan&lt;/frontName&gt;
+                &lt;/args&gt;
+            &lt;/fan&gt;
+        &lt;/routers&gt;
+    &lt;/admin&gt;
+    &lt;adminhtml&gt;
+        &lt;menu&gt;
+            &lt;fan module=&quot;fan&quot;&gt;
+                &lt;title&gt;防伪码&lt;/title&gt;
+                &lt;sort_order&gt;71&lt;/sort_order&gt;
+                &lt;children&gt;
+                    &lt;items module=&quot;fan&quot;&gt;
+                        &lt;title&gt;管理防伪码&lt;/title&gt;
+                        &lt;sort_order&gt;0&lt;/sort_order&gt;
+                        &lt;action&gt;fan/adminhtml_fan&lt;/action&gt;
+                    &lt;/items&gt;
+                &lt;/children&gt;
+            &lt;/fan&gt;
+        &lt;/menu&gt;
+        &lt;acl&gt;
+            &lt;resources&gt;
+                &lt;all&gt;
+                    &lt;title&gt;Allow Everything&lt;/title&gt;
+                &lt;/all&gt;
+                &lt;admin&gt;
+                    &lt;children&gt;
+                        &lt;Voodoo_Fan&gt;
+                            &lt;title&gt;防伪码模块&lt;/title&gt;
+                            &lt;sort_order&gt;10&lt;/sort_order&gt;
+                        &lt;/Voodoo_Fan&gt;
+                    &lt;/children&gt;
+                &lt;/admin&gt;
+            &lt;/resources&gt;
+        &lt;/acl&gt;
+        &lt;layout&gt;
+            &lt;updates&gt;
+                &lt;fan&gt;
+                    &lt;file&gt;fan.xml&lt;/file&gt;
+                &lt;/fan&gt;
+            &lt;/updates&gt;
+        &lt;/layout&gt;
+    &lt;/adminhtml&gt;
+    &lt;global&gt;
+        &lt;models&gt;
+            &lt;fan&gt;
+                &lt;class&gt;Voodoo_Fan_Model&lt;/class&gt;
+                &lt;resourceModel&gt;fan_mysql4&lt;/resourceModel&gt;
+            &lt;/fan&gt;
+            &lt;fan_mysql4&gt;
+                &lt;class&gt;Voodoo_Fan_Model_Mysql4&lt;/class&gt;
+                &lt;entities&gt;
+                    &lt;fan&gt;
+                        &lt;table&gt;fan&lt;/table&gt;
+                    &lt;/fan&gt;
+                &lt;/entities&gt;
+            &lt;/fan_mysql4&gt;
+        &lt;/models&gt;
+        &lt;resources&gt;
+            &lt;fan_setup&gt;
+                &lt;setup&gt;
+                    &lt;module&gt;Voodoo_Fan&lt;/module&gt;
+                &lt;/setup&gt;
+                &lt;connection&gt;
+                    &lt;use&gt;core_setup&lt;/use&gt;
+                &lt;/connection&gt;
+            &lt;/fan_setup&gt;
+            &lt;fan_write&gt;
+                &lt;connection&gt;
+                    &lt;use&gt;core_write&lt;/use&gt;
+                &lt;/connection&gt;
+            &lt;/fan_write&gt;
+            &lt;fan_read&gt;
+                &lt;connection&gt;
+                    &lt;use&gt;core_read&lt;/use&gt;
+                &lt;/connection&gt;
+            &lt;/fan_read&gt;
+        &lt;/resources&gt;
+        &lt;blocks&gt;
+            &lt;fan&gt;
+                &lt;class&gt;Voodoo_Fan_Block&lt;/class&gt;
+            &lt;/fan&gt;
+        &lt;/blocks&gt;
+        &lt;helpers&gt;
+            &lt;fan&gt;
+                &lt;class&gt;Voodoo_Fan_Helper&lt;/class&gt;
+            &lt;/fan&gt;
+        &lt;/helpers&gt;
+    &lt;/global&gt;
+&lt;/config&gt;</code></pre>
+<p>这个文件包含了我们的防伪码模块的不同组成部分，既为前端和后台信息。如果我们观察该配置文件的结构，会发现有五个组件：</p>
+<ol>
+<li>(module)模块：它包含版本信息</li>
+<li>(frontend)前端：这包含路由器和布局信息</li>
+<li>(admin)管理员：这是路由器的设置和管理部分的参数</li>
+<li>(adminhtml)后台界面：这是菜单，ACL和布局管理</li>
+<li>(global)全局：它包含配置的model, resources, blocks, and helpers等</li>
+</ol>
+<p>接着，我们打开app/code/local/Voodoo/Fan/Helper/Data.php这个文件：</p>
+<pre><code>&lt;?php
+class Voodoo_Fan_Helper_Data extends Mage_Core_Helper_Abstract
+&#123;
+
+&#125;</code></pre>
+<p>这里讲解一下：这个里面由于没有复杂的逻辑，所以直接保留为空即可。以后有新的业务逻辑可以添加在这里面。</p>
+<p>添加完毕后，我们打开app/code/local/Voodoo/Fan/controllers/IndexController.php这个文件，加入代码：</p>
+<pre><code>&lt;?php 
+class Voodoo_Fan_IndexController extends Mage_Core_Controller_Front_Action&#123;
+    public function indexAction()
+    &#123;
+        $resource = Mage::getSingleton(&#39;core/resource&#39;);
+        $read = $resource-&gt;getConnection(&#39;core_read&#39;);
+        $newsTable = $resource-&gt;getTableName(&#39;fan&#39;);
+        $select = $read-&gt;select()-&gt;from($newsTable, array(&#39;id&#39;,&#39;bianma&#39;,&#39;brand&#39;,&#39;content&#39;,&#39;company&#39;,&#39;filename&#39;,&#39;user&#39;,&#39;status&#39;))-&gt;where(&#39;status&#39;, 1)-&gt;order(&#39;created_time DESC&#39;);
+        $fan = $read-&gt;fetchAll($select);
+        Mage::register(&#39;list&#39;, $fan);
+        $this-&gt;loadLayout();
+        $this-&gt;renderLayout();
+    &#125;
+
+    public function viewAction()
+    &#123;
+        $fan_id = $this-&gt;getRequest()-&gt;getParam(&#39;id&#39;);
+        if ($fan_id != null &amp;&amp; $fan_id != &#39;&#39;) &#123;
+            $fan = Mage::getModel(&#39;fan/fan&#39;)-&gt;load($fan_id)-&gt;getData();
+        &#125; else &#123;
+            $fan = null;
+        &#125;
+        /**
+        * If no param we load a the last created item
+        */
+        if ($fan == null) &#123;
+            $resource = Mage::getSingleton(&#39;core/resource&#39;);
+            $read = $resource-&gt;getConnection(&#39;core_read&#39;);
+            $newsTable = $resource-&gt;getTableName(&#39;fan&#39;);
+            $select = $read-&gt;select()-&gt;from($newsTable, array(&#39;id&#39;,&#39;bianma&#39;,&#39;brand&#39;,&#39;content&#39;,&#39;company&#39;,&#39;filename&#39;,&#39;user&#39;,&#39;status&#39;))-&gt;where(&#39;status&#39;, 1)-&gt;order(&#39;created_time DESC&#39;);
+            $fan = $read-&gt;fetchRow($select);
+        &#125;
+        Mage::register(&#39;fan&#39;, $fan);
+        $this-&gt;loadLayout();
+        $this-&gt;renderLayout();
+    &#125;
+&#125;
+
+?&gt;</code></pre>
+<p>这个controller是前端控制器，主要负责加载和显示文章列表和内容，index 控制器负责现实文章列表，当用户点击指定文章时，跳转到view动作，显示指定文章的详细信息，magento中访问数据库需要创建一个core_resource对象，这个对象可以用来执行sql语句。</p>
+<p>接下来创建一个后台控制器FanController.php，放在sm_market/app/code/local/Voodoo/Fan/controllers/Adminhtml/目录下：</p>
+<pre><code>&lt;?php 
+class Voodoo_Fan_Adminhtml_FanController extends Mage_Adminhtml_Controller_action
+&#123;
+    protected function _initAction()
+    &#123;
+        $this-&gt;loadLayout()-&gt;_setActiveMenu(&#39;fan/items&#39;)-&gt;_addBreadcrumb(Mage::helper(&#39;adminhtml&#39;)-&gt;__(&#39;Items Manager&#39;), Mage::helper(&#39;adminhtml&#39;)-&gt;__(&#39;Item Manager&#39;));
+        return $this;
+    &#125;
+
+    public function indexAction()
+    &#123;
+        $this-&gt;_initAction();
+        $this-&gt;_addContent($this-&gt;getLayout()-&gt;createBlock(&#39;fan/adminhtml_fan&#39;));
+        $this-&gt;renderLayout();
+    &#125;
+
+    public function editAction()
+    &#123;
+        $id = $this-&gt;getRequest()-&gt;getParam(&#39;id&#39;);
+        $model = Mage::getModel(&#39;fan/fan&#39;)-&gt;load($id);
+        if ($model-&gt;getId() || $id == 0) &#123;
+            $data = Mage::getSingleton(&#39;adminhtml/session&#39;)-&gt;getFormData(true);
+            if (!empty($data)) &#123;
+            $model-&gt;setData($data);
+            &#125;
+            Mage::register(&#39;fan_data&#39;, $model);
+            $this-&gt;loadLayout();
+            $this-&gt;_setActiveMenu(&#39;fan/items&#39;);
+            $this-&gt;_addBreadcrumb(Mage::helper(&#39;adminhtml&#39;)-&gt;__(&#39;Item Manager&#39;), Mage::helper(&#39;adminhtml&#39;)-&gt;__(&#39;Fan Item Manager&#39;));
+            $this-&gt;_addBreadcrumb(Mage::helper(&#39;adminhtml&#39;)-&gt;__(&#39;Item Fan&#39;), Mage::helper(&#39;adminhtml&#39;)-&gt;__(&#39;Item Fan&#39;));
+            $this-&gt;getLayout()-&gt;getBlock(&#39;head&#39;)-&gt;setCanLoadExtJs(true);
+            $this-&gt;_addContent($this-&gt;getLayout()-&gt;createBlock(&#39;fan/adminhtml_fan_edit&#39;))-&gt;_addLeft($this-&gt;getLayout()-&gt;createBlock(&#39;fan/adminhtml_fan_edit_tabs&#39;));
+            $this-&gt;renderLayout();
+        &#125; else &#123;
+            Mage::getSingleton(&#39;adminhtml/session&#39;)-&gt;addError(Mage::helper(&#39;fan&#39;)-&gt;__(&#39;Item does not exist&#39;));
+            $this-&gt;_redirect(&#39;*/*/&#39;);
+        &#125;
+    &#125;
+
+    public function newAction()
+    &#123;
+        $this-&gt;_forward(&#39;edit&#39;);
+    &#125;
+
+    public function saveAction()
+    &#123;
+        if ($data = $this-&gt;getRequest()-&gt;getPost()) &#123;
+            if (isset($_FILES[&#39;filename&#39;][&#39;name&#39;]) &amp;&amp; $_FILES[&#39;filename&#39;][&#39;name&#39;] != &#39;&#39;) &#123;
+                try &#123;
+                    /* Starting upload */
+                    $uploader = new Varien_File_Uploader(&#39;filename&#39;);
+                    // Any extention would work
+                    $uploader-&gt;setAllowedExtensions(array(&#39;jpg&#39;, &#39;jpeg&#39;,&#39;gif&#39;, &#39;png&#39;));
+                    $uploader-&gt;setAllowRenameFiles(false);
+                    $uploader-&gt;setFilesDispersion(false);
+                    // We set media as the upload dir
+                    $path = Mage::getBaseDir(&#39;media&#39;) . DS . &#39;fan&#39; . DS;
+                    $uploader-&gt;save($path, $_FILES[&#39;filename&#39;][&#39;name&#39;]);
+                &#125; catch (Exception $e) &#123;
+                &#125;
+                //this way the name is saved in DB
+                $data[&#39;filename&#39;] = $_FILES[&#39;filename&#39;][&#39;name&#39;];
+            &#125;
+            $model = Mage::getModel(&#39;fan/fan&#39;);
+            $model-&gt;setData($data)-&gt;setId($this-&gt;getRequest()-&gt;getParam(&#39;id&#39;));
+            try &#123;
+                if ($model-&gt;getCreatedTime == NULL || $model-&gt;getUpdateTime() == NULL) &#123;
+                    $model-&gt;setCreatedTime(now())-&gt;setUpdateTime(now());
+                &#125; else &#123;
+                $model-&gt;setUpdateTime(now());
+                &#125;
+                $model-&gt;save();
+                Mage::getSingleton(&#39;adminhtml/session&#39;)-&gt;addSuccess(Mage::helper(&#39;fan&#39;)-&gt;__(&#39;Item was successfully saved&#39;));
+                Mage::getSingleton(&#39;adminhtml/session&#39;)-&gt;setFormData(false);
+                if ($this-&gt;getRequest()-&gt;getParam(&#39;back&#39;)) &#123;
+                    $this-&gt;_redirect(&#39;*/*/edit&#39;, array(&#39;id&#39; =&gt; $model-&gt;getId()));
+                return;
+                &#125;
+                $this-&gt;_redirect(&#39;*/*/&#39;);
+                return;
+            &#125; catch (Exception $e) &#123;
+                Mage::getSingleton(&#39;adminhtml/session&#39;)-&gt;addError($e-&gt;getMessage());
+                Mage::getSingleton(&#39;adminhtml/session&#39;)-&gt;setFormData($data);
+                $this-&gt;_redirect(&#39;*/*/edit&#39;, array(&#39;id&#39; =&gt; $this-&gt;getRequest()-&gt;getParam(&#39;id&#39;)));
+                return;
+            &#125;
+        &#125;
+        Mage::getSingleton(&#39;adminhtml/session&#39;)-&gt;addError(Mage::helper(&#39;fan&#39;)-&gt;__(&#39;Unable to find item to save&#39;));
+        $this-&gt;_redirect(&#39;*/*/&#39;);
+    &#125;
+
+
+    public function deleteAction()&#123;
+        if ($this-&gt;getRequest()-&gt;getParam(&#39;id&#39;) &gt; 0) &#123;
+            try &#123;
+                $model = Mage::getModel(&#39;fan/fan&#39;);
+                $model-&gt;setId($this-&gt;getRequest()-&gt;getParam(&#39;id&#39;))-&gt;delete();
+                Mage::getSingleton(&#39;adminhtml/session&#39;)-&gt;addSuccess(Mage::helper(&#39;adminhtml&#39;)-&gt;__(&#39;Item was successfully deleted&#39;));
+                $this-&gt;_redirect(&#39;*/*/&#39;);
+            &#125; catch (Exception $e) &#123;
+                Mage::getSingleton(&#39;adminhtml/session&#39;)-&gt;addError($e-&gt;getMessage());
+                $this-&gt;_redirect(&#39;*/*/edit&#39;, array(&#39;id&#39; =&gt; $this-&gt;getRequest()-&gt;getParam(&#39;id&#39;)));
+            &#125;
+        &#125;
+        $this-&gt;_redirect(&#39;*/*/&#39;);
+    &#125;
+
+
+    public function massDeleteAction()&#123;
+        $fanIds = $this-&gt;getRequest()-&gt;getParam(&#39;fan&#39;);
+        if (!is_array($fanIds)) &#123;
+            Mage::getSingleton(&#39;adminhtml/session&#39;)-&gt;addError(Mage::helper(&#39;adminhtml&#39;)-&gt;__(&#39;Please select item(s)&#39;));
+        &#125; else &#123;
+        try &#123;
+            foreach ($fanIds as $fanId) &#123;
+            $fan = Mage::getModel(&#39;fan/fan&#39;)-&gt;load($fanId);
+            $fan-&gt;delete();
+            &#125;
+            Mage::getSingleton(&#39;adminhtml/session&#39;)-&gt;addSuccess(Mage::helper(&#39;adminhtml&#39;)-&gt;__(&#39;Total of %d record(s) were successfully deleted&#39;,count($fanIds)));
+        &#125; catch (Exception $e) &#123;
+            Mage::getSingleton(&#39;adminhtml/session&#39;)-&gt;addError($e-&gt;getMessage());
+        &#125;
+        &#125;
+        $this-&gt;_redirect(&#39;*/*/index&#39;);
+    &#125;
+
+
+    public function massStatusAction()&#123;
+        $fanIds = $this-&gt;getRequest()-&gt;getParam(&#39;fan&#39;);
+        if (!is_array($fanIds)) &#123;
+            Mage::getSingleton(&#39;adminhtml/session&#39;)-&gt;addError($this-&gt;__(&#39;Please select item(s)&#39;));
+        &#125; else &#123;
+        try &#123;
+            foreach ($fanIds as $fanId) &#123;
+                $fan = Mage::getSingleton(&#39;fan/fan&#39;)-&gt;load($fanId)-&gt;setStatus($this-&gt;getRequest()-&gt;getParam(&#39;status&#39;))-&gt;setIsMassupdate(true)-&gt;save();
+            &#125;
+            $this-&gt;_getSession()-&gt;addSuccess($this-&gt;__(&#39;Total of %d record(s) were successfully updated&#39;, count($fanIds)));
+            &#125; catch (Exception $e) &#123;
+                $this-&gt;_getSession()-&gt;addError($e-&gt;getMessage());
+            &#125;
+        &#125;
+        $this-&gt;_redirect(&#39;*/*/index&#39;);
+    &#125;
+
+    public function exportCsvAction()
+    &#123;
+        $fileName = &#39;fan.csv&#39;;
+        $content = $this-&gt;getLayout()-&gt;createBlock(&#39;fan/adminhtml&#39;)-&gt;getCsv();
+        $this-&gt;_sendUploadResponse($fileName, $content);
+    &#125;
+
+
+    public function exportXmlAction()
+    &#123;
+        $fileName = &#39;fan.xml&#39;;
+        $content = $this-&gt;getLayout()-&gt;createBlock(&#39;fan/adminhtml_fan_grid&#39;)-&gt;getXml();
+        $this-&gt;_sendUploadResponse($fileName, $content);
+    &#125;
+
+    protected function _sendUploadResponse($fileName, $content,$contentType=&#39;application/octet-stream&#39;)
+    &#123;
+        $response = $this-&gt;getResponse();
+        $response-&gt;setHeader(&#39;HTTP/1.1 200 OK&#39;, &#39;&#39;);
+        $response-&gt;setHeader(&#39;Pragma&#39;, &#39;public&#39;, true);
+        $response-&gt;setHeader(&#39;Cache-Control&#39;, &#39;must-revalidate, postcheck=0, pre-check=0&#39;, true);
+        $response-&gt;setHeader(&#39;Content-Disposition&#39;, &#39;attachment;filename=&#39; . $fileName);
+        $response-&gt;setHeader(&#39;Last-Modified&#39;, date(&#39;r&#39;));
+        $response-&gt;setHeader(&#39;Accept-Ranges&#39;, &#39;bytes&#39;);
+        $response-&gt;setHeader(&#39;Content-Length&#39;, strlen($content));
+        $response-&gt;setHeader(&#39;Content-type&#39;, $contentType);
+        $response-&gt;setBody($content);
+        $response-&gt;sendResponse();
+        die;
+    &#125;
+&#125;
+
+?&gt;</code></pre>
+<p>这个控制器主要负责后台的一些动作，比如增删查改。在_initAction()里面，我们做了三件事：加载布局，在后台设置活动菜单，</p>
+<p><img src="https://i.imgur.com/0gaSJuO.png"></p>
+<p>同时，还有添加面包屑的文本。</p>
+<p>Index action则创建一个fan/adminhtml_fan block和加载对应布局。其他action则不一一熬述。</p>
+<p>调用edit操作时，用户点击编辑链接在防伪码列表下防伪码项目管理一节。相关防伪码的编号是从ID参数和传递的消息模型中抓取，以获取具体的防伪码。如果给定的防伪码I产生的结果，它传递的防伪码形式的数据来填充与形式给定的数据。防伪码编辑表单提交后，数据的saveaction传递与更新的消息ID。还有一些其他的任务，已实现这个方法，如装载布局，建立活动的菜单，加入面包屑的文本等等。</p>
+<p>newAction()用于跳转到edit动作</p>
+<p>saveActon()则用于与模型层交互，保存输入的信息</p>
+<p>deleteAction()用于删除指定的文章</p>
+<p>massDeleteAction()则是批量删除</p>
+<p>massStatusAction()为批量状态修改</p>
+<p>exportCsvAction()用于到处cvs文件</p>
+<p>exportXmlAction()则用于导入xml文件</p>
+<p>_sendUploadResponse则是当导出xml文件时设置http报头</p>
+<p>Magento的控制器其实和zend framework的控制器工作原理一样，控制器必须在MVC模式下工作，它操纵模型，决定哪些视图来显示用户的要求和其他因素的基础上传递数据，查看每个用户响应，或完全关闭控制并跳转到另一个控制器。他总是保持一个控制器尽量瘦小，业务逻辑则尽量交给model来处理，skinny controller and fat model !</p>
+<p>在MVC结构中，Model （模型）用于处理业务逻辑，在Magento中，模型用于更新数据库记录，和web 服务器交互等等。模型是MVC结构中非常重要的部分，Magento的模型扩展自Zend_Db_Table_Abstract 类，这个类可以连接Varien对象，然后访问数据库。这里我们会为防伪码模块创建对应的模型。</p>
+<p>在app/code/local/Voodoo/Fan/Model/下面，创建一个名为Fan.php的文件：</p>
+<pre><code>&lt;?php
+class Voodoo_Fan_Model_Fan extends Mage_Core_Model_Abstract
+&#123;
+    public function _construct()
+    &#123;
+        parent::_construct();
+        $this-&gt;_init(&#39;fan/fan&#39;);
+    &#125;
+&#125;
+?&gt;</code></pre>
+<p>在app/code/local/Voodoo/Fan/Model/Mysql4/下创建多一个Fan.php文件：</p>
+<pre><code>&lt;?php
+class Voodoo_Fan_Model_Mysql4_Fan extends Mage_Core_Model_Mysql4_Abstract
+&#123;
+    public function _construct()
+    &#123;
+        // Note that the id refers to the key field in your database table.
+        $this-&gt;_init(&#39;fan/fan&#39;, &#39;id&#39;);
+    &#125;
+&#125;
+?&gt;</code></pre>
+<p>然后再app/code/local/Voodoo/Fan/Model/Mysql4/Fan/下创建一个Collection.php的文件：</p>
+<pre><code>&lt;?php
+class Voodoo_Fan_Model_Mysql4_Fan_Collection extends Mage_Core_Model_Mysql4_Collection_Abstract
+&#123;
+    public function _construct()&#123;
+            parent::_construct();
+            $this-&gt;_init(&#39;fan/fan&#39;);
+    &#125;
+&#125;</code></pre>
+<p>最后在app/code/local/Voodoo/Fan/Model/下创建一个Status.php文件：</p>
+<pre><code>&lt;?php
+class Voodoo_Fan_Model_Status extends Varien_Object
+&#123;
+    const STATUS_ENABLED = 1;
+    const STATUS_DISABLED = 2;
+    static public function getOptionArray()
+    &#123;
+        return array(
+            self::STATUS_ENABLED =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;Enabled&#39;),
+            self::STATUS_DISABLED =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;Disabled&#39;)
+        );
+    &#125;
+&#125;</code></pre>
+<p>Magento的模型通过Varien_Object连接到数据库，其中涉及到Zend_Db_Abstract。我们只是扩展了Varien’s Mage_Core_Model_Abstract 类。</p>
+<p>第一个model中我们通过扩展Mage_Core_Model_Abstract类 最终连接到数据库，Status.php中的模型直接扩展Varien_Object，然后直接从数据库中更新文章的状态。</p>
+<p>Mysql文件中的模型执行和外面模型类似的任务，Magento的模型通过扩展不同的model来实现不同的功能。</p>
+<p>接下来，我们将创建一个php文件，这将在magento的database中创建一个新表。</p>
+<p>在app/code/local/Voodoo/Fan/sql/fan_setup/目录下创建一个mysql4-install-0.1.0.php文件：</p>
+<pre><code>&lt;?php
+    $installer = $this;
+    $installer-&gt;startSetup();
+    $installer-&gt;run(&quot;
+        DROP TABLE IF EXISTS `fan`;
+        CREATE TABLE `fan` (
+          `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+          `bianma` varchar(255) NOT NULL DEFAULT &#39;&#39;,
+          `brand` text NOT NULL,
+          `content` text NOT NULL,
+          `company` text NOT NULL,
+          `filename` varchar(255) NOT NULL default &#39;&#39;,
+          `user` text NOT NULL,
+          `status` smallint(6) NOT NULL DEFAULT &#39;0&#39;,
+          `created_time` datetime DEFAULT NULL,
+          `update_time` datetime DEFAULT NULL,
+          PRIMARY KEY (`id`)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    &quot;);
+    $installer-&gt;endSetup();
+?&gt;</code></pre>
+<p>注意，mysql4-install-0.1.0.php中的0.1.0对应我们模块的版本，也就是app/code/local/Voodoo/Fan/etc/目录下的config.xml中的</p>
+<pre><code>&lt;modules&gt;
+    &lt;Voodoo_Fan&gt;
+        &lt;version&gt;0.1.0&lt;/version&gt;
+    &lt;/Voodoo_Fan&gt;
+&lt;/modules&gt;</code></pre>
+<p>不然magento是不会执行sql语句的，这将导致magento运行模块时找不到表的错误。</p>
+<p>在创建好控制器和模型等后，自然会想到应该创建视图文件。</p>
+<p>在app/design/frontend/sm_market/default/template/fan/目录下创建fan.phtml</p>
+<pre><code>&lt;h3&gt;&lt;?php echo $this-&gt;__(&#39;Voodoo最新防伪码&#39;) ?&gt;&lt;/h3&gt;
+
+&lt;table class=&quot;biaoge&quot;&gt;
+    &lt;tr&gt;
+        &lt;td&gt;缩略图&lt;/td&gt;
+        &lt;td&gt;防伪码&lt;/td&gt;
+        &lt;td&gt;品牌商&lt;/td&gt;
+        &lt;td&gt;负责人&lt;/td&gt;
+        &lt;td&gt;公司名称&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;?php foreach($this-&gt;getNewsList() as $item): ?&gt;
+        &lt;tr&gt;
+            &lt;td&gt;
+                &lt;img src=&quot;&lt;?php echo Mage::getBaseUrl(&#39;media&#39;) . &#39;fan&#39;. DS . $item[&#39;filename&#39;] ?&gt;&quot; alt=&quot;&lt;?php echo $item[&#39;bianma&#39;]?&gt;&quot; /&gt;
+            &lt;/td&gt;
+            &lt;td&gt;
+                &lt;h5&gt;&lt;?php echo $item[&#39;bianma&#39;] ?&gt;&lt;/h5&gt;
+            &lt;/td&gt;
+            &lt;td&gt;
+                &lt;h5&gt;&lt;?php echo $item[&#39;brand&#39;] ?&gt;&lt;/h5&gt;
+            &lt;/td&gt;
+            &lt;td&gt;
+                &lt;h5&gt;&lt;?php echo $item[&#39;user&#39;] ?&gt;&lt;/h5&gt;
+            &lt;/td&gt;
+            &lt;td&gt;
+                &lt;h5&gt;&lt;?php echo $item[&#39;company&#39;] ?&gt;&lt;/h5&gt;
+            &lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;?php endforeach; ?&gt;
+&lt;/table&gt;
+
+&lt;style&gt;
+    input.input-text &#123;
+        width: 100% !important;
+    &#125;
+    .yt_main_inner select&#123;
+        width: 100%;
+        margin-bottom: 20px;
+    &#125;
+    input[type=&quot;submit&quot;]&#123;
+        width: 150px;
+        margin-bottom: 20px;
+        background: #444444;
+        color: #fff;
+        border: 0px;
+    &#125;
+    .biaoge td,.biaoge th&#123;
+        padding:8px 10px;
+        border:1px solid;
+    &#125;
+    .biaoge tr td:first-child&#123;
+        width:80px;
+    &#125;
+    .biaoge tr:first-child&#123;
+        background: #eee;
+    &#125;
+    .biaoge img&#123;
+        width: 100%;
+    &#125;
+    .biaoge&#123;
+        border-collapse:collapse !important;
+        border: 1px solid;
+        width: 100%;
+    &#125;
+&lt;/style&gt;</code></pre>
+<p>然后再同样目录下创建view.phtml文件：</p>
+<pre><code>&lt;?php $item = $this-&gt;getNews(); ?&gt;
+&lt;h3&gt;&lt;?php echo $item[&#39;bianma&#39;]; ?&gt;&lt;/h3&gt;
+&lt;p style=&quot;font-size: small;color: #777&quot;&gt;add on: &lt;?php echo date(&#39;M jS, Y&#39;, strtotime($item[&#39;update_time&#39;])); ?&gt; &lt;a href=&quot;/fan&quot;&gt;Back to all news&lt;/a&gt;&lt;/p&gt;
+&lt;div&gt;
+    &lt;span style=&quot;float:left&quot;&gt;
+        &lt;img src=&quot;&lt;?php echo Mage::getBaseUrl(&#39;media&#39;) . &#39;fan&#39; . DS . $item[&#39;filename&#39;] ?&gt;&quot; alt=&quot;&lt;?php echo $item[&#39;bianma&#39;]?&gt;&quot; /&gt;
+    &lt;/span&gt;
+    &lt;span&gt;
+        &lt;p&gt;&lt;?php echo $item[&#39;content&#39;]; ?&gt;&lt;/p&gt;
+    &lt;/span&gt;
+    &lt;p style=&quot;clear: both&quot;&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;a href=&quot;&lt;?php echo $this-&gt;getBaseUrl(&#39;&#39;)?&gt;fan&quot;&gt;Back to all content&lt;/a&gt;</code></pre>
+<p>接着，回到app/design/frontend/sm_market/default/layout/下创建fan.xml布局文件</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;layout version=&quot;0.1.0&quot;&gt;
+    &lt;default&gt;
+    &lt;/default&gt;
+    &lt;fan_index_index&gt;
+        &lt;reference name=&quot;root&quot;&gt;
+            &lt;action method=&quot;setTemplate&quot;&gt;&lt;template&gt;page/2columns-left.phtml&lt;/template&gt;&lt;/action&gt;
+        &lt;/reference&gt;
+        &lt;reference name=&quot;content&quot;&gt;
+            &lt;block type=&quot;fan/fan&quot; name=&quot;fan&quot; template=&quot;fan/fan.phtml&quot; /&gt;
+        &lt;/reference&gt;
+    &lt;/fan_index_index&gt;
+    &lt;fan_index_view&gt;
+        &lt;reference name=&quot;content&quot;&gt;
+            &lt;block type=&quot;fan/fan&quot; name=&quot;fan&quot; template=&quot;fan/view.phtml&quot; /&gt;
+        &lt;/reference&gt;
+    &lt;/fan_index_view&gt;
+&lt;/layout&gt;</code></pre>
+<p>这样我们的视图层就完成了。Magento主要靠.xml文件来布局页面，.phtml文件来显示某个区块。</p>
+<p>前面我们已经先后建立了文件骨架，激活文件，前后端控制器，配置文件，辅助类，模型，SQL，模板，防伪码模块开发的最后一步是创建block</p>
+<p>在app/code/local/Voodoo/Fan/Block/中创建Fan.php文件：</p>
+<pre><code>&lt;?php
+class Voodoo_Fan_Block_Fan extends Mage_Core_Block_Template
+&#123;
+    public function _prepareLayout()
+    &#123;
+        return parent::_prepareLayout();
+    &#125;
+    public function getNews()
+    &#123;
+        if (!$this-&gt;hasData(&#39;fan&#39;)) &#123;
+            $this-&gt;setData(&#39;fan&#39;, Mage::registry(&#39;fan&#39;));
+        &#125;
+        return $this-&gt;getData(&#39;fan&#39;);
+    &#125;
+    public function getNewsList()
+    &#123;
+        if (!$this-&gt;hasData(&#39;list&#39;)) &#123;
+            $this-&gt;setData(&#39;list&#39;, Mage::registry(&#39;list&#39;));
+        &#125;
+        return $this-&gt;getData(&#39;list&#39;);
+    &#125;
+    function limitCharacter($string, $limit = 20, $suffix = &#39; . . .&#39;)
+    &#123;
+        $string = strip_tags($string);
+        if (strlen($string) &lt; $limit) &#123;
+            return $string;
+        &#125;
+        for ($i = $limit; $i &gt;= 0; $i--) &#123;
+            $c = $string[$i];
+            if ($c == &#39; &#39; OR $c == &quot;\n&quot;) &#123;
+                return substr($string, 0, $i) . $suffix;
+            &#125;
+        &#125;
+        return substr($string, 0, $limit) . $suffix;
+    &#125;
+&#125;</code></pre>
+<p>同样在app/code/local/Voodoo/Fan/Block/Adminhtml/下，建立Fan.php文件：</p>
+<pre><code>&lt;?php 
+class Voodoo_Fan_Block_Adminhtml_Fan extends Mage_Adminhtml_Block_Widget_Grid_Container
+&#123;
+    public function __construct()
+    &#123;
+        $this-&gt;_controller = &#39;adminhtml_fan&#39;;
+        $this-&gt;_blockGroup = &#39;fan&#39;;
+        $this-&gt;_headerText = Mage::helper(&#39;fan&#39;)-&gt;__(&#39;防伪码管理中心&#39;);
+        $this-&gt;_addButtonLabel = Mage::helper(&#39;fan&#39;)-&gt;__(&#39;添加防伪码&#39;);
+        parent::__construct();
+    &#125;
+&#125;
+
+?&gt;</code></pre>
+<p>接着，在app/code/local/Voodoo/Fan/Block/Adminhtml/Fan/下，建立文件Edit.php：</p>
+<pre><code>&lt;?php
+class Voodoo_Fan_Block_Adminhtml_Fan_Edit extends Mage_Adminhtml_Block_Widget_Form_Container
+&#123;
+    public function __construct()
+    &#123;
+        parent::__construct();
+        $this-&gt;_objectId = &#39;id&#39;;
+        $this-&gt;_blockGroup = &#39;fan&#39;;
+        $this-&gt;_controller = &#39;adminhtml_fan&#39;;
+        $this-&gt;_updateButton(&#39;save&#39;, &#39;label&#39;, Mage::helper(&#39;fan&#39;)-&gt;__(&#39;保存防伪码&#39;));
+        $this-&gt;_updateButton(&#39;delete&#39;, &#39;label&#39;,Mage::helper(&#39;fan&#39;)-&gt;__(&#39;Delete Item&#39;));
+        $this-&gt;_addButton(&#39;saveandcontinue&#39;, array(&#39;label&#39; =&gt; Mage::helper(&#39;adminhtml&#39;)-&gt;__(&#39;保存和继续编辑&#39;),
+        &#39;onclick&#39; =&gt; &#39;saveAndContinueEdit()&#39;,
+        &#39;class&#39; =&gt; &#39;save&#39;,
+        ), -100);
+        $this-&gt;_formScripts[] = &quot;function toggleEditor() &#123;
+            if (tinyMCE.getInstanceById(&#39;fan_content&#39;) == null) &#123;
+                tinyMCE.execCommand(&#39;mceAddControl&#39;, false, &#39;fan_content&#39;);
+            &#125; else &#123;
+                tinyMCE.execCommand(&#39;mceRemoveControl&#39;, false, &#39;fan_content&#39;);
+            &#125;
+        &#125;
+        function saveAndContinueEdit()&#123;
+            editForm.submit($(&#39;edit_form&#39;).action+&#39;back/edit/&#39;);
+        &#125;
+        &quot;;
+    &#125;
+    public function getHeaderText()
+    &#123;
+        if (Mage::registry(&#39;fan_data&#39;) &amp;&amp; Mage::registry(&#39;fan_data&#39;)-&gt;getId()) &#123;
+        return Mage::helper(&#39;fan&#39;)-&gt;__(&quot;编辑防伪码 &#39;%s&#39;&quot;, $this-&gt;htmlEscape(Mage::registry(&#39;fan_data&#39;)-&gt;getTitle()));
+        &#125; else &#123;
+        return Mage::helper(&#39;fan&#39;)-&gt;__(&#39;添加防伪码&#39;);
+        &#125;
+    &#125;
+&#125;</code></pre>
+<p>同样目录下（app/code/local/Voodoo/Fan/Block/Adminhtml/Fan/）继续建立Grid.php文件：</p>
+<pre><code>&lt;?php
+class Voodoo_Fan_Block_Adminhtml_Fan_Grid extends Mage_Adminhtml_Block_Widget_Grid
+&#123;
+    public function __construct()
+    &#123;
+        parent::__construct();
+        $this-&gt;setId(&#39;fanGrid&#39;);
+        $this-&gt;setDefaultSort(&#39;id&#39;);
+        $this-&gt;setDefaultDir(&#39;ASC&#39;);
+        $this-&gt;setSaveParametersInSession(true);
+    &#125;
+    protected function _prepareCollection()
+    &#123;
+        $collection = Mage::getModel(&#39;fan/fan&#39;)-&gt;getCollection();
+        $this-&gt;setCollection($collection);
+        return parent::_prepareCollection();
+    &#125;
+    protected function _prepareColumns()
+    &#123;
+        // 这里是用来在magento后台显示的防伪码添加后的列表，这里的代码告诉了我们要显示哪些字段在管理后台。类似后台产品列表那样。
+        $this-&gt;addColumn(&#39;id&#39;, array(
+        &#39;header&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;ID&#39;),
+        &#39;align&#39; =&gt; &#39;right&#39;,
+        &#39;width&#39; =&gt; &#39;50px&#39;,
+        &#39;index&#39; =&gt; &#39;id&#39;,
+        ));
+        $this-&gt;addColumn(&#39;bianma&#39;, array(
+        &#39;header&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;防伪码&#39;),
+        &#39;align&#39; =&gt; &#39;left&#39;,
+        &#39;index&#39; =&gt; &#39;bianma&#39;,
+        ));
+        $this-&gt;addColumn(&#39;user&#39;, array(
+        &#39;header&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;负责人&#39;),
+        &#39;align&#39; =&gt; &#39;left&#39;,
+        &#39;index&#39; =&gt; &#39;user&#39;,
+        ));
+        $this-&gt;addColumn(&#39;brand&#39;, array(
+        &#39;header&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;品牌&#39;),
+        &#39;align&#39; =&gt; &#39;left&#39;,
+        &#39;index&#39; =&gt; &#39;brand&#39;,
+        ));
+        $this-&gt;addColumn(&#39;company&#39;, array(
+        &#39;header&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;公司名称&#39;),
+        &#39;align&#39; =&gt; &#39;left&#39;,
+        &#39;index&#39; =&gt; &#39;company&#39;,
+        ));
+        $this-&gt;addColumn(&#39;status&#39;, array(
+        &#39;header&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;状态&#39;),
+        &#39;align&#39; =&gt; &#39;left&#39;,
+        &#39;width&#39; =&gt; &#39;80px&#39;,
+        &#39;index&#39; =&gt; &#39;status&#39;,
+        &#39;type&#39; =&gt; &#39;options&#39;,
+        &#39;options&#39; =&gt; array(
+        1 =&gt; &#39;Enabled&#39;,
+        2 =&gt; &#39;Disabled&#39;,
+        ),
+        ));
+        $this-&gt;addColumn(&#39;action&#39;, 
+        array(
+        &#39;header&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;Action&#39;),
+        &#39;width&#39; =&gt; &#39;100&#39;,
+        &#39;type&#39; =&gt; &#39;action&#39;,
+        &#39;getter&#39; =&gt; &#39;getId&#39;,
+        &#39;actions&#39; =&gt; array(
+        array(
+        &#39;caption&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;Edit&#39;),
+        &#39;url&#39; =&gt; array(&#39;base&#39; =&gt; &#39;*/*/edit&#39;),
+        &#39;field&#39; =&gt; &#39;id&#39;
+        )
+        ),
+        &#39;filter&#39; =&gt; false,
+        &#39;sortable&#39; =&gt; false,
+        &#39;index&#39; =&gt; &#39;stores&#39;,
+        &#39;is_system&#39; =&gt; true,
+        ));
+        // end
+        $this-&gt;addExportType(&#39;*/*/exportCsv&#39;,
+        Mage::helper(&#39;fan&#39;)-&gt;__(&#39;CSV&#39;));
+        $this-&gt;addExportType(&#39;*/*/exportXml&#39;,
+        Mage::helper(&#39;fan&#39;)-&gt;__(&#39;XML&#39;));
+        return parent::_prepareColumns();
+    &#125;
+    protected function _prepareMassaction()
+    &#123;
+        $this-&gt;setMassactionIdField(&#39;id&#39;);
+        $this-&gt;getMassactionBlock()-&gt;setFormFieldName(&#39;fan&#39;);
+        $this-&gt;getMassactionBlock()-&gt;addItem(&#39;delete&#39;, array(
+        &#39;label&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;Delete&#39;),
+        &#39;url&#39; =&gt; $this-&gt;getUrl(&#39;*/*/massDelete&#39;),
+        &#39;confirm&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;Are you sure?&#39;)
+                ));
+        $statuses = Mage::getSingleton(&#39;fan/status&#39;)-&gt;getOptionArray();
+        array_unshift($statuses, array(&#39;label&#39; =&gt; &#39;&#39;, &#39;value&#39; =&gt;
+        &#39;&#39;));
+        $this-&gt;getMassactionBlock()-&gt;addItem(&#39;status&#39;, array(
+        &#39;label&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;Change status&#39;),
+        &#39;url&#39; =&gt; $this-&gt;getUrl(&#39;*/*/massStatus&#39;, array(&#39;_current&#39;
+        =&gt; true)),
+        &#39;additional&#39; =&gt; array(
+        &#39;visibility&#39; =&gt; array(
+        &#39;name&#39; =&gt; &#39;status&#39;,
+        &#39;type&#39; =&gt; &#39;select&#39;,
+        &#39;class&#39; =&gt; &#39;required-entry&#39;,
+        &#39;label&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;Status&#39;),
+        &#39;values&#39; =&gt; $statuses
+        )
+        )
+        ));
+        return $this;
+    &#125;
+    public function getRowUrl($row)
+    &#123;
+        return $this-&gt;getUrl(&#39;*/*/edit&#39;, array(&#39;id&#39; =&gt; $row-&gt;getId()));
+    &#125;
+&#125;</code></pre>
+<p>效果截图：</p>
+<p><img src="https://i.imgur.com/eha7Ccn.png"></p>
+<p>如果不想要显示那么多，去除其中的某一个即可。比如我们不显示负责人这一列，那么删除：</p>
+<pre><code>$this-&gt;addColumn(&#39;user&#39;, array(
+&#39;header&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;负责人&#39;),
+&#39;align&#39; =&gt; &#39;left&#39;,
+&#39;index&#39; =&gt; &#39;user&#39;,
+));</code></pre>
+<p>即可。</p>
+<p>然后，在目录app/code/local/Voodoo/Fan/Block/Adminhtml/Fan/Edit/下创建Form.php和Tabs.php，其中Form.php文件的代码如下：</p>
+<pre><code>&lt;?php
+class Voodoo_Fan_Block_Adminhtml_Fan_Edit_Form extends Mage_Adminhtml_Block_Widget_Form
+&#123;
+    protected function _prepareForm()
+    &#123;
+        $form = new Varien_Data_Form(array(&#39;id&#39; =&gt; &#39;edit_form&#39;,&#39;action&#39; =&gt; $this-&gt;getUrl(&#39;*/*/save&#39;, array(&#39;id&#39; =&gt;$this-&gt;getRequest()-&gt;getParam(&#39;id&#39;))),&#39;method&#39; =&gt; &#39;post&#39;,&#39;enctype&#39; =&gt; &#39;multipart/form-data&#39;));
+        $form-&gt;setUseContainer(true);
+        $this-&gt;setForm($form);
+        return parent::_prepareForm();
+    &#125;
+&#125;</code></pre>
+<p>Tabs.php的代码如下：</p>
+<pre><code>&lt;?php
+class Voodoo_Fan_Block_Adminhtml_Fan_Edit_Tabs extends Mage_Adminhtml_Block_Widget_Tabs
+&#123;
+    public function __construct()
+    &#123;
+        parent::__construct();
+        $this-&gt;setId(&#39;fan_tabs&#39;);
+        $this-&gt;setDestElementId(&#39;edit_form&#39;);
+        $this-&gt;setTitle(Mage::helper(&#39;fan&#39;)-&gt;__(&#39;防伪码信息&#39;));
+    &#125;
+
+    protected function _beforeToHtml()
+    &#123;
+        $this-&gt;addTab(&#39;form_section&#39;, array(
+        &#39;label&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;防伪码信息&#39;),
+        &#39;title&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;防伪码添加详情&#39;),
+        &#39;content&#39; =&gt; $this-&gt;getLayout()-&gt;createBlock(&#39;fan/adminhtml_fan_edit_tab_form&#39;)-&gt;toHtml(),));
+        return parent::_beforeToHtml();
+    &#125;
+&#125;</code></pre>
+<p>最后，在app/code/local/Voodoo/Fan/Block/Adminhtml/Fan/Edit/Tab/下建立Form.php文件：</p>
+<pre><code>&lt;?php
+class Voodoo_Fan_Block_Adminhtml_Fan_Edit_Tab_Form extends Mage_Adminhtml_Block_Widget_Form
+&#123;
+    protected function _prepareForm()
+    &#123;
+        $form = new Varien_Data_Form();
+        $this-&gt;setForm($form);
+        $fieldset = $form-&gt;addFieldset(&#39;fan_form&#39;, array(&#39;legend&#39;=&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;Item information&#39;)));
+        // 在网站后台添加防伪码的那里获取的字段 开始
+        $fieldset-&gt;addField(&#39;bianma&#39;, &#39;text&#39;, array(&#39;label&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;防伪码&#39;),&#39;class&#39; =&gt; &#39;required-entry&#39;,&#39;required&#39; =&gt; true,&#39;name&#39; =&gt; &#39;bianma&#39;,));
+        $fieldset-&gt;addField(&#39;brand&#39;, &#39;text&#39;, array(&#39;label&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;品牌商&#39;),&#39;class&#39; =&gt; &#39;required-entry&#39;,&#39;required&#39; =&gt; true,&#39;name&#39; =&gt; &#39;brand&#39;,));
+        $fieldset-&gt;addField(&#39;content&#39;, &#39;editor&#39;, array(&#39;name&#39; =&gt; &#39;content&#39;,&#39;label&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;详细描述&#39;),&#39;title&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;content&#39;),&#39;style&#39; =&gt; &#39;width:700px; height:500px;&#39;,&#39;wysiwyg&#39; =&gt; false,&#39;required&#39; =&gt; true,));
+        $fieldset-&gt;addField(&#39;company&#39;, &#39;text&#39;, array(&#39;label&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;公司名称&#39;),&#39;class&#39; =&gt; &#39;required-entry&#39;,&#39;required&#39; =&gt; true,&#39;name&#39; =&gt; &#39;company&#39;,));
+        $fieldset-&gt;addField(&#39;filename&#39;, &#39;file&#39;, array(&#39;label&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;文件或者缩略图&#39;),&#39;required&#39; =&gt; false,&#39;name&#39; =&gt; &#39;filename&#39;,));
+        $fieldset-&gt;addField(&#39;user&#39;, &#39;text&#39;, array(&#39;label&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;负责人&#39;),&#39;class&#39; =&gt; &#39;required-entry&#39;,&#39;required&#39; =&gt; true,&#39;name&#39; =&gt; &#39;user&#39;,));
+        $fieldset-&gt;addField(&#39;status&#39;, &#39;select&#39;, array(&#39;label&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;状态&#39;),&#39;name&#39; =&gt; &#39;status&#39;,&#39;values&#39; =&gt; array(array(&#39;value&#39; =&gt; 1,&#39;label&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;Enabled&#39;),),array(&#39;value&#39; =&gt; 2,&#39;label&#39; =&gt; Mage::helper(&#39;fan&#39;)-&gt;__(&#39;Disabled&#39;),),),));
+        // 在网站后台添加防伪码的那里获取的字段 结束
+        if (Mage::getSingleton(&#39;adminhtml/session&#39;)-&gt;getNewsData())
+        &#123;
+        $form-&gt;setValues(Mage::getSingleton(&#39;adminhtml/session&#39;)-&gt;getNewsData());
+        Mage::getSingleton(&#39;adminhtml/session&#39;)-&gt;setNewsData(null);
+        &#125; elseif (Mage::registry(&#39;fan_data&#39;)) &#123;
+        $form-&gt;setValues(Mage::registry(&#39;fan_data&#39;)-&gt;getData());
+    &#125;
+        return parent::_prepareForm();
+    &#125;
+&#125;</code></pre>
+<p>这个文件里面有7个字段要提交到数据库，那么对应的后台截图如下：</p>
+<p><img src="https://i.imgur.com/eZc65nR.png"></p>
+<p>如果我们将来要开发更加复杂的模块的时候，那么我们可以在这里继续添加字段，这里需要提醒的是，增加的字段需要在数据库那边也要相应的加上去。</p>
+<blockquote>
+<p>重要：由于笔者开始的时候在建立数据库的时候，把防伪码的名字的字段写成name，导致后面在文件的那里总是没法把文件上传到数据库去，如下截图那样，显示是空白的，后来把name改成了bianma（这个名字随便取，但是尽量不要用name，因为name是表单里面的一个属性，笔者认为造成这个问题的很可能就是发生冲突的原因）</p>
+</blockquote>
+<p><img src="https://i.imgur.com/KnDV1gI.png"></p>
+<p>修改了以后，那么其他有用到数据库表name的这个字段也要相应的改成bianma。搞定后的效果：</p>
+<p><img src="https://i.imgur.com/TldFj6A.png"></p>
+<p>这样就完成了模块的创建。block是Magento的重要部分，这里我们创建了7个防伪码模块功能，笔者写了一些方法，并且将数据传递到布局。这样便完成了防伪码模块的开发，这是后台截图</p>
+<p><img src="https://i.imgur.com/eha7Ccn.png"></p>
+<p>我们这个时候可以访问前台地址：<a target="_blank" rel="noopener" href="http://www.yourdomain.com/fan/index/index">http://www.yourdomain.com/fan/index/index</a></p>
+<p><img src="https://i.imgur.com/qeI1A91.png"></p>
+<p>具体的显示样式和内容，自己可以在模板文件那里输出自己需要的字段，通过css可以完成显示内容的美化。</p>
+<p>这个时候如果我们想要对上传的文件格式支持pdf和doc等的话，我们可以找到app/code/local/Voodoo/Fan/controllers/Adminhtml/FanController.php这个文件，把里面的这句代码：</p>
+<pre><code>$uploader-&gt;setAllowedExtensions(array(&#39;jpg&#39;, &#39;jpeg&#39;,&#39;gif&#39;, &#39;png&#39;));</code></pre>
+<p>改成</p>
+<pre><code>$uploader-&gt;setAllowedExtensions(array(&#39;jpg&#39;, &#39;jpeg&#39;,&#39;gif&#39;, &#39;png&#39;, &#39;pdf&#39;,&#39;doc&#39;,&#39;docx&#39;));</code></pre>
+<p>即可，这样的话就支持pdf以及word文档了，其他的可以自行添加。</p>
+<p>好的，我们在模板文件里面来个判断，就是如果上传的是文件的话（比如是pdf格式的），那么就不是显示缩略图，而是用一张默认的图片替代，如果上传的是图片格式的，那么就显示缩略图。看下是如何实现的：</p>
+<p>我们找到模板文件：app/design/frontend/sm_market/default/template/fan/fan.phtml，打开</p>
+<pre><code>&lt;h3&gt;&lt;?php echo $this-&gt;__(&#39;Voodoo最新防伪码&#39;) ?&gt;&lt;/h3&gt;
+
+&lt;table class=&quot;biaoge&quot;&gt;
+    &lt;tr&gt;
+        &lt;td&gt;缩略图&lt;/td&gt;
+        &lt;td&gt;防伪码&lt;/td&gt;
+        &lt;td&gt;品牌商&lt;/td&gt;
+        &lt;td&gt;负责人&lt;/td&gt;
+        &lt;td&gt;公司名称&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;?php foreach($this-&gt;getNewsList() as $item): ?&gt;
+        &lt;tr&gt;
+            &lt;td&gt;
+                &lt;img src=&quot;&lt;?php echo Mage::getBaseUrl(&#39;media&#39;) . &#39;fan&#39;. DS . $item[&#39;filename&#39;] ?&gt;&quot; alt=&quot;&lt;?php echo $item[&#39;bianma&#39;]?&gt;&quot; width=&quot;64&quot; height=&quot;64&quot;/&gt;
+            &lt;/td&gt;
+            &lt;td&gt;
+                &lt;h5&gt;&lt;?php echo $item[&#39;bianma&#39;] ?&gt;&lt;/h5&gt;
+            &lt;/td&gt;
+            &lt;td&gt;
+                &lt;h5&gt;&lt;?php echo $item[&#39;brand&#39;] ?&gt;&lt;/h5&gt;
+            &lt;/td&gt;
+            &lt;td&gt;
+                &lt;h5&gt;&lt;?php echo $item[&#39;user&#39;] ?&gt;&lt;/h5&gt;
+            &lt;/td&gt;
+            &lt;td&gt;
+                &lt;h5&gt;&lt;?php echo $item[&#39;company&#39;] ?&gt;&lt;/h5&gt;
+            &lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;?php endforeach; ?&gt;
+&lt;/table&gt;
+
+&lt;style&gt;
+    input.input-text &#123;
+        width: 100% !important;
+    &#125;
+    .yt_main_inner select&#123;
+        width: 100%;
+        margin-bottom: 20px;
+    &#125;
+    input[type=&quot;submit&quot;]&#123;
+        width: 150px;
+        margin-bottom: 20px;
+        background: #444444;
+        color: #fff;
+        border: 0px;
+    &#125;
+    .biaoge td,.biaoge th&#123;
+        padding:8px 10px;
+        border:1px solid #ccc;
+    &#125;
+    .biaoge tr td:first-child&#123;
+        width:80px;
+    &#125;
+    .biaoge tr:first-child&#123;
+        background: #666;
+        color: #fff;
+    &#125;
+    .biaoge img&#123;
+        width: 100%;
+    &#125;
+    .biaoge&#123;
+        border-collapse:collapse !important;
+        border: 1px solid;
+        width: 100%;
+    &#125;
+&lt;/style&gt;</code></pre>
+<p>我们在显示缩略图那里添加判断：</p>
+<pre><code>&lt;?php if (pathinfo($item[&#39;filename&#39;])[&#39;extension&#39;] != &#39;pdf&#39;):?&gt;
+&lt;img src=&quot;&lt;?php echo Mage::getBaseUrl(&#39;media&#39;) . &#39;fan/&#39;.$item[&#39;filename&#39;] ?&gt;&quot; alt=&quot;&lt;?php echo $item[&#39;bianma&#39;]?&gt;&quot; width=&quot;64&quot; height=&quot;64&quot;/&gt;
+&lt;?php else:?&gt;
+&lt;a href=&quot;&lt;?php echo Mage::getBaseUrl(&#39;media&#39;) . &#39;fan/&#39;.$item[&#39;filename&#39;] ?&gt;&quot; download&gt;&lt;img src=&quot;http://www.tanzrepdelhi.com/images/pdficon.png&quot; alt=&quot;&lt;?php echo $item[&#39;bianma&#39;]?&gt;&quot; width=&quot;64&quot; height=&quot;64&quot;/&gt;&lt;/a&gt;
+&lt;?php endif; ?&gt;</code></pre>
+<p>这句话的意思就是，如果文件的扩展名不是pdf的话，那么就正常显示，否则，就显示笔者事先找好的一张图片，然后为这张图片添加链接，点击就可以下载这个pdf文件（我们为a标签添加了一个download属性，这个属性就是告诉链接，不用打开了，直接下载）。眼尖的读者可能发现了笔者对以前的那个进行了改写，以前是类似这样：</p>
+<pre><code>&lt;img class=&quot;suoluetu&quot; src=&quot;&lt;?php echo Mage::getBaseUrl(&#39;media&#39;) . &#39;fan&#39;. DS . $this-&gt;showresult()[0][&#39;filename&#39;] ?&gt;&quot; alt=&quot;&quot;/&gt;</code></pre>
+<p>后来笔者发现这个图片的地址是：</p>
+<p><img src="https://i.imgur.com/mnx2LGr.png"></p>
+<p>这样的，这个是反斜杠，于是怀疑是这个<code>.DS.</code>搞的鬼，后来删除了这个，改成如下：</p>
+<pre><code>&lt;img class=&quot;suoluetu&quot; src=&quot;&lt;?php echo Mage::getBaseUrl(&#39;media&#39;) . &#39;fan/&#39;. $this-&gt;showresult()[0][&#39;filename&#39;] ?&gt;&quot; alt=&quot;&quot;/&gt;</code></pre>
+<p>我们接着上面的内容，这里有个php判断语句，大家要知道如何写，另外这里重点说下对扩展名的判断的写法：</p>
+<pre><code>&lt;?php
+    $filename=&quot;123.jpg&quot;;
+    $extend=pathinfo($filename);
+    echo &quot;&lt;br&gt;three&lt;br&gt;&quot;;
+    echo $extend[&#39;extension&#39;];
+?&gt;</code></pre>
+<p>这个打印在前台的是：</p>
+<pre><code>tree
+jpg</code></pre>
+<p>好的，根据这个意思，那么久简单了，我们只需要获取图片地址代码：<code>$item[&#39;filename&#39;]</code>，然后套用就对了。</p>
+<p>更多的判断demo，这里分享下：</p>
+<pre><code>&lt;?php 
+$filename=&quot;123.jpg&quot;;
+//方法一：
+function get_ext($file_name)&#123;
+  return array_pop(explode(&#39;.&#39;, $file_name));
+  //用.号对字符串进行分组
+&#125;
+echo &quot;&lt;br&gt;one&lt;br&gt;&quot;;
+echo get_ext($filename);
+//方法二：
+$fileEx=strtolower(substr(strrchr($filename,&quot;.&quot;),1));
+echo &quot;&lt;br&gt;two&lt;br&gt;&quot;;
+echo $fileEx;
+//方法三：
+$extend=pathinfo($filename);
+echo &quot;&lt;br&gt;three&lt;br&gt;&quot;;
+echo $extend[&#39;extension&#39;];
+//方法四：
+$filetype=array(&quot;image/gif&quot;,&quot;image/jpeg&quot;);
+//判断文件扩展名类型是否在该 数组中
+if(in_array($_FILES[&#39;file&#39;][&#39;type&#39;],$filetype))&#123;
+//针对上传文件判断
+  echo &quot;four&lt;br&gt;&quot;;
+  echo $_FILES[&#39;file&#39;][&#39;type&#39;];
+&#125;
+ ?&gt;</code></pre>
+<p>大家可以运行一下上面的代码，找到方法。</p>
+<p>最后粘贴下结果：</p>
+<p><img src="https://i.imgur.com/YStFLa7.png"></p>
+<p>数据库那边截图：</p>
+<p><img src="https://i.imgur.com/Jb6xNJa.png"></p>
+<p>因此，逻辑没毛病。大家可以在这个基础上做更多的扩展和开发。</p>
+<p>好的，这个对于防伪码的在后台添加的就完成了，如果我们想要完成一个在前台查询防伪码的功能，我们可以参考笔者另外一篇文章：</p>
+<p><a target="_blank" rel="noopener" href="https://helongquan.github.io/2018/07/31/magento%E9%80%9A%E8%BF%87%E8%AF%BB%E5%8F%96%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E6%96%B9%E5%BC%8F%E5%AE%9E%E7%8E%B0%E9%98%B2%E4%BC%AA%E7%A0%81%E6%9F%A5%E8%AF%A2%E5%8A%9F%E8%83%BD/">magento通过读取数据库的方式实现防伪码查询功能</a></p>
+<hr>
+<p><strong>这里笔者还是啰嗦一下，把这边文章的教程复制过来：</strong></p>
+<p>1、首先在local下创建新的模块，依次创建如下文件或者文件夹：</p>
+<pre><code>app/code/local/Test/Fanweima
+app/code/local/Test/Fanweima/Block
+app/code/local/Test/Fanweima/Block/Fanweima.php
+app/code/local/Test/Fanweima/controllers
+app/code/local/Test/Fanweima/controllers/IndexController.php
+app/code/local/Test/Fanweima/etc
+app/code/local/Test/Fanweima/etc/config.xml
+app/code/local/Test/Fanweima/Helper
+app/code/local/Test/Fanweima/Helper/Data.php</code></pre>
+<p>Test是命名空间，Fanweima是模块名，通常一个标准的模块有六个文件夹：Block,controllers,etc,Model,Helper,sql</p>
+<p>另外，我们需要在magento的数据库中创建一个数据表（尽管在本篇教程里面用不到这个数据表），笔者这里命名为：wp_fanweima，wp_fanweima.sql语句如下：</p>
+<pre><code>SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for wp_fanweima
+-- ----------------------------
+DROP TABLE IF EXISTS `wp_fanweima`;
+CREATE TABLE `wp_fanweima` (
+  `id` int(16) unsigned NOT NULL AUTO_INCREMENT COMMENT &#39;9&#39;,
+  `name` char(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `brand` varchar(300) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `fuzeren` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `diqu` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `chanpin` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `baozhiqi` varchar(16) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `attachment` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=53 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+
+-- ----------------------------
+-- Records of wp_fanweima
+-- ----------------------------
+INSERT INTO `wp_fanweima` VALUES (&#39;46&#39;, &#39;7766&#39;, &#39;wegret&#39;, &#39;erhgrw&#39;, &#39;qegrhw&#39;, &#39;wegrwrf&#39;, &#39;89&#39;, &#39;http://localhost:8080/wordpress/wp-content/uploads/2018/07/test1.pdf&#39;);
+INSERT INTO `wp_fanweima` VALUES (&#39;47&#39;, &#39;789&#39;, &#39;qwedfv&#39;, &#39;bgferfg&#39;, &#39;sdfgbhng&#39;, &#39;fggsfgnh&#39;, &#39;987&#39;, &#39;http://localhost:8080/wordpress/wp-content/uploads/2018/07/1.jpg&#39;);
+INSERT INTO `wp_fanweima` VALUES (&#39;51&#39;, &#39;1013&#39;, &#39;诺福罗得&#39;, &#39;zhangsan&#39;, &#39;广州&#39;, &#39;水生生物学&#39;, &#39;4&#39;, &#39;https://pan.baidu.com/s/1ZL3fjahxI48YOsLTFrJ_KQ&#39;);
+INSERT INTO `wp_fanweima` VALUES (&#39;52&#39;, &#39;678&#39;, &#39;sdfghjk&#39;, &#39;dfghj,&#39;, &#39;werfghjk&#39;, &#39;wdfghj&#39;, &#39;34&#39;, &#39;http://www.baidu.com&#39;);</code></pre>
+<p>好的，我们创建好这些文件的时候，先去在网站的配置目录下创建一个激活这个模块的配置文件，如果我们想要激活命名空间为Test下的所有模块，那么我们可以在app/etc/modules/这个目录下创建一个Test_All.xml即可。然后下面的所有模块大致配置是这样的：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;config&gt;
+     &lt;modules&gt;
+        &lt;Test_Fanweima&gt;
+            &lt;active&gt;true&lt;/active&gt;
+            &lt;codePool&gt;local&lt;/codePool&gt;
+        &lt;/Test_Fanweima&gt;
+        &lt;Test_Shopping&gt;
+            &lt;active&gt;true&lt;/active&gt;
+            &lt;codePool&gt;local&lt;/codePool&gt;
+        &lt;/Test_Shopping&gt;
+        &lt;Test_Customer&gt;  
+            &lt;active&gt;true&lt;/active&gt;  
+            &lt;codePool&gt;local&lt;/codePool&gt;  
+        &lt;/Test_Customer&gt;
+     &lt;/modules&gt;
+&lt;/config&gt;</code></pre>
+<p>从这里可以看到这个命名空间下有三个自定义的模块分别是：Fanweima，Shopping，Customer</p>
+<p>我们言归正传，这里我们不用这个方法，我们还是只激活我们创建的这个模块，那么我们在app/etc/modules/这个目录下创建一个Test_Fanweima.xml，代码如下：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;config&gt;
+    &lt;modules&gt;
+        &lt;Test_Fanweima&gt;
+            &lt;active&gt;true&lt;/active&gt;
+            &lt;codePool&gt;local&lt;/codePool&gt;
+        &lt;/Test_Fanweima&gt;
+    &lt;/modules&gt;
+&lt;/config&gt;</code></pre>
+<p>接着，我们打开app/code/local/Test/Fanweima/etc/config.xml这个文件，加入代码：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;config&gt;
+    &lt;modules&gt;
+        &lt;Test_Fanweima&gt;
+            &lt;version&gt;0.1.0&lt;/version&gt;
+        &lt;/Test_Fanweima&gt;
+    &lt;/modules&gt;
+    &lt;frontend&gt;
+        &lt;routers&gt;
+            &lt;fanweima&gt;
+                &lt;use&gt;standard&lt;/use&gt;
+                &lt;args&gt;
+                    &lt;module&gt;Test_Fanweima&lt;/module&gt;
+                    &lt;frontName&gt;fanweima&lt;/frontName&gt;
+                &lt;/args&gt;
+            &lt;/fanweima&gt;
+        &lt;/routers&gt;
+        &lt;layout&gt;
+            &lt;updates&gt;
+                &lt;fanweima&gt;
+                    &lt;file&gt;fanweima.xml&lt;/file&gt;
+                &lt;/fanweima&gt;
+            &lt;/updates&gt;
+        &lt;/layout&gt;
+    &lt;/frontend&gt;
+    &lt;global&gt;
+        &lt;models&gt;
+            &lt;fanweima&gt;
+                &lt;class&gt;Test_Fanweima_Model&lt;/class&gt;
+                &lt;resourceModel&gt;fanweima_mysql4&lt;/resourceModel&gt;
+            &lt;/fanweima&gt;
+        &lt;/models&gt;
+        &lt;blocks&gt;
+            &lt;fanweima&gt;
+                &lt;class&gt;Test_Fanweima_Block&lt;/class&gt;
+            &lt;/fanweima&gt;
+        &lt;/blocks&gt;
+        &lt;helpers&gt;
+            &lt;fanweima&gt;
+                &lt;class&gt;Test_Fanweima_Helper&lt;/class&gt;
+            &lt;/fanweima&gt;
+        &lt;/helpers&gt;
+    &lt;/global&gt;
+&lt;/config&gt;</code></pre>
+<p>接着，我们打开app/code/local/Test/Fanweima/Helper/Data.php这个文件：</p>
+<pre><code>&lt;?php
+
+class Test_Fanweima_Helper_Data extends Mage_Core_Helper_Abstract
+&#123;
+
+&#125;</code></pre>
+<p>这里讲解一下：这个里面由于没有复杂的逻辑，所以直接保留为空即可。以后有新的业务逻辑可以添加在这里面。</p>
+<p>添加完毕后，我们打开app/code/local/Test/Fanweima/controllers/IndexController.php这个文件，加入代码：</p>
+<pre><code>&lt;?php
+class Test_Fanweima_IndexController extends Mage_Core_Controller_Front_Action
+&#123;
+    public function indexAction()
+    &#123;
+        if ($this-&gt;getRequest()-&gt;isPost())&#123; /* 首先判断是否有post发生 */
+            $nu1 = $this-&gt;getRequest()-&gt;getParam(&#39;NUM1&#39;); /* 截获参数 */
+            $read =Mage::getSingleton(&quot;core/resource&quot;)-&gt;getConnection(&#39;core_read&#39;);
+            $sql = &quot;select * from `fan` where bianma=&#39;$nu1&#39;&quot;;  /* 这里用的是数据表为fan的，而不是wp_fanweima */
+            $result =$read-&gt;fetchAll($sql);
+            Mage::register(&#39;nu1&#39;, $result);/* 传递到block 关于更多的Magento常用Mage::静态方法参考网址：https://www.cnblogs.com/kangkangdede/p/3321121.html*/
+        &#125;
+
+        $this-&gt;loadLayout();
+        $this-&gt;renderLayout();
+    &#125;
+&#125;</code></pre>
+<p>这里我们进行讲解：控制器写法不用多说了，我们来看这个index方法里面的代码：</p>
+<p>先判断一下是否有数据提交。</p>
+<pre><code>$this-&gt;getRequest()-&gt;isPost()</code></pre>
+<p>然后截获参数，这个参数来自模板文件里面的表单字段name里的NUM1，这个参数是来自前台表单的提交，需要根据这个字段对数据库进行条件查询的，所以需要这样写。</p>
+<p>接着里面有三行代码：</p>
+<pre><code>$read =Mage::getSingleton(&quot;core/resource&quot;)-&gt;getConnection(&#39;core_read&#39;);
+$sql = &quot;select * from `fan` where bianma=&#39;$nu1&#39;&quot;;
+$result =$read-&gt;fetchAll($sql);</code></pre>
+<p>针对这三行代码的理解，这里笔者摘录了一段如下：</p>
+<pre><code>&lt;?php  
+    /** 
+      * Get the resource model 
+      */  
+    $resource = Mage::getSingleton(&#39;core/resource&#39;);  
+
+    /** 
+     * Retrieve the read connection 
+     */  
+    $readConnection = $resource-&gt;getConnection(&#39;core_read&#39;);  
+
+    /** 
+     * Retrieve our table name 
+     */  
+    $table = $resource-&gt;getTableName(&#39;catalog/product&#39;);  
+
+    /** 
+     * Execute the query and store the results in $results 
+     */  
+    $sku = $readConnection-&gt;fetchCol(&#39;SELECT sku FROM &#39; . $table . &#39;);</code></pre>
+<p>想必有点概念了，如果不清楚可以针对getSingleton(),getConnection(),getTableName()方法进行更深入的了解。</p>
+<p>好的，我们回到那三条代码，第二条是查询数据表为fan的bianma是表单提交的所有结果。</p>
+<p>最后那条就是遍历查询结果，保存到变量$result中。</p>
+<p>然后使用：</p>
+<pre><code>Mage::register(&#39;nu1&#39;, $result);</code></pre>
+<p>这条代码是把controller控制器传值到Block去。这样的话就把结果保存在nu1中传到block中去，这里有个magento的静态方法：</p>
+<blockquote>
+<p>Mage::register($key, $value, $graceful = false)</p>
+<p>作用：注册变量，这个一般都是传值，将变量变为全局变量，比如controller控制器传值到Block，或者Model或者Helper.</p>
+<p>参数：$key,键名，随便一个不存在的键名。</p>
+<p>$value,键值。既是要保存的值。</p>
+<p>$graceful，这个是标志是否要覆盖原有的值，默认是false.如果键名存在，而$graceful又是false,则抛出异常。</p>
+</blockquote>
+<p>最后，添加如下两条代码：</p>
+<pre><code>$this-&gt;loadLayout();
+$this-&gt;renderLayout();</code></pre>
+<p>完事！</p>
+<p>然后在app/code/local/Test/Fanweima/Block/Fanweima.php里面加入代码：</p>
+<pre><code>&lt;?php
+class Test_Fanweima_Block_Fanweima extends Mage_Core_Block_Template
+&#123;
+  protected $nu1 = null;
+  public function showresult()&#123;
+    $this-&gt;nu1 = Mage::registry(&#39;nu1&#39;); /* 获得从controllers中传递来的参数 */
+    return $this-&gt;nu1;
+  &#125;
+&#125;</code></pre>
+<p>查询结果已经通过控制器传到了模块中来了，所以这里的就用Magento常用Mage::静态方法中的registry方法。说明如下：</p>
+<blockquote>
+<p>Mage::registry($key)</p>
+<p>作用：获取注册了的变量。既是获取了已经用Mage::register方法注册了的变量，如没有则返回null，在magento中，如果获取了没有注册的变量，那么可能会出现异常。</p>
+<p>参数：$key，键名，任何已经注册了的键名。</p>
+</blockquote>
+<p>好的，我们回到上面的代码，在方法showresult()中，获取了传过来的值后，然后返回这些值，这个是没有逻辑问题的。好的既然这个查询数据库的数据都查出来了，也通过控制器把值传到block中了，那么我们就需要把这个值显示到前台模板中去才行，对吧。好的继续往下看。</p>
+<p>模块的代码已经完成了，根据前面说的，就是我们如何让这个模块的数据显示到网站的前台，我们来到模板那里：</p>
+<p>结构如下：</p>
+<pre><code>app/design/frontend/your-theme/default/layout/fanweima.xml
+app/design/frontend/your-theme/default/template/fanweima
+app/design/frontend/your-theme/default/template/fanweima/fanweima.phtml</code></pre>
+<p>我们逐个文件添加内容，fanweima.xml代码如下：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;layout version=&quot;0.1.0&quot;&gt;
+    &lt;default&gt;
+    &lt;/default&gt;
+    &lt;fanweima_index_index&gt;
+        &lt;reference name=&quot;content&quot;&gt;
+            &lt;block type=&quot;fanweima/fanweima&quot; name=&quot;fanweima&quot; template=&quot;fanweima/fanweima.phtml&quot;/&gt;
+        &lt;/reference&gt;
+    &lt;/fanweima_index_index&gt;
+&lt;/layout&gt;</code></pre>
+<p>这里做个讲解：</p>
+<p>这里引用模板文件fanweima.phtml，这个文件在fanweima这个目录下。如果换成其他的名字也是可以的。如果换成其他名字，fanweimas.phtml，那么app/design/frontend/your-theme/default/template/fanweima/fanweima.phtml中的fanweima.phtml换成fanweimas.phtml即可。这个文件的目的就是告诉浏览器当请求这个fanweima路由的时候，要用fanweima.phtml这个模板文件渲染。我们声明清楚了之后，我们就来的这个模板文件。</p>
+<p><strong>fanweima.phtml代码如下：</strong></p>
+<pre><code>&lt;form action=&quot;&lt;?php echo Mage::getUrl(&#39;fanweima&#39;) ?&gt;&quot; method=&quot;post&quot; id=&quot;fanweima_form&quot;&gt;
+    &lt;fieldset&gt;
+        &lt;ul&gt;
+            &lt;li&gt;
+                &lt;label for=&quot;NUM1&quot;&gt;&lt;?php echo $this-&gt;__(&#39;防伪码: &#39;) ?&gt;&lt;span class=&quot;required&quot;&gt;*&lt;/span&gt;&lt;/label&gt;
+                &lt;input type=&quot;text&quot; id=&quot;NUM1&quot; name=&quot;NUM1&quot; class=&quot;input-text required-entry  validate-alphanum&quot; placeholder=&quot;输入防伪码&quot; onkeyup=&quot;this.value=this.value.match(/^[1-9]&#123;1&#125;[0-9]*$/)&quot; onafterpaste=&quot;this.value=this.value.match(/^[1-9]&#123;1&#125;[0-9]*$/)&quot;/&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+                &lt;input type=&quot;submit&quot; value=&quot;&lt;?php echo $this-&gt;__(&#39;立即查询&#39;) ?&gt;&quot; /&gt;
+            &lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/fieldset&gt;
+&lt;/form&gt;
+
+&lt;style&gt;
+    input.input-text &#123;
+        width: 100% !important;
+    &#125;
+    .yt_main_inner select&#123;
+        width: 100%;
+        margin-bottom: 20px;
+    &#125;
+    input[type=&quot;submit&quot;]&#123;
+        width: 150px;
+        margin-bottom: 20px;
+        background: #444444;
+        color: #fff;
+        border: 0px;
+    &#125;
+    .biaoge td,.biaoge th&#123;
+        padding:8px 10px;
+        border:1px solid;
+    &#125;
+    .biaoge tr td:first-child&#123;
+        background: #eeeeee;
+    &#125;
+    .biaoge&#123;
+        border-collapse:collapse !important;
+        border: 1px solid;
+        width: 100%;
+    &#125;
+&lt;/style&gt;
+
+&lt;h2&gt;查询结果：&lt;/h2&gt;
+&lt;?php if ($this-&gt;showresult()[0][&#39;bianma&#39;] &amp;&amp; $this-&gt;showresult()[0][&#39;status&#39;] == 1):?&gt;
+&lt;!-- 输出查询防伪码的缩略图，这个图片地址是用的fan这个模块的，因为我们查询数据表是由fan这个模块上传上去的 --&gt;
+&lt;img src=&quot;&lt;?php echo Mage::getBaseUrl(&#39;media&#39;) . &#39;fan&#39;. DS . $this-&gt;showresult()[0][&#39;filename&#39;] ?&gt;&quot; alt=&quot;&quot;/&gt;
+&lt;table class=&quot;biaoge&quot;&gt;
+    &lt;tr&gt;
+        &lt;td&gt;防伪码编号&lt;/td&gt;
+        &lt;td&gt;&lt;?php echo $this-&gt;showresult()[0][&#39;bianma&#39;]; ?&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;所属品牌&lt;/td&gt;
+        &lt;td&gt;&lt;?php echo $this-&gt;showresult()[0][&#39;brand&#39;]; ?&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;所属公司&lt;/td&gt;
+        &lt;td&gt;&lt;?php echo $this-&gt;showresult()[0][&#39;company&#39;]; ?&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;检验负责人&lt;/td&gt;
+        &lt;td&gt;&lt;?php echo $this-&gt;showresult()[0][&#39;user&#39;]; ?&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;明细&lt;/td&gt;
+        &lt;td&gt;&lt;?php echo $this-&gt;showresult()[0][&#39;content&#39;]; ?&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;
+&lt;?php else:?&gt;
+&lt;p&gt;你查询的防伪码不存在或者是你的输入值为空，请核对后再次查询&lt;/p&gt;
+&lt;?php endif; ?&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+    var customForm = new VarienForm(&#39;fanweima_form&#39;);
+&lt;/script&gt;</code></pre>
+<p>这里对这个文件做个讲解：</p>
+<p>表单提交后提交给谁呢？</p>
+<pre><code>&lt;?php echo Mage::getUrl(&#39;fanweima&#39;) ?&gt;</code></pre>
+<p>这个就是提交的地方。我们看下这个代码对应的地址就是：</p>
+<pre><code>http://www.yourdomain.com/fanweima/index/index</code></pre>
+<p>那么这个请求的就是到这个模块的控制的index方法。我们前面在讲解控制器那里就说了，有个来自前台表单的字段NUM1，就是这么来的。</p>
+<p>然后经过了一流程，把符合结果的内容显示在当前页面的下方：</p>
+<pre><code>&lt;?php echo $this-&gt;showresult(); ?&gt;</code></pre>
+<p>这个方法是来自block里面的，这个就是为什么需要通过控制器传值到模块中去的原因。</p>
+<p>其实到这里就算是完成了需求了，为了更符合一个防伪码的查询场景，这里笔者添加了一个判断，如果防伪码存在那么就会输出查询结果明细，如果防伪码不存在，那么就会提示用户防伪码不存在。</p>
+<pre><code>&lt;?php if ($this-&gt;showresult()[0][&#39;name&#39;]):?&gt;
+  //当防伪码存在的时候输出的内容代码
+&lt;?php else:?&gt;
+  //当防伪码不存在的时候，输出的内容
+&lt;?php endif; ?&gt;</code></pre>
+<p>最开始笔者为了了解输出的结果数据结构的时候，采用的是print_r的方式对数据进行打印输出：</p>
+<pre><code>&lt;?php print_r($this-&gt;showresult()); ?&gt;</code></pre>
+<p>了解了数据结果后，再进行某个字段的输出，这样比较清楚，建议在将来的开发过程中的调试也要用这种思路。</p>
+<p>最后，粘贴下效果图：</p>
+<p><img src="https://i.imgur.com/iFvzYFT.png"></p>
+<p>如果输入的是不存在的防伪码，那么结果如下：</p>
+<p><img src="https://i.imgur.com/iX31RFH.png"></p>
+<p>这个自定义模块整理就算完成了。</p>
+<hr>
+<p>这篇文章的目的就是实现防伪码的查询功能，如果想要查询本文的数据库，那么只需要修改一下控制器里面的数据库表的名字即可，然后在输出字段那里与本文的数据表的字段对应好了就可以正常显示查询结果了。这里截图看下结果：</p>
+<p>如果输入错误或者没有输入的时候，效果截图：</p>
+<p><img src="https://i.imgur.com/QHQdrod.png"></p>
+<p>好的，假设我们已经修改成了查询我们本文的数据表(不输出缩图图的话)，我们看下搜索结果：</p>
+<p><img src="https://i.imgur.com/OwZLBFw.png"></p>
+<p>数据库表截图如下：</p>
+<p><img src="https://i.imgur.com/NemeAYT.png"></p>
+<p>内容对应得上，所以整个逻辑是没有问题的。好的，今日总结到此结束。</p>
+<p>本文参考了这篇博文：<a target="_blank" rel="noopener" href="https://blog.csdn.net/ddjohn/article/details/6592589">https://blog.csdn.net/ddjohn/article/details/6592589</a></p>
+<p>这篇博客总共分为九部分，很经典的教程，magento开发必读。这个作者的主页也是很值得学习的，地址分享一下给大家：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/column/details/magentoyipyip.html">https://blog.csdn.net/column/details/magentoyipyip.html</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/07/31/Magento%E5%B8%B8%E7%94%A8Mage%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95(register,unregister,registry,getBaseUrl,getUrl,getModel,getSingleton,getResourceModel,helper)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/07/31/Magento%E5%B8%B8%E7%94%A8Mage%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95(register,unregister,registry,getBaseUrl,getUrl,getModel,getSingleton,getResourceModel,helper)/" class="post-title-link" itemprop="url">Magento常用Mage静态方法register,unregister,registry,getBaseUrl,getUrl,getModel,getSingleton,getResourceModel,helper</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-07-31 21:39:21" itemprop="dateCreated datePublished" datetime="2018-07-31T21:39:21+08:00">2018-07-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:00" itemprop="dateModified" datetime="2020-10-11T11:58:00+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/magento1/" itemprop="url" rel="index"><span itemprop="name">magento1</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Magento的Mage静态类，属于全系统的核心类。里面的方法都很实用。</p>
+<p>Mage类中register，unregister，registry，getBaseUrl，getUrl，getModel，getSingleton，getResourceModel，helper.比较常用，其他的都要看情况了。</p>
+<p><strong>Mage::register($key, $value, $graceful = false)</strong></p>
+<pre><code>作用：注册变量，这个一般都是传值，将变量变为全局变量，比如controller控制器传值到Block，或者Model或者Helper.
+参数：$key,键名，随便一个不存在的键名。
+$value,键值。既是要保存的值。
+$graceful，这个是标志是否要覆盖原有的值，默认是false.如果键名存在，而$graceful又是false,则抛出异常。</code></pre>
+<p><strong>Mage::unregister($key)</strong></p>
+<pre><code>作用：销毁已经注册的变量值。
+参数：$key，键名，任何已经注册了的键名。</code></pre>
+<p><strong>Mage::registry($key)</strong></p>
+<pre><code>作用：获取注册了的变量。既是获取了已经用Mage::register方法注册了的变量，如没有则返回null，在magento中，如果获取了没有注册的变量，那么可能会出现异常。
+参数：$key，键名，任何已经注册了的键名。</code></pre>
+<p><strong>Mage::getBaseUrl()</strong></p>
+<pre><code>作用：获取网站的根url，也就是url地址。
+参数：一般不涉及复杂操作都用默认变量。</code></pre>
+<p><strong>Mage::getUrl($route = ‘’, $params = array())</strong></p>
+<pre><code>作用：获取网站的URL路劲，也就是路由。
+参数：$route路由名称，类似于cms/index/index/，CMS属于模块名称，该名称由config.xml的frontName标签指定。
+$params()，参数，形如index.php?ss=mm的参数。格式为数组</code></pre>
+<p><strong>Mage::getModel($modelClass =’’, $arguments = array())</strong></p>
+<pre><code>作用：获取数据模型实例对象。
+参数：$modelClass 参数形式：’catalog/product’,前面的catalog是模块名，也就是分组的意思，在magento中，block,model,helper的类都是分组的，而product，也就是catalog模块的model文件夹下的product文件。
+$arguments 获取该类所需要的参数</code></pre>
+<p><strong>Mage::getSingleton($modelClass=’’, array $arguments=array())</strong></p>
+<pre><code>作用：该方法与getModel取同样的模型，只是该方法会注册变量
+参数：与getModel无异。</code></pre>
+<p><strong>Mage::getResourceModel($modelClass, $arguments = array())</strong></p>
+<pre><code>作用：获取资源模型。一般都会形如catalog/product_collection的，返回数组集合，项目属于Mage::getModel所产生的对象。
+参数：与getModel无异。</code></pre>
+<p><strong>Mage::helper($name)</strong></p>
+<pre><code>作用：获取帮助类对象，一般形如catalog/类名，返回帮助类对象，这个也可以直接用catalog,默认返货helper文件下的data类。
+参数：catalog或者catalog/类名</code></pre>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/07/31/magento%E9%80%9A%E8%BF%87%E8%AF%BB%E5%8F%96%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E6%96%B9%E5%BC%8F%E5%AE%9E%E7%8E%B0%E9%98%B2%E4%BC%AA%E7%A0%81%E6%9F%A5%E8%AF%A2%E5%8A%9F%E8%83%BD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/07/31/magento%E9%80%9A%E8%BF%87%E8%AF%BB%E5%8F%96%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E6%96%B9%E5%BC%8F%E5%AE%9E%E7%8E%B0%E9%98%B2%E4%BC%AA%E7%A0%81%E6%9F%A5%E8%AF%A2%E5%8A%9F%E8%83%BD/" class="post-title-link" itemprop="url">magento通过读取数据库的方式实现防伪码查询功能</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-07-31 19:40:08" itemprop="dateCreated datePublished" datetime="2018-07-31T19:40:08+08:00">2018-07-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:02" itemprop="dateModified" datetime="2020-10-11T11:58:02+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/magento1/" itemprop="url" rel="index"><span itemprop="name">magento1</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>关于对数据库的了解，大家可以先阅读下笔者曾经写过的一篇关于计算器的magento文章，这里对那篇文章进行了一个深化的开发。这里想实现一个需求：对magento网站产品的防伪码进行一个查询。</p>
+<p>废话少说，开干！</p>
+<p>1、首先在local下创建新的模块，依次创建如下文件或者文件夹：</p>
+<blockquote>
+<p>app/code/local/Test/License</p>
+<p>app/code/local/Test/License/Block</p>
+<p>app/code/local/Test/License/Block/License.php</p>
+<p>app/code/local/Test/License/controllers</p>
+<p>app/code/local/Test/License/controllers/IndexController.php</p>
+<p>app/code/local/Test/License/etc</p>
+<p>app/code/local/Test/License/etc/config.xml</p>
+<p>app/code/local/Test/License/Helper</p>
+<p>app/code/local/Test/License/Helper/Data.php</p>
+</blockquote>
+<p>Test是命名空间，License是模块名，通常一个标准的模块有六个文件夹：Block,controllers,etc,Model,Helper,sql</p>
+<p>另外，我们需要在magento的数据库中创建一个数据表，笔者这里命名为：wp_license，wp_license.sql语句如下：</p>
+<pre><code>SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for wp_license
+-- ----------------------------
+DROP TABLE IF EXISTS `wp_license`;
+CREATE TABLE `wp_license` (
+  `id` int(16) unsigned NOT NULL AUTO_INCREMENT COMMENT &#39;9&#39;,
+  `name` char(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `brand` varchar(300) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `fuzeren` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `diqu` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `chanpin` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `baozhiqi` varchar(16) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `attachment` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=53 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+
+-- ----------------------------
+-- Records of wp_license
+-- ----------------------------
+INSERT INTO `wp_license` VALUES (&#39;46&#39;, &#39;7766&#39;, &#39;wegret&#39;, &#39;erhgrw&#39;, &#39;qegrhw&#39;, &#39;wegrwrf&#39;, &#39;89&#39;, &#39;http://localhost:8080/wordpress/wp-content/uploads/2018/07/test1.pdf&#39;);
+INSERT INTO `wp_license` VALUES (&#39;47&#39;, &#39;789&#39;, &#39;qwedfv&#39;, &#39;bgferfg&#39;, &#39;sdfgbhng&#39;, &#39;fggsfgnh&#39;, &#39;987&#39;, &#39;http://localhost:8080/wordpress/wp-content/uploads/2018/07/1.jpg&#39;);
+INSERT INTO `wp_license` VALUES (&#39;51&#39;, &#39;1013&#39;, &#39;诺福罗得&#39;, &#39;zhangsan&#39;, &#39;广州&#39;, &#39;水生生物学&#39;, &#39;4&#39;, &#39;https://pan.baidu.com/s/1ZL3fjahxI48YOsLTFrJ_KQ&#39;);
+INSERT INTO `wp_license` VALUES (&#39;52&#39;, &#39;678&#39;, &#39;sdfghjk&#39;, &#39;dfghj,&#39;, &#39;werfghjk&#39;, &#39;wdfghj&#39;, &#39;34&#39;, &#39;http://www.baidu.com&#39;);</code></pre>
+<p>好的，我们创建好这些文件的时候，先去在网站的配置目录下创建一个激活这个模块的配置文件，如果我们想要激活命名空间为Test下的所有模块，那么我们可以在app/etc/modules/这个目录下创建一个Test_All.xml即可。然后下面的所有模块大致配置是这样的：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;config&gt;
+     &lt;modules&gt;
+        &lt;Test_License&gt;
+            &lt;active&gt;true&lt;/active&gt;
+            &lt;codePool&gt;local&lt;/codePool&gt;
+        &lt;/Test_License&gt;
+        &lt;Test_Shopping&gt;
+            &lt;active&gt;true&lt;/active&gt;
+            &lt;codePool&gt;local&lt;/codePool&gt;
+        &lt;/Test_Shopping&gt;
+        &lt;Test_Customer&gt;  
+            &lt;active&gt;true&lt;/active&gt;  
+            &lt;codePool&gt;local&lt;/codePool&gt;  
+        &lt;/Test_Customer&gt;
+     &lt;/modules&gt;
+&lt;/config&gt;</code></pre>
+<p>从这里可以看到这个命名空间下有三个自定义的模块分别是：License，Shopping，Customer</p>
+<p>我们言归正传，这里我们不用这个方法，我们还是只激活我们创建的这个模块，那么我们在app/etc/modules/这个目录下创建一个Test_License.xml，代码如下：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;config&gt;
+    &lt;modules&gt;
+        &lt;Test_License&gt;
+            &lt;active&gt;true&lt;/active&gt;
+            &lt;codePool&gt;local&lt;/codePool&gt;
+        &lt;/Test_License&gt;
+    &lt;/modules&gt;
+&lt;/config&gt;</code></pre>
+<p>接着，我们打开app/code/local/Test/License/etc/config.xml这个文件，加入代码：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;config&gt;
+    &lt;modules&gt;
+        &lt;Test_License&gt;
+            &lt;version&gt;0.1.0&lt;/version&gt;
+        &lt;/Test_License&gt;
+    &lt;/modules&gt;
+    &lt;frontend&gt;
+        &lt;routers&gt;
+            &lt;license&gt;
+                &lt;use&gt;standard&lt;/use&gt;
+                &lt;args&gt;
+                    &lt;module&gt;Test_License&lt;/module&gt;
+                    &lt;frontName&gt;license&lt;/frontName&gt;
+                &lt;/args&gt;
+            &lt;/license&gt;
+        &lt;/routers&gt;
+        &lt;layout&gt;
+            &lt;updates&gt;
+                &lt;license&gt;
+                    &lt;file&gt;license.xml&lt;/file&gt;
+                &lt;/license&gt;
+            &lt;/updates&gt;
+        &lt;/layout&gt;
+    &lt;/frontend&gt;
+    &lt;global&gt;
+        &lt;models&gt;
+            &lt;license&gt;
+                &lt;class&gt;Test_License_Model&lt;/class&gt;
+                &lt;resourceModel&gt;license_mysql4&lt;/resourceModel&gt;
+            &lt;/license&gt;
+        &lt;/models&gt;
+        &lt;blocks&gt;
+            &lt;license&gt;
+                &lt;class&gt;Test_License_Block&lt;/class&gt;
+            &lt;/license&gt;
+        &lt;/blocks&gt;
+        &lt;helpers&gt;
+            &lt;license&gt;
+                &lt;class&gt;Test_License_Helper&lt;/class&gt;
+            &lt;/license&gt;
+        &lt;/helpers&gt;
+    &lt;/global&gt;
+&lt;/config&gt;</code></pre>
+<p>接着，我们打开app/code/local/Test/License/Helper/Data.php这个文件：</p>
+<pre><code>&lt;?php
+
+class Test_License_Helper_Data extends Mage_Core_Helper_Abstract
+&#123;
+
+&#125;</code></pre>
+<p>这里讲解一下：这个里面由于没有复杂的逻辑，所以直接保留为空即可。以后有新的业务逻辑可以添加在这里面。</p>
+<p>添加完毕后，我们打开app/code/local/Test/License/controllers/IndexController.php这个文件，加入代码：</p>
+<pre><code>&lt;?php
+class Test_License_IndexController extends Mage_Core_Controller_Front_Action
+&#123;
+    public function indexAction()
+    &#123;
+        if ($this-&gt;getRequest()-&gt;isPost())&#123; /* 首先判断是否有post发生 */
+            $nu1 = $this-&gt;getRequest()-&gt;getParam(&#39;NUM1&#39;); /* 截获参数 */
+            $read =Mage::getSingleton(&quot;core/resource&quot;)-&gt;getConnection(&#39;core_read&#39;);
+            $sql = &quot;select * from `wp_license` where name=&#39;$nu1&#39;&quot;;
+            $result =$read-&gt;fetchAll($sql);
+            Mage::register(&#39;nu1&#39;, $result);/* 传递到block
+        &#125;
+
+        $this-&gt;loadLayout();
+        $this-&gt;renderLayout();
+    &#125;
+&#125;</code></pre>
+<p>这里我们进行讲解：控制器写法不用多说了，我们来看这个index方法里面的代码：</p>
+<p>先判断一下是否有数据提交。</p>
+<pre><code>$this-&gt;getRequest()-&gt;isPost()</code></pre>
+<p>然后截获参数，这个参数来自模板文件里面的表单字段name里的NUM1，这个参数是来自前台表单的提交，需要根据这个字段对数据库进行条件查询的，所以需要这样写。</p>
+<p>接着里面有三行代码：</p>
+<pre><code>$read =Mage::getSingleton(&quot;core/resource&quot;)-&gt;getConnection(&#39;core_read&#39;);
+$sql = &quot;select * from `wp_license` where name=&#39;$nu1&#39;&quot;;
+$result =$read-&gt;fetchAll($sql);</code></pre>
+<p>针对这三行代码的理解，这里笔者摘录了一段如下：</p>
+<pre><code>&lt;?php  
+    /** 
+      * Get the resource model 
+      */  
+    $resource = Mage::getSingleton(&#39;core/resource&#39;);  
+
+    /** 
+     * Retrieve the read connection 
+     */  
+    $readConnection = $resource-&gt;getConnection(&#39;core_read&#39;);  
+
+    /** 
+     * Retrieve our table name 
+     */  
+    $table = $resource-&gt;getTableName(&#39;catalog/product&#39;);  
+
+    /** 
+     * Execute the query and store the results in $results 
+     */  
+    $sku = $readConnection-&gt;fetchCol(&#39;SELECT sku FROM &#39; . $table . &#39;);</code></pre>
+<p>想必有点概念了，如果不清楚可以针对getSingleton(),getConnection(),getTableName()方法进行更深入的了解。</p>
+<p>好的，我们回到那三条代码，第二条是查询数据表为wp_license的name是表单提交的所有结果。</p>
+<p>最后那条就是遍历查询结果，保存到变量$result中。</p>
+<p>然后使用：</p>
+<pre><code>Mage::register(&#39;nu1&#39;, $result);</code></pre>
+<p>这条代码是把controller控制器传值到Block去。这样的话就把结果保存在nu1中传到block中去，这里有个magento的静态方法：</p>
+<blockquote>
+<p>Mage::register($key, $value, $graceful = false)</p>
+<p>作用：注册变量，这个一般都是传值，将变量变为全局变量，比如controller控制器传值到Block，或者Model或者Helper.</p>
+<p>参数：$key,键名，随便一个不存在的键名。</p>
+<p>$value,键值。既是要保存的值。</p>
+<p>$graceful，这个是标志是否要覆盖原有的值，默认是false.如果键名存在，而$graceful又是false,则抛出异常。</p>
+</blockquote>
+<p>最后，添加如下两条代码：</p>
+<pre><code>$this-&gt;loadLayout();
+$this-&gt;renderLayout();</code></pre>
+<p>完事！</p>
+<p>然后在app/code/local/Test/License/Block/License.php里面加入代码：</p>
+<pre><code>&lt;?php
+class Test_License_Block_License extends Mage_Core_Block_Template
+&#123;
+    protected $nu1 = null;
+    public function showresult()&#123;
+        $this-&gt;nu1 = Mage::registry(&#39;nu1&#39;); /* 获得从controllers中传递来的参数 */
+        return $this-&gt;nu1;
+    &#125;
+&#125;</code></pre>
+<p>查询结果已经通过控制器传到了模块中来了，所以这里的就用Magento常用Mage::静态方法中的registry方法。说明如下：</p>
+<blockquote>
+<p>Mage::registry($key)</p>
+<p>作用：获取注册了的变量。既是获取了已经用Mage::register方法注册了的变量，如没有则返回null，在magento中，如果获取了没有注册的变量，那么可能会出现异常。</p>
+<p>参数：$key，键名，任何已经注册了的键名。</p>
+</blockquote>
+<p>好的，我们回到上面的代码，在方法showresult()中，获取了传过来的值后，然后返回这些值，这个是没有逻辑问题的。好的既然这个查询数据库的数据都查出来了，也通过控制器把值传到block中了，那么我们就需要把这个值显示到前台模板中去才行，对吧。好的继续往下看。</p>
+<p>模块的代码已经完成了，根据前面说的，就是我们如何让这个模块的数据显示到网站的前台，我们来到模板那里：</p>
+<p>结构如下：</p>
+<blockquote>
+<p>app/design/frontend/your-theme/default/layout/license.xml<br>app/design/frontend/your-theme/default/template/license<br>app/design/frontend/your-theme/default/template/license/license.phtml</p>
+</blockquote>
+<p>我们逐个文件添加内容，license.xml代码如下：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;layout version=&quot;0.1.0&quot;&gt;
+    &lt;default&gt;
+    &lt;/default&gt;
+    &lt;license_index_index&gt;
+        &lt;reference name=&quot;content&quot;&gt;
+            &lt;block type=&quot;license/license&quot; name=&quot;license&quot; template=&quot;license/license.phtml&quot;/&gt;
+        &lt;/reference&gt;
+    &lt;/license_index_index&gt;
+&lt;/layout&gt;</code></pre>
+<p>这里做个讲解：</p>
+<p>这里引用模板文件license.phtml，这个文件在license这个目录下。如果换成其他的名字也是可以的。如果换成其他名字，licenses.phtml，那么app/design/frontend/your-theme/default/template/license/license.phtml中的license.phtml换成licenses.phtml即可。这个文件的目的就是告诉浏览器当请求这个license路由的时候，要用license.phtml这个模板文件渲染。我们声明清楚了之后，我们就来的这个模板文件。</p>
+<p><strong>license.phtml代码如下：</strong></p>
+<pre><code>&lt;form action=&quot;&lt;?php echo Mage::getUrl(&#39;license&#39;) ?&gt;&quot; method=&quot;post&quot; id=&quot;lisense_form&quot;&gt;
+    &lt;fieldset&gt;
+        &lt;ul&gt;
+            &lt;li&gt;
+                &lt;label for=&quot;NUM1&quot;&gt;&lt;?php echo $this-&gt;__(&#39;防伪码: &#39;) ?&gt;&lt;span class=&quot;required&quot;&gt;*&lt;/span&gt;&lt;/label&gt;
+                &lt;input type=&quot;text&quot; id=&quot;NUM1&quot; name=&quot;NUM1&quot; class=&quot;input-text required-entry  validate-alphanum&quot; placeholder=&quot;输入防伪码&quot; /&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+                &lt;input type=&quot;submit&quot; value=&quot;&lt;?php echo $this-&gt;__(&#39;立即查询&#39;) ?&gt;&quot; /&gt;
+            &lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/fieldset&gt;
+&lt;/form&gt;
+
+&lt;style&gt;
+    input.input-text &#123;
+        width: 100% !important;
+    &#125;
+    .yt_main_inner select&#123;
+        width: 100%;
+        margin-bottom: 20px;
+    &#125;
+    input[type=&quot;submit&quot;]&#123;
+        width: 150px;
+        margin-bottom: 20px;
+        background: #444444;
+        color: #fff;
+        border: 0px;
+    &#125;
+    .biaoge td,.biaoge th&#123;
+        padding:5px 10px;
+        border:1px solid;
+    &#125;
+
+    .biaoge&#123;
+        border-collapse:collapse !important;
+        border: 1px solid;
+        width: 100%;
+    &#125;
+&lt;/style&gt;
+
+&lt;h2&gt;查询结果：&lt;/h2&gt;
+&lt;?php if ($this-&gt;showresult()[0][&#39;name&#39;]):?&gt;
+&lt;table class=&quot;biaoge&quot;&gt;
+    &lt;tr&gt;
+        &lt;td&gt;防伪码&lt;/td&gt;
+        &lt;td&gt;&lt;?php echo $this-&gt;showresult()[0][&#39;name&#39;]; ?&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;品牌&lt;/td&gt;
+        &lt;td&gt;&lt;?php echo $this-&gt;showresult()[0][&#39;brand&#39;]; ?&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;产品名称&lt;/td&gt;
+        &lt;td&gt;&lt;?php echo $this-&gt;showresult()[0][&#39;chanpin&#39;]; ?&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;保质期&lt;/td&gt;
+        &lt;td&gt;&lt;?php echo $this-&gt;showresult()[0][&#39;baozhiqi&#39;]; ?&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;负责人&lt;/td&gt;
+        &lt;td&gt;&lt;?php echo $this-&gt;showresult()[0][&#39;fuzeren&#39;]; ?&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;附件&lt;/td&gt;
+        &lt;td&gt;&lt;a href=&quot;&lt;?php echo $this-&gt;showresult()[0][&#39;attachment&#39;]; ?&gt;&quot; download&gt;下载资源&lt;/a&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;
+&lt;?php else:?&gt;
+&lt;p&gt;你查询的防伪码不存在&lt;/p&gt;
+&lt;?php endif; ?&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+    var customForm = new VarienForm(&#39;lisense_form&#39;);
+&lt;/script&gt;</code></pre>
+<p>这里对这个文件做个讲解：</p>
+<p>表单提交后提交给谁呢？</p>
+<pre><code>&lt;?php echo Mage::getUrl(&#39;license&#39;) ?&gt;</code></pre>
+<p>这个就是提交的地方。我们看下这个代码对应的地址就是：</p>
+<pre><code>http://www.yourdomain.com/license/index/index</code></pre>
+<p>那么这个请求的就是到这个模块的控制的index方法。我们前面在讲解控制器那里就说了，有个来自前台表单的字段NUM1，就是这么来的。</p>
+<p>然后经过了一流程，把符合结果的内容显示在当前页面的下方：</p>
+<pre><code>&lt;?php echo $this-&gt;showresult(); ?&gt;</code></pre>
+<p>这个方法是来自block里面的，这个就是为什么需要通过控制器传值到模块中去的原因。</p>
+<p>其实到这里就算是完成了需求了，为了更符合一个防伪码的查询场景，这里笔者添加了一个判断，如果防伪码存在那么就会输出查询结果明细，如果防伪码不存在，那么就会提示用户防伪码不存在。</p>
+<pre><code>&lt;?php if ($this-&gt;showresult()[0][&#39;name&#39;]):?&gt;
+    //当防伪码存在的时候输出的内容代码
+&lt;?php else:?&gt;
+    //当防伪码不存在的时候，输出的内容
+&lt;?php endif; ?&gt;</code></pre>
+<p>最开始笔者为了了解输出的结果数据结构的时候，采用的是print_r的方式对数据进行打印输出：</p>
+<pre><code>&lt;?php print_r($this-&gt;showresult()); ?&gt;</code></pre>
+<p>了解了数据结果后，再进行某个字段的输出，这样比较清楚，建议在将来的开发过程中的调试也要用这种思路。</p>
+<p>最后，粘贴下效果图：</p>
+<p><img src="https://i.imgur.com/4xB7RiZ.png"></p>
+<p>如果输入的是不存在的防伪码，那么结果如下：</p>
+<p><img src="https://i.imgur.com/iX31RFH.png"></p>
+<p>这个自定义模块整理就算完成了。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/07/31/%E4%B8%BAmagento%E6%B7%BB%E5%8A%A0%E7%83%AD%E6%90%9C%E8%AF%8D%E5%8A%9F%E8%83%BD%EF%BC%8C%E8%BF%87%E6%BB%A4%E6%8E%89%E6%B2%A1%E6%9C%89%E6%90%9C%E7%B4%A2%E7%BB%93%E6%9E%9C%E7%9A%84%E5%85%B3%E9%94%AE%E8%AF%8D%E5%92%8C%E6%B2%A1%E6%9C%89%E4%BA%A7%E5%93%81%E7%9A%84%E5%85%B3%E9%94%AE%E8%AF%8D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/07/31/%E4%B8%BAmagento%E6%B7%BB%E5%8A%A0%E7%83%AD%E6%90%9C%E8%AF%8D%E5%8A%9F%E8%83%BD%EF%BC%8C%E8%BF%87%E6%BB%A4%E6%8E%89%E6%B2%A1%E6%9C%89%E6%90%9C%E7%B4%A2%E7%BB%93%E6%9E%9C%E7%9A%84%E5%85%B3%E9%94%AE%E8%AF%8D%E5%92%8C%E6%B2%A1%E6%9C%89%E4%BA%A7%E5%93%81%E7%9A%84%E5%85%B3%E9%94%AE%E8%AF%8D/" class="post-title-link" itemprop="url">为magento添加热搜词功能，过滤掉没有搜索结果的关键词和没有产品的关键词</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-07-31 10:14:16" itemprop="dateCreated datePublished" datetime="2018-07-31T10:14:16+08:00">2018-07-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:03" itemprop="dateModified" datetime="2020-10-11T11:58:03+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>现在国内大大小小的商城基本都有热门搜索词这个功能高挂在页面的头部，比如京东、淘宝等等国内大型的电商网站和平台都有这个功能。</p>
+<p><img src="https://i.imgur.com/k120Vqu.jpg"></p>
+<p>这里我们假设京东和淘宝放的都是真实的数据（其实这些词是后台人为指定的可能性更大），所谓真实数据，就我的理解，显示在这里的词是真正的客户搜索过最多的词，当然前提是这些词点击后都有搜索结果。现在来看看Magento自带的热门搜索关键词，新安装完的Magento工程底部就有一个链接叫搜索关键字，路径是/catalogsearch/term/popular/，人为制造一些搜索后，打开这个页面看一下，你会发现所有词是按照首字母的顺序排的，然后搜索次数越多的词，字体越大，也许这是老外的习惯用法，但并不符合国人的使用习惯。举个例子，你搜索一个“1”，只要有结果，1就会排在所有中文搜索词之前。</p>
+<p><img src="https://i.imgur.com/WWWyU6x.jpg"></p>
+<p>打开文件/app/code/core/Mage/CatalogSearch/Block/Term.php，找到<code>_loadTerms</code>方法，在这个方法最后返回值前有一句<code>natcasesort($termKeys)</code>（在1.3中是<code>ksort($this-&gt;_terms)</code>），就是这个函数把搜索词重新排序了下，试着注释掉这句，再看结果，前台搜索词终于按搜索次数排了，而且从后台可以看出这些词已经经过过滤，没有搜索结果的词不在其中。</p>
+<pre><code>protected function _loadTerms()  
+  &#123;  
+      if (empty($this-&gt;_terms)) &#123;  
+          $this-&gt;_terms = array();  
+          $terms = Mage::getResourceModel(&#39;catalogsearch/query_collection&#39;)  
+              -&gt;setPopularQueryFilter(Mage::app()-&gt;getStore()-&gt;getId())  
+              -&gt;setOrder(&#39;popularity&#39;, &#39;DESC&#39;)  
+              -&gt;setPageSize(100)  
+              -&gt;load()  
+              -&gt;getItems();  
+          if( count($terms) == 0 ) &#123;  
+              return $this;  
+          &#125;  
+
+          $this-&gt;_maxPopularity = reset($terms)-&gt;getPopularity();  
+          $this-&gt;_minPopularity = end($terms)-&gt;getPopularity();  
+          $range = $this-&gt;_maxPopularity - $this-&gt;_minPopularity;  
+          $range = ( $range == 0 ) ? 1 : $range;  
+          foreach ($terms as $term) &#123;  
+              if( !$term-&gt;getPopularity() ) &#123;  
+                  continue;  
+              &#125;  
+              $term-&gt;setRatio(($term-&gt;getPopularity()-$this-&gt;_minPopularity)/$range);  
+              $temp[$term-&gt;getName()] = $term;  
+              $termKeys[] = $term-&gt;getName();  
+          &#125;  
+        //  natcasesort($termKeys);  
+          foreach ($termKeys as $termKey) &#123;  
+              $this-&gt;_terms[$termKey] = $temp[$termKey];  
+          &#125;  
+      &#125;  
+      return $this;  
+  &#125;</code></pre>
+<p><img src="https://i.imgur.com/uPC4Cub.jpg"></p>
+<p>这里笔者再以porto为例进行讲解。</p>
+<p>比如笔者想要在magento的头部搜索框下方添加一个热门词搜索的功能，那么我们可以这样做。</p>
+<p>编辑app/design/frontend/default/Your_Theme/layout/page.xml，添加到header中</p>
+<pre><code>&lt;block type=&quot;page/html_header&quot; name=&quot;header&quot; as=&quot;header&quot;&gt;
+    &lt;block type=&quot;page/template_links&quot; name=&quot;top.links&quot; as=&quot;topLinks&quot;/&gt;
+    &lt;block type=&quot;page/switch&quot; name=&quot;store_language&quot; as=&quot;store_language&quot; template=&quot;page/switch/languages.phtml&quot;/&gt;
+    &lt;block type=&quot;core/text_list&quot; name=&quot;top.menu&quot; as=&quot;topMenu&quot; translate=&quot;label&quot;&gt;
+        &lt;label&gt;Navigation Bar&lt;/label&gt;
+        &lt;block type=&quot;catalogsearch/term&quot; name=&quot;catalogsearch.term&quot; template=&quot;catalogsearch/topmenusearch.phtml&quot;/&gt;
+        &lt;block type=&quot;page/html_topmenu&quot; name=&quot;catalog.topnav&quot; template=&quot;page/html/topmenu.phtml&quot;/&gt;
+    &lt;/block&gt;
+    &lt;block type=&quot;page/html_welcome&quot; name=&quot;welcome&quot; as=&quot;welcome&quot;/&gt;
+&lt;/block&gt;</code></pre>
+<p><img src="https://i.imgur.com/ucHwYqw.png"></p>
+<p>由于引用的文件不存在，我们需要新建这个文件</p>
+<p>app/design/frontend/default/Your_Theme/template/catalogsearch/topmenusearch.phtml，代码如下：</p>
+<pre><code>&lt;div class=&quot;block block-commercial-quotes&quot;&gt;
+    &lt;div class=&quot;block-title&quot;&gt;
+        &lt;strong&gt;&lt;span&gt;&lt;?php echo $this-&gt;__(&#39;热门搜索词&#39;) ?&gt;&lt;/span&gt;&lt;/strong&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;block-content&quot;&gt;
+        &lt;?php if( sizeof($this-&gt;getTerms()) &gt; 0 ): ?&gt;
+            &lt;ul class=&quot;tags-list&quot;&gt;
+                    &lt;?php foreach ($this-&gt;getTerms()as $_term): ?&gt;
+                    &lt;?php if ($_term-&gt;getRatio()&gt;=0.2): ?&gt;
+                            &lt;li&gt;&lt;a href=&quot;&lt;?php echo $this-&gt;getSearchUrl($_term) ?&gt;&quot; style=&quot;font-size:&lt;?php echo $_term-&gt;getRatio()*70+75 ?&gt;%&quot;&gt;&lt;?php echo $this-&gt;htmlEscape($_term-&gt;getName()) ?&gt;&lt;/a&gt;&lt;/li&gt;
+                    &lt;?php endif; ?&gt;
+                    &lt;?php endforeach; ?&gt;
+            &lt;/ul&gt;
+        &lt;?php 
+            $home_url = Mage::helper(&#39;core/url&#39;)-&gt;getHomeUrl();
+         ?&gt;
+        &lt;div class=&quot;actions&quot;&gt;
+            &lt;a href=&quot;&lt;?php echo $home_url ?&gt;catalogsearch/term/popular/&quot;&gt;&lt;?php echo $this-&gt;__(&#39;View All Popular Searches&#39;) ?&gt;&lt;/a&gt;
+        &lt;/div&gt;
+        &lt;?php else: ?&gt;
+            &lt;p class=&quot;note-msg&quot;&gt;&lt;?php echo $this-&gt;__(&#39;There are no search terms available.&#39;); ?&gt;&lt;/p&gt;
+        &lt;?php endif; ?&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<p>然后就可以看到这样的效果了：</p>
+<p><img src="https://i.imgur.com/zYCi48N.png"></p>
+<p>至于排列得是否美观，那就是样式问题了，大家根据自己的css进行一个美化。</p>
+<p>之前有提到，京东或淘宝的热门搜索词有很大可能并不是客户真正搜索最多的词，而是自己指定一些词放在前台，以更好的推广商家自己主推的产品。那Magento能不能做到呢，答案是可以，而且可以做的更好。可以参考笔者前面写的采用静态cms嵌入到模板文件里面去的方法，然后把关键词以及相关的搜索链接放在静态模块中即可。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/07/30/magento%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91%E4%B8%AD%E8%8E%B7%E5%8F%96%E5%90%84%E7%A7%8Durl%E5%9C%B0%E5%9D%80%E5%8F%8A%E7%BB%9D%E5%AF%B9%E8%B7%AF%E5%BE%84%EF%BC%8C%E7%9B%B8%E5%AF%B9%E8%B7%AF%E5%BE%84%EF%BC%8C%E8%8E%B7%E5%8F%96%E9%A6%96%E9%A1%B5%E5%9C%B0%E5%9D%80%EF%BC%8C%E5%92%8C%E5%AD%90%E7%9B%AE%E5%BD%95%E5%9C%B0%E5%9D%80%E7%9A%84%E6%96%B9%E6%B3%95%E6%B1%87%E6%80%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/07/30/magento%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91%E4%B8%AD%E8%8E%B7%E5%8F%96%E5%90%84%E7%A7%8Durl%E5%9C%B0%E5%9D%80%E5%8F%8A%E7%BB%9D%E5%AF%B9%E8%B7%AF%E5%BE%84%EF%BC%8C%E7%9B%B8%E5%AF%B9%E8%B7%AF%E5%BE%84%EF%BC%8C%E8%8E%B7%E5%8F%96%E9%A6%96%E9%A1%B5%E5%9C%B0%E5%9D%80%EF%BC%8C%E5%92%8C%E5%AD%90%E7%9B%AE%E5%BD%95%E5%9C%B0%E5%9D%80%E7%9A%84%E6%96%B9%E6%B3%95%E6%B1%87%E6%80%BB/" class="post-title-link" itemprop="url">magento程序开发中获取各种url地址及绝对路径，相对路径，获取首页地址，和子目录地址的方法汇总</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-07-30 21:21:47" itemprop="dateCreated datePublished" datetime="2018-07-30T21:21:47+08:00">2018-07-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:01" itemprop="dateModified" datetime="2020-10-11T11:58:01+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><strong>magento block 程序中获取各种url的方法</strong></p>
+<p>php代码：</p>
+<pre><code>Mage::getBaseUrl(&#39;media&#39;) //可获得 media 带 http 的url 地址。  
+
+//同理也可以获得skin 和js 目录的地址：  
+Mage::getBaseUrl(&#39;skin&#39;);  
+Mage::getBaseUrl(&#39;js&#39;);  
+
+//而获取带http 的网站根地址为：  
+Mage::getBaseUrl(&#39;web&#39;);  
+
+//在cms中调用的URL的方法（content 中）：  
+&#123;&#123;store direct_url="Home"&#125;&#125;   //跳网id 是Home 的cms页面。  
+&#123;&#123;skin url='images/media/main_page_banner.jpg'&#125;&#125;  //定位一副图片的位置。  
+
+$this-&gt;getUrl(&#39;catalogsearch/advanced/result&#39;);  
+//在block 可以获得一页页面的URL.  
+
+$this-&gt;getSkinUrl(&#39;/images/logo.jpg&#39;)  
+//可以直接获取图片地址  
+
+$this-&gt;getSkinUrl(&#39;css/style.css&#39;);  
+//$this-&gt;getSkinUrl();一看应该就知道得到的是skin下面的路径。  
+
+$this-&gt;getUrl(&#39;contacts&#39;);  
+//要是要获得的是具体页面的url, 如果$this不能用就可以用Mage:: 来调用函数  </code></pre>
+<p>php代码：</p>
+<pre><code>//To Retrieve URL path in STATIC BLOCK  
+
+//To get SKIN URL  
+&#123;&#123;skin url='images/sampleimage.jpg '&#125;&#125;  
+
+//To get Media URL  
+&#123;&#123;media url='/sampleimage.jpg'&#125;&#125;  
+
+//To get Store URL  
+&#123;&#123;store url='mypage.html'&#125;&#125;  
+
+//To get Base URL  
+&#123;&#123;base url='yourstore/mypage.html'&#125;&#125;  
+
+//TO Retrieve URL path in PHTML  
+//Note: In editing PHTML don&#39;t forget to enclode the following code With PHP tag  
+
+//Not secure Skin URL:  
+&lt;?php echo $this-&gt;getSkinUrl(&#39;images/sampleimage.jpg&#39;) ?&gt;  
+
+//Secure Skin URL  
+&lt;?php echo $this-&gt;getSkinUrl(&#39;images/ sampleimage.gif&#39;,array(&#39;_secure&#39;=&gt;true)) ?&gt;  
+
+//Get Current URL  
+$current_url = Mage::helper(&#39;core/url&#39;)-&gt;getCurrentUrl();  
+
+//Get Home URL  
+$home_url = Mage::helper(&#39;core/url&#39;)-&gt;getHomeUrl();  
+
+//Get Magento Media Url  
+Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_LINK);  
+
+//Get Magento Media Url  
+Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_MEDIA);  
+
+//Get Magento Skin Url  
+Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_SKIN);  
+
+//Get Magento Store Url  
+Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB);  
+
+//Get Magento Js Url  
+Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_JS);  </code></pre>
+<p><strong>Get Directory paths</strong></p>
+<p>Php代码</p>
+<pre><code>Mage::getBaseDir()  
+ //output : /var/www/html/magento  
+Mage::getBaseDir(&#39;app&#39;)  
+ //output : /var/www/html/magento/app  
+Mage::getBaseDir(&#39;media&#39;)  
+ //output : /var/www/html/magento/media  
+
+Same way you can get more directory path,
+Mage::getBaseDir(&#39;design&#39;) =&gt; Get design directory path
+Mage::getBaseDir(&#39;code&#39;) =&gt; Gives code directory file path
+Mage::getBaseDir(&#39;lib&#39;) =&gt; Gives lib directory file path
+Mage::getBaseDir(&#39;skin&#39;) =&gt; Gives skin directory file path
+Mage::getBaseDir(&#39;var&#39;) =&gt; Gives var directory file path
+Mage::getBaseDir(&#39;cache&#39;) =&gt; Gives cache directory file path
+Mage::getBaseDir(&#39;log&#39;) =&gt; Gives log directory file path</code></pre>
+<p><strong>Magento Base Directories</strong></p>
+<p>Add the following code an empty controller action or other area of Magento where you can run arbitrary code.</p>
+<p>Php代码</p>
+<pre><code>$base_path = Mage::getBaseDir(&#39;base&#39;);  
+var_dump($base_path);  
+
+$etc_path = Mage::getBaseDir(&#39;etc&#39;);  
+var_dump($etc_path);  </code></pre>
+<p>You should see output something like the following</p>
+<p>Php代码</p>
+<pre><code>string &#39;/Users/username/Sites/magento1point4.1.dev&#39; (length=43)  
+string &#39;/Users/username/Sites/magento1point4.1.dev/app/etc&#39; (length=51)  </code></pre>
+<p>The first folder is the base directory for the entire Magento installation. The second folder is the base directory for Magento’s etc folder, which holds configuration files.</p>
+<p>In the latest Community Edition release of Magento there are 14 different directories that are considered important enough to be retrievable by this method. The static calls to <code>Mage::getBaseDir are a wrapper/public-api</code> to the <code>getDir method</code> on a <code>Mage_Core_Model_Config_Options</code> object. If you take a look at the Magento Model pseudo-constructor in</p>
+<p>Php代码</p>
+<pre><code>#File: app/code/core/Mage/Core/Model/Config/Options.php  
+class Mage_Core_Model_Config_Options extends Varien_Object  
+&#123;  
+    /* ... */  
+    protected function _construct()  
+    &#123;  
+        $appRoot= Mage::getRoot();  
+        $root   = dirname($appRoot);  
+
+        $this-&gt;_data[&#39;app_dir&#39;]     = $appRoot;  
+        $this-&gt;_data[&#39;base_dir&#39;]    = $root;  
+        $this-&gt;_data[&#39;code_dir&#39;]    = $appRoot.DS.&#39;code&#39;;  
+        $this-&gt;_data[&#39;design_dir&#39;]  = $appRoot.DS.&#39;design&#39;;  
+        $this-&gt;_data[&#39;etc_dir&#39;]     = $appRoot.DS.&#39;etc&#39;;  
+        $this-&gt;_data[&#39;lib_dir&#39;]     = $root.DS.&#39;lib&#39;;  
+        $this-&gt;_data[&#39;locale_dir&#39;]  = $appRoot.DS.&#39;locale&#39;;  
+        $this-&gt;_data[&#39;media_dir&#39;]   = $root.DS.&#39;media&#39;;  
+        $this-&gt;_data[&#39;skin_dir&#39;]    = $root.DS.&#39;skin&#39;;  
+        $this-&gt;_data[&#39;var_dir&#39;]     = $this-&gt;getVarDir();  
+        $this-&gt;_data[&#39;tmp_dir&#39;]     = $this-&gt;_data[&#39;var_dir&#39;].DS.&#39;tmp&#39;;  
+        $this-&gt;_data[&#39;cache_dir&#39;]   = $this-&gt;_data[&#39;var_dir&#39;].DS.&#39;cache&#39;;  
+        $this-&gt;_data[&#39;log_dir&#39;]     = $this-&gt;_data[&#39;var_dir&#39;].DS.&#39;log&#39;;  
+        $this-&gt;_data[&#39;session_dir&#39;] = $this-&gt;_data[&#39;var_dir&#39;].DS.&#39;session&#39;;  
+        $this-&gt;_data[&#39;upload_dir&#39;]  = $this-&gt;_data[&#39;media_dir&#39;].DS.&#39;upload&#39;;  
+        $this-&gt;_data[&#39;export_dir&#39;]  = $this-&gt;_data[&#39;var_dir&#39;].DS.&#39;export&#39;;  
+    &#125;  </code></pre>
+<p>you can see where these directory paths are stored.</p>
+<p>Let’s quickly review each one</p>
+<p><strong>Mage::getBaseDir(‘base’);</strong></p>
+<p>This is your main Magento directory. In a default root level application instal, this is the equivalent of the document root.</p>
+<p><strong>Mage::getBaseDir(‘app’);</strong></p>
+<p>This is your Magento application directory. This is the directory where the final class Mage… application file (Mage.php) is stored.</p>
+<p>The default directory (from the Magento base folder) is</p>
+<pre><code>/app/</code></pre>
+<p><strong>Mage::getBaseDir(‘code’);</strong></p>
+<p>This is your Magento code directory. This is base directory for the three Magento code pools (core, community,  local).</p>
+<p>The default directory (from the Magento base folder) is</p>
+<pre><code>/app/code</code></pre>
+<p><strong>Mage::getBaseDir(‘design’);</strong></p>
+<p>This is your Magento design package directory. This is the base folder that contains the “design packages” for each Area of Magento, (frontend, adminhtml, and install)</p>
+<p>The default directory (from the Magento base folder) is</p>
+<pre><code>app/design </code></pre>
+<p><strong>Mage::getBaseDir(‘etc’);</strong></p>
+<p>The etc folder is where Magento stores system level (as opposed to module level) configuration files. The name  etc is borrowed from the *nix family of operating systems, and Magento’s configuration files are all XML based.</p>
+<p>The default directory (from the Magento base folder) is</p>
+<pre><code>/app/etc</code></pre>
+<p><strong>Mage::getBaseDir(‘lib’);</strong></p>
+<p>Magento’s library folder is where non-module based Magento code lives. This include a large amount of the system code which allows Magento to run, as well as a number of third party libraries (including the Zend Framework). The library is also the last code pool Magento will search when attempting to autoload a file.</p>
+<p>The default directory (from the Magento base folder) is</p>
+<pre><code>/lib</code></pre>
+<p><strong>Mage::getBaseDir(‘locale’);</strong></p>
+<p>The locale folder contains the translation files for the core Magento modules. Magento uses a system similar to GNU gettext to provide translated text. Unique strings are stored as key value pairs in the translation files. They “key” is used to lookup which text should actually be displayed. This means for the english locale you’ll see redundant looking strings like</p>
+<pre><code>&quot;Add Option&quot;,&quot;Add Option&quot;</code></pre>
+<p>It’s only when you look at the non-english speaking translation files that the system become obvious</p>
+<p>The default directory (from the Magento base folder) is</p>
+<pre><code>/app/locale</code></pre>
+<p><strong>Mage::getBaseDir(‘media’);</strong></p>
+<p>Magento’s media folder is where media files (images, movies, etc.) related to data (products) is stored.</p>
+<p>The default directory (from the Magento base folder) is</p>
+<pre><code>/media</code></pre>
+<p><strong>Mage::getBaseDir(‘skin’);</strong></p>
+<p>If the word module is the most used yet least well defined programming term, then the words skin and theme are the most abused in the designer’s world. In Magento, the skin folder contains images, CSS and Javascript files used by your themes.</p>
+<p>This is not the only folder where you’ll find images, CSS or javascript though. This folder is meant for files that are customized per theme.</p>
+<p>The default directory (from the Magento base folder) is</p>
+<pre><code>/skin</code></pre>
+<p><strong>Mage::getBaseDir(‘var’);</strong></p>
+<p>The var folder is another one borrowed from the *nix world. The var stands for Variable files, and is intended to store files which are expected to change during normal system operations.</p>
+<p>The default directory (from the Magento base folder) is</p>
+<pre><code>/var</code></pre>
+<p><strong>Mage::getBaseDir(‘tmp’);</strong></p>
+<p>The tmp dir is a temporary directory for safely outputting files into for immediate processing. The operating assumption of the tmp folder is that any developer can write to it and expect their file to stay around for a few minutes, without any expectation that it will be there tomorrow.</p>
+<p>The default directory (from the Magento base folder) is</p>
+<pre><code>/var/tmp</code></pre>
+<p><strong>Mage::getBaseDir(‘cache’);</strong></p>
+<p>Magento, rather famously, makes heavy use of caching for activities that might bog down the system if they had to be performed every-time a page loads. For example, Layout XML files are merged once, and then the tree is cached so they don’t need to be merged again. The cache folder is one place where Magento will store these cached results.</p>
+<p>The default directory (from the Magento base folder) is</p>
+<pre><code>/var/cache</code></pre>
+<p><strong>Mage::getBaseDir(‘log’);</strong></p>
+<p>Magento’s log folder is where is stores the system and exception logs. These logs can be turned on from the Admin Panel’s</p>
+<p>System -&gt; Configuration -&gt; Developer -&gt; Log Settings<br>section. The apache/web-server user will need write permission on this folder and the files therein.</p>
+<p>The default directory (from the Magento base folder) is</p>
+<pre><code>/var/log</code></pre>
+<p><strong>Mage::getBaseDir(‘session’);</strong></p>
+<p>During installation you have the option of storing user sessions on disk, or in the database. The session folder is where the user sessions are written out to and read from if you choose to store them in the filesystem</p>
+<p>The default directory (from the Magento base folder) is</p>
+<pre><code>/var/session</code></pre>
+<p><strong>Mage::getBaseDir(‘upload’);</strong></p>
+<p>There are a number of Admin Panel features which allow you to upload media files (default logos, etc.). The  upload folder is where Magento stores these files.</p>
+<p>The default directory (from the Magento base folder) is</p>
+<pre><code>/media/upload</code></pre>
+<p><strong>Mage::getBaseDir(‘export’);</strong></p>
+<p>The export folder is where Magento will write out files meant to be viewed and used by system owners. For example, the Data Flow section of the Admin uses this folder to write out its export files.</p>
+<p>The default directory (from the Magento base folder) is</p>
+<pre><code>/var/export</code></pre>
+<p><strong>Module Base Directories</strong></p>
+<p>So, that covers the system folders that Magento gives you access to. There is, however, one other important static method on the Mage application class class that we should discuss. Give the following a try</p>
+<p>Php代码</p>
+<pre><code>var_dump( Mage::getModuleDir(&#39;&#39;, &#39;Mage_Core&#39;) );  
+var_dump( Mage::getModuleDir(&#39;etc&#39;, &#39;Mage_Core&#39;) );  
+var_dump( Mage::getModuleDir(&#39;controllers&#39;, &#39;Mage_Core&#39;) );  
+var_dump( Mage::getModuleDir(&#39;sql&#39;, &#39;Mage_Core&#39;) );  
+var_dump( Mage::getModuleDir(&#39;locale&#39;, &#39;Mage_Core&#39;) );  </code></pre>
+<p>That static method Mage::getModuleDir method allows you to retrieve directory path information that’s specific to any module loaded into the system. Like the getBaseDir method, this call is a public-api to code deeper in the Magento system</p>
+<p>Php代码</p>
+<pre><code>#File: app/code/core/Mage/Core/Model/Config.php  
+class Mage_Core_Model_Config extends Mage_Core_Model_Config_Base  
+&#123;  
+    /* ... */  
+    public function getModuleDir($type, $moduleName)  
+    &#123;  
+        $codePool = (string)$this-&gt;getModuleConfig($moduleName)-&gt;codePool;  
+        $dir = $this-&gt;getOptions()-&gt;getCodeDir().DS.$codePool.DS.uc_words($moduleName, DS);  
+
+        switch ($type) &#123;  
+            case &#39;etc&#39;:  
+                $dir .= DS.&#39;etc&#39;;  
+                break;  
+
+            case &#39;controllers&#39;:  
+                $dir .= DS.&#39;controllers&#39;;  
+                break;  
+
+            case &#39;sql&#39;:  
+                $dir .= DS.&#39;sql&#39;;  
+                break;  
+
+            case &#39;locale&#39;:  
+                $dir .= DS.&#39;locale&#39;;  
+                break;  
+        &#125;  
+
+        $dir = str_replace(&#39;/&#39;, DS, $dir);  
+        return $dir;  
+    &#125;  </code></pre>
+<p>Let’s quickly cover these four folders.</p>
+<p><strong>Mage::getModuleDir(‘etc’, ‘Packagename_Modulename’);</strong></p>
+<p>Your module’s etc folder. The etc folder is a concept borrowed from the *nix, and contains you’re module’s XML configuration files.</p>
+<pre><code>Mage::getModuleDir(&#39;controllers&#39;, &#39;Packagename_Modulename&#39;);</code></pre>
+<p>Your module’s controllers folder. Magento’s controllers are not included in the __autoload implementation. If you ever need to manually include or require a controller, use this method to ensure you get the right path.</p>
+<p><strong>Mage::getModuleDir(‘sql’, ‘Packagename_Modulename’);</strong></p>
+<p>Your module’s sql folder. The sql folder contains installer and upgrade files for your Model resources, which are used to install entities and migrate database information during installations.</p>
+<p><strong>Mage::getModuleDir(‘locale’, ‘Packagename_Modulename’);</strong></p>
+<p>Your module’s locale folder. The locale folder contains translation files that are used by Magento when your module is viewed under a different locales.</p>
+<p>参考文献：<a target="_blank" rel="noopener" href="http://alanstorm.com/magento_base_directories">http://alanstorm.com/magento_base_directories</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/07/30/magento%E8%BE%B9%E6%A0%8F%E8%B0%83%E7%94%A8%E7%83%AD%E9%97%A8%E6%90%9C%E7%B4%A2%E5%85%B3%E9%94%AE%E5%AD%97%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/07/30/magento%E8%BE%B9%E6%A0%8F%E8%B0%83%E7%94%A8%E7%83%AD%E9%97%A8%E6%90%9C%E7%B4%A2%E5%85%B3%E9%94%AE%E5%AD%97%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90/" class="post-title-link" itemprop="url">magento侧边栏调用热门搜索关键字自动生成，热搜词，关键词，top search</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-07-30 21:09:02" itemprop="dateCreated datePublished" datetime="2018-07-30T21:09:02+08:00">2018-07-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:02" itemprop="dateModified" datetime="2020-10-11T11:58:02+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/magento/" itemprop="url" rel="index"><span itemprop="name">magento</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>在magento边栏调用热门搜索关键字 有助于Seo 别小看这个功能 通过搜索次数自定变大。</p>
+<p>编辑app/design/frontend/default/Your_Theme/layout/catalog.xml，添加到left中</p>
+<pre><code>&lt;block type=&quot;catalogsearch/term&quot; name=&quot;catalogsearch.term&quot; template=&quot;catalogsearch/sidebar.phtml&quot;/&gt;</code></pre>
+<p>位置截图如下：</p>
+<p><img src="https://i.imgur.com/hh7bqXM.png"></p>
+<p>引用的文件不存在，我们需要新建这个文件</p>
+<p>app/design/frontend/default/Your_Theme/template/catalogsearch/sidebar.phtml</p>
+<p>内容应该是：</p>
+<pre><code>&lt;div class=&quot;block block-commercial-quotes&quot;&gt;
+    &lt;div class=&quot;block-title&quot;&gt;
+        &lt;strong&gt;&lt;span&gt;&lt;?php echo $this-&gt;__(&#39;热门搜索词&#39;) ?&gt;&lt;/span&gt;&lt;/strong&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;block-content&quot;&gt;
+        &lt;?php if( sizeof($this-&gt;getTerms()) &gt; 0 ): ?&gt;
+            &lt;ul class=&quot;tags-list&quot;&gt;
+                    &lt;?php foreach ($this-&gt;getTerms()as $_term): ?&gt;
+                    &lt;?php if ($_term-&gt;getRatio()&gt;=0.2): ?&gt;
+                            &lt;li&gt;&lt;a href=&quot;&lt;?php echo $this-&gt;getSearchUrl($_term) ?&gt;&quot; style=&quot;font-size:&lt;?php echo $_term-&gt;getRatio()*70+75 ?&gt;%&quot;&gt;&lt;?php echo $this-&gt;htmlEscape($_term-&gt;getName()) ?&gt;&lt;/a&gt;&lt;/li&gt;
+                    &lt;?php endif; ?&gt;
+                    &lt;?php endforeach; ?&gt;
+            &lt;/ul&gt;
+        &lt;div class=&quot;actions&quot;&gt;
+            &lt;a href=&quot;/catalogsearch/term/popular/&quot;&gt;&lt;?php echo $this-&gt;__(&#39;View All Popular Searches&#39;) ?&gt;&lt;/a&gt;
+        &lt;/div&gt;
+        &lt;?php else: ?&gt;
+            &lt;p class=&quot;note-msg&quot;&gt;&lt;?php echo $this-&gt;__(&#39;There are no search terms available.&#39;); ?&gt;&lt;/p&gt;
+        &lt;?php endif; ?&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<p>好的这里需要说明一下，由于笔者是用来测试的，所以magento的根目录不是在域名下，而是建了一个子目录作为magento的更目录，如下：</p>
+<pre><code>localhost:8080/market</code></pre>
+<p>这个才是笔者的根目录，所以每次笔者把这个加上去的时候总是404，地址变成了什么呢？</p>
+<pre><code>localhost:8080/catalogsearch/term/popular/</code></pre>
+<p>这个地址当然报错了，因为真正的地址是：</p>
+<pre><code>localhost:8080/market/catalogsearch/term/popular/</code></pre>
+<p>所以经过改进后变成如下：</p>
+<pre><code>&lt;div class=&quot;block block-commercial-quotes&quot;&gt;
+    &lt;div class=&quot;block-title&quot;&gt;
+        &lt;strong&gt;&lt;span&gt;&lt;?php echo $this-&gt;__(&#39;热门搜索词&#39;) ?&gt;&lt;/span&gt;&lt;/strong&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;block-content&quot;&gt;
+        &lt;?php if( sizeof($this-&gt;getTerms()) &gt; 0 ): ?&gt;
+            &lt;ul class=&quot;tags-list&quot;&gt;
+                    &lt;?php foreach ($this-&gt;getTerms()as $_term): ?&gt;
+                    &lt;?php if ($_term-&gt;getRatio()&gt;=0.2): ?&gt;
+                            &lt;li&gt;&lt;a href=&quot;&lt;?php echo $this-&gt;getSearchUrl($_term) ?&gt;&quot; style=&quot;font-size:&lt;?php echo $_term-&gt;getRatio()*70+75 ?&gt;%&quot;&gt;&lt;?php echo $this-&gt;htmlEscape($_term-&gt;getName()) ?&gt;&lt;/a&gt;&lt;/li&gt;
+                    &lt;?php endif; ?&gt;
+                    &lt;?php endforeach; ?&gt;
+            &lt;/ul&gt;
+        &lt;?php 
+            $home_url = Mage::helper(&#39;core/url&#39;)-&gt;getHomeUrl();
+         ?&gt;
+        &lt;div class=&quot;actions&quot;&gt;
+            &lt;a href=&quot;&lt;?php echo $home_url ?&gt;catalogsearch/term/popular/&quot;&gt;&lt;?php echo $this-&gt;__(&#39;View All Popular Searches&#39;) ?&gt;&lt;/a&gt;
+        &lt;/div&gt;
+        &lt;?php else: ?&gt;
+            &lt;p class=&quot;note-msg&quot;&gt;&lt;?php echo $this-&gt;__(&#39;There are no search terms available.&#39;); ?&gt;&lt;/p&gt;
+        &lt;?php endif; ?&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+<p>获取首页的地址：</p>
+<pre><code>&lt;?php 
+  $home_url = Mage::helper(&#39;core/url&#39;)-&gt;getHomeUrl();
+?&gt;</code></pre>
+<p>然后把这个引入到链接那里去：</p>
+<pre><code>&lt;a href=&quot;&lt;?php echo $home_url ?&gt;catalogsearch/term/popular/&quot;&gt;&lt;?php echo $this-&gt;__(&#39;View All Popular Searches&#39;) ?&gt;&lt;/a&gt;</code></pre>
+<p>这样就对了。关于如何获取各种magento的url地址的教程，可以参考笔者另外一篇文章。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/07/30/%E7%BB%99Magento%E5%B8%B8%E7%94%A8%E7%9A%84Block%E6%B7%BB%E5%8A%A0%E7%BC%93%E5%AD%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/07/30/%E7%BB%99Magento%E5%B8%B8%E7%94%A8%E7%9A%84Block%E6%B7%BB%E5%8A%A0%E7%BC%93%E5%AD%98/" class="post-title-link" itemprop="url">给Magento常用的Block添加缓存</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-07-30 20:24:09" itemprop="dateCreated datePublished" datetime="2018-07-30T20:24:09+08:00">2018-07-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:05" itemprop="dateModified" datetime="2020-10-11T11:58:05+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><strong>1、产品页面</strong></p>
+<p>修改文件：app\code\local\Mage\Catalog\Block\Product\View.php<br>在_prepareLayout方法前面添加方法：</p>
+<pre><code>protected function _construct()  
+&#123;  
+    $this-&gt;addData(array(  
+       &#39;cache_lifetime&#39; =&gt; 86400,   
+       &#39;cache_tags&#39; =&gt; array(Mage_Catalog_Model_Product::CACHE_TAG . &quot;_&quot; . $this-&gt;getProduct()-&gt;getId()),  
+       &#39;cache_key&#39; =&gt; $this-&gt;getProduct()-&gt;getId(),  
+    ));  
+&#125;</code></pre>
+<p>这里使用catalog_product_productid使用cache_tags</p>
+<p><strong>2、分类页面</strong></p>
+<p>修改文件：app\code\local\Mage\Catalog\Block\Category\View.php<br>在_prepareLayout方法前面添加方法：</p>
+<pre><code>protected function _construct()  
+&#123;  
+        $this-&gt;addData(array(  
+              &#39;cache_lifetime&#39; =&gt; 86400,  
+              &#39;cache_tags&#39; =&gt; array($this-&gt;getCacheKeyInfo()),  
+              &#39;cache_key&#39; =&gt; $this-&gt;getCacheKeyInfo(),   
+        ));  
+&#125;  
+public function getCacheKeyInfo()&#123;  
+        $paging = &#39;&#39;;  
+        $limit = &#39;&#39;;  
+        $mode = &#39;&#39;;  
+        $order = &#39;&#39;;  
+        $productListBlock = $this-&gt;getChild(&#39;product_list&#39;);  
+        if ($productListBlock)&#123;  
+               $toolbarBlock = $productListBlock-&gt;getChild(&#39;product_list_toolbar&#39;);  
+               if($toolbarBlock)&#123;  
+                     $paging = $toolbarBlock-&gt;getCurrentPage();  
+                     $limit = $toolbarBlock-&gt;getLimit();  
+                     $mode = $toolbarBlock-&gt;getCurrentMode();  
+                     $order = $toolbarBlock-&gt;getCurrentOrder();  
+               &#125;  
+        &#125;  
+        return array(  
+               &#39;CATEGORY_VIEW&#39;,  
+               Mage::app()-&gt;getStore()-&gt;getId(),  
+               Mage::getDesign()-&gt;getPackageName(),  
+               Mage::getDesign()-&gt;getTheme(&#39;template&#39;),  
+               $this-&gt;getCurrentCategory()-&gt;getId(),  
+               &#39;template&#39; =&gt; $this-&gt;getTemplate(),  
+               $paging,  
+               $limit,  
+               $mode,  
+               $order  
+        );  
+&#125;</code></pre>
+<p><strong>3、cms/page页面</strong></p>
+<p>修改文件：app\code\local\Mage\Cms\Block\Page.php<br>在_prepareLayout方法前面添加方法：</p>
+<pre><code>const CACHE_KEY = &#39;cms_page&#39;;   
+protected function _construct()  
+&#123;  
+    $this-&gt;addData(array(  
+        &#39;cache_lifetime&#39; =&gt; 86400,  
+        &#39;cache_tags&#39; =&gt; array(&#39;cms-&#39;.$this-&gt;getPage()-&gt;getIdentifier()),  
+        &#39;cache_key&#39; =&gt; $this-&gt;getCacheKey(),   
+    ));  
+ &#125;  
+public function getCacheKey()   
+&#123;  
+    $storeId = $this-&gt;getStoreId();  
+    $currencyCode = Mage::app()-&gt;getStore()-&gt;getCurrentCurrencyCode();  
+    $uri = $this-&gt;getRequest()-&gt;getRequestUri() . self::CACHE_KEY;  
+    return $storeId.$uri.$currencyCode;  
+&#125;</code></pre>
+<p>这里使用cms-pageidentifier作为cache_tags</p>
+<hr>
+<p>我们以一个例子进行讲解一下：</p>
+<p><img src="https://i.imgur.com/H1E2dnO.jpg"></p>
+<p>这个截图是我某个项目使用aw_blog插件的实例，使用AW_Blog_Block_Blog这个block文件在首页输出某个新闻类别下的新闻列表，aw_blog插件本身是没给输出内容做过缓存处理的，也就是说，即便你一天或几天才更新一次新闻，页面每次载入时依然要从数据库里把这些数据取一遍，这个是比较没必要的。</p>
+<p>下面来给这个Block加上缓存，Magento本身已经提供了一套给Block添加缓存的写法，只需要简单的加几句代码就可以</p>
+<pre><code>protected function _construct()  
+    &#123;  
+        $this-&gt;addData(array(  
+            &#39;cache_lifetime&#39;=&gt; 86400,  
+            &#39;cache_tags&#39;    =&gt; array(AW_Blog_Model_Post::CACHE_TAG)  
+        ));  
+&#125;</code></pre>
+<p>其中<code>cache_lifetime</code>指缓存周期，这里我设置的是86400秒，也就是一天，cache_tags指给该缓存设定的标签，这里我设置的是post这个model的一个常量。做完这一步，这个block文件的缓存就好了，页面载入时，这块内容不会再每次去数据库取数据，而是直接载入缓存好的html，减少了页面载入所消耗的时间。</p>
+<p>到这一步，整个工作才完成了一半，为什么这么说呢？这里可以做个实验，在加完以上的代码并刷新过一次页面后，数据已经写进缓存文件里了，这时候去后台新增或修改一篇新闻，你会发现前台页面的内容并没有跟着改变，而是维持之前的内容。那么什么时候才会变成新的内容呢，一天之后，因为之前给缓存设置的有效时间是一天，一天之内的有效期内，页面都会去读取缓存文件而不是数据库。这时候你可以这样处理，在后台修改过内容后，手动刷新后台的缓存，让效果实时可见，或者用更好的方案，通过程序控制，在每次新闻内容新增或修改时自动刷新对应的缓存。</p>
+<p>打开AW_Blog_Model_Post这个文件，在头部定义一个常量</p>
+<pre><code>const CACHE_TAG = &#39;aw_blog&#39;;</code></pre>
+<p>在底部添加如下代码</p>
+<pre><code>public function cleanCache()  
+   &#123;  
+       Mage::app()-&gt;cleanCache(self::CACHE_TAG);  
+       return $this;  
+   &#125;
+
+public function _beforeSave()&#123;  
+     $this-&gt;cleanCache();  
+     return parent::_beforeSave();  
+&#125;</code></pre>
+<p>该常量即是之前给Blog添加的缓存的cache_tags，_beforeSave函数是所有Model类继承自父类的方法，可以在该Model对应的对象实体保存数据时触发，这里重写_beforeSave，去调用一个cleanCache函数，cleanCache函数里只有一句重要的代码，就是</p>
+<pre><code>Mage::app()-&gt;cleanCache(self::CACHE_TAG)</code></pre>
+<p>这个方法可以清除指定标签（tag）的缓存，比如这里，它只会清除tag为aw_blog的缓存，而不是全部系统缓存。</p>
+<p>从完整的流程来说，首先前台页面第一次载入时，该Block会将内容缓存进缓存文件，然后当后台保存新闻时，通过cleanCache会清除指定Tag的缓存，这之后再次载入页面时就会生成新的缓存文件。这样就做到了缓存新闻内容以提高速度的同时，依然可以在后台做出数据改变时在页面实时显示新的数据。</p>
+<p>新闻数据在页面上一般所占空间不大，即使缓存起来可能也不会对加载速度有很明显的提升，这里只是以此为例子展示下Magento所提供的Block缓存机制。这个例子很简单，如果要对其他东西做缓存可能会有各种更复杂的流程，这里不再探讨。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/07/30/%E7%94%A8magento%E5%B8%83%E5%B1%80%E7%BB%99%E7%89%B9%E5%AE%9ACMS%E9%A1%B5%E9%9D%A2%E6%B7%BB%E5%8A%A0%E9%9D%99%E6%80%81%E5%9D%97-%E6%88%96%E8%80%85%E6%98%AF%E8%AF%B4%E9%80%9A%E8%BF%87%E9%9D%99%E6%80%81%E6%A8%A1%E5%9D%97%E5%B5%8C%E5%85%A5%E5%88%B0%E9%A1%B5%E9%9D%A2%E4%B8%AD%E5%8E%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/07/30/%E7%94%A8magento%E5%B8%83%E5%B1%80%E7%BB%99%E7%89%B9%E5%AE%9ACMS%E9%A1%B5%E9%9D%A2%E6%B7%BB%E5%8A%A0%E9%9D%99%E6%80%81%E5%9D%97-%E6%88%96%E8%80%85%E6%98%AF%E8%AF%B4%E9%80%9A%E8%BF%87%E9%9D%99%E6%80%81%E6%A8%A1%E5%9D%97%E5%B5%8C%E5%85%A5%E5%88%B0%E9%A1%B5%E9%9D%A2%E4%B8%AD%E5%8E%BB/" class="post-title-link" itemprop="url">用magento布局给特定CMS页面添加静态块,或者是说通过静态模块嵌入到页面中去</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-07-30 19:33:40" itemprop="dateCreated datePublished" datetime="2018-07-30T19:33:40+08:00">2018-07-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:05" itemprop="dateModified" datetime="2020-10-11T11:58:05+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>有次在做一个项目的时候，我需要在头部和某些页面内容中间加入一个独有的静态块。元素必须完全在magento后台定义，而且能很轻易地在一个新的CMS页面创建、定义和移除。因此，元素必须被放置在主内容之外，不可能用后台CMS添加，而是要用magento布局添加。下面是我如何实现的：</p>
+<p>正如你所知的，magento只为CMS页面提供下面的句柄</p>
+<ol>
+<li>首页句柄和404页面句柄</li>
+<li>一个所有CMS页面公用的句柄</li>
+</ol>
+<p>如果一个CMS块要显示在首页，我们会在local.xml文件里使用首页句柄。同样的，如果要在所有CMS页面显示，我们可以使用所有CMS页面通用的句柄。但是，用户创建的个人CMS页面又该怎么办呢？</p>
+<p>幸运的是：Magento允许我们通过后台CMS编辑器为每一个CMS页面定义一个自定义布局。这样的话，一个CMS页面的布局就被数据库中为这个特殊页面定义的值修改。</p>
+<p>首先，我们为名为”static-block-1”特殊CMS页面创建一个静态块，加入下面的简单样式：</p>
+<pre><code>&lt;div class=&quot;element-blue&quot;&gt;
+    &lt;h3&gt;Static Block 1&lt;/h3&gt;
+    &lt;p&gt;This is blue static element 1 &lt;/p&gt;
+&lt;/div&gt;</code></pre>
+<p>接着，我们将创建一个包含了刚才创建的静态块的CMS页面。通过这个页面的Design标签更新布局XML，里面有头部和一个段落。今天以一列布局为例。</p>
+<pre><code>&lt;reference name=&quot;root&quot;&gt;
+    &lt;block type=&quot;cms/block&quot; name=&quot;myelement&quot;&gt;
+        &lt;action method=&quot;setBlockId&quot;&gt;&lt;block_id&gt;static-block-1&lt;/block_id&gt;&lt;/action&gt;
+    &lt;/block&gt;
+&lt;/reference&gt;</code></pre>
+<p>最后，我们要更新我们的模板文件，添加一行调用我们元素的代码。打开1colum.phtml文件(app/design/frontend/default/你的主题/template/page/1column.phtml),按下面代码进行修改：</p>
+<pre><code>&lt;div class=&quot;page&quot;&gt;
+    &lt;?php
+     echo $this-&gt;getChildHtml(&#39;myelement&#39;) 
+     ?&gt;
+&lt;/div&gt;</code></pre>
+<p>用这种方式，我们可以对笔者前面的那种把静态的cms模块的内容嵌入到page里面进行一个改进，用这种方式的话更加灵活，比如笔者有三个静态的模块：</p>
+<p><img src="https://i.imgur.com/kCfmd00.png"></p>
+<p>笔者这里新建一个页面：test page one</p>
+<p>我们在content那里随便写一段文字：hello world.</p>
+<p>然后我们在Design那个栏目那里写下如下代码：</p>
+<pre><code>&lt;reference name=&quot;root&quot;&gt;
+          &lt;block type=&quot;cms/block&quot; name=&quot;myelement&quot;&gt;
+              &lt;action method=&quot;setBlockId&quot;&gt;&lt;block_id&gt;static-block-1&lt;/block_id&gt;&lt;/action&gt;
+          &lt;/block&gt;
+&lt;/reference&gt;
+&lt;reference name=&quot;root&quot;&gt;
+          &lt;block type=&quot;cms/block&quot; name=&quot;myelement3&quot;&gt;
+              &lt;action method=&quot;setBlockId&quot;&gt;&lt;block_id&gt;static-block-for-image-test&lt;/block_id&gt;&lt;/action&gt;
+          &lt;/block&gt;
+&lt;/reference&gt;</code></pre>
+<p>这里的意思就是引入三个静态的CMS模块中的两个，就是前面建的三个静态模块中的两个。我们把这个静态模块命名为myelement和myelement3。</p>
+<p>现在我们建的这个页面我们采用一列布局：1 column，那么我们就要找到我们模板对应的控制一列的模板文件，比如，笔者这里用的是market，那么我们就不要去magento默认模板的那里去修改了，因为修改了也不起作用，这个需要注意。</p>
+<p>好的，言归正传，我们找到1 column.phtml这个文件，目录：/app/design/frontend/market/default/template/page/1column.phtml</p>
+<p>我们找个地方来显示我们的静态模块内容的地方，加入以下代码：</p>
+<pre><code>&lt;div class=&quot;page&quot;&gt;
+    &lt;?php
+     echo $this-&gt;getChildHtml(&#39;myelement&#39;) 
+     ?&gt;
+     &lt;?php
+     echo $this-&gt;getChildHtml(&#39;myelement2&#39;) 
+     ?&gt;
+     &lt;?php
+     echo $this-&gt;getChildHtml(&#39;myelement3&#39;) 
+     ?&gt;
+&lt;/div&gt;</code></pre>
+<p>这个代码的意思就是调用这三个静态模块，我们看下最终会是什么效果。最终的效果：</p>
+<p><img src="https://i.imgur.com/B4AvzIj.png"></p>
+<p>只有两个模块的内容被显示，意料之中，因为第二个笔者并没有引入，不因为没有内容而报错。</p>
+<p>用这种方式的也是对笔者以前的相关教程的一个补充。</p>
+<p>以后要是想要用多个只需要把这个引入design里面，然后在模板文件里面加入代码就行了。不想要重复引用可以不引入的部分。本文仅仅作为学习和参考之用。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/07/27/%E6%95%B0%E5%AD%A6%E8%AE%A1%E7%AE%97%E5%9C%A8%E6%88%91%E4%BB%AC%E7%94%9F%E6%B4%BB%E4%B8%AD%E5%92%8C%E5%B7%A5%E4%BD%9C%E4%B8%AD%E7%9A%84%E4%BD%9C%E7%94%A8%EF%BC%8C%E7%94%9A%E8%87%B3%E5%9C%A8%E6%88%98%E4%BA%89%E4%B8%AD%E7%9A%84%E4%BD%9C%E7%94%A8%E5%BF%83%E5%BE%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/07/27/%E6%95%B0%E5%AD%A6%E8%AE%A1%E7%AE%97%E5%9C%A8%E6%88%91%E4%BB%AC%E7%94%9F%E6%B4%BB%E4%B8%AD%E5%92%8C%E5%B7%A5%E4%BD%9C%E4%B8%AD%E7%9A%84%E4%BD%9C%E7%94%A8%EF%BC%8C%E7%94%9A%E8%87%B3%E5%9C%A8%E6%88%98%E4%BA%89%E4%B8%AD%E7%9A%84%E4%BD%9C%E7%94%A8%E5%BF%83%E5%BE%97/" class="post-title-link" itemprop="url">数学计算思维在我们生活中和工作中，甚至在战争中的作用心得</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-07-27 14:15:56" itemprop="dateCreated datePublished" datetime="2018-07-27T14:15:56+08:00">2018-07-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:05" itemprop="dateModified" datetime="2020-10-11T11:58:05+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>最近重温了少年包青天的电视后得出的新感悟：</p>
+<p><strong>1. 第七具干尸</strong></p>
+<p>根据剧情我们已经知道了，这第七具干尸是从前面六具干尸中合成出来的，牺牲前面六具干尸的完整性，来创造出第七具干尸出来。每一具干尸贡献出某一部分，组合成第七具。</p>
+<p>我们利用运算的习惯来想这个问题会变得很容易理解，如何产生新的东西，那可以通过从原有的东西里面重构催生新的变化来达到这个效果。发挥我们的想象力，我们在设计新的东西的时候，我们在设计新的特效的时候，我们可以利用残缺的部分来创造新的意想不到的效果。日常情况下，我们很难想象到还可以这样玩。</p>
+<p><strong>2. 战争（诸葛亮和司马懿在上方谷的决战）</strong></p>
+<p>诸葛亮进行了充分的计算，上方谷里面埋藏多少火药，多少燃油（才能让司马懿的军队全军被炸死），多少粮草（才能吸引司马懿全军过来），用多少士兵埋伏（才能确保司马懿的逃兵被歼灭）。这样才能够在最少资源的情况下做更多的事，达到利润最大化。</p>
+<p>同样的道理，我们在进行竞争和比赛的时候，有了计算我们会让剧情变得不一样，甚至出现反转的情况发生，这里笔者举个例子，田忌赛马的故事想必我们都听过了，这个就是一个典型的通过计算来获得胜利的例子。把对象量化，然后重新编排，这些经典的例子都是我们需要深刻思考的。</p>
+<p><strong>3. 网页设计的美感需要计算</strong></p>
+<p>我们在网页设计或者前端设计的时候，我们有的时候发现为什么很多时候，我们为什么看到别人的网站很舒服，可是我们却很难说出为什么舒服。</p>
+<p>我们这里就需要一个审美的计算在里面，我们可以结合设计审美学进行一个分析，什么样的距离是符合不同人群的审美需求的。</p>
+<p>比如，我们设计一个针对国内的用户的网站的前端，这个时候根据笔者在这个行业的经验，个人认为国人还是不太习惯国外的那种间距很大，很大字体，或者极简风格的。所以针对国内的用户的网站我们就要设计变得紧缩点。</p>
+<p>标题文字和内容文字多少间距是OK的，标题文字多大是OK的，内容文字多大是OK的，手机版的时候，标题大小控制在一个什么样的像素是最优的。内容字体大小多少就够了。这些都是需要计算的。</p>
+<p>而这些计算的理论基础是通过心理学，社会学，艺术审美方面获得数据。比如我们可以把黄金分割法则用在网页设计上面，用构图法则用在图片上面，有的时候，我们找的图片为了迎合排版需要而不得不把图片裁剪一下，就因为这么一裁剪，我们的图片已经被裁剪得完全不符合一张图的审美了，还不如不要。</p>
+<p>还有，我们在进行网页设计的时候，文字离屏幕边距多少是合理的，底部离边缘多少是合理的。我们通常的做法就是看心情，觉得这样放就行了。我们会经常看到我们的css的代码里面有各种字体大小，我们也因此看到了我们的图片离文字，标题里内容，标题离图片，按钮离内容，按钮大小这些尺寸的设置我们都变得随心所欲。</p>
+<p>就像，我们对一个按钮设置一个padding值。</p>
+<pre><code>padding:5px 15px;</code></pre>
+<p>跟</p>
+<pre><code>padding:5px 18px;</code></pre>
+<p>看起来如果相差不大的话，那么最好确保按钮大小一致。至于一个看起来很舒服的按钮大小是需要点艺术审美的，也需要计算。</p>
+<p><strong>4. JavaScript的压缩问题以及JavaScript的动画</strong></p>
+<p>总所周知，以往用js实现浏览器上的动画，会使用setTimeout或者setInterval定时器设定时间间隔；碰到有多个动画的需求，可能会使用setInterval创建单一的动画循环，来管理页面上所有的动画，但这都会面临一些问题。</p>
+<p>首先这个时间间隔不是表示何时代码会执行，而是表示何时代码会添加进UI队列（如果队列中有其他工作排在前面，那代码将会等到其他完成才会执行），无法精确知道下一帧何时被执行，然而平滑动画的关键是理解下一帧何时被执行，这样的动画就不够平滑。同时大多数浏览器的刷新频率为60HZ（即每秒60次刷新），任何超过这个频率的都不能带来显著的用户体验上的提升，时间间隔为1000毫秒/ 60，约17ms，间隔时间越接近这个频率动画越流畅。</p>
+<p>所以，在我们不知道的领域，在我们日常网页设计当中的很多例子，比如行高，字间距等等，这些需要计算的工作中，我们是需要很多计算思维在里面的。经过精确计算后我们做出来的效果相对来说是更加好的。</p>
+<p>话说，笔者在阅读JavaScript的压缩那里的时候，心得颇深，通过压缩我们可以让网站响应速度大大提升，如何做到的呢？我们来看下：</p>
+<p>比如我们通过浏览器队服务器资源进行请求，通常请求的资源大小理论上是跟响应的请求大小是一样的。那么现在情况可能是不一样的，为了加快响应速度，我们要做的是在服务器端在响应请求之前先压缩文件，然后发送压缩过的资源，到达浏览器的时候，解压缩文件，然后渲染到浏览器屏幕。这里有个配重的概念，大家有兴趣可以去了解下。</p>
+<p>有兴趣的小伙伴们可以通过开发者工具或者抓包工具进行分析和验证是不是请求的资源大于或者等于响应的资源。</p>
+<p><strong>5. 运筹学中的计算</strong></p>
+<p>在我们的生产活动中，进行精密的计算会帮我们节省很多成本，生产一个产品会有多个材料的组合，如何组合是最合适的，这里就需要运筹一下。希望以后在生活中把计算的思维运用得更加深入。</p>
+<p><strong>6. 利用计算思维游戏中取胜</strong></p>
+<p>曾经一段时间，笔者很喜欢玩星际争霸这个游戏，很古老的一款游戏，但是很经典，笔者总是喜欢把厉害的武器集合起来去攻击敌方，可是很多时候总是失败而告终，经过多次尝试发现这样一个问题：敌方采用非对称与我方进行对抗，比如一个原子弹兵，去对抗一架大飞机，很显然单挑的话是不行的，那么我们可以利用原子弹兵能够加锁和隐身这个特性获得非对称的胜利，先隐身，然后锁定大飞机，让其失去还击的能力，然后调遣其他防控能力很强的武器进行摧毁大飞机。这样我们只需要两个小目标就能够对抗一架大飞机。</p>
+<p>同样的道理，我们还可以举例，我们用闪电兵来对一群敌人进行闪电，每一次闪电，敌人都会大面积受伤，而生产一个闪电兵的成本却很少，这样我们就可以通过非对称获得胜利。看到了吧，计算是很精妙和神奇的东西。</p>
+<p>最后，笔者说的一句话就是：拥抱计算，拥抱运算，拥抱算法。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/07/27/magento%E8%AE%BF%E9%97%AE%E6%8A%A5%E9%94%99-There-has-been-an-error-processing-your-request%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/07/27/magento%E8%AE%BF%E9%97%AE%E6%8A%A5%E9%94%99-There-has-been-an-error-processing-your-request%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" class="post-title-link" itemprop="url">magento访问报错:There has been an error processing your request的解决方案</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-07-27 10:30:38" itemprop="dateCreated datePublished" datetime="2018-07-27T10:30:38+08:00">2018-07-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:02" itemprop="dateModified" datetime="2020-10-11T11:58:02+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>笔者在使用magento做开发的时候，刚上线后不久发现magento网站居然报错了，报错信息如下：</p>
+<p><img src="https://i.imgur.com/7LrhVoF.png"></p>
+<blockquote>
+<p>There has been an error processing your request</p>
+</blockquote>
+<blockquote>
+<p>Exception printing is disabled by default for security reasons.</p>
+</blockquote>
+<blockquote>
+<p>Error log record number: 876680614195</p>
+</blockquote>
+<p>针对这个问题，网上也讨论了很多，可是没有几个的方法能够解决我面临的问题，大概是情况不一样吧，且看别人都是怎么解决的。</p>
+<hr>
+<p>Magento网站搬家出现 There has been an error processing your request</p>
+<p>网站搬家之后出现以下提示：</p>
+<blockquote>
+<p>Magento</p>
+</blockquote>
+<blockquote>
+<p>There has been an error processing your request</p>
+</blockquote>
+<blockquote>
+<p>Exception printing is disabled by default for security reasons.</p>
+</blockquote>
+<blockquote>
+<p>Error log record number: 1236842047745</p>
+</blockquote>
+<p>数据库导入成功，数据库配置文件/app/etc/local.xml</p>
+<pre><code>&lt;host&gt;&lt;![CDATA[localhost]]&gt;&lt;/host&gt;
+&lt;username&gt;&lt;![CDATA[glangwai_gan99]]&gt;&lt;/username&gt;
+&lt;password&gt;&lt;![CDATA[guuhAwqoWf]]&gt;&lt;/password&gt;
+&lt;dbname&gt;&lt;![CDATA[glangwai_gan99]]&gt;&lt;/dbname&gt;</code></pre>
+<p>也改了。</p>
+<p>解决方法：</p>
+<p>复制magento根目录下 /errors/local.xml.sample 并命名为/errors/local.xml</p>
+<p>改变magento根目录下/lib/Zend/Cache/Backend/File.php</p>
+<p>文件里面</p>
+<pre><code>protected $_options = array(
+    &#39;cache_dir&#39; =&gt; NULL,
+    &#39;file_locking&#39; =&gt; true,</code></pre>
+<p>为</p>
+<pre><code>protected $_options = array(
+    &#39;cache_dir&#39; =&gt; &#39;tmp/&#39;,
+    &#39;file_locking&#39; =&gt; true,</code></pre>
+<p>然后在根目录下创建tmp文件夹.</p>
+<p>再然后刷新前台，”There has been an error processing your request” 就没有了，出现的是错误提示的也没，然后根据错误提示方便寻找解决答案！</p>
+<p>简单的来说就是给cache_dir设置一个目录为‘tmp/’</p>
+<p>注意这个不要改漏掉了哦：复制magento根目录下 /errors/local.xml.sample 并命名为/errors/local.xml</p>
+<p>如果出现以下问题，则是主机不支持pdo了，找虚拟主机商处理，或者自己切换下php版本，安装pdo.</p>
+<pre><code>There has been an error processing your request
+
+The PDO extension is required for this adapter but the extension is not loaded
+
+Trace:
+#0 /home/payment/public_html/lib/Zend/Db/Adapter/Abstract.php(248): Zend_Db_Adapter_Pdo_Abstract-&gt;setFetchMode(2)
+#1 /home/payment/public_html/app/code/core/Mage/Core/Model/Resource.php(165): Zend_Db_Adapter_Abstract-&gt;__construct(Array)
+#2 /home/payment/public_html/app/code/core/Mage/Core/Model/Resource.php(110): Mage_Core_Model_Resource-&gt;_newConnection(&#39;pdo_mysql&#39;, Object(Mage_Core_Model_Config_Element))
+#3 /home/payment/public_html/app/code/core/Mage/Core/Model/Resource/Db/Abstract.php(320): Mage_Core_Model_Resource-&gt;getConnection(&#39;core_write&#39;)
+#4 /home/payment/public_html/app/code/core/Mage/Core/Model/Resource/Db/Abstract.php(350): Mage_Core_Model_Resource_Db_Abstract-&gt;_getConnection(&#39;write&#39;)
+#5 /home/payment/public_html/app/code/core/Mage/Core/Model/Resource/Db/Abstract.php(335): Mage_Core_Model_Resource_Db_Abstract-&gt;_getWriteAdapter()
+#6 /home/payment/public_html/app/code/core/Mage/Core/Model/Resource/Cache.php(53): Mage_Core_Model_Resource_Db_Abstract-&gt;_getReadAdapter()
+#7 /home/payment/public_html/app/code/core/Mage/Core/Model/Cache.php(478): Mage_Core_Model_Resource_Cache-&gt;getAllOptions()
+#8 /home/payment/public_html/app/code/core/Mage/Core/Model/Cache.php(520): Mage_Core_Model_Cache-&gt;_initOptions()
+#9 /home/payment/public_html/app/code/core/Mage/Core/Model/App.php(1183): Mage_Core_Model_Cache-&gt;canUse(&#39;config&#39;)
+#10 /home/payment/public_html/app/code/core/Mage/Core/Model/Config.php(414): Mage_Core_Model_App-&gt;useCache(&#39;config&#39;)
+#11 /home/payment/public_html/app/code/core/Mage/Core/Model/Config.php(294): Mage_Core_Model_Config-&gt;_canUseCacheForInit()
+#12 /home/payment/public_html/app/code/core/Mage/Core/Model/App.php(413): Mage_Core_Model_Config-&gt;loadModulesCache()
+#13 /home/payment/public_html/app/code/core/Mage/Core/Model/App.php(343): Mage_Core_Model_App-&gt;_initModules()
+#14 /home/payment/public_html/app/Mage.php(684): Mage_Core_Model_App-&gt;run(Array)
+#15 /home/payment/public_html/index.php(144): Mage::run(&#39;&#39;, &#39;store&#39;)
+#16 &#123;main&#125;</code></pre>
+<hr>
+<p>这里分享一个在stackoverflow里面的经典回答：</p>
+<p>这个可能是mysql没有启动，后来我直接重启了我的xampp，果然里面提示mysql没有运行：</p>
+<p><img src="https://i.imgur.com/4Pdkeae.png"></p>
+<p>如果你不是用的xampp这种集成的，也可以直接运行mysql的重启命令进行重启。</p>
+<p>重启后，报错没了，搞定！</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/14/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/page/16/">16</a><span class="space">&hellip;</span><a class="page-number" href="/page/43/">43</a><a class="extend next" rel="next" href="/page/16/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+  </nav>
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

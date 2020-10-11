@@ -1,37 +1,684 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="大部分跟着教程走就行了。标准教程地址：https:&#x2F;&#x2F;devdocs.magento.com&#x2F;guides&#x2F;m1x&#x2F;magefordev&#x2F;mage-for-dev-1.html 可能当你把这个看完之后再开始，会觉得很没效率。在什么都追求速成的年代，这里给大家粘贴一个案例吧。 关于magento模块自定义开发（开发自己的模块）： 创建模块思路：  创建一个 test模块 为这个模块配置路由 为这个模">
+<meta property="og:type" content="article">
+<meta property="og:title" content="magento自定义模块开发，模块功能如何显示到前台，数据库目录如何读取数据，如何运用模块的模型文件的心得和日记">
+<meta property="og:url" content="http://example.com/2018/07/17/magento%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A8%A1%E5%9D%97%E5%BC%80%E5%8F%91%EF%BC%8C%E6%A8%A1%E5%9D%97%E5%8A%9F%E8%83%BD%E5%A6%82%E4%BD%95%E6%98%BE%E7%A4%BA%E5%88%B0%E5%89%8D%E5%8F%B0%EF%BC%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9B%AE%E5%BD%95%E5%A6%82%E4%BD%95%E8%AF%BB%E5%8F%96%E6%95%B0%E6%8D%AE%EF%BC%8C%E5%A6%82%E4%BD%95%E8%BF%90%E7%94%A8%E6%A8%A1%E5%9D%97%E7%9A%84%E6%A8%A1%E5%9E%8B%E6%96%87%E4%BB%B6%E7%9A%84%E5%BF%83%E5%BE%97%E5%92%8C%E6%97%A5%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="大部分跟着教程走就行了。标准教程地址：https:&#x2F;&#x2F;devdocs.magento.com&#x2F;guides&#x2F;m1x&#x2F;magefordev&#x2F;mage-for-dev-1.html 可能当你把这个看完之后再开始，会觉得很没效率。在什么都追求速成的年代，这里给大家粘贴一个案例吧。 关于magento模块自定义开发（开发自己的模块）： 创建模块思路：  创建一个 test模块 为这个模块配置路由 为这个模">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/kuRhA6s.png">
+<meta property="og:image" content="https://i.imgur.com/h68amT6.png">
+<meta property="og:image" content="https://i.imgur.com/dT8NhDK.png">
+<meta property="og:image" content="https://i.imgur.com/tCkMYn1.png">
+<meta property="og:image" content="https://i.imgur.com/kPotVG3.png">
+<meta property="article:published_time" content="2018-07-17T02:22:01.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:01.833Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="magento,模块开发,自定义模块开发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/kuRhA6s.png">
+
+<link rel="canonical" href="http://example.com/2018/07/17/magento%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A8%A1%E5%9D%97%E5%BC%80%E5%8F%91%EF%BC%8C%E6%A8%A1%E5%9D%97%E5%8A%9F%E8%83%BD%E5%A6%82%E4%BD%95%E6%98%BE%E7%A4%BA%E5%88%B0%E5%89%8D%E5%8F%B0%EF%BC%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9B%AE%E5%BD%95%E5%A6%82%E4%BD%95%E8%AF%BB%E5%8F%96%E6%95%B0%E6%8D%AE%EF%BC%8C%E5%A6%82%E4%BD%95%E8%BF%90%E7%94%A8%E6%A8%A1%E5%9D%97%E7%9A%84%E6%A8%A1%E5%9E%8B%E6%96%87%E4%BB%B6%E7%9A%84%E5%BF%83%E5%BE%97%E5%92%8C%E6%97%A5%E8%AE%B0/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>magento自定义模块开发，模块功能如何显示到前台，数据库目录如何读取数据，如何运用模块的模型文件的心得和日记 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/07/17/magento%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A8%A1%E5%9D%97%E5%BC%80%E5%8F%91%EF%BC%8C%E6%A8%A1%E5%9D%97%E5%8A%9F%E8%83%BD%E5%A6%82%E4%BD%95%E6%98%BE%E7%A4%BA%E5%88%B0%E5%89%8D%E5%8F%B0%EF%BC%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9B%AE%E5%BD%95%E5%A6%82%E4%BD%95%E8%AF%BB%E5%8F%96%E6%95%B0%E6%8D%AE%EF%BC%8C%E5%A6%82%E4%BD%95%E8%BF%90%E7%94%A8%E6%A8%A1%E5%9D%97%E7%9A%84%E6%A8%A1%E5%9E%8B%E6%96%87%E4%BB%B6%E7%9A%84%E5%BF%83%E5%BE%97%E5%92%8C%E6%97%A5%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          magento自定义模块开发，模块功能如何显示到前台，数据库目录如何读取数据，如何运用模块的模型文件的心得和日记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-07-17 10:22:01" itemprop="dateCreated datePublished" datetime="2018-07-17T10:22:01+08:00">2018-07-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:01" itemprop="dateModified" datetime="2020-10-11T11:58:01+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>大部分跟着教程走就行了。标准教程地址：<a target="_blank" rel="noopener" href="https://devdocs.magento.com/guides/m1x/magefordev/mage-for-dev-1.html">https://devdocs.magento.com/guides/m1x/magefordev/mage-for-dev-1.html</a></p>
+<p>可能当你把这个看完之后再开始，会觉得很没效率。在什么都追求速成的年代，这里给大家粘贴一个案例吧。</p>
+<p>关于magento模块自定义开发（开发自己的模块）：</p>
+<p>创建模块思路：</p>
+<ol>
+<li>创建一个 test模块</li>
+<li>为这个模块配置路由</li>
+<li>为这个模块创建执行控制器</li>
+</ol>
+<p><strong>第一步：</strong></p>
+<p>我们要创建一个模块的目录结构</p>
+<p>app/code/local/公司名称/模块名字/…</p>
+<p>//命名规则</p>
+<pre><code>app/code/local/Goglobalis/Test/Block 
+app/code/local/Goglobalis/Test/controllers 
+app/code/local/Goglobalis/Test/etc
+app/code/local/Goglobalis/Test/Helper 
+app/code/local/Goglobalis/Test/Model 
+app/code/local/Goglobalis/Test/sql </code></pre>
+<p>第二步：创建config文件，并为模块分配路由</p>
+<pre><code>app/code/local/Goglobalis/Test/etc/config.xml</code></pre>
+<p>编辑config.xml 内容如下：</p>
+<pre><code>&lt;config&gt;
+    &lt;modules&gt;&lt;!-- 模块版本信息--&gt;
+        &lt;Goglobalis_Test&gt;
+            &lt;version&gt;0.1&lt;/version&gt;
+        &lt;/Goglobalis_Test&gt;
+    &lt;/modules&gt;
+    &lt;frontend&gt;&lt;!--定义magento区 frontend网站前台--&gt;
+        &lt;routers&gt;&lt;!--&lt;routers&gt;标签有时候包含的是路由对象的定义,有时候包含的是路径的定义。路由对象是进行路由操作的实体，而路径仅仅是路由对象的一个参数--&gt;
+            &lt;test&gt;
+                &lt;use&gt;standard&lt;/use&gt;&lt;!--使用标准固定写法--&gt;
+                    &lt;args&gt;
+                        &lt;module&gt;Goglobalis_Test&lt;/module&gt;&lt;!-- 模块全名  定义你的模块文件--&gt;
+                        &lt;frontName&gt;test&lt;/frontName&gt;&lt;!-- 模块名称（此处仅支持小写）--&gt;
+                    &lt;/args&gt; 
+            &lt;/test&gt;
+        &lt;/routers&gt;
+    &lt;/frontend&gt;
+&lt;/config&gt;</code></pre>
+<p>第三步：创建一个系统配置文件来激活这个模块</p>
+<p>然后我们要创建一个系统配置文件来激活这个模块 app/etc/modules/Goglobalis_Tese.xml</p>
+<p>内容如下：</p>
+<pre><code>&lt;config&gt;
+    &lt;modules&gt;
+        &lt;Goglobalis_Test&gt;
+            &lt;active&gt;true&lt;/active&gt;
+            &lt;codePool&gt;local&lt;/codePool&gt;
+        &lt;/Goglobalis_Test&gt;
+    &lt;/modules&gt;
+&lt;/config&gt;</code></pre>
+<p>激活后：让我们检查一下模块是不是已经被激活</p>
+<ol>
+<li>清空 Magento 缓存</li>
+<li>在管理后台，进入 System-&gt;Configuration-&gt;Advanced</li>
+<li>展开“DisableModulesOutput”</li>
+<li>确认 Goglobalis_Test显示出来了</li>
+</ol>
+<p><img src="https://i.imgur.com/kuRhA6s.png"></p>
+<p>第四步：为路由创建创建执行控制器</p>
+<p>app/code/local/Goglobalis/Test/controllers/indexController.php</p>
+<pre><code>&lt;?php
+//我们自己定义的属于 frontend 区的执行控制器都应该继承 Mage_Core_Controller_Front_Action
+    class Goglobalis_Test_indexController extends Mage_Core_Controller_Front_Action&#123;
+        public function indexAction()&#123;
+            echo &#39;Hellw Word!&#39;;
+        &#125;
+
+    &#125;</code></pre>
+<p>清空 Magento 缓存，请求如下 URL <a target="_blank" rel="noopener" href="http://exmaple.com/test/index/index">http://exmaple.com/test/index/index</a> 如果你看到一个空白页面上面写着“Hello World!”，那么恭喜你，你已经成功 创建了你的第一个 Magento 控制器！</p>
+<p>笔者在处理这种问题的时候由于magento代码是放在maeg这个目录下，所以这里的请求地址是：</p>
+<pre><code>http://example.com/maeg/test/index/index</code></pre>
+<p>发现打开是404，后来发现需要这样访问：</p>
+<pre><code>http://example.com/maeg/index.php/test/index/index</code></pre>
+<p>才能成功，这个时候我们需要解决去除index.php的问题，可以参考笔者另外一篇文章：</p>
+<p>如何命名执行控制器？</p>
+<p>如上我们创建的事index控制器，那如果想创建login控制器呢？</p>
+<p>只需要改动第四步两个地方即可：</p>
+<p><img src="https://i.imgur.com/h68amT6.png"></p>
+<p>改成loginController即可。</p>
+<p>Magento 默认的路由的规则如下 <a target="_blank" rel="noopener" href="http://www.efish.tk/frontName/actionControllerName/actionMethod/">http://www.efish.tk/frontName/actionControllerName/actionMethod/</a></p>
+<p>所以在我们请求的 URL <a target="_blank" rel="noopener" href="http://exmaple.com/test/index/index">http://exmaple.com/test/index/index</a> 其中“test”是“frontName”，第一个“index”是执行控制器（Action Controller）的名字，第二个“index”是执行方法的名字。对比我们写的执行 控制器代码，我们不难发现执行方法的定义是执行方法名字加上 “Action”关 键字 public function indexAction(){…} Magento 根据命名规则找到执行控制器文件并实例化，然后再根据命名规则调用 指定的执行方法。</p>
+<p>如果 URL 没有给出执行控制器名字或者执行方法，Magento 会 用默认的“index”来替代，所以下面三个 URL 是等价的</p>
+<pre><code>http://exmaple.com/test/index/index
+http://exmaple.com/test/index
+http://exmaple.com/test</code></pre>
+<p>我们再来看一个例子。</p>
+<p>如果 URL 如下 <a target="_blank" rel="noopener" href="http://exmaple.com/checkout/cart/add">http://exmaple.com/checkout/cart/add</a></p>
+<p>Magento 的执行步骤如下</p>
+<ol>
+<li>查询全局配置，找到 frontName“checkout”对应的模块，Mage_Checkout</li>
+<li>找到执行控制器 “Mage_Checkout_CartController”</li>
+<li>调用执行控制器的“addAction”方法</li>
+</ol>
+<hr>
+<p>笔者在实践中把整个分类得很细，以便对每个文件所扮演的角色了如指掌，发现即使我们没有新建一个模块，我们也可以在网站的配置目录里面新建一个配置文件，比如笔者在app/etc/modules中新建了一个配置文件：Test_Topbanner.xml，这个文件没有对应的模块被新建，它是独立的。我们新建这个文件之后，代码如下：</p>
+<pre><code>&lt;config&gt;
+    &lt;modules&gt;
+        &lt;Test_Topbanner&gt;
+            &lt;active&gt;true&lt;/active&gt;
+            &lt;codePool&gt;local&lt;/codePool&gt;
+        &lt;/Test_Topbanner&gt;
+    &lt;/modules&gt;
+&lt;/config&gt;</code></pre>
+<p>然后打开后台，找到Advanced那里，已经有了：</p>
+<p><img src="https://i.imgur.com/dT8NhDK.png"></p>
+<p>说明这个目录下的文件在模块开发中的角色是用来启动模块的，仅此而已，但是很重要，如果没有启动，那么我们自定义模块就不能起作用。</p>
+<hr>
+<p>我们平时看到用magento开发模块，总是echo一下就完事了，感觉没有什么动力，也不知道如何更加深入体验一下模块开发对商城的贡献。好的，笔者这里就推荐一下钥匙大神的文章——开发一个计算器类的小应用到magento中。</p>
+<p>且看我们如何开展这个。</p>
+<p>首先我们跟往常那样，新建一个包（Test），也叫做命名空间。然后在这个包下面新建一个新的模块，我们把这个命名为：Counter，路径如下：app/code/local/Test/Counter</p>
+<p><img src="https://i.imgur.com/tCkMYn1.png"></p>
+<p>我们需要穿件这些目录和文件。</p>
+<p>这个案例的目的是</p>
+<p>1.数值是如何在magento的Controllers传递到Block中的，又是如何在phtml文件中输出的。</p>
+<p>2.controllers中的action使用。</p>
+<p>3.了解使用form post参数和如何get参数。</p>
+<p>首先来看下这个案例中的文件结构</p>
+<pre><code>/* 声明插件，指定codePool、插件开启状态等 */
+app/etc/modules/Test_Counter.xml</code></pre>
+<hr>
+<pre><code>/* 模板.phtml文件中使用的方法在此文件中声明，此案例中此文件将计算结果传递到.phtml文件 */
+app/code/local/Test/Counter/Block/Counter.php</code></pre>
+<hr>
+<pre><code>/* 我们此案例的的控制器 http://magento-root-folder/module-name/controller-name/action-neame
+此例中IndexController控制器中的一个action获取counter.phtml中传来的参数，并将参数传递到Counter.php，在Counter.php中计算后将结果返回到counter.phtml输出 */
+app/code/local/Test/Counter/controllers/IndexController.php</code></pre>
+<hr>
+<pre><code>/* 主要的插件配置文件 */
+app/code/local/Test/Counter/etc/config.xml</code></pre>
+<hr>
+<pre><code>/* 前台显示模板的layout */
+app/design/frontend/default/default/layout/counter.xml
+/* 前台模板文件，我们的form和结果最终就在这个文件输出，此文件直接使用$this-&gt;调用与其相应的block中的方法，本例中我们只使用这一个模板页面。 */
+app/design/frontend/yourtheme/default/template/counter/counter.phtml</code></pre>
+<hr>
+<pre><code>/* Helper此例不使用，放在这显得气派，充门面 */
+app/code/local/Test/Counter/Helper/Data.php</code></pre>
+<hr>
+<p>我们先从简单的开始，那就先在前台的模板文件counter.phtml中写个提交的form吧，form我也忘了具体怎么写了，毕竟不天天写这个，没关系，我们有google，代码如下。</p>
+<p>app/design/frontend/yourtheme/default/template/counter/counter.phtml文件中代码片段</p>
+<pre><code>&lt;form action=&quot;&lt;?php echo Mage::getUrl(&#39;counter&#39;) ?&gt;&quot; method=&quot;post&quot; id=&quot;orderreport-form&quot;&gt;
+    &lt;fieldset&gt;
+        &lt;ul&gt;
+            &lt;li&gt;
+                &lt;label for=&quot;NUM1&quot;&gt;&lt;?php echo $this-&gt;__(&#39;NUM1: &#39;) ?&gt;&lt;span class=&quot;required&quot;&gt;*&lt;/span&gt;&lt;/label&gt;
+                &lt;input type=&quot;text&quot; id=&quot;NUM1&quot; name=&quot;NUM1&quot; class=&quot;input-text required-entry  validate-alphanum&quot; /&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+                &lt;label for=&quot;NUM2&quot;&gt;&lt;?php echo $this-&gt;__(&#39;NUM2: &#39;) ?&gt;&lt;span class=&quot;required&quot;&gt;*&lt;/span&gt;&lt;/label&gt;
+                &lt;input type=&quot;text&quot; id=&quot;NUM2&quot; name=&quot;NUM2&quot; class=&quot;input-text required-entry validate-alphanum&quot; /&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+                &lt;input type=&quot;submit&quot; value=&quot;&lt;?php echo $this-&gt;__(&#39;sub&#39;) ?&gt;&quot; /&gt;
+            &lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/fieldset&gt;
+&lt;/form&gt;
+
+&lt;ul&gt;
+&lt;li&gt;result:&lt;?php echo $this-&gt;showresult(); ?&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+    var customForm = new VarienForm(&#39;orderreport-form&#39;);
+&lt;/script&gt;</code></pre>
+<p>注意<code>action=&quot;&lt;?php echo Mage::getUrl(&#39;counter&#39;) ?&gt;&quot;</code> 等同于 <code>action=&quot;&lt;?php echo Mage::getUrl(&#39;counter/index/index&#39;) ?&gt;&quot;</code></p>
+<p><a target="_blank" rel="noopener" href="http://127.0.0.1/magento/index.php/counter/index/index%E5%A6%82%E6%9E%9C%E4%BD%BF%E7%94%A8%E9%BB%98%E8%AE%A4%E7%9A%84IndexController.php%E4%B8%AD%E7%9A%84index%E6%8E%A7%E5%88%B6%E5%99%A8%EF%BC%8C%E5%8F%AF%E4%BB%A5%E7%9C%81%E7%95%A5%E7%AE%80%E5%86%99%E3%80%82">http://127.0.0.1/magento/index.php/counter/index/index如果使用默认的IndexController.php中的index控制器，可以省略简写。</a></p>
+<p>有数据的post了，我们就在counter/index/index这个path下的indexAction中接收这个参数</p>
+<p>app/code/local/Test/Counter/controllers/IndexController.php文件中代码片段。</p>
+<pre><code>&lt;?php
+class Test_Counter_IndexController extends Mage_Core_Controller_Front_Action
+&#123;
+    public function indexAction()
+    &#123;
+
+        if ($this-&gt;getRequest()-&gt;isPost())&#123; /* 首先判断是否有post发生 */
+            $nu1 = $this-&gt;getRequest()-&gt;getParam(&#39;NUM1&#39;); /* 截获参数 */
+            $nu2 = $this-&gt;getRequest()-&gt;getParam(&#39;NUM2&#39;);
+            Mage::register(&#39;nu1&#39;, $nu1);/* 传递到block */
+            Mage::register(&#39;nu2&#39;, $nu2);
+        &#125;
+
+        $this-&gt;loadLayout();
+        $this-&gt;renderLayout();
+    &#125;
+&#125;</code></pre>
+<p>既然在controllers中有了传递到block的方法，下一步就在block中获取app/code/local/Test/Counter/Block/Counter.php文件中代码片段。</p>
+<pre><code>&lt;?php
+class Test_Counter_Block_Counter extends Mage_Core_Block_Template
+&#123;
+    protected $nu1 = null;
+    protected $nu2 = null;
+    public function showresult()&#123;
+        $this-&gt;nu1 = Mage::registry(&#39;nu1&#39;); /* 获得从controllers中传递来的参数 */
+        $this-&gt;nu2 = Mage::registry(&#39;nu2&#39;);
+        return $this-&gt;nu1 * $this-&gt;nu2;
+
+    &#125;
+&#125;</code></pre>
+<p>此block文件中的<code>showresult()</code>方法在phtml文件中可以试用<code>$this-&gt;</code>直接调用。</p>
+<p>这样我们就差最后一步就是在我们的模板文件中输出结果了在app/design/frontend/yourtheme/default/template/counter/counter.phtml文件中添加输出结果的代码</p>
+<pre><code>&lt;ul&gt;
+    &lt;li&gt;result:&lt;?php echo $this-&gt;showresult(); ?&gt;&lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+<p>当然我们还可以为助手函数文件夹（Helper）添加一个文件data.php，里面不写什么东西，意思就是采用默认的方式：</p>
+<pre><code>&lt;?php
+
+class Test_Counter_Helper_Data extends Mage_Core_Helper_Abstract
+&#123;
+
+&#125;</code></pre>
+<p>最后，我们需要对配置文件目录etc里面添加一个配置文件config.xml</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;config&gt;
+    &lt;modules&gt;
+        &lt;Test_Counter&gt;
+            &lt;version&gt;0.1.0&lt;/version&gt;
+        &lt;/Test_Counter&gt;
+    &lt;/modules&gt;
+    &lt;frontend&gt;
+        &lt;routers&gt;
+            &lt;counter&gt;
+                &lt;use&gt;standard&lt;/use&gt;
+                &lt;args&gt;
+                    &lt;module&gt;Test_Counter&lt;/module&gt;
+                    &lt;frontName&gt;counter&lt;/frontName&gt;
+                &lt;/args&gt;
+            &lt;/counter&gt;
+        &lt;/routers&gt;
+        &lt;layout&gt;
+            &lt;updates&gt;
+                &lt;counter&gt;
+                    &lt;file&gt;counter.xml&lt;/file&gt;
+                &lt;/counter&gt;
+            &lt;/updates&gt;
+        &lt;/layout&gt;
+    &lt;/frontend&gt;
+    &lt;global&gt;
+        &lt;models&gt;
+            &lt;counter&gt;
+                &lt;class&gt;Test_Counter_Model&lt;/class&gt;
+                &lt;resourceModel&gt;counter_mysql4&lt;/resourceModel&gt;
+            &lt;/counter&gt;
+        &lt;/models&gt;
+        &lt;blocks&gt;
+            &lt;counter&gt;
+                &lt;class&gt;Test_Counter_Block&lt;/class&gt;
+            &lt;/counter&gt;
+        &lt;/blocks&gt;
+        &lt;helpers&gt;
+            &lt;counter&gt;
+                &lt;class&gt;Test_Counter_Helper&lt;/class&gt;
+            &lt;/counter&gt;
+        &lt;/helpers&gt;
+    &lt;/global&gt;
+&lt;/config&gt;</code></pre>
+<p>好的，我们在添加一个布局文件（counter.xml），告诉这个网站调用哪个模板文件来显示这个模块（Counter）的逻辑结果：</p>
+<pre><code>app/design/frontend/yourtheme/default/layout/counter.xml</code></pre>
+<p>代码如下:</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;layout version=&quot;0.1.0&quot;&gt;
+    &lt;default&gt;
+    &lt;/default&gt;
+    &lt;counter_index_index&gt;
+        &lt;reference name=&quot;content&quot;&gt;
+            &lt;block type=&quot;counter/counter&quot; name=&quot;counter&quot; template=&quot;counter/counter.phtml&quot;/&gt;
+        &lt;/reference&gt;
+    &lt;/counter_index_index&gt;
+&lt;/layout&gt;</code></pre>
+<p>这个阶段的最后结果：</p>
+<p><img src="https://i.imgur.com/kPotVG3.png"></p>
+<p>完整代码下载地址：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1w-hnarJ7xBZzKp2aIuC99A">https://pan.baidu.com/s/1w-hnarJ7xBZzKp2aIuC99A</a>，密码：tnet</p>
+<p>值得提醒的是，本文仅仅是一个日记，资源来自hellokeykey的demo，这个正是本文的一个理论基础，希望大家支持他。</p>
+<p>作为这个扩展，笔者进行了进一步的探索，要做一个汇率表功能：</p>
+<p>首先获取api数据，然后把代码写入Block里面的Counter.php文件：</p>
+<pre><code>public function huilv()&#123;
+...
+&#125;
+
+function juhecurl($url,$params=false,$ispost=0)&#123;
+...
+&#125;</code></pre>
+<p>然后笔者还添加了一些强化计算器的代码，由于篇幅有限，大家可以下载这个作为模块开发的参考。</p>
+<p>完整代码可以找到下载地址：<a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1QZ7yDevbybqUFuvBblZofg">https://pan.baidu.com/s/1QZ7yDevbybqUFuvBblZofg</a>，密码：bbh6</p>
+<hr>
+<p>我们经常自定义模块的时候，发现我们很少用到sql这个文件夹，那么我们如何让这个被运用到我们的模块中呢？</p>
+<p>follow me.</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/magento-%E6%A8%A1%E5%9D%97%E5%BC%80%E5%8F%91-%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A8%A1%E5%9D%97%E5%BC%80%E5%8F%91/" rel="tag"># magento,模块开发,自定义模块开发</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/07/17/magento%E5%AE%89%E8%A3%85%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE%E5%92%8C%E4%B8%8D%E8%83%BD%E5%AE%89%E8%A3%85%E6%88%90%E5%8A%9F%E7%9A%84%E4%B8%80%E4%BA%9B%E5%BB%BA%E8%AE%AE%E5%92%8C%E6%A3%80%E6%B5%8B%E6%8E%AA%E6%96%BD/" rel="prev" title="magento安装环境配置和不能安装成功的一些建议和检测措施">
+      <i class="fa fa-chevron-left"></i> magento安装环境配置和不能安装成功的一些建议和检测措施
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/07/17/php%E5%92%8CJavaScript%E4%B8%AD%E5%BE%AA%E7%8E%AF%E8%AF%AD%E5%8F%A5%EF%BC%8C%E5%AD%97%E6%AE%B5%E9%95%BF%E5%BA%A6%E8%8E%B7%E5%8F%96%E4%BB%A5%E5%8F%8Ajson%E6%95%B0%E6%8D%AE%E7%9A%84%E9%81%8D%E5%8E%86%E7%9A%84%E5%BE%AE%E5%B0%8F%E5%B7%AE%E5%BC%82/" rel="next" title="php和JavaScript中循环语句，字段长度获取以及json数据的遍历的微小差异">
+      php和JavaScript中循环语句，字段长度获取以及json数据的遍历的微小差异 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,37 +1,407 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="WordPress占用资源过大，怎么办?如果我们wordpress网站优化的好，建立站点数量也可以增加一些，如果优化的不好，即便我们是1G 内存方案VPS也许也只能放置一个站。下面是折腾两年多以来收集整理的一些资料，适当的根据目前主题进行适当的优化!力争让我们的小内存也慢慢的跑起来! 1. 限制wordpress定时功能 wordpress的定时发布功能真的很好，但是也非常耗费资源的，如果不需要，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WordPress占用资源过大 一般的优化方法">
+<meta property="og:url" content="http://example.com/2017/02/17/WordPress%E5%8D%A0%E7%94%A8%E8%B5%84%E6%BA%90%E8%BF%87%E5%A4%A7-%E4%B8%80%E8%88%AC%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="WordPress占用资源过大，怎么办?如果我们wordpress网站优化的好，建立站点数量也可以增加一些，如果优化的不好，即便我们是1G 内存方案VPS也许也只能放置一个站。下面是折腾两年多以来收集整理的一些资料，适当的根据目前主题进行适当的优化!力争让我们的小内存也慢慢的跑起来! 1. 限制wordpress定时功能 wordpress的定时发布功能真的很好，但是也非常耗费资源的，如果不需要，">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-02-17T15:16:04.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:53:09.397Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="WordPress占用资源过大">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2017/02/17/WordPress%E5%8D%A0%E7%94%A8%E8%B5%84%E6%BA%90%E8%BF%87%E5%A4%A7-%E4%B8%80%E8%88%AC%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>WordPress占用资源过大 一般的优化方法 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/02/17/WordPress%E5%8D%A0%E7%94%A8%E8%B5%84%E6%BA%90%E8%BF%87%E5%A4%A7-%E4%B8%80%E8%88%AC%E7%9A%84%E4%BC%98%E5%8C%96%E6%96%B9%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          WordPress占用资源过大 一般的优化方法
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-02-17 23:16:04" itemprop="dateCreated datePublished" datetime="2017-02-17T23:16:04+08:00">2017-02-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:09" itemprop="dateModified" datetime="2020-10-11T11:53:09+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>WordPress占用资源过大，怎么办?如果我们wordpress网站优化的好，建立站点数量也可以增加一些，如果优化的不好，即便我们是1G 内存方案VPS也许也只能放置一个站。下面是折腾两年多以来收集整理的一些资料，适当的根据目前主题进行适当的优化!力争让我们的小内存也慢慢的跑起来!</p>
+<p><strong>1. 限制wordpress定时功能</strong></p>
+<p>wordpress的定时发布功能真的很好，但是也非常耗费资源的，如果不需要，建议还是限制一下，我们需要在wp-config.php文件中限制。</p>
+<pre><code>define(&#39;DISABLE_WP_CRON&#39;, true);</code></pre>
+<p><strong>2. 限制自动保存和副本数据</strong></p>
+<p>wordpress的自动保存也是我非常喜欢的一个功能，真的很好用，但是也很占用资源，目前部分wordpress模板已经限制了自动保存的次数等 等!默认时候的WP会自动给我们保存草稿以及副本添加入数据库中，不信的话你到POST数据表看看是不是有很多记录，而我们的文章并没有这么多。这就是自 动添加的，我们需要限制自动版本和限制自动保存草稿。</p>
+<pre><code>define (&#39;WP_POST_REVISIONS&#39;, 0); define(&#39;AUTOSAVE_INTERVAL&#39;, 600);</code></pre>
+<p>这样可以限制一下自动保存的时间!</p>
+<p><strong>3. 插件、主题更新到最新</strong></p>
+<p><strong>4. 部分文件限制蜘蛛的抓取</strong></p>
+<pre><code>User-agent: * Crawl-delay: 10 Allow: /wp-content/uploads/ Disallow: /cgi-bin/ Disallow: /wp-login.php Disallow: /wp-login.php* Disallow: /wp-register.php Disallow: /wp-register.php* Disallow: /xmlrpc.php Disallow: /template.html Disallow: /wp-admin/ Disallow: /wp-includes/ Disallow: /wp-content/plugins Disallow: /wp-content/themes Disallow: /page/ Sitemap: http://www.idcps.cn/sitemap.xml Sitemap: http://www.idcps.cn/sitemap.xml.gz</code></pre>
+<p><strong>5. 不使用插件最好，最好不要使用占用大量资源的插件!</strong></p>
+<p> 比如All in One SEO,Broken Link Checker,Yet Another Related Posts Plugin,NextGen Gallery这几个插件是不能使用的，以及一些随机文章插件也不要用。其他不是必备的也删除吧。目前主机评述博客也就使用了几个常用的!</p>
+<p><strong>6. 限制爬行一些目录和限制一些蜘蛛的爬行</strong></p>
+<pre><code>RewriteEngine OnRewriteCond %&#123;HTTP_USER_AGENT&#125; ^BlackWidow [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Bot\ mailto:craftbot@yahoo.com [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^ChinaClaw [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Custo [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^DISCo [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Download\ Demon [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^eCatch [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^EirGrabber [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^EmailSiphon [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^EmailWolf [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Express\ WebPictures [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^ExtractorPro [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^EyeNetIE [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^FlashGet [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^GetRight [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^GetWeb! [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Go!Zilla [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Go-Ahead-Got-It [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^GrabNet [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Grafula [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^HMView [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; HTTrack [NC,OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Image\ Stripper [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Image\ Sucker [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; Indy\ Library [NC,OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^InterGET [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Internet\ Ninja [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^JetCar [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^JOC\ Web\ Spider [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^larbin [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^LeechFTP [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Mass\ Downloader [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^MIDown\ tool [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Mister\ PiX [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Navroad [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^NearSite [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^NetAnts [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^NetSpider [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Net\ Vampire [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^NetZIP [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Octopus [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Offline\ Explorer [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Offline\ Navigator [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^PageGrabber [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Papa\ Foto [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^pavuk [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^pcBrowser [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^RealDownload [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^ReGet [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^SiteSnagger [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^SmartDownload [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^SuperBot [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^SuperHTTP [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Surfbot [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^tAkeOut [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Teleport\ Pro [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^VoidEYE [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Web\ Image\ Collector [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Web\ Sucker [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^WebAuto [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^WebCopier [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^WebFetch [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^WebGo\ IS [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^WebLeacher [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^WebReaper [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^WebSauger [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Website\ eXtractor [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Website\ Quester [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^WebStripper [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^WebWhacker [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^WebZIP [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Wget [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Widow [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^WWWOFFLE [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^Xaldon\ WebSpider [OR]RewriteCond %&#123;HTTP_USER_AGENT&#125; ^ZeusRewriteRule ^.* - [F,L]</code></pre>
+<p>建议把上面的文件添加到.htaccess文件最下面!</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/WordPress%E5%8D%A0%E7%94%A8%E8%B5%84%E6%BA%90%E8%BF%87%E5%A4%A7/" rel="tag"># WordPress占用资源过大</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/02/17/wordpress%E7%BD%91%E7%AB%99%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%86%85%E5%AD%98%E4%B8%8D%E8%B6%B3%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" rel="prev" title="wordpress网站服务器内存不足解决方法">
+      <i class="fa fa-chevron-left"></i> wordpress网站服务器内存不足解决方法
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/02/17/WordPress%E7%BD%91%E7%AB%99%E8%A2%AB%E9%BB%91%E6%8C%82%E9%A9%AC%E7%9A%84%E9%A2%84%E9%98%B2%E6%8E%AA%E6%96%BD%E5%8F%8A%E5%A4%84%E7%90%86%E5%8A%9E%E6%B3%95/" rel="next" title="WordPress网站被黑挂马的预防措施及处理办法">
+      WordPress网站被黑挂马的预防措施及处理办法 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

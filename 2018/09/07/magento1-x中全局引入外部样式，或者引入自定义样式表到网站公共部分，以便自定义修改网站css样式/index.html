@@ -1,37 +1,483 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="笔者前面几篇文章都是针对引入js做了一个详细的说明，对于css也有说过，说的是针对某个页面进行引用样式表，也说了在某个页面中引入样式表作为全局文件，可是这样总感觉不是很方便，笔者最想要的是能够像wordpress那样自定义一个网站的样式，把自己的css代码放在自定义的一个css文件中，然后把这个自定义的文件引入到商城网站的公共头部，这样的话就可以做到只需要修改一个样式文件，就可以对整个网站的样式进">
+<meta property="og:type" content="article">
+<meta property="og:title" content="magento1.x中全局引入外部样式或者js文件，或者引入自定义样式表和js文件到网站公共部分，以便自定义修改网站css样式和JavaScript脚本，以及引入font-awesome这个字体图标库">
+<meta property="og:url" content="http://example.com/2018/09/07/magento1-x%E4%B8%AD%E5%85%A8%E5%B1%80%E5%BC%95%E5%85%A5%E5%A4%96%E9%83%A8%E6%A0%B7%E5%BC%8F%EF%BC%8C%E6%88%96%E8%80%85%E5%BC%95%E5%85%A5%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A0%B7%E5%BC%8F%E8%A1%A8%E5%88%B0%E7%BD%91%E7%AB%99%E5%85%AC%E5%85%B1%E9%83%A8%E5%88%86%EF%BC%8C%E4%BB%A5%E4%BE%BF%E8%87%AA%E5%AE%9A%E4%B9%89%E4%BF%AE%E6%94%B9%E7%BD%91%E7%AB%99css%E6%A0%B7%E5%BC%8F/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="笔者前面几篇文章都是针对引入js做了一个详细的说明，对于css也有说过，说的是针对某个页面进行引用样式表，也说了在某个页面中引入样式表作为全局文件，可是这样总感觉不是很方便，笔者最想要的是能够像wordpress那样自定义一个网站的样式，把自己的css代码放在自定义的一个css文件中，然后把这个自定义的文件引入到商城网站的公共头部，这样的话就可以做到只需要修改一个样式文件，就可以对整个网站的样式进">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/JkHLySI.png">
+<meta property="og:image" content="https://i.imgur.com/zI5xgIm.png">
+<meta property="og:image" content="https://i.imgur.com/s2HGxLq.png">
+<meta property="og:image" content="https://i.imgur.com/zmjdz2f.png">
+<meta property="og:image" content="https://i.imgur.com/fV3YeX0.png">
+<meta property="og:image" content="https://i.imgur.com/xZrtcRg.png">
+<meta property="og:image" content="https://i.imgur.com/j3hHcUZ.png">
+<meta property="article:published_time" content="2018-09-07T07:59:52.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:57:58.571Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="magento.x,css,全局引入,公共头部,js文件,样式文件,font awesome">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/JkHLySI.png">
+
+<link rel="canonical" href="http://example.com/2018/09/07/magento1-x%E4%B8%AD%E5%85%A8%E5%B1%80%E5%BC%95%E5%85%A5%E5%A4%96%E9%83%A8%E6%A0%B7%E5%BC%8F%EF%BC%8C%E6%88%96%E8%80%85%E5%BC%95%E5%85%A5%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A0%B7%E5%BC%8F%E8%A1%A8%E5%88%B0%E7%BD%91%E7%AB%99%E5%85%AC%E5%85%B1%E9%83%A8%E5%88%86%EF%BC%8C%E4%BB%A5%E4%BE%BF%E8%87%AA%E5%AE%9A%E4%B9%89%E4%BF%AE%E6%94%B9%E7%BD%91%E7%AB%99css%E6%A0%B7%E5%BC%8F/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>magento1.x中全局引入外部样式或者js文件，或者引入自定义样式表和js文件到网站公共部分，以便自定义修改网站css样式和JavaScript脚本，以及引入font-awesome这个字体图标库 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/09/07/magento1-x%E4%B8%AD%E5%85%A8%E5%B1%80%E5%BC%95%E5%85%A5%E5%A4%96%E9%83%A8%E6%A0%B7%E5%BC%8F%EF%BC%8C%E6%88%96%E8%80%85%E5%BC%95%E5%85%A5%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A0%B7%E5%BC%8F%E8%A1%A8%E5%88%B0%E7%BD%91%E7%AB%99%E5%85%AC%E5%85%B1%E9%83%A8%E5%88%86%EF%BC%8C%E4%BB%A5%E4%BE%BF%E8%87%AA%E5%AE%9A%E4%B9%89%E4%BF%AE%E6%94%B9%E7%BD%91%E7%AB%99css%E6%A0%B7%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          magento1.x中全局引入外部样式或者js文件，或者引入自定义样式表和js文件到网站公共部分，以便自定义修改网站css样式和JavaScript脚本，以及引入font-awesome这个字体图标库
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-09-07 15:59:52" itemprop="dateCreated datePublished" datetime="2018-09-07T15:59:52+08:00">2018-09-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:58" itemprop="dateModified" datetime="2020-10-11T11:57:58+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/magento1/" itemprop="url" rel="index"><span itemprop="name">magento1</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>笔者前面几篇文章都是针对引入js做了一个详细的说明，对于css也有说过，说的是针对某个页面进行引用样式表，也说了在某个页面中引入样式表作为全局文件，可是这样总感觉不是很方便，笔者最想要的是能够像wordpress那样自定义一个网站的样式，把自己的css代码放在自定义的一个css文件中，然后把这个自定义的文件引入到商城网站的公共头部，这样的话就可以做到只需要修改一个样式文件，就可以对整个网站的样式进行控制了。</p>
+<h2 id="样式文件作为全局引入："><a href="#样式文件作为全局引入：" class="headerlink" title="样式文件作为全局引入："></a>样式文件作为全局引入：</h2><p>我们把这个自定义的样式表命个名字：custom.css</p>
+<p>思路：把这个文件在公共头部引入，并且放在最后，这样就可以覆盖前面的样式表了。</p>
+<p>magento的跟wordpress不一样，我们需要找到page.xml,文件地址：</p>
+<pre><code>app/design/frontend/yourtheme/default/layout/page.xml</code></pre>
+<p>这个是控制整个网站页面的布局文件。然后找到：</p>
+<pre><code>&lt;block type=&quot;page/html_head&quot; name=&quot;head&quot; as=&quot;head&quot;&gt;
+    ...
+    &lt;action method=&quot;addItem&quot;&gt;&lt;type&gt;skin_css&lt;/type&gt;&lt;name&gt;css/imageslider.css&lt;/name&gt;&lt;/action&gt;
+    &lt;action method=&quot;addItem&quot;&gt;&lt;type&gt;skin_css&lt;/type&gt;&lt;name&gt;css/new_cpanel.css&lt;/name&gt;&lt;/action&gt;
+    &lt;action method=&quot;addItem&quot;&gt;&lt;type&gt;skin_css&lt;/type&gt;&lt;name&gt;css/yt-responsive.css&lt;/name&gt;&lt;/action&gt;
+    &lt;action method=&quot;addItem&quot;&gt;&lt;type&gt;skin_css&lt;/type&gt;&lt;name&gt;css/colors/yellow.css&lt;/name&gt;&lt;/action&gt;
+&lt;/block&gt;</code></pre>
+<p>类似这样的（这个跟大家的主题不同而不同，毕竟样式表命名不可能所有主题都是这样命名的），这里就是引入样式的地方，这个<code>block</code>是在<code>head</code>那个地方引入的，也就是公共的头部，所以我们在这个最后添加我们前面创建的custom.css。</p>
+<pre><code>&lt;block type=&quot;page/html_head&quot; name=&quot;head&quot; as=&quot;head&quot;&gt;
+    ...
+    &lt;action method=&quot;addItem&quot;&gt;&lt;type&gt;skin_css&lt;/type&gt;&lt;name&gt;css/imageslider.css&lt;/name&gt;&lt;/action&gt;
+    &lt;action method=&quot;addItem&quot;&gt;&lt;type&gt;skin_css&lt;/type&gt;&lt;name&gt;css/new_cpanel.css&lt;/name&gt;&lt;/action&gt;
+    &lt;action method=&quot;addItem&quot;&gt;&lt;type&gt;skin_css&lt;/type&gt;&lt;name&gt;css/yt-responsive.css&lt;/name&gt;&lt;/action&gt;
+    &lt;action method=&quot;addItem&quot;&gt;&lt;type&gt;skin_css&lt;/type&gt;&lt;name&gt;css/colors/yellow.css&lt;/name&gt;&lt;/action&gt;
+    &lt;action method=&quot;addItem&quot;&gt;&lt;type&gt;skin_css&lt;/type&gt;&lt;name&gt;css/custom.css&lt;/name&gt;&lt;/action&gt;
+&lt;/block&gt;</code></pre>
+<p>截图如下：</p>
+<p><img src="https://i.imgur.com/JkHLySI.png"></p>
+<p>这个custom.css文件放在路径：magento_root/skin/frontend/yourtheme/default/css/custom.css</p>
+<p>这样的话，我们就可以在custom.css里面随便样式代码了，然后打开网站的任何页面，查看源代码，我们就可以看到这个custom.css被引入了。</p>
+<p>如果我们在custom.css里面添加一些代码：</p>
+<pre><code>.element-blue&#123;
+    background:#8BC34A;
+    padding:15px;
+    color:#fff;
+&#125;</code></pre>
+<p>好的，我们打开首页一看：</p>
+<p><img src="https://i.imgur.com/zI5xgIm.png"></p>
+<p>这个说明我们custom.css已经起作用了。</p>
+<h2 id="js文件作为全局引入："><a href="#js文件作为全局引入：" class="headerlink" title="js文件作为全局引入："></a>js文件作为全局引入：</h2><p>同样的，我们也可以在magento_root/skin/frontend/yourtheme/default/js中新建一个custom.js文件，作为自定义的JavaScript脚本，笔者为了测试是否有效，我们可以在这个文件里面添加一条代码：</p>
+<pre><code>alert(&quot;hi !&quot;);</code></pre>
+<p>在</p>
+<pre><code>&lt;block type=&quot;page/html_head&quot; name=&quot;head&quot; as=&quot;head&quot;&gt;
+    ...
+    &lt;action method=&quot;addItem&quot;&gt;&lt;type&gt;skin_js&lt;/type&gt;&lt;name&gt;js/owl.carousel.js&lt;/name&gt;&lt;/action&gt;
+    &lt;action method=&quot;addItem&quot;&gt;&lt;type&gt;skin_js&lt;/type&gt;&lt;name&gt;js/jquery.session.js&lt;/name&gt;&lt;/action&gt;
+    &lt;action method=&quot;addItem&quot;&gt;&lt;type&gt;skin_js&lt;/type&gt;&lt;name&gt;js/ytcpanel.js&lt;/name&gt;&lt;/action&gt;
+&lt;/block&gt;</code></pre>
+<p>类似这样的地方，添加我们自己创建的js文件：</p>
+<p><img src="https://i.imgur.com/s2HGxLq.png"></p>
+<pre><code>&lt;block type=&quot;page/html_head&quot; name=&quot;head&quot; as=&quot;head&quot;&gt;
+    ...
+    &lt;action method=&quot;addItem&quot;&gt;&lt;type&gt;skin_js&lt;/type&gt;&lt;name&gt;js/owl.carousel.js&lt;/name&gt;&lt;/action&gt;
+    &lt;action method=&quot;addItem&quot;&gt;&lt;type&gt;skin_js&lt;/type&gt;&lt;name&gt;js/jquery.session.js&lt;/name&gt;&lt;/action&gt;
+    &lt;action method=&quot;addItem&quot;&gt;&lt;type&gt;skin_js&lt;/type&gt;&lt;name&gt;js/ytcpanel.js&lt;/name&gt;&lt;/action&gt;
+    &lt;action method=&quot;addItem&quot;&gt;&lt;type&gt;skin_js&lt;/type&gt;&lt;name&gt;js/custom.js&lt;/name&gt;&lt;/action&gt;
+&lt;/block&gt;</code></pre>
+<p>添加完毕后，我们在网站前台刷新一下，弹出窗口了：</p>
+<p><img src="https://i.imgur.com/zmjdz2f.png"></p>
+<p>好的，我们关于引入js文件和css作为全局的问题已经说完了，我们可以再发挥点想象力，引入<strong>Font Awesome</strong>，这个是一个很出名的字体图标库。</p>
+<h2 id="引入Font-Awesome"><a href="#引入Font-Awesome" class="headerlink" title="引入Font Awesome"></a>引入Font Awesome</h2><p>我们去<a target="_blank" rel="noopener" href="http://fontawesome.dashgame.com/">Font Awesome</a>字体库下载这个包。</p>
+<p>解压后会有如下文件夹（css，fonts，scss和less），直接把fonts这个文件夹复制放在magento_root/skin/frontend/yourtheme/default/下，反正就是在font-awesome.css所处的css文件夹的同一个目录下（保持我们下载font-awesome包一样的），这个我就不说了。</p>
+<p><img src="https://i.imgur.com/fV3YeX0.png"></p>
+<p>然后，我们还是在page.xml这个里面搜索下font-awesome.css，看下是否已经引入，即使引入了，也可以把刚才下载的那个最新版的font-awesome.css覆盖一下。如果没有引入，那么我们可以把以下这个</p>
+<pre><code>&lt;action method=&quot;addItem&quot;&gt;&lt;type&gt;skin_css&lt;/type&gt;&lt;name&gt;css/font-awesome.css&lt;/name&gt;&lt;params/&gt;&lt;/action&gt;</code></pre>
+<p>找个合适的位置添加到里面去：</p>
+<p><img src="https://i.imgur.com/xZrtcRg.png"></p>
+<p>保存，然后我们做个测试，随便找个可以添加代码的地方添加如下代码，比如笔者这里还是选择防伪码显示的列表的模板文件fan.phtml：</p>
+<pre><code>&lt;tr&gt;
+    &lt;td&gt;&lt;i class=&quot;fa fa-file-picture-o&quot;&gt;&lt;/i&gt; 缩略图&lt;/td&gt;
+    &lt;td&gt;&lt;i class=&quot;fa fa-barcode&quot;&gt;&lt;/i&gt; 防伪码&lt;/td&gt;
+    &lt;td&gt;&lt;i class=&quot;fa fa-address-card&quot;&gt;&lt;/i&gt; 品牌商&lt;/td&gt;
+    &lt;td&gt;&lt;i class=&quot;fa fa-user&quot;&gt;&lt;/i&gt; 负责人&lt;/td&gt;
+    &lt;td&gt;&lt;i class=&quot;fa fa-bank&quot;&gt;&lt;/i&gt; 公司名称&lt;/td&gt;
+    &lt;td&gt;&lt;i class=&quot;fa fa-file&quot;&gt;&lt;/i&gt; 文件名&lt;/td&gt;
+&lt;/tr&gt;</code></pre>
+<p>保存，刷新前台，</p>
+<p><img src="https://i.imgur.com/j3hHcUZ.png"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/magento-x-css-%E5%85%A8%E5%B1%80%E5%BC%95%E5%85%A5-%E5%85%AC%E5%85%B1%E5%A4%B4%E9%83%A8-js%E6%96%87%E4%BB%B6-%E6%A0%B7%E5%BC%8F%E6%96%87%E4%BB%B6-font-awesome/" rel="tag"># magento.x,css,全局引入,公共头部,js文件,样式文件,font awesome</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/09/07/magento1.x%E6%A8%A1%E5%9D%97%E5%BC%80%E5%8F%91%E4%B8%AD%E4%BD%BF%E7%94%A8jquery%E5%AE%9E%E7%8E%B0img%E7%9A%84data-src%E5%B1%9E%E6%80%A7%E8%BE%BE%E5%88%B0%E6%87%92%E5%8A%A0%E8%BD%BD%E7%9A%84%E7%9B%AE%E7%9A%84%EF%BC%8C%E4%BB%A5%E5%8F%8A%E5%9C%A8%E8%87%AA%E5%AE%9A%E4%B9%89%E6%A8%A1%E5%9D%97%E4%B8%AD%E5%8A%A0%E8%BD%BDjs%E7%9A%84%E5%90%84%E7%A7%8D%E6%96%B9%E6%B3%95/" rel="prev" title="magento1.x模块开发中使用jquery实现img的data-src属性达到懒加载的目的，以及在自定义模块中加载js的各种方法">
+      <i class="fa fa-chevron-left"></i> magento1.x模块开发中使用jquery实现img的data-src属性达到懒加载的目的，以及在自定义模块中加载js的各种方法
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/09/11/HTML5%E7%9A%84sessionStorage%E5%92%8ClocalStorage%E7%9A%84%E7%94%A8%E6%B3%95/" rel="next" title="HTML5的sessionStorage和localStorage的用法">
+      HTML5的sessionStorage和localStorage的用法 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%B7%E5%BC%8F%E6%96%87%E4%BB%B6%E4%BD%9C%E4%B8%BA%E5%85%A8%E5%B1%80%E5%BC%95%E5%85%A5%EF%BC%9A"><span class="nav-number">1.</span> <span class="nav-text">样式文件作为全局引入：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#js%E6%96%87%E4%BB%B6%E4%BD%9C%E4%B8%BA%E5%85%A8%E5%B1%80%E5%BC%95%E5%85%A5%EF%BC%9A"><span class="nav-number">2.</span> <span class="nav-text">js文件作为全局引入：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BC%95%E5%85%A5Font-Awesome"><span class="nav-number">3.</span> <span class="nav-text">引入Font Awesome</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

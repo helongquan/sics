@@ -1,37 +1,465 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Step 1: Install Xampp server This is simple, just like install a normal Windows program. Go to https:&#x2F;&#x2F;www.apachefriends.org&#x2F;index.html to download and install the latest XAMPP server on your PC Step">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何一步一步的在xampp上安装magento2">
+<meta property="og:url" content="http://example.com/2018/08/06/How-to-install-Magento-2-on-Xampp-localhost-step-by-step/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Step 1: Install Xampp server This is simple, just like install a normal Windows program. Go to https:&#x2F;&#x2F;www.apachefriends.org&#x2F;index.html to download and install the latest XAMPP server on your PC Step">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/2d0zBPB.png">
+<meta property="og:image" content="https://i.imgur.com/VHcq1B3.png">
+<meta property="og:image" content="https://i.imgur.com/OUqWH9n.png">
+<meta property="og:image" content="https://i.imgur.com/0qqJSjo.png">
+<meta property="og:image" content="https://i.imgur.com/i0ir29T.png">
+<meta property="og:image" content="https://i.imgur.com/EdtiKlK.png">
+<meta property="og:image" content="https://i.imgur.com/PXKGYzb.png">
+<meta property="og:image" content="https://i.imgur.com/R2WIYoF.png">
+<meta property="og:image" content="https://i.imgur.com/Szm1sxa.png">
+<meta property="og:image" content="https://i.imgur.com/fgwYEji.png">
+<meta property="og:image" content="https://i.imgur.com/Epa9bXN.png">
+<meta property="og:image" content="https://i.imgur.com/Z2JNQHG.png">
+<meta property="og:image" content="https://i.imgur.com/PHhZfWE.png">
+<meta property="og:image" content="https://i.imgur.com/Ckkl4bo.png">
+<meta property="og:image" content="https://i.imgur.com/4jwRrIx.png">
+<meta property="og:image" content="https://i.imgur.com/4H0vrw3.png">
+<meta property="og:image" content="https://i.imgur.com/vCFMroZ.png">
+<meta property="og:image" content="https://i.imgur.com/GnYncMu.png">
+<meta property="og:image" content="https://i.imgur.com/nxwFNNZ.png">
+<meta property="article:published_time" content="2018-08-06T03:03:59.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:57:57.518Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Magento2,xampp,localhost,安装">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/2d0zBPB.png">
+
+<link rel="canonical" href="http://example.com/2018/08/06/How-to-install-Magento-2-on-Xampp-localhost-step-by-step/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>如何一步一步的在xampp上安装magento2 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/08/06/How-to-install-Magento-2-on-Xampp-localhost-step-by-step/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          如何一步一步的在xampp上安装magento2
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-08-06 11:03:59" itemprop="dateCreated datePublished" datetime="2018-08-06T11:03:59+08:00">2018-08-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:57" itemprop="dateModified" datetime="2020-10-11T11:57:57+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>Step 1: Install Xampp server</strong></p>
+<p>This is simple, just like install a normal Windows program. Go to <a target="_blank" rel="noopener" href="https://www.apachefriends.org/index.html">https://www.apachefriends.org/index.html</a> to download and install the latest XAMPP server on your PC</p>
+<p><strong>Step 2: Download Magento 2</strong></p>
+<p>You can download latest version of Magento 2 here: <a target="_blank" rel="noopener" href="https://www.magentocommerce.com/download">https://www.magentocommerce.com/download</a></p>
+<p>Upon finishing, unzip all files/folders of Magento to  C:\xampp\htdocs and open XAMPP server and start Apache and Mysql as below:</p>
+<p><img src="https://i.imgur.com/2d0zBPB.png"></p>
+<p><strong>Step 3: Installing Composer</strong></p>
+<p>You can download Composer here: <a target="_blank" rel="noopener" href="https://getcomposer.org/Composer-Setup.exe">https://getcomposer.org/Composer-Setup.exe</a></p>
+<p>This installer will install the latest version of Composer and set up path so that you can call Composer from any directory using command lines</p>
+<p>Now follow these steps to install Composer</p>
+<p><img src="https://i.imgur.com/VHcq1B3.png"></p>
+<p>Click on Next and select Install Shell Menus</p>
+<p><img src="https://i.imgur.com/OUqWH9n.png"></p>
+<p>Click on Next, now the install will ask for folder that contains php.exe file. By defaul the install will do this for you, however if you need, php.exe is located in  <strong>C:\xampp\php</strong></p>
+<p><img src="https://i.imgur.com/0qqJSjo.png"></p>
+<p><img src="https://i.imgur.com/i0ir29T.png"></p>
+<p>Click on install to finish setting up Composer</p>
+<p><img src="https://i.imgur.com/EdtiKlK.png"></p>
+<p>After the installation is finished, you must enable (<strong>php_intl.dll</strong>) in php.ini. Open php.ini in <strong>C:\xampp\php</strong> and uncomment the line by removing “;” before “<code>extension=php_intl.dll</code>” then save the file.</p>
+<p>Next, open Magento 2 folder in htdocs, hold “Shift” + Right click and select “Open command window here” to open CMD window. Now type in: ** composer install**  to start install Magento 2 to your PC</p>
+<p>Note: if you get error, go back to Magento 2 folder in htpdocs and right click to composer.lock =&gt; Select “composer update” then start over the installation</p>
+<p><img src="https://i.imgur.com/PXKGYzb.png"></p>
+<p><img src="https://i.imgur.com/R2WIYoF.png"></p>
+<p>Now the program will ask for your Magento username and password, username/password is not your login account, you must get <strong>Secure Keys</strong> to enter to this field. <strong>Secure Keys</strong> can get in Magento.com &gt; My Account&gt;Secure keys(under developer section on the left). Here you can see Public Key and Private Key. Puclic key = Username and Private key = Password, use these values to proceed Magento 2 installation (Generate new if you don’t have)</p>
+<p><img src="https://i.imgur.com/Szm1sxa.png"></p>
+<p>Next, go to PHPmyadmin to create a new Database for your Magento 2 site, on your web browser, go to 127.0.0.1/phpmyadmin.</p>
+<p><img src="https://i.imgur.com/fgwYEji.png"></p>
+<p>Note: to avoid errors during Magento 2 installation, open php.ini in <strong>C:\xampp\php</strong> and edit these lines:</p>
+<p>Search for:  <code>always_populate_raw_post_data</code> , remove “;” before the line and change it to <code>always_populate_raw_post_data = -1</code> . Next, open XAMPP =&gt; restart Apache and Mysql to apply the changes.</p>
+<p><strong>Step 4: Install Magento 2</strong></p>
+<p>Enter Magento 2 URL to your browser, for example: localhost/Magento2</p>
+<p><img src="https://i.imgur.com/Epa9bXN.png"></p>
+<p>Click on Agree and Setup.</p>
+<p><img src="https://i.imgur.com/Z2JNQHG.png"></p>
+<p>Now Magento 2 will start to check if system requirements to install Magento 2</p>
+<p><img src="https://i.imgur.com/PHhZfWE.png"></p>
+<p>In Add a Database Step, enter Database information you created in PHPmyadmin (you can use root username to avoid error with mysql privileges) leave Database password blank.</p>
+<p><img src="https://i.imgur.com/Ckkl4bo.png"></p>
+<p>In Web Configuration, you can setup URL, Admin URL and some other options.</p>
+<p><img src="https://i.imgur.com/4jwRrIx.png"></p>
+<p>In <strong>customize your store step</strong>, select timezone, currency and language you want to use on your store</p>
+<p><img src="https://i.imgur.com/4H0vrw3.png"></p>
+<p>Next, create  Admin account to manage your store</p>
+<p><img src="https://i.imgur.com/vCFMroZ.png"></p>
+<p><img src="https://i.imgur.com/GnYncMu.png"></p>
+<p>Wait for the installation being processed. When the installation is successful, go to the URL to emter your Magento store</p>
+<p><img src="https://i.imgur.com/nxwFNNZ.png"></p>
+<p>Congratulation, you have successfully installed Magento 2!</p>
+<p><strong>Troubleshooter</strong></p>
+<p><strong>1st note:</strong> If you encounter error with Magento 2 Admin URL, go to PHPmyadmin, search for “core_config_data” and changes these 2 values</p>
+<pre><code>web/unsecure/base_url  to http://127.0.0.1/magento2/
+web/secure/base_url  to https://127.0.0.1/magento2/</code></pre>
+<p><strong>2nd note:</strong> If you have error with site’s appearance, no css is loaded or image quality is bad, open Magento 2 folder in <strong>C:\Xampp\htdocs</strong>, hold Shift + Right Click =&gt; Open Windows Command here =&gt; Enter this command  <strong>php bin/magento setup:static-content:deploy</strong>  to get it fixed</p>
+<p>Drop a line if you need and help.</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Magento2-xampp-localhost-%E5%AE%89%E8%A3%85/" rel="tag"># Magento2,xampp,localhost,安装</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/08/06/magento2%E5%AE%89%E8%A3%85%E8%BF%87%E7%A8%8B%E4%B8%AD%E7%A2%B0%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%EF%BC%8C%E4%BB%A5%E5%8F%8A%E7%9B%B8%E5%85%B3%E6%8A%A5%E9%94%99%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" rel="prev" title="magento2和magento1安装过程中碰到的问题，以及相关报错的解决方案">
+      <i class="fa fa-chevron-left"></i> magento2和magento1安装过程中碰到的问题，以及相关报错的解决方案
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/08/06/magento2%E8%B7%9Fmagento1%E4%B9%8B%E9%97%B4%E7%9A%84%E5%AF%B9%E6%AF%94%E5%92%8C%E5%90%84%E8%87%AA%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9/" rel="next" title="magento2跟magento1之间的对比和各自的优缺点">
+      magento2跟magento1之间的对比和各自的优缺点 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

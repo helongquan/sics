@@ -1,37 +1,608 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="这个是一个非常经典和很多客户需求的地方，通常以图片作为背景的方式是不可以实现自适应的，当然我们仍然可以做到自适应。方法有两种：  采用单纯的css jquery+css方式实现图片完整显示  笔者将会以这两种方式进行讲解。 采用单纯的css这种方式的优点就是不需要掺和进来一些js代码，能够满足大多数用户需求（只想让背景图片完整显示），这里展示一个demo，代码： &lt;!DOCTYPE html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分别用javascript和jquery的方式巧妙地实现背景图片在手机终端上自适应">
+<meta property="og:url" content="http://example.com/2018/09/27/%E5%88%A9%E7%94%A8jquery%E7%9A%84%E6%96%B9%E5%BC%8F%E5%B7%A7%E5%A6%99%E5%9C%B0%E5%AE%9E%E7%8E%B0%E8%83%8C%E6%99%AF%E5%9B%BE%E7%89%87%E5%9C%A8%E6%89%8B%E6%9C%BA%E7%BB%88%E7%AB%AF%E4%B8%8A%E8%87%AA%E9%80%82%E5%BA%94/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="这个是一个非常经典和很多客户需求的地方，通常以图片作为背景的方式是不可以实现自适应的，当然我们仍然可以做到自适应。方法有两种：  采用单纯的css jquery+css方式实现图片完整显示  笔者将会以这两种方式进行讲解。 采用单纯的css这种方式的优点就是不需要掺和进来一些js代码，能够满足大多数用户需求（只想让背景图片完整显示），这里展示一个demo，代码： &lt;!DOCTYPE html">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/1phroix.png">
+<meta property="og:image" content="https://i.imgur.com/F4atr0t.png">
+<meta property="og:image" content="https://i.imgur.com/9QIw1C3.png">
+<meta property="og:image" content="https://i.imgur.com/BrygCxU.png">
+<meta property="article:published_time" content="2018-09-27T10:40:46.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:04.388Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="jquery,background-image,背景图片,背景图片自适应,javascript">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/1phroix.png">
+
+<link rel="canonical" href="http://example.com/2018/09/27/%E5%88%A9%E7%94%A8jquery%E7%9A%84%E6%96%B9%E5%BC%8F%E5%B7%A7%E5%A6%99%E5%9C%B0%E5%AE%9E%E7%8E%B0%E8%83%8C%E6%99%AF%E5%9B%BE%E7%89%87%E5%9C%A8%E6%89%8B%E6%9C%BA%E7%BB%88%E7%AB%AF%E4%B8%8A%E8%87%AA%E9%80%82%E5%BA%94/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>分别用javascript和jquery的方式巧妙地实现背景图片在手机终端上自适应 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/09/27/%E5%88%A9%E7%94%A8jquery%E7%9A%84%E6%96%B9%E5%BC%8F%E5%B7%A7%E5%A6%99%E5%9C%B0%E5%AE%9E%E7%8E%B0%E8%83%8C%E6%99%AF%E5%9B%BE%E7%89%87%E5%9C%A8%E6%89%8B%E6%9C%BA%E7%BB%88%E7%AB%AF%E4%B8%8A%E8%87%AA%E9%80%82%E5%BA%94/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          分别用javascript和jquery的方式巧妙地实现背景图片在手机终端上自适应
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-09-27 18:40:46" itemprop="dateCreated datePublished" datetime="2018-09-27T18:40:46+08:00">2018-09-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:04" itemprop="dateModified" datetime="2020-10-11T11:58:04+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript/" itemprop="url" rel="index"><span itemprop="name">javascript</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这个是一个非常经典和很多客户需求的地方，通常以图片作为背景的方式是不可以实现自适应的，当然我们仍然可以做到自适应。方法有两种：</p>
+<ol>
+<li>采用单纯的css</li>
+<li>jquery+css方式实现图片完整显示</li>
+</ol>
+<p>笔者将会以这两种方式进行讲解。</p>
+<h2 id="采用单纯的css"><a href="#采用单纯的css" class="headerlink" title="采用单纯的css"></a>采用单纯的css</h2><p>这种方式的优点就是不需要掺和进来一些js代码，能够满足大多数用户需求（只想让背景图片完整显示），这里展示一个demo，代码：</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;Document&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id=&quot;lilyassistant&quot;&gt;
+    &lt;div class=&quot;av-parallax&quot;&gt;
+      &lt;h2&gt;世界，你好&lt;/h2&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;style&gt;
+    .av-parallax&#123;
+      background-image: url(&#39;http://www.kingold.com/uploadfiles/%E5%9B%BE%E5%BA%93-%E4%BB%8E%E9%83%BD/201708210914521452.jpg&#39;);
+      height: 800px;
+      width: auto;
+    &#125;
+  &lt;/style&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>我们这个时候在浏览器上访问当然就是一个高度为800px的背景图，当我们把浏览器切换到手机版的时候，我们会看到图片显示是不完整的。好饿，我们开始对这个东西进行一个处理，添加代码：</p>
+<pre><code>@media (max-width:767px)&#123;
+.av-parallax&#123;
+     background-size:100%;
+    background-repeat: no-repeat;     
+&#125;
+&#125;</code></pre>
+<p>这个时候，我们在手机版上查看的时候，就看到如下：</p>
+<p><img src="https://i.imgur.com/1phroix.png"></p>
+<p>背景图片是完整的。</p>
+<p>细心的读者可能会发现，这个图片虽然完整了，可是图片的区域的高度还是800px,还是写死的，并不是真正完美的自适应，当然如果在图片上的文字不多的话还好，如果文字很多的话就会溢出。导致一张背景图片不够装，这个时候看起来就不是很美观。而且这种方式还不能确保文字是针对图片是垂直居中对齐的，而是针对整个区域的高度是垂直居中对齐的，这样显然不是很好的。但不可否认的是，我们确实实现了背景图片的自适应。</p>
+<h2 id="jquery-css方式实现图片完整显示"><a href="#jquery-css方式实现图片完整显示" class="headerlink" title="jquery+css方式实现图片完整显示"></a>jquery+css方式实现图片完整显示</h2><p>作为方案一的补充，我们来试试方案二。这个方案是为了满足这样一个需求：</p>
+<blockquote>
+<p>背景图片要完整显示，文字不要有溢出，可以放在图片的前面或者后面。</p>
+</blockquote>
+<p>笔者的思路：由于在很多页面上已经存在了，不可能一个一个页面的修改。这样工作量很大，只能通过代码的方式来批量解决。所以我们先观察代码结构，接着是通过jquery把背景图片的url获取，然后就是动态添加一个img标签在这个区域前面或者后面，然后把这个区域的背景图片删除。</p>
+<p>首先我们先把完整的demo代码粘贴一下，然后逐步讲解：</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;UTF-8&quot;&gt;
+  &lt;title&gt;Document&lt;/title&gt;
+  &lt;script src=&quot;https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id=&quot;lilyassistant&quot;&gt;
+    &lt;div class=&quot;av-parallax&quot;&gt;
+      &lt;h2&gt;世界，你好&lt;/h2&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  &lt;style&gt;
+    .av-parallax&#123;
+      background-image: url(&#39;http://www.kingold.com/uploadfiles/%E5%9B%BE%E5%BA%93-%E4%BB%8E%E9%83%BD/201708210914521452.jpg&#39;);
+      height:100%;
+      width: auto;
+    &#125;
+  &lt;/style&gt;
+  &lt;script&gt;
+    $(document).ready(function()&#123;
+      var back = $(&quot;#lilyassistant .av-parallax&quot;).css(&quot;backgroundImage&quot;).replace(&#39;url(&#39;,&#39;&#39;).replace(&#39;)&#39;,&#39;&#39;).replace(/\&quot;/g, &quot;&quot;);
+      $(&quot;#lilyassistant .av-parallax&quot;).css(&#123;&#39;background-image&#39;: &#39;none&#39;&#125;);
+      console.log(back);
+      $(&quot;#lilyassistant .av-parallax&quot;).prepend(&#39;&lt;img src=&quot;#&quot;&gt;&#39;);
+      $(&quot;#lilyassistant .av-parallax&gt;img&quot;).attr(&quot;src&quot;,back).css(&#123;&#39;width&#39;:&#39;100%&#39;&#125;);
+    &#125;);
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p><strong>第一步：通过jquery获取background image的url</strong></p>
+<pre><code>var back = $(&quot;#lilyassistant .av-parallax&quot;).css(&quot;backgroundImage&quot;).replace(&#39;url(&#39;,&#39;&#39;).replace(&#39;)&#39;,&#39;&#39;);</code></pre>
+<p>我们可以通过在浏览器的控制台打印查看我们这个变量里获取的是不是图片的url地址：</p>
+<pre><code>console.log(back);</code></pre>
+<p><img src="https://i.imgur.com/F4atr0t.png"></p>
+<p>我们做到了，不过我们看到这个url地址是一个有双引号的。我们需要的是一个没有双引号的，那么怎么去掉呢？</p>
+<p>直接替换：</p>
+<pre><code>d = d.replace(&quot;\&quot;&quot;,&quot;&quot;).replace(&quot;\&quot;&quot;,&quot;&quot;);</code></pre>
+<p>如果不确定有多少个双引号：</p>
+<pre><code>d = d.replace(/\&quot;/g, &quot;&quot;);</code></pre>
+<p>这里就两个双引号，所以我们即可以用第一个，也可以用第二个。</p>
+<pre><code>var back1 = $(&quot;#lilyassistant .av-parallax&quot;).css(&quot;backgroundImage&quot;).replace(&#39;url(&#39;,&#39;&#39;).replace(&#39;)&#39;,&#39;&#39;).replace(&quot;\&quot;&quot;,&quot;&quot;).replace(&quot;\&quot;&quot;,&quot;&quot;);
+
+console.log(back1);
+
+var back2 = $(&quot;#lilyassistant .av-parallax&quot;).css(&quot;backgroundImage&quot;).replace(&#39;url(&#39;,&#39;&#39;).replace(&#39;)&#39;,&#39;&#39;).replace(/\&quot;/g, &quot;&quot;);
+
+console.log(back2);</code></pre>
+<p><img src="https://i.imgur.com/9QIw1C3.png"></p>
+<p>我们看到，这两个效果是一样的，如果有多个，那么就用：</p>
+<pre><code>replace(/\&quot;/g, &quot;&quot;)</code></pre>
+<p>好的，我们接着就把这个背景图片删除，</p>
+<pre><code>$(&quot;#lilyassistant .av-parallax&quot;).css(&#123;&#39;background-image&#39;: &#39;none&#39;&#125;);</code></pre>
+<p>当然，我们还可以运用jquery的<code>.removeAttr()</code>，比如：</p>
+<pre><code>$element.removeAttr(&quot;data-id&quot;);
+$element.removeAttr(&quot;style&quot;);
+$element.removeAttr(&quot;alt&quot;);
+$element.removeAttr(&quot;href&quot;);</code></pre>
+<p>这样我们查看这个时候，会发现背景图片已经不存在了。</p>
+<p>接着，我们需要创建一个img标签然后插入到这个区域中，</p>
+<pre><code>$(&quot;#lilyassistant .av-parallax&quot;).prepend(&#39;&lt;img src=&quot;#&quot;&gt;&#39;);</code></pre>
+<p>如果想要插在后面，那么改成如下即可，</p>
+<pre><code>$(&quot;#lilyassistant .av-parallax&quot;).append(&#39;&lt;img src=&quot;#&quot;&gt;&#39;);</code></pre>
+<p>然后，对这个img标签添加一个属性，并且传入前面获取的那个背景图片的url。</p>
+<pre><code>$(&quot;#lilyassistant .av-parallax img&quot;).attr(&quot;src&quot;,back).css(&#123;&#39;width&#39;:&#39;100%&#39;&#125;);</code></pre>
+<p>这样的话，我们就完成了，如果在实际情况的话，背景区域很可能写死了高度，那么这里最好把高度变成100%，</p>
+<pre><code>#lilyassistant .av-parallax&#123;height:100%&#125;</code></pre>
+<p>这样就不用让一个空的背景图片占据了高度。</p>
+<p>最后的效果：</p>
+<p><img src="https://i.imgur.com/BrygCxU.png"></p>
+<p>这个其实根本不是什么自适应，而是采用了一个技巧，把背景图片换成了图片来显示。</p>
+<hr>
+<p>**更新：2019/6/19 19:19:50 **</p>
+<p>前面那种方法依赖jquery，会导致一些跟网站其他地方不兼容的问题发生，所以为了更加自由的来处理，减少依赖，笔者分享了采用javascript原生的方法来把背景图片变成img标签的方法实现自适应的目的：</p>
+<p>假设一个页面里面有很多个区块组成，每个区块都用一个id作为标识，然后每个区块都用背景图片。笔者完成后的javascript代码如下：</p>
+<pre><code>if (document.getElementById(&quot;nocti_porto_first&quot;)) &#123;
+  var dom_id = document.getElementById(&quot;nocti_porto_first&quot;);
+  changePic(dom_id);
+&#125;
+
+if (document.getElementById(&quot;nocti_porto_second&quot;)) &#123;
+  var dom_id = document.getElementById(&quot;nocti_porto_second&quot;);
+  changePic(dom_id);
+&#125;
+
+if (document.getElementById(&quot;nocti_porto_third&quot;)) &#123;
+  var dom_id = document.getElementById(&quot;nocti_porto_third&quot;);
+  changePic(dom_id);
+&#125;
+
+if (document.getElementById(&quot;nocti_porto_fourth&quot;)) &#123;
+  var dom_id = document.getElementById(&quot;nocti_porto_fourth&quot;);
+  changePic(dom_id);
+&#125;
+
+if (document.getElementById(&quot;nocti_porto_sixth&quot;)) &#123;
+  var dom_id = document.getElementById(&quot;nocti_porto_sixth&quot;);
+  changePic(dom_id);
+&#125;
+
+if (document.getElementById(&quot;nocti_porto_fifth&quot;)) &#123;
+  var dom_id = document.getElementById(&quot;nocti_porto_fifth&quot;);
+  changePic(dom_id);
+&#125;
+
+function changePic(dom_id)&#123;
+  var bg_img_url = dom_id.style.backgroundImage.replace(&#39;url(&#39;,&#39;&#39;).replace(&#39;)&#39;,&#39;&#39;).replace(/\&quot;/g, &quot;&quot;);
+  dom_id.style.background = &#39;none&#39;;
+  dom_id.querySelector(&quot;.container&quot;).style.height = &#39;auto&#39;;
+  var imgss = document.createElement(&quot;img&quot;);
+  imgss.setAttribute(&#39;src&#39;,bg_img_url);
+  imgss.setAttribute(&#39;class&#39;,&quot;new_imgs&quot;);
+  dom_id.insertBefore(imgss,dom_id.firstChild);
+&#125;</code></pre>
+<p>说明：为了提高安全性，笔者对每个都进行一个判断，如果有这个id才执行，希望读者也能养成一个良好的编码习惯。</p>
+<p>也就是代码片段：</p>
+<pre><code>if (true) &#123;
+  // some code.
+&#125;</code></pre>
+<p>用原生的方法，做某个元素是否存在有如下的讲究，以下是从网站摘录的，希望仔细参考：</p>
+<blockquote>
+<p>假设页面有如下节点</p>
+</blockquote>
+<pre><code>&lt;div&gt;这里是DIV节点&lt;/div&gt;
+&lt;div&gt;这里是DIV节点&lt;/div&gt;
+&lt;span&gt;这里是span节点&lt;/span&gt;</code></pre>
+<p>判断节点是否在页面：</p>
+<pre><code>var is_exist = document.getElementsByTagName(&#39;div&#39;).exist();
+alert(is_exist); // true
+
+var is_exist = document.getElementsByTagName(&#39;span&#39;).exist();
+alert(is_exist); // true
+
+var is_exist = document.getElementsByTagName(&#39;p&#39;).exist();
+alert(is_exist); // false</code></pre>
+<blockquote>
+<p>注意：如果使用是使用document.getElementById()方法获取对象的就不能使用exist()方法，因为根据ID取节点对象的方法在取不到节点的情况下会返回一个空对象，不会集成原型exist()函数，所以会报错！所以如果是根据ID取对象的可以直接if(obj)这样既可判断DOM节点是否存在页面中。</p>
+</blockquote>
+<p>也就是：</p>
+<pre><code>if (document.getElementById(&quot;nocti_porto_sixth&quot;)) &#123;
+  // some code.
+&#125;</code></pre>
+<p>为了减少不必要的重复，笔者把重复的代码写成一个函数，就是：</p>
+<pre><code>function changePic(dom_id)&#123;
+  var bg_img_url = dom_id.style.backgroundImage.replace(&#39;url(&#39;,&#39;&#39;).replace(&#39;)&#39;,&#39;&#39;).replace(/\&quot;/g, &quot;&quot;);
+  dom_id.style.background = &#39;none&#39;;
+  dom_id.querySelector(&quot;.container&quot;).style.height = &#39;auto&#39;;
+  var imgss = document.createElement(&quot;img&quot;);
+  imgss.setAttribute(&#39;src&#39;,bg_img_url);
+  imgss.setAttribute(&#39;class&#39;,&quot;new_imgs&quot;);
+  dom_id.insertBefore(imgss,dom_id.firstChild);
+&#125;</code></pre>
+<p>这样就可以把这个变得更加简练。中间有很多javascript的基础用法，大家去阅读下，笔者的思路很简单：</p>
+<blockquote>
+<p>先获取dom的背景图片地址—把背景图片去掉—把区块的内部的高度设置为自动—创建img节点—插入到区块的里面</p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/jquery-background-image-%E8%83%8C%E6%99%AF%E5%9B%BE%E7%89%87-%E8%83%8C%E6%99%AF%E5%9B%BE%E7%89%87%E8%87%AA%E9%80%82%E5%BA%94-javascript/" rel="tag"># jquery,background-image,背景图片,背景图片自适应,javascript</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/09/25/%E4%B8%8Etp5%E7%9B%B8%E7%BB%93%E5%90%88%E5%AE%9E%E7%8E%B0html5%E7%9A%84web-worker%E5%89%8D%E7%AB%AF%E6%95%B0%E6%8D%AE%E6%98%BE%E7%A4%BA/" rel="prev" title="与tp5相结合实现html5的web worker前端数据显示">
+      <i class="fa fa-chevron-left"></i> 与tp5相结合实现html5的web worker前端数据显示
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/09/28/magento%E6%98%AF%E9%87%87%E7%94%A8%E4%BC%AAhash%E5%8A%A0%E5%AF%86%E6%96%B9%E5%BC%8F/" rel="next" title="magento是采用伪hash加密方式">
+      magento是采用伪hash加密方式 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%87%E7%94%A8%E5%8D%95%E7%BA%AF%E7%9A%84css"><span class="nav-number">1.</span> <span class="nav-text">采用单纯的css</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jquery-css%E6%96%B9%E5%BC%8F%E5%AE%9E%E7%8E%B0%E5%9B%BE%E7%89%87%E5%AE%8C%E6%95%B4%E6%98%BE%E7%A4%BA"><span class="nav-number">2.</span> <span class="nav-text">jquery+css方式实现图片完整显示</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

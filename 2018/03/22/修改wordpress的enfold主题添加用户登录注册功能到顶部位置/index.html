@@ -1,37 +1,461 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="针对这个问题，笔者在以前的一篇日记里面写了关于把用户注册登录的功能放在菜单的位置，类似如下：  可是存在一些兼容性，为了考虑客户的多方位，个性化的需求，这里作为改进，做成这样：  这样就不会因为小屏幕的PC设备而造成登录的这个文字挡住菜单栏的内容。对于这个小小的更换，我们如何处理呢？ 这里以enfold主题作为讲解，当然这篇日记更重要的价值是提供一个思路，因为不同主题，有不同的代码结构，甚至有的主">
+<meta property="og:type" content="article">
+<meta property="og:title" content="修改wordpress的enfold主题添加用户登录注册功能到顶部位置">
+<meta property="og:url" content="http://example.com/2018/03/22/%E4%BF%AE%E6%94%B9wordpress%E7%9A%84enfold%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E6%B3%A8%E5%86%8C%E5%8A%9F%E8%83%BD%E5%88%B0%E9%A1%B6%E9%83%A8%E4%BD%8D%E7%BD%AE/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="针对这个问题，笔者在以前的一篇日记里面写了关于把用户注册登录的功能放在菜单的位置，类似如下：  可是存在一些兼容性，为了考虑客户的多方位，个性化的需求，这里作为改进，做成这样：  这样就不会因为小屏幕的PC设备而造成登录的这个文字挡住菜单栏的内容。对于这个小小的更换，我们如何处理呢？ 这里以enfold主题作为讲解，当然这篇日记更重要的价值是提供一个思路，因为不同主题，有不同的代码结构，甚至有的主">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/liCYzFt.png">
+<meta property="og:image" content="https://i.imgur.com/mQzOFs5.png">
+<meta property="og:image" content="https://i.imgur.com/bLSPFuL.png">
+<meta property="og:image" content="https://i.imgur.com/Gcn9MVJ.png">
+<meta property="og:image" content="https://i.imgur.com/gbmaiEB.png">
+<meta property="og:image" content="https://i.imgur.com/uJ4r0Zw.png">
+<meta property="og:image" content="https://i.imgur.com/ONT9q9g.png">
+<meta property="article:published_time" content="2018-03-22T03:17:15.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:52:52.871Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="wordpress,enfold,顶部,用户注册登录">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/liCYzFt.png">
+
+<link rel="canonical" href="http://example.com/2018/03/22/%E4%BF%AE%E6%94%B9wordpress%E7%9A%84enfold%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E6%B3%A8%E5%86%8C%E5%8A%9F%E8%83%BD%E5%88%B0%E9%A1%B6%E9%83%A8%E4%BD%8D%E7%BD%AE/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>修改wordpress的enfold主题添加用户登录注册功能到顶部位置 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/03/22/%E4%BF%AE%E6%94%B9wordpress%E7%9A%84enfold%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E7%94%A8%E6%88%B7%E7%99%BB%E5%BD%95%E6%B3%A8%E5%86%8C%E5%8A%9F%E8%83%BD%E5%88%B0%E9%A1%B6%E9%83%A8%E4%BD%8D%E7%BD%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          修改wordpress的enfold主题添加用户登录注册功能到顶部位置
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-03-22 11:17:15" itemprop="dateCreated datePublished" datetime="2018-03-22T11:17:15+08:00">2018-03-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:52:52" itemprop="dateModified" datetime="2020-10-11T11:52:52+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>针对这个问题，笔者在以前的一篇日记里面写了关于把用户注册登录的功能放在菜单的位置，类似如下：</p>
+<p><img src="https://i.imgur.com/liCYzFt.png"></p>
+<p>可是存在一些兼容性，为了考虑客户的多方位，个性化的需求，这里作为改进，做成这样：</p>
+<p><img src="https://i.imgur.com/mQzOFs5.png"></p>
+<p>这样就不会因为小屏幕的PC设备而造成登录的这个文字挡住菜单栏的内容。对于这个小小的更换，我们如何处理呢？</p>
+<p>这里以enfold主题作为讲解，当然这篇日记更重要的价值是提供一个思路，因为不同主题，有不同的代码结构，甚至有的主题没有这个顶部内容功能，这个时候我们依然可以根据这个思路添加。</p>
+<p>同样的，我们通过chrome浏览器的开发者工具，定位到这个顶部的区块所在的源码的文件（通过源码搜索的方式找到），在开发者工具中我找到一个<code>class</code>为<code>phone-info</code>的，因此我们只需要在主题中搜索这个所在的源码文件，然后加上去即可。</p>
+<p>通过这个思路，我找到了这个文件在主题中的路径：<code>/enfold/includes/helper-main-menu.php</code></p>
+<p>然后我们打开，找到：</p>
+<p><img src="https://i.imgur.com/bLSPFuL.png"></p>
+<pre><code>if($phone)&#123; echo &quot;&lt;div class=&#39;phone-info &#123;$phone_class&#125;&#39;&gt;&lt;span&gt;&quot;.do_shortcode($phone).&quot;&lt;/span&gt;&lt;/div&gt;&quot;; &#125;</code></pre>
+<p>确定好了这个之后，我们在这里面嵌入我们事先准备好的代码：</p>
+<p><img src="https://i.imgur.com/Gcn9MVJ.png"></p>
+<p>添加的代码如下：</p>
+<pre><code>if($phone)&#123; 
+    echo &quot;&lt;div class=&#39;phone-info &#123;$phone_class&#125;&#39;&gt;&lt;span&gt;&quot;.do_shortcode($phone).&quot;&lt;/span&gt;&quot;;
+    ?&gt;
+    &lt;div class=&quot;wemng&quot;&gt;
+        &lt;?php if ( is_user_logged_in() ) &#123; ?&gt;
+        &lt;?php
+        $current_user = wp_get_current_user();
+        // echo get_avatar( $current_user-&gt;user_email, 36 );
+        ?&gt;
+        &lt;span&gt;&lt;a href=&quot;#&quot;&gt;Get a quote&lt;/a&gt;&lt;/span&gt;&amp;nbsp;&amp;nbsp;
+        &lt;span&gt;
+        &lt;a href=&quot;&lt;?php echo wp_logout_url(); ?&gt;&quot;&gt;&lt;i class=&quot;fa fa-sign-out&quot; style=&quot;display: none&quot;&gt;&lt;/i&gt;Log out&lt;/a&gt;&lt;/span&gt;
+        &lt;?php &#125; else &#123; ?&gt;
+        &lt;span&gt;&lt;a href=&quot;#&quot;&gt;Get a quote&lt;/a&gt;&lt;/span&gt;&amp;nbsp;&amp;nbsp;
+        &lt;span&gt;&lt;a href=&quot;/wp-login.php&quot; title=&quot;Members Area Login&quot; rel=&quot;home&quot;&gt;&lt;i class=&quot;fa fa-user&quot; style=&quot;display: none&quot;&gt;&lt;/i&gt;Sign in&lt;/a&gt;&lt;/span&gt;
+        &lt;?php &#125; ?&gt;
+    &lt;/div&gt;
+    &lt;?php
+    echo &quot;&lt;/div&gt;&quot;;
+    &#125;    
+?&gt;</code></pre>
+<p>然后通过添加样式，即可！</p>
+<p>说到这里，客户居然想把woocommerce的购物车标志</p>
+<p><img src="https://i.imgur.com/gbmaiEB.png"></p>
+<p>改成Cart</p>
+<p><img src="https://i.imgur.com/uJ4r0Zw.png"></p>
+<p>这个其实也可以修改的，因为wordpress主题一旦安装了woocomemrce就会自动的生成这么一个购物车标志。</p>
+<p>我们只需要找到这个购物车标志的在哪里即可。开发者工具—定位元素的位置—在主题中搜索源码—找到位置—进行修改。</p>
+<p>我们找到了：<code>cart_dropdown_first</code>这个class，说明在这个里面，然后具体的代码位置：<code>enfold/config-woocommerce/config.php</code>，然后打开：</p>
+<p><img src="https://i.imgur.com/ONT9q9g.png"></p>
+<p>相应的代码：</p>
+<pre><code>$output = &quot;&quot;;
+$output .= &quot;&lt;ul &#123;$id&#125; class = &#39;cart_dropdown &#123;$trigger&#125;&#39; data-success=&#39;&quot;.__(&#39;was added to the cart&#39;, &#39;avia_framework&#39;).&quot;&#39;&gt;&lt;li class=&#39;cart_dropdown_first&#39;&gt;&quot;;
+$output .= &quot;&lt;a class=&#39;cart_dropdown_link&#39; href=&#39;&quot;.$link.&quot;&#39;&gt;&lt;span &quot;.av_icon_string(&#39;cart&#39;).&quot;&gt;&lt;/span&gt;&lt;span class=&#39;av-cart-counter&#39;&gt;0&lt;/span&gt;&lt;span class=&#39;avia_hidden_link_text&#39;&gt;&quot;.__(&#39;Shopping Cart&#39;,&#39;avia_framework&#39;).&quot;&lt;/span&gt;&lt;/a&gt;&lt;!--&lt;span class=&#39;cart_subtotal&#39;&gt;&quot;.$cart_subtotal.&quot;&lt;/span&gt;--&gt;&quot;;
+$output .= &quot;&lt;div class=&#39;dropdown_widget dropdown_widget_cart&#39;&gt;&lt;div class=&#39;avia-arrow&#39;&gt;&lt;/div&gt;&quot;;
+$output .= &#39;&lt;div class=&quot;widget_shopping_cart_content&quot;&gt;&lt;/div&gt;&#39;;
+$output .= &quot;&lt;/div&gt;&quot;;
+$output .= &quot;&lt;/li&gt;&lt;/ul&gt;&quot;;</code></pre>
+<p>这样我们就能找到，然后添加我们的Cart这个文字，修改后的如下：</p>
+<pre><code>$output = &quot;&quot;;
+$output .= &quot;&lt;ul &#123;$id&#125; class = &#39;cart_dropdown &#123;$trigger&#125;&#39; data-success=&#39;&quot;.__(&#39;was added to the cart&#39;, &#39;avia_framework&#39;).&quot;&#39;&gt;&lt;li class=&#39;cart_dropdown_first&#39;&gt;&quot;;
+$output .= &quot;&lt;a class=&#39;cart_dropdown_link&#39; href=&#39;&quot;.$link.&quot;&#39;&gt;&lt;span &quot;.av_icon_string(&#39;cart&#39;).&quot; class=&#39;gouwuche&#39;&gt;Cart&lt;/span&gt;&lt;span class=&#39;av-cart-counter&#39;&gt;0&lt;/span&gt;&lt;span class=&#39;avia_hidden_link_text&#39;&gt;&quot;.__(&#39;Shopping Cart&#39;,&#39;avia_framework&#39;).&quot;&lt;/span&gt;&lt;/a&gt;&lt;!--&lt;span class=&#39;cart_subtotal&#39;&gt;&quot;.$cart_subtotal.&quot;&lt;/span&gt;--&gt;&quot;;
+$output .= &quot;&lt;div class=&#39;dropdown_widget dropdown_widget_cart&#39;&gt;&lt;div class=&#39;avia-arrow&#39;&gt;&lt;/div&gt;&quot;;
+$output .= &#39;&lt;div class=&quot;widget_shopping_cart_content&quot;&gt;&lt;/div&gt;&#39;;
+$output .= &quot;&lt;/div&gt;&quot;;
+$output .= &quot;&lt;/li&gt;&lt;/ul&gt;&quot;;</code></pre>
+<p>这样我们保存，上传，就可以看到我们想要修改的效果了。</p>
+<p>写下这篇笔记，旨在将来有类似的问题，提高处理的效率，专业人士一笑了之。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/wordpress-enfold-%E9%A1%B6%E9%83%A8-%E7%94%A8%E6%88%B7%E6%B3%A8%E5%86%8C%E7%99%BB%E5%BD%95/" rel="tag"># wordpress,enfold,顶部,用户注册登录</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/03/21/wordpress%E7%BD%91%E7%AB%99%E5%9F%BA%E4%BA%8Ecookie%E6%B7%BB%E5%8A%A0%E5%8F%AA%E5%BC%B9%E5%87%BA%E4%B8%80%E6%AC%A1%E7%9A%84%E5%BC%B9%E7%AA%97%E5%8A%9F%E8%83%BD/" rel="prev" title="wordpress网站基于cookie添加只弹出一次的弹窗功能">
+      <i class="fa fa-chevron-left"></i> wordpress网站基于cookie添加只弹出一次的弹窗功能
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/03/26/WordPress%E5%AE%9E%E7%8E%B0ajax%E6%97%A0%E5%88%B7%E6%96%B0%E5%88%86%E7%B1%BB%E7%AD%9B%E9%80%89%E4%BB%A5%E5%8F%8A%E5%88%86%E9%A1%B5%E7%9A%84%E6%96%87%E7%AB%A0%E5%88%97%E8%A1%A8/" rel="next" title="WordPress实现ajax无刷新分类筛选以及分页的文章列表">
+      WordPress实现ajax无刷新分类筛选以及分页的文章列表 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

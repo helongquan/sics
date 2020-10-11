@@ -1,37 +1,649 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="一款基于Bootstrap的单页面文字搜索jQuery插件。通过搜索关键字，插件会在下拉列表中高亮列出关键字和所在的各个段落，用户点击相应的搜索下拉列表项即可跳转到相应的地方。 适用方法 使用该文字搜索插件需要在页面中引入Bootstrap相关文件，以及jQuery和jquery.full-search.js文件，为了实现瞄点跳转，还需要引入anchor.js文件。 &lt;link href&#x3D;&amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于bootstrap的单页搜索方案">
+<meta property="og:url" content="http://example.com/2017/07/20/%E5%9F%BA%E4%BA%8Ebootstrap%E7%9A%84%E5%8D%95%E9%A1%B5%E6%90%9C%E7%B4%A2%E6%96%B9%E6%A1%88/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="一款基于Bootstrap的单页面文字搜索jQuery插件。通过搜索关键字，插件会在下拉列表中高亮列出关键字和所在的各个段落，用户点击相应的搜索下拉列表项即可跳转到相应的地方。 适用方法 使用该文字搜索插件需要在页面中引入Bootstrap相关文件，以及jQuery和jquery.full-search.js文件，为了实现瞄点跳转，还需要引入anchor.js文件。 &lt;link href&#x3D;&amp;">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-07-20T07:07:32.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:53:01.157Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="bootstrap,单页搜索,定位,跳转,jquery.full-search.js">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2017/07/20/%E5%9F%BA%E4%BA%8Ebootstrap%E7%9A%84%E5%8D%95%E9%A1%B5%E6%90%9C%E7%B4%A2%E6%96%B9%E6%A1%88/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>基于bootstrap的单页搜索方案 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/07/20/%E5%9F%BA%E4%BA%8Ebootstrap%E7%9A%84%E5%8D%95%E9%A1%B5%E6%90%9C%E7%B4%A2%E6%96%B9%E6%A1%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          基于bootstrap的单页搜索方案
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-07-20 15:07:32" itemprop="dateCreated datePublished" datetime="2017-07-20T15:07:32+08:00">2017-07-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:01" itemprop="dateModified" datetime="2020-10-11T11:53:01+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>一款基于Bootstrap的单页面文字搜索jQuery插件。通过搜索关键字，插件会在下拉列表中高亮列出关键字和所在的各个段落，用户点击相应的搜索下拉列表项即可跳转到相应的地方。</p>
+<p><strong>适用方法</strong></p>
+<p>使用该文字搜索插件需要在页面中引入Bootstrap相关文件，以及jQuery和jquery.full-search.js文件，为了实现瞄点跳转，还需要引入anchor.js文件。</p>
+<pre><code>&lt;link href=&quot;css/bootstrap.min.css&quot;  type=&quot;text/css&quot; rel=&quot;stylesheet&quot;&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;js/jquery.min.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;js/anchor.js&quot;&gt;&lt;/script&gt;
+&lt;script type=&quot;text/javascript&quot; src=&quot;js/jquery.full-search.js&quot;&gt;&lt;/script&gt;</code></pre>
+<p>** HTML结构**</p>
+<p>你可以创建一个<code>&lt;input&gt;</code>元素用于制作搜索框。</p>
+<pre><code>&lt;input type=&quot;search&quot; class=&quot;form-control&quot; id=&quot;search&quot; placeholder=&quot;请输入本页面内容&quot;&gt;</code></pre>
+<p>然后创建一个搜索列表的HTML模板。</p>
+<pre><code>&lt;div class=&quot;search-result&quot; style=&quot;display:none&quot;&gt;
+  &lt;h4&gt;标题&lt;/h4&gt;
+  &lt;ul class=&quot;result-section&quot;&gt;
+    &lt;li&gt;&lt;a href=&quot;&quot;&gt;dsfsdfsdf&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;&quot;&gt;sdfsdf&lt;/a&gt;&lt;/li&gt;
+
+  &lt;/ul&gt;
+  &lt;h4&gt;内容&lt;/h4&gt;
+  &lt;ul class=&quot;result-content&quot;&gt;
+    &lt;li&gt;&lt;a href=&quot;&quot;&gt;sdfsdf&lt;/a&gt;&lt;/li&gt;
+    &lt;li&gt;&lt;a href=&quot;&quot;&gt;sdfsd&lt;/a&gt;&lt;/li&gt;
+
+  &lt;/ul&gt;
+&lt;/div&gt; </code></pre>
+<p>最后将你需要进行搜索的内容放入一个带唯一ID号的容器中。</p>
+<pre><code>&lt;div class=&quot;col-lg-12&quot; id=&quot;result-list&quot;&gt;
+  &lt;!-- 可对以下内容中的文字进行搜索 --&gt;
+  &lt;h4 id=&quot;a&quot;&gt;Lorem ipsum dolor sit amet&lt;/h4&gt;
+  &lt;p&gt;......&lt;/p&gt;
+
+  &lt;h4 id=&quot;b&quot;&gt;Morbi fermentum&lt;/h4&gt;
+  &lt;p&gt;......&lt;/p&gt;
+
+  ...
+
+&lt;/div&gt;</code></pre>
+<p><strong>初始化插件</strong></p>
+<p>在页面DOM元素加载完毕之后，可以通过fullsearch()方法来初始化该文字搜索插件。</p>
+<pre><code>$(&#39;#search&#39;).fullsearch(&#123;
+  highlight: true,
+  search_data: &quot;.search-result&quot;,
+  search_title: &quot;.result-section&quot;,
+  search_content: &quot;.result-content&quot;,
+  list: &quot;#result-list&quot;,
+  nodata: &quot;没有找到相关数据&quot;
+&#125;);</code></pre>
+<p><strong>配置参数</strong></p>
+<pre><code>highlight：是否高亮搜索关键字。
+search_data：搜索结果存放的容器的class类。
+search_title：搜索的标题容器。
+search_content：搜索的结果容器。
+list：要进行搜索的容器。
+nodata：没有找到结果时的提示文本。</code></pre>
+<p>这里我需要补充一些非常重要的东西：</p>
+<p>最开始我发现了一下问题，为了充分的测试这个效果，我把很多内容添加在了这个html页面中，然后开始在前面的搜索框中搜索我后面添加的内容，可是无论我怎么输入都是没法搜索出来，这让我很郁闷，于是开始找，排查了各种原因后，发现在这个参数的配置这里找到了灵感。我需要说下，我完整的代码是这样的：</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;zh&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge,chrome=1&quot;&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+    &lt;title&gt;单页面文字搜索定位&lt;/title&gt;
+    &lt;link href=&quot;css/bootstrap.min.css&quot; type=&quot;text/css&quot; rel=&quot;stylesheet&quot;&gt;
+    &lt;link rel=&quot;stylesheet&quot; type=&quot;text/css&quot; href=&quot;css/htmleaf-demo.css&quot;&gt;
+    &lt;link href=&quot;css/jumbotron-narrow.css&quot; rel=&quot;stylesheet&quot;&gt;
+    &lt;!--[if IE]&gt;
+    &lt;script src=&quot;http://libs.useso.com/js/html5shiv/3.7/html5shiv.min.js&quot;&gt;&lt;/script&gt;
+  &lt;![endif]--&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;div class=&quot;container&quot;&gt;
+        &lt;div class=&quot;jumbotron&quot;&gt;
+            &lt;form&gt;
+                &lt;div class=&quot;form-group form-group-search&quot;&gt;
+                    &lt;h1&gt;&lt;label for=&quot;exampleInputEmail1&quot;&gt;搜索内容&lt;/label&gt;&lt;/h1&gt;
+                    &lt;input type=&quot;search&quot; class=&quot;form-control&quot; id=&quot;search&quot; placeholder=&quot;请输入本页面内容&quot;&gt;
+                    &lt;div class=&quot;search-result&quot; style=&quot;display:none&quot;&gt;
+                        &lt;h4&gt;标题&lt;/h4&gt;
+                        &lt;ul class=&quot;result-section&quot;&gt;
+                            &lt;li&gt;&lt;a href=&quot;&quot;&gt;dsfsdfsdf&lt;/a&gt;&lt;/li&gt;
+                            &lt;li&gt;&lt;a href=&quot;&quot;&gt;sdfsdf&lt;/a&gt;&lt;/li&gt;
+                        &lt;/ul&gt;
+                        &lt;h4&gt;内容&lt;/h4&gt;
+                        &lt;ul class=&quot;result-content&quot;&gt;
+                            &lt;li&gt;&lt;a href=&quot;&quot;&gt;sdfsdf&lt;/a&gt;&lt;/li&gt;
+                            &lt;li&gt;&lt;a href=&quot;&quot;&gt;sdfsd&lt;/a&gt;&lt;/li&gt;
+                        &lt;/ul&gt;
+                    &lt;/div&gt;
+                &lt;/div&gt;
+            &lt;/form&gt;
+            &lt;p class=&quot;lead&quot;&gt;单页面全文搜索插件，支持瞄点跳转，依赖Jquery、bootstrap。&lt;/p&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;row marketing&quot;&gt;
+            &lt;div class=&quot;col-lg-12&quot; id=&quot;result-list&quot;&gt;
+                &lt;h4 id=&quot;a&quot;&gt;javascript前言&lt;/h4&gt;
+                &lt;p&gt;一直在学习javascript，也有看过《犀利开发Jquery内核详解与实践》，对这本书的评价只有两个字犀利，可能是对javascript理解的还不够透彻异或是自己太笨，更多的是自己不擅于思考懒得思考以至于里面说的一些精髓都没有太深入的理解。 鉴于想让自己有一个提升，进不了一个更加广阔的天地，总得找一个属于自己的居所好好生存，所以平时会有意无意的去积累一些使用jQuerry的常用知识，特别是对于性能要求这一块，总是会想是不是有更好的方式来实现。 下面是我总结的一些小技巧，仅供参考。(我先会说一个总标题，然后用一小段话来说明这个意思 再最后用一个demo来简单言明)
+                &lt;/p&gt;
+                &lt;h4 id=&quot;b&quot;&gt;避免全局查找&lt;/h4&gt;
+                &lt;p&gt;在一个函数中会用到全局对象存储为局部变量来减少全局查找，因为访问局部变量的速度要比访问全局变量的速度更快些
+                    &lt;pre&gt;
+                            function search() &#123;
+                                //当我要使用当前页面地址和主机域名
+                                alert(window.location.href + window.location.host);
+                            &#125;
+                            //最好的方式是如下这样  先用一个简单变量保存起来
+                            function search() &#123;
+                                var location = window.location;
+                                alert(location.href + location.host);
+                            &#125;
+                    &lt;/pre&gt;
+                &lt;/p&gt;
+                &lt;h4 id=&quot;c&quot;&gt;定时器&lt;/h4&gt;
+                &lt;p&gt;
+                    如果针对的是不断运行的代码，不应该使用setTimeout，而应该是用setInterval，因为setTimeout每一次都会初始化一个定时器，而setInterval只会在开始的时候初始化一个定时器
+                    &lt;pre&gt;
+                      var timeoutTimes = 0;
+                         function timeout() &#123;
+                             timeoutTimes++;
+                             if (timeoutTimes &lt; 10) &#123;
+                                 setTimeout(timeout, 10);
+                             &#125;
+                         &#125;
+                         timeout();
+                         //可以替换为：
+                         var intervalTimes = 0;
+                         function interval() &#123;
+                             intervalTimes++;
+                             if (intervalTimes &gt;= 10) &#123;
+                                 clearInterval(interv);
+                             &#125;
+                         &#125;
+                         var interv = setInterval(interval, 10);
+                    &lt;/pre&gt;
+                &lt;/p&gt;
+                &lt;h4 id=&quot;e&quot;&gt;字符串连接&lt;/h4&gt;
+                &lt;p&gt;
+                    如果要连接多个字符串，应该少使用+=，如 s+=a; s+=b; s+=c; 应该写成s+=a + b + c； 而如果是收集字符串，比如多次对同一个字符串进行+=操作的话，最好使用一个缓存，使用JavaScript数组来收集，最后使用join方法连接起来
+                    &lt;pre&gt;
+                      var buf = [];
+                          for (var i = 0; i &lt; 100; i++) &#123;
+                              buf.push(i.toString());
+                          &#125;
+                          var all = buf.join(&quot;&quot;);
+                    &lt;/pre&gt;
+                &lt;/p&gt;
+                &lt;h4&gt;避免with语句&lt;/h4&gt;
+                &lt;p&gt;和函数类似 ，with语句会创建自己的作用域，因此会增加其中执行的代码的作用域链的长度，由于额外的作用域链的查找，在with语句中执行的代码肯定会比外面执行的代码要慢，在能不使用with语句的时候尽量不要使用with语句。
+                    &lt;pre&gt;
+                      with (a.b.c.d) &#123;
+                                property1 = 1;
+                                property2 = 2;
+                            &#125;
+                            //可以替换为：
+                            var obj = a.b.c.d;
+                            obj.property1 = 1;
+                            obj.property2 = 2;
+                    &lt;/pre&gt;
+                &lt;/p&gt;
+                &lt;h4 id=&quot;f&quot;&gt;各种类型转换&lt;/h4&gt;
+                &lt;p&gt;
+                &lt;pre&gt;
+                  var myVar = &quot;3.14159&quot;,
+                  str = &quot;&quot; + myVar, //  to string
+                  i_int = ~ ~myVar,  //  to integer
+                  f_float = 1 * myVar,  //  to float
+                  b_bool = !!myVar,  /*  to boolean - any string with length
+                                          and any number except 0 are true */
+                  array = [myVar];  //  to array
+                  &lt;/pre&gt;
+                &lt;/p&gt;
+                &lt;h4 id=&quot;g&quot;&gt;多个类型声明&lt;/h4&gt;
+                &lt;p&gt;在JavaScript中所有变量都可以使用单个var语句来声明，这样就是组合在一起的语句，以减少整个脚本的执行时间，就如上面代码一样，上面代码格式也挺规范，让人一看就明了。
+                &lt;/p&gt;
+                &lt;div&gt;
+                    &lt;p&gt;
+                        博客从最初的域名购买，到上线已经有四年的时间了，这四年的时间，有笑过，有怨过，有悔过，有执着过，也有放弃过…但最后还是坚持了下来，时间如此匆匆，等再回过头已来不及去弥补… 其实蛮遗憾的，话说这四年，并不是很专注于它，起初的建立是因为“面子”，一个网页设计师怎能没有一个属于自己的博客网站，域名几番斟酌选了yangqq(唯一用心的选了域名)，选好后，草草的用了两天时间，设计了一个简单的博客模板，接下来用了漏洞百出的asp程序(自己瞎改)，从网上copy了很多文章，放到网站上，就这样，我满心欢喜…博客从此也就搁置了。就像玩拼图，趁着三分热度和新奇，一鼓作气完成了，就随意的丢在犄角旮旯了，再也没有兴趣…
+                    &lt;/p&gt;
+                &lt;/div&gt;
+                &lt;div&gt;
+                    &lt;p&gt;
+                        直到我要利用它，博客搭建半年的时间，更新一两次，但是文章都乱七八糟，不是原创，偶尔会写写心情。从内容上来说，还是可以了。就这样，我骄傲的自以为是，拿着这样一个博客网站还有曾经做过的企业政府网站案例去朋友推荐的大公司应聘，最后我被无情的拒绝了，好在他们的技术人员也认真看了我的博客，告知我应该多注重div，css…其实我也有点儿不服气，甚至有点儿恼羞成怒，对他们说，“我诚心加入，既然你们不需要，那这就是你们的损失！”
+                    &lt;/p&gt;
+                &lt;/div&gt;
+                &lt;div&gt;
+                    &lt;p&gt;
+                        那一次应聘，给了我狠狠的一击，也就这样，我删掉了曾经被我copy过来的文章，重新开始…不再那么自以为是，认认真真的研究，做好每一次的案例。两年的时间，博客也有些起色和人气…
+                    &lt;/p&gt;
+                &lt;/div&gt;
+                &lt;div&gt;
+                    &lt;p&gt;
+                        虽说我这博客起初搭建一分钱没花，但这么长时间了，渐渐有了想再利用它赚钱的想法，放了一些联盟广告，因为访问量不高，收入非常可怜，甚至是没有点击量！干脆就撤了广告，再后来，注重优化，目的还是拉广告，效果也很好，收到了好多email，5块钱一个广告文字链接，一个月的广告收入不到60块钱，自诩有人看得上也不错了，可是再怎么审核的链接，跟博客类型不一样，同样属于垃圾链接，就这样的恶性循环，我的网站被百度降权，整整一个月都没有排名...
+                    &lt;/p&gt;
+                &lt;/div&gt;
+                &lt;div&gt;
+                    &lt;p&gt;
+                        找到这个问题，广告链接到期后就没有再续，又一次重新开始。不仅仅是换模板，程序也换。总结了很多程序，最终选择了当初我认为最难拿捏的帝国cms。asp虽然熟悉好控制，但是漏洞太多，经常被挂彩！wordpress也用过，但是加载的插件确实太多，响应时间慢，关键是百度只收录首页！！之所以说用帝国也是被逼的，是因为起初我也就是怕难，总是找各种各样的理由，不去研究，后来老老实实花了几天时间认真看教程后，才觉得其实并不难，难得就是不突破自己那一关去学习，去接受！
+                    &lt;/p&gt;
+                &lt;/div&gt;
+                &lt;div&gt;
+                    &lt;p&gt;
+                        现在也又很多新手不知道怎么使用模板，也不知道用什么程序。每一次问到我用什么程序的时候，其实蛮纠结的，我想推荐你们使用帝国吧，但是10个人里面有9个人都说难，而且以为装了帝国，套上模板组就可以使用了，于是问题就一个接一个来了，其实只要认真看教程，没有那么多问题....“认真看教程！”同样的话，我也不知道说了多少遍了，听进去的人也是少数，又想用，又怕难，又不学，唉，着实着急啊....通常你如果还这样的话，我劝你放弃使用帝国吧！
+                    &lt;/p&gt;
+                &lt;/div&gt;
+                &lt;div&gt;
+                    &lt;p&gt;
+                        话题又扯远了，博客使用帝国cms后，因为全静态页面，百度收录很快，首页“个人博客”关键词排名也上来了，第一页有时候能搜索出来，就这样，二三页的徘徊，我就开始琢磨怎么样排到前三名。仔细研究排前三位的博客代码，还有关键字词。他们的首页结构都没有我做得好，甚至还用最原始的table布局。但是它的首页关键词优化的不错，于是仿着他们的title和关键词，做了首页的修改。仍然没有起色，反而降了，又怎么办呢？得找吸引人的地方，个人博客如果不是想自己个人欣赏，那最好学会分享，哪有人会天天来关注你这些琐碎的生活片段…
+                    &lt;/p&gt;
+                &lt;/div&gt;
+                &lt;div&gt;
+                    &lt;p&gt;
+                        于是我的博客多了个栏目，把自己擅长做得，喜欢的模板分享出来。没想到效果很明显，就连2000人的QQ群都不够用了…就这样坚持到现在，偶尔更新文章和分享模板，博客的权重，访问量都在一点一点增长，有人说我的博客不怎么更新，为什么权重还那么高？我说“文章贵在精，而不在多”。曾经我天天更新文章，但都是伪原创，自认为付出了那么多，肯定得有回报，其实不然。每天一篇伪原创还不及我一个月一篇原创文章效果好，因“站”而异吧。如果你每天都有自己的原创文章，那值得提倡，像我这种绞尽脑汁都出不了一个主题的，还是规矩的定时更新就行啦…
+                    &lt;/p&gt;
+                &lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;script src=&quot;js/jquery-1.9.1.min.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+    &lt;script&gt;
+    window.jQuery || document.write(&#39;&lt;script src=&quot;js/jquery-1.9.1.min.js&quot;&gt;&lt;\/script&gt;&#39;)
+    &lt;/script&gt;
+    &lt;script type=&quot;text/javascript&quot; src=&quot;js/anchor.js&quot;&gt;&lt;/script&gt;
+    &lt;script type=&quot;text/javascript&quot; src=&quot;js/jquery.full-search.js&quot;&gt;&lt;/script&gt;
+    &lt;script type=&quot;text/javascript&quot;&gt;
+    $(function() &#123;
+        $(&#39;#search&#39;).fullsearch(&#123;
+            highlight: true,
+            search_data: &quot;.search-result&quot;,
+            search_title: &quot;.result-section&quot;,
+            search_content: &quot;.result-content&quot;,
+            list: &quot;#result-list&quot;,
+            nodata: &quot;未找到相关数据&quot;,
+        &#125;);
+    &#125;);
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p>最开始我的代码并不是这样的，才导致问题发生了，发生在哪里呢？</p>
+<p>在这里：<code>&lt;div class=&quot;col-lg-12&quot; id=&quot;result-list&quot;&gt;</code>，最开始我把新添加的那些博客文字，添加到了这个div的外面，就是没有被这个div所包含，所以，我新添加的内容成为不在搜索范围的内容了，自然就会在输入框输入文字的时候不被索引到。细心的你也许发现了这个玄机，在代码：</p>
+<pre><code>&lt;script type=&quot;text/javascript&quot;&gt;
+    $(function() &#123;
+        $(&#39;#search&#39;).fullsearch(&#123;
+            highlight: true,
+            search_data: &quot;.search-result&quot;,
+            search_title: &quot;.result-section&quot;,
+            search_content: &quot;.result-content&quot;,
+            list: &quot;#result-list&quot;,
+            nodata: &quot;未找到相关数据&quot;,
+        &#125;);
+    &#125;);
+&lt;/script&gt;</code></pre>
+<p>中已经很明确的指出了要搜索的区域，<code>list:&quot;#result-list&quot;</code>就是这里，我们可以设置其他的，只要一一对应div中的id即可，还有一个问题就是，标题和内容的锚点设置，看下面：</p>
+<pre><code>&lt;h4 id=&quot;c&quot;&gt;定时器&lt;/h4&gt;
+
+&lt;h4 id=&quot;e&quot;&gt;字符串连接&lt;/h4&gt;
+...</code></pre>
+<p>这些都添加了id,目的就是为了能够在搜索显示的列表中，点击直接移动到目标位置。所以，尽管我添加了一些文本，但是我的文本所在的div没有添加id，所以我在搜索的时候，即使搜索出来了，点击后还是不能跳转到目标的位置的。</p>
+<p>当然，这个还有很多改善的空间，而且实用型不是特别大，因此，相比于直接通过浏览器进行搜索的便利性来说，这个还是有点差别的。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/bootstrap-%E5%8D%95%E9%A1%B5%E6%90%9C%E7%B4%A2-%E5%AE%9A%E4%BD%8D-%E8%B7%B3%E8%BD%AC-jquery-full-search-js/" rel="tag"># bootstrap,单页搜索,定位,跳转,jquery.full-search.js</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/07/15/%E9%80%9A%E8%BF%87javascript%E5%BC%95%E5%85%A5%E5%A4%96%E9%83%A8layer-js%E8%84%9A%E6%9C%AC%E8%BF%90%E7%94%A8%E5%9C%A8wordpress%E6%9F%90%E4%B8%AA%E9%A1%B5%E9%9D%A2/" rel="prev" title="通过javascript引入外部layer.js脚本运用在wordpress某个页面">
+      <i class="fa fa-chevron-left"></i> 通过javascript引入外部layer.js脚本运用在wordpress某个页面
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/07/21/wordpress%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84%E5%A4%96%E9%83%A8js%E5%92%8Ccss%E6%A0%B7%E5%BC%8F%E6%96%87%E4%BB%B6%E7%9A%84%E5%BC%95%E5%85%A5%E9%97%AE%E9%A2%98/" rel="next" title="wordpress插件开发中的外部js和css样式文件的引入问题">
+      wordpress插件开发中的外部js和css样式文件的引入问题 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

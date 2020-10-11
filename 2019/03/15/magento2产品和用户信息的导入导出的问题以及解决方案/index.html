@@ -1,37 +1,454 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="今天笔者来分享下载折腾magento2的过程中遇到的一些问题和相应的解决方案。 导入产品笔者通常在研究magento2的时候，会习惯性的新建两个一摸一样的，一个座位测试版也就是开发版，另外一个是用来生成环境的。 用两个一模一样的网站的好处在于可以测试一些功能，比如产品的导入导出，用户信息的导入导出。我们来说说。  先在开发版上新建一些东西，比如产品，创建一些用户，然后把信息填写完毕，不做任何的额外">
+<meta property="og:type" content="article">
+<meta property="og:title" content="magento2产品和用户信息的导入导出的问题以及解决方案">
+<meta property="og:url" content="http://example.com/2019/03/15/magento2%E4%BA%A7%E5%93%81%E5%92%8C%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF%E7%9A%84%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E7%9A%84%E9%97%AE%E9%A2%98%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="今天笔者来分享下载折腾magento2的过程中遇到的一些问题和相应的解决方案。 导入产品笔者通常在研究magento2的时候，会习惯性的新建两个一摸一样的，一个座位测试版也就是开发版，另外一个是用来生成环境的。 用两个一模一样的网站的好处在于可以测试一些功能，比如产品的导入导出，用户信息的导入导出。我们来说说。  先在开发版上新建一些东西，比如产品，创建一些用户，然后把信息填写完毕，不做任何的额外">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/7nlTpiK.jpg">
+<meta property="og:image" content="https://i.imgur.com/i6NifSY.jpg">
+<meta property="og:image" content="https://i.imgur.com/3yE1Eh4.jpg">
+<meta property="og:image" content="https://i.imgur.com/SgRwbrT.jpg">
+<meta property="article:published_time" content="2019-03-15T09:57:39.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:57:59.356Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="magento2,产品,用户信息,导入,导出">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/7nlTpiK.jpg">
+
+<link rel="canonical" href="http://example.com/2019/03/15/magento2%E4%BA%A7%E5%93%81%E5%92%8C%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF%E7%9A%84%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E7%9A%84%E9%97%AE%E9%A2%98%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>magento2产品和用户信息的导入导出的问题以及解决方案 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/03/15/magento2%E4%BA%A7%E5%93%81%E5%92%8C%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF%E7%9A%84%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA%E7%9A%84%E9%97%AE%E9%A2%98%E4%BB%A5%E5%8F%8A%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          magento2产品和用户信息的导入导出的问题以及解决方案
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-03-15 17:57:39" itemprop="dateCreated datePublished" datetime="2019-03-15T17:57:39+08:00">2019-03-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:59" itemprop="dateModified" datetime="2020-10-11T11:57:59+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/magento2/" itemprop="url" rel="index"><span itemprop="name">magento2</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>今天笔者来分享下载折腾magento2的过程中遇到的一些问题和相应的解决方案。</p>
+<h2 id="导入产品"><a href="#导入产品" class="headerlink" title="导入产品"></a>导入产品</h2><p>笔者通常在研究magento2的时候，会习惯性的新建两个一摸一样的，一个座位测试版也就是开发版，另外一个是用来生成环境的。</p>
+<p>用两个一模一样的网站的好处在于可以测试一些功能，比如产品的导入导出，用户信息的导入导出。我们来说说。</p>
+<ol>
+<li>先在开发版上新建一些东西，比如产品，创建一些用户，然后把信息填写完毕，不做任何的额外的定制，也不用添加什么自定义字段等的处理。</li>
+</ol>
+<p>然后来到magento后台的系统—导出，然后选择产品，</p>
+<p><img src="https://i.imgur.com/7nlTpiK.jpg"></p>
+<p>都保持默认，点击继续。就可以把产品信息全部导出来了。通常是一个csv格式的文件，我们可以打开进去看下这个文件中的内容。</p>
+<p>从这个文件里面，我们可以看到。</p>
+<p><img src="https://i.imgur.com/i6NifSY.jpg"></p>
+<p><img src="https://i.imgur.com/3yE1Eh4.jpg"></p>
+<p>类似这样的信息，从这个里面我们可以编辑信息，<strong>另外一个重要的信息就是产品的图片</strong>，从这个文件里面我们可以看到产品的图片的目录，所以我们在导入这个文件到目标网站之前，我们先把导出产品的这个网站的媒体文件所在的目录复制到目标网站的目录中。我们可以很轻易的知道产品图片的目录大概的位置，通过浏览器的开发者工具定位即可。事实上，magento2网站的媒体文件都是保存在<code>/pub/media</code>这个目录中。</p>
+<p>大家不是很清楚不同目录的功能，大家可以搜索一下<a target="_blank" rel="noopener" href="https://my.oschina.net/ganfanghua/blog/2395552">magento的文件结构</a>。</p>
+<p><strong>pub目录的用处</strong></p>
+<blockquote>
+<p>这里存放的是图片文件(比如产品图片)</p>
+<p>以及生成的静态缓存文件.</p>
+</blockquote>
+<p>同时，我们只需要把图片复制过去，所以我们只关心media这个目录。所以我们把media这个目录复制到目标网站的/pub/media中。linux下的命令：</p>
+<pre><code>cp -r current-website-root/pub/media goal-website-root/pub/media</code></pre>
+<p><code>current-website-root</code>为导出网站所在的目录，<code>goal-website-root</code>是目标网站所在的目录。</p>
+<p>先把目标网站的这个media文件夹删除，不然没法导入进去，同时记得添加参数<code>-r</code></p>
+<p>这样的话，我们就算是把产品的图片引用的问题搞定了。</p>
+<p>接着，我们就可以登录目标网站的后台，来到系统—导入，选择产品。</p>
+<p><img src="https://i.imgur.com/SgRwbrT.jpg"></p>
+<p>然后，点击右上角的检查数据。这个时候是对导入文件的一个检查，看下是否有不符合的地方。这个就是为什么要保持导出文件的magento网站和目标网站的要一模一样才行，包括后台的语言，字段都要一致。否则会报错！</p>
+<p>比如笔者在进行导入测试的时候发现笔者导出的那个网站是中文后台，而导入的网站是英文后台，那么就报错了，报错信息会提示，某个字段，或者某条记录有不匹配的，或者是不合理的。</p>
+<p>针对这个报错，笔者的解决方案有两个：</p>
+<ol>
+<li>把目标网站的语言跟导出的那个网站语言一致。</li>
+<li>语言不修改的情况下，只能把报错字段或者是记录的值删除。</li>
+</ol>
+<p>然后再次导入即可成功。</p>
+<p>还有就是，笔者在导入实验的时候发现报错，说是没有发现某个字段，根据这个问题笔者也有两种方法，那就是：</p>
+<ol>
+<li>把目标网站的自定义字段跟导出网站的字段保持一致即可。</li>
+<li>或者是在导出的时候，把目标网站没有的字段过滤掉，也就是不导出目标网站没有的属性，减少报错的几率。</li>
+</ol>
+<p>然后，再次导入即可成功。</p>
+<p>根据笔者的导入导出实验，总结出这么一个道理：</p>
+<blockquote>
+<p>跟wordpress的导入导出不同，magento2的产品导入导出是一个谨慎细心，事先做好准备工作的活儿。我们先对导出的网站和目标网站进行观察，了解清楚双方的相同点和不同点，然后实施的原则就是：先导入少量的记录，试试水，确保没有问题的时候，再继续导入，当然最好对数据库和源码备份是最靠谱的了。</p>
+</blockquote>
+<blockquote>
+<p>根据这个导入导出，我们还发现，如果加快产品的创建和上传，事实上我们完全可以导出一个产品，然后在csv文件里面新建产品，然后把信息在exel里面填写好，然后一次性导入进去，免得直接操作后台进行创建产品，当然这个是针对不太喜欢操作后台的用户而言的。</p>
+</blockquote>
+<p>本文持续更新，敬请关注。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/magento2-%E4%BA%A7%E5%93%81-%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF-%E5%AF%BC%E5%85%A5-%E5%AF%BC%E5%87%BA/" rel="tag"># magento2,产品,用户信息,导入,导出</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/03/15/mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E6%89%B9%E9%87%8F%E5%88%A0%E9%99%A4%E8%A1%A8%E5%92%8C%E5%85%B6%E4%BB%96%E6%93%8D%E4%BD%9C%E7%9A%84%E4%B8%80%E4%BA%9B%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" rel="prev" title="mysql数据库批量删除表和其他操作的一些常用命令(导入导出，数据清洗等等)">
+      <i class="fa fa-chevron-left"></i> mysql数据库批量删除表和其他操作的一些常用命令(导入导出，数据清洗等等)
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/03/16/jquery%E9%BC%A0%E6%A0%87%E6%BB%9A%E8%BD%AE%E6%8F%92%E4%BB%B6%E5%AE%9E%E7%8E%B0%E7%81%AF%E6%B3%A1%E5%8F%98%E4%BA%AE%E5%8F%98%E6%9A%97%E7%9A%84%E7%89%B9%E6%95%88%E7%AC%94%E8%AE%B0/" rel="next" title="jquery鼠标滚轮插件实现灯泡变亮变暗的特效笔记">
+      jquery鼠标滚轮插件实现灯泡变亮变暗的特效笔记 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%BC%E5%85%A5%E4%BA%A7%E5%93%81"><span class="nav-number">1.</span> <span class="nav-text">导入产品</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

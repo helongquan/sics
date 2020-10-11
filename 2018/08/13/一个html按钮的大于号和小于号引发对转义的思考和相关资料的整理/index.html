@@ -1,37 +1,451 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="不久前，一个设计师妹子问到我为什么她在对一个按钮里的文字后面添加一个大于号，用来点缀一下按钮，结果却出现意想不到的样式问题，后来在帮她排查的的过程中，笔者无意间发现了一个这个答案：是因为在按钮后面添加了一个&gt;符号，导致了这个问题。 其实，这里有个非常值得说的一个概念，就是转义的问题。好的，今日我们就简单的来了解下转义的一些事情。 HTML转义字符对照表 字符十进制转义字符&quot;&amp;#34;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一个html按钮的大于号和小于号引发对转义的思考和相关资料的整理">
+<meta property="og:url" content="http://example.com/2018/08/13/%E4%B8%80%E4%B8%AAhtml%E6%8C%89%E9%92%AE%E7%9A%84%E5%A4%A7%E4%BA%8E%E5%8F%B7%E5%92%8C%E5%B0%8F%E4%BA%8E%E5%8F%B7%E5%BC%95%E5%8F%91%E5%AF%B9%E8%BD%AC%E4%B9%89%E7%9A%84%E6%80%9D%E8%80%83%E5%92%8C%E7%9B%B8%E5%85%B3%E8%B5%84%E6%96%99%E7%9A%84%E6%95%B4%E7%90%86/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="不久前，一个设计师妹子问到我为什么她在对一个按钮里的文字后面添加一个大于号，用来点缀一下按钮，结果却出现意想不到的样式问题，后来在帮她排查的的过程中，笔者无意间发现了一个这个答案：是因为在按钮后面添加了一个&gt;符号，导致了这个问题。 其实，这里有个非常值得说的一个概念，就是转义的问题。好的，今日我们就简单的来了解下转义的一些事情。 HTML转义字符对照表 字符十进制转义字符&quot;&amp;#34;">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-08-13T02:35:42.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:03.632Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="html,转义,字符,大于号,小于号">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2018/08/13/%E4%B8%80%E4%B8%AAhtml%E6%8C%89%E9%92%AE%E7%9A%84%E5%A4%A7%E4%BA%8E%E5%8F%B7%E5%92%8C%E5%B0%8F%E4%BA%8E%E5%8F%B7%E5%BC%95%E5%8F%91%E5%AF%B9%E8%BD%AC%E4%B9%89%E7%9A%84%E6%80%9D%E8%80%83%E5%92%8C%E7%9B%B8%E5%85%B3%E8%B5%84%E6%96%99%E7%9A%84%E6%95%B4%E7%90%86/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>一个html按钮的大于号和小于号引发对转义的思考和相关资料的整理 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/08/13/%E4%B8%80%E4%B8%AAhtml%E6%8C%89%E9%92%AE%E7%9A%84%E5%A4%A7%E4%BA%8E%E5%8F%B7%E5%92%8C%E5%B0%8F%E4%BA%8E%E5%8F%B7%E5%BC%95%E5%8F%91%E5%AF%B9%E8%BD%AC%E4%B9%89%E7%9A%84%E6%80%9D%E8%80%83%E5%92%8C%E7%9B%B8%E5%85%B3%E8%B5%84%E6%96%99%E7%9A%84%E6%95%B4%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          一个html按钮的大于号和小于号引发对转义的思考和相关资料的整理
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-08-13 10:35:42" itemprop="dateCreated datePublished" datetime="2018-08-13T10:35:42+08:00">2018-08-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:03" itemprop="dateModified" datetime="2020-10-11T11:58:03+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/" itemprop="url" rel="index"><span itemprop="name">编程基础</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>不久前，一个设计师妹子问到我为什么她在对一个按钮里的文字后面添加一个大于号，用来点缀一下按钮，结果却出现意想不到的样式问题，后来在帮她排查的的过程中，笔者无意间发现了一个这个答案：是因为在按钮后面添加了一个<code>&gt;</code>符号，导致了这个问题。</p>
+<p>其实，这里有个非常值得说的一个概念，就是转义的问题。好的，今日我们就简单的来了解下转义的一些事情。</p>
+<p><strong>HTML转义字符对照表</strong></p>
+<table class="toolTable" width="50%" cellspacing="0" cellpadding="0"><tbody><tr><th class="separateColor">字符</th><th>十进制</th><th>转义字符</th></tr><tr><td class="separateColor">"</td><td>&amp;#34;</td><td>&amp;quot;</td></tr><tr><td class="separateColor">&amp;</td><td>&amp;#38;</td><td>&amp;amp;</td></tr><tr><td class="separateColor">&lt;</td><td>&amp;#60;</td><td>&amp;lt;</td></tr><tr><td class="separateColor">&gt;</td><td>&amp;#62;</td><td>&amp;gt;</td></tr><tr><td class="separateColor">不断开空格(non-breaking space)</td><td>&amp;#160;</td><td>&amp;nbsp;</td></tr></tbody></table>
+
+<p><strong>HTML特殊转义字符对照表</strong></p>
+<table class="toolTable table" width="100%" cellspacing="0" cellpadding="0"><tbody><tr><th class="separateColor">字符</th><th>十进制</th><th>转义字符</th><th class="separateColor">字符</th><th>十进制</th><th>转义字符</th><th class="separateColor">字符</th><th>十进制</th><th>转义字符</th></tr><tr><td class="separateColor">?</td><td>&amp;#161;</td><td>&amp;iexcl;</td><td class="separateColor">Á</td><td>&amp;#193;</td><td>&amp;Aacute;</td><td class="separateColor">á</td><td>&amp;#225;</td><td>&amp;aacute;</td></tr><tr><td class="separateColor">￠</td><td>&amp;#162;</td><td>&amp;cent;</td><td class="separateColor">Â</td><td>&amp;#194;</td><td>&amp;circ;</td><td class="separateColor">â</td><td>&amp;#226</td><td>&amp;acirc;</td></tr><tr><td class="separateColor">￡</td><td>&amp;#163;</td><td>&amp;pound;</td><td class="separateColor">Ã</td><td>&amp;#195;</td><td>&amp;Atilde;</td><td class="separateColor">ã</td><td>&amp;#227;</td><td>&amp;atilde;</td></tr><tr><td class="separateColor">¤</td><td>&amp;#164;</td><td>&amp;curren;</td><td class="separateColor">Ä</td><td>&amp;#196;</td><td>&amp;Auml</td><td class="separateColor">ä</td><td>&amp;#228;</td><td>&amp;auml;</td></tr><tr><td class="separateColor">￥</td><td>&amp;#165;</td><td>&amp;yen;</td><td class="separateColor">Å</td><td>&amp;#197;</td><td>&amp;ring;</td><td class="separateColor">å</td><td>&amp;#229;</td><td>&amp;aring;</td></tr><tr><td class="separateColor">|</td><td>&amp;#166;</td><td>&amp;brvbar;</td><td class="separateColor">Æ</td><td>&amp;#198;</td><td>&amp;AElig;</td><td class="separateColor">æ</td><td>&amp;#230;</td><td>&amp;aelig;</td></tr><tr><td class="separateColor">§</td><td>&amp;#167;</td><td>&amp;sect;</td><td class="separateColor">Ç</td><td>&amp;#199;</td><td>&amp;Ccedil;</td><td class="separateColor">ç</td><td>&amp;#231;</td><td>&amp;ccedil;</td></tr><tr><td class="separateColor">¨</td><td>&amp;#168;</td><td>&amp;uml;</td><td class="separateColor">È</td><td>&amp;#200;</td><td>&amp;Egrave;</td><td class="separateColor">è</td><td>&amp;#232;</td><td>&amp;egrave;</td></tr><tr><td class="separateColor">©</td><td>&amp;#169;</td><td>&amp;copy;</td><td class="separateColor">É</td><td>&amp;#201;</td><td>&amp;Eacute;</td><td class="separateColor">é</td><td>&amp;#233;</td><td>&amp;eacute;</td></tr><tr><td class="separateColor">a</td><td>&amp;#170;</td><td>&amp;ordf;</td><td class="separateColor">Ê</td><td>&amp;#202;</td><td>&amp;Ecirc;</td><td class="separateColor">ê</td><td>&amp;#234;</td><td>&amp;ecirc;</td></tr><tr><td class="separateColor">?</td><td>&amp;#171;</td><td>&amp;laquo;</td><td class="separateColor">Ë</td><td>&amp;#203;</td><td>&amp;Euml;</td><td class="separateColor">ë</td><td>&amp;#235;</td><td>&amp;euml;</td></tr><tr><td class="separateColor">?</td><td>&amp;#172;</td><td>&amp;not;</td><td class="separateColor">Ì</td><td>&amp;#204;</td><td>&amp;Igrave;</td><td class="separateColor">ì</td><td>&amp;#236;</td><td>&amp;igrave;</td></tr><tr><td class="separateColor">/x7f</td><td>&amp;#173;</td><td>&amp;shy;</td><td class="separateColor">Í</td><td>&amp;#205;</td><td>&amp;Iacute;</td><td class="separateColor">í</td><td>&amp;#237;</td><td>&amp;iacute;</td></tr><tr><td class="separateColor">®</td><td>&amp;#174;</td><td>&amp;reg;</td><td class="separateColor">Î</td><td>&amp;#206;</td><td>&amp;Icirc;</td><td class="separateColor">î</td><td>&amp;#238;</td><td>&amp;icirc;</td></tr><tr><td class="separateColor">ˉ</td><td>&amp;#175;</td><td>&amp;macr;</td><td class="separateColor">Ï</td><td>&amp;#207;</td><td>&amp;Iuml;</td><td class="separateColor">ï</td><td>&amp;#239;</td><td>&amp;iuml;</td></tr><tr><td class="separateColor">°</td><td>&amp;#176;</td><td>&amp;deg;</td><td class="separateColor">Ð</td><td>&amp;#208;</td><td>&amp;ETH;</td><td class="separateColor">ð</td><td>&amp;#240;</td><td>&amp;ieth;</td></tr><tr><td class="separateColor">±</td><td>&amp;#177;</td><td>&amp;plusmn;</td><td class="separateColor">Ñ</td><td>&amp;#209;</td><td>&amp;Ntilde;</td><td class="separateColor">ñ</td><td>&amp;#241;</td><td>&amp;ntilde;</td></tr><tr><td class="separateColor">2</td><td>&amp;#178;</td><td>&amp;sup2;</td><td class="separateColor">Ò</td><td>&amp;#210;</td><td>&amp;Ograve;</td><td class="separateColor">ò</td><td>&amp;#242;</td><td>&amp;ograve;</td></tr><tr><td class="separateColor">3</td><td>&amp;#179;</td><td>&amp;sup3;</td><td class="separateColor">Ó</td><td>&amp;#211;</td><td>&amp;Oacute;</td><td class="separateColor">ó</td><td>&amp;#243;</td><td>&amp;oacute;</td></tr><tr><td class="separateColor">′</td><td>&amp;#180;</td><td>&amp;acute;</td><td class="separateColor">Ô</td><td>&amp;#212;</td><td>&amp;Ocirc;</td><td class="separateColor">ô</td><td>&amp;#244;</td><td>&amp;ocirc;</td></tr><tr><td class="separateColor">μ</td><td>&amp;#181;</td><td>&amp;micro;</td><td class="separateColor">Õ</td><td>&amp;#213;</td><td>&amp;Otilde;</td><td class="separateColor">õ</td><td>&amp;#245;</td><td>&amp;otilde;</td></tr><tr><td class="separateColor">?</td><td>&amp;#182;</td><td>&amp;para;</td><td class="separateColor">Ö</td><td>&amp;#214;</td><td>&amp;Ouml;</td><td class="separateColor">ö</td><td>&amp;#246;</td><td>&amp;ouml;</td></tr><tr><td class="separateColor">·</td><td>&amp;#183;</td><td>&amp;middot;</td><td class="separateColor">&amp;times;</td><td>&amp;#215;</td><td>&amp;times;</td><td class="separateColor">÷</td><td>&amp;#247;</td><td>&amp;divide;</td></tr><tr><td class="separateColor">?</td><td>&amp;#184;</td><td>&amp;cedil;</td><td class="separateColor">Ø</td><td>&amp;#216;</td><td>&amp;Oslash;</td><td class="separateColor">ø</td><td>&amp;#248;</td><td>&amp;oslash;</td></tr><tr><td class="separateColor">1</td><td>&amp;#185;</td><td>&amp;sup1;</td><td class="separateColor">Ù</td><td>&amp;#217;</td><td>&amp;Ugrave;</td><td class="separateColor">ù</td><td>&amp;#249;</td><td>&amp;ugrave;</td></tr><tr><td class="separateColor">o</td><td>&amp;#186;</td><td>&amp;ordm;</td><td class="separateColor">Ú</td><td>&amp;#218;</td><td>&amp;Uacute;</td><td class="separateColor">ú</td><td>&amp;#250;</td><td>&amp;uacute;</td></tr><tr><td class="separateColor">?</td><td>&amp;#187;</td><td>&amp;raquo;</td><td class="separateColor">Û</td><td>&amp;#219;</td><td>&amp;Ucirc;</td><td class="separateColor">û</td><td>&amp;#251;</td><td>&amp;ucirc;</td></tr><tr><td class="separateColor">?</td><td>&amp;#188;</td><td>&amp;frac14;</td><td class="separateColor">Ü</td><td>&amp;#220;</td><td>&amp;Uuml;</td><td class="separateColor">ü</td><td>&amp;#252;</td><td>&amp;uuml;</td></tr><tr><td class="separateColor">?</td><td>&amp;#189;</td><td>&amp;frac12;</td><td class="separateColor">Ý</td><td>&amp;#221;</td><td>&amp;Yacute;</td><td class="separateColor">ý</td><td>&amp;#253;</td><td>&amp;yacute;</td></tr><tr><td class="separateColor">?</td><td>&amp;#190;</td><td>&amp;frac34;</td><td class="separateColor">Þ</td><td>&amp;#222;</td><td>&amp;THORN;</td><td class="separateColor">þ</td><td>&amp;#254;</td><td>&amp;thorn;</td></tr><tr><td class="separateColor">?</td><td>&amp;#191;</td><td>&amp;iquest;</td><td class="separateColor">ß</td><td>&amp;#223;</td><td>&amp;szlig;</td><td class="separateColor">ÿ</td><td>&amp;#255;</td><td>&amp;yuml;</td></tr><tr><td class="separateColor">À</td><td>&amp;#192;</td><td>&amp;Agrave;</td><td class="separateColor">à</td><td>&amp;#224;</td><td>&amp;agrave;</td><td></td></tr></tbody></table>
+
+<p><strong>字符型常量</strong></p>
+<p>字符型常量所表示的值是字符型变量所能包含的值。我们可以用ASCII表达式来表示一个字符型常量，或者用单引号内加反斜杠表示转义字符。</p>
+<pre><code>&#39;A&#39;, &#39;\x2f&#39;, &#39;\013&#39;;</code></pre>
+<p>其中：\x表示后面的字符是十六进制数，\0表示后面的字符是八进制数。例如十进制的17用十六进制表示就是</p>
+<p>‘\x11’,用八进制表示就是‘\021’;</p>
+<p>注意：在Turbo C 2.0中，字符型常量表示数的范围是-128到127，除非你把它声明为unsigned，这样就是0到255。</p>
+<p>上面我们见到的\x,\n,\a等等都是叫转义字符，它告诉编译器需要用特殊的方式进行处理。</p>
+<p><strong>组成</strong></p>
+<p>转义字符串（Escape String），即字符实体（Character Entity）分成三部分：第一部分是一个&amp;符号，英文叫ampersand；第二部分是实体（Entity）名字或者是#加上实体（Entity）编号；第三部分是一个分号。</p>
+<p>比如，要显示小于号（&lt;），就可以写 &lt; 或者 &lt; 。</p>
+<p>用实体（Entity）名字的好处是比较好理解，一看lt，大概就猜出是less than的意思，但是其劣势在于并不是所有的浏览器都支持最新的Entity名字。而实体(Entity)编号，各种浏览器都能处理。</p>
+<p>提示：实体名称（Entity）是区分大小写的。</p>
+<p>备注：同一个符号，可以用“实体名称”和“实体编号”两种方式引用，“实体名称”的优势在于便于记忆，但不能保证所有的浏览器都能顺利识别它，而“实体编号”则没有这种担忧，但它实在不方便记忆。</p>
+<p><strong>编程语言</strong></p>
+<p>如HTML转义符、java 转义符、xml 转义符、 oracle 转义符、sql 转义符 、sqlserver 转义符、php 转义符、asp 转义符、vb转义符、 javascript 转义符等等，还有网址中的百分号。</p>
+<p>例如，HTML的&lt; &gt;&amp;&quot;&copy;分别是&lt;，&gt;，&amp;，”，©;的转义字符</p>
+<p>XML只有5个转义符: &lt; &gt;&amp; &quot; &apos;</p>
+<p><strong>作用</strong></p>
+<p>转义字符串（Escape Sequence）也称字符实体(Character Entity)。在HTML中，定义转义字符串的原因有两个：第一个原因是像“&lt;”和“&gt;”这类符号已经用来表示HTML标签，因此就不能直接当做文本中的符号来使用。为了在HTML文档中使用这些符号，就需要定义它的转义字符串。当解释程序遇到这类字符串时就把它解释为真实的字符。</p>
+<p>在输入转义字符串时，要严格遵守字母大小写的规则。第二个原因是，有些字符在ASCII字符集中没有定义，因此需要使用转义字符串来表示。</p>
+<p>其实所有编程语言，拥有转义字符的原因基本上是两点：一、使用转义字符来表示字符集中定义的字符，比如ASCll里面的控制字符及回车换行等字符，这些字符都没有现成的文字代号。所以只能用转义字符来表示 。二、某一些特定的字符在编辑语言中被定义为特殊用途的字符。这些字符由于被定义为特殊用途，它们失去了原有的意义。</p>
+<p>比如说Html中，&lt;被HTML定义为标签的开始，所以当我们转入&lt;时，HTML就会把它当作为开始，而不是当作一个&lt;来看待。再如PHP 的双引号（”），被PHP定义为字符串的外围标签，所以如果你在一对双引号里面，还想要使用双引号，只能使用转义字符了。不然PHP就会报错了。</p>
+<p>从上面也可以看出转义无非是两种情况：1：将普通字符转为特殊用途，一般是编程语言中，用于表示不能直接显示的字符，比如后退键，回车键，等。2：用来将特殊意义的字符转换回它原来的意义。一般用在正则表达式中。还有有些脚本语言是弱类型，有些语言比如html 并不是编程语言，而是标记语言，有些语言只有一种类型 比如shell 脚本语言，这些语言中字符串都不加引号” ” ，或者可以不加引号“ ”，所以有时候需要转义字符说明某字符此时的身份是普通字符，而不是有特殊意义的元字符。</p>
+<p>另外出于网站的安全。在数据写入数据库前，都会使用转义字符(函数)对一些敏感字符进行转义。这样做可以避免一些别有用心的人利用特殊符号的注入攻击。</p>
+<p><strong>显示空格</strong></p>
+<p>通常情况下，HTML会自动截去多余的空格。不管你加多少空格，都被看做一个空格。比如你在两个字之间加了10个空格，HTML会截去9个空格，只保留一个。为了在网页中增加空格，你可以使用 &nbsp; 表示空格。</p>
+<p><strong>url</strong></p>
+<p>web 开发中通过问号（？）方式在浏览器地址栏中传值时。浏览器是通过“&amp;”来区分问号后的参数个数的。 如果出现传值参数中带有“&amp;”时，在接受页面就会出现错误，类似如下请求路径：<code>/next.jsp?param1=hendhs89&amp;furej &amp; param2=sss</code>参数param1中含有转义字符“&amp;” ，这样会导致被请求页的参数接收错误。</p>
+<p>在传值前 通过 java.net.URLEncoder.encode(param1) 编码处理后，可将转义字符转为16进制;</p>
+<ol>
+<li><code>+</code> URL 中+号表示空格 %2B</li>
+<li><code>空格</code> URL中的空格可以用+号或者编码 %20</li>
+<li><code>/</code> 分隔目录和子目录 %2F</li>
+<li><code>?</code> 分隔实际的 URL 和参数 %3F</li>
+<li><code>%</code> 指定特殊字符 %25</li>
+<li><code>#</code> 表示书签 %23</li>
+<li><code>&amp;</code> URL中指定的参数间的分隔符%26</li>
+<li><code>=</code> URL中指定参数的值 %3D</li>
+<li><code>!</code> URL中指定参数的值 %21</li>
+</ol>
+<p>好的，我们回到最开始的话题，如果笔者当时给那位设计师的一个替代方案，那么仅仅这样写就对了：</p>
+<pre><code>&lt;p class=&quot;link&quot;&gt;&lt;a href=&quot;#&quot;&gt;Read more &amp;gt;&lt;/a&gt;&lt;/p&gt;</code></pre>
+<p>此文仅仅用作个人学习和查阅使用，如有侵权，请联系笔者，谢谢！</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/html-%E8%BD%AC%E4%B9%89-%E5%AD%97%E7%AC%A6-%E5%A4%A7%E4%BA%8E%E5%8F%B7-%E5%B0%8F%E4%BA%8E%E5%8F%B7/" rel="tag"># html,转义,字符,大于号,小于号</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/08/09/%E5%88%A9%E7%94%A8jquery%E5%8A%A8%E6%80%81%E6%8F%92%E5%85%A5%E7%9A%84%E6%96%B9%E5%BC%8F%E5%9C%A8wordpress%E7%BD%91%E7%AB%99%E7%9A%84%E8%8F%9C%E5%8D%95%E6%A0%8F%E9%82%A3%E9%87%8C%E6%B7%BB%E5%8A%A0%E7%A4%BE%E4%BA%A4%E5%AA%92%E4%BD%93%E5%92%8C%E8%AF%AD%E8%A8%80%E5%88%87%E6%8D%A2%E6%A0%8F/" rel="prev" title="利用jquery动态插入的方式在wordpress网站的菜单栏那里添加社交媒体和语言切换栏">
+      <i class="fa fa-chevron-left"></i> 利用jquery动态插入的方式在wordpress网站的菜单栏那里添加社交媒体和语言切换栏
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/08/15/magento%E4%B8%ADcms%E9%9D%99%E6%80%81%E6%A8%A1%E5%9D%97%E7%9A%84%E5%85%A8%E5%B1%80%E4%BD%BF%E7%94%A8%E5%92%8C%E5%B1%80%E9%83%A8%E4%BD%BF%E7%94%A8%E7%9A%84%E6%8A%80%E5%B7%A7/" rel="next" title="magento中cms静态模块的全局使用和局部使用的技巧">
+      magento中cms静态模块的全局使用和局部使用的技巧 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

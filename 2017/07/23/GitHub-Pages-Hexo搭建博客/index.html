@@ -1,37 +1,540 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="一、 前言 这是一篇使用GitHub Pages和Hexo搭建免费独立博客的总结。 我所总结的是单纯地利用GitHub Pages搭建自己独立博客的过程，并没有额外使用独立域名之类的。 如果是小小白，可以先花时间去了解下： Git GitHub GitHub Pages Hexo Markdown  二、 必要配置 2.1 GitHub Pages 仓库 2.1.1 创建对应仓库 在自己的GitH">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GitHub Pages + Hexo搭建博客">
+<meta property="og:url" content="http://example.com/2017/07/23/GitHub-Pages-Hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="一、 前言 这是一篇使用GitHub Pages和Hexo搭建免费独立博客的总结。 我所总结的是单纯地利用GitHub Pages搭建自己独立博客的过程，并没有额外使用独立域名之类的。 如果是小小白，可以先花时间去了解下： Git GitHub GitHub Pages Hexo Markdown  二、 必要配置 2.1 GitHub Pages 仓库 2.1.1 创建对应仓库 在自己的GitH">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-07-23T04:55:05.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:53:33.738Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Git,GitHub Page,Hexo,静态独立博客">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2017/07/23/GitHub-Pages-Hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>GitHub Pages + Hexo搭建博客 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/07/23/GitHub-Pages-Hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          GitHub Pages + Hexo搭建博客
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-07-23 12:55:05" itemprop="dateCreated datePublished" datetime="2017-07-23T12:55:05+08:00">2017-07-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:33" itemprop="dateModified" datetime="2020-10-11T11:53:33+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><strong>一、 前言</strong></p>
+<p>这是一篇使用GitHub Pages和Hexo搭建免费独立博客的总结。</p>
+<p>我所总结的是单纯地利用GitHub Pages搭建自己独立博客的过程，并没有额外使用独立域名之类的。</p>
+<p>如果是小小白，可以先花时间去了解下：</p>
+<pre><code>Git
+GitHub
+GitHub Pages
+Hexo
+Markdown</code></pre>
+<hr>
+<p><strong>二、 必要配置</strong></p>
+<p>2.1 GitHub Pages 仓库</p>
+<p><strong>2.1.1 创建对应仓库</strong></p>
+<p>在自己的GitHub账号下创建一个新的仓库，命名为username.github.io（username是你的账号名)。</p>
+<p>在这里，要知道，GitHub Pages有两种类型：User/Organization Pages 和 Project Pages，而我所使用的是User Pages。</p>
+<p>简单来说，User Pages 与 Project Pages的区别是：</p>
+<p>User Pages 是用来展示用户的，而 Project Pages 是用来展示项目的。</p>
+<p>用于存放 User Pages 的仓库必须使用username.github.io的命名规则，而 Project Pages 则没有特殊的要求。</p>
+<p>User Pages 将使用仓库的 master 分支，而 Project Pages 将使用 gh-pages 分支。</p>
+<p>User Pages 通过 http(s)://username.github.io 进行访问，而 Projects Pages通过 http(s)://username.github.io/projectname 进行访问。</p>
+<p><strong>2.1.2 相关资料</strong></p>
+<pre><code>GitHub Pages Basics / User, Organization, and Project Pages</code></pre>
+<p>2.2 Git</p>
+<p>2.2.1 安装 Git</p>
+<p>在windows下安装git比较常用的有两种方式：</p>
+<p>Git 官方版本的安装</p>
+<pre><code>GitHub for Windows</code></pre>
+<p><strong>2.2.2 配置 Git</strong></p>
+<p>当安装完Git应该做的第一件事情就是设置用户名称和邮件地址。这样做很重要，因为每一个Git的提交都会使用这些信息，并且它会写入你的每一次提交中，不可更改：</p>
+<pre><code>$ git config --global user.name &quot;username&quot;
+$ git config --global user.email &quot;username@example.com&quot;</code></pre>
+<p>对于user.email，因为在GitHub的commits信息上是可见的，所以如果你不想让人知道你的email，可以Keeping your email address private:</p>
+<p>在GitHub右上方点击你的头像，选择”Settings”；</p>
+<p>在右边的”Personal settings”侧边栏选择”Emails”；</p>
+<p>选择”Keep my email address private”。</p>
+<p>这样，你就可以使用如下格式的email进行配置：</p>
+<pre><code>$ git config --global user.email &quot;username@users.noreply.github.com&quot;</code></pre>
+<p>2.2.3 相关资料</p>
+<pre><code>安装 Git
+配置 Git
+Setting your email in Git
+Keeping your email address private</code></pre>
+<p><strong>2.3 Git 与 GitHub</strong></p>
+<hr>
+<p>2.3.1 git与github的区别</p>
+<p>这里，我们要区分清楚git与github。</p>
+<p>git是一个版本控制的工具，而github有点类似于远程仓库，用于存放用git管理的各种项目。</p>
+<pre><code>2.3.2 与github建立联系</code></pre>
+<p>为了能够在本地使用git管理github上的项目，需要进行一些配置，这里介绍SSH的方法。</p>
+<p>2.3.2.1 检查电脑是否已经有SSH keys。</p>
+<pre><code>$ ls -al ~/.ssh
+# Lists the files in your .ssh directory, if they exist</code></pre>
+<p>默认情况下，public keys的文件名是以下的格式之一：id_dsa.pub、id_ecdsa.pub、id_ed25519.pub、id_rsa.pub。因此，如果列出的文件有public和private钥匙对（例如id_ras.pub和id_rsa），证明已存在SSH keys。</p>
+<p><strong>2.3.2.2 如果没有SSH key，则生成新的SSH key</strong></p>
+<pre><code>$ ssh-keygen -t rsa -b 4096 -C &quot;your_email@example.com&quot;
+# Creates a new ssh key, using the provided email as a label</code></pre>
+<p>之后一路回车即可。</p>
+<p><strong>2.3.2.3 向ssh-agent添加key</strong></p>
+<p>首先确保ssh-agent可运行：</p>
+<pre><code># start the ssh-agent in the background
+$ ssh-agent -s</code></pre>
+<p>然后添加SSH key：</p>
+<pre><code>$ ssh-add ~/.ssh/id_rsa</code></pre>
+<p><strong>2.3.2.4 在GitHub添加SSH key</strong></p>
+<p>首先，拷贝key：</p>
+<pre><code>clip &lt; ~/.ssh/id_rsa.pub
+# Copies the contents of the id_rsa.pub file to your cllipboard</code></pre>
+<p>然后，在GitHub右上方点击头像，选择”Settings”，在右边的”Personal settings”侧边栏选择”SSH Keys”。接着粘贴key，点击”Add key”按钮。最后，测试链接：</p>
+<pre><code>$ ssh -T git@github.com
+# Attempts to ssh to GitHub</code></pre>
+<p>如果你看到：</p>
+<pre><code>The authenticity of host &#39;github.com (207.97.227.239)&#39; can&#39;t be established.
+RSA key fingerprint is 16:27:ac:a5:76:28:2d:36:63:1b:56:4d:eb:df:a6:48.
+Are you sure you want to continue connecting (yes/no)?</code></pre>
+<p>就键入：yes。之后将会看到如下信息：</p>
+<pre><code>Hi username! You&#39;ve successfully authenticated, but GitHub does not
+provide shell access.</code></pre>
+<p><strong>2.3.3 相关资料</strong></p>
+<p>Generating SSH keys</p>
+<hr>
+<p><strong>2.4 Hexo</strong></p>
+<p><strong>2.4.1 安装Hexo</strong></p>
+<p>安装Hexo相当简单。在安装之前，必须检查电脑中是否已经安装下列应用程序：</p>
+<pre><code>Node.js
+Git</code></pre>
+<p>如果您的电脑中已经安装上述必备程序，那么恭喜您！接下来只需要使用 npm 即可完成 Hexo 的安装。</p>
+<pre><code>$ npm install -g hexo-cli</code></pre>
+<p><strong>2.4.2 使用Hexo建站</strong></p>
+<p>安装完后，在你喜欢的文件夹内（例如D：\Hexo），点击鼠标右键选择Git bash，输入以下指令：</p>
+<pre><code>$ hexo init</code></pre>
+<p>该命令会在目标文件夹内建立网站所需要的所有文件。接下来是安装依赖包：</p>
+<pre><code>$ npm install</code></pre>
+<p>这样，我们就已经搭建起本地的Hexo博客了。可以先执行以下命令（在对应文件夹下），然后再浏览器输入localhost:4000查看。</p>
+<pre><code>$ hexo generate
+$ hexo server</code></pre>
+<p>这个博客只是本地的，别人是浏览不了的，之后需要部署到GitHub上。</p>
+<p><strong>2.4.3 相关资料</strong></p>
+<p>Hexo 官方文档</p>
+<p>三、一般的搭建方法</p>
+<p>在上面，我们已经配置好了所需的所有东西，也成功地搭建了一个本地Hexo博客。现在，需要使用GitHub Pages搭建一个别人能够访问的Hexo博客了。</p>
+<p>3.1 使用默认theme</p>
+<p>我们继续使用上面的文件夹D:\Hexo（也可以新建一个文件夹重新生成），然后编辑该文件夹下的_config.yml。</p>
+<p>默认生成的_config.yml：</p>
+<pre><code># Deployment
+## Docs: http://hexo.io/docs/deployment.html
+deploy:
+  type:</code></pre>
+<p>修改后的_config.yml：</p>
+<pre><code>deploy:
+  type: git
+  repo: 对应仓库的SSH地址（可以在GitHub对应的仓库中复制）
+  branch: 分支（User Pages为master，Project Pages为gh-pages）</code></pre>
+<p>为了能够使Hexo部署到GitHub上，需要安装一个插件：</p>
+<pre><code>$ npm install hexo-deployer-git --save</code></pre>
+<p>然后，执行下列指令即可完成部署：</p>
+<pre><code>$ hexo generate
+$ hexo deploy</code></pre>
+<p>之后，可以通过在浏览器键入：username.github.io进行浏览，开心吧~</p>
+<p><strong>3.2 其他theme</strong></p>
+<p>如果想要使用其他主题，可以使用git clone将别人的主题拷贝到D:\Hexo\themes下，然后将_config.yml中的theme: landscape改为对应的主题名字。</p>
+<p>详细步骤可以参考网上的指南。</p>
+<hr>
+<p><strong>四、 优化部署与管理</strong></p>
+<p><strong>4.1 概述</strong></p>
+<p>Hexo部署到GitHub上的文件，是.md（你的博文）转化之后的.html（静态网页）。因此，当你重装电脑或者想在不同电脑上修改博客时，就不可能了。</p>
+<p>其实，Hexo生成的网站文件中有.gitignore文件，因此它的本意也是想我们将Hexo生成的网站文件存放到GitHub上进行管理的（而不是用U盘或者云备份）。这样，不仅解决了上述的问题，还可以通过git的版本控制追踪你的博文的修改过程，是极赞的。</p>
+<p>但是，如果每一个GitHub Pages都需要创建一个额外的仓库来存放Hexo网站文件，会很麻烦。</p>
+<p>所以，我利用了分支！！！</p>
+<p>简单地说，每个想建立GitHub Pages的仓库，起码有两个分支，一个用来存放Hexo网站的文件，一个用来发布网站。</p>
+<p>下面以我的博客作为例子详细地讲述。</p>
+<p><strong>4.2 我的博客搭建流程</strong></p>
+<p>创建仓库，helongquan.github.io；</p>
+<p>创建两个分支：master 与 hexo；</p>
+<p>设置hexo为默认分支（因为我们只需要手动管理这个分支上的Hexo网站文件）；</p>
+<p>使用git clone <a href="mailto:&#x67;&#x69;&#116;&#64;&#103;&#105;&#x74;&#x68;&#117;&#x62;&#x2e;&#99;&#111;&#109;">&#x67;&#x69;&#116;&#64;&#103;&#105;&#x74;&#x68;&#117;&#x62;&#x2e;&#99;&#111;&#109;</a>:helongquan/helongquan.github.io.git拷贝仓库；</p>
+<p>在本地helongquan.github.io文件夹下通过Git bash依次执行npm install hexo、hexo init、npm install 和 npm install hexo-deployer-git（此时当前分支应显示为hexo）;</p>
+<p>修改_config.yml中的deploy参数，分支应为master；</p>
+<p>依次执行git add .、git commit -m “…”、git push origin hexo提交网站相关的文件；</p>
+<p>执行hexo generate -d生成网站并部署到GitHub上。</p>
+<p>这样一来，在GitHub上的helongquan.github.io仓库就有两个分支，一个hexo分支用来存放网站的原始文件，一个master分支用来存放生成的静态网页。</p>
+<p><strong>4.3 我的博客管理流程</strong></p>
+<p><strong>4.3.1 日常修改</strong></p>
+<p>在本地对博客进行修改（添加新博文、修改样式等等）后，通过下面的流程进行管理：</p>
+<p>依次执行git add .、git commit -m “…”、git push origin hexo指令将改动推送到GitHub（此时当前分支应为hexo）；</p>
+<p>然后才执行<code>hexo generate -d</code>发布网站到master分支上。</p>
+<p>虽然两个过程顺序调转一般不会有问题，不过逻辑上这样的顺序是绝对没问题的（例如突然死机要重装了，悲催….的情况，调转顺序就有问题了）。</p>
+<p><strong>4.3.2 本地资料丢失</strong></p>
+<p>当重装电脑之后，或者想在其他电脑上修改博客，可以使用下列步骤：</p>
+<p>使用git clone <a href="mailto:&#103;&#105;&#116;&#x40;&#x67;&#x69;&#x74;&#x68;&#117;&#98;&#46;&#99;&#111;&#109;">&#103;&#105;&#116;&#x40;&#x67;&#x69;&#x74;&#x68;&#117;&#98;&#46;&#99;&#111;&#109;</a>:helongquan/helongquan.github.io.git拷贝仓库（默认分支为hexo）；<br>在本地新拷贝的helongquan.github.io文件夹下通过Git bash依次执行下列指令：npm install hexo、npm install、npm install hexo-deployer-git（记得，不需要hexo init这条指令）。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Git-GitHub-Page-Hexo-%E9%9D%99%E6%80%81%E7%8B%AC%E7%AB%8B%E5%8D%9A%E5%AE%A2/" rel="tag"># Git,GitHub Page,Hexo,静态独立博客</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/07/23/%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%80%9A%E8%BF%87%E4%B8%80%E9%94%AEweb%E5%AE%89%E8%A3%85%E5%90%8E%E5%AE%89%E8%A3%85WCDP%E7%9A%84%E9%BB%98%E8%AE%A4%E7%99%BB%E5%BD%95%E4%BF%A1%E6%81%AF%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F/" rel="prev" title="云服务器通过一键web安装后安装WCDP的默认登录信息是什么？">
+      <i class="fa fa-chevron-left"></i> 云服务器通过一键web安装后安装WCDP的默认登录信息是什么？
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/07/23/6-%E4%B8%AA%E5%B8%AE%E5%8A%A9%E4%BD%A0%E5%BC%80%E5%8F%91-WordPress-%E7%9A%84%E5%AE%9E%E7%94%A8%E6%8F%92%E4%BB%B6/" rel="next" title="6 个帮助你开发 WordPress 的实用插件">
+      6 个帮助你开发 WordPress 的实用插件 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

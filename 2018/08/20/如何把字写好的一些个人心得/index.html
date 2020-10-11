@@ -1,37 +1,411 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="写的字要搭配合理，每个部位的比例要合适，比如“别”这个字，如果左边跟右边搭配不合适，左边少，右边多，或者左边跟右边一样多，都会给人感觉不是很合理的搭配，这个字注定了左边占比要大于右边。这样才显得好看。 上下比例好适中，符合一个字标准的结构，比如“贡”这个字，如果上面比下面还要窄，那么就会很丑，如果上面太宽了，也不好。根据笔者的观察，这个字下面部分的宽度跟上面那部分最上面的那一横宽度一样是比较好看">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何把字写好的一些个人心得">
+<meta property="og:url" content="http://example.com/2018/08/20/%E5%A6%82%E4%BD%95%E6%8A%8A%E5%AD%97%E5%86%99%E5%A5%BD%E7%9A%84%E4%B8%80%E4%BA%9B%E4%B8%AA%E4%BA%BA%E5%BF%83%E5%BE%97/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="写的字要搭配合理，每个部位的比例要合适，比如“别”这个字，如果左边跟右边搭配不合适，左边少，右边多，或者左边跟右边一样多，都会给人感觉不是很合理的搭配，这个字注定了左边占比要大于右边。这样才显得好看。 上下比例好适中，符合一个字标准的结构，比如“贡”这个字，如果上面比下面还要窄，那么就会很丑，如果上面太宽了，也不好。根据笔者的观察，这个字下面部分的宽度跟上面那部分最上面的那一横宽度一样是比较好看">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-08-20T01:25:36.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:05.134Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="写字,练字,写好字">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2018/08/20/%E5%A6%82%E4%BD%95%E6%8A%8A%E5%AD%97%E5%86%99%E5%A5%BD%E7%9A%84%E4%B8%80%E4%BA%9B%E4%B8%AA%E4%BA%BA%E5%BF%83%E5%BE%97/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>如何把字写好的一些个人心得 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/08/20/%E5%A6%82%E4%BD%95%E6%8A%8A%E5%AD%97%E5%86%99%E5%A5%BD%E7%9A%84%E4%B8%80%E4%BA%9B%E4%B8%AA%E4%BA%BA%E5%BF%83%E5%BE%97/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          如何把字写好的一些个人心得
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-08-20 09:25:36" itemprop="dateCreated datePublished" datetime="2018-08-20T09:25:36+08:00">2018-08-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:05" itemprop="dateModified" datetime="2020-10-11T11:58:05+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%BF%83%E5%BE%97/" itemprop="url" rel="index"><span itemprop="name">心得</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <ol>
+<li>写的字要搭配合理，每个部位的比例要合适，比如“<code>别</code>”这个字，如果左边跟右边搭配不合适，左边少，右边多，或者左边跟右边一样多，都会给人感觉不是很合理的搭配，这个字注定了左边占比要大于右边。这样才显得好看。</li>
+<li>上下比例好适中，符合一个字标准的结构，比如“<code>贡</code>”这个字，如果上面比下面还要窄，那么就会很丑，如果上面太宽了，也不好。根据笔者的观察，这个字下面部分的宽度跟上面那部分最上面的那一横宽度一样是比较好看的。这个就需要一个把握了，因此，长期没有对一个字审美的习惯性把握的人，总会犯这样或那样的错误。</li>
+<li>竖这个笔画要注意，这个笔画一定要直，不能斜了，斜了这个字基本就不好看了。比如：<code>中</code>这个字，其实这个字的精髓就在这一竖这里，这一竖在这个字的横向是中间位置，然后就是像一把利剑那样竖下来。</li>
+<li>对于有交叉的情况，交叉要交叉得合理，不能只交叉一点点，交叉得要到位。比如：<code>级</code>这个字，这个字右边的下面有个交叉的地方，这个地方如果这一捺写得很短，那么这个字就不好看。</li>
+<li>如果有框框的情况，要记得确保里面要饱满，但又不能太拥挤了，这是为何呢？如果里面填充得不合理，会显得很空，比如：<code>南</code>这个字，如果里面的那个类似人民币符号的部分写得很小的话，这个字就显得很空，又比如：<code>有</code>这个字，如果里面的<code>月</code>这个部分写得很小，那么这个字就不好看，如果写得太大，会把里面撑满，也不好看。</li>
+<li>对于宝盖头系列的，个人认为要宽得充分点，不能小气，就像一个人戴帽子那样，如果帽子比头还要小，那么就显得不合理了。比如：<code>合</code>这个字。这个字上面的部分如果还没盖住下面的部分的时候，就显得不好看，当然也不能盖住得超出太多了。</li>
+<li>横这个笔画也要用好用巧，横这个笔画通常可以不用写得太直了，有点点微微的斜角会显得更好看，记住：是微微的倾斜，当然也可以不倾斜。</li>
+</ol>
+<p><strong>作为最后的忠告：</strong>其实更多的是需要我们在生活中学习，在日常的书法中找到精髓，有了以上的这些，起码你不会在看的一份书法展的时候，变得很迷茫而不知道如何欣赏别人的作品，同时，也知道如何弥补自己IDE不足和欣赏别人的字体来获取进一步的提升，我想这是很重要的。</p>
+<p>本文会持续更新：2018/8/20 10:00:21 </p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%86%99%E5%AD%97-%E7%BB%83%E5%AD%97-%E5%86%99%E5%A5%BD%E5%AD%97/" rel="tag"># 写字,练字,写好字</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/08/18/Magento%E5%BC%80%E5%8F%91%E6%96%87%E6%A1%A3-%E5%9B%9B%EF%BC%89Magento%E5%B8%83%E5%B1%80%E3%80%81%E5%9D%97-%E3%80%81%E6%A8%A1%E6%9D%BF/" rel="prev" title="Magento开发文档(四）Magento布局、块 、模板">
+      <i class="fa fa-chevron-left"></i> Magento开发文档(四）Magento布局、块 、模板
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/08/20/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3Magento-%E7%AC%AC%E4%B8%83%E7%AB%A0-%E8%87%AA%E5%AE%9A%E4%B9%89Magento%E7%B3%BB%E7%BB%9F%E9%85%8D%E7%BD%AE/" rel="next" title="深入理解Magento(第七章)自定义magento后台定制以及自定义系统后台配置">
+      深入理解Magento(第七章)自定义magento后台定制以及自定义系统后台配置 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

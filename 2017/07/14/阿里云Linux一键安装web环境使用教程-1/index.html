@@ -1,37 +1,456 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="以前是万网虚拟主机空间越发的不够了，想换服务器由于备案在万网为了方便只好选择了阿里云空间。 配置环境阿里云Linux一键安装web环境是一个方便广大网站建设者的环境配置，省去了使用面板不安全占用系统内存的诸多问题，方便的建设PHP环境省去了，人工配置的繁琐节省时间。 如果是新手建议安装面板解决问题，毕竟这个环境还是需要手动配置的，如果你安装之后不懂可以在阿里云后台申请阿里云的工程师帮您解决问题。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="阿里云Linux一键安装web环境使用教程">
+<meta property="og:url" content="http://example.com/2017/07/14/%E9%98%BF%E9%87%8C%E4%BA%91Linux%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85web%E7%8E%AF%E5%A2%83%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B-1/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="以前是万网虚拟主机空间越发的不够了，想换服务器由于备案在万网为了方便只好选择了阿里云空间。 配置环境阿里云Linux一键安装web环境是一个方便广大网站建设者的环境配置，省去了使用面板不安全占用系统内存的诸多问题，方便的建设PHP环境省去了，人工配置的繁琐节省时间。 如果是新手建议安装面板解决问题，毕竟这个环境还是需要手动配置的，如果你安装之后不懂可以在阿里云后台申请阿里云的工程师帮您解决问题。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://i.imgur.com/bDdXnGV.jpg">
+<meta property="og:image" content="http://i.imgur.com/xMlbXws.jpg">
+<meta property="og:image" content="http://i.imgur.com/YtF33E4.jpg">
+<meta property="og:image" content="http://i.imgur.com/JylzhY5.jpg">
+<meta property="article:published_time" content="2017-07-14T12:31:04.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:53:06.878Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="阿里云,一键安装,account.log,cat">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://i.imgur.com/bDdXnGV.jpg">
+
+<link rel="canonical" href="http://example.com/2017/07/14/%E9%98%BF%E9%87%8C%E4%BA%91Linux%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85web%E7%8E%AF%E5%A2%83%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B-1/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>阿里云Linux一键安装web环境使用教程 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/07/14/%E9%98%BF%E9%87%8C%E4%BA%91Linux%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85web%E7%8E%AF%E5%A2%83%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          阿里云Linux一键安装web环境使用教程
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-07-14 20:31:04" itemprop="dateCreated datePublished" datetime="2017-07-14T20:31:04+08:00">2017-07-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:06" itemprop="dateModified" datetime="2020-10-11T11:53:06+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>以前是万网虚拟主机空间越发的不够了，想换服务器由于备案在万网为了方便只好选择了阿里云空间。</p>
+<p>配置环境阿里云Linux一键安装web环境是一个方便广大网站建设者的环境配置，省去了使用面板不安全占用系统内存的诸多问题，方便的建设PHP环境省去了，人工配置的繁琐节省时间。</p>
+<p>如果是新手建议安装面板解决问题，毕竟这个环境还是需要手动配置的，如果你安装之后不懂可以在阿里云后台申请阿里云的工程师帮您解决问题。</p>
+<p>如果是1G内存以上的ECS可以使用WDCP这个使用的比较多久是版本不怎么更新安全性还是可以的。小于1g内存的可以使用自己的路面板或AMH这个AMH好像收费的不过不贵的。收费才能长久开发的推荐使用。自己的路免费的好像不怎么更新了。</p>
+<p>安装须知</p>
+<p>1、此安装包可在阿里云所有linux系统上部署安装，此安装包包含的软件及版本为：</p>
+<pre><code>nginx：1.0.15、1.2.5、1.4.4
+
+apache：2.2.22、2.4.2
+
+mysql：5.1.73、5.5.35、5.6.15
+
+php：5.3.18、5.4.23、5.5.7
+
+php扩展：memcache、Zend Engine/ OPcache
+
+ftp：（yum/apt-get安装）
+
+phpwind：8.7 GBK
+
+phpmyadmin：4.1.8</code></pre>
+<p>2、请使用最新的一键安装包脚本安装，以前老版本都存在bug，会导致安装异常以及安装的环境混乱。</p>
+<p>3、执行一键安装包(./install.sh)，会自动清理之前一键安装包安装过的环境。</p>
+<p>如果您已经安装过一键安装包，再次执行安装，如若有重要数据，请自行备份/alidata目录。</p>
+<p>4、一键安装包会将软件安装在/alidata目录下。</p>
+<p>如果您的系统不存在数据盘，则一键安装包会将软件安装到系统/alidata目录下。</p>
+<p>如果您的系统存在数据盘，且还没有格式化挂载数据盘。则一键安装包会自动帮您格式化第一块数据盘，并挂载在/alidata目录下。</p>
+<p>如果您的系统存在数据盘，且已格式化并挂载了第一块数据盘。一键安装包会将第一块数据盘再次挂载到/alidata目录下，并不影响您之前的挂载目录的使用。比如下图所示，安装前，已经挂载了mnt目录。安装后，一键安装包再次挂载/alidata目录。</p>
+<p>如果您的系统存在数据盘，且已格式化数据盘，但没有挂载数据盘。一键安装包会将第一块数据盘挂载到/alidata目录下。</p>
+<p>5、怎么样卸载一键安装包？</p>
+<p>可以执行以下命令完成卸载：</p>
+<pre><code>chmod  777 -R sh-1.3.0/
+
+cd sh-1.3.0/
+
+./uninstall.sh</code></pre>
+<p>在安装前，需要准备两个工具，xftp和xshell,安装步骤就不解释了，很简单。当我们安装完毕后，准备好服务器的登录信息，登录xshell，进入到根目录：</p>
+<pre><code>cd /</code></pre>
+<p>然后用xftp上传环境安装文件sh-1.5.5这个文件，下载地址请参考我其中的一篇文章。</p>
+<p>然后输入命令：</p>
+<pre><code>chmod –R 777 sh-1.3.0
+cd sh-1.3.0
+./install.sh</code></pre>
+<p>出现了一个选择提示，进入web服务器的选择界面。这里您可以根据需要选择apache或者nginx服务器。1是nginx 2是apache一般选择1就可以了。（简单的讲解下在高并发连接的情况下，Nginx是Apache服务器不错的替代品。Nginx同时也可以作为7层负载均衡服务器来使用。根据我的测试结果，Nginx 0.8.46 + PHP 5.2.14 (FastCGI) 可以承受3万以上的并发连接数，相当于同等环境下Apache的10倍。）这里就不多讲了可以自己百度一下。<br>这里我们选择nginx，输入1，回车</p>
+<p>然后根据提示，选择自己的配置，我选择尽量高的配置。然后会出现一个配置列表：</p>
+<p><img src="http://i.imgur.com/bDdXnGV.jpg"></p>
+<p>这个时候出入y，然后就开始安装了，你也可以去干点别的了。</p>
+<p>到这个界面说明安装已经结束了，我们可以输入以下命令再次验证是不是已经安装成功</p>
+<p><img src="http://i.imgur.com/xMlbXws.jpg"></p>
+<p>接着在命令行里输入： cat account.log就可以看到默认的密码了。</p>
+<p>ftp的用户名是：wwwmysql的用户名是：root</p>
+<p>以上密码都是系统随机设置的安全性很高的，可以修改也可以不修改的。</p>
+<p><img src="http://i.imgur.com/YtF33E4.jpg"></p>
+<p>这里需要提醒的是：如果平时的维护，想要查看这个账号信息，不能在根目录下运行这个cat account.log的，细心的人会看到路径在sh-1.5.5这个目录下面运行才行。所以这里需要注意。</p>
+<p>如何管理mysql呢这个很简单</p>
+<p>在地址栏输入您的服务器IP/phpmyadmin/</p>
+<p>就会看到登陆页面了。输入上面随机的密码就可以了</p>
+<p><img src="http://i.imgur.com/JylzhY5.jpg"></p>
+<p>安装网站程序这个阿里云的环境默认带一个phpwind论坛的大家可以测试下，在浏览器中输入您的域名会IP就可以出来安全界面了按照提示进行安装就可以了。看下图片就知道了.</p>
+<p>我们可以删除这个论坛的程序，进入到phpwind里面，除了phpmyadmin这个文件夹不能删除之外，其他的都可以删除。然后把自己需要部署的web程序放进去就行了。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%98%BF%E9%87%8C%E4%BA%91-%E4%B8%80%E9%94%AE%E5%AE%89%E8%A3%85-account-log-cat/" rel="tag"># 阿里云,一键安装,account.log,cat</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/07/14/wordpress%E4%B8%AD%E8%BF%90%E7%94%A8layer%E7%9A%84%E6%97%B6%E5%80%99%EF%BC%8C%E6%B7%BB%E5%8A%A0%E7%82%B9%E5%87%BB%E4%BA%8B%E4%BB%B6%E9%98%BB%E6%AD%A2%E9%BB%98%E8%AE%A4%E4%BA%8B%E4%BB%B6%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/" rel="prev" title="wordpress中运用layer的时候，添加点击事件阻止默认事件的解决方案">
+      <i class="fa fa-chevron-left"></i> wordpress中运用layer的时候，添加点击事件阻止默认事件的解决方案
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/07/15/wordpress%E4%B8%AD%E7%A7%BB%E6%A4%8Dlayer%E7%9A%84%E7%9B%B8%E5%86%8C%E5%BC%B9%E7%AA%97%E5%8A%9F%E8%83%BD/" rel="next" title="wordpress中运用layer和swiper相结合实现图片轮播和弹窗功能以及相关的问题解决方案">
+      wordpress中运用layer和swiper相结合实现图片轮播和弹窗功能以及相关的问题解决方案 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,37 +1,1549 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="3. JavaScript规范    &#x2F;**********************等级说明***********************&#x2F;     &#x2F;*  1.阻断：执行发生严重错误导致中断，阻碍后续程序的执行  *&#x2F;     &#x2F;*  2.严重：语法错误导致执行出错                      *&#x2F;     &#x2F;*  3.主要：影响到性能等">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javascript的编码规范">
+<meta property="og:url" content="http://example.com/2019/06/28/javascript%E7%9A%84%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="3. JavaScript规范    &#x2F;**********************等级说明***********************&#x2F;     &#x2F;*  1.阻断：执行发生严重错误导致中断，阻碍后续程序的执行  *&#x2F;     &#x2F;*  2.严重：语法错误导致执行出错                      *&#x2F;     &#x2F;*  3.主要：影响到性能等">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2019-06-28T06:57:18.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:57:57.987Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="javascript,javascript编码规范,编码规范">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2019/06/28/javascript%E7%9A%84%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>javascript的编码规范 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2019/06/28/javascript%E7%9A%84%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          javascript的编码规范
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2019-06-28 14:57:18" itemprop="dateCreated datePublished" datetime="2019-06-28T14:57:18+08:00">2019-06-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:57:57" itemprop="dateModified" datetime="2020-10-11T11:57:57+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript/" itemprop="url" rel="index"><span itemprop="name">javascript</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="3-JavaScript规范"><a href="#3-JavaScript规范" class="headerlink" title="3. JavaScript规范"></a>3. JavaScript规范</h2><pre><code>    /**********************等级说明***********************/
+    /*  1.阻断：执行发生严重错误导致中断，阻碍后续程序的执行  */
+    /*  2.严重：语法错误导致执行出错                      */
+    /*  3.主要：影响到性能等                             */
+    /*  4.次要：可能影响到性能等                          */
+    /*  5.建议：优化效率性能等                            */
+    /*  6.图标表示支持sonar检测                          */    
+    /**********************等级说明***********************/</code></pre>
+<h2 id="3-1-js性能优化"><a href="#3-1-js性能优化" class="headerlink" title="3.1 js性能优化"></a>3.1 js性能优化</h2><h3 id="3-1-01-js代码要写在js文件中，在html的-lt-body-gt-lt-body-gt-最末尾的位置引入-主要"><a href="#3-1-01-js代码要写在js文件中，在html的-lt-body-gt-lt-body-gt-最末尾的位置引入-主要" class="headerlink" title="3.1.01 js代码要写在js文件中，在html的&lt;body&gt;&lt;/body&gt;最末尾的位置引入(主要)"></a>3.1.01 js代码要写在js文件中，在html的<code>&lt;body&gt;&lt;/body&gt;</code>最末尾的位置引入(主要)</h3><p><strong>规范明细</strong></p>
+<p>99%的js代码应该写在外部的javascript文件中，在html文档<code>&lt;/body&gt;</code>标签之前引入以提高页面性能。</p>
+<p><strong>正确示例</strong></p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;这是示范页面&lt;/title&gt;
+        &lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;&gt;
+        &lt;link href=&quot;css/base.css&quot; type=&quot;text/css&quot; rel=&quot;stylesheet&quot;/&gt;
+    &lt;/head&gt;
+    &lt;body id=&quot;body&quot;&gt;
+        &lt;div id=&quot;ads-c1&quot;&gt;&lt;/div&gt;
+        ...
+        ...
+        /*****************JS文件放置在&lt;/body&gt;标签之前位置*******************/
+        &lt;script type=&quot;text/javascript&quot; src=&quot;js/jquery-1.8.0.js&quot;&gt;&lt;/script&gt;
+        /*****************JS文件放置在&lt;/body&gt;标签之前位置*******************/
+    &lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<p><strong>好处</strong></p>
+<ul>
+<li>便于代码管理</li>
+<li>html代码结构规范</li>
+<li>不影响页面的渲染速度</li>
+</ul>
+<h3 id="Alt-text3-1-02-不要使用document-write-方式-主要"><a href="#Alt-text3-1-02-不要使用document-write-方式-主要" class="headerlink" title="Alt text3.1.02 不要使用document.write()方式(主要)"></a>Alt text3.1.02 不要使用document.write()方式(主要)</h3><p><strong>规范明细</strong></p>
+<p>不要使用document.write()，可以使用console.log()或者document.createElement()代替</p>
+<p><strong>错误示例</strong></p>
+<pre><code>document.write(&quot;...&quot;)</code></pre>
+<h3 id="Alt-text3-1-03-对象声明直接使用-主要"><a href="#Alt-text3-1-03-对象声明直接使用-主要" class="headerlink" title="Alt text3.1.03 对象声明直接使用 {}(主要)"></a>Alt text3.1.03 对象声明直接使用 {}(主要)</h3><p><strong>规范明细</strong></p>
+<p>对象声明直接使用 {},开始的大括号放在声明的同一行,不要使用Object对象实例化方式，因为浏览器对常用的数据类型做了优化处理。</p>
+<p><strong>正确示例</strong></p>
+<pre><code>var book = &#123;
+    title: &quot;Maintainable JavaScript&quot;,
+    author: &quot;Nicholas C. Zakas&quot;
+&#125;</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>var book = new Object();
+book.title = &quot;Maintainable JavaScript&quot;;
+book.author = &quot;Nicholas C. Zakas&quot;;</code></pre>
+<h3 id="Alt-text3-1-04-数组（Array）使用-声明-主要"><a href="#Alt-text3-1-04-数组（Array）使用-声明-主要" class="headerlink" title="Alt text3.1.04 数组（Array）使用[]声明(主要)"></a>Alt text3.1.04 数组（Array）使用[]声明(主要)</h3><p><strong>规范明细</strong></p>
+<p>数组（Array）使用[]声明,不要使用Array对象实例化方式</p>
+<p><strong>正确示例</strong></p>
+<pre><code>var colors = [ &quot;red&quot;, &quot;green&quot;, &quot;blue&quot; ];
+var numbers = [ 1, 2, 3, 4 ];   </code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>var colors = new Array(&quot;red&quot;, &quot;green&quot;, &quot;blue&quot;);
+var numbers = new Array(1, 2, 3, 4);</code></pre>
+<h3 id="Alt-text3-1-05-不要使用原始的包装数据类型（数字、字符串、布尔、数组、对象）申明变量-主要"><a href="#Alt-text3-1-05-不要使用原始的包装数据类型（数字、字符串、布尔、数组、对象）申明变量-主要" class="headerlink" title="Alt text3.1.05 不要使用原始的包装数据类型（数字、字符串、布尔、数组、对象）申明变量(主要)"></a>Alt text3.1.05 不要使用原始的包装数据类型（数字、字符串、布尔、数组、对象）申明变量(主要)</h3><p><strong>规范明细</strong></p>
+<p>不要使用原始的包装数据类型申明变量</p>
+<p><strong>正确示例</strong></p>
+<pre><code>var str = &quot;This is a string object.&quot;; // 字符串
+var num = 0; // 数字
+var boolean = false; // 布尔
+var numbers = [ 1, 2, 3, 4 ];    // 数组
+var book = &#123; // 对象
+    title: &quot;Maintainable JavaScript&quot;,
+    author: &quot;Nicholas C. Zakas&quot;
+&#125;</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>var str = new String(&quot;This is a string object.&quot;); // 字符串
+var num = new Number(0); // 数字
+var boolean = new Boolean(); // 布尔
+var numbers = new Array(1, 2, 3, 4); // 数组
+var book = new Object(); // 对象
+book.title = &quot;Maintainable JavaScript&quot;;
+book.author = &quot;Nicholas C. Zakas&quot;;</code></pre>
+<h3 id="Alt-text3-1-06-不要使用-eval-语句-主要"><a href="#Alt-text3-1-06-不要使用-eval-语句-主要" class="headerlink" title="Alt text3.1.06 不要使用 eval()语句(主要)"></a>Alt text3.1.06 不要使用 eval()语句(主要)</h3><p><strong>规范明细</strong></p>
+<p>不要使用 eval()语句,因为它存在安全隐患，导致脚本注入攻击，并且在不同的浏览器引擎下还有效率上的差异</p>
+<p><strong>正确示例</strong></p>
+<pre><code>(function()&#123;
+  var i,t=new Date,o=[];
+  for(i=0;i&lt;1E7;i++)o[i]=i;
+  console.log(new Date-t);
+&#125;)();</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>eval(
+  &quot;var i,t=new Date,o=[];&quot;+
+  &quot;for(i=0;i&lt;1E7;i++)o[i]=i;&quot;+
+  &quot;console.log(new Date-t);&quot;
+);</code></pre>
+<h3 id="Alt-text3-1-07-不要使用with语句-主要"><a href="#Alt-text3-1-07-不要使用with语句-主要" class="headerlink" title="Alt text3.1.07 不要使用with语句(主要)"></a>Alt text3.1.07 不要使用with语句(主要)</h3><p><strong>规范明细</strong></p>
+<p>不要使用with语句，该语句在’strict’模式下会出现问题。此外，使用with访问并操作对象属性的时候，如果修改不属于该对象里面的属性时，它会把操作作用域从对象内部扩展到全局域，以致可能更改对象外部申明的变量值，因此是不安全的。</p>
+<p><strong>正确示例</strong></p>
+<pre><code>var x = &#39;a&#39;;
+
+var foo = &#123;
+  y: 1
+&#125;
+
+foo.y = 4;
+foo.x = 3;
+
+print(foo.x + &quot; &quot; + x); // 显示: 3 a</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>var x = &#39;a&#39;;
+
+var foo = &#123;
+  y: 1
+&#125;
+
+with (foo) &#123;  // 错误的使用方式
+  y = 4;  // 更新 foo.y的值
+  x = 3;  // 这里没有为foo对象新增x属性; 而是更新了外部作用域定义的变量x的值
+&#125;
+print(foo.x + &quot; &quot; + x); // 显示: undefined 3</code></pre>
+<h3 id="3-1-08-不要在循环里面进行DOM操作。-主要"><a href="#3-1-08-不要在循环里面进行DOM操作。-主要" class="headerlink" title="3.1.08 不要在循环里面进行DOM操作。(主要)"></a>3.1.08 不要在循环里面进行DOM操作。(主要)</h3><p><strong>规范明细</strong></p>
+<p>避免在循环里面进行Dom操作。</p>
+<p><strong>正确示例</strong></p>
+<pre><code>var htmlString = &quot;&quot;;
+
+for(var i =0; i&lt;length;i++)&#123;
+    htmlString += html;
+&#125;
+
+$(“.class”).append(htmlString);</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>for(var i =0; i&lt;length;i++)&#123;
+    $(“.class”).append(html);
+&#125;</code></pre>
+<h3 id="3-1-09-对于多个同性质同辈节点，避免逐个进行事件绑定。而应该利用冒泡原理，将事件委托给父节点。-主要"><a href="#3-1-09-对于多个同性质同辈节点，避免逐个进行事件绑定。而应该利用冒泡原理，将事件委托给父节点。-主要" class="headerlink" title="3.1.09 对于多个同性质同辈节点，避免逐个进行事件绑定。而应该利用冒泡原理，将事件委托给父节点。(主要)"></a>3.1.09 对于多个同性质同辈节点，避免逐个进行事件绑定。而应该利用冒泡原理，将事件委托给父节点。(主要)</h3><p><strong>规范明细</strong></p>
+<p>对于多个同性质同辈节点，避免逐个进行事件绑定。而应该利用冒泡原理，将事件委托给父节点。</p>
+<p><strong>正确示例</strong></p>
+<pre><code>$(&quot;table&quot;).on(&quot;click&quot;,&quot;td&quot;,function()&#123;
+    ...
+&#125;)</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>$(&quot;td&quot;).on(&quot;click&quot;,function()&#123;
+    ...
+&#125;)</code></pre>
+<h3 id="3-1-10-事件委托要接近事件触发节点，避免将所有事件冒泡委托给body节点。-主要"><a href="#3-1-10-事件委托要接近事件触发节点，避免将所有事件冒泡委托给body节点。-主要" class="headerlink" title="3.1.10 事件委托要接近事件触发节点，避免将所有事件冒泡委托给body节点。(主要)"></a>3.1.10 事件委托要接近事件触发节点，避免将所有事件冒泡委托给body节点。(主要)</h3><p><strong>规范明细</strong></p>
+<p>事件委托要接近事件触发节点，避免将所有事件冒泡委托给body节点。</p>
+<p><strong>正确示例</strong></p>
+<pre><code>$(&quot;table&quot;).on(&quot;click&quot;,&quot;td&quot;,function()&#123;
+    ...
+&#125;)</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>$(&quot;body&quot;).on(&quot;click&quot;,&quot;td&quot;,function()&#123;
+    ...
+&#125;)</code></pre>
+<h3 id="3-1-11-通常能用CSS实现的效果要避免使用JS来实现。CSS性能比JS要高。-次要"><a href="#3-1-11-通常能用CSS实现的效果要避免使用JS来实现。CSS性能比JS要高。-次要" class="headerlink" title="3.1.11 通常能用CSS实现的效果要避免使用JS来实现。CSS性能比JS要高。(次要)"></a>3.1.11 通常能用CSS实现的效果要避免使用JS来实现。CSS性能比JS要高。(次要)</h3><p><strong>规范明细</strong></p>
+<p>通常能用CSS实现的效果要避免使用JS来实现。CSS性能比JS要高。</p>
+<h3 id="Alt-text3-1-12-JS要避免直接写在页面中，加快页面加载速度。-主要"><a href="#Alt-text3-1-12-JS要避免直接写在页面中，加快页面加载速度。-主要" class="headerlink" title="Alt text3.1.12 JS要避免直接写在页面中，加快页面加载速度。(主要)"></a>Alt text3.1.12 JS要避免直接写在页面中，加快页面加载速度。(主要)</h3><p><strong>规范明细</strong></p>
+<p>JS要避免直接写在页面中，加快页面加载速度。页面最多允许20行JS代码</p>
+<h3 id="3-1-13-在开发中，简单的操作能用原生js实现的方式，就不要用三方的插件或者库实现-次要"><a href="#3-1-13-在开发中，简单的操作能用原生js实现的方式，就不要用三方的插件或者库实现-次要" class="headerlink" title="3.1.13 在开发中，简单的操作能用原生js实现的方式，就不要用三方的插件或者库实现(次要)"></a>3.1.13 在开发中，简单的操作能用原生js实现的方式，就不要用三方的插件或者库实现(次要)</h3><p><strong>规范明细</strong></p>
+<p>在开发中，简单的操作能用原生js实现的方式，就不要用三方的插件或者库实现。因为原生的方式执行效率高很多</p>
+<h3 id="3-1-14-进行JS合并压缩的，部署之前要进行压缩合并-主要"><a href="#3-1-14-进行JS合并压缩的，部署之前要进行压缩合并-主要" class="headerlink" title="3.1.14 进行JS合并压缩的，部署之前要进行压缩合并(主要)"></a>3.1.14 进行JS合并压缩的，部署之前要进行压缩合并(主要)</h3><p><strong>规范明细</strong></p>
+<p>能够进行JS合并压缩的，部署之前要进行压缩合并。其一是为了减少请求HTTP请求数，提高性能；其二是为了对源码进行加密，降低被COPY的可能性。</p>
+<h3 id="3-1-15-在项目满足条件的情况下，使用最新的jQuery版本。-建议"><a href="#3-1-15-在项目满足条件的情况下，使用最新的jQuery版本。-建议" class="headerlink" title="3.1.15 在项目满足条件的情况下，使用最新的jQuery版本。(建议)"></a>3.1.15 在项目满足条件的情况下，使用最新的jQuery版本。(建议)</h3><p><strong>规范明细</strong></p>
+<p>jQuery的版本更新很快，我们应该总是使用最新的版本。因为新版本会改进性能，还有很多新功能。</p>
+<h3 id="Alt-text3-1-16-在使用jQuery时，需要用缓存的方式，避免重复产生过多的jQuery对象。-次要"><a href="#Alt-text3-1-16-在使用jQuery时，需要用缓存的方式，避免重复产生过多的jQuery对象。-次要" class="headerlink" title="Alt text3.1.16 在使用jQuery时，需要用缓存的方式，避免重复产生过多的jQuery对象。(次要)"></a>Alt text3.1.16 在使用jQuery时，需要用缓存的方式，避免重复产生过多的jQuery对象。(次要)</h3><p><strong>规范明细</strong></p>
+<p>在使用jQuery时，需要用缓存的方式，避免重复产生过多的jQuery对象。</p>
+<p><strong>正确示例</strong></p>
+<pre><code>var cached = $(&#39;#top&#39;); 
+cached.find(&#39;p.classA&#39;); 
+cached.find(&#39;p.classB&#39;); </code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>$(&#39;#top&#39;).find(&#39;p.classA&#39;); 
+$(&#39;#top&#39;).find(&#39;p.classB&#39;); </code></pre>
+<h3 id="3-1-17-使用jQuery时进行多重操作，采用其链式写法-次要"><a href="#3-1-17-使用jQuery时进行多重操作，采用其链式写法-次要" class="headerlink" title="3.1.17 使用jQuery时进行多重操作，采用其链式写法(次要)"></a>3.1.17 使用jQuery时进行多重操作，采用其链式写法(次要)</h3><p><strong>规范明细</strong></p>
+<p>使用jQuery时进行多重操作，采用其链式写法</p>
+<p><strong>正确示例</strong></p>
+<pre><code>$(&#39;class&#39;).find(&#39;h3&#39;).eq(2).html(&#39;Hello&#39;); </code></pre>
+<h3 id="3-1-18-在js操作DOM的过程中，要避免频繁改动DOM结构，可以先使用字符串方式组装html代码，再插到DOM结构中去-主要"><a href="#3-1-18-在js操作DOM的过程中，要避免频繁改动DOM结构，可以先使用字符串方式组装html代码，再插到DOM结构中去-主要" class="headerlink" title="3.1.18 在js操作DOM的过程中，要避免频繁改动DOM结构，可以先使用字符串方式组装html代码，再插到DOM结构中去(主要)"></a>3.1.18 在js操作DOM的过程中，要避免频繁改动DOM结构，可以先使用字符串方式组装html代码，再插到DOM结构中去(主要)</h3><p><strong>规范明细</strong></p>
+<p>在js操作DOM的过程中，要避免频繁改动DOM结构，可以先使用字符串方式组装html代码，再插到DOM结构中去</p>
+<p><strong>正确示例</strong></p>
+<pre><code>var html = &#39;&lt;div id=&quot;d1&quot;&gt;&lt;span id=&quot;s1&quot;&gt;&lt;/span&gt;&lt;span id=&quot;s2&quot;&gt;&lt;/span&gt;&lt;/div&gt;&#39;; 
+$(body).append(html); </code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>var d1 = $(&#39;&lt;div id=&quot;d1&quot;&gt;&lt;/div&gt;&#39;); 
+$(body).append(d1); 
+var s1 = &#39;&lt;span id=&quot;s1&quot;&gt;&lt;/span&gt;&#39;;
+d1.append(s1); 
+var s2 = &#39;&lt;span id=&quot;s2&quot;&gt;&lt;/span&gt;&#39;;
+d1.append(s2); </code></pre>
+<h3 id="3-1-19-使用-data-elem-key-value-的方式绑定数据-次要"><a href="#3-1-19-使用-data-elem-key-value-的方式绑定数据-次要" class="headerlink" title="3.1.19 使用$.data(elem,key,value)的方式绑定数据(次要)"></a>3.1.19 使用$.data(elem,key,value)的方式绑定数据(次要)</h3><p><strong>规范明细</strong></p>
+<p>使用<code>$.data(elem,key,value)</code>的方式绑定数据。因为elem.data()方法是定义在jQuery函数的prototype对象上面的，而<code>$.data()</code>方法是定义jQuery函数上面的，调用的时候不从复杂的jQuery对象上调用，所以速度快得多。</p>
+<p><strong>正确示例</strong></p>
+<pre><code>$.data(elem,key,value)</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>var elem = $(&#39;#elem&#39;); 
+elem.data(key,value); </code></pre>
+<h3 id="3-2-js命名规范"><a href="#3-2-js命名规范" class="headerlink" title="3.2 js命名规范"></a>3.2 js命名规范</h3><p>Alt text3.2.01 所有的布尔值的命名以’is’，’can’，’has’，’should’，’must’等状态词开头(主要)</p>
+<p><strong>规范明细</strong></p>
+<p>所有的布尔值的命名以’is’，’can’，’has’，’should’，’must’等状态词开头</p>
+<p><strong>正确示例</strong></p>
+<pre><code>var isValid = true， canExcute = false, hasDone = false, shouldHold = true, mustDo = false;</code></pre>
+<h3 id="3-2-02-变量名和方法名要合乎逻辑，容易阅读者被理解-主要"><a href="#3-2-02-变量名和方法名要合乎逻辑，容易阅读者被理解-主要" class="headerlink" title="3.2.02 变量名和方法名要合乎逻辑，容易阅读者被理解(主要)"></a>3.2.02 变量名和方法名要合乎逻辑，容易阅读者被理解(主要)</h3><p><strong>规范明细</strong></p>
+<p>变量名和方法名要合乎逻辑</p>
+<p><strong>正确示例</strong></p>
+<pre><code>var popUpWindowForAd;</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>var myWindow</code></pre>
+<h3 id="3-2-03-不要手动来压缩代码-for循环中的条件变量i除外-，变量应该足够长且有意义-主要"><a href="#3-2-03-不要手动来压缩代码-for循环中的条件变量i除外-，变量应该足够长且有意义-主要" class="headerlink" title="3.2.03 不要手动来压缩代码(for循环中的条件变量i除外)，变量应该足够长且有意义(主要)"></a>3.2.03 不要手动来压缩代码(for循环中的条件变量i除外)，变量应该足够长且有意义(主要)</h3><p><strong>规范明细</strong></p>
+<p>不要手动来压缩代码(for循环中的条件变量i除外)，变量应该足够长且有意义</p>
+<p><strong>正确示例</strong></p>
+<pre><code>var blackCatSergeant;</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>var bcs;</code></pre>
+<h3 id="3-2-04-变量使用驼峰命名法（camel-case），使用名词结构-主要"><a href="#3-2-04-变量使用驼峰命名法（camel-case），使用名词结构-主要" class="headerlink" title="3.2.04 变量使用驼峰命名法（camel case），使用名词结构(主要)"></a>3.2.04 变量使用驼峰命名法（camel case），使用名词结构(主要)</h3><p><strong>规范明细</strong></p>
+<p>以首字母小写单词开头，后续单词首字母均使用大写，使用名词结构</p>
+<p><strong>正确示例</strong></p>
+<pre><code>var thisIsMyName;</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>var hello;</code></pre>
+<h3 id="3-2-05-方法使用驼峰命名法，使用动宾结构-主要"><a href="#3-2-05-方法使用驼峰命名法，使用动宾结构-主要" class="headerlink" title="3.2.05 方法使用驼峰命名法，使用动宾结构(主要)"></a>3.2.05 方法使用驼峰命名法，使用动宾结构(主要)</h3><p><strong>规范明细</strong></p>
+<p>以首字母小写单词开头，后续单词首字母均使用大写，使用动宾结构</p>
+<p><strong>正确示例</strong></p>
+<pre><code>function getName() &#123;
+    ...
+&#125;</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>function hello() &#123;
+    ...
+&#125;</code></pre>
+<h3 id="3-2-06-常量全部使用大写字母，字母之间使用下划线进行连接-主要"><a href="#3-2-06-常量全部使用大写字母，字母之间使用下划线进行连接-主要" class="headerlink" title="3.2.06 常量全部使用大写字母，字母之间使用下划线进行连接(主要)"></a>3.2.06 常量全部使用大写字母，字母之间使用下划线进行连接(主要)</h3><p><strong>规范明细</strong></p>
+<p>常量全部使用大写字母，字母之间使用下划线进行连接，取名要明确表明此常量代表的意义</p>
+<p><strong>正确示例</strong></p>
+<pre><code>var MAX_COUNT = 10;
+var URL = &quot;http://www.nczonline.net/&quot;;</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>var maxCount = 10;</code></pre>
+<h3 id="3-2-07-构造函数名使用帕斯卡命名法-主要"><a href="#3-2-07-构造函数名使用帕斯卡命名法-主要" class="headerlink" title="3.2.07 构造函数名使用帕斯卡命名法(主要)"></a>3.2.07 构造函数名使用帕斯卡命名法(主要)</h3><p><strong>规范明细</strong></p>
+<p>所有单词均以大写字母开头</p>
+<p><strong>正确示例</strong></p>
+<pre><code>function Person(name) &#123;
+    this.name = name;
+&#125;
+
+Person.prototype.sayName = function() &#123;
+    alert(this.name);
+&#125;;
+
+var me = new Person(&quot;Nicholas&quot;);</code></pre>
+<h3 id="Alt-text3-2-08-数字申明的变量的命名要体现出该变量是数字，不使用八进制声明数值，不省略小数点前后数字以免造成歧义。-严重"><a href="#Alt-text3-2-08-数字申明的变量的命名要体现出该变量是数字，不使用八进制声明数值，不省略小数点前后数字以免造成歧义。-严重" class="headerlink" title="Alt text3.2.08 数字申明的变量的命名要体现出该变量是数字，不使用八进制声明数值，不省略小数点前后数字以免造成歧义。(严重)"></a>Alt text3.2.08 数字申明的变量的命名要体现出该变量是数字，不使用八进制声明数值，不省略小数点前后数字以免造成歧义。(严重)</h3><p><strong>规范明细</strong></p>
+<p>数字申明变量的命名要体现出该变量是数字，不使用八进制声明数值，不省略小数点前后数字以免造成歧义。</p>
+<p><strong>正确示例</strong></p>
+<pre><code>var count = 10; 
+var price = 10.0;
+var price = 10.00;  
+//科学计数法
+var num = 1e23;
+//十六进制
+var num = 0xA2;</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>var temp = 10;
+var price = 10.;
+var price = .1;
+// 八进制
+var num = 010;</code></pre>
+<h3 id="Alt-text3-2-09-不要使用js关键字作为申明的变量或者方法名称，如‘eval’，‘arguments’等-严重"><a href="#Alt-text3-2-09-不要使用js关键字作为申明的变量或者方法名称，如‘eval’，‘arguments’等-严重" class="headerlink" title="Alt text3.2.09 不要使用js关键字作为申明的变量或者方法名称，如‘eval’，‘arguments’等(严重)"></a>Alt text3.2.09 不要使用js关键字作为申明的变量或者方法名称，如‘eval’，‘arguments’等(严重)</h3><p><strong>规范明细</strong></p>
+<p>不要使用js关键字作为申明的变量或者方法名称，常用的js关键字：</p>
+<pre><code>eval break arguments delete function return typeof  
+case do if switch var  
+catch else in this void  
+continue false instanceof throw while  
+debugger finally new true with  
+default for null try    </code></pre>
+<p><strong>正确示例</strong></p>
+<pre><code>result = 17;
+args++;
+++result;
+var obj = &#123; set p(arg) &#123; &#125; &#125;;
+var result;
+try &#123; &#125; catch (args) &#123; &#125;
+function x(arg) &#123; &#125;
+function args() &#123; &#125; 
+var y = function fun() &#123; &#125;; 
+var f = new Function(&quot;args&quot;, &quot;return 17;&quot;);
+
+function fun() &#123;
+  if (arguments.length == 0) &#123;
+    // do something
+  &#125;
+&#125;</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>eval = 17; // 非法
+arguments++; // 非法
+++eval; // 非法
+var obj = &#123; set p(arguments) &#123; &#125; &#125;; // 非法
+var eval; // 非法
+try &#123; &#125; catch (arguments) &#123; &#125; // 非法
+function x(eval) &#123; &#125; // 非法
+function arguments() &#123; &#125; // 非法
+var y = function eval() &#123; &#125;; // 非法
+var f = new Function(&quot;arguments&quot;, &quot;return 17;&quot;); // 非法
+
+function fun() &#123;
+  if (arguments.length == 0) &#123; // 非法
+    // do something
+  &#125;
+&#125;</code></pre>
+<h3 id="Alt-text3-2-10-将来可能成为js关键字（ECMAScript标准定义-的不能作为变量或者方法名称申明-严重"><a href="#Alt-text3-2-10-将来可能成为js关键字（ECMAScript标准定义-的不能作为变量或者方法名称申明-严重" class="headerlink" title="Alt text3.2.10 将来可能成为js关键字（ECMAScript标准定义)的不能作为变量或者方法名称申明(严重)"></a>Alt text3.2.10 将来可能成为js关键字（ECMAScript标准定义)的不能作为变量或者方法名称申明(严重)</h3><p><strong>规范明细</strong></p>
+<p>将来可能成为js关键字（ECMAScript标准定义)的不能作为变量或者方法名称申明，未来可能使用的关键字：</p>
+<pre><code>abstract double goto native static  
+boolean enum implements package super  
+byte export import private synchronized  
+char extends int protected throws  
+class final interface public transient  
+const float long short volatile  
+await exports let yield</code></pre>
+<p><strong>正确示例</strong></p>
+<pre><code>dbl = 17.00;
+sht++;
+++sht;</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>double = 17; // 非法
+short++; // 非法
+++short; // 非法</code></pre>
+<h3 id="Alt-text3-2-11-方法参数命名必须是唯一的-严重"><a href="#Alt-text3-2-11-方法参数命名必须是唯一的-严重" class="headerlink" title="Alt text3.2.11 方法参数命名必须是唯一的(严重)"></a>Alt text3.2.11 方法参数命名必须是唯一的(严重)</h3><p><strong>规范明细</strong></p>
+<p>方法参数命名必须是唯一的</p>
+<p><strong>正确示例</strong></p>
+<pre><code>function compute(a, b, c) &#123;  
+    ...
+&#125;</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>function compute(a, a, c) &#123; 
+    ...
+&#125;</code></pre>
+<h3 id="Alt-text3-2-12-对象属性的命名必须是唯一不能重复的-严重"><a href="#Alt-text3-2-12-对象属性的命名必须是唯一不能重复的-严重" class="headerlink" title="Alt text3.2.12 对象属性的命名必须是唯一不能重复的(严重)"></a>Alt text3.2.12 对象属性的命名必须是唯一不能重复的(严重)</h3><p><strong>规范明细</strong></p>
+<p>对象属性的命名必须是唯一不能重复的</p>
+<p><strong>正确示例</strong></p>
+<pre><code>var data = &#123;
+  &quot;key&quot;: &quot;value&quot;,
+  &quot;1&quot;: &quot;value&quot;,
+  &quot;key2&quot;: &quot;value&quot;,
+  &#39;key3&#39;: &quot;value&quot;,
+  key4: &quot;value&quot;,
+  \u006bey5: &quot;value&quot;,
+  &quot;\u006bey6&quot;: &quot;value&quot;,
+  &quot;\x6bey7&quot;: &quot;value&quot;,
+  1b: &quot;value&quot;
+&#125;</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>var data = &#123;
+  &quot;key&quot;: &quot;value&quot;,
+  &quot;1&quot;: &quot;value&quot;,
+  &quot;key&quot;: &quot;value&quot;, // 重复的 &quot;key&quot;
+  &#39;key&#39;: &quot;value&quot;, // 重复的 &quot;key&quot;
+  key: &quot;value&quot;, // 重复的 &quot;key&quot;
+  \u006bey: &quot;value&quot;, // 重复的 &quot;key&quot;
+  &quot;\u006bey&quot;: &quot;value&quot;, // 重复的 &quot;key&quot;
+  &quot;\x6bey&quot;: &quot;value&quot;, // 重复的 &quot;key&quot;
+  1: &quot;value&quot; // 重复的 &quot;1&quot;
+&#125;</code></pre>
+<h3 id="Alt-text3-2-13-变量需要在被使用前申明-主要"><a href="#Alt-text3-2-13-变量需要在被使用前申明-主要" class="headerlink" title="Alt text3.2.13 变量需要在被使用前申明(主要)"></a>Alt text3.2.13 变量需要在被使用前申明(主要)</h3><p><strong>规范明细</strong></p>
+<p>变量需要在被使用前申明</p>
+<p><strong>正确示例</strong></p>
+<pre><code>var x = 1;
+
+function fun() &#123;
+    print(x);
+    if (something) &#123;
+        x = 42;
+    &#125;
+&#125;
+
+fun(); // &quot;1&quot;</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>var x = 1;
+
+function fun()&#123;
+    alert(x); 
+    if(something) &#123;
+        var x = 42; 
+    &#125;
+&#125;
+
+fun(); // &quot;undefined&quot; 而不是 &quot;1&quot;</code></pre>
+<h3 id="Alt-text3-2-14-在同一个作用域下面，不能用相同的名称命名方法和变量-主要"><a href="#Alt-text3-2-14-在同一个作用域下面，不能用相同的名称命名方法和变量-主要" class="headerlink" title="Alt text3.2.14 在同一个作用域下面，不能用相同的名称命名方法和变量(主要)"></a>Alt text3.2.14 在同一个作用域下面，不能用相同的名称命名方法和变量(主要)</h3><p><strong>规范明细</strong></p>
+<p>在同一个作用域下面，不能用相同的名称命名方法和变量</p>
+<p><strong>正确示例</strong></p>
+<pre><code>var fun = function () &#123;
+&#125;</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>var fun;
+function fun() &#123;
+&#125;</code></pre>
+<h3 id="Alt-text3-2-15-变量命名不要覆盖其他的变量，即不要重名-主要"><a href="#Alt-text3-2-15-变量命名不要覆盖其他的变量，即不要重名-主要" class="headerlink" title="Alt text3.2.15 变量命名不要覆盖其他的变量，即不要重名(主要)"></a>Alt text3.2.15 变量命名不要覆盖其他的变量，即不要重名(主要)</h3><p><strong>规范明细</strong></p>
+<p>变量命名不要覆盖其他的变量，即不要重名</p>
+<p><strong>正确示例</strong></p>
+<pre><code>var a = &#39;foo&#39;;
+var b = &#39;bar&#39;;
+
+function f(e) &#123;
+  var g = &quot;event&quot;;
+&#125;</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>var a = &#39;foo&#39;;
+var a = &#39;bar&#39;; // 覆盖
+
+function f(e) &#123;
+  var e = &quot;event&quot;; // 覆盖
+&#125;</code></pre>
+<h2 id="3-3-js注释规范"><a href="#3-3-js注释规范" class="headerlink" title="3.3 js注释规范"></a>3.3 js注释规范</h2><h3 id="3-3-01-申明的变量-除for循环里面的循环次数控制变量-、方法（包括匿名方法）、对象，对象属性、插件、API、代码块（for循环，if…else…）等都需要有注释来解释-主要"><a href="#3-3-01-申明的变量-除for循环里面的循环次数控制变量-、方法（包括匿名方法）、对象，对象属性、插件、API、代码块（for循环，if…else…）等都需要有注释来解释-主要" class="headerlink" title="3.3.01 申明的变量(除for循环里面的循环次数控制变量)、方法（包括匿名方法）、对象，对象属性、插件、API、代码块（for循环，if…else…）等都需要有注释来解释(主要)"></a>3.3.01 申明的变量(除for循环里面的循环次数控制变量)、方法（包括匿名方法）、对象，对象属性、插件、API、代码块（for循环，if…else…）等都需要有注释来解释(主要)</h3><p><strong>规范明细</strong></p>
+<p>申明的变量(除for循环里面的循环次数控制变量)、方法（包括匿名方法）、对象，对象属性、插件、api、代码块（for循环，if…else…）等都需要有注释来解释。</p>
+<p><strong>正确示例</strong></p>
+<pre><code>// 这是一个计数器
+var count = 10;</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>var count = 10;</code></pre>
+<h3 id="3-3-02-单行注释或多行注释之前空一行-主要"><a href="#3-3-02-单行注释或多行注释之前空一行-主要" class="headerlink" title="3.3.02 单行注释或多行注释之前空一行(主要)"></a>3.3.02 单行注释或多行注释之前空一行(主要)</h3><p><strong>规范明细</strong></p>
+<p>单行注释或多行注释之前空一行</p>
+<p><strong>正确示例</strong></p>
+<pre><code>function aFun() &#123; 
+
+    // 注释...
+    ......  
+&#125;</code></pre>
+<h3 id="3-3-03-单行注释-后空一格-次要"><a href="#3-3-03-单行注释-后空一格-次要" class="headerlink" title="3.3.03 单行注释//后空一格(次要)"></a>3.3.03 单行注释//后空一格(次要)</h3><p><strong>规范明细</strong></p>
+<p>单行注释//后空一格</p>
+<p><strong>正确示例</strong></p>
+<pre><code>// Single-line comment  </code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>//Single-line comment</code></pre>
+<h3 id="3-3-04-注释单独一行-注释前空一行，与下一行代码保持相同的缩进。在某行代码后添加行注释，需在代码后空一个4个空格缩进，字符长度不要超过最大字符数-120字符-。-主要"><a href="#3-3-04-注释单独一行-注释前空一行，与下一行代码保持相同的缩进。在某行代码后添加行注释，需在代码后空一个4个空格缩进，字符长度不要超过最大字符数-120字符-。-主要" class="headerlink" title="3.3.04 注释单独一行,注释前空一行，与下一行代码保持相同的缩进。在某行代码后添加行注释，需在代码后空一个4个空格缩进，字符长度不要超过最大字符数(120字符)。(主要)"></a>3.3.04 注释单独一行,注释前空一行，与下一行代码保持相同的缩进。在某行代码后添加行注释，需在代码后空一个4个空格缩进，字符长度不要超过最大字符数(120字符)。(主要)</h3><p><strong>规范明细</strong></p>
+<p>注释单独一行(注释前空一行)，说明下一行或一段代码的用意，通常与下一行代码保持相同的缩进。在某行代码后添加行注释，需在代码后空一个tab缩进，这种情形下此行的字符长度不要超过最大字符，如果超过请使用上述风格。</p>
+<p><strong>正确示例</strong></p>
+<pre><code>if (condition) &#123;
+
+    // if you made it here, then all security checks passed
+    allowed();
+&#125;
+
+// if (condition) &#123;
+//     doSomething();
+//     thenDoSomethingElse();
+// &#125;</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>if (condition) &#123;
+    // if you made it here, then all security checks passed
+    allowed();
+&#125;
+
+var result = something + somethingElse;// somethingElse will never be null</code></pre>
+<h3 id="3-3-05-多行注释以-开始，以-结束-主要"><a href="#3-3-05-多行注释以-开始，以-结束-主要" class="headerlink" title="3.3.05 多行注释以/*开始，以*/结束(主要)"></a>3.3.05 多行注释以<code>/*</code>开始，以<code>*/</code>结束(主要)</h3><p><strong>规范明细</strong></p>
+<p>多行注释以<code>/*</code>开始，以<code>*/</code>结束</p>
+<p><strong>正确示例</strong></p>
+<pre><code>/*
+* Yet another comment.
+* Also goes to a second line.
+*/
+
+if (condition) &#123;
+
+    /* 
+     * if you made it here, 
+     * then all security checks passed
+     */
+    allowed();
+&#125;</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>if (condition) &#123;
+/* 
+ * if you made it here, 
+ * then all security checks passed
+ */
+    allowed();
+&#125;</code></pre>
+<h3 id="Alt-text3-3-06-不要使用HTML注释方式-主要"><a href="#Alt-text3-3-06-不要使用HTML注释方式-主要" class="headerlink" title="Alt text3.3.06 不要使用HTML注释方式(主要)"></a>Alt text3.3.06 不要使用HTML注释方式(主要)</h3><p><strong>规范明细</strong></p>
+<p>不要使用HTML注释方式</p>
+<p><strong>错误示例</strong></p>
+<pre><code>&lt;!-- 注释 --&gt;</code></pre>
+<h3 id="Alt-text3-3-07-注释语句不要跟在代码同一行后面，要在代码行上一行位置-次要"><a href="#Alt-text3-3-07-注释语句不要跟在代码同一行后面，要在代码行上一行位置-次要" class="headerlink" title="Alt text3.3.07 注释语句不要跟在代码同一行后面，要在代码行上一行位置(次要)"></a>Alt text3.3.07 注释语句不要跟在代码同一行后面，要在代码行上一行位置(次要)</h3><p><strong>规范明细</strong></p>
+<p>注释语句不要跟在代码同一行后面，要在代码行上一行位置</p>
+<p><strong>正确示例</strong></p>
+<pre><code>// 在这个位置评论比较好
+var a2 = b + c;</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>var a1 = b + c; // 在这个位置评论不合适</code></pre>
+<h2 id="3-4-js代码格式化规范"><a href="#3-4-js代码格式化规范" class="headerlink" title="3.4 js代码格式化规范"></a>3.4 js代码格式化规范</h2><h3 id="3-4-01-方法、对象、循环等开始花括号-要跟在方法、对象、循环等起始行的最后面，不要另起一行写-主要"><a href="#3-4-01-方法、对象、循环等开始花括号-要跟在方法、对象、循环等起始行的最后面，不要另起一行写-主要" class="headerlink" title="3.4.01 方法、对象、循环等开始花括号{要跟在方法、对象、循环等起始行的最后面，不要另起一行写(主要)"></a>3.4.01 方法、对象、循环等开始花括号<code>&#123;</code>要跟在方法、对象、循环等起始行的最后面，不要另起一行写(主要)</h3><p><strong>规范明细</strong></p>
+<p>方法、对象、循环等开始花括号<code>&#123;</code>要跟在方法、对象、循环起始行的最后面，不要另起一行书写，不要与结束花括号<code>&#125;</code>保持在同一列。</p>
+<p><strong>正确示例</strong></p>
+<pre><code>function getData() &#123;
+    return &#123;
+        title: &quot;Maintainable JavaScript&quot;,
+        author: &quot;Nicholas C. Zakas&quot;
+    &#125;
+&#125;</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>function getData() 
+&#123;
+    return 
+    &#123;
+        title: &quot;Maintainable JavaScript&quot;,
+        author: &quot;Nicholas C. Zakas&quot;
+    &#125;
+&#125;</code></pre>
+<h3 id="Alt-text3-4-02-使用-分号-结束代码语句-主要"><a href="#Alt-text3-4-02-使用-分号-结束代码语句-主要" class="headerlink" title="Alt text3.4.02 使用 分号; 结束代码语句(主要)"></a>Alt text3.4.02 使用 分号; 结束代码语句(主要)</h3><p><strong>规范明细</strong></p>
+<p>使用 ; 结束代码语句，不能用换行来结束</p>
+<p><strong>正确示例</strong></p>
+<pre><code>var name = &quot;Nicholas&quot;;
+function sayName() &#123;
+    alert(name);
+&#125;   </code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>var name = &quot;Nicholas&quot;
+function sayName() &#123;
+    alert(name)
+&#125;   </code></pre>
+<h3 id="Alt-text3-4-03-每行代码的长度不超过120字符，含空格字符-主要"><a href="#Alt-text3-4-03-每行代码的长度不超过120字符，含空格字符-主要" class="headerlink" title="Alt text3.4.03 每行代码的长度不超过120字符，含空格字符(主要)"></a>Alt text3.4.03 每行代码的长度不超过120字符，含空格字符(主要)</h3><p><strong>规范明细</strong></p>
+<p>一行代码过长影响可读性，虽然有些编辑器可以进行自动wrap，但代码也会出现长短差距太大的情况，在读代码理解逻辑时就会很不方便。所以请控制你的每一行代码在120个字符以内（包括空格，并非每行代码都要去数有多少字母，写到一个很长的语句的时候控制一下在120个字母左右换行。</p>
+<h3 id="3-4-03-同一行方法调用或者表达式换行时，一定要在一个运算符或标点后进行换行-主要"><a href="#3-4-03-同一行方法调用或者表达式换行时，一定要在一个运算符或标点后进行换行-主要" class="headerlink" title="3.4.03 同一行方法调用或者表达式换行时，一定要在一个运算符或标点后进行换行(主要)"></a>3.4.03 同一行方法调用或者表达式换行时，一定要在一个运算符或标点后进行换行(主要)</h3><p><strong>规范明细</strong></p>
+<p>同一行方法调用或者表达式换行时，一定要在一个运算符或标点后进行换行</p>
+<p><strong>正确示例</strong></p>
+<pre><code>if (isLeapYear &amp;&amp; isFebruary &amp;&amp; day == 29 &amp;&amp; itsYourBirthday &amp;&amp;
+        noPlans) &#123;
+    waitAnotherFourYears();
+&#125;</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>callAFunction(document, element, window, &quot;some string value&quot;, true, 123
+    , navigator);</code></pre>
+<h3 id="3-4-04-同一行方法调用或者表达式，换行后的另一行缩进8个空格-主要"><a href="#3-4-04-同一行方法调用或者表达式，换行后的另一行缩进8个空格-主要" class="headerlink" title="3.4.04 同一行方法调用或者表达式，换行后的另一行缩进8个空格(主要)"></a>3.4.04 同一行方法调用或者表达式，换行后的另一行缩进8个空格(主要)</h3><p><strong>规范明细</strong></p>
+<p>同一行方法调用或者表达式，换行后的另一行缩进8个空格</p>
+<p><strong>正确示例</strong></p>
+<pre><code>callAFunction(document, element, window, &quot;some string value&quot;, true, 123,
+        navigator);</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>callAFunction(document, element, window, &quot;some string value&quot;, true, 123,
+    navigator);</code></pre>
+<h3 id="3-4-05-表达式赋值语句换行，第二行要与等号后面的第一个变量对齐-主要"><a href="#3-4-05-表达式赋值语句换行，第二行要与等号后面的第一个变量对齐-主要" class="headerlink" title="3.4.05 表达式赋值语句换行，第二行要与等号后面的第一个变量对齐(主要)"></a>3.4.05 表达式赋值语句换行，第二行要与等号后面的第一个变量对齐(主要)</h3><p><strong>规范明细</strong></p>
+<p>表达式赋值语句换行，第二行要与等号后面的第一个变量对齐</p>
+<p><strong>正确示例</strong></p>
+<pre><code>var result = something + anotherThing + yetAnotherThing + somethingElse +
+             anotherSomethingElse;</code></pre>
+<h3 id="3-4-06-每个方法之间空一行-主要"><a href="#3-4-06-每个方法之间空一行-主要" class="headerlink" title="3.4.06 每个方法之间空一行(主要)"></a>3.4.06 每个方法之间空一行(主要)</h3><p><strong>规范明细</strong></p>
+<p>每个方法之间空一行</p>
+<p><strong>正确示例</strong></p>
+<pre><code>function aFun() &#123;
+    ...
+&#125;
+
+function bFun() &#123;
+    ...
+&#125;</code></pre>
+<h3 id="3-4-07-在方法的局部变量声明和方法的语句之间空一行-次要"><a href="#3-4-07-在方法的局部变量声明和方法的语句之间空一行-次要" class="headerlink" title="3.4.07 在方法的局部变量声明和方法的语句之间空一行(次要)"></a>3.4.07 在方法的局部变量声明和方法的语句之间空一行(次要)</h3><p><strong>规范明细</strong></p>
+<p>在方法的局部变量声明和方法的语句之间空一行</p>
+<p><strong>正确示例</strong></p>
+<pre><code>function aFun() &#123;
+    var a = ...;
+    var b = ...;
+
+    ...
+&#125;</code></pre>
+<h3 id="3-4-08-运算符前后添加空格-主要"><a href="#3-4-08-运算符前后添加空格-主要" class="headerlink" title="3.4.08 运算符前后添加空格(主要)"></a>3.4.08 运算符前后添加空格(主要)</h3><p><strong>规范明细</strong></p>
+<p>运算符前后添加空格</p>
+<p><strong>正确示例</strong></p>
+<pre><code>var found = (values[i] === item);</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>var found=(values[i]===item);</code></pre>
+<h3 id="3-4-09-圆括号内挨着圆括号的地方不添加空格-主要"><a href="#3-4-09-圆括号内挨着圆括号的地方不添加空格-主要" class="headerlink" title="3.4.09 圆括号内挨着圆括号的地方不添加空格(主要)"></a>3.4.09 圆括号内挨着圆括号的地方不添加空格(主要)</h3><p><strong>规范明细</strong></p>
+<p>圆括号内挨着圆括号的地方不添加空格</p>
+<p><strong>正确示例</strong></p>
+<pre><code>var found = (values[i] === item);</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>var found = ( values[i] === item );</code></pre>
+<h3 id="Alt-text3-4-10-字符串申明统一使用双引号，如果字符串长度过长，请换行并使用“-”号进行字符串连接-建议"><a href="#Alt-text3-4-10-字符串申明统一使用双引号，如果字符串长度过长，请换行并使用“-”号进行字符串连接-建议" class="headerlink" title="Alt text3.4.10 字符串申明统一使用双引号，如果字符串长度过长，请换行并使用“+”号进行字符串连接(建议)"></a>Alt text3.4.10 字符串申明统一使用双引号，如果字符串长度过长，请换行并使用“+”号进行字符串连接(建议)</h3><p><strong>规范明细</strong></p>
+<p>字符串申明统一使用双引号，如果字符串长度过长，请使用“+”号进行字符串连接</p>
+<p><strong>正确示例</strong></p>
+<pre><code>var longString = &quot;Here&#39;s a story of a man &quot; +
+    &quot;named Brady.&quot;;</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>var longString = &quot;Here&#39;s a story of a man named Brady.&quot;;</code></pre>
+<h3 id="3-4-11-对象所有属性缩进4个空格，第一个属性上面空一行-次要"><a href="#3-4-11-对象所有属性缩进4个空格，第一个属性上面空一行-次要" class="headerlink" title="3.4.11 对象所有属性缩进4个空格，第一个属性上面空一行(次要)"></a>3.4.11 对象所有属性缩进4个空格，第一个属性上面空一行(次要)</h3><p><strong>规范明细</strong></p>
+<p>对象所有属性缩进4个空格，第一个属性上面空一行；</p>
+<p><strong>正确示例</strong></p>
+<pre><code>var book = &#123;
+
+    title: &quot;Maintainable JavaScript&quot;,
+    author: &quot;Nicholas C. Zakas&quot;
+&#125;;</code></pre>
+<h3 id="3-4-12-所有属性的值都要对应一个没有引号的属性名，属性名后紧跟一个冒号（不加空格），冒号后加一个空格跟属性的值-主要"><a href="#3-4-12-所有属性的值都要对应一个没有引号的属性名，属性名后紧跟一个冒号（不加空格），冒号后加一个空格跟属性的值-主要" class="headerlink" title="3.4.12 所有属性的值都要对应一个没有引号的属性名，属性名后紧跟一个冒号（不加空格），冒号后加一个空格跟属性的值(主要)"></a>3.4.12 所有属性的值都要对应一个没有引号的属性名，属性名后紧跟一个冒号（不加空格），冒号后加一个空格跟属性的值(主要)</h3><p><strong>规范明细</strong></p>
+<p>所有属性的值都要对应一个没有引号的属性名，属性名后紧跟一个冒号（不加空格），冒号后加一个空格跟属性的值</p>
+<p><strong>正确示例</strong></p>
+<pre><code>var book = &#123;
+
+    title: &quot;Maintainable JavaScript&quot;,
+    author: &quot;Nicholas C. Zakas&quot;
+&#125;;</code></pre>
+<h3 id="3-4-13-如果这个属性是方法，他的上下跟着不是方法的属性，上下均要空一行；一组相关的属性后可适当插入一个空行，增加可读性-建议"><a href="#3-4-13-如果这个属性是方法，他的上下跟着不是方法的属性，上下均要空一行；一组相关的属性后可适当插入一个空行，增加可读性-建议" class="headerlink" title="3.4.13 如果这个属性是方法，他的上下跟着不是方法的属性，上下均要空一行；一组相关的属性后可适当插入一个空行，增加可读性(建议)"></a>3.4.13 如果这个属性是方法，他的上下跟着不是方法的属性，上下均要空一行；一组相关的属性后可适当插入一个空行，增加可读性(建议)</h3><p><strong>规范明细</strong></p>
+<p>如果这个属性是方法，他的上下跟着不是方法的属性，上下均要空一行；一组相关的属性后可适当插入一个空行，增加可读性</p>
+<p><strong>正确示例</strong></p>
+<pre><code>var object = &#123;
+
+    key1: value1,
+    key2: value2,
+
+    func: function()&#123;
+        // do something
+    &#125;,
+
+    key3: value3
+&#125;;  </code></pre>
+<h3 id="3-4-14-结束的大括号应该独占一行-主要"><a href="#3-4-14-结束的大括号应该独占一行-主要" class="headerlink" title="3.4.14 结束的大括号应该独占一行(主要)"></a>3.4.14 结束的大括号应该独占一行(主要)</h3><p><strong>规范明细</strong></p>
+<p>结束的大括号应该独占一行</p>
+<p><strong>正确示例</strong></p>
+<pre><code>var book = &#123;
+
+    title: &quot;Maintainable JavaScript&quot;,
+    author: &quot;Nicholas C. Zakas&quot;
+&#125;;</code></pre>
+<h3 id="3-4-15-一个对象字面量作为一个参数传入方法中-开始花括号-与调用的方法名同行，属性按键值对方式，单独一行，结束花括号-单独一行-主要"><a href="#3-4-15-一个对象字面量作为一个参数传入方法中-开始花括号-与调用的方法名同行，属性按键值对方式，单独一行，结束花括号-单独一行-主要" class="headerlink" title="3.4.15 一个对象字面量作为一个参数传入方法中,开始花括号{与调用的方法名同行，属性按键值对方式，单独一行，结束花括号}单独一行(主要)"></a>3.4.15 一个对象字面量作为一个参数传入方法中,开始花括号{与调用的方法名同行，属性按键值对方式，单独一行，结束花括号}单独一行(主要)</h3><p><strong>规范明细</strong></p>
+<p>一个对象字面量作为一个参数传入方法中,开始花括号{与调用的方法名同行，属性按键值对方式，单独一行，结束花括号}单独一行</p>
+<p><strong>正确示例</strong></p>
+<pre><code>doSomething(&#123;
+    key1: value1,
+    key2: value2
+&#125;); </code></pre>
+<h3 id="3-4-16-一个逻辑代码块之前空一行-建议"><a href="#3-4-16-一个逻辑代码块之前空一行-建议" class="headerlink" title="3.4.16 一个逻辑代码块之前空一行(建议)"></a>3.4.16 一个逻辑代码块之前空一行(建议)</h3><p><strong>规范明细</strong></p>
+<p>一个逻辑代码块之前空一行</p>
+<p><strong>正确示例</strong></p>
+<pre><code>function aFun() &#123; 
+
+    if (s.hasOwnProperty(p)) &#123;
+
+        if (merge &amp;&amp; type == &#39;object&#39;) &#123;
+            Y.mix(r[p], s[p]);
+        &#125; else if (ov || !(p in r)) &#123;
+            r[p] = s[p];
+        &#125;
+    &#125;
+&#125;</code></pre>
+<h3 id="Alt-text3-4-17-对于多层嵌套的if语句，要进行合并-主要"><a href="#Alt-text3-4-17-对于多层嵌套的if语句，要进行合并-主要" class="headerlink" title="Alt text3.4.17 对于多层嵌套的if语句，要进行合并(主要)"></a>Alt text3.4.17 对于多层嵌套的if语句，要进行合并(主要)</h3><p><strong>规范明细</strong></p>
+<p>一个逻辑代码块之前空一行</p>
+<p><strong>正确示例</strong></p>
+<pre><code>if (x != null &amp;&amp; x === 2) &#123;
+    ... 
+&#125;</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>if (x != null) &#123;
+    if (x === 2) &#123;
+        // ...
+    &#125;
+&#125;</code></pre>
+<h3 id="Alt-text3-4-18-js文件行数不要太长，最大行数为1000行-主要"><a href="#Alt-text3-4-18-js文件行数不要太长，最大行数为1000行-主要" class="headerlink" title="Alt text3.4.18 js文件行数不要太长，最大行数为1000行(主要)"></a>Alt text3.4.18 js文件行数不要太长，最大行数为1000行(主要)</h3><p><strong>规范明细</strong></p>
+<p>js文件行数不要太长，最大行数为1000行</p>
+<h3 id="Alt-text3-4-19-js方法行数不要太长，最大行数为100行-主要"><a href="#Alt-text3-4-19-js方法行数不要太长，最大行数为100行-主要" class="headerlink" title="Alt text3.4.19 js方法行数不要太长，最大行数为100行(主要)"></a>Alt text3.4.19 js方法行数不要太长，最大行数为100行(主要)</h3><p><strong>规范明细</strong></p>
+<p>js方法行数不要太长，最大行数为100行</p>
+<h3 id="Alt-text3-4-20-一行的结尾处不要使用空格字符-主要"><a href="#Alt-text3-4-20-一行的结尾处不要使用空格字符-主要" class="headerlink" title="Alt text3.4.20 一行的结尾处不要使用空格字符(主要)"></a>Alt text3.4.20 一行的结尾处不要使用空格字符(主要)</h3><p><strong>规范明细</strong></p>
+<p>一行的结尾处不要使用空格字符，因为这是垃圾代码，增加代码合并时候的冲突</p>
+<h3 id="Alt-text3-4-21-不要使用已经申明名称的方法表达式进行赋值操作-主要"><a href="#Alt-text3-4-21-不要使用已经申明名称的方法表达式进行赋值操作-主要" class="headerlink" title="Alt text3.4.21 不要使用已经申明名称的方法表达式进行赋值操作(主要)"></a>Alt text3.4.21 不要使用已经申明名称的方法表达式进行赋值操作(主要)</h3><p><strong>规范明细</strong></p>
+<p>不要使用已经申明名称的方法表达式进行赋值操作</p>
+<p><strong>正确示例</strong></p>
+<pre><code>fun = function()&#123;&#125;;</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>f = function fun()&#123;&#125;;</code></pre>
+<h3 id="Alt-text3-4-22-循环或者嵌套的代码块内部不能是空的，没有代码逻辑-主要"><a href="#Alt-text3-4-22-循环或者嵌套的代码块内部不能是空的，没有代码逻辑-主要" class="headerlink" title="Alt text3.4.22 循环或者嵌套的代码块内部不能是空的，没有代码逻辑(主要)"></a>Alt text3.4.22 循环或者嵌套的代码块内部不能是空的，没有代码逻辑(主要)</h3><p><strong>规范明细</strong></p>
+<p>循环或者嵌套的代码块内部不能是空的，没有代码逻辑</p>
+<p><strong>正确示例</strong></p>
+<pre><code>for (var i = 0; i &lt; length; i++) &#123;//some code here&#125;</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>for (var i = 0; i &lt; length; i++) &#123;&#125;</code></pre>
+<h3 id="Alt-text3-4-23-只有while-do-for语句才能使用标记-主要"><a href="#Alt-text3-4-23-只有while-do-for语句才能使用标记-主要" class="headerlink" title="Alt text3.4.23 只有while, do, for语句才能使用标记(主要)"></a>Alt text3.4.23 只有while, do, for语句才能使用标记(主要)</h3><p><strong>规范明细</strong></p>
+<p>只有while, do, for语句才能使用标记</p>
+<p><strong>正确示例</strong></p>
+<pre><code>myLabel:for (i = 0; i &lt; 10; i++) &#123;
+    doSomething();
+    if(i === 8)&#123;
+        break myLabel;
+    &#125;
+&#125;</code></pre>
+<h3 id="Alt-text3-4-24-当for循环缺省了初始计数和递增表达式，要使用while循环代替-次要"><a href="#Alt-text3-4-24-当for循环缺省了初始计数和递增表达式，要使用while循环代替-次要" class="headerlink" title="Alt text3.4.24 当for循环缺省了初始计数和递增表达式，要使用while循环代替(次要)"></a>Alt text3.4.24 当for循环缺省了初始计数和递增表达式，要使用while循环代替(次要)</h3><p><strong>规范明细</strong></p>
+<p>当for循环缺省了初始计数和递增表达式，要使用while语句代替</p>
+<p><strong>正确示例</strong></p>
+<pre><code>while (condition) &#123; /*...*/ &#125;</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>for (;condition;) &#123; /*...*/ &#125;</code></pre>
+<h3 id="Alt-text3-4-25-控制流申明if-for-while-switch-try不要嵌套太多层-最多3曾-次要"><a href="#Alt-text3-4-25-控制流申明if-for-while-switch-try不要嵌套太多层-最多3曾-次要" class="headerlink" title="Alt text3.4.25 控制流申明if, for, while, switch, try不要嵌套太多层,最多3曾(次要)"></a>Alt text3.4.25 控制流申明if, for, while, switch, try不要嵌套太多层,最多3曾(次要)</h3><p><strong>规范明细</strong></p>
+<p>控制流申明if, for, while, switch, try不要嵌套太多层</p>
+<p><strong>错误示例</strong></p>
+<pre><code>if (condition1) &#123;                  // 第一层
+    /* ... */
+    if (condition2) &#123;                // 第二层
+        /* ... */
+        for(int i = 0; i &lt; 10; i++) &#123;  // 第三层
+            /* ... */
+            if (condition4) &#123;            // 第四层已不合适
+                if (condition5) &#123;          // 第五层已经达到极限了
+                    /* ... */
+                &#125;
+                return;
+            &#125;
+        &#125;
+    &#125;
+&#125;</code></pre>
+<h3 id="Alt-text3-4-26-字面量布尔值不能使用在条件表达式里面-次要"><a href="#Alt-text3-4-26-字面量布尔值不能使用在条件表达式里面-次要" class="headerlink" title="Alt text3.4.26 字面量布尔值不能使用在条件表达式里面(次要)"></a>Alt text3.4.26 字面量布尔值不能使用在条件表达式里面(次要)</h3><p><strong>规范明细</strong></p>
+<p>字面量布尔值不能使用在条件表达式里面</p>
+<p><strong>正确示例</strong></p>
+<pre><code>if (booleanVariable) &#123; /* ... */ &#125;
+if (!booleanVariable) &#123; /* ... */ &#125;
+if (booleanVariable) &#123; /* ... */ &#125;
+doSomething(true);</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>if (booleanVariable == true) &#123; /* ... */ &#125;
+if (booleanVariable != true) &#123; /* ... */ &#125;
+if (booleanVariable || false) &#123; /* ... */ &#125;
+doSomething(!false);</code></pre>
+<h3 id="Alt-text3-4-27-在if…else…语句块里面，如果存在返回值是布尔类型的，直接返回if条件的表达式-次要"><a href="#Alt-text3-4-27-在if…else…语句块里面，如果存在返回值是布尔类型的，直接返回if条件的表达式-次要" class="headerlink" title="Alt text3.4.27 在if…else…语句块里面，如果存在返回值是布尔类型的，直接返回if条件的表达式(次要)"></a>Alt text3.4.27 在if…else…语句块里面，如果存在返回值是布尔类型的，直接返回if条件的表达式(次要)</h3><p><strong>规范明细</strong></p>
+<p>在if…else…语句块里面，如果存在返回值是布尔类型的，直接返回if条件的表达式</p>
+<p><strong>正确示例</strong></p>
+<pre><code>return expression; 
+return !!expression;</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>if (expression) &#123;  
+    return true;
+&#125; else &#123;
+    return false;
+&#125;</code></pre>
+<h3 id="Alt-text3-4-28-不要使用制表符-次要"><a href="#Alt-text3-4-28-不要使用制表符-次要" class="headerlink" title="Alt text3.4.28 不要使用制表符(次要)"></a>Alt text3.4.28 不要使用制表符(次要)</h3><p><strong>规范明细</strong></p>
+<p>不要使用制表符</p>
+<h3 id="Alt-text3-4-29-strict模式需要谨慎使用-建议"><a href="#Alt-text3-4-29-strict模式需要谨慎使用-建议" class="headerlink" title="Alt text3.4.29 strict模式需要谨慎使用(建议)"></a>Alt text3.4.29 strict模式需要谨慎使用(建议)</h3><p><strong>规范明细</strong></p>
+<p>strict模式需要谨慎使用</p>
+<p><strong>错误示例</strong></p>
+<pre><code>function strict() &#123;
+    &#39;use strict&#39;;
+&#125;</code></pre>
+<h3 id="Alt-text3-4-30-代码块中TODO标记的地方要被处理掉-建议"><a href="#Alt-text3-4-30-代码块中TODO标记的地方要被处理掉-建议" class="headerlink" title="Alt text3.4.30 代码块中TODO标记的地方要被处理掉(建议)"></a>Alt text3.4.30 代码块中TODO标记的地方要被处理掉(建议)</h3><p><strong>规范明细</strong></p>
+<p>代码块中TODO标记的地方要被处理掉。</p>
+<p><strong>错误示例</strong></p>
+<pre><code>function doSomething() &#123;
+    // TODO
+&#125;</code></pre>
+<h3 id="3-4-31-常量和配置变量应该放在文件顶部-主要"><a href="#3-4-31-常量和配置变量应该放在文件顶部-主要" class="headerlink" title="3.4.31 常量和配置变量应该放在文件顶部(主要)"></a>3.4.31 常量和配置变量应该放在文件顶部(主要)</h3><p><strong>规范明细</strong></p>
+<p>常量和配置变量（比如：动画播放时间）应该放在文件顶部</p>
+<h3 id="3-4-32-当某段代码逻辑存在重复出现的情况，或者在某个作用域下面存在超过8个方法的时候，需要将代码抽象成对象的方式编写，便于二次使用，也避免不必要的代码重复，使代码更具可读性和高效性。-主要"><a href="#3-4-32-当某段代码逻辑存在重复出现的情况，或者在某个作用域下面存在超过8个方法的时候，需要将代码抽象成对象的方式编写，便于二次使用，也避免不必要的代码重复，使代码更具可读性和高效性。-主要" class="headerlink" title="3.4.32 当某段代码逻辑存在重复出现的情况，或者在某个作用域下面存在超过8个方法的时候，需要将代码抽象成对象的方式编写，便于二次使用，也避免不必要的代码重复，使代码更具可读性和高效性。(主要)"></a>3.4.32 当某段代码逻辑存在重复出现的情况，或者在某个作用域下面存在超过8个方法的时候，需要将代码抽象成对象的方式编写，便于二次使用，也避免不必要的代码重复，使代码更具可读性和高效性。(主要)</h3><p><strong>规范明细</strong></p>
+<p>当某段代码逻辑存在重复出现的情况，或者在某个作用域下面存在超过8个方法的时候，需要将代码抽象成对象的方式编写，便于二次使用，也避免不必要的代码重复，使代码更具可读性和高效性。</p>
+<p><strong>正确示例</strong></p>
+<pre><code>var arithmetic = &#123;
+    add: function(a,b)&#123;
+        return a+b;
+    &#125;,
+    minus: function(a,b)&#123;
+        return a-b;
+    &#125;
+    ...
+&#125;;</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>function add(a,b)&#123;
+    return a+b;
+&#125;
+
+function minus(a,b)&#123;
+    return a-b;
+&#125;</code></pre>
+<h3 id="Alt-text3-4-33-当实现某个方法需要使用大量参数的时候，要将该功能封装成一个对象，以配置方式传入参数，而不是写在方法参数里面，方法的最大参数长度为7-主要"><a href="#Alt-text3-4-33-当实现某个方法需要使用大量参数的时候，要将该功能封装成一个对象，以配置方式传入参数，而不是写在方法参数里面，方法的最大参数长度为7-主要" class="headerlink" title="Alt text3.4.33 当实现某个方法需要使用大量参数的时候，要将该功能封装成一个对象，以配置方式传入参数，而不是写在方法参数里面，方法的最大参数长度为7(主要)"></a>Alt text3.4.33 当实现某个方法需要使用大量参数的时候，要将该功能封装成一个对象，以配置方式传入参数，而不是写在方法参数里面，方法的最大参数长度为7(主要)</h3><p><strong>规范明细</strong></p>
+<p>当实现某个方法需要使用大量参数的时候，要将该功能封装成一个对象，以配置方式传入参数，而不是写在方法参数里面，方法的最大参数长度为7。</p>
+<p><strong>正确示例</strong></p>
+<pre><code>var option = &#123;
+    url: &quot;&quot;,
+    height: &quot;&quot;,
+    width: &quot;&quot;,
+    ...
+&#125;;
+
+function Window(option)&#123;
+    this.option = option;
+    ...
+&#125;
+
+var window = new Window(option);</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>function setWindow(url,height,width...)&#123;
+    ...
+&#125;</code></pre>
+<h3 id="3-4-34-使用面向对象的方式组织js代码-建议"><a href="#3-4-34-使用面向对象的方式组织js代码-建议" class="headerlink" title="3.4.34 使用面向对象的方式组织js代码(建议)"></a>3.4.34 使用面向对象的方式组织js代码(建议)</h3><p><strong>规范明细</strong></p>
+<p>使用面向对象的方式组织你的js代码,参考： Object Literal/Singleton in Module Pattern或者 Object with constructors或者Javascript 面向对象编程.</p>
+<p><strong>正确示例</strong></p>
+<pre><code>var Cat = &#123;
+    name: &#39;&#39;,
+    color: &#39;&#39;
+&#125;</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>var name = &quot;&quot;, color = &quot;&quot;;</code></pre>
+<h2 id="3-5-js代码防错-陷阱-规范"><a href="#3-5-js代码防错-陷阱-规范" class="headerlink" title="3.5 js代码防错(陷阱)规范"></a>3.5 js代码防错(陷阱)规范</h2><h3 id="3-5-01-不要进行浏览器嗅探方式判断浏览器客户端版本等信息，请使用特性检测，同时避免使用三方非特性检测方式判断浏览器客户端-主要"><a href="#3-5-01-不要进行浏览器嗅探方式判断浏览器客户端版本等信息，请使用特性检测，同时避免使用三方非特性检测方式判断浏览器客户端-主要" class="headerlink" title="3.5.01 不要进行浏览器嗅探方式判断浏览器客户端版本等信息，请使用特性检测，同时避免使用三方非特性检测方式判断浏览器客户端(主要)"></a>3.5.01 不要进行浏览器嗅探方式判断浏览器客户端版本等信息，请使用特性检测，同时避免使用三方非特性检测方式判断浏览器客户端(主要)</h3><p><strong>规范明细</strong></p>
+<p>不要进行浏览器嗅探方式判断浏览器客户端版本等信息，请使用特性检测，同时避免使用三方非特性检测方式判断浏览器客户端，以免判断不准确</p>
+<p><strong>错误示例</strong></p>
+<pre><code>ie=!!window.VBArray
+ie678=(&#39;a-b&#39;.split(/(~)/))[1]==&quot;b&quot;
+ie678=0.9.toFixed(0)==&quot;0&quot;
+iphone=/iphone/i.test(navigator.userAgent);
+$.browser == ...</code></pre>
+<h3 id="3-5-02-避免申明全局变量，防止全局空间命名冲突污染-主要"><a href="#3-5-02-避免申明全局变量，防止全局空间命名冲突污染-主要" class="headerlink" title="3.5.02 避免申明全局变量，防止全局空间命名冲突污染(主要)"></a>3.5.02 避免申明全局变量，防止全局空间命名冲突污染(主要)</h3><p><strong>规范明细</strong></p>
+<p>避免申明全局变量，防止全局空间命名冲突污染</p>
+<h3 id="Alt-text3-5-03-不要用null来判断方法的参数有没有提供，不要用null来判断未初始化的变量-严重"><a href="#Alt-text3-5-03-不要用null来判断方法的参数有没有提供，不要用null来判断未初始化的变量-严重" class="headerlink" title="Alt text3.5.03 不要用null来判断方法的参数有没有提供，不要用null来判断未初始化的变量(严重)"></a>Alt text3.5.03 不要用null来判断方法的参数有没有提供，不要用null来判断未初始化的变量(严重)</h3><p><strong>规范明细</strong></p>
+<p>不要用null来判断方法的参数有没有提供，不要用null来判断未初始化的变量</p>
+<p><strong>错误示例</strong></p>
+<pre><code>//判断未初始化的变量
+var person;
+if (person != null) &#123;
+    doSomething();
+&#125;
+
+// 判断值有没有传递
+function doSomething(arg1, arg2, arg3, arg4) &#123;
+    if (arg4 != null) &#123;
+        doSomethingElse();
+    &#125;
+&#125;</code></pre>
+<h3 id="Alt-text3-5-04-不要省略if-for-while-do…while-try…catch…finally语句大括号-严重"><a href="#Alt-text3-5-04-不要省略if-for-while-do…while-try…catch…finally语句大括号-严重" class="headerlink" title="Alt text3.5.04 不要省略if for while do…while try…catch…finally语句大括号(严重)"></a>Alt text3.5.04 不要省略if for while do…while try…catch…finally语句大括号(严重)</h3><p><strong>规范明细</strong></p>
+<p>不要省略if for while do…while try…catch…finally语句大括号</p>
+<p><strong>正确示例</strong></p>
+<pre><code>if (condition) &#123;
+    doSomething();
+&#125;
+
+错误示例
+
+if(condition)
+    doSomething();</code></pre>
+<h3 id="3-5-05-变量定义在变量声明时进行初始化，未初始化的变量放在声明语句的最后-主要"><a href="#3-5-05-变量定义在变量声明时进行初始化，未初始化的变量放在声明语句的最后-主要" class="headerlink" title="3.5.05 变量定义在变量声明时进行初始化，未初始化的变量放在声明语句的最后(主要)"></a>3.5.05 变量定义在变量声明时进行初始化，未初始化的变量放在声明语句的最后(主要)</h3><p><strong>规范明细</strong></p>
+<p>变量定义在变量声明时进行初始化，未初始化的变量放在声明语句的最后。</p>
+<p><strong>正确示例</strong></p>
+<pre><code>function doSomethingWithItems(items) &#123;
+    var value = 10,
+    result = value + 10，
+    i, len;
+    for(i=0, len=items.length; i &lt; len; i++) &#123;
+        doSomething(items[i]);
+    &#125;
+&#125;   </code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>function doSomething() &#123;
+    var result;
+    var value;
+    result = 10 + value;
+    value = 10;
+    return result;
+&#125;</code></pre>
+<h3 id="Alt-text3-5-06-比较运算使用-和-不要使用-和-避免类型转换时产生的错误-主要"><a href="#Alt-text3-5-06-比较运算使用-和-不要使用-和-避免类型转换时产生的错误-主要" class="headerlink" title="Alt text3.5.06 比较运算使用 === 和 !== , 不要使用 == 和 != 避免类型转换时产生的错误(主要)"></a>Alt text3.5.06 比较运算使用 === 和 !== , 不要使用 == 和 != 避免类型转换时产生的错误(主要)</h3><p><strong>规范明细</strong></p>
+<p>比较运算使用 === 和 !== , 不要使用 == 和 != 避免类型转换时产生的错误。</p>
+<p><strong>正确示例</strong></p>
+<pre><code>var same = (a === b);</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>var same = (a == b);</code></pre>
+<h3 id="3-5-07-三目运算符用来进行条件性的赋值，不要用来当做简写的-if-语句使用-主要"><a href="#3-5-07-三目运算符用来进行条件性的赋值，不要用来当做简写的-if-语句使用-主要" class="headerlink" title="3.5.07 三目运算符用来进行条件性的赋值，不要用来当做简写的 if 语句使用(主要)"></a>3.5.07 三目运算符用来进行条件性的赋值，不要用来当做简写的 if 语句使用(主要)</h3><p><strong>规范明细</strong></p>
+<p>三目运算符用来进行条件性的赋值，不要用来当做简写的 if 语句使用。</p>
+<p><strong>正确示例</strong></p>
+<pre><code>var value = condition ? value1 : value2;</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>condition ? doSomething() : doSomethingElse();</code></pre>
+<h3 id="3-5-08-使用闭包或者命名空间避免全局空间污染-严重"><a href="#3-5-08-使用闭包或者命名空间避免全局空间污染-严重" class="headerlink" title="3.5.08 使用闭包或者命名空间避免全局空间污染(严重)"></a>3.5.08 使用闭包或者命名空间避免全局空间污染(严重)</h3><p><strong>规范明细</strong></p>
+<p>将一个js文件中的全部代码置于一个匿名函数调用中，或者使用命名空间划分，可以避免命名空间污染</p>
+<p><strong>正确示例</strong></p>
+<pre><code>//闭包方式
+(function ()&#123;
+    var someVar = null;
+    // some code
+&#125;());
+
+//命名空间方式
+var school = &#123;&#125;;
+school = &#123;&#125;;
+school.students = &#123;&#125;;
+(function(students) &#123;
+    // ..... 这里省略了代码 ......
+
+    students.Subject = Subject;
+    students.Grade = Grade;
+&#125;)(school.students);</code></pre>
+<h3 id="Alt-text3-5-09-不要使用“-”逗号来结束语句-阻断"><a href="#Alt-text3-5-09-不要使用“-”逗号来结束语句-阻断" class="headerlink" title="Alt text3.5.09 不要使用“,”逗号来结束语句(阻断)"></a>Alt text3.5.09 不要使用“,”逗号来结束语句(阻断)</h3><p><strong>规范明细</strong></p>
+<p>不要使用“,”逗号来结束语句</p>
+<p><strong>正确示例</strong></p>
+<pre><code>var settings = &#123;
+    &#39;foo&#39;  : oof,
+    &#39;bar&#39; : rab
+&#125;;</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>var settings = &#123;
+    &#39;foo&#39;  : oof,
+    &#39;bar&#39; : rab,
+&#125;;</code></pre>
+<h3 id="Alt-text3-5-10-switch语句不能包含非case语句-严重"><a href="#Alt-text3-5-10-switch语句不能包含非case语句-严重" class="headerlink" title="Alt text3.5.10 switch语句不能包含非case语句(严重)"></a>Alt text3.5.10 switch语句不能包含非case语句(严重)</h3><p><strong>规范明细</strong></p>
+<p>switch语句不能包含非case语句</p>
+<p><strong>正确示例</strong></p>
+<pre><code>switch (day) &#123;
+    case MONDAY:
+    case TUESDAY:
+    case WEDNESDAY:
+        doSomething();
+        break;
+    ...
+&#125;</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>switch (day) &#123;
+  case MONDAY:
+  case TUESDAY:
+  WEDNESDAY:   // 取代 &quot;case WEDNESDAY&quot;
+    doSomething();
+    break;
+  ...
+&#125;</code></pre>
+<h3 id="Alt-text3-5-11-switch语句需要以default语句结束-主要"><a href="#Alt-text3-5-11-switch语句需要以default语句结束-主要" class="headerlink" title="Alt text3.5.11 switch语句需要以default语句结束(主要)"></a>Alt text3.5.11 switch语句需要以default语句结束(主要)</h3><p><strong>规范明细</strong></p>
+<p>switch语句需要以default结束</p>
+<p><strong>正确示例</strong></p>
+<pre><code>switch (param) &#123;
+    case 0:
+        doSomething();
+        break;
+    case 1:
+        doSomethingElse();
+        break;
+    default:
+        error();
+        break;
+&#125;</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>switch (param) &#123;  
+    case 0:
+        doSomething();
+        break;
+    case 1:
+        doSomethingElse();
+        break;
+&#125;
+//缺少 default 语句</code></pre>
+<h3 id="Alt-text3-5-12-switch语句中每个case-未使用return语句的-需要以break语句结束-主要"><a href="#Alt-text3-5-12-switch语句中每个case-未使用return语句的-需要以break语句结束-主要" class="headerlink" title="Alt text3.5.12 switch语句中每个case(未使用return语句的)需要以break语句结束(主要)"></a>Alt text3.5.12 switch语句中每个case(未使用return语句的)需要以break语句结束(主要)</h3><p><strong>规范明细</strong></p>
+<p>switch语句中每个case(未使用return语句的)需要以break语句结束</p>
+<p><strong>正确示例</strong></p>
+<pre><code>switch (param) &#123;
+    case 0:
+        doSomething();
+        break;
+    case 1:
+        doSomethingElse();
+        break;
+    default:
+        error();
+        break;
+&#125;</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>switch (param) &#123;  
+    case 0:
+        doSomething();
+    case 1:
+        doSomethingElse();
+        break;
+&#125;
+//缺少 default 语句</code></pre>
+<h3 id="Alt-text3-5-13-switch语句使用时至少要有3个case语句-包括最后的default语句-次要"><a href="#Alt-text3-5-13-switch语句使用时至少要有3个case语句-包括最后的default语句-次要" class="headerlink" title="Alt text3.5.13 switch语句使用时至少要有3个case语句(包括最后的default语句)(次要)"></a>Alt text3.5.13 switch语句使用时至少要有3个case语句(包括最后的default语句)(次要)</h3><p><strong>规范明细</strong></p>
+<p>switch语句使用时至少要有3个case语句(包括最后的default语句)</p>
+<p><strong>正确示例</strong></p>
+<pre><code>switch (param) &#123;
+    case 0:
+        doSomething();
+        break;
+    case 1:
+        doSomethingElse();
+        break;
+    default:
+        error();
+        break;
+&#125;</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>//一下的语句可以使用if...else...语句或者if...if...语句
+switch (param) &#123;  
+    case 0:
+        doSomething();
+        break;
+    default :
+        doSomethingElse();
+        break;
+&#125;</code></pre>
+<h3 id="Alt-text3-5-14-方法体作为参数使用时，要保持与申明的方法在同一行-严重"><a href="#Alt-text3-5-14-方法体作为参数使用时，要保持与申明的方法在同一行-严重" class="headerlink" title="Alt text3.5.14 方法体作为参数使用时，要保持与申明的方法在同一行(严重)"></a>Alt text3.5.14 方法体作为参数使用时，要保持与申明的方法在同一行(严重)</h3><p><strong>规范明细</strong></p>
+<p>方法体作为参数使用时，要保持与申明的方法在同一行，不能另起一行，以免造成错误或者歧义</p>
+<p><strong>正确示例</strong></p>
+<pre><code>var fn = function () &#123;
+   //...
+&#125;(function () &#123; // 在同一行
+   //...
+&#125;)();</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>var fn = function () &#123;
+   //...
+&#125;
+
+(function () &#123; // 未在同一行
+   //...
+&#125;)();</code></pre>
+<h3 id="Alt-text3-5-15-对于对象属性使用for-…-in循环时，需要通过hasOwnProperty方法过滤非自身属性-继承而来的属性-主要"><a href="#Alt-text3-5-15-对于对象属性使用for-…-in循环时，需要通过hasOwnProperty方法过滤非自身属性-继承而来的属性-主要" class="headerlink" title="Alt text3.5.15 对于对象属性使用for … in循环时，需要通过hasOwnProperty方法过滤非自身属性(继承而来的属性)(主要)"></a>Alt text3.5.15 对于对象属性使用for … in循环时，需要通过hasOwnProperty方法过滤非自身属性(继承而来的属性)(主要)</h3><p><strong>规范明细</strong></p>
+<p>对于对象属性使用for … in循环时，需要通过hasOwnProperty方法过滤非自身属性(继承而来的属性)</p>
+<p><strong>正确示例</strong></p>
+<pre><code>for (name in object) &#123;
+    if (object.hasOwnProperty(name)) &#123;
+        doSomething(name);
+    &#125;
+&#125;</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>for (name in object) &#123;
+    doSomething(name);  // 未过滤掉非自身属性
+&#125;</code></pre>
+<h3 id="Alt-text3-5-16-赋值语句不能作为参数或者条件传递-主要"><a href="#Alt-text3-5-16-赋值语句不能作为参数或者条件传递-主要" class="headerlink" title="Alt text3.5.16 赋值语句不能作为参数或者条件传递(主要)"></a>Alt text3.5.16 赋值语句不能作为参数或者条件传递(主要)</h3><p><strong>规范明细</strong></p>
+<p>赋值语句不能作为参数或者条件传递</p>
+<p><strong>正确示例</strong></p>
+<pre><code>i = 42;
+doSomething(i);   
+doSomething(i == 42);  
+if((i = something)&lt;=100)</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>doSomething(i = 42);
+if(i = 42)</code></pre>
+<h3 id="Alt-text3-5-17-不要使用位运算符：-lt-lt-gt-gt-gt-gt-gt-amp-主要"><a href="#Alt-text3-5-17-不要使用位运算符：-lt-lt-gt-gt-gt-gt-gt-amp-主要" class="headerlink" title="Alt text3.5.17 不要使用位运算符：&lt;&lt;, &gt;&gt;, &gt;&gt;&gt;, ~, &amp;, |(主要)"></a>Alt text3.5.17 不要使用位运算符：<code>&lt;&lt;, &gt;&gt;, &gt;&gt;&gt;, ~, &amp;, |</code>(主要)</h3><p><strong>规范明细</strong></p>
+<p>不要使用位运算符：<code>&lt;&lt;, &gt;&gt;, &gt;&gt;&gt;, ~, &amp;, |</code>，因为js的位运算效率不如其他如C等语言，并且在WEB应用里面鲜有这种使用场景。</p>
+<p><strong>正确示例</strong></p>
+<pre><code>if (a &amp;&amp; b) &#123; ... &#125;
+var oppositeSigns = false;
+if ( (x &lt; 0 &amp;&amp; y &gt; 0) || (x &gt; 0 &amp;&amp; y &lt; 0) ) &#123;
+   oppositeSigns = true;
+&#125;</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>if (a &amp; b) &#123; ... &#125; //  &amp; 使用错误
+var oppositeSigns = ((x ^ y) &lt; 0); //  有比这更清晰的方式验证</code></pre>
+<h3 id="Alt-text3-5-18-不要使用逗号运算符-但排除特例-主要"><a href="#Alt-text3-5-18-不要使用逗号运算符-但排除特例-主要" class="headerlink" title="Alt text3.5.18 不要使用逗号运算符,但排除特例(主要)"></a>Alt text3.5.18 不要使用逗号运算符,但排除特例(主要)</h3><p><strong>规范明细</strong></p>
+<p>不要使用逗号运算符,但排除特例</p>
+<p><strong>正确示例</strong></p>
+<pre><code>a +=  2;
+i = a + b;</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>i = a += 2, a + b; </code></pre>
+<p><strong>特例</strong></p>
+<pre><code>for(i = 0, j = 5; i &lt; 6; i++, j++) &#123; ... &#125;</code></pre>
+<h3 id="Alt-text3-5-19-构造函数不要单纯在未申明实例的情况下使用-主要"><a href="#Alt-text3-5-19-构造函数不要单纯在未申明实例的情况下使用-主要" class="headerlink" title="Alt text3.5.19 构造函数不要单纯在未申明实例的情况下使用(主要)"></a>Alt text3.5.19 构造函数不要单纯在未申明实例的情况下使用(主要)</h3><p><strong>规范明细</strong></p>
+<p>构造函数不要单纯在未申明实例的情况下使用，因为这时new创建的实例不能在任何地方被使用。</p>
+<p><strong>正确示例</strong></p>
+<pre><code>var something = new MyConstructor();</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>new MyConstructor(); </code></pre>
+<h3 id="Alt-text3-5-20-不要在循环体内部定义方法-主要"><a href="#Alt-text3-5-20-不要在循环体内部定义方法-主要" class="headerlink" title="Alt text3.5.20 不要在循环体内部定义方法(主要)"></a>Alt text3.5.20 不要在循环体内部定义方法(主要)</h3><p><strong>规范明细</strong></p>
+<p>不要在循环内部创建方法，因为在循环体内部定义的方法只会有一个实例被定义，唯一改变的是方法的参数。</p>
+<p><strong>错误示例</strong></p>
+<pre><code>var funs = [];
+for (var i = 0; i &lt; 13; i++) &#123;
+    funs[i] = function() &#123; 
+        return i;
+    &#125;;
+&#125;
+print(funs[0]()); // 13 而不是 0
+print(funs[1]()); // 13 而不是 1
+print(funs[2]()); // 13 而不是 2
+print(funs[3]()); // 13 而不是 3 </code></pre>
+<h3 id="Alt-text3-5-21-不要定义重复名称的方法-主要"><a href="#Alt-text3-5-21-不要定义重复名称的方法-主要" class="headerlink" title="Alt text3.5.21 不要定义重复名称的方法(主要)"></a>Alt text3.5.21 不要定义重复名称的方法(主要)</h3><p><strong>规范明细</strong></p>
+<p>不要定义重复名称的方法，因为前面定义的会被后面定义的覆盖掉</p>
+<p><strong>正确示例</strong></p>
+<pre><code>fun(); // prints &quot;foo&quot;
+
+function fun() &#123;
+  print(&quot;foo&quot;);
+&#125;
+
+fun(); // prints &quot;foo&quot;</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>fun(); // &quot;bar&quot;
+
+// 第一次申明的方法
+function fun() &#123;
+  print(&quot;foo&quot;);
+&#125;
+
+fun(); //  &quot;bar&quot;
+
+// 新定义同名的方法，覆盖之前的方法
+function fun() &#123;
+  print(&quot;bar&quot;);
+&#125;
+
+fun(); // &quot;bar&quot;</code></pre>
+<h3 id="Alt-text3-5-22-跳转语句后面不要接其他语句-主要"><a href="#Alt-text3-5-22-跳转语句后面不要接其他语句-主要" class="headerlink" title="Alt text3.5.22 跳转语句后面不要接其他语句(主要)"></a>Alt text3.5.22 跳转语句后面不要接其他语句(主要)</h3><p><strong>规范明细</strong></p>
+<p>跳转语句后面不要接其他语句，因为之后的语句不会被执行到。</p>
+<p><strong>正确示例</strong></p>
+<pre><code>function(a) &#123;
+    var i = 10;
+    return i + a;
+&#125;</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>function(a) &#123;
+    var i = 10;
+    return i + a;
+    i++;
+&#125;</code></pre>
+<h3 id="Alt-text3-5-23-一个循环体内部不要使用多个break或者continue关键字-主要"><a href="#Alt-text3-5-23-一个循环体内部不要使用多个break或者continue关键字-主要" class="headerlink" title="Alt text3.5.23 一个循环体内部不要使用多个break或者continue关键字(主要)"></a>Alt text3.5.23 一个循环体内部不要使用多个break或者continue关键字(主要)</h3><p><strong>规范明细</strong></p>
+<p>一个循环体内部不要使用多个break或者continue关键字</p>
+<p><strong>错误示例</strong></p>
+<pre><code>for (var i = 1; i &lt;= 10; i++) &#123; 
+    if (i % 2 == 0) &#123;
+        continue;
+    &#125;
+
+    if (i % 3 == 0) &#123;
+        continue;
+    &#125;
+
+    alert(&quot;i = &quot; + i);
+&#125;</code></pre>
+<h3 id="Alt-text3-5-24-方法中未被使用的参数要被移除-主要"><a href="#Alt-text3-5-24-方法中未被使用的参数要被移除-主要" class="headerlink" title="Alt text3.5.24 方法中未被使用的参数要被移除(主要)"></a>Alt text3.5.24 方法中未被使用的参数要被移除(主要)</h3><p><strong>规范明细</strong></p>
+<p>方法中未被使用的参数要被移除</p>
+<p><strong>正确示例</strong></p>
+<pre><code>function doSomething( b) &#123;
+    return compute(b);
+&#125;</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>function doSomething(a, b) &#123; // &quot;a&quot; 未被使用
+    return compute(b);
+&#125;</code></pre>
+<h3 id="Alt-text3-5-25-未被使用的变量要被删除-主要"><a href="#Alt-text3-5-25-未被使用的变量要被删除-主要" class="headerlink" title="Alt text3.5.25 未被使用的变量要被删除(主要)"></a>Alt text3.5.25 未被使用的变量要被删除(主要)</h3><p><strong>规范明细</strong></p>
+<p>未被使用的变量要被删除</p>
+<p><strong>正确示例</strong></p>
+<pre><code>function numberOfMinutes(hours) &#123;
+    return hours * 60;
+&#125;</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>function numberOfMinutes(hours) &#123;
+    var seconds = 0;   // seconds 未被使用
+    return hours * 60;
+&#125;</code></pre>
+<h3 id="Alt-text3-5-26-无效的if…else…要被移除-主要"><a href="#Alt-text3-5-26-无效的if…else…要被移除-主要" class="headerlink" title="Alt text3.5.26 无效的if…else…要被移除(主要)"></a>Alt text3.5.26 无效的if…else…要被移除(主要)</h3><p><strong>规范明细</strong></p>
+<p>无效的if…else…要被移除</p>
+<p><strong>正确示例</strong></p>
+<pre><code>doSomething();
+
+doThirdThing();</code></pre>
+<p><strong>错误示例</strong></p>
+<pre><code>if (true) &#123; 
+  doSomething();
+&#125;
+...
+if (false) &#123; 
+  doSomethingElse();
+&#125;
+
+if (!options || options === true) &#123; doThirdThing(); &#125;</code></pre>
+<h2 id="3-6-用户体验及安全性规范"><a href="#3-6-用户体验及安全性规范" class="headerlink" title="3.6 用户体验及安全性规范"></a>3.6 用户体验及安全性规范</h2><h3 id="Alt-text3-6-01-生产环境下不要使用alert-…-方式提示信息-主要"><a href="#Alt-text3-6-01-生产环境下不要使用alert-…-方式提示信息-主要" class="headerlink" title="Alt text3.6.01 生产环境下不要使用alert(…)方式提示信息(主要)"></a>Alt text3.6.01 生产环境下不要使用alert(…)方式提示信息(主要)</h3><p><strong>规范明细</strong></p>
+<p>生产环境下不要使用alert(…)方式提示信息，因为这种方式对用户体验不好，并且会阻碍后续程序的执行，还可能把敏感信息暴露给攻击者。可以使用自定义弹出框提示或者其他方式提示。开发环境下可以使用</p>
+<h3 id="Alt-text3-6-02-生产环境下不要使用debug语句-主要"><a href="#Alt-text3-6-02-生产环境下不要使用debug语句-主要" class="headerlink" title="Alt text3.6.02 生产环境下不要使用debug语句(主要)"></a>Alt text3.6.02 生产环境下不要使用debug语句(主要)</h3><p><strong>规范明细</strong></p>
+<p>生产环境下不要使用debug语句，因为容易在出现异常情况下给用户提示其无法理解的内容，也容易被攻击。</p>
+<p><strong>错误示例</strong></p>
+<pre><code>for (i = 1; i&lt;5; i++) &#123;
+    // Print i to the Output window.
+    Debug.write(&quot;loop index is &quot; + i);
+    // Wait for user to resume.
+    debugger;
+&#125;</code></pre>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/javascript-javascript%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83-%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/" rel="tag"># javascript,javascript编码规范,编码规范</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2019/06/27/jquery%E4%B8%8Eajax%E7%9B%B8%E7%BB%93%E5%90%88%E5%9C%A8%E8%A1%A8%E5%8D%95%E6%9F%A5%E8%AF%A2%E4%B8%AD%E7%9A%84%E5%BA%94%E7%94%A8%EF%BC%8C%E4%BB%A5%E5%8F%8Aajax%E5%9B%9E%E8%B0%83%E5%87%BD%E6%95%B0%E5%9C%A8%E6%95%B4%E4%B8%AA%E6%9F%A5%E8%AF%A2%E8%BF%87%E7%A8%8B%E4%B8%AD%E7%9A%84%E4%BD%93%E7%8E%B0/" rel="prev" title="jquery与ajax相结合在表单查询中的应用，以及ajax回调函数在整个查询过程中的体现，比如内容的过滤等。">
+      <i class="fa fa-chevron-left"></i> jquery与ajax相结合在表单查询中的应用，以及ajax回调函数在整个查询过程中的体现，比如内容的过滤等。
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/07/01/%E4%B8%BA%E9%A1%B5%E9%9D%A2%E6%B7%BB%E5%8A%A0%E6%B0%B4%E5%8D%B0%EF%BC%8C%E4%BB%A5%E5%8F%8A%E4%B8%8E%E6%89%93%E5%8D%B0%E9%A1%B5%E9%9D%A2%E6%B0%B4%E5%8D%B0%E6%B6%88%E5%A4%B1%E7%9A%84%E9%97%AE%E9%A2%98%E5%A5%8B%E6%88%98%E7%9A%84N%E4%B8%AA%E6%98%BC%E5%A4%9C%E6%97%A5%E8%AE%B0/" rel="next" title="为页面添加水印，以及与打印页面水印消失的问题奋战的N个昼夜日记">
+      为页面添加水印，以及与打印页面水印消失的问题奋战的N个昼夜日记 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-JavaScript%E8%A7%84%E8%8C%83"><span class="nav-number">1.</span> <span class="nav-text">3. JavaScript规范</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-js%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96"><span class="nav-number">2.</span> <span class="nav-text">3.1 js性能优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-01-js%E4%BB%A3%E7%A0%81%E8%A6%81%E5%86%99%E5%9C%A8js%E6%96%87%E4%BB%B6%E4%B8%AD%EF%BC%8C%E5%9C%A8html%E7%9A%84-lt-body-gt-lt-body-gt-%E6%9C%80%E6%9C%AB%E5%B0%BE%E7%9A%84%E4%BD%8D%E7%BD%AE%E5%BC%95%E5%85%A5-%E4%B8%BB%E8%A6%81"><span class="nav-number">2.1.</span> <span class="nav-text">3.1.01 js代码要写在js文件中，在html的&lt;body&gt;&lt;&#x2F;body&gt;最末尾的位置引入(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-1-02-%E4%B8%8D%E8%A6%81%E4%BD%BF%E7%94%A8document-write-%E6%96%B9%E5%BC%8F-%E4%B8%BB%E8%A6%81"><span class="nav-number">2.2.</span> <span class="nav-text">Alt text3.1.02 不要使用document.write()方式(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-1-03-%E5%AF%B9%E8%B1%A1%E5%A3%B0%E6%98%8E%E7%9B%B4%E6%8E%A5%E4%BD%BF%E7%94%A8-%E4%B8%BB%E8%A6%81"><span class="nav-number">2.3.</span> <span class="nav-text">Alt text3.1.03 对象声明直接使用 {}(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-1-04-%E6%95%B0%E7%BB%84%EF%BC%88Array%EF%BC%89%E4%BD%BF%E7%94%A8-%E5%A3%B0%E6%98%8E-%E4%B8%BB%E8%A6%81"><span class="nav-number">2.4.</span> <span class="nav-text">Alt text3.1.04 数组（Array）使用[]声明(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-1-05-%E4%B8%8D%E8%A6%81%E4%BD%BF%E7%94%A8%E5%8E%9F%E5%A7%8B%E7%9A%84%E5%8C%85%E8%A3%85%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%EF%BC%88%E6%95%B0%E5%AD%97%E3%80%81%E5%AD%97%E7%AC%A6%E4%B8%B2%E3%80%81%E5%B8%83%E5%B0%94%E3%80%81%E6%95%B0%E7%BB%84%E3%80%81%E5%AF%B9%E8%B1%A1%EF%BC%89%E7%94%B3%E6%98%8E%E5%8F%98%E9%87%8F-%E4%B8%BB%E8%A6%81"><span class="nav-number">2.5.</span> <span class="nav-text">Alt text3.1.05 不要使用原始的包装数据类型（数字、字符串、布尔、数组、对象）申明变量(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-1-06-%E4%B8%8D%E8%A6%81%E4%BD%BF%E7%94%A8-eval-%E8%AF%AD%E5%8F%A5-%E4%B8%BB%E8%A6%81"><span class="nav-number">2.6.</span> <span class="nav-text">Alt text3.1.06 不要使用 eval()语句(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-1-07-%E4%B8%8D%E8%A6%81%E4%BD%BF%E7%94%A8with%E8%AF%AD%E5%8F%A5-%E4%B8%BB%E8%A6%81"><span class="nav-number">2.7.</span> <span class="nav-text">Alt text3.1.07 不要使用with语句(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-08-%E4%B8%8D%E8%A6%81%E5%9C%A8%E5%BE%AA%E7%8E%AF%E9%87%8C%E9%9D%A2%E8%BF%9B%E8%A1%8CDOM%E6%93%8D%E4%BD%9C%E3%80%82-%E4%B8%BB%E8%A6%81"><span class="nav-number">2.8.</span> <span class="nav-text">3.1.08 不要在循环里面进行DOM操作。(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-09-%E5%AF%B9%E4%BA%8E%E5%A4%9A%E4%B8%AA%E5%90%8C%E6%80%A7%E8%B4%A8%E5%90%8C%E8%BE%88%E8%8A%82%E7%82%B9%EF%BC%8C%E9%81%BF%E5%85%8D%E9%80%90%E4%B8%AA%E8%BF%9B%E8%A1%8C%E4%BA%8B%E4%BB%B6%E7%BB%91%E5%AE%9A%E3%80%82%E8%80%8C%E5%BA%94%E8%AF%A5%E5%88%A9%E7%94%A8%E5%86%92%E6%B3%A1%E5%8E%9F%E7%90%86%EF%BC%8C%E5%B0%86%E4%BA%8B%E4%BB%B6%E5%A7%94%E6%89%98%E7%BB%99%E7%88%B6%E8%8A%82%E7%82%B9%E3%80%82-%E4%B8%BB%E8%A6%81"><span class="nav-number">2.9.</span> <span class="nav-text">3.1.09 对于多个同性质同辈节点，避免逐个进行事件绑定。而应该利用冒泡原理，将事件委托给父节点。(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-10-%E4%BA%8B%E4%BB%B6%E5%A7%94%E6%89%98%E8%A6%81%E6%8E%A5%E8%BF%91%E4%BA%8B%E4%BB%B6%E8%A7%A6%E5%8F%91%E8%8A%82%E7%82%B9%EF%BC%8C%E9%81%BF%E5%85%8D%E5%B0%86%E6%89%80%E6%9C%89%E4%BA%8B%E4%BB%B6%E5%86%92%E6%B3%A1%E5%A7%94%E6%89%98%E7%BB%99body%E8%8A%82%E7%82%B9%E3%80%82-%E4%B8%BB%E8%A6%81"><span class="nav-number">2.10.</span> <span class="nav-text">3.1.10 事件委托要接近事件触发节点，避免将所有事件冒泡委托给body节点。(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-11-%E9%80%9A%E5%B8%B8%E8%83%BD%E7%94%A8CSS%E5%AE%9E%E7%8E%B0%E7%9A%84%E6%95%88%E6%9E%9C%E8%A6%81%E9%81%BF%E5%85%8D%E4%BD%BF%E7%94%A8JS%E6%9D%A5%E5%AE%9E%E7%8E%B0%E3%80%82CSS%E6%80%A7%E8%83%BD%E6%AF%94JS%E8%A6%81%E9%AB%98%E3%80%82-%E6%AC%A1%E8%A6%81"><span class="nav-number">2.11.</span> <span class="nav-text">3.1.11 通常能用CSS实现的效果要避免使用JS来实现。CSS性能比JS要高。(次要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-1-12-JS%E8%A6%81%E9%81%BF%E5%85%8D%E7%9B%B4%E6%8E%A5%E5%86%99%E5%9C%A8%E9%A1%B5%E9%9D%A2%E4%B8%AD%EF%BC%8C%E5%8A%A0%E5%BF%AB%E9%A1%B5%E9%9D%A2%E5%8A%A0%E8%BD%BD%E9%80%9F%E5%BA%A6%E3%80%82-%E4%B8%BB%E8%A6%81"><span class="nav-number">2.12.</span> <span class="nav-text">Alt text3.1.12 JS要避免直接写在页面中，加快页面加载速度。(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-13-%E5%9C%A8%E5%BC%80%E5%8F%91%E4%B8%AD%EF%BC%8C%E7%AE%80%E5%8D%95%E7%9A%84%E6%93%8D%E4%BD%9C%E8%83%BD%E7%94%A8%E5%8E%9F%E7%94%9Fjs%E5%AE%9E%E7%8E%B0%E7%9A%84%E6%96%B9%E5%BC%8F%EF%BC%8C%E5%B0%B1%E4%B8%8D%E8%A6%81%E7%94%A8%E4%B8%89%E6%96%B9%E7%9A%84%E6%8F%92%E4%BB%B6%E6%88%96%E8%80%85%E5%BA%93%E5%AE%9E%E7%8E%B0-%E6%AC%A1%E8%A6%81"><span class="nav-number">2.13.</span> <span class="nav-text">3.1.13 在开发中，简单的操作能用原生js实现的方式，就不要用三方的插件或者库实现(次要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-14-%E8%BF%9B%E8%A1%8CJS%E5%90%88%E5%B9%B6%E5%8E%8B%E7%BC%A9%E7%9A%84%EF%BC%8C%E9%83%A8%E7%BD%B2%E4%B9%8B%E5%89%8D%E8%A6%81%E8%BF%9B%E8%A1%8C%E5%8E%8B%E7%BC%A9%E5%90%88%E5%B9%B6-%E4%B8%BB%E8%A6%81"><span class="nav-number">2.14.</span> <span class="nav-text">3.1.14 进行JS合并压缩的，部署之前要进行压缩合并(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-15-%E5%9C%A8%E9%A1%B9%E7%9B%AE%E6%BB%A1%E8%B6%B3%E6%9D%A1%E4%BB%B6%E7%9A%84%E6%83%85%E5%86%B5%E4%B8%8B%EF%BC%8C%E4%BD%BF%E7%94%A8%E6%9C%80%E6%96%B0%E7%9A%84jQuery%E7%89%88%E6%9C%AC%E3%80%82-%E5%BB%BA%E8%AE%AE"><span class="nav-number">2.15.</span> <span class="nav-text">3.1.15 在项目满足条件的情况下，使用最新的jQuery版本。(建议)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-1-16-%E5%9C%A8%E4%BD%BF%E7%94%A8jQuery%E6%97%B6%EF%BC%8C%E9%9C%80%E8%A6%81%E7%94%A8%E7%BC%93%E5%AD%98%E7%9A%84%E6%96%B9%E5%BC%8F%EF%BC%8C%E9%81%BF%E5%85%8D%E9%87%8D%E5%A4%8D%E4%BA%A7%E7%94%9F%E8%BF%87%E5%A4%9A%E7%9A%84jQuery%E5%AF%B9%E8%B1%A1%E3%80%82-%E6%AC%A1%E8%A6%81"><span class="nav-number">2.16.</span> <span class="nav-text">Alt text3.1.16 在使用jQuery时，需要用缓存的方式，避免重复产生过多的jQuery对象。(次要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-17-%E4%BD%BF%E7%94%A8jQuery%E6%97%B6%E8%BF%9B%E8%A1%8C%E5%A4%9A%E9%87%8D%E6%93%8D%E4%BD%9C%EF%BC%8C%E9%87%87%E7%94%A8%E5%85%B6%E9%93%BE%E5%BC%8F%E5%86%99%E6%B3%95-%E6%AC%A1%E8%A6%81"><span class="nav-number">2.17.</span> <span class="nav-text">3.1.17 使用jQuery时进行多重操作，采用其链式写法(次要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-18-%E5%9C%A8js%E6%93%8D%E4%BD%9CDOM%E7%9A%84%E8%BF%87%E7%A8%8B%E4%B8%AD%EF%BC%8C%E8%A6%81%E9%81%BF%E5%85%8D%E9%A2%91%E7%B9%81%E6%94%B9%E5%8A%A8DOM%E7%BB%93%E6%9E%84%EF%BC%8C%E5%8F%AF%E4%BB%A5%E5%85%88%E4%BD%BF%E7%94%A8%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%96%B9%E5%BC%8F%E7%BB%84%E8%A3%85html%E4%BB%A3%E7%A0%81%EF%BC%8C%E5%86%8D%E6%8F%92%E5%88%B0DOM%E7%BB%93%E6%9E%84%E4%B8%AD%E5%8E%BB-%E4%B8%BB%E8%A6%81"><span class="nav-number">2.18.</span> <span class="nav-text">3.1.18 在js操作DOM的过程中，要避免频繁改动DOM结构，可以先使用字符串方式组装html代码，再插到DOM结构中去(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1-19-%E4%BD%BF%E7%94%A8-data-elem-key-value-%E7%9A%84%E6%96%B9%E5%BC%8F%E7%BB%91%E5%AE%9A%E6%95%B0%E6%8D%AE-%E6%AC%A1%E8%A6%81"><span class="nav-number">2.19.</span> <span class="nav-text">3.1.19 使用$.data(elem,key,value)的方式绑定数据(次要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-js%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83"><span class="nav-number">2.20.</span> <span class="nav-text">3.2 js命名规范</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-02-%E5%8F%98%E9%87%8F%E5%90%8D%E5%92%8C%E6%96%B9%E6%B3%95%E5%90%8D%E8%A6%81%E5%90%88%E4%B9%8E%E9%80%BB%E8%BE%91%EF%BC%8C%E5%AE%B9%E6%98%93%E9%98%85%E8%AF%BB%E8%80%85%E8%A2%AB%E7%90%86%E8%A7%A3-%E4%B8%BB%E8%A6%81"><span class="nav-number">2.21.</span> <span class="nav-text">3.2.02 变量名和方法名要合乎逻辑，容易阅读者被理解(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-03-%E4%B8%8D%E8%A6%81%E6%89%8B%E5%8A%A8%E6%9D%A5%E5%8E%8B%E7%BC%A9%E4%BB%A3%E7%A0%81-for%E5%BE%AA%E7%8E%AF%E4%B8%AD%E7%9A%84%E6%9D%A1%E4%BB%B6%E5%8F%98%E9%87%8Fi%E9%99%A4%E5%A4%96-%EF%BC%8C%E5%8F%98%E9%87%8F%E5%BA%94%E8%AF%A5%E8%B6%B3%E5%A4%9F%E9%95%BF%E4%B8%94%E6%9C%89%E6%84%8F%E4%B9%89-%E4%B8%BB%E8%A6%81"><span class="nav-number">2.22.</span> <span class="nav-text">3.2.03 不要手动来压缩代码(for循环中的条件变量i除外)，变量应该足够长且有意义(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-04-%E5%8F%98%E9%87%8F%E4%BD%BF%E7%94%A8%E9%A9%BC%E5%B3%B0%E5%91%BD%E5%90%8D%E6%B3%95%EF%BC%88camel-case%EF%BC%89%EF%BC%8C%E4%BD%BF%E7%94%A8%E5%90%8D%E8%AF%8D%E7%BB%93%E6%9E%84-%E4%B8%BB%E8%A6%81"><span class="nav-number">2.23.</span> <span class="nav-text">3.2.04 变量使用驼峰命名法（camel case），使用名词结构(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-05-%E6%96%B9%E6%B3%95%E4%BD%BF%E7%94%A8%E9%A9%BC%E5%B3%B0%E5%91%BD%E5%90%8D%E6%B3%95%EF%BC%8C%E4%BD%BF%E7%94%A8%E5%8A%A8%E5%AE%BE%E7%BB%93%E6%9E%84-%E4%B8%BB%E8%A6%81"><span class="nav-number">2.24.</span> <span class="nav-text">3.2.05 方法使用驼峰命名法，使用动宾结构(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-06-%E5%B8%B8%E9%87%8F%E5%85%A8%E9%83%A8%E4%BD%BF%E7%94%A8%E5%A4%A7%E5%86%99%E5%AD%97%E6%AF%8D%EF%BC%8C%E5%AD%97%E6%AF%8D%E4%B9%8B%E9%97%B4%E4%BD%BF%E7%94%A8%E4%B8%8B%E5%88%92%E7%BA%BF%E8%BF%9B%E8%A1%8C%E8%BF%9E%E6%8E%A5-%E4%B8%BB%E8%A6%81"><span class="nav-number">2.25.</span> <span class="nav-text">3.2.06 常量全部使用大写字母，字母之间使用下划线进行连接(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-2-07-%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E5%90%8D%E4%BD%BF%E7%94%A8%E5%B8%95%E6%96%AF%E5%8D%A1%E5%91%BD%E5%90%8D%E6%B3%95-%E4%B8%BB%E8%A6%81"><span class="nav-number">2.26.</span> <span class="nav-text">3.2.07 构造函数名使用帕斯卡命名法(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-2-08-%E6%95%B0%E5%AD%97%E7%94%B3%E6%98%8E%E7%9A%84%E5%8F%98%E9%87%8F%E7%9A%84%E5%91%BD%E5%90%8D%E8%A6%81%E4%BD%93%E7%8E%B0%E5%87%BA%E8%AF%A5%E5%8F%98%E9%87%8F%E6%98%AF%E6%95%B0%E5%AD%97%EF%BC%8C%E4%B8%8D%E4%BD%BF%E7%94%A8%E5%85%AB%E8%BF%9B%E5%88%B6%E5%A3%B0%E6%98%8E%E6%95%B0%E5%80%BC%EF%BC%8C%E4%B8%8D%E7%9C%81%E7%95%A5%E5%B0%8F%E6%95%B0%E7%82%B9%E5%89%8D%E5%90%8E%E6%95%B0%E5%AD%97%E4%BB%A5%E5%85%8D%E9%80%A0%E6%88%90%E6%AD%A7%E4%B9%89%E3%80%82-%E4%B8%A5%E9%87%8D"><span class="nav-number">2.27.</span> <span class="nav-text">Alt text3.2.08 数字申明的变量的命名要体现出该变量是数字，不使用八进制声明数值，不省略小数点前后数字以免造成歧义。(严重)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-2-09-%E4%B8%8D%E8%A6%81%E4%BD%BF%E7%94%A8js%E5%85%B3%E9%94%AE%E5%AD%97%E4%BD%9C%E4%B8%BA%E7%94%B3%E6%98%8E%E7%9A%84%E5%8F%98%E9%87%8F%E6%88%96%E8%80%85%E6%96%B9%E6%B3%95%E5%90%8D%E7%A7%B0%EF%BC%8C%E5%A6%82%E2%80%98eval%E2%80%99%EF%BC%8C%E2%80%98arguments%E2%80%99%E7%AD%89-%E4%B8%A5%E9%87%8D"><span class="nav-number">2.28.</span> <span class="nav-text">Alt text3.2.09 不要使用js关键字作为申明的变量或者方法名称，如‘eval’，‘arguments’等(严重)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-2-10-%E5%B0%86%E6%9D%A5%E5%8F%AF%E8%83%BD%E6%88%90%E4%B8%BAjs%E5%85%B3%E9%94%AE%E5%AD%97%EF%BC%88ECMAScript%E6%A0%87%E5%87%86%E5%AE%9A%E4%B9%89-%E7%9A%84%E4%B8%8D%E8%83%BD%E4%BD%9C%E4%B8%BA%E5%8F%98%E9%87%8F%E6%88%96%E8%80%85%E6%96%B9%E6%B3%95%E5%90%8D%E7%A7%B0%E7%94%B3%E6%98%8E-%E4%B8%A5%E9%87%8D"><span class="nav-number">2.29.</span> <span class="nav-text">Alt text3.2.10 将来可能成为js关键字（ECMAScript标准定义)的不能作为变量或者方法名称申明(严重)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-2-11-%E6%96%B9%E6%B3%95%E5%8F%82%E6%95%B0%E5%91%BD%E5%90%8D%E5%BF%85%E9%A1%BB%E6%98%AF%E5%94%AF%E4%B8%80%E7%9A%84-%E4%B8%A5%E9%87%8D"><span class="nav-number">2.30.</span> <span class="nav-text">Alt text3.2.11 方法参数命名必须是唯一的(严重)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-2-12-%E5%AF%B9%E8%B1%A1%E5%B1%9E%E6%80%A7%E7%9A%84%E5%91%BD%E5%90%8D%E5%BF%85%E9%A1%BB%E6%98%AF%E5%94%AF%E4%B8%80%E4%B8%8D%E8%83%BD%E9%87%8D%E5%A4%8D%E7%9A%84-%E4%B8%A5%E9%87%8D"><span class="nav-number">2.31.</span> <span class="nav-text">Alt text3.2.12 对象属性的命名必须是唯一不能重复的(严重)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-2-13-%E5%8F%98%E9%87%8F%E9%9C%80%E8%A6%81%E5%9C%A8%E8%A2%AB%E4%BD%BF%E7%94%A8%E5%89%8D%E7%94%B3%E6%98%8E-%E4%B8%BB%E8%A6%81"><span class="nav-number">2.32.</span> <span class="nav-text">Alt text3.2.13 变量需要在被使用前申明(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-2-14-%E5%9C%A8%E5%90%8C%E4%B8%80%E4%B8%AA%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8B%E9%9D%A2%EF%BC%8C%E4%B8%8D%E8%83%BD%E7%94%A8%E7%9B%B8%E5%90%8C%E7%9A%84%E5%90%8D%E7%A7%B0%E5%91%BD%E5%90%8D%E6%96%B9%E6%B3%95%E5%92%8C%E5%8F%98%E9%87%8F-%E4%B8%BB%E8%A6%81"><span class="nav-number">2.33.</span> <span class="nav-text">Alt text3.2.14 在同一个作用域下面，不能用相同的名称命名方法和变量(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-2-15-%E5%8F%98%E9%87%8F%E5%91%BD%E5%90%8D%E4%B8%8D%E8%A6%81%E8%A6%86%E7%9B%96%E5%85%B6%E4%BB%96%E7%9A%84%E5%8F%98%E9%87%8F%EF%BC%8C%E5%8D%B3%E4%B8%8D%E8%A6%81%E9%87%8D%E5%90%8D-%E4%B8%BB%E8%A6%81"><span class="nav-number">2.34.</span> <span class="nav-text">Alt text3.2.15 变量命名不要覆盖其他的变量，即不要重名(主要)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-3-js%E6%B3%A8%E9%87%8A%E8%A7%84%E8%8C%83"><span class="nav-number">3.</span> <span class="nav-text">3.3 js注释规范</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-01-%E7%94%B3%E6%98%8E%E7%9A%84%E5%8F%98%E9%87%8F-%E9%99%A4for%E5%BE%AA%E7%8E%AF%E9%87%8C%E9%9D%A2%E7%9A%84%E5%BE%AA%E7%8E%AF%E6%AC%A1%E6%95%B0%E6%8E%A7%E5%88%B6%E5%8F%98%E9%87%8F-%E3%80%81%E6%96%B9%E6%B3%95%EF%BC%88%E5%8C%85%E6%8B%AC%E5%8C%BF%E5%90%8D%E6%96%B9%E6%B3%95%EF%BC%89%E3%80%81%E5%AF%B9%E8%B1%A1%EF%BC%8C%E5%AF%B9%E8%B1%A1%E5%B1%9E%E6%80%A7%E3%80%81%E6%8F%92%E4%BB%B6%E3%80%81API%E3%80%81%E4%BB%A3%E7%A0%81%E5%9D%97%EF%BC%88for%E5%BE%AA%E7%8E%AF%EF%BC%8Cif%E2%80%A6else%E2%80%A6%EF%BC%89%E7%AD%89%E9%83%BD%E9%9C%80%E8%A6%81%E6%9C%89%E6%B3%A8%E9%87%8A%E6%9D%A5%E8%A7%A3%E9%87%8A-%E4%B8%BB%E8%A6%81"><span class="nav-number">3.1.</span> <span class="nav-text">3.3.01 申明的变量(除for循环里面的循环次数控制变量)、方法（包括匿名方法）、对象，对象属性、插件、API、代码块（for循环，if…else…）等都需要有注释来解释(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-02-%E5%8D%95%E8%A1%8C%E6%B3%A8%E9%87%8A%E6%88%96%E5%A4%9A%E8%A1%8C%E6%B3%A8%E9%87%8A%E4%B9%8B%E5%89%8D%E7%A9%BA%E4%B8%80%E8%A1%8C-%E4%B8%BB%E8%A6%81"><span class="nav-number">3.2.</span> <span class="nav-text">3.3.02 单行注释或多行注释之前空一行(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-03-%E5%8D%95%E8%A1%8C%E6%B3%A8%E9%87%8A-%E5%90%8E%E7%A9%BA%E4%B8%80%E6%A0%BC-%E6%AC%A1%E8%A6%81"><span class="nav-number">3.3.</span> <span class="nav-text">3.3.03 单行注释&#x2F;&#x2F;后空一格(次要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-04-%E6%B3%A8%E9%87%8A%E5%8D%95%E7%8B%AC%E4%B8%80%E8%A1%8C-%E6%B3%A8%E9%87%8A%E5%89%8D%E7%A9%BA%E4%B8%80%E8%A1%8C%EF%BC%8C%E4%B8%8E%E4%B8%8B%E4%B8%80%E8%A1%8C%E4%BB%A3%E7%A0%81%E4%BF%9D%E6%8C%81%E7%9B%B8%E5%90%8C%E7%9A%84%E7%BC%A9%E8%BF%9B%E3%80%82%E5%9C%A8%E6%9F%90%E8%A1%8C%E4%BB%A3%E7%A0%81%E5%90%8E%E6%B7%BB%E5%8A%A0%E8%A1%8C%E6%B3%A8%E9%87%8A%EF%BC%8C%E9%9C%80%E5%9C%A8%E4%BB%A3%E7%A0%81%E5%90%8E%E7%A9%BA%E4%B8%80%E4%B8%AA4%E4%B8%AA%E7%A9%BA%E6%A0%BC%E7%BC%A9%E8%BF%9B%EF%BC%8C%E5%AD%97%E7%AC%A6%E9%95%BF%E5%BA%A6%E4%B8%8D%E8%A6%81%E8%B6%85%E8%BF%87%E6%9C%80%E5%A4%A7%E5%AD%97%E7%AC%A6%E6%95%B0-120%E5%AD%97%E7%AC%A6-%E3%80%82-%E4%B8%BB%E8%A6%81"><span class="nav-number">3.4.</span> <span class="nav-text">3.3.04 注释单独一行,注释前空一行，与下一行代码保持相同的缩进。在某行代码后添加行注释，需在代码后空一个4个空格缩进，字符长度不要超过最大字符数(120字符)。(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-3-05-%E5%A4%9A%E8%A1%8C%E6%B3%A8%E9%87%8A%E4%BB%A5-%E5%BC%80%E5%A7%8B%EF%BC%8C%E4%BB%A5-%E7%BB%93%E6%9D%9F-%E4%B8%BB%E8%A6%81"><span class="nav-number">3.5.</span> <span class="nav-text">3.3.05 多行注释以&#x2F;*开始，以*&#x2F;结束(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-3-06-%E4%B8%8D%E8%A6%81%E4%BD%BF%E7%94%A8HTML%E6%B3%A8%E9%87%8A%E6%96%B9%E5%BC%8F-%E4%B8%BB%E8%A6%81"><span class="nav-number">3.6.</span> <span class="nav-text">Alt text3.3.06 不要使用HTML注释方式(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-3-07-%E6%B3%A8%E9%87%8A%E8%AF%AD%E5%8F%A5%E4%B8%8D%E8%A6%81%E8%B7%9F%E5%9C%A8%E4%BB%A3%E7%A0%81%E5%90%8C%E4%B8%80%E8%A1%8C%E5%90%8E%E9%9D%A2%EF%BC%8C%E8%A6%81%E5%9C%A8%E4%BB%A3%E7%A0%81%E8%A1%8C%E4%B8%8A%E4%B8%80%E8%A1%8C%E4%BD%8D%E7%BD%AE-%E6%AC%A1%E8%A6%81"><span class="nav-number">3.7.</span> <span class="nav-text">Alt text3.3.07 注释语句不要跟在代码同一行后面，要在代码行上一行位置(次要)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-js%E4%BB%A3%E7%A0%81%E6%A0%BC%E5%BC%8F%E5%8C%96%E8%A7%84%E8%8C%83"><span class="nav-number">4.</span> <span class="nav-text">3.4 js代码格式化规范</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-01-%E6%96%B9%E6%B3%95%E3%80%81%E5%AF%B9%E8%B1%A1%E3%80%81%E5%BE%AA%E7%8E%AF%E7%AD%89%E5%BC%80%E5%A7%8B%E8%8A%B1%E6%8B%AC%E5%8F%B7-%E8%A6%81%E8%B7%9F%E5%9C%A8%E6%96%B9%E6%B3%95%E3%80%81%E5%AF%B9%E8%B1%A1%E3%80%81%E5%BE%AA%E7%8E%AF%E7%AD%89%E8%B5%B7%E5%A7%8B%E8%A1%8C%E7%9A%84%E6%9C%80%E5%90%8E%E9%9D%A2%EF%BC%8C%E4%B8%8D%E8%A6%81%E5%8F%A6%E8%B5%B7%E4%B8%80%E8%A1%8C%E5%86%99-%E4%B8%BB%E8%A6%81"><span class="nav-number">4.1.</span> <span class="nav-text">3.4.01 方法、对象、循环等开始花括号&amp;#123;要跟在方法、对象、循环等起始行的最后面，不要另起一行写(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-4-02-%E4%BD%BF%E7%94%A8-%E5%88%86%E5%8F%B7-%E7%BB%93%E6%9D%9F%E4%BB%A3%E7%A0%81%E8%AF%AD%E5%8F%A5-%E4%B8%BB%E8%A6%81"><span class="nav-number">4.2.</span> <span class="nav-text">Alt text3.4.02 使用 分号; 结束代码语句(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-4-03-%E6%AF%8F%E8%A1%8C%E4%BB%A3%E7%A0%81%E7%9A%84%E9%95%BF%E5%BA%A6%E4%B8%8D%E8%B6%85%E8%BF%87120%E5%AD%97%E7%AC%A6%EF%BC%8C%E5%90%AB%E7%A9%BA%E6%A0%BC%E5%AD%97%E7%AC%A6-%E4%B8%BB%E8%A6%81"><span class="nav-number">4.3.</span> <span class="nav-text">Alt text3.4.03 每行代码的长度不超过120字符，含空格字符(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-03-%E5%90%8C%E4%B8%80%E8%A1%8C%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8%E6%88%96%E8%80%85%E8%A1%A8%E8%BE%BE%E5%BC%8F%E6%8D%A2%E8%A1%8C%E6%97%B6%EF%BC%8C%E4%B8%80%E5%AE%9A%E8%A6%81%E5%9C%A8%E4%B8%80%E4%B8%AA%E8%BF%90%E7%AE%97%E7%AC%A6%E6%88%96%E6%A0%87%E7%82%B9%E5%90%8E%E8%BF%9B%E8%A1%8C%E6%8D%A2%E8%A1%8C-%E4%B8%BB%E8%A6%81"><span class="nav-number">4.4.</span> <span class="nav-text">3.4.03 同一行方法调用或者表达式换行时，一定要在一个运算符或标点后进行换行(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-04-%E5%90%8C%E4%B8%80%E8%A1%8C%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8%E6%88%96%E8%80%85%E8%A1%A8%E8%BE%BE%E5%BC%8F%EF%BC%8C%E6%8D%A2%E8%A1%8C%E5%90%8E%E7%9A%84%E5%8F%A6%E4%B8%80%E8%A1%8C%E7%BC%A9%E8%BF%9B8%E4%B8%AA%E7%A9%BA%E6%A0%BC-%E4%B8%BB%E8%A6%81"><span class="nav-number">4.5.</span> <span class="nav-text">3.4.04 同一行方法调用或者表达式，换行后的另一行缩进8个空格(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-05-%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%B5%8B%E5%80%BC%E8%AF%AD%E5%8F%A5%E6%8D%A2%E8%A1%8C%EF%BC%8C%E7%AC%AC%E4%BA%8C%E8%A1%8C%E8%A6%81%E4%B8%8E%E7%AD%89%E5%8F%B7%E5%90%8E%E9%9D%A2%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%8F%98%E9%87%8F%E5%AF%B9%E9%BD%90-%E4%B8%BB%E8%A6%81"><span class="nav-number">4.6.</span> <span class="nav-text">3.4.05 表达式赋值语句换行，第二行要与等号后面的第一个变量对齐(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-06-%E6%AF%8F%E4%B8%AA%E6%96%B9%E6%B3%95%E4%B9%8B%E9%97%B4%E7%A9%BA%E4%B8%80%E8%A1%8C-%E4%B8%BB%E8%A6%81"><span class="nav-number">4.7.</span> <span class="nav-text">3.4.06 每个方法之间空一行(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-07-%E5%9C%A8%E6%96%B9%E6%B3%95%E7%9A%84%E5%B1%80%E9%83%A8%E5%8F%98%E9%87%8F%E5%A3%B0%E6%98%8E%E5%92%8C%E6%96%B9%E6%B3%95%E7%9A%84%E8%AF%AD%E5%8F%A5%E4%B9%8B%E9%97%B4%E7%A9%BA%E4%B8%80%E8%A1%8C-%E6%AC%A1%E8%A6%81"><span class="nav-number">4.8.</span> <span class="nav-text">3.4.07 在方法的局部变量声明和方法的语句之间空一行(次要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-08-%E8%BF%90%E7%AE%97%E7%AC%A6%E5%89%8D%E5%90%8E%E6%B7%BB%E5%8A%A0%E7%A9%BA%E6%A0%BC-%E4%B8%BB%E8%A6%81"><span class="nav-number">4.9.</span> <span class="nav-text">3.4.08 运算符前后添加空格(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-09-%E5%9C%86%E6%8B%AC%E5%8F%B7%E5%86%85%E6%8C%A8%E7%9D%80%E5%9C%86%E6%8B%AC%E5%8F%B7%E7%9A%84%E5%9C%B0%E6%96%B9%E4%B8%8D%E6%B7%BB%E5%8A%A0%E7%A9%BA%E6%A0%BC-%E4%B8%BB%E8%A6%81"><span class="nav-number">4.10.</span> <span class="nav-text">3.4.09 圆括号内挨着圆括号的地方不添加空格(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-4-10-%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%94%B3%E6%98%8E%E7%BB%9F%E4%B8%80%E4%BD%BF%E7%94%A8%E5%8F%8C%E5%BC%95%E5%8F%B7%EF%BC%8C%E5%A6%82%E6%9E%9C%E5%AD%97%E7%AC%A6%E4%B8%B2%E9%95%BF%E5%BA%A6%E8%BF%87%E9%95%BF%EF%BC%8C%E8%AF%B7%E6%8D%A2%E8%A1%8C%E5%B9%B6%E4%BD%BF%E7%94%A8%E2%80%9C-%E2%80%9D%E5%8F%B7%E8%BF%9B%E8%A1%8C%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BF%9E%E6%8E%A5-%E5%BB%BA%E8%AE%AE"><span class="nav-number">4.11.</span> <span class="nav-text">Alt text3.4.10 字符串申明统一使用双引号，如果字符串长度过长，请换行并使用“+”号进行字符串连接(建议)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-11-%E5%AF%B9%E8%B1%A1%E6%89%80%E6%9C%89%E5%B1%9E%E6%80%A7%E7%BC%A9%E8%BF%9B4%E4%B8%AA%E7%A9%BA%E6%A0%BC%EF%BC%8C%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%B1%9E%E6%80%A7%E4%B8%8A%E9%9D%A2%E7%A9%BA%E4%B8%80%E8%A1%8C-%E6%AC%A1%E8%A6%81"><span class="nav-number">4.12.</span> <span class="nav-text">3.4.11 对象所有属性缩进4个空格，第一个属性上面空一行(次要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-12-%E6%89%80%E6%9C%89%E5%B1%9E%E6%80%A7%E7%9A%84%E5%80%BC%E9%83%BD%E8%A6%81%E5%AF%B9%E5%BA%94%E4%B8%80%E4%B8%AA%E6%B2%A1%E6%9C%89%E5%BC%95%E5%8F%B7%E7%9A%84%E5%B1%9E%E6%80%A7%E5%90%8D%EF%BC%8C%E5%B1%9E%E6%80%A7%E5%90%8D%E5%90%8E%E7%B4%A7%E8%B7%9F%E4%B8%80%E4%B8%AA%E5%86%92%E5%8F%B7%EF%BC%88%E4%B8%8D%E5%8A%A0%E7%A9%BA%E6%A0%BC%EF%BC%89%EF%BC%8C%E5%86%92%E5%8F%B7%E5%90%8E%E5%8A%A0%E4%B8%80%E4%B8%AA%E7%A9%BA%E6%A0%BC%E8%B7%9F%E5%B1%9E%E6%80%A7%E7%9A%84%E5%80%BC-%E4%B8%BB%E8%A6%81"><span class="nav-number">4.13.</span> <span class="nav-text">3.4.12 所有属性的值都要对应一个没有引号的属性名，属性名后紧跟一个冒号（不加空格），冒号后加一个空格跟属性的值(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-13-%E5%A6%82%E6%9E%9C%E8%BF%99%E4%B8%AA%E5%B1%9E%E6%80%A7%E6%98%AF%E6%96%B9%E6%B3%95%EF%BC%8C%E4%BB%96%E7%9A%84%E4%B8%8A%E4%B8%8B%E8%B7%9F%E7%9D%80%E4%B8%8D%E6%98%AF%E6%96%B9%E6%B3%95%E7%9A%84%E5%B1%9E%E6%80%A7%EF%BC%8C%E4%B8%8A%E4%B8%8B%E5%9D%87%E8%A6%81%E7%A9%BA%E4%B8%80%E8%A1%8C%EF%BC%9B%E4%B8%80%E7%BB%84%E7%9B%B8%E5%85%B3%E7%9A%84%E5%B1%9E%E6%80%A7%E5%90%8E%E5%8F%AF%E9%80%82%E5%BD%93%E6%8F%92%E5%85%A5%E4%B8%80%E4%B8%AA%E7%A9%BA%E8%A1%8C%EF%BC%8C%E5%A2%9E%E5%8A%A0%E5%8F%AF%E8%AF%BB%E6%80%A7-%E5%BB%BA%E8%AE%AE"><span class="nav-number">4.14.</span> <span class="nav-text">3.4.13 如果这个属性是方法，他的上下跟着不是方法的属性，上下均要空一行；一组相关的属性后可适当插入一个空行，增加可读性(建议)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-14-%E7%BB%93%E6%9D%9F%E7%9A%84%E5%A4%A7%E6%8B%AC%E5%8F%B7%E5%BA%94%E8%AF%A5%E7%8B%AC%E5%8D%A0%E4%B8%80%E8%A1%8C-%E4%B8%BB%E8%A6%81"><span class="nav-number">4.15.</span> <span class="nav-text">3.4.14 结束的大括号应该独占一行(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-15-%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%E5%AD%97%E9%9D%A2%E9%87%8F%E4%BD%9C%E4%B8%BA%E4%B8%80%E4%B8%AA%E5%8F%82%E6%95%B0%E4%BC%A0%E5%85%A5%E6%96%B9%E6%B3%95%E4%B8%AD-%E5%BC%80%E5%A7%8B%E8%8A%B1%E6%8B%AC%E5%8F%B7-%E4%B8%8E%E8%B0%83%E7%94%A8%E7%9A%84%E6%96%B9%E6%B3%95%E5%90%8D%E5%90%8C%E8%A1%8C%EF%BC%8C%E5%B1%9E%E6%80%A7%E6%8C%89%E9%94%AE%E5%80%BC%E5%AF%B9%E6%96%B9%E5%BC%8F%EF%BC%8C%E5%8D%95%E7%8B%AC%E4%B8%80%E8%A1%8C%EF%BC%8C%E7%BB%93%E6%9D%9F%E8%8A%B1%E6%8B%AC%E5%8F%B7-%E5%8D%95%E7%8B%AC%E4%B8%80%E8%A1%8C-%E4%B8%BB%E8%A6%81"><span class="nav-number">4.16.</span> <span class="nav-text">3.4.15 一个对象字面量作为一个参数传入方法中,开始花括号{与调用的方法名同行，属性按键值对方式，单独一行，结束花括号}单独一行(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-16-%E4%B8%80%E4%B8%AA%E9%80%BB%E8%BE%91%E4%BB%A3%E7%A0%81%E5%9D%97%E4%B9%8B%E5%89%8D%E7%A9%BA%E4%B8%80%E8%A1%8C-%E5%BB%BA%E8%AE%AE"><span class="nav-number">4.17.</span> <span class="nav-text">3.4.16 一个逻辑代码块之前空一行(建议)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-4-17-%E5%AF%B9%E4%BA%8E%E5%A4%9A%E5%B1%82%E5%B5%8C%E5%A5%97%E7%9A%84if%E8%AF%AD%E5%8F%A5%EF%BC%8C%E8%A6%81%E8%BF%9B%E8%A1%8C%E5%90%88%E5%B9%B6-%E4%B8%BB%E8%A6%81"><span class="nav-number">4.18.</span> <span class="nav-text">Alt text3.4.17 对于多层嵌套的if语句，要进行合并(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-4-18-js%E6%96%87%E4%BB%B6%E8%A1%8C%E6%95%B0%E4%B8%8D%E8%A6%81%E5%A4%AA%E9%95%BF%EF%BC%8C%E6%9C%80%E5%A4%A7%E8%A1%8C%E6%95%B0%E4%B8%BA1000%E8%A1%8C-%E4%B8%BB%E8%A6%81"><span class="nav-number">4.19.</span> <span class="nav-text">Alt text3.4.18 js文件行数不要太长，最大行数为1000行(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-4-19-js%E6%96%B9%E6%B3%95%E8%A1%8C%E6%95%B0%E4%B8%8D%E8%A6%81%E5%A4%AA%E9%95%BF%EF%BC%8C%E6%9C%80%E5%A4%A7%E8%A1%8C%E6%95%B0%E4%B8%BA100%E8%A1%8C-%E4%B8%BB%E8%A6%81"><span class="nav-number">4.20.</span> <span class="nav-text">Alt text3.4.19 js方法行数不要太长，最大行数为100行(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-4-20-%E4%B8%80%E8%A1%8C%E7%9A%84%E7%BB%93%E5%B0%BE%E5%A4%84%E4%B8%8D%E8%A6%81%E4%BD%BF%E7%94%A8%E7%A9%BA%E6%A0%BC%E5%AD%97%E7%AC%A6-%E4%B8%BB%E8%A6%81"><span class="nav-number">4.21.</span> <span class="nav-text">Alt text3.4.20 一行的结尾处不要使用空格字符(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-4-21-%E4%B8%8D%E8%A6%81%E4%BD%BF%E7%94%A8%E5%B7%B2%E7%BB%8F%E7%94%B3%E6%98%8E%E5%90%8D%E7%A7%B0%E7%9A%84%E6%96%B9%E6%B3%95%E8%A1%A8%E8%BE%BE%E5%BC%8F%E8%BF%9B%E8%A1%8C%E8%B5%8B%E5%80%BC%E6%93%8D%E4%BD%9C-%E4%B8%BB%E8%A6%81"><span class="nav-number">4.22.</span> <span class="nav-text">Alt text3.4.21 不要使用已经申明名称的方法表达式进行赋值操作(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-4-22-%E5%BE%AA%E7%8E%AF%E6%88%96%E8%80%85%E5%B5%8C%E5%A5%97%E7%9A%84%E4%BB%A3%E7%A0%81%E5%9D%97%E5%86%85%E9%83%A8%E4%B8%8D%E8%83%BD%E6%98%AF%E7%A9%BA%E7%9A%84%EF%BC%8C%E6%B2%A1%E6%9C%89%E4%BB%A3%E7%A0%81%E9%80%BB%E8%BE%91-%E4%B8%BB%E8%A6%81"><span class="nav-number">4.23.</span> <span class="nav-text">Alt text3.4.22 循环或者嵌套的代码块内部不能是空的，没有代码逻辑(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-4-23-%E5%8F%AA%E6%9C%89while-do-for%E8%AF%AD%E5%8F%A5%E6%89%8D%E8%83%BD%E4%BD%BF%E7%94%A8%E6%A0%87%E8%AE%B0-%E4%B8%BB%E8%A6%81"><span class="nav-number">4.24.</span> <span class="nav-text">Alt text3.4.23 只有while, do, for语句才能使用标记(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-4-24-%E5%BD%93for%E5%BE%AA%E7%8E%AF%E7%BC%BA%E7%9C%81%E4%BA%86%E5%88%9D%E5%A7%8B%E8%AE%A1%E6%95%B0%E5%92%8C%E9%80%92%E5%A2%9E%E8%A1%A8%E8%BE%BE%E5%BC%8F%EF%BC%8C%E8%A6%81%E4%BD%BF%E7%94%A8while%E5%BE%AA%E7%8E%AF%E4%BB%A3%E6%9B%BF-%E6%AC%A1%E8%A6%81"><span class="nav-number">4.25.</span> <span class="nav-text">Alt text3.4.24 当for循环缺省了初始计数和递增表达式，要使用while循环代替(次要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-4-25-%E6%8E%A7%E5%88%B6%E6%B5%81%E7%94%B3%E6%98%8Eif-for-while-switch-try%E4%B8%8D%E8%A6%81%E5%B5%8C%E5%A5%97%E5%A4%AA%E5%A4%9A%E5%B1%82-%E6%9C%80%E5%A4%9A3%E6%9B%BE-%E6%AC%A1%E8%A6%81"><span class="nav-number">4.26.</span> <span class="nav-text">Alt text3.4.25 控制流申明if, for, while, switch, try不要嵌套太多层,最多3曾(次要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-4-26-%E5%AD%97%E9%9D%A2%E9%87%8F%E5%B8%83%E5%B0%94%E5%80%BC%E4%B8%8D%E8%83%BD%E4%BD%BF%E7%94%A8%E5%9C%A8%E6%9D%A1%E4%BB%B6%E8%A1%A8%E8%BE%BE%E5%BC%8F%E9%87%8C%E9%9D%A2-%E6%AC%A1%E8%A6%81"><span class="nav-number">4.27.</span> <span class="nav-text">Alt text3.4.26 字面量布尔值不能使用在条件表达式里面(次要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-4-27-%E5%9C%A8if%E2%80%A6else%E2%80%A6%E8%AF%AD%E5%8F%A5%E5%9D%97%E9%87%8C%E9%9D%A2%EF%BC%8C%E5%A6%82%E6%9E%9C%E5%AD%98%E5%9C%A8%E8%BF%94%E5%9B%9E%E5%80%BC%E6%98%AF%E5%B8%83%E5%B0%94%E7%B1%BB%E5%9E%8B%E7%9A%84%EF%BC%8C%E7%9B%B4%E6%8E%A5%E8%BF%94%E5%9B%9Eif%E6%9D%A1%E4%BB%B6%E7%9A%84%E8%A1%A8%E8%BE%BE%E5%BC%8F-%E6%AC%A1%E8%A6%81"><span class="nav-number">4.28.</span> <span class="nav-text">Alt text3.4.27 在if…else…语句块里面，如果存在返回值是布尔类型的，直接返回if条件的表达式(次要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-4-28-%E4%B8%8D%E8%A6%81%E4%BD%BF%E7%94%A8%E5%88%B6%E8%A1%A8%E7%AC%A6-%E6%AC%A1%E8%A6%81"><span class="nav-number">4.29.</span> <span class="nav-text">Alt text3.4.28 不要使用制表符(次要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-4-29-strict%E6%A8%A1%E5%BC%8F%E9%9C%80%E8%A6%81%E8%B0%A8%E6%85%8E%E4%BD%BF%E7%94%A8-%E5%BB%BA%E8%AE%AE"><span class="nav-number">4.30.</span> <span class="nav-text">Alt text3.4.29 strict模式需要谨慎使用(建议)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-4-30-%E4%BB%A3%E7%A0%81%E5%9D%97%E4%B8%ADTODO%E6%A0%87%E8%AE%B0%E7%9A%84%E5%9C%B0%E6%96%B9%E8%A6%81%E8%A2%AB%E5%A4%84%E7%90%86%E6%8E%89-%E5%BB%BA%E8%AE%AE"><span class="nav-number">4.31.</span> <span class="nav-text">Alt text3.4.30 代码块中TODO标记的地方要被处理掉(建议)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-31-%E5%B8%B8%E9%87%8F%E5%92%8C%E9%85%8D%E7%BD%AE%E5%8F%98%E9%87%8F%E5%BA%94%E8%AF%A5%E6%94%BE%E5%9C%A8%E6%96%87%E4%BB%B6%E9%A1%B6%E9%83%A8-%E4%B8%BB%E8%A6%81"><span class="nav-number">4.32.</span> <span class="nav-text">3.4.31 常量和配置变量应该放在文件顶部(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-32-%E5%BD%93%E6%9F%90%E6%AE%B5%E4%BB%A3%E7%A0%81%E9%80%BB%E8%BE%91%E5%AD%98%E5%9C%A8%E9%87%8D%E5%A4%8D%E5%87%BA%E7%8E%B0%E7%9A%84%E6%83%85%E5%86%B5%EF%BC%8C%E6%88%96%E8%80%85%E5%9C%A8%E6%9F%90%E4%B8%AA%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8B%E9%9D%A2%E5%AD%98%E5%9C%A8%E8%B6%85%E8%BF%878%E4%B8%AA%E6%96%B9%E6%B3%95%E7%9A%84%E6%97%B6%E5%80%99%EF%BC%8C%E9%9C%80%E8%A6%81%E5%B0%86%E4%BB%A3%E7%A0%81%E6%8A%BD%E8%B1%A1%E6%88%90%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%96%B9%E5%BC%8F%E7%BC%96%E5%86%99%EF%BC%8C%E4%BE%BF%E4%BA%8E%E4%BA%8C%E6%AC%A1%E4%BD%BF%E7%94%A8%EF%BC%8C%E4%B9%9F%E9%81%BF%E5%85%8D%E4%B8%8D%E5%BF%85%E8%A6%81%E7%9A%84%E4%BB%A3%E7%A0%81%E9%87%8D%E5%A4%8D%EF%BC%8C%E4%BD%BF%E4%BB%A3%E7%A0%81%E6%9B%B4%E5%85%B7%E5%8F%AF%E8%AF%BB%E6%80%A7%E5%92%8C%E9%AB%98%E6%95%88%E6%80%A7%E3%80%82-%E4%B8%BB%E8%A6%81"><span class="nav-number">4.33.</span> <span class="nav-text">3.4.32 当某段代码逻辑存在重复出现的情况，或者在某个作用域下面存在超过8个方法的时候，需要将代码抽象成对象的方式编写，便于二次使用，也避免不必要的代码重复，使代码更具可读性和高效性。(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-4-33-%E5%BD%93%E5%AE%9E%E7%8E%B0%E6%9F%90%E4%B8%AA%E6%96%B9%E6%B3%95%E9%9C%80%E8%A6%81%E4%BD%BF%E7%94%A8%E5%A4%A7%E9%87%8F%E5%8F%82%E6%95%B0%E7%9A%84%E6%97%B6%E5%80%99%EF%BC%8C%E8%A6%81%E5%B0%86%E8%AF%A5%E5%8A%9F%E8%83%BD%E5%B0%81%E8%A3%85%E6%88%90%E4%B8%80%E4%B8%AA%E5%AF%B9%E8%B1%A1%EF%BC%8C%E4%BB%A5%E9%85%8D%E7%BD%AE%E6%96%B9%E5%BC%8F%E4%BC%A0%E5%85%A5%E5%8F%82%E6%95%B0%EF%BC%8C%E8%80%8C%E4%B8%8D%E6%98%AF%E5%86%99%E5%9C%A8%E6%96%B9%E6%B3%95%E5%8F%82%E6%95%B0%E9%87%8C%E9%9D%A2%EF%BC%8C%E6%96%B9%E6%B3%95%E7%9A%84%E6%9C%80%E5%A4%A7%E5%8F%82%E6%95%B0%E9%95%BF%E5%BA%A6%E4%B8%BA7-%E4%B8%BB%E8%A6%81"><span class="nav-number">4.34.</span> <span class="nav-text">Alt text3.4.33 当实现某个方法需要使用大量参数的时候，要将该功能封装成一个对象，以配置方式传入参数，而不是写在方法参数里面，方法的最大参数长度为7(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-34-%E4%BD%BF%E7%94%A8%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%96%B9%E5%BC%8F%E7%BB%84%E7%BB%87js%E4%BB%A3%E7%A0%81-%E5%BB%BA%E8%AE%AE"><span class="nav-number">4.35.</span> <span class="nav-text">3.4.34 使用面向对象的方式组织js代码(建议)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-5-js%E4%BB%A3%E7%A0%81%E9%98%B2%E9%94%99-%E9%99%B7%E9%98%B1-%E8%A7%84%E8%8C%83"><span class="nav-number">5.</span> <span class="nav-text">3.5 js代码防错(陷阱)规范</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-01-%E4%B8%8D%E8%A6%81%E8%BF%9B%E8%A1%8C%E6%B5%8F%E8%A7%88%E5%99%A8%E5%97%85%E6%8E%A2%E6%96%B9%E5%BC%8F%E5%88%A4%E6%96%AD%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%89%88%E6%9C%AC%E7%AD%89%E4%BF%A1%E6%81%AF%EF%BC%8C%E8%AF%B7%E4%BD%BF%E7%94%A8%E7%89%B9%E6%80%A7%E6%A3%80%E6%B5%8B%EF%BC%8C%E5%90%8C%E6%97%B6%E9%81%BF%E5%85%8D%E4%BD%BF%E7%94%A8%E4%B8%89%E6%96%B9%E9%9D%9E%E7%89%B9%E6%80%A7%E6%A3%80%E6%B5%8B%E6%96%B9%E5%BC%8F%E5%88%A4%E6%96%AD%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AE%A2%E6%88%B7%E7%AB%AF-%E4%B8%BB%E8%A6%81"><span class="nav-number">5.1.</span> <span class="nav-text">3.5.01 不要进行浏览器嗅探方式判断浏览器客户端版本等信息，请使用特性检测，同时避免使用三方非特性检测方式判断浏览器客户端(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-02-%E9%81%BF%E5%85%8D%E7%94%B3%E6%98%8E%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%EF%BC%8C%E9%98%B2%E6%AD%A2%E5%85%A8%E5%B1%80%E7%A9%BA%E9%97%B4%E5%91%BD%E5%90%8D%E5%86%B2%E7%AA%81%E6%B1%A1%E6%9F%93-%E4%B8%BB%E8%A6%81"><span class="nav-number">5.2.</span> <span class="nav-text">3.5.02 避免申明全局变量，防止全局空间命名冲突污染(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-5-03-%E4%B8%8D%E8%A6%81%E7%94%A8null%E6%9D%A5%E5%88%A4%E6%96%AD%E6%96%B9%E6%B3%95%E7%9A%84%E5%8F%82%E6%95%B0%E6%9C%89%E6%B2%A1%E6%9C%89%E6%8F%90%E4%BE%9B%EF%BC%8C%E4%B8%8D%E8%A6%81%E7%94%A8null%E6%9D%A5%E5%88%A4%E6%96%AD%E6%9C%AA%E5%88%9D%E5%A7%8B%E5%8C%96%E7%9A%84%E5%8F%98%E9%87%8F-%E4%B8%A5%E9%87%8D"><span class="nav-number">5.3.</span> <span class="nav-text">Alt text3.5.03 不要用null来判断方法的参数有没有提供，不要用null来判断未初始化的变量(严重)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-5-04-%E4%B8%8D%E8%A6%81%E7%9C%81%E7%95%A5if-for-while-do%E2%80%A6while-try%E2%80%A6catch%E2%80%A6finally%E8%AF%AD%E5%8F%A5%E5%A4%A7%E6%8B%AC%E5%8F%B7-%E4%B8%A5%E9%87%8D"><span class="nav-number">5.4.</span> <span class="nav-text">Alt text3.5.04 不要省略if for while do…while try…catch…finally语句大括号(严重)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-05-%E5%8F%98%E9%87%8F%E5%AE%9A%E4%B9%89%E5%9C%A8%E5%8F%98%E9%87%8F%E5%A3%B0%E6%98%8E%E6%97%B6%E8%BF%9B%E8%A1%8C%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%8C%E6%9C%AA%E5%88%9D%E5%A7%8B%E5%8C%96%E7%9A%84%E5%8F%98%E9%87%8F%E6%94%BE%E5%9C%A8%E5%A3%B0%E6%98%8E%E8%AF%AD%E5%8F%A5%E7%9A%84%E6%9C%80%E5%90%8E-%E4%B8%BB%E8%A6%81"><span class="nav-number">5.5.</span> <span class="nav-text">3.5.05 变量定义在变量声明时进行初始化，未初始化的变量放在声明语句的最后(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-5-06-%E6%AF%94%E8%BE%83%E8%BF%90%E7%AE%97%E4%BD%BF%E7%94%A8-%E5%92%8C-%E4%B8%8D%E8%A6%81%E4%BD%BF%E7%94%A8-%E5%92%8C-%E9%81%BF%E5%85%8D%E7%B1%BB%E5%9E%8B%E8%BD%AC%E6%8D%A2%E6%97%B6%E4%BA%A7%E7%94%9F%E7%9A%84%E9%94%99%E8%AF%AF-%E4%B8%BB%E8%A6%81"><span class="nav-number">5.6.</span> <span class="nav-text">Alt text3.5.06 比较运算使用 &#x3D;&#x3D;&#x3D; 和 !&#x3D;&#x3D; , 不要使用 &#x3D;&#x3D; 和 !&#x3D; 避免类型转换时产生的错误(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-07-%E4%B8%89%E7%9B%AE%E8%BF%90%E7%AE%97%E7%AC%A6%E7%94%A8%E6%9D%A5%E8%BF%9B%E8%A1%8C%E6%9D%A1%E4%BB%B6%E6%80%A7%E7%9A%84%E8%B5%8B%E5%80%BC%EF%BC%8C%E4%B8%8D%E8%A6%81%E7%94%A8%E6%9D%A5%E5%BD%93%E5%81%9A%E7%AE%80%E5%86%99%E7%9A%84-if-%E8%AF%AD%E5%8F%A5%E4%BD%BF%E7%94%A8-%E4%B8%BB%E8%A6%81"><span class="nav-number">5.7.</span> <span class="nav-text">3.5.07 三目运算符用来进行条件性的赋值，不要用来当做简写的 if 语句使用(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-08-%E4%BD%BF%E7%94%A8%E9%97%AD%E5%8C%85%E6%88%96%E8%80%85%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4%E9%81%BF%E5%85%8D%E5%85%A8%E5%B1%80%E7%A9%BA%E9%97%B4%E6%B1%A1%E6%9F%93-%E4%B8%A5%E9%87%8D"><span class="nav-number">5.8.</span> <span class="nav-text">3.5.08 使用闭包或者命名空间避免全局空间污染(严重)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-5-09-%E4%B8%8D%E8%A6%81%E4%BD%BF%E7%94%A8%E2%80%9C-%E2%80%9D%E9%80%97%E5%8F%B7%E6%9D%A5%E7%BB%93%E6%9D%9F%E8%AF%AD%E5%8F%A5-%E9%98%BB%E6%96%AD"><span class="nav-number">5.9.</span> <span class="nav-text">Alt text3.5.09 不要使用“,”逗号来结束语句(阻断)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-5-10-switch%E8%AF%AD%E5%8F%A5%E4%B8%8D%E8%83%BD%E5%8C%85%E5%90%AB%E9%9D%9Ecase%E8%AF%AD%E5%8F%A5-%E4%B8%A5%E9%87%8D"><span class="nav-number">5.10.</span> <span class="nav-text">Alt text3.5.10 switch语句不能包含非case语句(严重)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-5-11-switch%E8%AF%AD%E5%8F%A5%E9%9C%80%E8%A6%81%E4%BB%A5default%E8%AF%AD%E5%8F%A5%E7%BB%93%E6%9D%9F-%E4%B8%BB%E8%A6%81"><span class="nav-number">5.11.</span> <span class="nav-text">Alt text3.5.11 switch语句需要以default语句结束(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-5-12-switch%E8%AF%AD%E5%8F%A5%E4%B8%AD%E6%AF%8F%E4%B8%AAcase-%E6%9C%AA%E4%BD%BF%E7%94%A8return%E8%AF%AD%E5%8F%A5%E7%9A%84-%E9%9C%80%E8%A6%81%E4%BB%A5break%E8%AF%AD%E5%8F%A5%E7%BB%93%E6%9D%9F-%E4%B8%BB%E8%A6%81"><span class="nav-number">5.12.</span> <span class="nav-text">Alt text3.5.12 switch语句中每个case(未使用return语句的)需要以break语句结束(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-5-13-switch%E8%AF%AD%E5%8F%A5%E4%BD%BF%E7%94%A8%E6%97%B6%E8%87%B3%E5%B0%91%E8%A6%81%E6%9C%893%E4%B8%AAcase%E8%AF%AD%E5%8F%A5-%E5%8C%85%E6%8B%AC%E6%9C%80%E5%90%8E%E7%9A%84default%E8%AF%AD%E5%8F%A5-%E6%AC%A1%E8%A6%81"><span class="nav-number">5.13.</span> <span class="nav-text">Alt text3.5.13 switch语句使用时至少要有3个case语句(包括最后的default语句)(次要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-5-14-%E6%96%B9%E6%B3%95%E4%BD%93%E4%BD%9C%E4%B8%BA%E5%8F%82%E6%95%B0%E4%BD%BF%E7%94%A8%E6%97%B6%EF%BC%8C%E8%A6%81%E4%BF%9D%E6%8C%81%E4%B8%8E%E7%94%B3%E6%98%8E%E7%9A%84%E6%96%B9%E6%B3%95%E5%9C%A8%E5%90%8C%E4%B8%80%E8%A1%8C-%E4%B8%A5%E9%87%8D"><span class="nav-number">5.14.</span> <span class="nav-text">Alt text3.5.14 方法体作为参数使用时，要保持与申明的方法在同一行(严重)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-5-15-%E5%AF%B9%E4%BA%8E%E5%AF%B9%E8%B1%A1%E5%B1%9E%E6%80%A7%E4%BD%BF%E7%94%A8for-%E2%80%A6-in%E5%BE%AA%E7%8E%AF%E6%97%B6%EF%BC%8C%E9%9C%80%E8%A6%81%E9%80%9A%E8%BF%87hasOwnProperty%E6%96%B9%E6%B3%95%E8%BF%87%E6%BB%A4%E9%9D%9E%E8%87%AA%E8%BA%AB%E5%B1%9E%E6%80%A7-%E7%BB%A7%E6%89%BF%E8%80%8C%E6%9D%A5%E7%9A%84%E5%B1%9E%E6%80%A7-%E4%B8%BB%E8%A6%81"><span class="nav-number">5.15.</span> <span class="nav-text">Alt text3.5.15 对于对象属性使用for … in循环时，需要通过hasOwnProperty方法过滤非自身属性(继承而来的属性)(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-5-16-%E8%B5%8B%E5%80%BC%E8%AF%AD%E5%8F%A5%E4%B8%8D%E8%83%BD%E4%BD%9C%E4%B8%BA%E5%8F%82%E6%95%B0%E6%88%96%E8%80%85%E6%9D%A1%E4%BB%B6%E4%BC%A0%E9%80%92-%E4%B8%BB%E8%A6%81"><span class="nav-number">5.16.</span> <span class="nav-text">Alt text3.5.16 赋值语句不能作为参数或者条件传递(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-5-17-%E4%B8%8D%E8%A6%81%E4%BD%BF%E7%94%A8%E4%BD%8D%E8%BF%90%E7%AE%97%E7%AC%A6%EF%BC%9A-lt-lt-gt-gt-gt-gt-gt-amp-%E4%B8%BB%E8%A6%81"><span class="nav-number">5.17.</span> <span class="nav-text">Alt text3.5.17 不要使用位运算符：&lt;&lt;, &gt;&gt;, &gt;&gt;&gt;, ~, &amp;, |(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-5-18-%E4%B8%8D%E8%A6%81%E4%BD%BF%E7%94%A8%E9%80%97%E5%8F%B7%E8%BF%90%E7%AE%97%E7%AC%A6-%E4%BD%86%E6%8E%92%E9%99%A4%E7%89%B9%E4%BE%8B-%E4%B8%BB%E8%A6%81"><span class="nav-number">5.18.</span> <span class="nav-text">Alt text3.5.18 不要使用逗号运算符,但排除特例(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-5-19-%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E4%B8%8D%E8%A6%81%E5%8D%95%E7%BA%AF%E5%9C%A8%E6%9C%AA%E7%94%B3%E6%98%8E%E5%AE%9E%E4%BE%8B%E7%9A%84%E6%83%85%E5%86%B5%E4%B8%8B%E4%BD%BF%E7%94%A8-%E4%B8%BB%E8%A6%81"><span class="nav-number">5.19.</span> <span class="nav-text">Alt text3.5.19 构造函数不要单纯在未申明实例的情况下使用(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-5-20-%E4%B8%8D%E8%A6%81%E5%9C%A8%E5%BE%AA%E7%8E%AF%E4%BD%93%E5%86%85%E9%83%A8%E5%AE%9A%E4%B9%89%E6%96%B9%E6%B3%95-%E4%B8%BB%E8%A6%81"><span class="nav-number">5.20.</span> <span class="nav-text">Alt text3.5.20 不要在循环体内部定义方法(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-5-21-%E4%B8%8D%E8%A6%81%E5%AE%9A%E4%B9%89%E9%87%8D%E5%A4%8D%E5%90%8D%E7%A7%B0%E7%9A%84%E6%96%B9%E6%B3%95-%E4%B8%BB%E8%A6%81"><span class="nav-number">5.21.</span> <span class="nav-text">Alt text3.5.21 不要定义重复名称的方法(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-5-22-%E8%B7%B3%E8%BD%AC%E8%AF%AD%E5%8F%A5%E5%90%8E%E9%9D%A2%E4%B8%8D%E8%A6%81%E6%8E%A5%E5%85%B6%E4%BB%96%E8%AF%AD%E5%8F%A5-%E4%B8%BB%E8%A6%81"><span class="nav-number">5.22.</span> <span class="nav-text">Alt text3.5.22 跳转语句后面不要接其他语句(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-5-23-%E4%B8%80%E4%B8%AA%E5%BE%AA%E7%8E%AF%E4%BD%93%E5%86%85%E9%83%A8%E4%B8%8D%E8%A6%81%E4%BD%BF%E7%94%A8%E5%A4%9A%E4%B8%AAbreak%E6%88%96%E8%80%85continue%E5%85%B3%E9%94%AE%E5%AD%97-%E4%B8%BB%E8%A6%81"><span class="nav-number">5.23.</span> <span class="nav-text">Alt text3.5.23 一个循环体内部不要使用多个break或者continue关键字(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-5-24-%E6%96%B9%E6%B3%95%E4%B8%AD%E6%9C%AA%E8%A2%AB%E4%BD%BF%E7%94%A8%E7%9A%84%E5%8F%82%E6%95%B0%E8%A6%81%E8%A2%AB%E7%A7%BB%E9%99%A4-%E4%B8%BB%E8%A6%81"><span class="nav-number">5.24.</span> <span class="nav-text">Alt text3.5.24 方法中未被使用的参数要被移除(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-5-25-%E6%9C%AA%E8%A2%AB%E4%BD%BF%E7%94%A8%E7%9A%84%E5%8F%98%E9%87%8F%E8%A6%81%E8%A2%AB%E5%88%A0%E9%99%A4-%E4%B8%BB%E8%A6%81"><span class="nav-number">5.25.</span> <span class="nav-text">Alt text3.5.25 未被使用的变量要被删除(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-5-26-%E6%97%A0%E6%95%88%E7%9A%84if%E2%80%A6else%E2%80%A6%E8%A6%81%E8%A2%AB%E7%A7%BB%E9%99%A4-%E4%B8%BB%E8%A6%81"><span class="nav-number">5.26.</span> <span class="nav-text">Alt text3.5.26 无效的if…else…要被移除(主要)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-6-%E7%94%A8%E6%88%B7%E4%BD%93%E9%AA%8C%E5%8F%8A%E5%AE%89%E5%85%A8%E6%80%A7%E8%A7%84%E8%8C%83"><span class="nav-number">6.</span> <span class="nav-text">3.6 用户体验及安全性规范</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-6-01-%E7%94%9F%E4%BA%A7%E7%8E%AF%E5%A2%83%E4%B8%8B%E4%B8%8D%E8%A6%81%E4%BD%BF%E7%94%A8alert-%E2%80%A6-%E6%96%B9%E5%BC%8F%E6%8F%90%E7%A4%BA%E4%BF%A1%E6%81%AF-%E4%B8%BB%E8%A6%81"><span class="nav-number">6.1.</span> <span class="nav-text">Alt text3.6.01 生产环境下不要使用alert(…)方式提示信息(主要)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Alt-text3-6-02-%E7%94%9F%E4%BA%A7%E7%8E%AF%E5%A2%83%E4%B8%8B%E4%B8%8D%E8%A6%81%E4%BD%BF%E7%94%A8debug%E8%AF%AD%E5%8F%A5-%E4%B8%BB%E8%A6%81"><span class="nav-number">6.2.</span> <span class="nav-text">Alt text3.6.02 生产环境下不要使用debug语句(主要)</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,37 +1,458 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="这里我来分享下我使用hexo过程中的一些麻烦和解决他们的心得。 我比较喜欢新生的东西，对于博客系统，我从了解wordpress作为最开始，接着是dedecms，然后是那个让我折腾得彻底没脾气的octopress，在解决octopress的时候，老师的一个建议，让我开始认识hexo，从一开始接触hexo，我就开始喜欢上这个东西，原因很简单：把一个复杂的东西做得更简单，符合用户的内心需求。谁都不想写个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="hexo纠错笔记">
+<meta property="og:url" content="http://example.com/2016/04/10/hexo%E7%BA%A0%E9%94%99%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="这里我来分享下我使用hexo过程中的一些麻烦和解决他们的心得。 我比较喜欢新生的东西，对于博客系统，我从了解wordpress作为最开始，接着是dedecms，然后是那个让我折腾得彻底没脾气的octopress，在解决octopress的时候，老师的一个建议，让我开始认识hexo，从一开始接触hexo，我就开始喜欢上这个东西，原因很简单：把一个复杂的东西做得更简单，符合用户的内心需求。谁都不想写个">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://i.imgur.com/7Qlu6Lr.png">
+<meta property="og:image" content="http://i.imgur.com/n2LklYY.png">
+<meta property="og:image" content="http://i.imgur.com/GvyDIYm.png">
+<meta property="og:image" content="http://i.imgur.com/dN4bLNX.png">
+<meta property="og:image" content="http://i.imgur.com/4Be7hlm.png">
+<meta property="article:published_time" content="2016-04-10T08:41:01.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:53:33.221Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://i.imgur.com/7Qlu6Lr.png">
+
+<link rel="canonical" href="http://example.com/2016/04/10/hexo%E7%BA%A0%E9%94%99%E7%AC%94%E8%AE%B0/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>hexo纠错笔记 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2016/04/10/hexo%E7%BA%A0%E9%94%99%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          hexo纠错笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-04-10 16:41:01" itemprop="dateCreated datePublished" datetime="2016-04-10T16:41:01+08:00">2016-04-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:33" itemprop="dateModified" datetime="2020-10-11T11:53:33+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这里我来分享下我使用hexo过程中的一些麻烦和解决他们的心得。</p>
+<p>我比较喜欢新生的东西，对于博客系统，我从了解wordpress作为最开始，接着是dedecms，然后是那个让我折腾得彻底没脾气的octopress，在解决octopress的时候，老师的一个建议，让我开始认识hexo，从一开始接触hexo，我就开始喜欢上这个东西，原因很简单：把一个复杂的东西做得更简单，符合用户的内心需求。谁都不想写个博客而费很大的脑筋在搭建这个事情上。</p>
+<p>跟很多小白一样，我也有很多不知道的地方，尤其是细节，N次愤怒离场，N次又被吸引过来，好了，废话不多说，进入正题</p>
+<p><strong>1、hexo g的时候老是报错</strong></p>
+<p>hexo g的时候时候，总是提示这么一段，大概是说在第4行的第一列有个一条线（翻译的），然后我就找到文章的第四行，具体的看截图：</p>
+<p><img src="http://i.imgur.com/7Qlu6Lr.png"></p>
+<p>这样就不会因为把文章写好后hexo g的时候报错。</p>
+<p><strong>2、随着我们熟练了hexo之后，我们会发现，我们用的命令无非就是：</strong></p>
+<pre><code>hexo new &quot;XXX&quot; #新建博客，接着就是用markdown编写博客    
+
+hexo g #生成静态博客命令
+
+hexo d #上传本地博客到远程服务器
+
+hexo s #在本地上开启博客系统</code></pre>
+<p>在这几条命令中出现问题最多的是hexo d（对个人而言），有的时候我把写好的博客通过hexo g的时候，除了提醒一些小错误之外没什么问题，除非网站的配置文件错误，才会在这个阶段报错，然后我想先通过hexo d的方式把博客上传上去，老是提示各种问题，篇幅有限，苏不一一列举，我这里列举一些通用的解决方案：</p>
+<p>针对 can not find ：git的问题</p>
+<p>首先，我们需要明白的是：既然是部署阶段出现的问题，我们首先想到的是肯定是在部署配置的那里看下是否因为配置的问题而导致的，我们可以打开网站根目录下的站点配置文件，找到最后的那里：</p>
+<p><img src="http://i.imgur.com/n2LklYY.png"></p>
+<p>这里设置好了以后，（如果使用git方式进行部署，我们就需要在git bash中运行以下这条命令：</p>
+<pre><code>npm install hexo-deployer-git --save</code></pre>
+<p>来安装所需的插件</p>
+<p>这个过程中可能会出下类似不能安装所需要的依赖（could not install indenpceny:Unsupported）,大概是这几个词，我们可以多运行一次，我的就是这样解决的，嘻嘻！</p>
+<p>如果你的上一步安装好了，然后在当前目录打开命令行，输入：</p>
+<pre><code>hexo d</code></pre>
+<p>随后按照提示，分别输入自己的Github账号用户名和密码，开始上传。</p>
+<p>经过这样的设置，基本不会出现什么问题了，如果有的话，请联系我。</p>
+<p><strong>3、安装NoteJs，出现问题，安装到最后提示error 52</strong></p>
+<p>过程：重新下载安装了几次都不行，不懂为什么，最后通过Hexo的文档提供下载地址进行下载，然后安装问题就没有出现了。</p>
+<pre><code>可能原因：
+a. 下载的安装包有问题的原因
+b. 我的C盘占用过多，盘符标红，然后卸载一些不常用软件解决，再安装再加上上面重新下载的安装包，之后安装成功。</code></pre>
+<p><strong>4、部署提示找不到git</strong></p>
+<p>解决办法：</p>
+<pre><code>在Hexo 3.0版本后deploy git 被分开的，所以需要安装，安装命令如下:npm install hexo-deployer-git --save ,安装好后在尝试一下就ok。</code></pre>
+<p>*<em>5、部署提示 ｀event type error **</em>｀**</p>
+<p>解决办法：</p>
+<pre><code>安装了git bash没有配置到环境变量path中，添加进去在试试。</code></pre>
+<p><strong>6、部署的时候执行：hexo deploy 命令行没有任何输出，也没有错误。</strong></p>
+<p>解决办法：</p>
+<p>在部署的_config.yml文件中，找到deploy:标签，在每个冒号后面必须要空格，否则就会出现上述问题。我的配置如下：</p>
+<pre><code>deploy:
+type: git
+repository: https://github.com/wx962464/wx962464.github.io.git
+branch: master</code></pre>
+<p>顺便提示下，如果使用ssh部署不成功的话，请使用https的方式试试，这个就是每次会让你输入用户名和密码。其实效果是一样的。</p>
+<p><strong>7、修改主题不起作用，而且hexo generate还报错</strong></p>
+<p>解决办法：</p>
+<pre><code>需要到相应的主题文件夹下面进行修改，比如我的主题为：themes\jacman 则在根目录下找到该文件夹下，修改_config.yml文件，根目录下面也有个同样的名字，不注意，容易弄混，要主要修改的文件是否正确。</code></pre>
+<p><strong>8、执行hexo server显示running at <a target="_blank" rel="noopener" href="http://0.0.0.0:4000/">http://0.0.0.0:4000/</a></strong></p>
+<p>问题说明：</p>
+<pre><code>开始的时候以为启动服务器有问题，一直在找问题，找了半天没有答案，最后在浏览器直接尝试http://0.0.0.0:4000/ 是没办法访问的，然后就试了下http://localhost:4000/ 发现是可以访问的，大喜！~~</code></pre>
+<p><strong>9、执行hexo server提示找不到该指令</strong></p>
+<p>解决办法：</p>
+<pre><code>在Hexo 3.0 后server被单独出来了，需要安装server，安装的命令如下：npm install hexo-server --save 安装此server后再试，问题解决。</code></pre>
+<p>10、如果是用npm安装的时候，提示错误，我们可以先查看下我们的电脑本地是否安装了npm,打开windows命令框，输入：</p>
+<p><img src="http://i.imgur.com/GvyDIYm.png"></p>
+<p>如果没有安装成功，我们得先安装这些依赖项。</p>
+<p>11、经常用hexo的伙伴对hexo clean 这条指令应该不陌生，我在学习别人的文档的时候，也发现他们经常使用，我也是，可是后面我就发现问题了，我在本地搭建的样式为：</p>
+<p><img src="http://i.imgur.com/dN4bLNX.png"></p>
+<p>远程服务器那边的是：</p>
+<p><img src="http://i.imgur.com/4Be7hlm.png"></p>
+<p>每次我在提交的时候，总会吧本地的样式覆盖掉了线上的样式，用hexo clean会清楚</p>
+<p>当然，会有很多小小的问题困扰着我们，即使我们非常熟练也难免会遇到前所未有的麻烦，今天就写到这里了。</p>
+<p>更多的内容，可以参考<a target="_blank" rel="noopener" href="http://www.jianshu.com/search?q=hexo&page=2&type=notes">简书</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2016/04/10/%E4%BD%BF%E7%94%A8Hexo%E6%90%AD%E5%BB%BA%E5%8D%9A%E5%AE%A2%EF%BC%88%E4%B8%89%EF%BC%89%EF%BC%8C%E5%8D%9A%E5%AE%A2%E9%85%8D%E7%BD%AE%E3%80%81%E4%B8%BB%E9%A2%98%E5%92%8C%E5%86%99%E4%BD%9C/" rel="prev" title="使用Hexo搭建博客（三），博客配置、主题和写作">
+      <i class="fa fa-chevron-left"></i> 使用Hexo搭建博客（三），博客配置、主题和写作
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2016/04/10/hexo%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E6%97%B6%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98/" rel="next" title="hexo博客搭建时遇到的一些问题">
+      hexo博客搭建时遇到的一些问题 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,37 +1,725 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="关于对数据库的了解，大家可以先阅读下笔者曾经写过的一篇关于计算器的magento文章，这里对那篇文章进行了一个深化的开发。这里想实现一个需求：对magento网站产品的防伪码进行一个查询。 废话少说，开干！ 1、首先在local下创建新的模块，依次创建如下文件或者文件夹：  app&#x2F;code&#x2F;local&#x2F;Test&#x2F;License app&#x2F;code&#x2F;local&#x2F;Test&#x2F;License&#x2F;Block">
+<meta property="og:type" content="article">
+<meta property="og:title" content="magento通过读取数据库的方式实现防伪码查询功能">
+<meta property="og:url" content="http://example.com/2018/07/31/magento%E9%80%9A%E8%BF%87%E8%AF%BB%E5%8F%96%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E6%96%B9%E5%BC%8F%E5%AE%9E%E7%8E%B0%E9%98%B2%E4%BC%AA%E7%A0%81%E6%9F%A5%E8%AF%A2%E5%8A%9F%E8%83%BD/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="关于对数据库的了解，大家可以先阅读下笔者曾经写过的一篇关于计算器的magento文章，这里对那篇文章进行了一个深化的开发。这里想实现一个需求：对magento网站产品的防伪码进行一个查询。 废话少说，开干！ 1、首先在local下创建新的模块，依次创建如下文件或者文件夹：  app&#x2F;code&#x2F;local&#x2F;Test&#x2F;License app&#x2F;code&#x2F;local&#x2F;Test&#x2F;License&#x2F;Block">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/4xB7RiZ.png">
+<meta property="og:image" content="https://i.imgur.com/iX31RFH.png">
+<meta property="article:published_time" content="2018-07-31T11:40:08.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:02.197Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="magento,数据库,防伪码,序列码,查询">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/4xB7RiZ.png">
+
+<link rel="canonical" href="http://example.com/2018/07/31/magento%E9%80%9A%E8%BF%87%E8%AF%BB%E5%8F%96%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E6%96%B9%E5%BC%8F%E5%AE%9E%E7%8E%B0%E9%98%B2%E4%BC%AA%E7%A0%81%E6%9F%A5%E8%AF%A2%E5%8A%9F%E8%83%BD/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>magento通过读取数据库的方式实现防伪码查询功能 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/07/31/magento%E9%80%9A%E8%BF%87%E8%AF%BB%E5%8F%96%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9A%84%E6%96%B9%E5%BC%8F%E5%AE%9E%E7%8E%B0%E9%98%B2%E4%BC%AA%E7%A0%81%E6%9F%A5%E8%AF%A2%E5%8A%9F%E8%83%BD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          magento通过读取数据库的方式实现防伪码查询功能
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-07-31 19:40:08" itemprop="dateCreated datePublished" datetime="2018-07-31T19:40:08+08:00">2018-07-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:02" itemprop="dateModified" datetime="2020-10-11T11:58:02+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/magento1/" itemprop="url" rel="index"><span itemprop="name">magento1</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>关于对数据库的了解，大家可以先阅读下笔者曾经写过的一篇关于计算器的magento文章，这里对那篇文章进行了一个深化的开发。这里想实现一个需求：对magento网站产品的防伪码进行一个查询。</p>
+<p>废话少说，开干！</p>
+<p>1、首先在local下创建新的模块，依次创建如下文件或者文件夹：</p>
+<blockquote>
+<p>app/code/local/Test/License</p>
+<p>app/code/local/Test/License/Block</p>
+<p>app/code/local/Test/License/Block/License.php</p>
+<p>app/code/local/Test/License/controllers</p>
+<p>app/code/local/Test/License/controllers/IndexController.php</p>
+<p>app/code/local/Test/License/etc</p>
+<p>app/code/local/Test/License/etc/config.xml</p>
+<p>app/code/local/Test/License/Helper</p>
+<p>app/code/local/Test/License/Helper/Data.php</p>
+</blockquote>
+<p>Test是命名空间，License是模块名，通常一个标准的模块有六个文件夹：Block,controllers,etc,Model,Helper,sql</p>
+<p>另外，我们需要在magento的数据库中创建一个数据表，笔者这里命名为：wp_license，wp_license.sql语句如下：</p>
+<pre><code>SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for wp_license
+-- ----------------------------
+DROP TABLE IF EXISTS `wp_license`;
+CREATE TABLE `wp_license` (
+  `id` int(16) unsigned NOT NULL AUTO_INCREMENT COMMENT &#39;9&#39;,
+  `name` char(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `brand` varchar(300) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `fuzeren` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `diqu` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `chanpin` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `baozhiqi` varchar(16) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  `attachment` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=53 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
+
+-- ----------------------------
+-- Records of wp_license
+-- ----------------------------
+INSERT INTO `wp_license` VALUES (&#39;46&#39;, &#39;7766&#39;, &#39;wegret&#39;, &#39;erhgrw&#39;, &#39;qegrhw&#39;, &#39;wegrwrf&#39;, &#39;89&#39;, &#39;http://localhost:8080/wordpress/wp-content/uploads/2018/07/test1.pdf&#39;);
+INSERT INTO `wp_license` VALUES (&#39;47&#39;, &#39;789&#39;, &#39;qwedfv&#39;, &#39;bgferfg&#39;, &#39;sdfgbhng&#39;, &#39;fggsfgnh&#39;, &#39;987&#39;, &#39;http://localhost:8080/wordpress/wp-content/uploads/2018/07/1.jpg&#39;);
+INSERT INTO `wp_license` VALUES (&#39;51&#39;, &#39;1013&#39;, &#39;诺福罗得&#39;, &#39;zhangsan&#39;, &#39;广州&#39;, &#39;水生生物学&#39;, &#39;4&#39;, &#39;https://pan.baidu.com/s/1ZL3fjahxI48YOsLTFrJ_KQ&#39;);
+INSERT INTO `wp_license` VALUES (&#39;52&#39;, &#39;678&#39;, &#39;sdfghjk&#39;, &#39;dfghj,&#39;, &#39;werfghjk&#39;, &#39;wdfghj&#39;, &#39;34&#39;, &#39;http://www.baidu.com&#39;);</code></pre>
+<p>好的，我们创建好这些文件的时候，先去在网站的配置目录下创建一个激活这个模块的配置文件，如果我们想要激活命名空间为Test下的所有模块，那么我们可以在app/etc/modules/这个目录下创建一个Test_All.xml即可。然后下面的所有模块大致配置是这样的：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;config&gt;
+     &lt;modules&gt;
+        &lt;Test_License&gt;
+            &lt;active&gt;true&lt;/active&gt;
+            &lt;codePool&gt;local&lt;/codePool&gt;
+        &lt;/Test_License&gt;
+        &lt;Test_Shopping&gt;
+            &lt;active&gt;true&lt;/active&gt;
+            &lt;codePool&gt;local&lt;/codePool&gt;
+        &lt;/Test_Shopping&gt;
+        &lt;Test_Customer&gt;  
+            &lt;active&gt;true&lt;/active&gt;  
+            &lt;codePool&gt;local&lt;/codePool&gt;  
+        &lt;/Test_Customer&gt;
+     &lt;/modules&gt;
+&lt;/config&gt;</code></pre>
+<p>从这里可以看到这个命名空间下有三个自定义的模块分别是：License，Shopping，Customer</p>
+<p>我们言归正传，这里我们不用这个方法，我们还是只激活我们创建的这个模块，那么我们在app/etc/modules/这个目录下创建一个Test_License.xml，代码如下：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;config&gt;
+    &lt;modules&gt;
+        &lt;Test_License&gt;
+            &lt;active&gt;true&lt;/active&gt;
+            &lt;codePool&gt;local&lt;/codePool&gt;
+        &lt;/Test_License&gt;
+    &lt;/modules&gt;
+&lt;/config&gt;</code></pre>
+<p>接着，我们打开app/code/local/Test/License/etc/config.xml这个文件，加入代码：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;config&gt;
+    &lt;modules&gt;
+        &lt;Test_License&gt;
+            &lt;version&gt;0.1.0&lt;/version&gt;
+        &lt;/Test_License&gt;
+    &lt;/modules&gt;
+    &lt;frontend&gt;
+        &lt;routers&gt;
+            &lt;license&gt;
+                &lt;use&gt;standard&lt;/use&gt;
+                &lt;args&gt;
+                    &lt;module&gt;Test_License&lt;/module&gt;
+                    &lt;frontName&gt;license&lt;/frontName&gt;
+                &lt;/args&gt;
+            &lt;/license&gt;
+        &lt;/routers&gt;
+        &lt;layout&gt;
+            &lt;updates&gt;
+                &lt;license&gt;
+                    &lt;file&gt;license.xml&lt;/file&gt;
+                &lt;/license&gt;
+            &lt;/updates&gt;
+        &lt;/layout&gt;
+    &lt;/frontend&gt;
+    &lt;global&gt;
+        &lt;models&gt;
+            &lt;license&gt;
+                &lt;class&gt;Test_License_Model&lt;/class&gt;
+                &lt;resourceModel&gt;license_mysql4&lt;/resourceModel&gt;
+            &lt;/license&gt;
+        &lt;/models&gt;
+        &lt;blocks&gt;
+            &lt;license&gt;
+                &lt;class&gt;Test_License_Block&lt;/class&gt;
+            &lt;/license&gt;
+        &lt;/blocks&gt;
+        &lt;helpers&gt;
+            &lt;license&gt;
+                &lt;class&gt;Test_License_Helper&lt;/class&gt;
+            &lt;/license&gt;
+        &lt;/helpers&gt;
+    &lt;/global&gt;
+&lt;/config&gt;</code></pre>
+<p>接着，我们打开app/code/local/Test/License/Helper/Data.php这个文件：</p>
+<pre><code>&lt;?php
+
+class Test_License_Helper_Data extends Mage_Core_Helper_Abstract
+&#123;
+
+&#125;</code></pre>
+<p>这里讲解一下：这个里面由于没有复杂的逻辑，所以直接保留为空即可。以后有新的业务逻辑可以添加在这里面。</p>
+<p>添加完毕后，我们打开app/code/local/Test/License/controllers/IndexController.php这个文件，加入代码：</p>
+<pre><code>&lt;?php
+class Test_License_IndexController extends Mage_Core_Controller_Front_Action
+&#123;
+    public function indexAction()
+    &#123;
+        if ($this-&gt;getRequest()-&gt;isPost())&#123; /* 首先判断是否有post发生 */
+            $nu1 = $this-&gt;getRequest()-&gt;getParam(&#39;NUM1&#39;); /* 截获参数 */
+            $read =Mage::getSingleton(&quot;core/resource&quot;)-&gt;getConnection(&#39;core_read&#39;);
+            $sql = &quot;select * from `wp_license` where name=&#39;$nu1&#39;&quot;;
+            $result =$read-&gt;fetchAll($sql);
+            Mage::register(&#39;nu1&#39;, $result);/* 传递到block
+        &#125;
+
+        $this-&gt;loadLayout();
+        $this-&gt;renderLayout();
+    &#125;
+&#125;</code></pre>
+<p>这里我们进行讲解：控制器写法不用多说了，我们来看这个index方法里面的代码：</p>
+<p>先判断一下是否有数据提交。</p>
+<pre><code>$this-&gt;getRequest()-&gt;isPost()</code></pre>
+<p>然后截获参数，这个参数来自模板文件里面的表单字段name里的NUM1，这个参数是来自前台表单的提交，需要根据这个字段对数据库进行条件查询的，所以需要这样写。</p>
+<p>接着里面有三行代码：</p>
+<pre><code>$read =Mage::getSingleton(&quot;core/resource&quot;)-&gt;getConnection(&#39;core_read&#39;);
+$sql = &quot;select * from `wp_license` where name=&#39;$nu1&#39;&quot;;
+$result =$read-&gt;fetchAll($sql);</code></pre>
+<p>针对这三行代码的理解，这里笔者摘录了一段如下：</p>
+<pre><code>&lt;?php  
+    /** 
+      * Get the resource model 
+      */  
+    $resource = Mage::getSingleton(&#39;core/resource&#39;);  
+
+    /** 
+     * Retrieve the read connection 
+     */  
+    $readConnection = $resource-&gt;getConnection(&#39;core_read&#39;);  
+
+    /** 
+     * Retrieve our table name 
+     */  
+    $table = $resource-&gt;getTableName(&#39;catalog/product&#39;);  
+
+    /** 
+     * Execute the query and store the results in $results 
+     */  
+    $sku = $readConnection-&gt;fetchCol(&#39;SELECT sku FROM &#39; . $table . &#39;);</code></pre>
+<p>想必有点概念了，如果不清楚可以针对getSingleton(),getConnection(),getTableName()方法进行更深入的了解。</p>
+<p>好的，我们回到那三条代码，第二条是查询数据表为wp_license的name是表单提交的所有结果。</p>
+<p>最后那条就是遍历查询结果，保存到变量$result中。</p>
+<p>然后使用：</p>
+<pre><code>Mage::register(&#39;nu1&#39;, $result);</code></pre>
+<p>这条代码是把controller控制器传值到Block去。这样的话就把结果保存在nu1中传到block中去，这里有个magento的静态方法：</p>
+<blockquote>
+<p>Mage::register($key, $value, $graceful = false)</p>
+<p>作用：注册变量，这个一般都是传值，将变量变为全局变量，比如controller控制器传值到Block，或者Model或者Helper.</p>
+<p>参数：$key,键名，随便一个不存在的键名。</p>
+<p>$value,键值。既是要保存的值。</p>
+<p>$graceful，这个是标志是否要覆盖原有的值，默认是false.如果键名存在，而$graceful又是false,则抛出异常。</p>
+</blockquote>
+<p>最后，添加如下两条代码：</p>
+<pre><code>$this-&gt;loadLayout();
+$this-&gt;renderLayout();</code></pre>
+<p>完事！</p>
+<p>然后在app/code/local/Test/License/Block/License.php里面加入代码：</p>
+<pre><code>&lt;?php
+class Test_License_Block_License extends Mage_Core_Block_Template
+&#123;
+    protected $nu1 = null;
+    public function showresult()&#123;
+        $this-&gt;nu1 = Mage::registry(&#39;nu1&#39;); /* 获得从controllers中传递来的参数 */
+        return $this-&gt;nu1;
+    &#125;
+&#125;</code></pre>
+<p>查询结果已经通过控制器传到了模块中来了，所以这里的就用Magento常用Mage::静态方法中的registry方法。说明如下：</p>
+<blockquote>
+<p>Mage::registry($key)</p>
+<p>作用：获取注册了的变量。既是获取了已经用Mage::register方法注册了的变量，如没有则返回null，在magento中，如果获取了没有注册的变量，那么可能会出现异常。</p>
+<p>参数：$key，键名，任何已经注册了的键名。</p>
+</blockquote>
+<p>好的，我们回到上面的代码，在方法showresult()中，获取了传过来的值后，然后返回这些值，这个是没有逻辑问题的。好的既然这个查询数据库的数据都查出来了，也通过控制器把值传到block中了，那么我们就需要把这个值显示到前台模板中去才行，对吧。好的继续往下看。</p>
+<p>模块的代码已经完成了，根据前面说的，就是我们如何让这个模块的数据显示到网站的前台，我们来到模板那里：</p>
+<p>结构如下：</p>
+<blockquote>
+<p>app/design/frontend/your-theme/default/layout/license.xml<br>app/design/frontend/your-theme/default/template/license<br>app/design/frontend/your-theme/default/template/license/license.phtml</p>
+</blockquote>
+<p>我们逐个文件添加内容，license.xml代码如下：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot;?&gt;
+&lt;layout version=&quot;0.1.0&quot;&gt;
+    &lt;default&gt;
+    &lt;/default&gt;
+    &lt;license_index_index&gt;
+        &lt;reference name=&quot;content&quot;&gt;
+            &lt;block type=&quot;license/license&quot; name=&quot;license&quot; template=&quot;license/license.phtml&quot;/&gt;
+        &lt;/reference&gt;
+    &lt;/license_index_index&gt;
+&lt;/layout&gt;</code></pre>
+<p>这里做个讲解：</p>
+<p>这里引用模板文件license.phtml，这个文件在license这个目录下。如果换成其他的名字也是可以的。如果换成其他名字，licenses.phtml，那么app/design/frontend/your-theme/default/template/license/license.phtml中的license.phtml换成licenses.phtml即可。这个文件的目的就是告诉浏览器当请求这个license路由的时候，要用license.phtml这个模板文件渲染。我们声明清楚了之后，我们就来的这个模板文件。</p>
+<p><strong>license.phtml代码如下：</strong></p>
+<pre><code>&lt;form action=&quot;&lt;?php echo Mage::getUrl(&#39;license&#39;) ?&gt;&quot; method=&quot;post&quot; id=&quot;lisense_form&quot;&gt;
+    &lt;fieldset&gt;
+        &lt;ul&gt;
+            &lt;li&gt;
+                &lt;label for=&quot;NUM1&quot;&gt;&lt;?php echo $this-&gt;__(&#39;防伪码: &#39;) ?&gt;&lt;span class=&quot;required&quot;&gt;*&lt;/span&gt;&lt;/label&gt;
+                &lt;input type=&quot;text&quot; id=&quot;NUM1&quot; name=&quot;NUM1&quot; class=&quot;input-text required-entry  validate-alphanum&quot; placeholder=&quot;输入防伪码&quot; /&gt;
+            &lt;/li&gt;
+            &lt;li&gt;
+                &lt;input type=&quot;submit&quot; value=&quot;&lt;?php echo $this-&gt;__(&#39;立即查询&#39;) ?&gt;&quot; /&gt;
+            &lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/fieldset&gt;
+&lt;/form&gt;
+
+&lt;style&gt;
+    input.input-text &#123;
+        width: 100% !important;
+    &#125;
+    .yt_main_inner select&#123;
+        width: 100%;
+        margin-bottom: 20px;
+    &#125;
+    input[type=&quot;submit&quot;]&#123;
+        width: 150px;
+        margin-bottom: 20px;
+        background: #444444;
+        color: #fff;
+        border: 0px;
+    &#125;
+    .biaoge td,.biaoge th&#123;
+        padding:5px 10px;
+        border:1px solid;
+    &#125;
+
+    .biaoge&#123;
+        border-collapse:collapse !important;
+        border: 1px solid;
+        width: 100%;
+    &#125;
+&lt;/style&gt;
+
+&lt;h2&gt;查询结果：&lt;/h2&gt;
+&lt;?php if ($this-&gt;showresult()[0][&#39;name&#39;]):?&gt;
+&lt;table class=&quot;biaoge&quot;&gt;
+    &lt;tr&gt;
+        &lt;td&gt;防伪码&lt;/td&gt;
+        &lt;td&gt;&lt;?php echo $this-&gt;showresult()[0][&#39;name&#39;]; ?&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;品牌&lt;/td&gt;
+        &lt;td&gt;&lt;?php echo $this-&gt;showresult()[0][&#39;brand&#39;]; ?&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;产品名称&lt;/td&gt;
+        &lt;td&gt;&lt;?php echo $this-&gt;showresult()[0][&#39;chanpin&#39;]; ?&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;保质期&lt;/td&gt;
+        &lt;td&gt;&lt;?php echo $this-&gt;showresult()[0][&#39;baozhiqi&#39;]; ?&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;负责人&lt;/td&gt;
+        &lt;td&gt;&lt;?php echo $this-&gt;showresult()[0][&#39;fuzeren&#39;]; ?&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;附件&lt;/td&gt;
+        &lt;td&gt;&lt;a href=&quot;&lt;?php echo $this-&gt;showresult()[0][&#39;attachment&#39;]; ?&gt;&quot; download&gt;下载资源&lt;/a&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;
+&lt;?php else:?&gt;
+&lt;p&gt;你查询的防伪码不存在&lt;/p&gt;
+&lt;?php endif; ?&gt;
+&lt;script type=&quot;text/javascript&quot;&gt;
+    var customForm = new VarienForm(&#39;lisense_form&#39;);
+&lt;/script&gt;</code></pre>
+<p>这里对这个文件做个讲解：</p>
+<p>表单提交后提交给谁呢？</p>
+<pre><code>&lt;?php echo Mage::getUrl(&#39;license&#39;) ?&gt;</code></pre>
+<p>这个就是提交的地方。我们看下这个代码对应的地址就是：</p>
+<pre><code>http://www.yourdomain.com/license/index/index</code></pre>
+<p>那么这个请求的就是到这个模块的控制的index方法。我们前面在讲解控制器那里就说了，有个来自前台表单的字段NUM1，就是这么来的。</p>
+<p>然后经过了一流程，把符合结果的内容显示在当前页面的下方：</p>
+<pre><code>&lt;?php echo $this-&gt;showresult(); ?&gt;</code></pre>
+<p>这个方法是来自block里面的，这个就是为什么需要通过控制器传值到模块中去的原因。</p>
+<p>其实到这里就算是完成了需求了，为了更符合一个防伪码的查询场景，这里笔者添加了一个判断，如果防伪码存在那么就会输出查询结果明细，如果防伪码不存在，那么就会提示用户防伪码不存在。</p>
+<pre><code>&lt;?php if ($this-&gt;showresult()[0][&#39;name&#39;]):?&gt;
+    //当防伪码存在的时候输出的内容代码
+&lt;?php else:?&gt;
+    //当防伪码不存在的时候，输出的内容
+&lt;?php endif; ?&gt;</code></pre>
+<p>最开始笔者为了了解输出的结果数据结构的时候，采用的是print_r的方式对数据进行打印输出：</p>
+<pre><code>&lt;?php print_r($this-&gt;showresult()); ?&gt;</code></pre>
+<p>了解了数据结果后，再进行某个字段的输出，这样比较清楚，建议在将来的开发过程中的调试也要用这种思路。</p>
+<p>最后，粘贴下效果图：</p>
+<p><img src="https://i.imgur.com/4xB7RiZ.png"></p>
+<p>如果输入的是不存在的防伪码，那么结果如下：</p>
+<p><img src="https://i.imgur.com/iX31RFH.png"></p>
+<p>这个自定义模块整理就算完成了。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/magento-%E6%95%B0%E6%8D%AE%E5%BA%93-%E9%98%B2%E4%BC%AA%E7%A0%81-%E5%BA%8F%E5%88%97%E7%A0%81-%E6%9F%A5%E8%AF%A2/" rel="tag"># magento,数据库,防伪码,序列码,查询</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/07/31/%E4%B8%BAmagento%E6%B7%BB%E5%8A%A0%E7%83%AD%E6%90%9C%E8%AF%8D%E5%8A%9F%E8%83%BD%EF%BC%8C%E8%BF%87%E6%BB%A4%E6%8E%89%E6%B2%A1%E6%9C%89%E6%90%9C%E7%B4%A2%E7%BB%93%E6%9E%9C%E7%9A%84%E5%85%B3%E9%94%AE%E8%AF%8D%E5%92%8C%E6%B2%A1%E6%9C%89%E4%BA%A7%E5%93%81%E7%9A%84%E5%85%B3%E9%94%AE%E8%AF%8D/" rel="prev" title="为magento添加热搜词功能，过滤掉没有搜索结果的关键词和没有产品的关键词">
+      <i class="fa fa-chevron-left"></i> 为magento添加热搜词功能，过滤掉没有搜索结果的关键词和没有产品的关键词
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/07/31/Magento%E5%B8%B8%E7%94%A8Mage%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95(register,unregister,registry,getBaseUrl,getUrl,getModel,getSingleton,getResourceModel,helper)/" rel="next" title="Magento常用Mage静态方法register,unregister,registry,getBaseUrl,getUrl,getModel,getSingleton,getResourceModel,helper">
+      Magento常用Mage静态方法register,unregister,registry,getBaseUrl,getUrl,getModel,getSingleton,getResourceModel,helper <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

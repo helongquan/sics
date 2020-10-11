@@ -1,37 +1,720 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="这篇文章基于以下链接进行的，因此很多东西就不需要再说一遍了 https:&#x2F;&#x2F;helongquan.github.io&#x2F;2018&#x2F;03&#x2F;26&#x2F;WordPress实现ajax无刷新分类筛选以及分页的文章列表&#x2F; 好的，当你看完这篇文章后，我们清醒一下自己，回到正题，这篇文章主要是美化文章显示以及正式应用到生产环境中。 把以下代码放在functions.php里面： function assets() &amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="处理wordpress文章分页或者页面列表分页或者portfolio列表分页显示的问题解决方案">
+<meta property="og:url" content="http://example.com/2018/11/02/%E5%A4%84%E7%90%86wordpress%E6%96%87%E7%AB%A0%E5%88%97%E8%A1%A8%E6%88%96%E8%80%85%E9%A1%B5%E9%9D%A2%E5%88%97%E8%A1%A8%E6%88%96%E8%80%85portfolio%E5%88%97%E8%A1%A8%E5%88%86%E9%A1%B5%E6%98%BE%E7%A4%BA%E7%9A%84%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="这篇文章基于以下链接进行的，因此很多东西就不需要再说一遍了 https:&#x2F;&#x2F;helongquan.github.io&#x2F;2018&#x2F;03&#x2F;26&#x2F;WordPress实现ajax无刷新分类筛选以及分页的文章列表&#x2F; 好的，当你看完这篇文章后，我们清醒一下自己，回到正题，这篇文章主要是美化文章显示以及正式应用到生产环境中。 把以下代码放在functions.php里面： function assets() &amp;">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/Fxx1eOM.jpg">
+<meta property="og:image" content="https://i.imgur.com/FxO4roh.jpg">
+<meta property="article:published_time" content="2018-11-02T03:43:47.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:04.991Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="wordpress,博客分页">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/Fxx1eOM.jpg">
+
+<link rel="canonical" href="http://example.com/2018/11/02/%E5%A4%84%E7%90%86wordpress%E6%96%87%E7%AB%A0%E5%88%97%E8%A1%A8%E6%88%96%E8%80%85%E9%A1%B5%E9%9D%A2%E5%88%97%E8%A1%A8%E6%88%96%E8%80%85portfolio%E5%88%97%E8%A1%A8%E5%88%86%E9%A1%B5%E6%98%BE%E7%A4%BA%E7%9A%84%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>处理wordpress文章分页或者页面列表分页或者portfolio列表分页显示的问题解决方案 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/11/02/%E5%A4%84%E7%90%86wordpress%E6%96%87%E7%AB%A0%E5%88%97%E8%A1%A8%E6%88%96%E8%80%85%E9%A1%B5%E9%9D%A2%E5%88%97%E8%A1%A8%E6%88%96%E8%80%85portfolio%E5%88%97%E8%A1%A8%E5%88%86%E9%A1%B5%E6%98%BE%E7%A4%BA%E7%9A%84%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          处理wordpress文章分页或者页面列表分页或者portfolio列表分页显示的问题解决方案
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-11-02 11:43:47" itemprop="dateCreated datePublished" datetime="2018-11-02T11:43:47+08:00">2018-11-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:04" itemprop="dateModified" datetime="2020-10-11T11:58:04+08:00">2020-10-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/wordpress/" itemprop="url" rel="index"><span itemprop="name">wordpress</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>这篇文章基于以下链接进行的，因此很多东西就不需要再说一遍了</p>
+<p><a target="_blank" rel="noopener" href="https://helongquan.github.io/2018/03/26/WordPress%E5%AE%9E%E7%8E%B0ajax%E6%97%A0%E5%88%B7%E6%96%B0%E5%88%86%E7%B1%BB%E7%AD%9B%E9%80%89%E4%BB%A5%E5%8F%8A%E5%88%86%E9%A1%B5%E7%9A%84%E6%96%87%E7%AB%A0%E5%88%97%E8%A1%A8/">https://helongquan.github.io/2018/03/26/WordPress实现ajax无刷新分类筛选以及分页的文章列表/</a></p>
+<p>好的，当你看完这篇文章后，我们清醒一下自己，回到正题，这篇文章主要是美化文章显示以及正式应用到生产环境中。</p>
+<p>把以下代码放在functions.php里面：</p>
+<pre><code>function assets() &#123;
+ wp_enqueue_script(&#39;jsonvue/js&#39;, get_template_directory_uri().&#39;/js/custom.js&#39;);
+    //php想向js传递变量
+    wp_localize_script( &#39;jsonvue/js&#39;, &#39;jsonvue&#39;, array(
+        &#39;nonce&#39;    =&gt; wp_create_nonce( &#39;jsonvue&#39; ),//ajax请求安全处理
+        &#39;ajax_url&#39; =&gt; admin_url( &#39;admin-ajax.php&#39; )//调用wordpress自带ajax处理程序
+    ));
+&#125;
+add_action(&#39;wp_enqueue_scripts&#39;, &#39;assets&#39;, 100);
+function jsonvue_filter_posts_sc($atts) &#123;
+    $a = shortcode_atts( array(
+        &#39;tax&#39;      =&gt; &#39;category&#39;, 
+        &#39;terms&#39;    =&gt; false, 
+        &#39;active&#39;   =&gt; false, 
+        &#39;per_page&#39; =&gt; 12 
+    ), $atts );
+    $result = NULL;
+    $terms  = get_terms($a[&#39;tax&#39;]);
+    if (count($terms)) :
+        ob_start(); ?&gt;
+            &lt;div id=&quot;container-async&quot; data-paged=&quot;&lt;?php echo $a[&#39;per_page&#39;]; ?&gt;&quot; class=&quot;sc-ajax-filter&quot;&gt;
+                    &lt;ul class=&quot;nav-filter edupfenlei&quot;&gt;
+                        &lt;li&gt;
+                            &lt;a href=&quot;#&quot; data-filter=&quot;post_tag&quot; data-term=&quot;all-terms&quot; data-page=&quot;1&quot;&gt;
+                                所有
+                            &lt;/a&gt;
+                        &lt;/li&gt;
+                        &lt;?php foreach ($terms as $term) : ?&gt;
+                            &lt;li&lt;?php if ($term-&gt;term_id == $a[&#39;active&#39;]) :?&gt; class=&quot;active&quot;&lt;?php endif; ?&gt;&gt;
+                                &lt;a href=&quot;&lt;?php echo get_term_link( $term, $term-&gt;taxonomy ); ?&gt;&quot; data-filter=&quot;&lt;?php echo $term-&gt;taxonomy; ?&gt;&quot; data-term=&quot;&lt;?php echo $term-&gt;slug; ?&gt;&quot; data-page=&quot;1&quot;&gt;
+                                    &lt;?php echo $term-&gt;name; ?&gt;
+                                &lt;/a&gt;
+                            &lt;/li&gt;
+                        &lt;?php endforeach; ?&gt;
+                    &lt;/ul&gt;
+                    &lt;div class=&quot;edupfenlei&quot;&gt;
+                        &lt;div class=&quot;status&quot;&gt;&lt;/div&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;content&quot;&gt;&lt;/div&gt;
+            &lt;/div&gt;
+
+        &lt;?php $result = ob_get_clean();
+    endif;
+    return $result;
+&#125;
+add_shortcode( &#39;jsonvue_posts&#39;, &#39;jsonvue_filter_posts_sc&#39;);
+
+function jsonvue_filter_posts() &#123;
+    if( !isset( $_POST[&#39;nonce&#39;] ) || !wp_verify_nonce( $_POST[&#39;nonce&#39;], &#39;jsonvue&#39; ) )
+        die(&#39;Permission denied&#39;);
+
+    $response = [
+        &#39;status&#39;  =&gt; 500,
+        &#39;message&#39; =&gt; &#39;貌似有错误，请稍后再试 ...&#39;,
+        &#39;content&#39; =&gt; false,
+        &#39;found&#39;   =&gt; 0
+    ];
+    $tax  = sanitize_text_field($_POST[&#39;params&#39;][&#39;tax&#39;]);
+    $term = sanitize_text_field($_POST[&#39;params&#39;][&#39;term&#39;]);
+    $page = intval($_POST[&#39;params&#39;][&#39;page&#39;]);
+    $qty  = intval($_POST[&#39;params&#39;][&#39;qty&#39;]);
+
+    if (!term_exists( $term, $tax) &amp;&amp; $term != &#39;all-terms&#39;) :
+        $response = [
+            &#39;status&#39;  =&gt; 501,
+            &#39;message&#39; =&gt; &#39;没找到分类&#39;,
+            &#39;content&#39; =&gt; 0
+        ];
+        die(json_encode($response));
+    endif;
+    if ($term == &#39;all-terms&#39;) : 
+        $tax_qry[] = [
+            &#39;taxonomy&#39; =&gt; $tax,
+            &#39;field&#39;    =&gt; &#39;slug&#39;,
+            &#39;terms&#39;    =&gt; $term,
+            &#39;operator&#39; =&gt; &#39;NOT IN&#39;
+        ];
+    else :
+        $tax_qry[] = [
+            &#39;taxonomy&#39; =&gt; $tax,
+            &#39;field&#39;    =&gt; &#39;slug&#39;,
+            &#39;terms&#39;    =&gt; $term,
+        ];
+    endif;
+
+    $args = [
+        &#39;paged&#39;          =&gt; $page,
+        &#39;post_type&#39;      =&gt; &#39;post&#39;,    //选择显示类型，这里是要显示博客，因此选择post，如果是显示页面，那么改成page即可
+        &#39;post_status&#39;    =&gt; &#39;publish&#39;,
+        &#39;posts_per_page&#39; =&gt; $qty,
+        &#39;tax_query&#39;      =&gt; $tax_qry
+    ];
+    $qry = new WP_Query($args);
+    ob_start();
+        if ($qry-&gt;have_posts()) :
+            while ($qry-&gt;have_posts()) : $qry-&gt;the_post(); ?&gt;
+
+                &lt;article class=&quot;post-entry post-entry-type-standard post type-post status-publish format-standard has-post-thumbnail hentry category-company-news edupblog&quot;&gt;
+                    &lt;div class=&quot;big-preview single-big&quot;&gt;
+                        &lt;a href=&quot;&lt;?php the_permalink(); ?&gt;&quot; title=&quot;&lt;?php the_title(); ?&gt;&quot;&gt;
+                            &lt;?php echo get_the_post_thumbnail(&#39;&#39;, &#39;&#39;, &#39;style=border:0;&#39;); ?&gt;
+                        &lt;/a&gt;
+                    &lt;/div&gt;
+                    &lt;div class=&quot;entry-content-wrapper clearfix standard-content&quot;&gt;
+                        &lt;header class=&quot;entry-content-header&quot;&gt;
+                            &lt;h2 class=&quot;post-title entry-title&quot; itemprop=&quot;headline&quot;&gt;
+                                &lt;a href=&quot;&lt;?php the_permalink(); ?&gt;&quot; rel=&quot;bookmark&quot; title=&quot;Permanent Link: &lt;?php the_title(); ?&gt;&quot;&gt;&lt;?php the_title(); ?&gt;&lt;/a&gt;
+                            &lt;/h2&gt;
+                            &lt;p&gt;&lt;span&gt;&lt;?php the_author(); ?&gt;&lt;/span&gt;&amp;nbsp;/&amp;nbsp;&lt;span&gt;&lt;?php the_date_xml()?&gt;&lt;/span&gt;&amp;nbsp;/&amp;nbsp;&lt;span&gt;&lt;?php the_category(&#39;,&#39;) ?&gt;&lt;/span&gt;&lt;/p&gt;
+                        &lt;/header&gt;
+                    &lt;/div&gt;
+                &lt;/article&gt;
+
+            &lt;?php endwhile;
+
+            jsonvue_ajax_pager($qry,$page);
+            $response = [
+                &#39;status&#39;=&gt; 200,
+                &#39;found&#39; =&gt; $qry-&gt;found_posts
+            ];
+
+        else :
+            $response = [
+                &#39;status&#39;  =&gt; 201,
+                &#39;message&#39; =&gt; &#39;没有文章&#39;
+            ];
+        endif;
+    $response[&#39;content&#39;] = ob_get_clean();
+    die(json_encode($response));
+&#125;
+add_action(&#39;wp_ajax_do_filter_posts&#39;, &#39;jsonvue_filter_posts&#39;);
+add_action(&#39;wp_ajax_nopriv_do_filter_posts&#39;, &#39;jsonvue_filter_posts&#39;);
+
+function jsonvue_ajax_pager( $query = null, $paged = 1 ) &#123;
+    if (!$query)
+        return;
+    $paginate = paginate_links([
+        &#39;base&#39;      =&gt; &#39;%_%&#39;,
+        &#39;type&#39;      =&gt; &#39;array&#39;,
+        &#39;total&#39;     =&gt; $query-&gt;max_num_pages,
+        &#39;format&#39;    =&gt; &#39;#page=%#%&#39;,
+        &#39;current&#39;   =&gt; max( 1, $paged ),
+        &#39;prev_text&#39; =&gt; &#39;上一页&#39;,
+        &#39;next_text&#39; =&gt; &#39;下一页&#39;
+    ]);
+    if ($query-&gt;max_num_pages &gt; 1) : ?&gt;
+        &lt;ul class=&quot;pagination edupblogpagenavi&quot;&gt;
+            &lt;?php foreach ( $paginate as $page ) :?&gt;
+                &lt;li&gt;&lt;?php echo $page; ?&gt;&lt;/li&gt;
+            &lt;?php endforeach; ?&gt;
+        &lt;/ul&gt;
+    &lt;?php endif;
+&#125;</code></pre>
+<p>这个里面笔者添加了些自己的class，以便样式控制和美化。</p>
+<p>细心的你会发现里面有个引用了custom.js，因此我们需要创建一个custom.js。</p>
+<p><strong>custom.js代码：</strong></p>
+<pre><code>(function($) &#123;
+    $doc = $(document);
+
+    $doc.ready( function() &#123;
+        function get_posts($params) &#123;
+
+            $container = $(&#39;#container-async&#39;);
+            $content   = $container.find(&#39;.content&#39;);
+            $status    = $container.find(&#39;.status&#39;);
+
+            $status.text(&#39;正在加载 ...&#39;);
+
+            $.ajax(&#123;
+                    url: jsonvue.ajax_url,
+                    data: &#123;
+                        action: &#39;do_filter_posts&#39;,
+                        nonce: jsonvue.nonce,
+                        params: $params
+                    &#125;,
+                    type: &#39;post&#39;,
+                    dataType: &#39;json&#39;,
+                    success: function(data, textStatus, XMLHttpRequest) &#123;
+
+                        if (data.status === 200) &#123;
+                            $content.html(data.content);
+                        &#125;
+                        else if (data.status === 201) &#123;
+                            $content.html(data.message);    
+                        &#125;
+                        else &#123;
+                            $status.html(data.message);
+                        &#125;
+                     &#125;,
+                    error: function(MLHttpRequest, textStatus, errorThrown) &#123;
+
+                    $status.html(textStatus);
+
+                     &#125;,
+                complete: function(data, textStatus) &#123;
+
+                    msg = textStatus;
+
+                    if (textStatus === &#39;success&#39;) &#123;
+                        msg = data.responseJSON.found;
+                    &#125;
+
+                    $status.text(&#39;已显示: &#39;+ msg+&#39;篇文章&#39;);
+
+                &#125;
+            &#125;);
+        &#125;
+
+        $(&#39;#container-async&#39;).on(&#39;click&#39;, &#39;a[data-filter], .pagination a&#39;, function(event) &#123;
+            if(event.preventDefault) &#123; event.preventDefault(); &#125;
+
+            $this = $(this);
+
+            if ($this.data(&#39;filter&#39;)) &#123;
+                $this.closest(&#39;ul&#39;).find(&#39;.active&#39;).removeClass(&#39;active&#39;);
+                $this.parent(&#39;li&#39;).addClass(&#39;active&#39;);
+                $page = $this.data(&#39;page&#39;);
+            &#125;
+            else &#123;
+
+                $page = parseInt($this.attr(&#39;href&#39;).replace(/\D/g,&#39;&#39;));
+                $this = $(&#39;.nav-filter .active a&#39;);
+            &#125;
+
+            $params    = &#123;
+                &#39;page&#39; : $page,
+                &#39;tax&#39;  : $this.data(&#39;filter&#39;),
+                &#39;term&#39; : $this.data(&#39;term&#39;),
+                &#39;qty&#39;  : $this.closest(&#39;#container-async&#39;).data(&#39;paged&#39;),
+            &#125;;
+
+            get_posts($params);
+        &#125;);
+
+        $(&#39;a[data-term=&quot;all-terms&quot;]&#39;).trigger(&#39;click&#39;);
+    &#125;);
+
+&#125;)(jQuery);</code></pre>
+<p>把这个文件上传到主题根目录里面的js目录下。<strong>切记：参考文章里有引用到jquery，其实不一定需要，如果主题本身有引用jquery，那么再次引用就会导致其他用到jquery的特效造成影响，需要解决冲突。</strong></p>
+<p>然后，这里我们把css也加上，</p>
+<p><strong>css代码：</strong></p>
+<pre><code>.noctibox&#123;
+    width:100%;
+    height:100%;
+    margin:0;padding:0;
+    border-radius:2px;
+    list-style:none;
+    background-color:#eee;
+&#125;
+.noctibox li&#123;
+  margin:5px;
+  padding:10px;
+  border-radius:5px;
+  background:#efefef;
+  text-align:center;
+  list-style-type: none;
+&#125;
+#noctibox5&#123;
+   -webkit-justify-content:space-around;
+   justify-content:space-around;
+&#125;
+#noctibox5 li&#123;
+  width: calc(100%/4 - 10px);
+  float:left;
+&#125;
+.entry-content-wrapper div li &#123;
+    text-indent: 0;
+    list-style-type: none;
+    float: left;
+&#125;
+.biaoti&#123;
+    display: inline-block;
+    min-height: 55px;
+    margin: 0px;
+    margin-top: 15px;
+&#125;
+#top .edupblogpagenavi .page-numbers&#123;
+   padding: 0px 15px !important;
+    border-radius: 2px !important;
+    width: 100% !important;
+    height:auto;
+&#125;
+.edupblogpagenavi li:first-child&#123;
+   margin-left:0px !important;
+&#125;
+.edupfenlei .status&#123;
+    float:right;
+&#125;
+.edupfenlei li &#123;
+    padding: 10px 20px;
+    margin: 0px 5px;
+&#125;
+.edupfenlei li:first-child&#123;
+    margin-left:0px !important;
+&#125;
+.edupfenlei li.active,.edupblogpagenavi li .current&#123;
+    background: #7ab61f !important;
+    padding: 8px 20px;
+&#125;
+.edupfenlei li.active a&#123;
+    color: #fff;
+&#125;
+.edupfenlei li a&#123;
+  text-decoration: none;
+&#125;
+.edupblog&#123;
+  margin: 20px auto;
+&#125;</code></pre>
+<p>最后，创建一个页面，添加简码：</p>
+<pre><code>[jsonvue_posts]</code></pre>
+<p>博客列表最后的效果：</p>
+<p><img src="https://i.imgur.com/Fxx1eOM.jpg"></p>
+<p><img src="https://i.imgur.com/FxO4roh.jpg"></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/wordpress-%E5%8D%9A%E5%AE%A2%E5%88%86%E9%A1%B5/" rel="tag"># wordpress,博客分页</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/11/02/magento1-x%E7%94%A8%E6%88%B7%E4%B8%8B%E5%8D%95%E5%90%8E%E6%8E%A5%E6%94%B6%E4%B8%8D%E5%88%B0%E7%94%B5%E9%82%AE%E7%9A%84%E9%97%AE%E9%A2%98/" rel="prev" title="magento1.x用户下单后接收不到电邮的问题">
+      <i class="fa fa-chevron-left"></i> magento1.x用户下单后接收不到电邮的问题
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/11/02/javascript%E8%8E%B7%E5%8F%96wordpress%E7%94%A8%E6%88%B7%E6%B5%8F%E8%A7%88%E4%BF%A1%E6%81%AF-cookie%E4%BF%A1%E6%81%AF-%E6%98%BE%E7%A4%BA%E5%9C%A8%E9%A1%B5%E9%9D%A2%E4%B8%8A%E5%B9%B6%E4%B8%94%E5%AD%98%E5%85%A5%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="next" title="javascript获取wordpress用户浏览信息(cookie信息)显示在页面上并且存入数据库">
+      javascript获取wordpress用户浏览信息(cookie信息)显示在页面上并且存入数据库 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

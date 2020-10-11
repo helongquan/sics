@@ -1,37 +1,724 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="最近接到一个客户的需求，说是把portfolio当做产品展示的方式来用，因为每个产品会有一些自定义的参数，比如颜色，频率等，这个对于portfolio来说是没有的，这个时候，又要做到跟商城那样，比如在产品列表页面显示标题，下面会有一些参数类似：标签、颜色、频率等元素。 这个怎么搞呢？切记：先把全文阅读完毕在添加代码。 第一步：找到控制portfolio单页的php文件 这里我以enfold为例，通">
+<meta property="og:type" content="article">
+<meta property="og:title" content="改造wordpress后台编辑区面板和portfolio的自定义开发，portfolio自定义属性的添加和定制后台，添加立即购买按钮">
+<meta property="og:url" content="http://example.com/2018/04/26/%E6%94%B9%E9%80%A0wordpress%E5%90%8E%E5%8F%B0%E7%BC%96%E8%BE%91%E5%8C%BA%E9%9D%A2%E6%9D%BF%E5%92%8Cportfolio%E7%9A%84%E8%87%AA%E5%AE%9A%E4%B9%89%E5%BC%80%E5%8F%91/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="最近接到一个客户的需求，说是把portfolio当做产品展示的方式来用，因为每个产品会有一些自定义的参数，比如颜色，频率等，这个对于portfolio来说是没有的，这个时候，又要做到跟商城那样，比如在产品列表页面显示标题，下面会有一些参数类似：标签、颜色、频率等元素。 这个怎么搞呢？切记：先把全文阅读完毕在添加代码。 第一步：找到控制portfolio单页的php文件 这里我以enfold为例，通">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://i.imgur.com/HAiz6wt.jpg">
+<meta property="og:image" content="https://i.imgur.com/ogVP9ss.jpg">
+<meta property="og:image" content="https://i.imgur.com/ZzUn539.jpg">
+<meta property="og:image" content="https://i.imgur.com/lhgJtYt.jpg">
+<meta property="og:image" content="https://i.imgur.com/wVrtcNZ.jpg">
+<meta property="og:image" content="https://i.imgur.com/MYsq9Ku.jpg">
+<meta property="og:image" content="https://i.imgur.com/8qwuITp.jpg">
+<meta property="og:image" content="https://i.imgur.com/fdE9mNM.jpg">
+<meta property="og:image" content="https://i.imgur.com/xevDVae.jpg">
+<meta property="og:image" content="https://i.imgur.com/YOtaifR.jpg">
+<meta property="og:image" content="https://i.imgur.com/e5EGv6M.jpg">
+<meta property="article:published_time" content="2018-04-26T11:44:44.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:58:05.431Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="wordpress,portfolio,后台编辑区,面板,自定义,定制">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.imgur.com/HAiz6wt.jpg">
+
+<link rel="canonical" href="http://example.com/2018/04/26/%E6%94%B9%E9%80%A0wordpress%E5%90%8E%E5%8F%B0%E7%BC%96%E8%BE%91%E5%8C%BA%E9%9D%A2%E6%9D%BF%E5%92%8Cportfolio%E7%9A%84%E8%87%AA%E5%AE%9A%E4%B9%89%E5%BC%80%E5%8F%91/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>改造wordpress后台编辑区面板和portfolio的自定义开发，portfolio自定义属性的添加和定制后台，添加立即购买按钮 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/04/26/%E6%94%B9%E9%80%A0wordpress%E5%90%8E%E5%8F%B0%E7%BC%96%E8%BE%91%E5%8C%BA%E9%9D%A2%E6%9D%BF%E5%92%8Cportfolio%E7%9A%84%E8%87%AA%E5%AE%9A%E4%B9%89%E5%BC%80%E5%8F%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          改造wordpress后台编辑区面板和portfolio的自定义开发，portfolio自定义属性的添加和定制后台，添加立即购买按钮
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2018-04-26 19:44:44" itemprop="dateCreated datePublished" datetime="2018-04-26T19:44:44+08:00">2018-04-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:58:05" itemprop="dateModified" datetime="2020-10-11T11:58:05+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>最近接到一个客户的需求，说是把portfolio当做产品展示的方式来用，因为每个产品会有一些自定义的参数，比如颜色，频率等，这个对于portfolio来说是没有的，这个时候，又要做到跟商城那样，比如在产品列表页面显示标题，下面会有一些参数类似：标签、颜色、频率等元素。</p>
+<p>这个怎么搞呢？<strong>切记：先把全文阅读完毕在添加代码。</strong></p>
+<p><strong>第一步：找到控制portfolio单页的php文件</strong></p>
+<p>这里我以enfold为例，通过开发者工具，再结合主题源码全文搜索，我找到了：/nocti/config-templatebuilder/avia-shortcodes/portfolio.php</p>
+<p>我们最开始是这样的：</p>
+<p><img src="https://i.imgur.com/HAiz6wt.jpg">，通过调用portfolio的分类，然后就是这样的，所以通过定位我们找到标题显示的代码区：</p>
+<p><img src="https://i.imgur.com/ogVP9ss.jpg"></p>
+<p>好的，我们确定位置后，我们就可以知道这个应该显示在h3标签下面，这个时候我们如何让每篇文章显示他们自己的参数呢？我们接着看。</p>
+<p><strong>第二步：为数据库添加自定义字段</strong></p>
+<p>我们进入数据库把wp_posts，导出然后打开.sql的文件：</p>
+<pre><code>CREATE TABLE IF NOT EXISTS `wp_posts` (
+  `ID` bigint(20) unsigned NOT NULL,
+  `post_author` bigint(20) unsigned NOT NULL DEFAULT &#39;0&#39;,
+  `post_date` datetime NOT NULL DEFAULT &#39;0000-00-00 00:00:00&#39;,
+  `post_date_gmt` datetime NOT NULL DEFAULT &#39;0000-00-00 00:00:00&#39;,
+  `post_content` longtext COLLATE utf8mb4_unicode_520_ci NOT NULL,
+  `post_title` text COLLATE utf8mb4_unicode_520_ci NOT NULL,
+  `post_excerpt` text COLLATE utf8mb4_unicode_520_ci NOT NULL,
+  `post_status` varchar(20) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT &#39;publish&#39;,
+  `comment_status` varchar(20) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT &#39;open&#39;,
+  `ping_status` varchar(20) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT &#39;open&#39;,
+  `post_password` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT &#39;&#39;,
+  `post_name` varchar(200) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT &#39;&#39;,
+  `to_ping` text COLLATE utf8mb4_unicode_520_ci NOT NULL,
+  `pinged` text COLLATE utf8mb4_unicode_520_ci NOT NULL,
+  `post_modified` datetime NOT NULL DEFAULT &#39;0000-00-00 00:00:00&#39;,
+  `post_modified_gmt` datetime NOT NULL DEFAULT &#39;0000-00-00 00:00:00&#39;,
+  `post_content_filtered` longtext COLLATE utf8mb4_unicode_520_ci NOT NULL,
+  `post_parent` bigint(20) unsigned NOT NULL DEFAULT &#39;0&#39;,
+  `guid` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT &#39;&#39;,
+  `menu_order` int(11) NOT NULL DEFAULT &#39;0&#39;,
+  `post_mime_type` varchar(100) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT &#39;&#39;,
+  `post_type` varchar(20) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT &#39;post&#39;,
+  `comment_count` bigint(20) NOT NULL DEFAULT &#39;0&#39;
+) ENGINE=MyISAM AUTO_INCREMENT=9512 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;</code></pre>
+<p>这个我们在最后添加三个字段，这里笔者随便取了三个字段paramar,color,descriptions，这个没有强制性规定，大家根据自己的需求设置。添加后如下：</p>
+<pre><code>CREATE TABLE IF NOT EXISTS `wp_posts` (
+  `ID` bigint(20) unsigned NOT NULL,
+  `post_author` bigint(20) unsigned NOT NULL DEFAULT &#39;0&#39;,
+  `post_date` datetime NOT NULL DEFAULT &#39;0000-00-00 00:00:00&#39;,
+  `post_date_gmt` datetime NOT NULL DEFAULT &#39;0000-00-00 00:00:00&#39;,
+  `post_content` longtext COLLATE utf8mb4_unicode_520_ci NOT NULL,
+  `post_title` text COLLATE utf8mb4_unicode_520_ci NOT NULL,
+  `post_excerpt` text COLLATE utf8mb4_unicode_520_ci NOT NULL,
+  `post_status` varchar(20) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT &#39;publish&#39;,
+  `comment_status` varchar(20) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT &#39;open&#39;,
+  `ping_status` varchar(20) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT &#39;open&#39;,
+  `post_password` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT &#39;&#39;,
+  `post_name` varchar(200) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT &#39;&#39;,
+  `to_ping` text COLLATE utf8mb4_unicode_520_ci NOT NULL,
+  `pinged` text COLLATE utf8mb4_unicode_520_ci NOT NULL,
+  `post_modified` datetime NOT NULL DEFAULT &#39;0000-00-00 00:00:00&#39;,
+  `post_modified_gmt` datetime NOT NULL DEFAULT &#39;0000-00-00 00:00:00&#39;,
+  `post_content_filtered` longtext COLLATE utf8mb4_unicode_520_ci NOT NULL,
+  `post_parent` bigint(20) unsigned NOT NULL DEFAULT &#39;0&#39;,
+  `guid` varchar(255) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT &#39;&#39;,
+  `menu_order` int(11) NOT NULL DEFAULT &#39;0&#39;,
+  `post_mime_type` varchar(100) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT &#39;&#39;,
+  `post_type` varchar(20) COLLATE utf8mb4_unicode_520_ci NOT NULL DEFAULT &#39;post&#39;,
+  `comment_count` bigint(20) NOT NULL DEFAULT &#39;0&#39;,
+  `paramar` varchar(200) COLLATE utf8mb4_unicode_520_ci NULL DEFAULT &#39;&#39;,
+  `descriptions` varchar(200) COLLATE utf8mb4_unicode_520_ci NULL DEFAULT &#39;&#39;,
+  `color` varchar(100) COLLATE utf8mb4_unicode_520_ci NULL DEFAULT &#39;&#39;
+) ENGINE=MyISAM AUTO_INCREMENT=9512 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;</code></pre>
+<p>打开数据库的这个数据表：wp_posts，效果如下：</p>
+<p><img src="https://i.imgur.com/ZzUn539.jpg"></p>
+<p>然后就是，找到post_type为portfolio的产品页面，然后进入他们的记录，添加几个数据。好的数据库这边已经搞定。<strong>笔者经过后来的实践发现为数据库添加字段的方法是不对的，导致的问题是，新添加产品或者添加文章或者页面的时候按钮不能发布，会报错，发布按钮变成了 submit the review.，正确的方法就是从第三步部开始</strong></p>
+<p><strong>第三步：回到portfolio的控制文件，就是第一步中找到的那个文件</strong></p>
+<p>我们要解决的是每篇文章显示他们各自的自定义参数。</p>
+<pre><code>if(!empty($title))
+&#123;
+    $markup = avia_markup_helper(array(&#39;context&#39; =&gt; &#39;entry_title&#39;,&#39;echo&#39;=&gt;false, &#39;id&#39;=&gt;$the_id, &#39;custom_markup&#39;=&gt;$custom_markup));
+    $output .= &#39;&lt;header class=&quot;entry-content-header&quot;&gt;&#39;;
+    $output .= &quot;&lt;h3 class=&#39;grid-entry-title entry-title&#39; $markup&gt;&quot;;
+
+    if(!empty($title_link))
+    &#123;
+        $output .= &quot;&lt;a href=&#39;&#123;$title_link&#125;&#39; title=&#39;&quot;.esc_attr(strip_tags($title)).&quot;&#39;&gt;&quot;.$title.&quot;&lt;/a&gt;&quot;;
+    &#125;
+    else
+    &#123;
+        $output .= &quot;&quot;.$title.&quot;&quot;;
+    &#125;
+    $output .= &#39;&lt;/h3&gt;&lt;/header&gt;&#39;;
+&#125;</code></pre>
+<p>这就是我们要处理地方，我们可以看到有个$title，我们找到跟这个相关的引用，我在这个文件里面全文搜索$title，终于我找到了这个地方：</p>
+<pre><code>switch($contents)
+&#123;
+    case &quot;excerpt&quot;: $excerpt = $entry-&gt;post_excerpt; $title = $entry-&gt;post_title; break;
+    case &quot;title&quot;: $excerpt = &#39;&#39;; $title = $entry-&gt;post_title;  break;
+    case &quot;only_excerpt&quot;: $excerpt = $entry-&gt;post_excerpt; $title = &#39;&#39;; break;
+    case &quot;no&quot;: $excerpt = &#39;&#39;; $title = &#39;&#39;; break;
+&#125;</code></pre>
+<p>这里有个重要判断，如果内容是标题那么就会显示标题：</p>
+<pre><code>$title = $entry-&gt;post_title</code></pre>
+<p>这里的post_title启发了笔者，这不就是wp_posts里面的其中一个字段嘛，好的，既然可以这样，我们就可以定义三个变量了，分别代表paramar,color,descriptions。定义如下：</p>
+<pre><code>$paramar = $entry-&gt;paramar;
+$color = $entry-&gt;color;
+$descriptions = $entry-&gt;descriptions;</code></pre>
+<p><img src="https://i.imgur.com/lhgJtYt.jpg"></p>
+<p>这里值得说明的一个地方是：我们这个都在这样一个遍历里面的：</p>
+<pre><code>foreach ($this-&gt;entries-&gt;posts as $entry)
+&#123;
+    $the_id     = $entry-&gt;ID;
+    $parity        = $post_loop_count % 2 ? &#39;odd&#39; : &#39;even&#39;;
+    $last       = $this-&gt;entries-&gt;post_count == $post_loop_count ? &quot; post-entry-last &quot; : &quot;&quot;;
+    $post_class = &quot;post-entry post-entry-&#123;$the_id&#125; grid-entry-overview grid-loop-&#123;$post_loop_count&#125; grid-parity-&#123;$parity&#125; &#123;$last&#125;&quot;;
+    $sort_class = $this-&gt;sort_cat_string($the_id, $this-&gt;atts);
+
+    switch($linking)
+    &#123;
+        case &quot;lightbox&quot;:  $link = aviaHelper::get_url(&#39;lightbox&#39;, get_post_thumbnail_id($the_id));    break;
+        default:           $link = get_permalink($the_id); break;
+    &#125;
+
+    $title_link  = get_permalink($the_id);
+    $custom_link = get_post_meta( $the_id ,&#39;_portfolio_custom_link&#39;, true) != &quot;&quot; ? get_post_meta( $the_id ,&#39;_portfolio_custom_link_url&#39;, true) : false;
+
+    if($custom_link)
+    &#123;
+        $title_link = &quot;&quot;;
+        $link = $custom_link;
+    &#125;
+
+    $excerpt     = &#39;&#39;;
+    $title         = &#39;&#39;;
+    $paramar = $entry-&gt;paramar;
+    $color = $entry-&gt;color;
+    $descriptions = $entry-&gt;descriptions;
+
+    switch($contents)
+    &#123;
+        case &quot;excerpt&quot;: $excerpt = $entry-&gt;post_excerpt; $title = $entry-&gt;post_title; break;
+        case &quot;title&quot;: $excerpt = &#39;&#39;; $title = $entry-&gt;post_title;  break;
+        case &quot;only_excerpt&quot;: $excerpt = $entry-&gt;post_excerpt; $title = &#39;&#39;; break;
+        case &quot;no&quot;: $excerpt = &#39;&#39;; $title = &#39;&#39;; break;
+    &#125;
+
+    $custom_overlay = apply_filters(&#39;avf_portfolio_custom_overlay&#39;, &quot;&quot;, $entry);
+    $link_markup     = apply_filters(&#39;avf_portfolio_custom_image_container&#39;, array(&quot;a href=&#39;&#123;$link&#125;&#39; title=&#39;&quot;.esc_attr(strip_tags($title)).&quot;&#39; &quot;,&#39;a&#39;), $entry);
+
+    $title             = apply_filters(&#39;avf_portfolio_title&#39;, $title, $entry);
+    $title_link        = apply_filters(&#39;avf_portfolio_title_link&#39;, $title_link, $entry);
+    $image_attrs    = apply_filters(&#39;avf_portfolio_image_attrs&#39;, array(), $entry);
+    //还有很多
+    //....
+&#125;</code></pre>
+<p>从这个里面我们可以看到，这个很重要的$entry就是在这里循环输出的一个变量，这个变量代表了每条记录。</p>
+<p>好的，我们找到我们想要让我们自定义的那三个字段显示地方，然后加上去后如下：</p>
+<pre><code>if(!empty($title))
+&#123;
+    $markup = avia_markup_helper(array(&#39;context&#39; =&gt; &#39;entry_title&#39;,&#39;echo&#39;=&gt;false, &#39;id&#39;=&gt;$the_id, &#39;custom_markup&#39;=&gt;$custom_markup));
+    $output .= &#39;&lt;header class=&quot;entry-content-header&quot;&gt;&#39;;
+    $output .= &quot;&lt;h3 class=&#39;grid-entry-title entry-title&#39; $markup&gt;&quot;;
+
+    if(!empty($title_link))
+    &#123;
+        $output .= &quot;&lt;a href=&#39;&#123;$title_link&#125;&#39; title=&#39;&quot;.esc_attr(strip_tags($title)).&quot;&#39;&gt;&quot;.$title.&quot;&lt;/a&gt;&quot;;
+    &#125;
+    else
+    &#123;
+        $output .= &quot;&quot;.$title.&quot;&quot;;
+    &#125;
+    $output .= &quot;&lt;p style=&#39;color:&quot;.$color.&quot;&#39;&gt;&quot;.$paramar.&quot;&lt;/p&gt;&quot;;
+    $output .= &quot;&lt;p&gt;&quot;.$color.&quot;&lt;/p&gt;&quot;;
+    $output .= &#39;&lt;/h3&gt;&lt;/header&gt;&#39;;
+&#125;</code></pre>
+<p>保存后，我们就可以看到如下的效果：</p>
+<p><img src="https://i.imgur.com/wVrtcNZ.jpg"></p>
+<p><strong>第四步：自定义wordpress的后台编辑区面板（切记不要在wp_posts表添加任何字段，直接从通过修改模板文件和functions.php文件即可达到目的）</strong></p>
+<p>自定义Meta Box需要用到add_meta_box函数，这里参考了这篇文章：<a target="_blank" rel="noopener" href="https://www.boke8.net/wordpress-post-type-meta-box.html">https://www.boke8.net/wordpress-post-type-meta-box.html</a></p>
+<pre><code>add_meta_box( $id, $title, $callback, $post_type, $context,$priority, $callback_args );</code></pre>
+<blockquote>
+<p>参数说明如下：</p>
+</blockquote>
+<blockquote>
+<p>$id：字段id，唯一</p>
+</blockquote>
+<blockquote>
+<p>$title：标题名称</p>
+</blockquote>
+<blockquote>
+<p>$callback：回调函数</p>
+</blockquote>
+<blockquote>
+<p>$post_type：文章类型</p>
+</blockquote>
+<blockquote>
+<p>$context：显示位置</p>
+</blockquote>
+<blockquote>
+<p>$priority：优先级</p>
+</blockquote>
+<p>我们找到主题的functions.php，然后把以下代码加上去：</p>
+<pre><code>// 自定义文章添加自定义字段面板 开始
+// 注册一个 Meta Box 示例
+add_action( &#39;add_meta_boxes&#39;, &#39;product_director&#39; );
+function product_director() &#123;
+    add_meta_box(
+        &#39;product_director&#39;,
+        &#39;产品参数&#39;,
+        &#39;product_director_meta_box&#39;,
+        &#39;portfolio&#39;,
+        &#39;side&#39;,
+        &#39;high&#39;
+    );
+&#125;
+// 创建回调函数product_director_meta_box
+function product_director_meta_box($post) &#123;
+    // 创建临时隐藏表单，为了安全
+    wp_nonce_field( &#39;product_director_meta_box&#39;, &#39;product_director_meta_box_nonce&#39; );
+    // 获取之前存储的值
+    $value = get_post_meta( $post-&gt;ID, &#39;_product_director&#39;, true );
+?&gt;
+    &lt;label for=&quot;product_director&quot;&gt;&lt;/label&gt;
+    &lt;input type=&quot;text&quot; id=&quot;product_director&quot; name=&quot;product_director&quot; value=&quot;&lt;?php echo esc_attr( $value ); ?&gt;&quot; placeholder=&quot;输入产品价格&quot;&gt;
+&lt;?php
+&#125;
+
+// 这时候表单还不能用，因为提交文章之后并没有保存这个 Meta Box 的内容，下面是验证保存内容的代码：
+add_action( &#39;save_post&#39;, &#39;product_director_save_meta_box&#39; );
+function product_director_save_meta_box($post_id)&#123;
+    if ( ! isset( $_POST[&#39;product_director_meta_box_nonce&#39;] ) ) &#123;
+        return;
+    &#125;
+    if ( ! wp_verify_nonce( $_POST[&#39;product_director_meta_box_nonce&#39;], &#39;product_director_meta_box&#39; ) ) &#123;
+        return;
+    &#125;
+    if ( ! current_user_can( &#39;edit_post&#39;, $post_id ) ) &#123;
+        return;
+    &#125;
+    if ( ! isset( $_POST[&#39;product_director&#39;] ) ) &#123;
+        return;
+    &#125;
+    $product_director = sanitize_text_field( $_POST[&#39;product_director&#39;] );
+    update_post_meta( $post_id, &#39;_product_director&#39;, $product_director );
+&#125;
+
+// 扩展：把Meta Box添加把后台所有产品列表字段中显示 这个可要不可要
+add_action(&quot;manage_posts_custom_column&quot;,  &quot;product_custom_columns&quot;);
+add_filter(&quot;manage_edit-product_columns&quot;, &quot;product_edit_columns&quot;);
+function product_custom_columns($column)&#123;
+    global $post;
+    switch ($column) &#123;
+        case &quot;product_director&quot;:
+            echo get_post_meta( $post-&gt;ID, &#39;_product_director&#39;, true );
+            break;
+    &#125;
+&#125;
+function product_edit_columns($columns)&#123;
+    $columns[&#39;product_director&#39;] = &#39;产品参数&#39;;
+    return $columns;
+&#125;
+
+// 自定义文章添加自定义字段面板 结束</code></pre>
+<p>调用代码：</p>
+<pre><code>&lt;?php 
+    if(get_post_meta($post-&gt;ID,&#39;_product_director&#39;,true))&#123;
+        echo get_post_meta($post-&gt;ID,&#39;_product_director&#39;,true);
+    &#125;
+?&gt;</code></pre>
+<p>这段代码加在portfolio的模板文件中，具体位置根据自己的业务需求进行添加。后台设置效果如下：</p>
+<p><img src="https://i.imgur.com/MYsq9Ku.jpg"></p>
+<p><img src="https://i.imgur.com/8qwuITp.jpg"></p>
+<p>前台显示如下：</p>
+<p><img src="https://i.imgur.com/fdE9mNM.jpg"></p>
+<p>说明在后台添加，前台可以显示了，好的，接下来我们要做的就是把后台添加的东西插入到数据库中去。</p>
+<p>好的，笔者现在要把后台添加的显示到产品分类列表中去，这里要做一个修改，修改如下：</p>
+<p>我们把</p>
+<pre><code>&lt;?php 
+    if(get_post_meta($post-&gt;ID,&#39;_product_director&#39;,true))&#123;
+        echo get_post_meta($post-&gt;ID,&#39;_product_director&#39;,true);
+    &#125;
+?&gt;</code></pre>
+<p>加到第三步说的那个portfolio.php文件中的这里，添加后如下：</p>
+<pre><code>if(!empty($title))
+&#123;
+    $markup = avia_markup_helper(array(&#39;context&#39; =&gt; &#39;entry_title&#39;,&#39;echo&#39;=&gt;false, &#39;id&#39;=&gt;$the_id, &#39;custom_markup&#39;=&gt;$custom_markup));
+    $output .= &#39;&lt;header class=&quot;entry-content-header&quot;&gt;&#39;;
+    $output .= &quot;&lt;h3 class=&#39;grid-entry-title entry-title&#39; $markup&gt;&quot;;
+
+    if(!empty($title_link))
+    &#123;
+        $output .= &quot;&lt;a href=&#39;&#123;$title_link&#125;&#39; title=&#39;&quot;.esc_attr(strip_tags($title)).&quot;&#39;&gt;&quot;.$title.&quot;&lt;/a&gt;&quot;;
+    &#125;
+    else
+    &#123;
+        $output .= &quot;&quot;.$title.&quot;&quot;;
+    &#125;
+
+    $output .= &quot;&lt;p style=&#39;color:&quot;.$color.&quot;&#39;&gt;&quot;.$paramar.&quot;&lt;/p&gt;&quot;;
+    $output .= &quot;&lt;p&gt;&quot;.$color.&quot;&lt;/p&gt;&quot;;
+    // 这里就是显示在后台添加的自定义代码的地方 开始
+    if(get_post_meta($the_id,&#39;_product_director&#39;,true))&#123;
+        $pricss = get_post_meta($the_id,&#39;_product_director&#39;,true);
+        $output .= &quot;&lt;p&gt;&quot;.$pricss.&quot;&lt;/p&gt;&quot;;
+    &#125;
+    // 添加结束
+    $output .= &#39;&lt;/h3&gt;&lt;/header&gt;&#39;;
+&#125;</code></pre>
+<p>我们看到了这里跟上面的那个：</p>
+<pre><code>&lt;?php 
+    if(get_post_meta($post-&gt;ID,&#39;_product_director&#39;,true))&#123;
+        echo get_post_meta($post-&gt;ID,&#39;_product_director&#39;,true);
+    &#125;
+?&gt;</code></pre>
+<p>有点不一样，笔者把<code>$post-&gt;ID</code>改成了<code>$the_id</code>，这个也是从上面的那个遍历里面获取灵感的：</p>
+<p><img src="https://i.imgur.com/xevDVae.jpg"></p>
+<p>好的，我们来测试下，还是找前面的两三个产品都在后台添加不同的参数：</p>
+<p><img src="https://i.imgur.com/YOtaifR.jpg"></p>
+<p>这样我们就可以<strong>不用在数据库里面自定义数据字段</strong>来存储了，省掉一个麻烦，排除了一个安全隐患。</p>
+<hr>
+<p>最后根据这个方法，笔者对portfolio后台设置后的最终效果：</p>
+<p><img src="https://i.imgur.com/e5EGv6M.jpg"></p>
+<p>关于实现这个效果的代码就是两点：</p>
+<ol>
+<li>把代码添加到functions.php里面</li>
+<li>修改对应的portfolio模板文件，来控制哪个字段显示出来，以什么样的方式显示等等。</li>
+</ol>
+<hr>
+<p>这个是笔者的心血，请支持笔者的原创，如果有更好的方法，可以与笔者取得联系，QQ：791447771</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/wordpress-portfolio-%E5%90%8E%E5%8F%B0%E7%BC%96%E8%BE%91%E5%8C%BA-%E9%9D%A2%E6%9D%BF-%E8%87%AA%E5%AE%9A%E4%B9%89-%E5%AE%9A%E5%88%B6/" rel="tag"># wordpress,portfolio,后台编辑区,面板,自定义,定制</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/04/25/nginx-%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86-%E5%8F%96%E5%BE%97%E7%9C%9F%E5%AE%9EIP%E5%92%8C%E5%9F%9F%E5%90%8D/" rel="prev" title="nginx 反向代理 取得真实IP和域名">
+      <i class="fa fa-chevron-left"></i> nginx 反向代理 取得真实IP和域名
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/05/05/%E4%BA%91%E5%B9%B3%E5%8F%B0%E8%B5%B0%E8%BF%87%E7%9A%84%E5%9D%91%E5%92%8C%E6%97%A5%E5%B8%B8%E7%AC%94%E8%AE%B0/" rel="next" title="云平台走过的坑和日常笔记">
+      云平台走过的坑和日常笔记 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

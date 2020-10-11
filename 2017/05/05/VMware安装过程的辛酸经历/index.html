@@ -1,37 +1,432 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="虚拟机安装教程：http:&#x2F;&#x2F;qbview.url.cn&#x2F;getResourceInfo?appid&#x3D;31&amp;url&#x3D;http%3A%2F%2Fwww.2cto.com%2Fos%2F201109%2F102806.html%3Fnsukey%3DsLDV0cC6jZ%252FbtdEenV87LPetCVZhEhbmH2BFC53hPcGHW99c6IxqxF%252BeYqjd6XvfF">
+<meta property="og:type" content="article">
+<meta property="og:title" content="VMware安装过程的辛酸经历">
+<meta property="og:url" content="http://example.com/2017/05/05/VMware%E5%AE%89%E8%A3%85%E8%BF%87%E7%A8%8B%E7%9A%84%E8%BE%9B%E9%85%B8%E7%BB%8F%E5%8E%86/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="虚拟机安装教程：http:&#x2F;&#x2F;qbview.url.cn&#x2F;getResourceInfo?appid&#x3D;31&amp;url&#x3D;http%3A%2F%2Fwww.2cto.com%2Fos%2F201109%2F102806.html%3Fnsukey%3DsLDV0cC6jZ%252FbtdEenV87LPetCVZhEhbmH2BFC53hPcGHW99c6IxqxF%252BeYqjd6XvfF">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://i.imgur.com/EPipuqi.jpg">
+<meta property="og:image" content="http://i.imgur.com/HdKrNZC.jpg">
+<meta property="og:image" content="http://i.imgur.com/cM1Bghv.jpg">
+<meta property="og:image" content="http://i.imgur.com/IF2Dxlq.jpg">
+<meta property="og:image" content="http://i.imgur.com/XrELxoL.jpg">
+<meta property="og:image" content="http://i.imgur.com/CnoeZi4.jpg">
+<meta property="og:image" content="http://i.imgur.com/Rbtxe5G.jpg">
+<meta property="og:image" content="http://i.imgur.com/u0JXtdl.jpg">
+<meta property="og:image" content="http://i.imgur.com/TkwdhnM.jpg">
+<meta property="article:published_time" content="2017-05-05T04:45:20.000Z">
+<meta property="article:modified_time" content="2020-10-11T03:53:16.777Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="VMware6.0,安装">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://i.imgur.com/EPipuqi.jpg">
+
+<link rel="canonical" href="http://example.com/2017/05/05/VMware%E5%AE%89%E8%A3%85%E8%BF%87%E7%A8%8B%E7%9A%84%E8%BE%9B%E9%85%B8%E7%BB%8F%E5%8E%86/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>VMware安装过程的辛酸经历 | Hexo</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Hexo</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2017/05/05/VMware%E5%AE%89%E8%A3%85%E8%BF%87%E7%A8%8B%E7%9A%84%E8%BE%9B%E9%85%B8%E7%BB%8F%E5%8E%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          VMware安装过程的辛酸经历
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2017-05-05 12:45:20" itemprop="dateCreated datePublished" datetime="2017-05-05T12:45:20+08:00">2017-05-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-10-11 11:53:16" itemprop="dateModified" datetime="2020-10-11T11:53:16+08:00">2020-10-11</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>虚拟机安装教程：<a target="_blank" rel="noopener" href="http://qbview.url.cn/getResourceInfo?appid=31&url=http://www.2cto.com/os/201109/102806.html?nsukey=sLDV0cC6jZ%252FbtdEenV87LPetCVZhEhbmH2BFC53hPcGHW99c6IxqxF%252BeYqjd6XvfFY6UT8wUWu5Br7wFs6xDmR6FehUfQj463Z17qYuA9PDVL7154vi2CRnC2JrwWTV76KGDtquPi3YxV3S%252FL0iHX6nSaczyVdMHsYWoVaVSL5RJE1SBPzdm6ybyWXhgb6M3&version=10000&doview=1&ua=Mozilla/5.0+(Windows+NT+6.1;+WOW64;+rv:53.0)+Gecko/20100101+Firefox/53.0&keeplink=0&reformat=0">http://qbview.url.cn/getResourceInfo?appid=31&amp;url=http%3A%2F%2Fwww.2cto.com%2Fos%2F201109%2F102806.html%3Fnsukey%3DsLDV0cC6jZ%252FbtdEenV87LPetCVZhEhbmH2BFC53hPcGHW99c6IxqxF%252BeYqjd6XvfFY6UT8wUWu5Br7wFs6xDmR6FehUfQj463Z17qYuA9PDVL7154vi2CRnC2JrwWTV76KGDtquPi3YxV3S%252FL0iHX6nSaczyVdMHsYWoVaVSL5RJE1SBPzdm6ybyWXhgb6M3&amp;version=10000&amp;doview=1&amp;ua=Mozilla%2F5.0+(Windows+NT+6.1%3B+WOW64%3B+rv%3A53.0)+Gecko%2F20100101+Firefox%2F53.0&amp;keeplink=0&amp;reformat=0</a></p>
+<p>根据教程走，我想应该是没啥问题的，可是即使这样，很多东西可能决定了，跟着教程走，还要去经历一场虐心之旅。从我开始把硬件虚拟化的辛酸经历作为开始吧。</p>
+<p>最开始由于家里台式机配置不够高，都已经8年了，所以这让我走了很多不该走的路，当时的VMware都已经到了6.5版了，很多都没有32位的了，为了迎合这台电脑的配置，硬是花了一整天时间找这个软件，找了很久，fuck!</p>
+<p>后来安装一看，卧槽，没有网络适配器，就是这个软件里面没有网卡驱动，所以又去找个网卡，把这个.vib文件写入这个软件里面，具体怎么写，这里有个<a target="_blank" rel="noopener" href="http://pan.baidu.com/s/1bpgq2x5">教程</a> 密码：rkq8，用了一个叫做定制iso的软件，<a target="_blank" rel="noopener" href="http://pan.baidu.com/s/1geUDa9d">ESXi5-CPT-v2.2.1-ESXi-Customizer-v2.7.2</a>，提取密码：773n，后来发现，安装到存储虚拟机位置的那一步的时候死活都显示不了宿主机磁盘，就是没法读取，只显示了一个安装虚拟机的那个U盘，当然，如果这个U盘空间足够大的话当然是可以用来存放虚拟机，但是我觉得不太可行，我们当时也想过这样的方法，就是再插一个空间大点的U盘，用来装这个虚拟机系统，为上面的服务提供磁盘空间。毕竟这个还是不是最靠谱的方法，我们就在想，如果让他能够读取本地磁盘，或者是说是什么原因让本地磁盘没法被读取，我们想到了磁盘驱动，后来我们下载了一个磁盘驱动，通过定制软件，把这个驱动程序定制到了那个已经定制了网卡驱动的iso文件上去，这样这个虚拟机安装包就具备了网卡驱动和磁盘驱动的两个驱动，后来问题终于解决了。</p>
+<p>文件下载地址：<a target="_blank" rel="noopener" href="http://pan.baidu.com/s/1dEFNZxR">点击这里</a> 密码：tqnn</p>
+<p>在安装虚拟机的时候遇到过很多的问题，虽然根据教程走很简单，你永远不知道在你的机器上会发生什么事，好的，我把我安装虚拟机的问题自己解决方案分享给大家</p>
+<p>先去官网<a target="_blank" rel="noopener" href="http://www.vmware.com/cn.html%E4%B8%8B%E8%BD%BD%E6%9C%80%E6%96%B0%E7%89%88%E6%9C%AC%EF%BC%8C%E6%88%96%E8%80%85%E6%98%AF%E7%A8%B3%E5%AE%9A%E7%89%88%EF%BC%8C%E5%A6%82%E6%9E%9C%E6%B2%A1%E9%94%99%E7%9A%84%E8%AF%9D%EF%BC%8C%E5%BA%94%E8%AF%A5%E6%98%AFiso%E6%96%87%E4%BB%B6%EF%BC%8C%E5%A5%BD%E4%BA%86%EF%BC%8C%E6%88%91%E8%A6%81%E5%81%9A%E7%9A%84%E6%98%AF%E6%8A%8A%E7%A1%AC%E4%BB%B6%E8%99%9A%E6%8B%9F%E5%8C%96%E7%9A%84%E4%B8%80%E4%B8%AA%E5%AE%9E%E9%AA%8C(%E5%B0%B1%E6%98%AF%E6%8A%8A%E4%B8%80%E5%8F%B0%E7%94%B5%E8%84%91%E5%BD%93%E5%81%9A%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%9D%A5%E7%94%A8%EF%BC%8C%E4%B8%BA%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%85%85%E5%BD%93%E7%A1%AC%E4%BB%B6%E8%AE%BE%E6%96%BD)%EF%BC%8C%E6%9C%80%E5%BC%80%E5%A7%8B%E6%88%91%E7%9A%84%E5%8F%B0%E5%BC%8F%E6%9C%BA%E6%9C%89%E7%82%B9%E5%8F%A4%E8%80%81%EF%BC%8C%E6%9F%A5%E4%BA%86%E4%B8%8BCPU%E5%8E%9F%E6%9D%A5%E6%98%AF32%E4%BD%8D%E7%9A%84%EF%BC%8C%E6%89%80%E4%BB%A5%E6%88%91%E4%B8%8B%E8%BD%BD%E7%9A%84%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%89%88%E6%9C%AC%E6%9C%89%E7%82%B9%E9%AB%98%EF%BC%8CVMware">http://www.vmware.com/cn.html下载最新版本，或者是稳定版，如果没错的话，应该是iso文件，好了，我要做的是把硬件虚拟化的一个实验(就是把一台电脑当做服务器来用，为虚拟机充当硬件设施)，最开始我的台式机有点古老，查了下CPU原来是32位的，所以我下载的虚拟机版本有点高，VMware</a> vSphere Hypervisor 6.0版本的，后来查了下，3.5版本的虚拟机可以支持32位的CPU，所以去官网找了下，很遗憾官网已经没有了，后来辗转反侧，来到了这么一个网站，看了下这几年貌似有，如果想要，可以在我的云盘这里<a target="_blank" rel="noopener" href="http://pan.baidu.com/s/1eSDurSI">下载</a>，密码：2px8，如果准备好的话就可以把这个ISO文件刻录在CD里或者是读取到U盘里面，方便系统启动的时候，直接安装这个虚拟机，CD刻录的话很简单，直接去买一个空白的CD就行了，右键这个ISO文件，选择打开方式为“Windows刻录”，这里我主要讲一下U盘的方式。 </p>
+<p>我这里用U深度来进行读取ISO文件，U深度下载地址为:<a href="http://www.ushendu.com，如果直接制作成一个U深度救急盘的话，直接用智能模式就行，截图如下：">http://www.ushendu.com，如果直接制作成一个U深度救急盘的话，直接用智能模式就行，截图如下：</a></p>
+<p><img src="http://i.imgur.com/EPipuqi.jpg"></p>
+<p>如果做成一个具有其他个性化功能，比如一个系统，一个虚拟机等等，那么可以通过另外的方式，看截图：</p>
+<p><img src="http://i.imgur.com/HdKrNZC.jpg"></p>
+<p>教程看官网，做成的这个东西主要用来防止电脑不能显示桌面了，可以通过这个U盘通过进入PE系统(这是微软的一个小型操作系统)，可以看得到机器里面磁盘分区里的文件，然后用可移动盘把主机里的文件拷贝出来，挽救数据丢失，而且通过这个U救急盘可以格式化主机的任何盘，包括系统盘，格式化磁盘后要重新分区就行，分成单个盘就行，这样磁盘就被格式化了，有的时候，U盘装了虚拟机的文件的时候，在电脑上是没法被读取的，这个时候我们可能觉得这个u盘坏了，这个时候我们就可以启动这个微型系统来读取这种U盘，然后格式化，重新分区，这样这个U盘就又恢复到一个干干净净的状态了，具体看截图：</p>
+<p>进入引导修复</p>
+<p><img src="http://i.imgur.com/cM1Bghv.jpg"></p>
+<p>选择插入的U盘，这个能够被读取就，选中分区管理，选中它：</p>
+<p><img src="http://i.imgur.com/IF2Dxlq.jpg"></p>
+<p>格式化目标磁盘，这里指U盘：</p>
+<p><img src="http://i.imgur.com/XrELxoL.jpg"></p>
+<p>格式化完毕之后，选择重新分区，不重新分区磁盘的空间是没法读取的</p>
+<p><img src="http://i.imgur.com/CnoeZi4.jpg"></p>
+<p>如果是一个U盘的话，那么选择单分区就好了，如果是一个移动硬盘，想要多个分区，这里可以选择多分区，截图如下：</p>
+<p><img src="http://i.imgur.com/Rbtxe5G.jpg"></p>
+<p>完成之后，我们就看到一个可以读取的U盘了</p>
+<p><img src="http://i.imgur.com/u0JXtdl.jpg"></p>
+<p>其实这个里面还有很多的工具，用来检测和分区，数据恢复。</p>
+<p>好了，我们来进入到虚拟机所在主机的BIOS系统里面去，因为我们把这台宿主机格式化干干净净了，什么也没有了，启动的时候我们要进入修改下启动方式，通过优先读取USB里面的内容，也就是先读取U盘里面的东西，通过这一段设定后，开机的时候引导系统就会自动先运行U盘里的内容，当我们把制作好的虚拟机iso的U盘插上宿主机的时候就运行安装虚拟机的程序</p>
+<p>这个bios系统是一个开机引导系统，用来决定哪些运行，哪些不运行，哪些先运行，哪些后运行，所以这个系统会先于操作系统运行。</p>
+<p>bios系统里面可以设置一些东西，具体的可以去看下bios里面的一些知识，这里我主要说几点，由于我用的宿主机笔记本是华硕的，所以我就以他们的bios系统为例，前面的那个Main不管，我们直接来到Advanced，截图如下：</p>
+<p><img src="http://i.imgur.com/TkwdhnM.jpg"></p>
+<p>禁用Power off Energy Saving此项，关闭电源节能，否则会ping不通，这个问题困扰了我很久，切记！情况是这样的，当我按照教程走到最后一步的时候，发现连不上，测试虚拟机也不行，ping不同网关，ping不同客户机（同一网络中的客户机），找了很多原因，最开始是直接把Wake On Lid Open这个也关了，问题依然存在，后来就把Wake On Lid Open启动，发现问题搞定了，这个可是花了很长时间才搞定的，切记！</p>
+<p>这里我们还要说的是我们在读取iso文件的时候需要注意，iso文件不能直接被复制粘贴到U盘里去，必须通过一些工具写进去，前面讲的U救急盘就是其中一种方法，然而，对于FreeBSD是不能通过U救急盘读取的，它需要一个工具去读取，这个工具是<a target="_blank" rel="noopener" href="http://pan.baidu.com/s/1skGLzbB">Win32DiskImager</a>，密码：7am2，解压运行就行了。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/VMware6-0-%E5%AE%89%E8%A3%85/" rel="tag"># VMware6.0,安装</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2017/04/18/wordpress%E5%A4%9A%E7%AB%99%E7%82%B9%E5%85%B1%E4%BA%AB%E5%90%8C%E4%B8%80%E4%B8%BB%E9%A2%98%E7%9A%84%E4%B8%AA%E6%80%A7%E5%8C%96%E5%BC%80%E5%8F%91/" rel="prev" title="wordpress多站点共享同一主题的个性化开发">
+      <i class="fa fa-chevron-left"></i> wordpress多站点共享同一主题的个性化开发
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2017/05/08/%E5%85%AC%E7%BD%91%E4%B8%8E%E7%A7%81%E7%BD%91%E7%9A%84%E7%9F%A5%E8%AF%86/" rel="next" title="公网与私网的知识">
+      公网与私网的知识 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">424</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">25</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">400</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
