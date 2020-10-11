@@ -17,25 +17,25 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"helongquan.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta name="description" content="声明：本文没有特别难理解的地方，都是一些平时使用频率比较高的东西，写下来仅仅是作为启发，作为一个重新出发的起点，用最朴素的东西来理解一些看起来难以理解的概念，不喜勿喷。 html里script标签src自动加上时间戳，降低缓存影响为了强制加载，在文件名后加上类似于hash串的时间戳或者随机数。 &lt;script&gt;document.write(&quot;&lt;script type&#x3D;&amp;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="web前端中常见的问题笔记:js和css添加版本号,bootstrap table,bootstrap multiselect等相关的一些用法心得,函数里面有ajax异步请求的时候返回值,数组循环求和等等一些朴素的概念">
-<meta property="og:url" content="http://example.com/2019/05/09/web%E5%89%8D%E7%AB%AF%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84%E9%97%AE%E9%A2%98%E7%AC%94%E8%AE%B0-js%E5%92%8Ccss%E6%B7%BB%E5%8A%A0%E7%89%88%E6%9C%AC%E5%8F%B7-bootstrap-table-bootstrap-multiselect%E7%AD%89%E7%9B%B8%E5%85%B3%E7%9A%84%E4%B8%80%E4%BA%9B%E7%94%A8%E6%B3%95%E5%BF%83%E5%BE%97-%E5%87%BD%E6%95%B0%E9%87%8C%E9%9D%A2%E6%9C%89ajax%E5%BC%82%E6%AD%A5%E8%AF%B7%E6%B1%82%E7%9A%84%E6%97%B6%E5%80%99%E8%BF%94%E5%9B%9E%E5%80%BC-%E6%95%B0%E7%BB%84%E5%BE%AA%E7%8E%AF%E6%B1%82%E5%92%8C/index.html">
-<meta property="og:site_name" content="Hexo">
+<meta property="og:url" content="https://helongquan.github.io/2019/05/09/web%E5%89%8D%E7%AB%AF%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84%E9%97%AE%E9%A2%98%E7%AC%94%E8%AE%B0-js%E5%92%8Ccss%E6%B7%BB%E5%8A%A0%E7%89%88%E6%9C%AC%E5%8F%B7-bootstrap-table-bootstrap-multiselect%E7%AD%89%E7%9B%B8%E5%85%B3%E7%9A%84%E4%B8%80%E4%BA%9B%E7%94%A8%E6%B3%95%E5%BF%83%E5%BE%97-%E5%87%BD%E6%95%B0%E9%87%8C%E9%9D%A2%E6%9C%89ajax%E5%BC%82%E6%AD%A5%E8%AF%B7%E6%B1%82%E7%9A%84%E6%97%B6%E5%80%99%E8%BF%94%E5%9B%9E%E5%80%BC-%E6%95%B0%E7%BB%84%E5%BE%AA%E7%8E%AF%E6%B1%82%E5%92%8C/index.html">
+<meta property="og:site_name" content="鸢尾花序">
 <meta property="og:description" content="声明：本文没有特别难理解的地方，都是一些平时使用频率比较高的东西，写下来仅仅是作为启发，作为一个重新出发的起点，用最朴素的东西来理解一些看起来难以理解的概念，不喜勿喷。 html里script标签src自动加上时间戳，降低缓存影响为了强制加载，在文件名后加上类似于hash串的时间戳或者随机数。 &lt;script&gt;document.write(&quot;&lt;script type&#x3D;&amp;">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://i.imgur.com/uzPFr1Z.jpg">
 <meta property="article:published_time" content="2019-05-09T02:27:17.000Z">
 <meta property="article:modified_time" content="2020-10-11T03:58:02.776Z">
-<meta property="article:author" content="John Doe">
+<meta property="article:author" content="泉哥">
 <meta property="article:tag" content="web前端,js添加版本号,bootstrap table,bootstrap multiselect,ajax,求和">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://i.imgur.com/uzPFr1Z.jpg">
 
-<link rel="canonical" href="http://example.com/2019/05/09/web%E5%89%8D%E7%AB%AF%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84%E9%97%AE%E9%A2%98%E7%AC%94%E8%AE%B0-js%E5%92%8Ccss%E6%B7%BB%E5%8A%A0%E7%89%88%E6%9C%AC%E5%8F%B7-bootstrap-table-bootstrap-multiselect%E7%AD%89%E7%9B%B8%E5%85%B3%E7%9A%84%E4%B8%80%E4%BA%9B%E7%94%A8%E6%B3%95%E5%BF%83%E5%BE%97-%E5%87%BD%E6%95%B0%E9%87%8C%E9%9D%A2%E6%9C%89ajax%E5%BC%82%E6%AD%A5%E8%AF%B7%E6%B1%82%E7%9A%84%E6%97%B6%E5%80%99%E8%BF%94%E5%9B%9E%E5%80%BC-%E6%95%B0%E7%BB%84%E5%BE%AA%E7%8E%AF%E6%B1%82%E5%92%8C/">
+<link rel="canonical" href="https://helongquan.github.io/2019/05/09/web%E5%89%8D%E7%AB%AF%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84%E9%97%AE%E9%A2%98%E7%AC%94%E8%AE%B0-js%E5%92%8Ccss%E6%B7%BB%E5%8A%A0%E7%89%88%E6%9C%AC%E5%8F%B7-bootstrap-table-bootstrap-multiselect%E7%AD%89%E7%9B%B8%E5%85%B3%E7%9A%84%E4%B8%80%E4%BA%9B%E7%94%A8%E6%B3%95%E5%BF%83%E5%BE%97-%E5%87%BD%E6%95%B0%E9%87%8C%E9%9D%A2%E6%9C%89ajax%E5%BC%82%E6%AD%A5%E8%AF%B7%E6%B1%82%E7%9A%84%E6%97%B6%E5%80%99%E8%BF%94%E5%9B%9E%E5%80%BC-%E6%95%B0%E7%BB%84%E5%BE%AA%E7%8E%AF%E6%B1%82%E5%92%8C/">
 
 
 <script id="page-configurations">
@@ -48,7 +48,7 @@
   };
 </script>
 
-  <title>web前端中常见的问题笔记:js和css添加版本号,bootstrap table,bootstrap multiselect等相关的一些用法心得,函数里面有ajax异步请求的时候返回值,数组循环求和等等一些朴素的概念 | Hexo</title>
+  <title>web前端中常见的问题笔记:js和css添加版本号,bootstrap table,bootstrap multiselect等相关的一些用法心得,函数里面有ajax异步请求的时候返回值,数组循环求和等等一些朴素的概念 | 鸢尾花序</title>
   
 
 
@@ -99,7 +99,7 @@
 
     <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">Hexo</h1>
+      <h1 class="site-title">鸢尾花序</h1>
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
@@ -120,9 +120,34 @@
     <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
 
   </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
         <li class="menu-item menu-item-archives">
 
     <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>Schedule</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>Sitemap</a>
 
   </li>
   </ul>
@@ -153,16 +178,16 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2019/05/09/web%E5%89%8D%E7%AB%AF%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84%E9%97%AE%E9%A2%98%E7%AC%94%E8%AE%B0-js%E5%92%8Ccss%E6%B7%BB%E5%8A%A0%E7%89%88%E6%9C%AC%E5%8F%B7-bootstrap-table-bootstrap-multiselect%E7%AD%89%E7%9B%B8%E5%85%B3%E7%9A%84%E4%B8%80%E4%BA%9B%E7%94%A8%E6%B3%95%E5%BF%83%E5%BE%97-%E5%87%BD%E6%95%B0%E9%87%8C%E9%9D%A2%E6%9C%89ajax%E5%BC%82%E6%AD%A5%E8%AF%B7%E6%B1%82%E7%9A%84%E6%97%B6%E5%80%99%E8%BF%94%E5%9B%9E%E5%80%BC-%E6%95%B0%E7%BB%84%E5%BE%AA%E7%8E%AF%E6%B1%82%E5%92%8C/">
+    <link itemprop="mainEntityOfPage" href="https://helongquan.github.io/2019/05/09/web%E5%89%8D%E7%AB%AF%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84%E9%97%AE%E9%A2%98%E7%AC%94%E8%AE%B0-js%E5%92%8Ccss%E6%B7%BB%E5%8A%A0%E7%89%88%E6%9C%AC%E5%8F%B7-bootstrap-table-bootstrap-multiselect%E7%AD%89%E7%9B%B8%E5%85%B3%E7%9A%84%E4%B8%80%E4%BA%9B%E7%94%A8%E6%B3%95%E5%BF%83%E5%BE%97-%E5%87%BD%E6%95%B0%E9%87%8C%E9%9D%A2%E6%9C%89ajax%E5%BC%82%E6%AD%A5%E8%AF%B7%E6%B1%82%E7%9A%84%E6%97%B6%E5%80%99%E8%BF%94%E5%9B%9E%E5%80%BC-%E6%95%B0%E7%BB%84%E5%BE%AA%E7%8E%AF%E6%B1%82%E5%92%8C/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
+      <meta itemprop="name" content="泉哥">
+      <meta itemprop="description" content="日记">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
+      <meta itemprop="name" content="鸢尾花序">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -471,8 +496,8 @@ $(&quot;#main&quot;).html(par);</code></pre>
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">John Doe</p>
-  <div class="site-description" itemprop="description"></div>
+  <p class="site-author-name" itemprop="name">泉哥</p>
+  <div class="site-description" itemprop="description">日记</div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
@@ -519,7 +544,7 @@ $(&quot;#main&quot;).html(par);</code></pre>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">John Doe</span>
+  <span class="author" itemprop="copyrightHolder">泉哥</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
   </div>

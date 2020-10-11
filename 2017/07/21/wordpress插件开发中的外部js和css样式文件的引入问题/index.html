@@ -17,25 +17,25 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"helongquan.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta name="description" content="这篇文章主要是为了解决以前我开发的一个插件，本来呢，在本地服务器上测试是没问题的，但是放在线上的网站测试就有问题，每次激活插件的时候，就提示“有133个异常输出，xxx”,看着就特别着急。于是我开始了一系列的修复工作，打开数据库发现异常的字段，是由于我引入外部样式或者是外部的js文件的时候，采用的是这样方式： echo &#39;&lt;link rel&#x3D;&quot;stylesheet&amp;quot">
 <meta property="og:type" content="article">
 <meta property="og:title" content="wordpress插件开发中的外部js和css样式文件的引入问题">
-<meta property="og:url" content="http://example.com/2017/07/21/wordpress%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84%E5%A4%96%E9%83%A8js%E5%92%8Ccss%E6%A0%B7%E5%BC%8F%E6%96%87%E4%BB%B6%E7%9A%84%E5%BC%95%E5%85%A5%E9%97%AE%E9%A2%98/index.html">
-<meta property="og:site_name" content="Hexo">
+<meta property="og:url" content="https://helongquan.github.io/2017/07/21/wordpress%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84%E5%A4%96%E9%83%A8js%E5%92%8Ccss%E6%A0%B7%E5%BC%8F%E6%96%87%E4%BB%B6%E7%9A%84%E5%BC%95%E5%85%A5%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:site_name" content="鸢尾花序">
 <meta property="og:description" content="这篇文章主要是为了解决以前我开发的一个插件，本来呢，在本地服务器上测试是没问题的，但是放在线上的网站测试就有问题，每次激活插件的时候，就提示“有133个异常输出，xxx”,看着就特别着急。于是我开始了一系列的修复工作，打开数据库发现异常的字段，是由于我引入外部样式或者是外部的js文件的时候，采用的是这样方式： echo &#39;&lt;link rel&#x3D;&quot;stylesheet&amp;quot">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://i.imgur.com/ns5Mf7e.png">
 <meta property="article:published_time" content="2017-07-21T02:46:37.000Z">
 <meta property="article:modified_time" content="2020-10-11T03:53:14.198Z">
-<meta property="article:author" content="John Doe">
+<meta property="article:author" content="泉哥">
 <meta property="article:tag" content="wordpress,插件开发,外部js和css样式文件,引入问题,javascript">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://i.imgur.com/ns5Mf7e.png">
 
-<link rel="canonical" href="http://example.com/2017/07/21/wordpress%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84%E5%A4%96%E9%83%A8js%E5%92%8Ccss%E6%A0%B7%E5%BC%8F%E6%96%87%E4%BB%B6%E7%9A%84%E5%BC%95%E5%85%A5%E9%97%AE%E9%A2%98/">
+<link rel="canonical" href="https://helongquan.github.io/2017/07/21/wordpress%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84%E5%A4%96%E9%83%A8js%E5%92%8Ccss%E6%A0%B7%E5%BC%8F%E6%96%87%E4%BB%B6%E7%9A%84%E5%BC%95%E5%85%A5%E9%97%AE%E9%A2%98/">
 
 
 <script id="page-configurations">
@@ -48,7 +48,7 @@
   };
 </script>
 
-  <title>wordpress插件开发中的外部js和css样式文件的引入问题 | Hexo</title>
+  <title>wordpress插件开发中的外部js和css样式文件的引入问题 | 鸢尾花序</title>
   
 
 
@@ -99,7 +99,7 @@
 
     <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">Hexo</h1>
+      <h1 class="site-title">鸢尾花序</h1>
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
@@ -120,9 +120,34 @@
     <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
 
   </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
         <li class="menu-item menu-item-archives">
 
     <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>Schedule</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>Sitemap</a>
 
   </li>
   </ul>
@@ -153,16 +178,16 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2017/07/21/wordpress%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84%E5%A4%96%E9%83%A8js%E5%92%8Ccss%E6%A0%B7%E5%BC%8F%E6%96%87%E4%BB%B6%E7%9A%84%E5%BC%95%E5%85%A5%E9%97%AE%E9%A2%98/">
+    <link itemprop="mainEntityOfPage" href="https://helongquan.github.io/2017/07/21/wordpress%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E4%B8%AD%E7%9A%84%E5%A4%96%E9%83%A8js%E5%92%8Ccss%E6%A0%B7%E5%BC%8F%E6%96%87%E4%BB%B6%E7%9A%84%E5%BC%95%E5%85%A5%E9%97%AE%E9%A2%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
+      <meta itemprop="name" content="泉哥">
+      <meta itemprop="description" content="日记">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
+      <meta itemprop="name" content="鸢尾花序">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -546,7 +571,7 @@ add_action( &#39;wp_enqueue_scripts&#39;, &#39;wpjam_add_scripts_6&#39; );
 &lt;/body&gt;
 &lt;/html&gt;</code></pre>
 <p>好了，然后我就把其中的js和css抽离出来，写成一个悬浮插件，内容就是页面的内容，不过这里有个很大的缺陷，细心的人可能会发现，我在每个div那里都添加了一个id，主要是为了跳转，实现锚点定位。当我们把这个插件用在了一个陌生的网站的时候，我们不可能每个页面都要这样去添加id和class，还有就是能够响应查询内容只能在id为result-list的这个div中的内容。所以缺陷是存在的。我的下一个目标是能否直接不管页面的内容是什么直接把查询范围设定为整个页面，而且不需要每个区块都要添加id。</p>
-<p>这也是我打算开发一个单页搜索直接定位的插件，有待改善，下载地址：<a target="_blank" rel="noopener" href="http://pan.baidu.com/s/1jIQhopg">点这里</a>，密码：qk8i。为了能够更好的理解这个原理，大家可以参考我另一篇文章：<a target="_blank" rel="noopener" href="http://helongquan.github.io/2017/07/20/%E5%9F%BA%E4%BA%8Ebootstrap%E7%9A%84%E5%8D%95%E9%A1%B5%E6%90%9C%E7%B4%A2%E6%96%B9%E6%A1%88/">基于bootstrap的单页搜索方案</a></p>
+<p>这也是我打算开发一个单页搜索直接定位的插件，有待改善，下载地址：<a target="_blank" rel="noopener" href="http://pan.baidu.com/s/1jIQhopg">点这里</a>，密码：qk8i。为了能够更好的理解这个原理，大家可以参考我另一篇文章：<a href="http://helongquan.github.io/2017/07/20/%E5%9F%BA%E4%BA%8Ebootstrap%E7%9A%84%E5%8D%95%E9%A1%B5%E6%90%9C%E7%B4%A2%E6%96%B9%E6%A1%88/">基于bootstrap的单页搜索方案</a></p>
 
     </div>
 
@@ -635,8 +660,8 @@ add_action( &#39;wp_enqueue_scripts&#39;, &#39;wpjam_add_scripts_6&#39; );
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">John Doe</p>
-  <div class="site-description" itemprop="description"></div>
+  <p class="site-author-name" itemprop="name">泉哥</p>
+  <div class="site-description" itemprop="description">日记</div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
@@ -683,7 +708,7 @@ add_action( &#39;wp_enqueue_scripts&#39;, &#39;wpjam_add_scripts_6&#39; );
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">John Doe</span>
+  <span class="author" itemprop="copyrightHolder">泉哥</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
   </div>

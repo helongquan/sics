@@ -17,14 +17,14 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"helongquan.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta name="description" content="先确保启用了newsletter这个模块： system -&gt; configuration -&gt; advanced from there enable newsletter module . and then you can use the above code to call it anywhere. 然后把如下代码粘贴到模板文件自己想要放置的位置即可： &lt;?php echo">
 <meta property="og:type" content="article">
 <meta property="og:title" content="magento1.x调用newsletter显示到页面的任何地方，然后通过设置服务器的cron向订阅用户定时提供订阅服务">
-<meta property="og:url" content="http://example.com/2018/11/06/magento1.x%E8%B0%83%E7%94%A8newsletter%E6%98%BE%E7%A4%BA%E5%88%B0%E9%A1%B5%E9%9D%A2%E7%9A%84%E4%BB%BB%E4%BD%95%E5%9C%B0%E6%96%B9%EF%BC%8C%E7%84%B6%E5%90%8E%E9%80%9A%E8%BF%87%E8%AE%BE%E7%BD%AE%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84cron%E5%90%91%E8%AE%A2%E9%98%85%E7%94%A8%E6%88%B7%E5%AE%9A%E6%97%B6%E6%8F%90%E4%BE%9B%E8%AE%A2%E9%98%85%E6%9C%8D%E5%8A%A1/index.html">
-<meta property="og:site_name" content="Hexo">
+<meta property="og:url" content="https://helongquan.github.io/2018/11/06/magento1.x%E8%B0%83%E7%94%A8newsletter%E6%98%BE%E7%A4%BA%E5%88%B0%E9%A1%B5%E9%9D%A2%E7%9A%84%E4%BB%BB%E4%BD%95%E5%9C%B0%E6%96%B9%EF%BC%8C%E7%84%B6%E5%90%8E%E9%80%9A%E8%BF%87%E8%AE%BE%E7%BD%AE%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84cron%E5%90%91%E8%AE%A2%E9%98%85%E7%94%A8%E6%88%B7%E5%AE%9A%E6%97%B6%E6%8F%90%E4%BE%9B%E8%AE%A2%E9%98%85%E6%9C%8D%E5%8A%A1/index.html">
+<meta property="og:site_name" content="鸢尾花序">
 <meta property="og:description" content="先确保启用了newsletter这个模块： system -&gt; configuration -&gt; advanced from there enable newsletter module . and then you can use the above code to call it anywhere. 然后把如下代码粘贴到模板文件自己想要放置的位置即可： &lt;?php echo">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://i.imgur.com/mzxOSWa.jpg">
@@ -41,12 +41,12 @@
 <meta property="og:image" content="https://i.imgur.com/VKcGWKj.jpg">
 <meta property="article:published_time" content="2018-11-06T07:54:15.000Z">
 <meta property="article:modified_time" content="2020-10-11T03:57:59.320Z">
-<meta property="article:author" content="John Doe">
+<meta property="article:author" content="泉哥">
 <meta property="article:tag" content="magento1,newsletter,cron,订阅,crontab">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://i.imgur.com/mzxOSWa.jpg">
 
-<link rel="canonical" href="http://example.com/2018/11/06/magento1.x%E8%B0%83%E7%94%A8newsletter%E6%98%BE%E7%A4%BA%E5%88%B0%E9%A1%B5%E9%9D%A2%E7%9A%84%E4%BB%BB%E4%BD%95%E5%9C%B0%E6%96%B9%EF%BC%8C%E7%84%B6%E5%90%8E%E9%80%9A%E8%BF%87%E8%AE%BE%E7%BD%AE%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84cron%E5%90%91%E8%AE%A2%E9%98%85%E7%94%A8%E6%88%B7%E5%AE%9A%E6%97%B6%E6%8F%90%E4%BE%9B%E8%AE%A2%E9%98%85%E6%9C%8D%E5%8A%A1/">
+<link rel="canonical" href="https://helongquan.github.io/2018/11/06/magento1.x%E8%B0%83%E7%94%A8newsletter%E6%98%BE%E7%A4%BA%E5%88%B0%E9%A1%B5%E9%9D%A2%E7%9A%84%E4%BB%BB%E4%BD%95%E5%9C%B0%E6%96%B9%EF%BC%8C%E7%84%B6%E5%90%8E%E9%80%9A%E8%BF%87%E8%AE%BE%E7%BD%AE%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84cron%E5%90%91%E8%AE%A2%E9%98%85%E7%94%A8%E6%88%B7%E5%AE%9A%E6%97%B6%E6%8F%90%E4%BE%9B%E8%AE%A2%E9%98%85%E6%9C%8D%E5%8A%A1/">
 
 
 <script id="page-configurations">
@@ -59,7 +59,7 @@
   };
 </script>
 
-  <title>magento1.x调用newsletter显示到页面的任何地方，然后通过设置服务器的cron向订阅用户定时提供订阅服务 | Hexo</title>
+  <title>magento1.x调用newsletter显示到页面的任何地方，然后通过设置服务器的cron向订阅用户定时提供订阅服务 | 鸢尾花序</title>
   
 
 
@@ -110,7 +110,7 @@
 
     <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">Hexo</h1>
+      <h1 class="site-title">鸢尾花序</h1>
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
@@ -131,9 +131,34 @@
     <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
 
   </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
         <li class="menu-item menu-item-archives">
 
     <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>Schedule</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>Sitemap</a>
 
   </li>
   </ul>
@@ -164,16 +189,16 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2018/11/06/magento1.x%E8%B0%83%E7%94%A8newsletter%E6%98%BE%E7%A4%BA%E5%88%B0%E9%A1%B5%E9%9D%A2%E7%9A%84%E4%BB%BB%E4%BD%95%E5%9C%B0%E6%96%B9%EF%BC%8C%E7%84%B6%E5%90%8E%E9%80%9A%E8%BF%87%E8%AE%BE%E7%BD%AE%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84cron%E5%90%91%E8%AE%A2%E9%98%85%E7%94%A8%E6%88%B7%E5%AE%9A%E6%97%B6%E6%8F%90%E4%BE%9B%E8%AE%A2%E9%98%85%E6%9C%8D%E5%8A%A1/">
+    <link itemprop="mainEntityOfPage" href="https://helongquan.github.io/2018/11/06/magento1.x%E8%B0%83%E7%94%A8newsletter%E6%98%BE%E7%A4%BA%E5%88%B0%E9%A1%B5%E9%9D%A2%E7%9A%84%E4%BB%BB%E4%BD%95%E5%9C%B0%E6%96%B9%EF%BC%8C%E7%84%B6%E5%90%8E%E9%80%9A%E8%BF%87%E8%AE%BE%E7%BD%AE%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%9A%84cron%E5%90%91%E8%AE%A2%E9%98%85%E7%94%A8%E6%88%B7%E5%AE%9A%E6%97%B6%E6%8F%90%E4%BE%9B%E8%AE%A2%E9%98%85%E6%9C%8D%E5%8A%A1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
+      <meta itemprop="name" content="泉哥">
+      <meta itemprop="description" content="日记">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
+      <meta itemprop="name" content="鸢尾花序">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -493,8 +518,8 @@ chmod -R 777 source_backup.sh</code></pre>
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">John Doe</p>
-  <div class="site-description" itemprop="description"></div>
+  <p class="site-author-name" itemprop="name">泉哥</p>
+  <div class="site-description" itemprop="description">日记</div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
@@ -541,7 +566,7 @@ chmod -R 777 source_backup.sh</code></pre>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">John Doe</span>
+  <span class="author" itemprop="copyrightHolder">泉哥</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
   </div>

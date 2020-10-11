@@ -17,25 +17,25 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"helongquan.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta name="description" content="首先检查一下网站是否支持伪静态规则，检测主机是否支持伪静态的方法：在WP后台 &gt; 设置 &gt; 固定链接，设置为 非默认带?的那种结构，然后访问任何一篇文章，如果出现 404 错误，说明你的主机当前不支持 WordPress 伪静态。  IIS伪静态规则 IIS 环境是 Windows 主机常用的服务器环境，新建一个 txt 文件，将下面的代码添加到文件中： [ISAPI_Rewrite]">
 <meta property="og:type" content="article">
 <meta property="og:title" content="IIS、Apache、Nginx服务器下WordPress配置伪静态方法">
-<meta property="og:url" content="http://example.com/2017/02/10/IIS%E3%80%81Apache%E3%80%81Nginx%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8BWordPress%E9%85%8D%E7%BD%AE%E4%BC%AA%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95/index.html">
-<meta property="og:site_name" content="Hexo">
+<meta property="og:url" content="https://helongquan.github.io/2017/02/10/IIS%E3%80%81Apache%E3%80%81Nginx%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8BWordPress%E9%85%8D%E7%BD%AE%E4%BC%AA%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95/index.html">
+<meta property="og:site_name" content="鸢尾花序">
 <meta property="og:description" content="首先检查一下网站是否支持伪静态规则，检测主机是否支持伪静态的方法：在WP后台 &gt; 设置 &gt; 固定链接，设置为 非默认带?的那种结构，然后访问任何一篇文章，如果出现 404 错误，说明你的主机当前不支持 WordPress 伪静态。  IIS伪静态规则 IIS 环境是 Windows 主机常用的服务器环境，新建一个 txt 文件，将下面的代码添加到文件中： [ISAPI_Rewrite]">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://i.imgur.com/JNHcNuA.png">
 <meta property="article:published_time" content="2017-02-10T15:21:59.000Z">
 <meta property="article:modified_time" content="2020-10-11T03:53:32.339Z">
-<meta property="article:author" content="John Doe">
+<meta property="article:author" content="泉哥">
 <meta property="article:tag" content="Nginx服务器,伪静态,404,固定链接,wordpress">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://i.imgur.com/JNHcNuA.png">
 
-<link rel="canonical" href="http://example.com/2017/02/10/IIS%E3%80%81Apache%E3%80%81Nginx%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8BWordPress%E9%85%8D%E7%BD%AE%E4%BC%AA%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95/">
+<link rel="canonical" href="https://helongquan.github.io/2017/02/10/IIS%E3%80%81Apache%E3%80%81Nginx%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8BWordPress%E9%85%8D%E7%BD%AE%E4%BC%AA%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95/">
 
 
 <script id="page-configurations">
@@ -48,7 +48,7 @@
   };
 </script>
 
-  <title>IIS、Apache、Nginx服务器下WordPress配置伪静态方法 | Hexo</title>
+  <title>IIS、Apache、Nginx服务器下WordPress配置伪静态方法 | 鸢尾花序</title>
   
 
 
@@ -99,7 +99,7 @@
 
     <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">Hexo</h1>
+      <h1 class="site-title">鸢尾花序</h1>
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
@@ -120,9 +120,34 @@
     <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
 
   </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
         <li class="menu-item menu-item-archives">
 
     <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>Schedule</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>Sitemap</a>
 
   </li>
   </ul>
@@ -153,16 +178,16 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2017/02/10/IIS%E3%80%81Apache%E3%80%81Nginx%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8BWordPress%E9%85%8D%E7%BD%AE%E4%BC%AA%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95/">
+    <link itemprop="mainEntityOfPage" href="https://helongquan.github.io/2017/02/10/IIS%E3%80%81Apache%E3%80%81Nginx%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8BWordPress%E9%85%8D%E7%BD%AE%E4%BC%AA%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
+      <meta itemprop="name" content="泉哥">
+      <meta itemprop="description" content="日记">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
+      <meta itemprop="name" content="鸢尾花序">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -338,8 +363,8 @@ if (!-f $request_filename)&#123;
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">John Doe</p>
-  <div class="site-description" itemprop="description"></div>
+  <p class="site-author-name" itemprop="name">泉哥</p>
+  <div class="site-description" itemprop="description">日记</div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
@@ -386,7 +411,7 @@ if (!-f $request_filename)&#123;
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">John Doe</span>
+  <span class="author" itemprop="copyrightHolder">泉哥</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
   </div>

@@ -17,23 +17,23 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"helongquan.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta name="description" content="相信大家对wordpress主题中的functions.php文件一定不陌生，这个文件是很多人折腾的最多的文件，本站很多教程中的代码也是直接加到 functions.php 就可以使用的，可是每次更新主题时这个文件都会被主题默认的给覆盖，所以更新主题前都得提前备份自定义的代码，这样就有点麻烦了！那么，怎么对 functions.php 进行高效正确的更新呢？ 其实办法非常简单，以下有3种方法对fu">
 <meta property="og:type" content="article">
 <meta property="og:title" content="在更新WordPress主题时如何保留functions.php里的自定义代码">
-<meta property="og:url" content="http://example.com/2018/01/08/%E5%9C%A8%E6%9B%B4%E6%96%B0WordPress%E4%B8%BB%E9%A2%98%E6%97%B6%E5%A6%82%E4%BD%95%E4%BF%9D%E7%95%99functions-php%E9%87%8C%E7%9A%84%E8%87%AA%E5%AE%9A%E4%B9%89%E4%BB%A3%E7%A0%81/index.html">
-<meta property="og:site_name" content="Hexo">
+<meta property="og:url" content="https://helongquan.github.io/2018/01/08/%E5%9C%A8%E6%9B%B4%E6%96%B0WordPress%E4%B8%BB%E9%A2%98%E6%97%B6%E5%A6%82%E4%BD%95%E4%BF%9D%E7%95%99functions-php%E9%87%8C%E7%9A%84%E8%87%AA%E5%AE%9A%E4%B9%89%E4%BB%A3%E7%A0%81/index.html">
+<meta property="og:site_name" content="鸢尾花序">
 <meta property="og:description" content="相信大家对wordpress主题中的functions.php文件一定不陌生，这个文件是很多人折腾的最多的文件，本站很多教程中的代码也是直接加到 functions.php 就可以使用的，可是每次更新主题时这个文件都会被主题默认的给覆盖，所以更新主题前都得提前备份自定义的代码，这样就有点麻烦了！那么，怎么对 functions.php 进行高效正确的更新呢？ 其实办法非常简单，以下有3种方法对fu">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2018-01-08T03:25:26.000Z">
 <meta property="article:modified_time" content="2020-10-11T03:52:48.877Z">
-<meta property="article:author" content="John Doe">
+<meta property="article:author" content="泉哥">
 <meta property="article:tag" content="wordpress,functions.php,自定义,更新">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/2018/01/08/%E5%9C%A8%E6%9B%B4%E6%96%B0WordPress%E4%B8%BB%E9%A2%98%E6%97%B6%E5%A6%82%E4%BD%95%E4%BF%9D%E7%95%99functions-php%E9%87%8C%E7%9A%84%E8%87%AA%E5%AE%9A%E4%B9%89%E4%BB%A3%E7%A0%81/">
+<link rel="canonical" href="https://helongquan.github.io/2018/01/08/%E5%9C%A8%E6%9B%B4%E6%96%B0WordPress%E4%B8%BB%E9%A2%98%E6%97%B6%E5%A6%82%E4%BD%95%E4%BF%9D%E7%95%99functions-php%E9%87%8C%E7%9A%84%E8%87%AA%E5%AE%9A%E4%B9%89%E4%BB%A3%E7%A0%81/">
 
 
 <script id="page-configurations">
@@ -46,7 +46,7 @@
   };
 </script>
 
-  <title>在更新WordPress主题时如何保留functions.php里的自定义代码 | Hexo</title>
+  <title>在更新WordPress主题时如何保留functions.php里的自定义代码 | 鸢尾花序</title>
   
 
 
@@ -97,7 +97,7 @@
 
     <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">Hexo</h1>
+      <h1 class="site-title">鸢尾花序</h1>
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
@@ -118,9 +118,34 @@
     <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
 
   </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
         <li class="menu-item menu-item-archives">
 
     <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>Schedule</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>Sitemap</a>
 
   </li>
   </ul>
@@ -151,16 +176,16 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2018/01/08/%E5%9C%A8%E6%9B%B4%E6%96%B0WordPress%E4%B8%BB%E9%A2%98%E6%97%B6%E5%A6%82%E4%BD%95%E4%BF%9D%E7%95%99functions-php%E9%87%8C%E7%9A%84%E8%87%AA%E5%AE%9A%E4%B9%89%E4%BB%A3%E7%A0%81/">
+    <link itemprop="mainEntityOfPage" href="https://helongquan.github.io/2018/01/08/%E5%9C%A8%E6%9B%B4%E6%96%B0WordPress%E4%B8%BB%E9%A2%98%E6%97%B6%E5%A6%82%E4%BD%95%E4%BF%9D%E7%95%99functions-php%E9%87%8C%E7%9A%84%E8%87%AA%E5%AE%9A%E4%B9%89%E4%BB%A3%E7%A0%81/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
+      <meta itemprop="name" content="泉哥">
+      <meta itemprop="description" content="日记">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
+      <meta itemprop="name" content="鸢尾花序">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -408,8 +433,8 @@ function IncludeAll($dir)&#123;
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">John Doe</p>
-  <div class="site-description" itemprop="description"></div>
+  <p class="site-author-name" itemprop="name">泉哥</p>
+  <div class="site-description" itemprop="description">日记</div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
@@ -456,7 +481,7 @@ function IncludeAll($dir)&#123;
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">John Doe</span>
+  <span class="author" itemprop="copyrightHolder">泉哥</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
   </div>

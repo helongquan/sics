@@ -17,23 +17,23 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"helongquan.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta name="description" content="不久前，一个设计师妹子问到我为什么她在对一个按钮里的文字后面添加一个大于号，用来点缀一下按钮，结果却出现意想不到的样式问题，后来在帮她排查的的过程中，笔者无意间发现了一个这个答案：是因为在按钮后面添加了一个&gt;符号，导致了这个问题。 其实，这里有个非常值得说的一个概念，就是转义的问题。好的，今日我们就简单的来了解下转义的一些事情。 HTML转义字符对照表 字符十进制转义字符&quot;&amp;#34;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="一个html按钮的大于号和小于号引发对转义的思考和相关资料的整理">
-<meta property="og:url" content="http://example.com/2018/08/13/%E4%B8%80%E4%B8%AAhtml%E6%8C%89%E9%92%AE%E7%9A%84%E5%A4%A7%E4%BA%8E%E5%8F%B7%E5%92%8C%E5%B0%8F%E4%BA%8E%E5%8F%B7%E5%BC%95%E5%8F%91%E5%AF%B9%E8%BD%AC%E4%B9%89%E7%9A%84%E6%80%9D%E8%80%83%E5%92%8C%E7%9B%B8%E5%85%B3%E8%B5%84%E6%96%99%E7%9A%84%E6%95%B4%E7%90%86/index.html">
-<meta property="og:site_name" content="Hexo">
+<meta property="og:url" content="https://helongquan.github.io/2018/08/13/%E4%B8%80%E4%B8%AAhtml%E6%8C%89%E9%92%AE%E7%9A%84%E5%A4%A7%E4%BA%8E%E5%8F%B7%E5%92%8C%E5%B0%8F%E4%BA%8E%E5%8F%B7%E5%BC%95%E5%8F%91%E5%AF%B9%E8%BD%AC%E4%B9%89%E7%9A%84%E6%80%9D%E8%80%83%E5%92%8C%E7%9B%B8%E5%85%B3%E8%B5%84%E6%96%99%E7%9A%84%E6%95%B4%E7%90%86/index.html">
+<meta property="og:site_name" content="鸢尾花序">
 <meta property="og:description" content="不久前，一个设计师妹子问到我为什么她在对一个按钮里的文字后面添加一个大于号，用来点缀一下按钮，结果却出现意想不到的样式问题，后来在帮她排查的的过程中，笔者无意间发现了一个这个答案：是因为在按钮后面添加了一个&gt;符号，导致了这个问题。 其实，这里有个非常值得说的一个概念，就是转义的问题。好的，今日我们就简单的来了解下转义的一些事情。 HTML转义字符对照表 字符十进制转义字符&quot;&amp;#34;">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2018-08-13T02:35:42.000Z">
 <meta property="article:modified_time" content="2020-10-11T03:58:03.632Z">
-<meta property="article:author" content="John Doe">
+<meta property="article:author" content="泉哥">
 <meta property="article:tag" content="html,转义,字符,大于号,小于号">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/2018/08/13/%E4%B8%80%E4%B8%AAhtml%E6%8C%89%E9%92%AE%E7%9A%84%E5%A4%A7%E4%BA%8E%E5%8F%B7%E5%92%8C%E5%B0%8F%E4%BA%8E%E5%8F%B7%E5%BC%95%E5%8F%91%E5%AF%B9%E8%BD%AC%E4%B9%89%E7%9A%84%E6%80%9D%E8%80%83%E5%92%8C%E7%9B%B8%E5%85%B3%E8%B5%84%E6%96%99%E7%9A%84%E6%95%B4%E7%90%86/">
+<link rel="canonical" href="https://helongquan.github.io/2018/08/13/%E4%B8%80%E4%B8%AAhtml%E6%8C%89%E9%92%AE%E7%9A%84%E5%A4%A7%E4%BA%8E%E5%8F%B7%E5%92%8C%E5%B0%8F%E4%BA%8E%E5%8F%B7%E5%BC%95%E5%8F%91%E5%AF%B9%E8%BD%AC%E4%B9%89%E7%9A%84%E6%80%9D%E8%80%83%E5%92%8C%E7%9B%B8%E5%85%B3%E8%B5%84%E6%96%99%E7%9A%84%E6%95%B4%E7%90%86/">
 
 
 <script id="page-configurations">
@@ -46,7 +46,7 @@
   };
 </script>
 
-  <title>一个html按钮的大于号和小于号引发对转义的思考和相关资料的整理 | Hexo</title>
+  <title>一个html按钮的大于号和小于号引发对转义的思考和相关资料的整理 | 鸢尾花序</title>
   
 
 
@@ -97,7 +97,7 @@
 
     <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">Hexo</h1>
+      <h1 class="site-title">鸢尾花序</h1>
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
@@ -118,9 +118,34 @@
     <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
 
   </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
         <li class="menu-item menu-item-archives">
 
     <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>Schedule</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>Sitemap</a>
 
   </li>
   </ul>
@@ -151,16 +176,16 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2018/08/13/%E4%B8%80%E4%B8%AAhtml%E6%8C%89%E9%92%AE%E7%9A%84%E5%A4%A7%E4%BA%8E%E5%8F%B7%E5%92%8C%E5%B0%8F%E4%BA%8E%E5%8F%B7%E5%BC%95%E5%8F%91%E5%AF%B9%E8%BD%AC%E4%B9%89%E7%9A%84%E6%80%9D%E8%80%83%E5%92%8C%E7%9B%B8%E5%85%B3%E8%B5%84%E6%96%99%E7%9A%84%E6%95%B4%E7%90%86/">
+    <link itemprop="mainEntityOfPage" href="https://helongquan.github.io/2018/08/13/%E4%B8%80%E4%B8%AAhtml%E6%8C%89%E9%92%AE%E7%9A%84%E5%A4%A7%E4%BA%8E%E5%8F%B7%E5%92%8C%E5%B0%8F%E4%BA%8E%E5%8F%B7%E5%BC%95%E5%8F%91%E5%AF%B9%E8%BD%AC%E4%B9%89%E7%9A%84%E6%80%9D%E8%80%83%E5%92%8C%E7%9B%B8%E5%85%B3%E8%B5%84%E6%96%99%E7%9A%84%E6%95%B4%E7%90%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
+      <meta itemprop="name" content="泉哥">
+      <meta itemprop="description" content="日记">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
+      <meta itemprop="name" content="鸢尾花序">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -343,8 +368,8 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">John Doe</p>
-  <div class="site-description" itemprop="description"></div>
+  <p class="site-author-name" itemprop="name">泉哥</p>
+  <div class="site-description" itemprop="description">日记</div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
@@ -391,7 +416,7 @@
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">John Doe</span>
+  <span class="author" itemprop="copyrightHolder">泉哥</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
   </div>

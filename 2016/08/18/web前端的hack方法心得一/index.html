@@ -17,25 +17,25 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"helongquan.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta name="description" content="width和max-width的意思，为了解决一个问题，弹窗，没错就是这个东西卡了很久了，最开始弹窗出来后，针对PC端是没什么问题的，但是到了手机端后，弹窗就充满了整个屏幕，我想让这个弹窗变得左右有点空隙，该怎么办呢？ 然后，我们可以这样做： 先用width把宽度设定好，然后再用max-width为这个宽度设定一个最大宽度，这样弹窗在手机版上就可以有一个空隙了。其实，这个熟悉之后就觉得平淡无奇的，">
 <meta property="og:type" content="article">
 <meta property="og:title" content="web前端的hack方法心得一">
-<meta property="og:url" content="http://example.com/2016/08/18/web%E5%89%8D%E7%AB%AF%E7%9A%84hack%E6%96%B9%E6%B3%95%E5%BF%83%E5%BE%97%E4%B8%80/index.html">
-<meta property="og:site_name" content="Hexo">
+<meta property="og:url" content="https://helongquan.github.io/2016/08/18/web%E5%89%8D%E7%AB%AF%E7%9A%84hack%E6%96%B9%E6%B3%95%E5%BF%83%E5%BE%97%E4%B8%80/index.html">
+<meta property="og:site_name" content="鸢尾花序">
 <meta property="og:description" content="width和max-width的意思，为了解决一个问题，弹窗，没错就是这个东西卡了很久了，最开始弹窗出来后，针对PC端是没什么问题的，但是到了手机端后，弹窗就充满了整个屏幕，我想让这个弹窗变得左右有点空隙，该怎么办呢？ 然后，我们可以这样做： 先用width把宽度设定好，然后再用max-width为这个宽度设定一个最大宽度，这样弹窗在手机版上就可以有一个空隙了。其实，这个熟悉之后就觉得平淡无奇的，">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://i.imgur.com/9eRACHq.png">
 <meta property="article:published_time" content="2016-08-18T15:46:40.000Z">
 <meta property="article:modified_time" content="2020-10-11T03:53:15.976Z">
-<meta property="article:author" content="John Doe">
+<meta property="article:author" content="泉哥">
 <meta property="article:tag" content="width,max-width">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://i.imgur.com/9eRACHq.png">
 
-<link rel="canonical" href="http://example.com/2016/08/18/web%E5%89%8D%E7%AB%AF%E7%9A%84hack%E6%96%B9%E6%B3%95%E5%BF%83%E5%BE%97%E4%B8%80/">
+<link rel="canonical" href="https://helongquan.github.io/2016/08/18/web%E5%89%8D%E7%AB%AF%E7%9A%84hack%E6%96%B9%E6%B3%95%E5%BF%83%E5%BE%97%E4%B8%80/">
 
 
 <script id="page-configurations">
@@ -48,7 +48,7 @@
   };
 </script>
 
-  <title>web前端的hack方法心得一 | Hexo</title>
+  <title>web前端的hack方法心得一 | 鸢尾花序</title>
   
 
 
@@ -99,7 +99,7 @@
 
     <a href="/" class="brand" rel="start">
       <span class="logo-line-before"><i></i></span>
-      <h1 class="site-title">Hexo</h1>
+      <h1 class="site-title">鸢尾花序</h1>
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
@@ -120,9 +120,34 @@
     <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
 
   </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
         <li class="menu-item menu-item-archives">
 
     <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>Schedule</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>Sitemap</a>
 
   </li>
   </ul>
@@ -153,16 +178,16 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2016/08/18/web%E5%89%8D%E7%AB%AF%E7%9A%84hack%E6%96%B9%E6%B3%95%E5%BF%83%E5%BE%97%E4%B8%80/">
+    <link itemprop="mainEntityOfPage" href="https://helongquan.github.io/2016/08/18/web%E5%89%8D%E7%AB%AF%E7%9A%84hack%E6%96%B9%E6%B3%95%E5%BF%83%E5%BE%97%E4%B8%80/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
+      <meta itemprop="name" content="泉哥">
+      <meta itemprop="description" content="日记">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
+      <meta itemprop="name" content="鸢尾花序">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
@@ -545,8 +570,8 @@ closeButton_3.onclick = function () &#123;
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">John Doe</p>
-  <div class="site-description" itemprop="description"></div>
+  <p class="site-author-name" itemprop="name">泉哥</p>
+  <div class="site-description" itemprop="description">日记</div>
 </div>
 <div class="site-state-wrap motion-element">
   <nav class="site-state">
@@ -593,7 +618,7 @@ closeButton_3.onclick = function () &#123;
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">John Doe</span>
+  <span class="author" itemprop="copyrightHolder">泉哥</span>
 </div>
   <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
   </div>
